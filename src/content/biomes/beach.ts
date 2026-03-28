@@ -1,0 +1,243 @@
+import { beachPalette } from '../../assets/palette';
+import type { BiomeDefinition } from '../../engine/types';
+
+const beachEntries = {
+  'coquina-shell': {
+    id: 'coquina-shell',
+    commonName: 'Coquina Shell',
+    scientificName: 'Donax variabilis',
+    category: 'shell',
+    shortFact: 'Coquina clams can dig into wet sand in only a few seconds.',
+    journalText:
+      'Coquina clams live right where waves wash in and out. Their quick digging helps them stay safe when the surf is rough.',
+    spriteId: 'coquina-shell',
+    collectible: true,
+  },
+  'moon-snail-shell': {
+    id: 'moon-snail-shell',
+    commonName: 'Moon Snail Shell',
+    scientificName: 'Neverita duplicata',
+    category: 'shell',
+    shortFact: 'Moon snails use a strong foot like a shovel to move through sand.',
+    journalText:
+      'Moon snails are sea snails that burrow under the sand. Their smooth, rounded shells help protect their soft bodies.',
+    spriteId: 'moon-snail-shell',
+    collectible: true,
+  },
+  'auger-shell': {
+    id: 'auger-shell',
+    commonName: 'Auger Shell',
+    scientificName: 'Terebra dislocata',
+    category: 'shell',
+    shortFact: 'Its long, skinny shell helps the animal slip into sandy places.',
+    journalText:
+      'Auger snails have tall spiral shells. Shell shapes can tell us a lot about how animals move and where they live.',
+    spriteId: 'auger-shell',
+    collectible: true,
+  },
+  'beach-grass': {
+    id: 'beach-grass',
+    commonName: 'Beach Grass',
+    scientificName: 'Ammophila breviligulata',
+    category: 'plant',
+    shortFact: 'Beach grass roots help hold dunes in place when wind blows.',
+    journalText:
+      'Beach grass is an important dune plant. Its roots trap sand and help make small hills called dunes stronger.',
+    spriteId: 'beach-grass',
+    collectible: false,
+  },
+  'sea-rocket': {
+    id: 'sea-rocket',
+    commonName: 'Sea Rocket',
+    scientificName: 'Cakile edentula',
+    category: 'plant',
+    shortFact: 'Sea rocket can grow in salty sand where many other plants would struggle.',
+    journalText:
+      'Sea rocket is a tough beach plant with small flowers and thick leaves. It is built to handle salt spray, bright sun, and shifting sand.',
+    spriteId: 'sea-rocket',
+    collectible: false,
+  },
+  pickleweed: {
+    id: 'pickleweed',
+    commonName: 'Pickleweed',
+    scientificName: 'Salicornia pacifica',
+    category: 'plant',
+    shortFact: 'Pickleweed stores water in its stems so it can live in salty places.',
+    journalText:
+      'Pickleweed is a salt-loving plant often found near marshes and tide pools. Its juicy stems help it survive when the ground is salty.',
+    spriteId: 'pickleweed',
+    collectible: false,
+  },
+  'ghost-crab': {
+    id: 'ghost-crab',
+    commonName: 'Ghost Crab',
+    scientificName: 'Ocypode quadrata',
+    category: 'animal',
+    shortFact: 'Ghost crabs can run sideways very fast to escape danger.',
+    journalText:
+      'Ghost crabs spend time on sandy beaches and hide in burrows. They help the beach ecosystem by eating small bits of plants and animals.',
+    spriteId: 'ghost-crab',
+    collectible: false,
+  },
+  sanderling: {
+    id: 'sanderling',
+    commonName: 'Sanderling',
+    scientificName: 'Calidris alba',
+    category: 'animal',
+    shortFact: 'Sanderlings chase waves to find tiny animals in wet sand.',
+    journalText:
+      'Sanderlings are small shorebirds that race along the waterline. Their quick legs help them follow the retreating surf to hunt for food.',
+    spriteId: 'sanderling',
+    collectible: false,
+  },
+  'driftwood-log': {
+    id: 'driftwood-log',
+    commonName: 'Driftwood',
+    category: 'landmark',
+    subtitle: 'Shelter and shade',
+    subtitleLabel: 'Habitat role',
+    shortFact: 'Driftwood can create shelter for tiny beach animals and insects.',
+    journalText:
+      'Driftwood is wood that has been carried by water and waves. It becomes part of the shoreline habitat and can offer shade and shelter.',
+    spriteId: 'driftwood-log',
+    collectible: false,
+  },
+} satisfies BiomeDefinition['entries'];
+
+export const beachBiome: BiomeDefinition = {
+  id: 'beach',
+  name: 'Sunny Beach',
+  palette: beachPalette,
+  tileSet: ['sand-top', 'sand-fill', 'rock-platform'],
+  parallaxLayers: [
+    { id: 'far-dunes', speed: 0.2, color: '#f2d7a6', amplitude: 6, baseY: 84 },
+    { id: 'sea-band', speed: 0.45, color: '#6cb5c6', amplitude: 3, baseY: 96 },
+  ],
+  terrainRules: {
+    worldWidth: 640,
+    worldHeight: 144,
+    sampleStep: 16,
+    zones: [
+      { id: 'dune-edge', label: 'Dune Edge', start: 0, end: 146, surfaceBaseY: 104, surfaceVariance: 7 },
+      { id: 'dry-sand', label: 'Dry Sand', start: 146, end: 336, surfaceBaseY: 112, surfaceVariance: 4 },
+      { id: 'tide-line', label: 'Tide Line', start: 336, end: 514, surfaceBaseY: 118, surfaceVariance: 3 },
+      { id: 'tidepool', label: 'Tidepool', start: 514, end: 640, surfaceBaseY: 114, surfaceVariance: 6 },
+    ],
+    platformRules: [
+      {
+        id: 'dune-step',
+        zoneId: 'dune-edge',
+        minCount: 1,
+        maxCount: 2,
+        minWidth: 18,
+        maxWidth: 28,
+        height: 4,
+        liftMin: 8,
+        liftMax: 14,
+        spriteId: 'rock-platform',
+      },
+      {
+        id: 'tidepool-ledge',
+        zoneId: 'tidepool',
+        minCount: 2,
+        maxCount: 3,
+        minWidth: 14,
+        maxWidth: 22,
+        height: 4,
+        liftMin: 6,
+        liftMax: 12,
+        spriteId: 'rock-platform',
+      },
+    ],
+  },
+  spawnTables: [
+    {
+      id: 'stable-plants',
+      zoneId: 'dune-edge',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 26,
+      entries: [
+        { entryId: 'beach-grass', weight: 5 },
+        { entryId: 'sea-rocket', weight: 2 },
+      ],
+    },
+    {
+      id: 'stable-shore-plants',
+      zoneId: 'dry-sand',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 34,
+      entries: [
+        { entryId: 'sea-rocket', weight: 4 },
+        { entryId: 'beach-grass', weight: 2 },
+      ],
+    },
+    {
+      id: 'stable-pickleweed',
+      zoneId: 'tidepool',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 34,
+      entries: [{ entryId: 'pickleweed', weight: 1 }],
+    },
+    {
+      id: 'stable-landmark',
+      zoneId: 'dry-sand',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 1,
+      spacing: 12,
+      entries: [{ entryId: 'driftwood-log', weight: 1 }],
+    },
+    {
+      id: 'shells',
+      zoneId: 'tide-line',
+      refreshPolicy: 'visit',
+      minCount: 4,
+      maxCount: 6,
+      spacing: 16,
+      entries: [
+        { entryId: 'coquina-shell', weight: 5 },
+        { entryId: 'moon-snail-shell', weight: 3 },
+        { entryId: 'auger-shell', weight: 2 },
+      ],
+    },
+    {
+      id: 'tidepool-shells',
+      zoneId: 'tidepool',
+      refreshPolicy: 'visit',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 18,
+      entries: [
+        { entryId: 'moon-snail-shell', weight: 3 },
+        { entryId: 'auger-shell', weight: 2 },
+      ],
+    },
+    {
+      id: 'shore-animals',
+      zoneId: 'tide-line',
+      refreshPolicy: 'visit',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 28,
+      entries: [
+        { entryId: 'ghost-crab', weight: 3 },
+        { entryId: 'sanderling', weight: 2 },
+      ],
+    },
+  ],
+  ambientRules: {
+    cloudCount: [2, 4],
+    sparkleCount: [10, 18],
+  },
+  entries: beachEntries,
+  startPosition: {
+    x: 28,
+    y: 80,
+  },
+};

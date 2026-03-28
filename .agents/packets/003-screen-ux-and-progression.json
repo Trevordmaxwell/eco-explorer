@@ -1,0 +1,85 @@
+{
+  "packet_id": "ECO-PACKET-003",
+  "version": 1,
+  "created_at": "2026-03-27",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Screen form factor, settings surface, and cross-biome progression",
+  "summary": "Third structured packet for Eco Explorer. This packet is meant to begin after the live world-travel integration lands and the build is clean again. It focuses on the next UX layer the app needs: a wider screen shape, a visible settings/save surface, and clearer collection progress across multiple ecosystems.",
+  "source_reports": [
+    "docs/reports/2026-03-27-post-travel-queue-pass.md",
+    "docs/reports/2026-03-27-initial-critique.md"
+  ],
+  "queue_refs": [
+    "ECO-20260327-main-04",
+    "ECO-20260327-critic-03",
+    "ECO-20260327-main-05",
+    "ECO-20260327-critic-04",
+    "ECO-20260327-main-06"
+  ],
+  "depends_on": [
+    "ECO-20260327-main-03"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260327-main-04",
+      "goal": "Adopt a wider rectangular viewport and rebalance all in-canvas safe areas.",
+      "why_now": "The shell now feels game-first, but the visible screen still feels like the old tall slice."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260327-critic-03",
+      "goal": "Review the widened viewport for readability, hierarchy, and playfield protection.",
+      "why_now": "This catches layout regressions before more UX surfaces are added."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260327-main-05",
+      "goal": "Add a visible menu/settings/save surface and persist meaningful player options.",
+      "why_now": "The app already persists state, but it still lacks a player-facing system surface."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260327-critic-04",
+      "goal": "Review settings, save reset, and menu readability after implementation.",
+      "why_now": "Persistence UX should be checked before it becomes more deeply embedded."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260327-main-06",
+      "goal": "Add cross-biome collection progress and richer journal navigation.",
+      "why_now": "Once travel is live, the journal becomes a multi-ecosystem guide and needs clearer structure."
+    }
+  ],
+  "guardrails": [
+    "Do not fake a wider screen by stretching the old internal viewport with CSS alone.",
+    "Treat the post-travel build as the baseline: restore a clean build before starting this packet.",
+    "Keep menu and settings wording short, child-friendly, and visually calm.",
+    "Preserve existing save data safely when adding new settings fields.",
+    "Do not turn progression into a noisy checklist-first system; the journal should still feel like discovery."
+  ],
+  "file_targets": [
+    "src/style.css",
+    "src/main.ts",
+    "src/engine/game.ts",
+    "src/engine/save.ts",
+    "src/engine/types.ts",
+    "docs/architecture.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The app looks wider and more screen-like after travel integration.",
+    "There is a visible menu/settings/save surface in the game.",
+    "Settings persist safely and reset-save behavior is explicit.",
+    "Players can read progress across multiple ecosystems without losing the discovery feel."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, and this packet after main-03 is complete and the build is green. The next phase is screen shape, readable system surfaces, and cross-biome progression clarity."
+}

@@ -1,0 +1,82 @@
+{
+  "packet_id": "ECO-PACKET-002",
+  "version": 1,
+  "created_at": "2026-03-27",
+  "created_by_role": "scout-agent",
+  "status": "READY",
+  "title": "Integrate forest travel and world-map scene into the live app",
+  "summary": "This packet hands the main agent a concrete travel scaffold: a second biome, overworld location data, map movement helpers, a map renderer, and a staged doorway transition planner. The live integration work is now to connect those modules into the existing runtime without regressing the beach slice.",
+  "source_reports": [
+    "docs/reports/2026-03-27-world-travel-scout.md"
+  ],
+  "queue_refs": [
+    "ECO-20260327-main-03",
+    "ECO-20260327-critic-02"
+  ],
+  "depends_on": [
+    "ECO-20260327-main-02"
+  ],
+  "implementation_targets": [
+    "src/content/biomes/forest.ts",
+    "src/content/world-map.ts",
+    "src/engine/world-map.ts",
+    "src/engine/world-map-render.ts",
+    "src/engine/door-transition.ts",
+    "src/engine/game.ts"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "goal": "Generalize the current biome renderer so beach and forest can each draw their own terrain and atmosphere.",
+      "why_now": "The live render path is still beach-shaped, so travel integration will look wrong until biome rendering becomes data-aware."
+    },
+    {
+      "step": 2,
+      "goal": "Add a scene state machine for biome play, world map, and travel transitions.",
+      "why_now": "World-map movement and door transitions should not be squeezed into the current overlay-only state model."
+    },
+    {
+      "step": 3,
+      "goal": "Place biome doors using the anchors in src/content/world-map.ts and trigger travel out of the biome scene.",
+      "why_now": "Door anchors are the bridge between side-view exploration and the overworld map."
+    },
+    {
+      "step": 4,
+      "goal": "Wire world-map focus, walking, and rendering into the new world-map scene.",
+      "why_now": "The overworld helpers are already test-covered and can be connected once scene ownership is clear."
+    },
+    {
+      "step": 5,
+      "goal": "Drive the bridge animation with createDoorTransitionPlan() and sampleDoorTransition().",
+      "why_now": "The transition module already defines the staged feel the user asked for: exit door, reveal map, walk route, enter door, reveal destination."
+    },
+    {
+      "step": 6,
+      "goal": "Persist biome travel state through the existing save model and verify discoveries still work across ecosystems.",
+      "why_now": "Travel should expand the game, not reset or fragment the journal loop."
+    }
+  ],
+  "guardrails": [
+    "Do not regress the current beach slice while integrating the forest.",
+    "Keep science accuracy and kid readability intact.",
+    "Treat the world-map modules as the source of truth for travel routes and door anchors.",
+    "Avoid burying map logic and transition sampling directly inside large render functions when helper modules already exist.",
+    "Preserve deterministic hooks and save behavior."
+  ],
+  "transition_beats": [
+    "biome-exit",
+    "fade-out",
+    "map-emerge",
+    "map-walk",
+    "map-enter",
+    "fade-in",
+    "biome-emerge"
+  ],
+  "validation": [
+    "npm test",
+    "npm run build",
+    "travel from beach to forest and back in the live app",
+    "confirm discoveries and journal entries persist across biome changes"
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, and this packet. Use the scaffolded forest biome, world-map content, map renderer, and door-transition planner to integrate travel into the live runtime. Keep the beach slice stable while making forest travel feel like a readable doorway-to-map-to-door journey."
+}

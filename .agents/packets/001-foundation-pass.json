@@ -1,0 +1,88 @@
+{
+  "packet_id": "ECO-PACKET-001",
+  "version": 1,
+  "created_at": "2026-03-27",
+  "created_by_role": "scout-agent",
+  "status": "READY",
+  "title": "Foundation cleanup and science-schema pass",
+  "summary": "First structured handoff packet for Eco Explorer. This packet packages the current high-leverage foundation work so the main agent can simplify the shell, protect science accuracy, and preserve room for future biome growth without relying on chat history.",
+  "source_reports": [
+    "docs/reports/2026-03-27-initial-critique.md"
+  ],
+  "queue_refs": [
+    "ECO-20260327-main-01",
+    "ECO-20260327-main-02",
+    "ECO-20260327-scout-01",
+    "ECO-20260327-critic-01"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "main-agent",
+    "scout-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260327-main-01",
+      "goal": "Shift the browser shell from landing page framing to a game-first screen.",
+      "why_now": "The current shell is the clearest mismatch with the product direction and it blocks any honest assessment of viewport and safe-area needs."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260327-main-02",
+      "goal": "Fix inspectable metadata so organism and landmark content can stay science-accurate.",
+      "why_now": "The content schema should be corrected before more biome entries are added and before placeholder taxonomy spreads."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260327-scout-01",
+      "goal": "Re-evaluate viewport, aspect ratio, and safe-area recommendations after the shell cleanup lands.",
+      "why_now": "Viewport advice should be based on the simplified implementation rather than the current landing-page wrapper."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260327-critic-01",
+      "goal": "Review the refactor against focus, readability, and game-first feel.",
+      "why_now": "A grounded critique after implementation helps catch drift before the next content or biome pass."
+    }
+  ],
+  "guardrails": [
+    "Do not change the internal render resolution just to make the outer shell feel fuller.",
+    "Keep onboarding and controls inside the in-game UI where possible instead of duplicating them in the page shell.",
+    "Preserve save behavior and deterministic hooks.",
+    "Treat science accuracy as a hard gate.",
+    "Avoid expanding src/engine/game.ts further unless the current chunk clearly benefits more from finishing than from extraction."
+  ],
+  "file_targets": [
+    "src/main.ts",
+    "src/style.css",
+    "src/engine/types.ts",
+    "src/content/biomes/beach.ts",
+    "src/test/biome.test.ts",
+    "docs/architecture.md",
+    "docs/content-authoring.md"
+  ],
+  "acceptance_focus": [
+    "The browser page no longer leads with a large external title or controls card.",
+    "The game frame clearly dominates the viewport.",
+    "Landmark or habitat inspectables no longer require invented scientific names.",
+    "Tests or validations protect the new metadata rule.",
+    "Future agents can understand the current foundation sequence from this packet plus the queue."
+  ],
+  "followup_candidates": [
+    {
+      "status": "candidate",
+      "owner": "main-agent",
+      "title": "Extract overlay helpers from src/engine/game.ts if the next UI pass pushes more view code into that file.",
+      "trigger": "Promote only if the shell or schema work materially increases overlay complexity."
+    },
+    {
+      "status": "candidate",
+      "owner": "scout-agent",
+      "title": "Prepare a second-biome brief after the foundation pass is complete.",
+      "trigger": "Promote only after packet 001 work is done and the game-first shell direction is stable."
+    }
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, and this packet. Execute the queue items in packet order unless queue status changes. Keep the game-first screen direction, science-accuracy guardrails, and deterministic behavior intact."
+}

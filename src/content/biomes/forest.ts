@@ -1,0 +1,213 @@
+import { forestPalette } from '../../assets/palette';
+import type { BiomeDefinition } from '../../engine/types';
+
+const forestEntries = {
+  'douglas-fir-sapling': {
+    id: 'douglas-fir-sapling',
+    commonName: 'Douglas-fir Sapling',
+    scientificName: 'Pseudotsuga menziesii',
+    category: 'plant',
+    shortFact: 'Young Douglas-firs grow slowly in shade until a patch of sunlight reaches them.',
+    journalText:
+      'Douglas-fir trees can live for hundreds of years. A sapling waits for enough light, water, and space before it stretches upward into the canopy.',
+    spriteId: 'douglas-fir-sapling',
+    collectible: false,
+  },
+  'sword-fern': {
+    id: 'sword-fern',
+    commonName: 'Sword Fern',
+    scientificName: 'Polystichum munitum',
+    category: 'plant',
+    shortFact: 'Sword ferns stay green through cool, damp seasons on the forest floor.',
+    journalText:
+      'Sword ferns grow in shady places where the soil stays moist. Their long fronds help cover the ground and shelter tiny animals.',
+    spriteId: 'sword-fern',
+    collectible: false,
+  },
+  'redwood-sorrel': {
+    id: 'redwood-sorrel',
+    commonName: 'Redwood Sorrel',
+    scientificName: 'Oxalis oregana',
+    category: 'plant',
+    shortFact: 'Redwood sorrel folds its leaves when sunlight gets too bright.',
+    journalText:
+      'Redwood sorrel likes cool, shady forests. Its clover-shaped leaves help it catch gentle light without drying out.',
+    spriteId: 'redwood-sorrel',
+    collectible: false,
+  },
+  'salal-berry': {
+    id: 'salal-berry',
+    commonName: 'Salal Berry',
+    scientificName: 'Gaultheria shallon',
+    category: 'plant',
+    shortFact: 'Salal berries feed birds and mammals that move seeds around the forest.',
+    journalText:
+      'Salal is a forest shrub with thick leaves and dark berries. Animals eat the fruit and help spread new salal plants to other places.',
+    spriteId: 'salal-berry',
+    collectible: true,
+  },
+  'fir-cone': {
+    id: 'fir-cone',
+    commonName: 'Douglas-fir Cone',
+    scientificName: 'Pseudotsuga menziesii',
+    category: 'plant',
+    shortFact: 'Cone scales protect seeds until dry weather helps them open.',
+    journalText:
+      'A Douglas-fir cone holds seeds between its scales. When the cone dries out, the scales spread apart so wind can carry the seeds away.',
+    spriteId: 'fir-cone',
+    collectible: true,
+  },
+  'banana-slug': {
+    id: 'banana-slug',
+    commonName: 'Banana Slug',
+    scientificName: 'Ariolimax columbianus',
+    category: 'animal',
+    shortFact: 'A banana slug stays moist with slime so its soft body does not dry out.',
+    journalText:
+      'Banana slugs help break down dead plants on the forest floor. That turns old leaves and wood into nutrients that other living things can use.',
+    spriteId: 'banana-slug',
+    collectible: false,
+  },
+  'steller-jay': {
+    id: 'steller-jay',
+    commonName: "Steller's Jay",
+    scientificName: 'Cyanocitta stelleri',
+    category: 'animal',
+    shortFact: "Steller's jays use loud calls to warn other animals when danger is nearby.",
+    journalText:
+      "Steller's jays are clever forest birds with bright blue feathers and dark crests. They cache food and help spread some seeds when they forget a hiding spot.",
+    spriteId: 'steller-jay',
+    collectible: false,
+  },
+} satisfies BiomeDefinition['entries'];
+
+export const forestBiome: BiomeDefinition = {
+  id: 'forest',
+  name: 'Forest Trail',
+  palette: forestPalette,
+  tileSet: ['moss-top', 'soil-fill', 'log-platform'],
+  parallaxLayers: [
+    { id: 'far-ridge', speed: 0.14, color: '#90aa84', amplitude: 5, baseY: 72 },
+    { id: 'tree-band', speed: 0.3, color: '#5b7d55', amplitude: 8, baseY: 88 },
+  ],
+  terrainRules: {
+    worldWidth: 640,
+    worldHeight: 144,
+    sampleStep: 16,
+    zones: [
+      { id: 'trailhead', label: 'Trailhead', start: 0, end: 150, surfaceBaseY: 110, surfaceVariance: 4 },
+      { id: 'fern-hollow', label: 'Fern Hollow', start: 150, end: 350, surfaceBaseY: 114, surfaceVariance: 5 },
+      { id: 'log-run', label: 'Log Run', start: 350, end: 520, surfaceBaseY: 111, surfaceVariance: 4 },
+      { id: 'creek-bend', label: 'Creek Bend', start: 520, end: 640, surfaceBaseY: 116, surfaceVariance: 6 },
+    ],
+    platformRules: [
+      {
+        id: 'fallen-log',
+        zoneId: 'fern-hollow',
+        minCount: 1,
+        maxCount: 2,
+        minWidth: 18,
+        maxWidth: 30,
+        height: 4,
+        liftMin: 8,
+        liftMax: 14,
+        spriteId: 'log-platform',
+      },
+      {
+        id: 'creek-log',
+        zoneId: 'creek-bend',
+        minCount: 1,
+        maxCount: 2,
+        minWidth: 16,
+        maxWidth: 24,
+        height: 4,
+        liftMin: 7,
+        liftMax: 11,
+        spriteId: 'log-platform',
+      },
+    ],
+  },
+  spawnTables: [
+    {
+      id: 'stable-saplings',
+      zoneId: 'trailhead',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 34,
+      entries: [{ entryId: 'douglas-fir-sapling', weight: 1 }],
+    },
+    {
+      id: 'stable-forest-floor',
+      zoneId: 'fern-hollow',
+      refreshPolicy: 'stable',
+      minCount: 3,
+      maxCount: 4,
+      spacing: 24,
+      entries: [
+        { entryId: 'sword-fern', weight: 4 },
+        { entryId: 'redwood-sorrel', weight: 3 },
+      ],
+    },
+    {
+      id: 'stable-creek-floor',
+      zoneId: 'creek-bend',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 24,
+      entries: [
+        { entryId: 'redwood-sorrel', weight: 4 },
+        { entryId: 'sword-fern', weight: 2 },
+      ],
+    },
+    {
+      id: 'forest-cones',
+      zoneId: 'log-run',
+      refreshPolicy: 'visit',
+      minCount: 3,
+      maxCount: 4,
+      spacing: 18,
+      entries: [{ entryId: 'fir-cone', weight: 1 }],
+    },
+    {
+      id: 'berry-patches',
+      zoneId: 'fern-hollow',
+      refreshPolicy: 'visit',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 22,
+      entries: [{ entryId: 'salal-berry', weight: 1 }],
+    },
+    {
+      id: 'canopy-life',
+      zoneId: 'trailhead',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 40,
+      entries: [{ entryId: 'steller-jay', weight: 1 }],
+    },
+    {
+      id: 'forest-floor-life',
+      zoneId: 'creek-bend',
+      refreshPolicy: 'visit',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 28,
+      entries: [
+        { entryId: 'banana-slug', weight: 4 },
+        { entryId: 'steller-jay', weight: 1 },
+      ],
+    },
+  ],
+  ambientRules: {
+    cloudCount: [1, 2],
+    sparkleCount: [6, 12],
+  },
+  entries: forestEntries,
+  startPosition: {
+    x: 26,
+    y: 82,
+  },
+};

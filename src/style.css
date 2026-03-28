@@ -1,0 +1,86 @@
+:root {
+  --sky-shell: #9cc8db;
+  --paper: #f7edd1;
+  --frame: #7a4f2a;
+  --frame-shadow: #4f3119;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 36%),
+    linear-gradient(180deg, #8fc7dc 0%, #d7eadf 28%, #f2cf93 100%);
+  font-family: 'Courier New', Courier, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+canvas {
+  font: inherit;
+}
+
+#app {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+}
+
+.shell {
+  width: min(1000px, 100%);
+  min-height: calc(100vh - 28px);
+  display: grid;
+  place-items: center;
+}
+
+.viewport {
+  width: min(100%, 940px);
+  display: grid;
+  place-items: center;
+}
+
+.frame {
+  width: min(100%, 1040px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.22), transparent 18%),
+    linear-gradient(180deg, #9d6537 0%, var(--frame) 32%, var(--frame-shadow) 100%);
+  padding: clamp(10px, 1.8vw, 16px);
+  border: 4px solid rgba(79, 49, 25, 0.95);
+  border-radius: 30px;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    0 26px 60px rgba(54, 29, 14, 0.3);
+}
+
+#game-canvas {
+  width: 100%;
+  max-width: 1008px;
+  aspect-ratio: 4 / 3;
+  display: block;
+  border: 4px solid rgba(32, 25, 20, 0.45);
+  border-radius: 12px;
+  background: #8fc7dc;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+@media (max-width: 960px) {
+  #app {
+    padding: 10px;
+  }
+
+  .shell {
+    min-height: calc(100vh - 20px);
+  }
+}
