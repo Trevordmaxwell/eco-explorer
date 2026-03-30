@@ -1,0 +1,72 @@
+{
+  "packet_id": "ECO-PACKET-025",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "main-agent",
+  "status": "READY",
+  "title": "Nursery-forward field-station wave",
+  "summary": "Twenty-fifth structured packet for Eco Explorer. The first nursery-forward wave is now implemented as a compact `SEASON | NURSERY` field-station split. Nursery v1 adds safe gathering, one teaching bed, automatic composting across world steps, six route-aligned growable projects, compact reward hooks, and two tiny habitat extras. The next work is to review that merged gameplay pass, then prep and activate the third live route, `Edge Pattern Line`, with nursery-aware support hooks.",
+  "source_reports": [
+    "docs/reports/2026-03-30-nursery-forward-field-adventure.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-main-70",
+    "ECO-20260330-critic-52",
+    "ECO-20260330-scout-44",
+    "ECO-20260330-main-75"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-69"
+  ],
+  "suggested_owner_sequence": [
+    "critic-agent",
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-critic-52",
+      "goal": "Review the merged nursery-forward field-station pass for readability, ethics, and whether it deepens the game loop without turning into a management sim.",
+      "why_now": "The nursery landed as one coherent pass, so it needs one coherent critique before the next route grows around it."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-scout-44",
+      "goal": "Prepare the third live route, `Edge Pattern Line`, with nursery-aware support hooks.",
+      "why_now": "The next route should be authored with the new nursery loop in mind instead of bolting it on later."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-main-75",
+      "goal": "Activate `Edge Pattern Line` after the nursery foundation stabilizes.",
+      "why_now": "The nursery should now deepen route progression instead of delaying it."
+    }
+  ],
+  "guardrails": [
+    "Keep the nursery secondary to expeditions and route progression.",
+    "Do not add broad harvesting, selling, or a heavier inventory.",
+    "Keep gathering science-safe and selectively allowlisted.",
+    "Do not expand the teaching bed beyond one active project in v1.",
+    "Route support should stay hint-like and fieldwork-first.",
+    "Habitat extras should remain tiny teaching-garden signals, not base-building."
+  ],
+  "file_targets": [
+    "src/engine/nursery.ts",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/save.ts",
+    "src/engine/types.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The nursery makes the field station feel more game-like without becoming a second management game.",
+    "The save model, tests, and runtime stay deterministic.",
+    "The next live route can now use nursery support hooks as a real part of the loop."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-30-nursery-forward-field-adventure.md, and this packet. Treat the nursery as a landed compact station loop. Review it as one merged pass, then move toward the third route with nursery-aware hooks instead of reopening the old wave-by-wave plan."
+}

@@ -1,0 +1,70 @@
+{
+  "packet_id": "ECO-PACKET-010",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Ecotone follow-on prep after Treeline",
+  "summary": "Tenth structured packet for Eco Explorer. Treeline is now scaffolded in isolation, so the next useful parallel work is prep for the five-biome journal selector and the shared-species layer, plus one small science-model cleanup so lichens are not mislabeled once Treeline goes live.",
+  "source_reports": [
+    "docs/reports/2026-03-28-treeline-review.md",
+    "docs/reports/2026-03-28-readability-pass-review.md",
+    "docs/ecotone-design.md",
+    "docs/science-source-ledger.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-08",
+    "ECO-20260328-scout-09",
+    "ECO-20260328-main-25"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-15"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-08",
+      "goal": "Prepare a compact handoff for the five-biome journal selector before main-21 starts reshaping the journal top bar.",
+      "why_now": "The selector is the next visible scaling risk once both ecotones exist, and a scout comparison can save iteration time."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-scout-09",
+      "goal": "Prepare a shared-species handoff for main-17 so IDs, ownership, and migration boundaries are clear before cross-biome deduplication work starts.",
+      "why_now": "The project now has real shared edge species on both sides of the world chain, so a clean source-of-truth plan will reduce drift."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-main-25",
+      "goal": "Add lichen-safe category handling before Treeline is wired into the live travel flow.",
+      "why_now": "Treeline introduced a real lichen entry, and the current journal/field-guide category model still calls it a plant."
+    }
+  ],
+  "guardrails": [
+    "Keep the next journal selector readable at 192x144 and kid-comprehensible in one glance.",
+    "Shared-species prep should define ownership and IDs clearly without prematurely rewriting live content modules.",
+    "The lichen fix should stay lightweight and should not explode the category model or the UI.",
+    "Science accuracy remains a hard gate for the ecotone chain."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    "src/engine/types.ts",
+    "src/engine/journal.ts",
+    "src/engine/field-guide.ts",
+    "src/content/biomes/treeline.ts",
+    "src/test",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Scout handoffs should make main-21 and main-17 faster to start, not add abstract churn.",
+    "Treeline should stop teaching that lichens are plants before it becomes part of the live five-biome route.",
+    "The queue should remain role-routable and easy for new agents to follow."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-treeline-review.md, docs/reports/2026-03-28-readability-pass-review.md, docs/ecotone-design.md, docs/science-source-ledger.md, and this packet. Use it to prep the next journal-selector and shared-species handoffs, and to preserve the lichen-safe follow-up before Treeline is wired live."
+}

@@ -2,9 +2,10 @@ import type {
   BiomeDefinition,
   InspectableCategory,
   InspectableEntry,
+  JournalEntryState,
 } from './types';
 
-const categoryOrder: InspectableCategory[] = ['shell', 'plant', 'animal', 'landmark'];
+const categoryOrder: InspectableCategory[] = ['shell', 'plant', 'lichen', 'animal', 'landmark'];
 
 export interface JournalCategoryProgress {
   category: InspectableCategory;
@@ -20,6 +21,17 @@ export interface JournalBiomeProgress {
   categoryProgress: JournalCategoryProgress[];
 }
 
+export function getDiscoveredEntryIdsForBiome(
+  biome: BiomeDefinition,
+  discoveredEntries: Record<string, JournalEntryState>,
+): string[] {
+  const biomeEntryIds = new Set(Object.keys(biome.entries));
+
+  return Object.values(discoveredEntries)
+    .filter((entryState) => entryState.biomeIds.includes(biome.id) && biomeEntryIds.has(entryState.entryId))
+    .map((entryState) => entryState.entryId);
+}
+
 export function sortInspectableEntries(entries: InspectableEntry[]): InspectableEntry[] {
   return [...entries].sort((left, right) => {
     const categoryDiff = categoryOrder.indexOf(left.category) - categoryOrder.indexOf(right.category);
@@ -33,11 +45,9 @@ export function sortInspectableEntries(entries: InspectableEntry[]): Inspectable
 export function getDiscoveredEntriesForBiome(
   biome: BiomeDefinition,
   entriesById: Record<string, InspectableEntry>,
-  discoveredEntryIds: string[],
+  discoveredEntries: Record<string, JournalEntryState>,
 ): InspectableEntry[] {
-  const biomeEntryIds = new Set(Object.keys(biome.entries));
-  const entries = discoveredEntryIds
-    .filter((entryId) => biomeEntryIds.has(entryId))
+  const entries = getDiscoveredEntryIdsForBiome(biome, discoveredEntries)
     .map((entryId) => entriesById[entryId])
     .filter(Boolean);
 
@@ -46,12 +56,11 @@ export function getDiscoveredEntriesForBiome(
 
 export function buildJournalBiomeProgress(
   biomes: Record<string, BiomeDefinition>,
-  discoveredEntryIds: string[],
+  discoveredEntries: Record<string, JournalEntryState>,
 ): JournalBiomeProgress[] {
-  const discoveredSet = new Set(discoveredEntryIds);
-
   return Object.values(biomes).map((biome) => {
     const biomeEntries = Object.values(biome.entries);
+    const discoveredSet = new Set(getDiscoveredEntryIdsForBiome(biome, discoveredEntries));
     const categoryProgress = categoryOrder
       .map((category) => {
         const entries = biomeEntries.filter((entry) => entry.category === category);
@@ -75,4 +84,25 @@ export function buildJournalBiomeProgress(
       categoryProgress,
     };
   });
+}
+
+export function getJournalEntrySightings(
+  discoveredEntries: Record<string, JournalEntryState>,
+  entryId: string | null,
+  biomeOrder: string[],
+): string[] {
+  if (!entryId) {
+    return [];
+  }
+
+  const entryState = discoveredEntries[entryId];
+  if (!entryState) {
+    return [];
+  }
+
+  const sightingSet = new Set(entryState.biomeIds);
+  const orderedBiomeIds = biomeOrder.filter((biomeId) => sightingSet.has(biomeId));
+  const extraBiomeIds = [...sightingSet].filter((biomeId) => !biomeOrder.includes(biomeId)).sort();
+
+  return [...orderedBiomeIds, ...extraBiomeIds];
 }

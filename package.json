@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "validate:agents": "node scripts/validate-agent-packets.mjs"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

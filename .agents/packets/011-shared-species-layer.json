@@ -1,0 +1,66 @@
+{
+  "packet_id": "ECO-PACKET-011",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "scout-agent",
+  "status": "READY",
+  "title": "Canonical shared-entry layer for parent biomes and ecotones",
+  "summary": "Eleventh structured packet for Eco Explorer. The current ecotone scaffolds already preserve shared IDs, but they do it by spreading entry objects from parent biome modules into ecotone biome files. The smallest clean next step is to extract only the five duplicated edge species into one canonical shared-entry layer so biome ownership stays clear and later journal/world-map work does not build on cross-biome copy chains.",
+  "source_reports": [
+    "docs/reports/2026-03-28-shared-species-handoff.md",
+    "docs/reports/2026-03-28-treeline-review.md",
+    "docs/ecotone-design.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-09",
+    "ECO-20260328-main-17"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-15"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-09",
+      "goal": "Map the smallest source-of-truth pattern for duplicated edge species before main-17 starts moving content.",
+      "why_now": "The code already has real shared IDs on both the coastal and alpine sides, so the next step should reduce drift without forcing a content-system rewrite."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-17",
+      "goal": "Extract the five duplicated edge species into a canonical shared-entry layer and update parent/ecotone biome files to import from it.",
+      "why_now": "This removes biome-to-biome copy chains before live five-biome travel and multi-biome journal support build on them."
+    }
+  ],
+  "guardrails": [
+    "Extract only the currently duplicated edge species: beach-grass, sea-rocket, sword-fern, arctic-willow, and crowberry.",
+    "Preserve exact entry IDs and kid-facing content text unless a separate science fix explicitly changes them.",
+    "Keep spawn tables, ecosystem notes, terrain rules, and unique species inside their biome files.",
+    "Do not turn this into a global content registry refactor.",
+    "Avoid importing one biome module into another just to borrow shared entries after this pass lands.",
+    "The save model and discovery keys should remain unchanged."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "docs/reports/2026-03-28-shared-species-handoff.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The five duplicated edge species come from one canonical source instead of spread copies across biome files.",
+    "Parent-biome and ecotone IDs remain identical for shared entries.",
+    "The migration stays narrow and does not absorb unique species or biome-local content systems.",
+    "Later world-map and journal work can rely on clear shared-entry ownership without changing save behavior."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-shared-species-handoff.md, docs/reports/2026-03-28-treeline-review.md, docs/ecotone-design.md, and this packet. Implement main-17 by extracting only the five duplicated edge species into one shared-entry layer, then update the parent biome and ecotone biome files to import from that canonical source without broadening the refactor."
+}

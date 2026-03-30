@@ -1,0 +1,75 @@
+{
+  "packet_id": "ECO-PACKET-007",
+  "version": 3,
+  "created_at": "2026-03-28",
+  "created_by_role": "scout-agent",
+  "status": "DONE",
+  "title": "First ecosystem-relationship teaching layer",
+  "summary": "Seventh structured packet for Eco Explorer. The live beach, forest, and tundra biomes already contain real ecological relationships, but the runtime mostly teaches them one entry at a time. The recommended next step is a journal-first `ecosystem notes` layer: small authored biome notes that unlock when related discoveries have been made and that explain habitat roles or ecological processes without adding quizzes, large new UI, or AI dependence.",
+  "source_reports": [
+    "docs/reports/2026-03-28-current-state-review.md",
+    "docs/reports/2026-03-28-ecosystem-relationship-scout.md",
+    "docs/reports/2026-03-28-ecosystem-note-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-03",
+    "ECO-20260328-main-10",
+    "ECO-20260328-critic-09"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-08"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-03",
+      "goal": "Prepare a small, science-accurate relationship-teaching slice for the live biome set.",
+      "why_now": "The game already has enough content depth that the next gain should come from connecting discoveries, not just adding more isolated facts."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-10",
+      "goal": "Implement journal-first authored ecosystem notes backed by content data and a small pure helper.",
+      "why_now": "The journal is already the safest, most readable place to deepen meaning without crowding the first-contact inspect flow."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-critic-09",
+      "goal": "Review the first relationship layer for science accuracy, readability, and spoiler safety.",
+      "why_now": "This feature is only worthwhile if the science stays grounded and the note system feels supportive instead of noisy."
+    }
+  ],
+  "guardrails": [
+    "Keep the first pass authored and deterministic. Do not make AI, clipboard, or network calls part of this feature.",
+    "Keep the UI journal-first. Do not add a separate overlay, companion, or world-map teaching screen in this pass.",
+    "Do not turn relationship teaching into a quiz, badge ladder, or achievement gate.",
+    "Do not reveal exact undiscovered species names when a note is still locked.",
+    "The relationship layer should deepen the selected entry instead of replacing its own journal teaching entirely.",
+    "Prefer ecological roles and processes already supported by the live content: shelter, dune stabilization, decomposition, seed movement, and cold-wind adaptation.",
+    "Keep the note text short enough to fit the existing 192x144 journal layout without reopening the readability problem."
+  ],
+  "file_targets": [
+    "src/engine/types.ts",
+    "src/engine/journal.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-guide.ts",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/tundra.ts",
+    "src/test",
+    "docs/reports/2026-03-28-ecosystem-relationship-scout.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "At least one discovered journal entry in each live biome can surface an authored ecosystem note tied to related discoveries.",
+    "The relationship logic is data-driven enough to extend to ecotones and later biomes without hardcoded renderer-only strings.",
+    "The notes deepen ecosystem understanding while preserving the cozy exploration tone and hiding undiscovered exact names.",
+    "Tests protect unlock rules and the build remains green."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-current-state-review.md, docs/reports/2026-03-28-ecosystem-relationship-scout.md, and this packet. Implement a small journal-first ecosystem-note system across beach, forest, and tundra. Keep it authored, deterministic, and spoiler-safe."
+}

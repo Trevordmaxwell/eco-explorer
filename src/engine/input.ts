@@ -56,6 +56,10 @@ export class InputController {
     return { ...this.pointer };
   }
 
+  hasPendingInteraction(): boolean {
+    return this.justPressed.size > 0 || this.click;
+  }
+
   flushFrame(): void {
     this.justPressed.clear();
     this.click = false;

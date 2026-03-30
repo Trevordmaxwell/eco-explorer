@@ -1,0 +1,141 @@
+{
+  "packet_id": "ECO-PACKET-023",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Next gameplay phase: field-season routes and a stronger medium-term play loop",
+  "summary": "Twenty-third structured packet for Eco Explorer. The queue is clear again because the first guided field-season loop, second traversal-heavy biome, second-tier station upgrade, and first visible process moment all landed successfully. The next leverage is no longer another isolated mechanic. It is a calm route-progression layer centered on the field station: one small `field season` board, one authored cross-biome route, then more route-aligned content fuel, a treeline traversal shelter proof, one additional utility reward, and only then broader inland process moments.",
+  "source_reports": [
+    "docs/reports/2026-03-29-next-high-leverage-phase.md",
+    "docs/reports/2026-03-29-functional-gameplay-sequence.md",
+    "docs/reports/2026-03-29-guided-field-season-beat-sheet.md",
+    "docs/reports/2026-03-29-world-continuity-preproduction-pack.md",
+    "docs/reports/2026-03-30-field-season-routes-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-35",
+    "ECO-20260330-scout-36",
+    "ECO-20260330-scout-37",
+    "ECO-20260330-main-60",
+    "ECO-20260330-critic-37",
+    "ECO-20260330-main-61",
+    "ECO-20260330-critic-38",
+    "ECO-20260330-main-62",
+    "ECO-20260330-critic-39",
+    "ECO-20260330-main-63",
+    "ECO-20260330-critic-40",
+    "ECO-20260330-main-64"
+  ],
+  "depends_on": [
+    "ECO-20260329-main-55",
+    "ECO-20260329-main-57",
+    "ECO-20260329-main-58",
+    "ECO-20260329-main-59"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-35",
+      "goal": "Prepare the act-two beat sheet and route matrix for the first field-season board.",
+      "why_now": "The main pass should land one authored route, not invent route structure on the fly."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-60",
+      "goal": "Implement the field-season board and route progression v1 at the field station.",
+      "why_now": "This is the highest-leverage way to make the game feel longer and more intentional without changing its genre."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-37",
+      "goal": "Review the first route layer for cohesion, readability, and whether it feels notebook-first rather than quest-log-heavy.",
+      "why_now": "The route shell should be critiqued before more content and traversal work are shaped around it."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-main-61",
+      "goal": "Add a route-aligned content fuel pack across the live coastal branch and the first inland continuation.",
+      "why_now": "The route layer will only feel authored if it has enough discoveries, notes, and comparison anchors to feed it."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-critic-38",
+      "goal": "Review the route-aligned content pack for science quality, pacing, and whether it makes the season board feel fuller instead of busier.",
+      "why_now": "The route should stay focused and readable even as the authored support grows."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-main-62",
+      "goal": "Deepen treeline with a short sheltered traversal proof that supports the next route phase.",
+      "why_now": "A second strong inland traversal beat expands the world’s feel more than another small overlay or side feature."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-critic-39",
+      "goal": "Review the treeline shelter proof for ecology teaching, movement readability, and kid-friendly difficulty.",
+      "why_now": "Treeline is the right next movement biome, but it is also easy to over-harden if not checked."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-63",
+      "goal": "Add one route reward or utility unlock that makes later season work feel meaningful without becoming a market loop.",
+      "why_now": "The field station can support one more reward only after the route and inland traversal pillars are holding."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-40",
+      "goal": "Review the new route reward for ethics, clarity, and whether it stays observational rather than extractive or grindy.",
+      "why_now": "Reward growth is high leverage but easy to push out of tone if it is not checked."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-64",
+      "goal": "Expand inland process moments and route revisit support once the route shell and reward layer are stable.",
+      "why_now": "Forest, treeline, and tundra revisit change will land much harder after the player has a stronger season structure."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Do not respond to a clear queue with random polish or disconnected microfeatures.",
+    "The next phase should feel like a stronger medium-term play loop, not a second dashboard.",
+    "Route progression should stay field-station-centered and notebook-first.",
+    "Do not build a large quest log, checklist screen, or score-heavy task system.",
+    "New rewards should help observation, comfort, or traversal instead of teaching extraction or selling wildlife.",
+    "Treeline traversal should stay short, sheltered, and forgiving.",
+    "Inland process moments should show ecology through visible habitat change, not generic visual effects."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md",
+    "src/engine/field-station.ts",
+    "src/engine/progression.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/journal.ts",
+    "src/engine/corridor.ts",
+    "src/content/biomes",
+    "src/content/world-map.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The queue is no longer blank and points at one coherent next phase.",
+    "The next main lane makes the game feel longer and more intentional without changing its tone.",
+    "Scout work can continue in parallel without blocking the main route-progression implementation.",
+    "Later traversal, reward, and inland-process work now have a stable medium-term progression shell to land on."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-29-next-high-leverage-phase.md, docs/reports/2026-03-29-functional-gameplay-sequence.md, docs/reports/2026-03-29-guided-field-season-beat-sheet.md, docs/reports/2026-03-29-world-continuity-preproduction-pack.md, docs/reports/2026-03-30-field-season-routes-phase.md, and this packet. Treat the now-clear queue as a sign to move from a strong first guided loop into a stronger medium-term route-progression phase. The first live move is a field-season board with one authored cross-biome route, not another unrelated feature drop."
+}

@@ -1,0 +1,73 @@
+{
+  "packet_id": "ECO-PACKET-016",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Shared-species comparison pages v1",
+  "summary": "Sixteenth structured packet for Eco Explorer. The queue is clear of corrective implementation work, and the strongest grounded next slice is the shared-species comparison pass already prepared by scout-14. This should stay a compact same-pane journal detail enhancement built on the existing `Seen in:` row, multi-biome sightings model, and ecosystem-note summaries rather than becoming a new encyclopedia mode.",
+  "source_reports": [
+    "docs/reports/2026-03-28-depth-and-game-feel-sequence.md",
+    "docs/reports/2026-03-28-shared-species-comparison-handoff.md",
+    "docs/reports/2026-03-28-multi-biome-sightings-handoff.md",
+    "docs/reports/2026-03-28-local-sighting-progression-fix-review.md",
+    "docs/reports/2026-03-28-dense-journal-navigation-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-39",
+    "ECO-20260328-critic-16",
+    "ECO-20260328-main-40"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-18",
+    "ECO-20260328-main-35",
+    "ECO-20260328-main-36"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-39",
+      "goal": "Add compact same-pane comparison cards for the strongest shared species that have already been seen in more than one biome.",
+      "why_now": "This builds directly on stable journal and multi-biome systems and deepens ecotone teaching without opening a broader new gameplay layer."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-critic-16",
+      "goal": "Review the comparison-page pass for readability, spoiler safety, and ecology teaching quality.",
+      "why_now": "This is a high-leverage journal feature and should get a critique pass before sketchbook or other journal-depth work builds on it."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Keep the first pass inside the current journal detail pane instead of adding a new top-level journal mode.",
+    "Do not replace the entry's own journal text, ecosystem note, or `Seen in:` row.",
+    "Unlock comparison content only after the player has seen the same shared entry in at least two biomes.",
+    "Use note-backed habitat differences and conditions instead of repeating shared fact text.",
+    "Do not spoil unseen habitats by naming or describing them early.",
+    "Keep the initial candidate set narrow around entries with strong two-habitat note context such as `beach-grass`, `arctic-willow`, and `crowberry`.",
+    "Keep the comparison surface compact enough for the current `192x144` notebook shell."
+  ],
+  "file_targets": [
+    "src/engine/journal.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/game.ts",
+    "src/engine/types.ts",
+    "src/engine",
+    "src/content/biomes",
+    "src/test",
+    "docs/content-authoring.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Shared species gain a clear cross-habitat teaching layer.",
+    "The journal stays calm and notebook-like.",
+    "Only locally unlocked habitats appear in comparison content.",
+    "The feature teaches difference in role, neighbors, shelter, or exposure instead of becoming a fact dump."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-depth-and-game-feel-sequence.md, docs/reports/2026-03-28-shared-species-comparison-handoff.md, docs/reports/2026-03-28-multi-biome-sightings-handoff.md, docs/reports/2026-03-28-local-sighting-progression-fix-review.md, docs/reports/2026-03-28-dense-journal-navigation-review.md, and this packet. Implement a compact same-pane journal comparison mode for the strongest shared species entries already seen in multiple biomes. Reuse the current detail pane and note-backed habitat differences instead of inventing a new encyclopedia surface."
+}

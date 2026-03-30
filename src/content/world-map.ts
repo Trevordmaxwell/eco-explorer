@@ -12,6 +12,10 @@ export interface DoorAnchor {
   spriteId: string;
 }
 
+export interface CorridorDoor extends DoorAnchor {
+  targetBiomeId: string;
+}
+
 export interface WorldMapLocation {
   id: string;
   biomeId: string;
@@ -21,6 +25,8 @@ export interface WorldMapLocation {
   node: MapPoint;
   mapDoor: DoorAnchor;
   biomeDoor: DoorAnchor;
+  corridorDoors?: CorridorDoor[];
+  mapReturnPost?: DoorAnchor;
   spriteId: string;
 }
 
@@ -41,11 +47,45 @@ export interface WorldMapDefinition {
   connections: WorldMapConnection[];
 }
 
+const WORLD_MAP_WIDTH = 256;
+const WORLD_MAP_HEIGHT = 160;
+const WORLD_MAP_BASE_WIDTH = 192;
+const WORLD_MAP_BASE_HEIGHT = 144;
+
+function scaleMapX(value: number): number {
+  return Math.round((value / WORLD_MAP_BASE_WIDTH) * WORLD_MAP_WIDTH);
+}
+
+function scaleMapY(value: number): number {
+  return Math.round((value / WORLD_MAP_BASE_HEIGHT) * WORLD_MAP_HEIGHT);
+}
+
+function scaleMapPoint(x: number, y: number): MapPoint {
+  return {
+    x: scaleMapX(x),
+    y: scaleMapY(y),
+  };
+}
+
+function scaleMapDoor(
+  x: number,
+  y: number,
+  facing: Facing,
+  spriteId: string,
+): DoorAnchor {
+  return {
+    x: scaleMapX(x),
+    y: scaleMapY(y),
+    facing,
+    spriteId,
+  };
+}
+
 export const ecoWorldMap: WorldMapDefinition = {
   id: 'eco-world',
   name: 'Eco World',
-  width: 192,
-  height: 144,
+  width: WORLD_MAP_WIDTH,
+  height: WORLD_MAP_HEIGHT,
   startLocationId: 'beach',
   locations: [
     {
@@ -54,10 +94,48 @@ export const ecoWorldMap: WorldMapDefinition = {
       label: 'Sunny Beach',
       summary: 'Shells, dunes, and shore life.',
       previewColor: '#73a8b7',
-      node: { x: 40, y: 97 },
-      mapDoor: { x: 28, y: 86, facing: 'right', spriteId: 'map-beach-door' },
+      node: scaleMapPoint(36, 100),
+      mapDoor: scaleMapDoor(24, 88, 'right', 'map-beach-door'),
       biomeDoor: { x: 598, y: 92, facing: 'right', spriteId: 'travel-door' },
+      corridorDoors: [
+        {
+          x: 132,
+          y: 92,
+          facing: 'right',
+          spriteId: 'travel-door',
+          targetBiomeId: 'coastal-scrub',
+        },
+      ],
+      mapReturnPost: { x: 260, y: 94, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-beach-door',
+    },
+    {
+      id: 'coastal-scrub',
+      biomeId: 'coastal-scrub',
+      label: 'Coastal Scrub',
+      summary: 'Shrubs, dunes, and forest edge.',
+      previewColor: '#6f8b66',
+      node: scaleMapPoint(78, 86),
+      mapDoor: scaleMapDoor(66, 74, 'left', 'map-coastal-scrub-door'),
+      biomeDoor: { x: 18, y: 92, facing: 'left', spriteId: 'travel-door' },
+      corridorDoors: [
+        {
+          x: 18,
+          y: 92,
+          facing: 'left',
+          spriteId: 'travel-door',
+          targetBiomeId: 'beach',
+        },
+        {
+          x: 608,
+          y: 92,
+          facing: 'right',
+          spriteId: 'travel-door',
+          targetBiomeId: 'forest',
+        },
+      ],
+      mapReturnPost: { x: 228, y: 94, facing: 'right', spriteId: 'map-post' },
+      spriteId: 'map-coastal-scrub-door',
     },
     {
       id: 'forest',
@@ -65,10 +143,55 @@ export const ecoWorldMap: WorldMapDefinition = {
       label: 'Forest Trail',
       summary: 'Ferns, cones, and canopy life.',
       previewColor: '#4b6e43',
-      node: { x: 148, y: 61 },
-      mapDoor: { x: 136, y: 49, facing: 'left', spriteId: 'map-forest-door' },
+      node: scaleMapPoint(120, 64),
+      mapDoor: scaleMapDoor(108, 52, 'left', 'map-forest-door'),
       biomeDoor: { x: 18, y: 90, facing: 'left', spriteId: 'travel-door' },
+      corridorDoors: [
+        {
+          x: 18,
+          y: 90,
+          facing: 'left',
+          spriteId: 'travel-door',
+          targetBiomeId: 'coastal-scrub',
+        },
+        {
+          x: 608,
+          y: 90,
+          facing: 'right',
+          spriteId: 'travel-door',
+          targetBiomeId: 'treeline',
+        },
+      ],
+      mapReturnPost: { x: 236, y: 92, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-forest-door',
+    },
+    {
+      id: 'treeline',
+      biomeId: 'treeline',
+      label: 'Treeline Pass',
+      summary: 'Wind, low trees, and lichen.',
+      previewColor: '#86928a',
+      node: scaleMapPoint(149, 40),
+      mapDoor: scaleMapDoor(137, 28, 'left', 'map-treeline-door'),
+      biomeDoor: { x: 18, y: 90, facing: 'left', spriteId: 'travel-door' },
+      corridorDoors: [
+        {
+          x: 18,
+          y: 90,
+          facing: 'left',
+          spriteId: 'travel-door',
+          targetBiomeId: 'forest',
+        },
+        {
+          x: 608,
+          y: 90,
+          facing: 'right',
+          spriteId: 'travel-door',
+          targetBiomeId: 'tundra',
+        },
+      ],
+      mapReturnPost: { x: 404, y: 92, facing: 'right', spriteId: 'map-post' },
+      spriteId: 'map-treeline-door',
     },
     {
       id: 'tundra',
@@ -76,31 +199,60 @@ export const ecoWorldMap: WorldMapDefinition = {
       label: 'Tundra Reach',
       summary: 'Snow, berries, and Arctic life.',
       previewColor: '#8ebdd0',
-      node: { x: 130, y: 24 },
-      mapDoor: { x: 118, y: 12, facing: 'left', spriteId: 'map-tundra-door' },
+      node: scaleMapPoint(166, 18),
+      mapDoor: scaleMapDoor(154, 6, 'left', 'map-tundra-door'),
       biomeDoor: { x: 18, y: 90, facing: 'left', spriteId: 'travel-door' },
+      corridorDoors: [
+        {
+          x: 18,
+          y: 90,
+          facing: 'left',
+          spriteId: 'travel-door',
+          targetBiomeId: 'treeline',
+        },
+      ],
+      mapReturnPost: { x: 236, y: 92, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-tundra-door',
     },
   ],
   connections: [
     {
-      id: 'coast-to-forest',
+      id: 'beach-to-coastal-scrub',
       from: 'beach',
-      to: 'forest',
+      to: 'coastal-scrub',
       waypoints: [
-        { x: 64, y: 92 },
-        { x: 92, y: 81 },
-        { x: 120, y: 70 },
+        scaleMapPoint(50, 96),
+        scaleMapPoint(62, 92),
+        scaleMapPoint(70, 88),
       ],
     },
     {
-      id: 'forest-to-tundra',
+      id: 'coastal-scrub-to-forest',
+      from: 'coastal-scrub',
+      to: 'forest',
+      waypoints: [
+        scaleMapPoint(92, 80),
+        scaleMapPoint(102, 74),
+        scaleMapPoint(112, 69),
+      ],
+    },
+    {
+      id: 'forest-to-treeline',
       from: 'forest',
+      to: 'treeline',
+      waypoints: [
+        scaleMapPoint(130, 58),
+        scaleMapPoint(138, 51),
+        scaleMapPoint(143, 46),
+      ],
+    },
+    {
+      id: 'treeline-to-tundra',
+      from: 'treeline',
       to: 'tundra',
       waypoints: [
-        { x: 144, y: 50 },
-        { x: 138, y: 38 },
-        { x: 134, y: 30 },
+        scaleMapPoint(156, 32),
+        scaleMapPoint(162, 25),
       ],
     },
   ],

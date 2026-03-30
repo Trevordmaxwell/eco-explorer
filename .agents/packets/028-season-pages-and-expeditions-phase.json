@@ -1,0 +1,124 @@
+{
+  "packet_id": "ECO-PACKET-028",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Season pages and expeditions phase",
+  "summary": "Twenty-eighth structured packet for Eco Explorer. After the replay and season-wrap wave, the next larger step should not be squeezing a fourth route onto the current station board. Instead, the station should evolve into a notebook-like season-page pattern that can host one deeper expedition chapter, then use that pattern to launch a forest-first cave-and-climb exploration chapter built around the new `root-hollow` work.",
+  "source_reports": [
+    "docs/reports/2026-03-30-season-pages-and-expeditions-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-51",
+    "ECO-20260330-main-83",
+    "ECO-20260330-critic-60",
+    "ECO-20260330-scout-52",
+    "ECO-20260330-main-84",
+    "ECO-20260330-critic-61",
+    "ECO-20260330-scout-53",
+    "ECO-20260330-main-85",
+    "ECO-20260330-critic-62",
+    "ECO-20260330-main-89"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-81",
+    "ECO-20260330-critic-59"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-51",
+      "goal": "Prepare the station pattern for season pages and one expedition slot.",
+      "why_now": "The current three-route board is full, so future growth needs a new pattern rather than more compression."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-83",
+      "goal": "Add the first season-page station evolution and expedition slot.",
+      "why_now": "The game needs a growth-ready field-station structure before it opens a deeper chapter."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-60",
+      "goal": "Review the station evolution for warmth, clarity, and handheld readability.",
+      "why_now": "A new station pattern only helps if it stays calm and notebook-like."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-52",
+      "goal": "Prepare the first deeper expedition chapter around forest cave and climbable spaces.",
+      "why_now": "The newly expanded `root-hollow` and climbable forest work is the best current foundation for a more game-like exploration chapter."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-84",
+      "goal": "Activate the first deeper expedition chapter.",
+      "why_now": "One stronger exploration-forward chapter is the next best evolution after the route replay wave."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-61",
+      "goal": "Review the expedition chapter for difficulty, clarity, and whether it still fits the cozy tone.",
+      "why_now": "The exploration chapter should feel richer, not harsher."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-53",
+      "goal": "Prepare expedition reward and support guidance.",
+      "why_now": "The expedition should get a small support hook only if it deepens the field-adventure loop."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-85",
+      "goal": "Deepen the expedition with content and one tiny support hook if needed.",
+      "why_now": "The expedition should land as a real chapter, not just a shell."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-62",
+      "goal": "Review the finished expedition chapter and decide whether the pattern is ready to carry future larger growth.",
+      "why_now": "This is the gate that decides whether expeditions become a durable second structure in the game."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-89",
+      "goal": "Add one tiny second-expedition teaser if the first expedition pattern proves durable.",
+      "why_now": "The station pattern should show it can grow further without immediately launching another full expedition."
+    }
+  ],
+  "guardrails": [
+    "Do not compress a fourth full route onto the existing three-route board.",
+    "Keep the station notebook-like instead of turning it into a multi-tab dashboard.",
+    "Keep the expedition calm, readable, and kid-friendly.",
+    "Do not add combat, fail states, or a survival loop.",
+    "Do not broaden the game into a heavy inventory or loot system."
+  ],
+  "file_targets": [
+    "src/engine/overlay-render.ts",
+    "src/engine/game.ts",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The field station can grow beyond three routes without losing its calm handheld feel.",
+    "The first expedition chapter makes exploration feel more game-like without changing genre.",
+    "The expedition uses the existing cave and climbable work as a coherent chapter rather than as isolated niches."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-30-season-pages-and-expeditions-phase.md, and this packet. Treat the replay and season-wrap wave as the last dense three-route phase. The next larger move is to evolve the station into season pages plus one expedition slot, then launch a deeper forest-first expedition chapter built around the live cave and climbable exploration work."
+}

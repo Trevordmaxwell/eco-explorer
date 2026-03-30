@@ -1,0 +1,123 @@
+import { hasFieldUpgrade } from './field-station';
+import { buildJournalBiomeProgress } from './journal';
+import { getBiomeSurveyProgress, type BiomeSurveyState } from './progression';
+import type { BiomeDefinition, SaveState } from './types';
+
+export type GuidedFieldSeasonStage =
+  | 'starter'
+  | 'forest-study'
+  | 'station-return'
+  | 'next-habitat'
+  | 'settled';
+
+export interface GuidedFieldSeasonNote {
+  title: string;
+  text: string;
+}
+
+export interface GuidedFieldSeasonState {
+  stage: GuidedFieldSeasonStage;
+  stationNote: GuidedFieldSeasonNote;
+  promptNotice: GuidedFieldSeasonNote | null;
+  nextBiomeId: string | null;
+}
+
+function hasCompletedRequest(save: SaveState, requestId: string): boolean {
+  return save.completedFieldRequestIds.includes(requestId);
+}
+
+function getForestSurveyState(
+  biomes: Record<string, BiomeDefinition>,
+  save: SaveState,
+): BiomeSurveyState {
+  return getBiomeSurveyProgress(
+    buildJournalBiomeProgress(biomes, save.discoveredEntries),
+    'forest',
+  )?.state ?? 'none';
+}
+
+export function resolveGuidedFieldSeasonState(
+  biomes: Record<string, BiomeDefinition>,
+  save: SaveState,
+): GuidedFieldSeasonState {
+  const forestSurveyState = getForestSurveyState(biomes, save);
+  const forestSurveyLogged =
+    hasCompletedRequest(save, 'forest-survey-slice') ||
+    forestSurveyState === 'surveyed' ||
+    forestSurveyState === 'complete';
+  const trailStrideOwned = hasFieldUpgrade(save, 'trail-stride');
+  const coastalScrubVisited = (save.biomeVisits['coastal-scrub'] ?? 0) > 0;
+
+  if (trailStrideOwned && coastalScrubVisited) {
+    return {
+      stage: 'settled',
+      stationNote: {
+        title: 'FIELD SEASON OPEN',
+        text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+      },
+      promptNotice: null,
+      nextBiomeId: null,
+    };
+  }
+
+  if (trailStrideOwned) {
+    return {
+      stage: 'next-habitat',
+      stationNote: {
+        title: 'NEXT STOP',
+        text: 'Coastal Scrub is the clearest next comparison. Look for how shelter shifts from dunes to shrubs.',
+      },
+      promptNotice: {
+        title: 'NEXT STOP',
+        text: 'Coastal Scrub makes the best next comparison after the forest run.',
+      },
+      nextBiomeId: 'coastal-scrub',
+    };
+  }
+
+  if (forestSurveyLogged) {
+    return {
+      stage: 'station-return',
+      stationNote: {
+        title: 'RETURN TO STATION',
+        text: 'Forest Trail is logged. Open the world-map field station and pick up Trail Stride for longer walks.',
+      },
+      promptNotice: {
+        title: 'FIELD STATION',
+        text: 'Open the world-map field station for new support.',
+      },
+      nextBiomeId: null,
+    };
+  }
+
+  if (hasCompletedRequest(save, 'forest-hidden-hollow')) {
+    const moistureLogged = hasCompletedRequest(save, 'forest-moisture-holders');
+    return {
+      stage: 'forest-study',
+      stationNote: moistureLogged
+        ? {
+            title: 'FOREST SURVEY',
+            text: 'Stay with Forest Trail a little longer and log four clues before heading back.',
+          }
+        : {
+            title: 'MOISTURE CLUES',
+            text: 'Root Hollow has the next notebook beat. Compare two damp-ground neighbors before you head back.',
+          },
+      promptNotice: null,
+      nextBiomeId: null,
+    };
+  }
+
+  return {
+    stage: 'starter',
+    stationNote: {
+      title: 'FIRST FIELD SEASON',
+      text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+    },
+    promptNotice: {
+      title: 'NOTEBOOK TASK',
+      text: 'Travel to Forest Trail and find Hidden Hollow.',
+    },
+    nextBiomeId: 'forest',
+  };
+}

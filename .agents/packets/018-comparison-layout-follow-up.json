@@ -1,0 +1,58 @@
+{
+  "packet_id": "ECO-PACKET-018",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Comparison-view layout rebalance",
+  "summary": "Eighteenth structured packet for Eco Explorer. The first shared-species comparison pass landed with sound unlock logic and good ecological direction, but the live comparison-open view is too vertically tight inside the `192x144` journal shell. This follow-up should keep the same-pane comparison concept while rebalancing the open view so the comparison cards become the clearest part of the pane instead of the most cramped.",
+  "source_reports": [
+    "docs/reports/2026-03-28-shared-species-comparison-handoff.md",
+    "docs/reports/2026-03-28-shared-species-comparison-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-43",
+    "ECO-20260328-critic-17"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-39"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-43",
+      "goal": "Rebalance the comparison-open journal layout so the habitat cards stay readable at `192x144`.",
+      "why_now": "The feature concept is worth keeping, but the current open state is too cramped in the live notebook shell."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-critic-17",
+      "goal": "Review the comparison-layout follow-up for readability and notebook fit.",
+      "why_now": "This is a visual polish fix on a high-leverage teaching surface, so it should get one clean critique pass before other journal-depth work builds on it."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Keep the feature same-pane and spoiler-safe.",
+    "Do not expand the candidate set while fixing layout readability.",
+    "Prefer giving the comparison cards more room over preserving every non-comparison detail line in the open view.",
+    "Keep the notebook calm; do not solve this by turning comparison mode into a new full-screen surface."
+  ],
+  "file_targets": [
+    "src/engine/overlay-render.ts",
+    "src/engine/game.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Comparison cards are readable in the live `192x144` notebook shell.",
+    "The comparison-open view still feels compact and notebook-like.",
+    "The same spoiler-safe, note-backed comparison model remains intact."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-shared-species-comparison-handoff.md, docs/reports/2026-03-28-shared-species-comparison-review.md, and this packet. Keep the same-pane comparison feature, but rebalance the open comparison layout so the habitat cards become clearly readable at `192x144` without widening scope."
+}

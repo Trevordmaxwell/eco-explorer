@@ -1,0 +1,126 @@
+{
+  "packet_id": "ECO-PACKET-030",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Deep caves and giant trees lane",
+  "summary": "Thirtieth structured packet for Eco Explorer. Lane 3 is a vertical-exploration lane focused on expanding caves and giant-tree climbing into deeper, more magical but still science-forward sub-ecosystems. The lane starts with a traversal-runtime split, then builds one giant-tree old-growth pocket, one deeper cave chapter, and finally one optional bridge that makes the two feel like a coherent family.",
+  "source_reports": [
+    "docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-59",
+    "ECO-20260330-scout-60",
+    "ECO-20260330-scout-61",
+    "ECO-20260330-main-91",
+    "ECO-20260330-critic-66",
+    "ECO-20260330-main-92",
+    "ECO-20260330-critic-67",
+    "ECO-20260330-main-93",
+    "ECO-20260330-critic-68",
+    "ECO-20260330-main-94",
+    "ECO-20260330-critic-69"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-59",
+      "goal": "Prepare the deep-cave and giant-tree runtime split.",
+      "why_now": "Lane 3 needs one realistic runtime foundation before it builds bigger spaces."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-91",
+      "goal": "Expand traversal runtime for giant trees and deeper caves.",
+      "why_now": "The current proofs need a little more vertical budget before they can become real chapters."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-66",
+      "goal": "Review the giant-tree and deep-cave runtime expansion.",
+      "why_now": "The lane should only proceed if the runtime remains readable and maintainable."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-60",
+      "goal": "Prepare the first giant-tree old-growth pocket.",
+      "why_now": "The most attractive next vertical chapter is a huge old-growth climbable space."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-92",
+      "goal": "Implement the first giant-tree old-growth pocket.",
+      "why_now": "A big-tree chapter is the fastest way to make vertical exploration feel new and memorable."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-67",
+      "goal": "Review the first giant-tree old-growth pocket.",
+      "why_now": "Scale readability and traversal friendliness are the main risk in giant-tree spaces."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-61",
+      "goal": "Prepare the first deeper cave sub-ecosystem chapter.",
+      "why_now": "The cave chapter should be planned as a real layered ecosystem rather than just more tunnel length."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-93",
+      "goal": "Implement the first deeper cave sub-ecosystem chapter.",
+      "why_now": "Deeper caves are the second anchor of the vertical-exploration family."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-68",
+      "goal": "Review the first deeper cave chapter.",
+      "why_now": "The cave pass should stay cozy, readable, and worth revisiting."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-94",
+      "goal": "Connect giant-tree and deep-cave exploration through one optional wilderness bridge.",
+      "why_now": "One light connective move will make the lane feel like a family instead of two isolated experiments."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260330-critic-69",
+      "goal": "Review the first vertical-exploration family pass.",
+      "why_now": "This is the quality gate for whether lane 3 should keep expanding from this base."
+    }
+  ],
+  "guardrails": [
+    "Do not add combat, fail-state cave danger, or a survival loop.",
+    "Do not demand strict geographic accuracy; use grounded scale cheats where they help the game.",
+    "Keep vertical traversal readable and kid-friendly at the current screen size.",
+    "Treat caves and giant trees as science-forward sub-ecosystems, not as generic fantasy dungeons or platform towers."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Lane 3 creates real vertical exploration depth instead of only taller geometry.",
+    "Giant trees and deeper caves feel distinct, readable, and fun.",
+    "The vertical-exploration family becomes a stable future growth lane."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md, and this packet. Treat lane 3 as the vertical-exploration lane. Build a realistic but playful path from the current cave and climbing proofs into deeper cave chapters and giant-tree exploration while staying cozy, readable, and science-forward."
+}

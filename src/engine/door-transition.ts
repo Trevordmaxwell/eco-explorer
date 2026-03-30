@@ -1,6 +1,12 @@
 import type { DoorAnchor, WorldMapDefinition } from '../content/world-map';
 import { clamp, lerp } from './random';
-import { buildRoutePoints, getPathDistance, getWorldMapLocationByBiomeId, samplePathPosition } from './world-map';
+import {
+  buildRoutePoints,
+  getPathDistance,
+  getWorldMapLocationByBiomeId,
+  getWorldMapRouteLocationIds,
+  samplePathPosition,
+} from './world-map';
 import type { Facing } from './types';
 
 export type DoorTransitionPhaseId =
@@ -23,6 +29,8 @@ export interface DoorTransitionPlan {
   toBiomeId: string;
   fromLocationId: string;
   toLocationId: string;
+  fromBiomeDoor: DoorAnchor;
+  toBiomeDoor: DoorAnchor;
   routePoints: Array<{ x: number; y: number }>;
   routeDistance: number;
   phases: DoorTransitionPhase[];
@@ -82,10 +90,15 @@ export function createDoorTransitionPlan(
   definition: WorldMapDefinition,
   fromBiomeId: string,
   toBiomeId: string,
+  overrides: {
+    fromBiomeDoor?: DoorAnchor;
+    toBiomeDoor?: DoorAnchor;
+  } = {},
 ): DoorTransitionPlan {
   const fromLocation = getWorldMapLocationByBiomeId(definition, fromBiomeId);
   const toLocation = getWorldMapLocationByBiomeId(definition, toBiomeId);
-  const routeData = buildRoutePoints(definition, [fromLocation.id, toLocation.id]);
+  const routeIds = getWorldMapRouteLocationIds(definition, fromLocation.id, toLocation.id);
+  const routeData = buildRoutePoints(definition, routeIds);
   const routeDistance = getPathDistance(routeData.points);
   const mapWalkDuration = Math.max(0.7, routeDistance / 40);
 
@@ -104,6 +117,8 @@ export function createDoorTransitionPlan(
     toBiomeId,
     fromLocationId: fromLocation.id,
     toLocationId: toLocation.id,
+    fromBiomeDoor: overrides.fromBiomeDoor ?? fromLocation.biomeDoor,
+    toBiomeDoor: overrides.toBiomeDoor ?? toLocation.biomeDoor,
     routePoints: routeData.points,
     routeDistance,
     phases,
@@ -136,7 +151,7 @@ export function sampleDoorTransition(
 
   switch (activePhase.id) {
     case 'biome-exit': {
-      const avatar = sampleDoorTraversal(fromLocation.biomeDoor, phaseProgress, 'outside-to-inside');
+      const avatar = sampleDoorTraversal(plan.fromBiomeDoor, phaseProgress, 'outside-to-inside');
       return {
         phaseId: activePhase.id,
         phaseProgress,
@@ -217,7 +232,7 @@ export function sampleDoorTransition(
       };
     case 'biome-emerge':
     default: {
-      const avatar = sampleDoorTraversal(toLocation.biomeDoor, phaseProgress, 'inside-to-outside');
+      const avatar = sampleDoorTraversal(plan.toBiomeDoor, phaseProgress, 'inside-to-outside');
       return {
         phaseId: activePhase.id,
         phaseProgress,

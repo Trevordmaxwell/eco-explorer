@@ -1,6 +1,6 @@
 import { spriteSources } from '../assets';
 import { biomeRegistry } from '../content/biomes';
-import { ecoWorldMap, type DoorAnchor } from '../content/world-map';
+import { ecoWorldMap, type CorridorDoor, type DoorAnchor } from '../content/world-map';
 import {
   createDoorTransitionPlan,
   sampleDoorTransition,
@@ -8,23 +8,122 @@ import {
   type DoorTransitionPhaseId,
   type DoorTransitionSnapshot,
 } from './door-transition';
+import {
+  createCorridorScene,
+  getCorridorEntryPoint,
+  getCorridorExitBiomeId,
+  getCorridorZoneForOwner,
+  isCorridorConnectedBiomeId,
+  resolveCorridorOwnerBiomeId,
+  type CorridorBiomeId,
+  type CorridorScene,
+} from './corridor';
+import { resolveEcosystemNoteForEntry } from './ecosystem-notes';
+import {
+  resolveFieldAtlasState,
+  resolveFieldSeasonBoardState,
+  resolveFieldSeasonExpeditionState,
+  resolveFieldSeasonWrapState,
+} from './field-season-board';
+import {
+  getJumpSpeed,
+  getFieldUpgradeStates,
+  getRecentFieldCreditSources,
+  getSelectedFieldUpgradeId,
+  getWalkSpeed,
+  hasFieldUpgrade,
+  purchaseFieldUpgrade,
+  syncFieldStationLedger,
+} from './field-station';
+import {
+  clearNurseryTeachingBed,
+  getNextNurseryProjectId,
+  getSelectedNurseryProjectId,
+  resolveNurseryStateView,
+  startNurseryProject,
+  syncNurseryState,
+  tryClaimNurseryGathering,
+  type NurseryCardId,
+} from './nursery';
+import { getActiveHabitatProcessMoments } from './habitat-process';
+import {
+  buildFieldPartnerNotice,
+  shouldDeliverFieldPartnerNotice,
+  type FieldPartnerNotice,
+  type FieldPartnerTrigger,
+} from './field-partner';
+import {
+  FIELD_REQUEST_DEFINITIONS,
+  resolveActiveFieldRequest,
+  shouldCompleteActiveFieldRequest,
+  type ActiveFieldRequest,
+} from './field-requests';
+import { resolveGuidedFieldSeasonState } from './guided-field-season';
+import { createAudioEngine, resolveAmbientProfileId } from './audio';
+import { drawBiomeScene } from './biome-scene-render';
+import { buildCloseLookPayload } from './close-look';
 import { generateBiomeInstance, sampleTerrainY } from './generation';
 import { InputController } from './input';
 import { getInspectableDetail } from './inspectables';
 import {
+  buildFieldGuideContext,
+  buildFieldGuidePrompt,
+  getBiomeZoneForPlayerX,
+} from './field-guide';
+import {
   buildJournalBiomeProgress,
   getDiscoveredEntriesForBiome,
+  getJournalEntrySightings,
   type JournalBiomeProgress,
 } from './journal';
+import { resolveJournalComparison } from './journal-comparison';
+import { resolveObservationPrompt } from './observation-prompts';
+import {
+  buildBiomeSurveyProgress,
+  getBiomeSurveyProgress,
+} from './progression';
+import {
+  buildSketchbookPageView,
+  changeSketchbookSlot,
+  clearSketchbookSlot,
+  getSelectedSketchbookSlotId,
+  isSketchbookUnlocked,
+  placeSketchbookEntry,
+} from './sketchbook';
+import {
+  drawCloseLookOverlay,
+  drawBubbleOverlay,
+  drawHabitatChip,
+  drawFieldPartnerNotice,
+  drawFieldGuideNotice,
+  drawFieldRequestNotice,
+  drawFieldStationOverlay,
+  drawJournalOverlay,
+  drawMenuChip,
+  drawMenuOverlay,
+  drawTitleOverlay,
+  drawWorldMapHud,
+  type BubbleActionHitTarget,
+  type ButtonHitTarget,
+  type CloseLookActionHitTarget,
+  type JournalActionHitTarget,
+  type JournalBiomeHitTarget,
+  type JournalHitTarget,
+  type JournalSketchSlotHitTarget,
+  type JournalScrollHitTarget,
+  type MenuActionId,
+} from './overlay-render';
 import { clamp } from './random';
+import { copyTextToClipboard } from './clipboard';
 import {
   getDiscoveredEntryIds,
   incrementBiomeVisit,
   persistSave,
   recordDiscovery,
+  recordCompletedFieldRequest,
   resetSaveProgress,
 } from './save';
-import { createSpriteRegistry, drawSprite } from './sprites';
+import { createSpriteRegistry } from './sprites';
 import { drawWorldMapScene } from './world-map-render';
 import {
   beginWorldMapWalk,
@@ -35,28 +134,37 @@ import {
   stepWorldMapState,
   type WorldMapState,
 } from './world-map';
+import { buildWorldState } from './world-state';
 import type {
   BiomeDefinition,
   BiomeEntity,
+  Climbable,
+  CloseLookPayload,
   FactBubblePayload,
   Facing,
   GameApi,
   InspectableEntry,
+  FieldStationSeasonPage,
+  FieldStationView,
+  ObservationPrompt,
   OverlayMode,
   Platform,
   SaveState,
+  SketchbookSlotId,
 } from './types';
 
-const WIDTH = 192;
-const HEIGHT = 144;
+const WIDTH = 256;
+const HEIGHT = 160;
 const PLAYER_WIDTH = 10;
 const PLAYER_HEIGHT = 10;
-const MOVE_SPEED = 42;
-const JUMP_SPEED = 118;
 const GRAVITY = 320;
 const INSPECT_RANGE = 22;
-const UI_FONT_SMALL = 'bold 7px Verdana, Geneva, sans-serif';
-const UI_FONT_MEDIUM = 'bold 8px Verdana, Geneva, sans-serif';
+const CAMERA_X_FOCUS_RATIO = 0.35;
+const CAMERA_FOOT_PADDING = 28;
+const FIELD_PARTNER_NOTICE_SECONDS = 3.2;
+const FIELD_PARTNER_GLOBAL_COOLDOWN_SECONDS = 20;
+const FIELD_PARTNER_POST_OVERLAY_QUIET_SECONDS = 2.4;
+const FIELD_PARTNER_BIOME_ENTER_QUIET_SECONDS = 2.2;
 
 interface PlayerState {
   x: number;
@@ -65,40 +173,8 @@ interface PlayerState {
   vy: number;
   onGround: boolean;
   facing: Facing;
-}
-
-interface JournalHitTarget {
-  entryId: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-interface JournalBiomeHitTarget {
-  biomeId: string;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-type MenuActionId =
-  | 'toggle-fullscreen'
-  | 'toggle-inspect-hints'
-  | 'reset-save'
-  | 'close-menu'
-  | 'cancel-reset'
-  | 'confirm-reset';
-
-type UiActionId = 'start-game' | 'open-menu' | MenuActionId;
-
-interface ButtonHitTarget {
-  id: UiActionId;
-  x: number;
-  y: number;
-  w: number;
-  h: number;
+  climbing: boolean;
+  activeClimbableId: string | null;
 }
 
 interface TextRenderableWindow extends Window {
@@ -108,6 +184,12 @@ interface TextRenderableWindow extends Window {
 
 type SceneMode = 'biome' | 'world-map' | 'transition';
 type TransitionKind = 'biome-to-map' | 'map-to-biome';
+type FieldGuideNoticeState = 'copied' | 'failed';
+
+interface FieldRequestNotice {
+  title: string;
+  text: string;
+}
 
 interface TransitionState {
   kind: TransitionKind;
@@ -117,137 +199,21 @@ interface TransitionState {
   endElapsed: number;
 }
 
-function fillPixelPanel(
-  context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  fill: string,
-  border: string,
-): void {
-  context.fillStyle = border;
-  context.fillRect(x, y, w, h);
-  context.fillStyle = fill;
-  context.fillRect(x + 2, y + 2, w - 4, h - 4);
+interface RenderDoorState {
+  anchor: DoorAnchor;
+  openAmount: number;
+  highlighted: boolean;
 }
 
-function fillLeafGreenPanel(
-  context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-): void {
-  context.fillStyle = '#395f56';
-  context.fillRect(x, y, w, h);
-  context.fillStyle = '#b8d0c6';
-  context.fillRect(x + 2, y + 2, w - 4, h - 4);
-  context.fillStyle = '#fff7de';
-  context.fillRect(x + 4, y + 4, w - 8, h - 8);
+interface TravelInteractable {
+  kind: 'corridor' | 'map-return';
+  anchor: DoorAnchor;
+  targetBiomeId: CorridorBiomeId | null;
 }
 
-function drawWrappedText(
-  context: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  maxWidth: number,
-  lineHeight: number,
-  color: string,
-  maxLines = 99,
-): number {
-  const words = text.split(' ');
-  const lines: string[] = [];
-  let current = '';
-
-  for (const word of words) {
-    const candidate = current ? `${current} ${word}` : word;
-    if (context.measureText(candidate).width > maxWidth && current) {
-      lines.push(current);
-      current = word;
-    } else {
-      current = candidate;
-    }
-  }
-
-  if (current) {
-    lines.push(current);
-  }
-
-  context.fillStyle = color;
-
-  for (let index = 0; index < Math.min(lines.length, maxLines); index += 1) {
-    const lineY = y + index * lineHeight;
-    context.fillStyle = 'rgba(255, 247, 222, 0.9)';
-    context.fillText(lines[index], Math.round(x), Math.round(lineY) + 1);
-    context.fillStyle = color;
-    context.fillText(lines[index], Math.round(x), Math.round(lineY));
-  }
-
-  return y + Math.min(lines.length, maxLines) * lineHeight;
-}
-
-function drawUiText(
-  context: CanvasRenderingContext2D,
-  text: string,
-  x: number,
-  y: number,
-  color: string,
-): void {
-  context.fillStyle = 'rgba(255, 247, 222, 0.9)';
-  context.fillText(text, Math.round(x), Math.round(y) + 1);
-  context.fillStyle = color;
-  context.fillText(text, Math.round(x), Math.round(y));
-}
-
-function drawInteractMarker(
-  context: CanvasRenderingContext2D,
-  centerX: number,
-  topY: number,
-  minX: number,
-  maxX: number,
-): void {
-  const width = 9;
-  const x = clamp(Math.round(centerX - width / 2), minX, maxX - width);
-
-  context.fillStyle = '#c98a4f';
-  context.fillRect(x + 3, topY, 3, 2);
-  context.fillRect(x + 2, topY + 2, 5, 2);
-  context.fillRect(x + 1, topY + 4, 7, 2);
-  context.fillRect(x + 4, topY + 6, 1, 3);
-  context.fillStyle = '#fff7de';
-  context.fillRect(x + 3, topY + 1, 3, 1);
-  context.fillRect(x + 2, topY + 3, 5, 1);
-  context.fillRect(x + 1, topY + 5, 7, 1);
-}
-
-function drawPanelButton(
-  context: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  label: string,
-  options: {
-    fill: string;
-    border: string;
-    text: string;
-    selected?: boolean;
-  },
-): void {
-  const fill = options.selected ? options.border : options.fill;
-  const border = options.selected ? options.text : options.border;
-  const text = options.selected ? '#fff7de' : options.text;
-
-  fillPixelPanel(context, x, y, w, h, fill, border);
-  drawUiText(
-    context,
-    label,
-    x + Math.max(3, Math.round((w - context.measureText(label).width) / 2)),
-    y + Math.max(1, Math.round((h - 8) / 2)),
-    text,
-  );
+interface PendingFieldPartnerTrigger {
+  reason: FieldPartnerTrigger;
+  entryId: string | null;
 }
 
 function getHitTargetAt<T extends { x: number; y: number; w: number; h: number }>(
@@ -304,6 +270,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   const sprites = createSpriteRegistry(spriteSources);
   const input = new InputController(canvas);
   const save = initialSaveState;
+  const audio = createAudioEngine(save.settings.soundEnabled);
   let currentBiomeDefinition: BiomeDefinition = biomeRegistry.beach;
   let currentBiome = generateBiomeInstance(currentBiomeDefinition, save, 1);
   let player: PlayerState = {
@@ -313,31 +280,109 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     vy: 0,
     onGround: false,
     facing: 'right',
+    climbing: false,
+    activeClimbableId: null,
   };
   let overlayMode: OverlayMode = 'title';
   let sceneMode: SceneMode = 'biome';
   let bubble: FactBubblePayload | null = null;
   let bubbleTimer = 0;
+  let closeLook: CloseLookPayload | null = null;
   let selectedJournalBiomeId = save.lastBiomeId || 'beach';
   let selectedJournalEntryId: string | null = null;
   let cameraX = 0;
+  let cameraY = 0;
   let frameCount = 0;
   let lastTime = performance.now();
   let manualTimeControl = false;
   let journalHitTargets: JournalHitTarget[] = [];
   let journalBiomeHitTargets: JournalBiomeHitTarget[] = [];
+  let journalScrollHitTargets: JournalScrollHitTarget[] = [];
+  let journalActionHitTargets: JournalActionHitTarget[] = [];
+  let journalSketchSlotHitTargets: JournalSketchSlotHitTarget[] = [];
+  let journalVisibleEntryIds: string[] = [];
+  let journalCanScrollUp = false;
+  let journalCanScrollDown = false;
+  let journalComparisonOpen = false;
+  let journalSketchbookOpen = false;
+  let selectedSketchbookSlotId: SketchbookSlotId | null = null;
   let titleHitTargets: ButtonHitTarget[] = [];
   let hudHitTargets: ButtonHitTarget[] = [];
+  let bubbleActionHitTargets: BubbleActionHitTarget[] = [];
+  let closeLookHitTargets: CloseLookActionHitTarget[] = [];
   let menuHitTargets: ButtonHitTarget[] = [];
-  let menuReturnMode: Exclude<OverlayMode, 'menu'> = 'playing';
+  let menuReturnMode: 'title' | 'playing' | 'journal' = 'playing';
   let selectedMenuActionId: MenuActionId = 'toggle-fullscreen';
   let showResetConfirmation = false;
+  let selectedFieldStationUpgradeId: string | null = null;
+  let selectedFieldStationView: FieldStationView = 'season';
+  let selectedFieldStationSeasonPage: FieldStationSeasonPage = 'routes';
+  let selectedNurseryCardId: NurseryCardId = 'bench';
+  let selectedNurseryProjectId: string | null = null;
+  let claimedNurseryEntityIds = new Set<string>();
+  let fieldGuideNotice: FieldGuideNoticeState | null = null;
+  let fieldGuideNoticeTimer = 0;
+  let fieldRequestNotice: FieldRequestNotice | null = null;
+  let fieldRequestNoticeTimer = 0;
+  let fieldPartnerNotice: FieldPartnerNotice | null = null;
+  let fieldPartnerNoticeTimer = 0;
+  let fieldPartnerQuietTimer = 0;
+  let fieldPartnerGlobalCooldownTimer = 0;
+  let fieldPartnerPendingTrigger: PendingFieldPartnerTrigger | null = null;
+  let fieldPartnerNoticesThisVisit = 0;
+  let fieldPartnerLastStateKey: string | null = null;
+  let fieldPartnerContextKey = '';
+  let guidedStarterNoticeShown = false;
+  let guidedStationNoticeShown = false;
+  let guidedNextStopNoticeShown = false;
   let worldMapState = createWorldMapState(
     ecoWorldMap,
     getWorldMapLocationByBiomeId(ecoWorldMap, save.lastBiomeId || 'beach').id,
   );
   let mapOriginBiomeId = save.lastBiomeId || 'beach';
+  let mapReturnAnchor: DoorAnchor | null = null;
   let transitionState: TransitionState | null = null;
+  let activeCorridor: CorridorScene | null = null;
+
+  function getContextBiomeId(): string {
+    return activeCorridor?.ownerBiomeId ?? currentBiomeDefinition.id;
+  }
+
+  function getContextBiomeDefinition(): BiomeDefinition {
+    return activeCorridor
+      ? biomeRegistry[activeCorridor.ownerBiomeId as keyof typeof biomeRegistry]
+      : currentBiomeDefinition;
+  }
+
+  function getContextVisitCount(): number {
+    const biomeId = getContextBiomeId();
+    return save.biomeVisits[biomeId] ?? currentBiome.visitCount;
+  }
+
+  function getWorldState(biomeId = getContextBiomeId()) {
+    return buildWorldState(save, biomeId);
+  }
+
+  function getActiveAudioBiomeId(): string {
+    if (sceneMode === 'world-map') {
+      return getWorldMapLocation(ecoWorldMap, worldMapState.focusedLocationId).biomeId;
+    }
+
+    if (transitionState) {
+      return transitionState.plan.toBiomeId;
+    }
+
+    return getContextBiomeId();
+  }
+
+  function syncAudioState(): void {
+    if (input.hasPendingInteraction()) {
+      void audio.arm();
+    }
+
+    audio.setSoundEnabled(save.settings.soundEnabled);
+    audio.setAmbientProfile(resolveAmbientProfileId(getActiveAudioBiomeId()));
+  }
 
   function getPhaseTime(
     plan: DoorTransitionPlan,
@@ -357,25 +402,169 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return edge === 'start' ? 0 : plan.totalDuration;
   }
 
-  function openMenu(returnMode: Exclude<OverlayMode, 'menu'>): void {
+  function openMenu(returnMode: 'title' | 'playing' | 'journal'): void {
     menuReturnMode = returnMode;
     overlayMode = 'menu';
     selectedMenuActionId = 'toggle-fullscreen';
     showResetConfirmation = false;
-    bubble = null;
-    bubbleTimer = 0;
+    clearInspectSurface();
+    startFieldPartnerQuiet();
   }
 
   function closeMenu(): void {
     overlayMode = menuReturnMode;
     selectedMenuActionId = 'toggle-fullscreen';
     showResetConfirmation = false;
+    startFieldPartnerQuiet();
+  }
+
+  function clearInspectSurface(): void {
+    bubble = null;
+    bubbleTimer = 0;
+    closeLook = null;
+  }
+
+  function openCloseLookFromBubble(): void {
+    if (!bubble) {
+      return;
+    }
+
+    const entry = currentBiomeDefinition.entries[bubble.entryId];
+    const payload = entry ? buildCloseLookPayload(entry) : null;
+    if (!payload) {
+      return;
+    }
+
+    closeLook = payload;
+    bubble = null;
+    bubbleTimer = 0;
+    overlayMode = 'close-look';
+    audio.playUiCue('inspect-reveal');
+    startFieldPartnerQuiet();
+  }
+
+  function closeCloseLook(): void {
+    closeLook = null;
+    overlayMode = 'playing';
+    audio.playUiCue('confirm');
+    startFieldPartnerQuiet();
+  }
+
+  function canUseFieldGuideFromMenu(): boolean {
+    return sceneMode === 'biome' && menuReturnMode === 'playing';
+  }
+
+  function canUseWorldMapFromMenu(): boolean {
+    return sceneMode === 'biome' && menuReturnMode === 'playing';
+  }
+
+  function canUseFieldStationFromMenu(): boolean {
+    return sceneMode === 'world-map' && menuReturnMode === 'playing';
+  }
+
+  function getGuidedFieldSeasonState() {
+    return resolveGuidedFieldSeasonState(biomeRegistry, save);
+  }
+
+  function resetNurseryClaimedEntities(): void {
+    claimedNurseryEntityIds = new Set<string>();
+  }
+
+  function getFieldStationState() {
+    if (syncNurseryState(save)) {
+      persistSave(save);
+    }
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    const expedition = resolveFieldSeasonExpeditionState(save);
+    const atlas = resolveFieldAtlasState(save);
+    const seasonWrap = resolveFieldSeasonWrapState(
+      biomeRegistry,
+      routeBoard,
+      guidedFieldSeason.stationNote,
+      atlas,
+    );
+    const selectedUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+    const selectedProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+    return {
+      view: selectedFieldStationView,
+      seasonPage: selectedFieldStationSeasonPage,
+      credits: save.fieldCredits,
+      recentSources: getRecentFieldCreditSources(biomeRegistry, save),
+      upgrades: getFieldUpgradeStates(save),
+      selectedUpgradeId,
+      walkSpeed: getWalkSpeed(save),
+      jumpSpeed: getJumpSpeed(save),
+      seasonNote: guidedFieldSeason.stationNote,
+      seasonWrap,
+      atlas,
+      routeBoard,
+      expedition,
+      selectedNurseryCardId,
+      nursery: resolveNurseryStateView(save, routeBoard, selectedProjectId),
+    };
+  }
+
+  function getRouteMarkerLocationId(): string | null {
+    if (!hasFieldUpgrade(save, 'route-marker')) {
+      return null;
+    }
+
+    const fieldStationState = getFieldStationState();
+    const targetBiomeId =
+      fieldStationState.routeBoard.targetBiomeId ??
+      (fieldStationState.expedition.status === 'ready' || fieldStationState.expedition.status === 'active'
+        ? 'forest'
+        : null);
+    if (!targetBiomeId) {
+      return null;
+    }
+
+    return getWorldMapLocationByBiomeId(ecoWorldMap, targetBiomeId).id;
+  }
+
+  function getWorldMapReplayLabel(focusedLocationId: string): string | null {
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    if (!routeBoard.replayNote || !routeBoard.targetBiomeId) {
+      return null;
+    }
+
+    const replayLocationId = getWorldMapLocationByBiomeId(ecoWorldMap, routeBoard.targetBiomeId).id;
+    return replayLocationId === focusedLocationId ? `Today: ${routeBoard.replayNote.title}` : null;
+  }
+
+  function openFieldStation(): void {
+    const claimedSources = syncFieldStationLedger(biomeRegistry, save);
+    const nurseryChanged = syncNurseryState(save);
+    if (claimedSources.length || nurseryChanged) {
+      persistSave(save);
+    }
+    selectedFieldStationView = 'season';
+    selectedFieldStationSeasonPage = 'routes';
+    selectedNurseryCardId = 'bench';
+    selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+    selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+    overlayMode = 'field-station';
+  }
+
+  function closeFieldStation(): void {
+    overlayMode = 'playing';
+    maybeShowNextHabitatNotice();
   }
 
   function getMenuActionIds(): MenuActionId[] {
     return showResetConfirmation
       ? ['cancel-reset', 'confirm-reset']
-      : ['toggle-fullscreen', 'toggle-inspect-hints', 'reset-save', 'close-menu'];
+      : [
+          ...(canUseWorldMapFromMenu() ? (['world-map'] as const) : []),
+          ...(canUseFieldStationFromMenu() ? (['field-station'] as const) : []),
+          ...(canUseFieldGuideFromMenu() ? (['field-guide'] as const) : []),
+          'toggle-fullscreen',
+          'toggle-sound',
+          'toggle-inspect-hints',
+          'reset-save',
+          'close-menu',
+        ];
   }
 
   function ensureMenuSelection(): void {
@@ -390,7 +579,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const currentIndex = available.indexOf(selectedMenuActionId);
     const safeIndex = currentIndex === -1 ? 0 : currentIndex;
     const nextIndex = (safeIndex + direction + available.length) % available.length;
-    selectedMenuActionId = available[nextIndex];
+    const nextActionId = available[nextIndex];
+    if (nextActionId !== selectedMenuActionId) {
+      audio.playUiCue('menu-move');
+    }
+    selectedMenuActionId = nextActionId;
   }
 
   function getTransitionSnapshot(): DoorTransitionSnapshot | null {
@@ -441,12 +634,183 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return candidate;
   }
 
-  function getCurrentMapLocation() {
-    return getWorldMapLocationByBiomeId(ecoWorldMap, currentBiomeDefinition.id);
+  function getClimbableById(climbableId: string | null): Climbable | null {
+    if (!climbableId) {
+      return null;
+    }
+
+    return currentBiome.climbables.find((climbable) => climbable.id === climbableId) ?? null;
   }
 
-  function getCurrentBiomeDoor(): DoorAnchor {
+  function getOverlappingClimbable(playerState = player): Climbable | null {
+    const centerX = playerState.x + PLAYER_WIDTH / 2;
+    const playerTop = playerState.y;
+    const playerBottom = playerState.y + PLAYER_HEIGHT;
+
+    for (const climbable of currentBiome.climbables) {
+      if (centerX < climbable.x - 3 || centerX > climbable.x + climbable.w + 3) {
+        continue;
+      }
+
+      if (playerBottom < climbable.y || playerTop > climbable.y + climbable.h) {
+        continue;
+      }
+
+      return climbable;
+    }
+
+    return null;
+  }
+
+  function alignPlayerToClimbable(climbable: Climbable): void {
+    player.x = clamp(
+      Math.round(climbable.x + climbable.w / 2 - PLAYER_WIDTH / 2),
+      0,
+      currentBiome.width - PLAYER_WIDTH,
+    );
+  }
+
+  function stopClimbing(): void {
+    player.climbing = false;
+    player.activeClimbableId = null;
+  }
+
+  function getActiveClimbHintClimbable(): Climbable | null {
+    if (player.climbing) {
+      return null;
+    }
+
+    return getOverlappingClimbable();
+  }
+
+  function getCurrentMapLocation() {
+    return getWorldMapLocationByBiomeId(ecoWorldMap, getContextBiomeId());
+  }
+
+  function serializeObservationPrompt(observationPrompt: ObservationPrompt | null) {
+    if (!observationPrompt) {
+      return null;
+    }
+
+    return {
+      family: observationPrompt.family,
+      text: observationPrompt.text,
+      source: observationPrompt.source,
+      evidenceKey: observationPrompt.evidenceKey,
+    };
+  }
+
+  function serializeFieldPartnerNotice(notice: FieldPartnerNotice | null) {
+    if (!notice) {
+      return null;
+    }
+
+    return {
+      cueId: notice.cueId,
+      text: notice.text,
+      family: notice.family,
+      source: notice.source,
+      trigger: notice.trigger,
+      evidenceKey: notice.evidenceKey,
+      stateKey: notice.stateKey,
+    };
+  }
+
+  function serializeActiveFieldRequest(fieldRequest: ActiveFieldRequest | null) {
+    if (!fieldRequest) {
+      return null;
+    }
+
+    return {
+      id: fieldRequest.id,
+      biomeId: fieldRequest.biomeId,
+      biomeName: fieldRequest.biomeName,
+      title: fieldRequest.title,
+      summary: fieldRequest.summary,
+      progressLabel: fieldRequest.progressLabel,
+    };
+  }
+
+  function getWorldMapBiomeDoor(): DoorAnchor {
+    if (transitionState) {
+      return transitionState.kind === 'biome-to-map'
+        ? transitionState.plan.fromBiomeDoor
+        : transitionState.plan.toBiomeDoor;
+    }
+
     return getCurrentMapLocation().biomeDoor;
+  }
+
+  function getCurrentBiomeDoors(): CorridorDoor[] {
+    if (activeCorridor) {
+      return [];
+    }
+
+    return getCurrentMapLocation().corridorDoors ?? [];
+  }
+
+  function getCurrentTravelInteractables(): TravelInteractable[] {
+    if (activeCorridor) {
+      return [];
+    }
+
+    const location = getCurrentMapLocation();
+    const interactables: TravelInteractable[] = (location.corridorDoors ?? []).map((door) => ({
+      kind: 'corridor',
+      anchor: door,
+      targetBiomeId: isCorridorConnectedBiomeId(door.targetBiomeId) ? door.targetBiomeId : null,
+    }));
+
+    if (location.mapReturnPost) {
+      interactables.push({
+        kind: 'map-return',
+        anchor: location.mapReturnPost,
+        targetBiomeId: null,
+      });
+    }
+
+    return interactables;
+  }
+
+  function isSameTravelInteractable(
+    left: TravelInteractable | null,
+    right: TravelInteractable,
+  ): boolean {
+    if (!left) {
+      return false;
+    }
+
+    if (left.kind !== right.kind) {
+      return false;
+    }
+
+    return (
+      left.anchor.x === right.anchor.x &&
+      left.anchor.y === right.anchor.y &&
+      left.targetBiomeId === right.targetBiomeId
+    );
+  }
+
+  function getSceneDoors(highlightedTarget: TravelInteractable | null = null): RenderDoorState[] {
+    if (activeCorridor) {
+      return [];
+    }
+
+    if (sceneMode === 'transition') {
+      return [
+        {
+          anchor: getWorldMapBiomeDoor(),
+          openAmount: getTransitionSnapshot()?.sourceDoorOpen ?? 0,
+          highlighted: false,
+        },
+      ];
+    }
+
+    return getCurrentTravelInteractables().map((target) => ({
+      anchor: target.anchor,
+      openAmount: 0,
+      highlighted: isSameTravelInteractable(highlightedTarget, target),
+    }));
   }
 
   function getDoorInteractPoint(door: DoorAnchor): { x: number; y: number } {
@@ -454,6 +818,50 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       x: door.x + 4,
       y: door.y + 8,
     };
+  }
+
+  function getNearestBiomeDoor(maxDistance = INSPECT_RANGE + 6): CorridorDoor | null {
+    let nearestDoor: CorridorDoor | null = null;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    for (const door of getCurrentBiomeDoors()) {
+      const point = getDoorInteractPoint(door);
+      const distance = distanceBetween(
+        player.x + PLAYER_WIDTH / 2,
+        player.y + PLAYER_HEIGHT / 2,
+        point.x,
+        point.y,
+      );
+
+      if (distance <= maxDistance && distance < nearestDistance) {
+        nearestDoor = door;
+        nearestDistance = distance;
+      }
+    }
+
+    return nearestDoor;
+  }
+
+  function getNearestTravelInteractable(maxDistance = INSPECT_RANGE + 6): TravelInteractable | null {
+    let nearestTarget: TravelInteractable | null = null;
+    let nearestDistance = Number.POSITIVE_INFINITY;
+
+    for (const target of getCurrentTravelInteractables()) {
+      const point = getDoorInteractPoint(target.anchor);
+      const distance = distanceBetween(
+        player.x + PLAYER_WIDTH / 2,
+        player.y + PLAYER_HEIGHT / 2,
+        point.x,
+        point.y,
+      );
+
+      if (distance <= maxDistance && distance < nearestDistance) {
+        nearestTarget = target;
+        nearestDistance = distance;
+      }
+    }
+
+    return nearestTarget;
   }
 
   function setPlayerFromFootPosition(footX: number, footY: number, facing: Facing): void {
@@ -464,17 +872,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       vy: 0,
       onGround: true,
       facing,
+      climbing: false,
+      activeClimbableId: null,
     };
 
     const baseGround = getGroundYAt(player.x + PLAYER_WIDTH / 2);
     player.y = Math.min(player.y, baseGround - PLAYER_HEIGHT);
-    cameraX = clamp(player.x - WIDTH * 0.35, 0, currentBiome.width - WIDTH);
+    syncBiomeCamera();
+  }
+
+  function syncBiomeCamera(targetX = player.x, targetY = player.y): void {
+    cameraX = clamp(
+      targetX - WIDTH * CAMERA_X_FOCUS_RATIO,
+      0,
+      Math.max(0, currentBiome.width - WIDTH),
+    );
+    const focusY = targetY + PLAYER_HEIGHT - (HEIGHT - CAMERA_FOOT_PADDING);
+    cameraY = clamp(Math.round(focusY), 0, Math.max(0, currentBiome.height - HEIGHT));
   }
 
   function setSelectedJournalEntry(defaultToFirst = false): void {
     const discovered = getDiscoveredEntriesList(selectedJournalBiomeId);
     if (!discovered.length) {
-      selectedJournalEntryId = null;
+      setSelectedJournalEntryId(null);
       return;
     }
 
@@ -483,12 +903,16 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     if (defaultToFirst) {
-      selectedJournalEntryId = discovered[0].id;
+      setSelectedJournalEntryId(discovered[0].id);
     }
   }
 
   function getJournalBiomeProgressList(): JournalBiomeProgress[] {
-    return buildJournalBiomeProgress(biomeRegistry, getDiscoveredEntryIds(save));
+    return buildJournalBiomeProgress(biomeRegistry, save.discoveredEntries);
+  }
+
+  function getBiomeSurveyProgressList() {
+    return buildBiomeSurveyProgress(getJournalBiomeProgressList());
   }
 
   function getDiscoveredEntriesList(biomeId = selectedJournalBiomeId): InspectableEntry[] {
@@ -497,7 +921,404 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return [];
     }
 
-    return getDiscoveredEntriesForBiome(biome, allEntries(), getDiscoveredEntryIds(save));
+    return getDiscoveredEntriesForBiome(biome, allEntries(), save.discoveredEntries);
+  }
+
+  function getJournalEntrySightingBiomeIds(entryId: string | null): string[] {
+    return getJournalEntrySightings(save.discoveredEntries, entryId, Object.keys(biomeRegistry));
+  }
+
+  function getJournalComparison(entryId: string | null = selectedJournalEntryId) {
+    return resolveJournalComparison(
+      biomeRegistry,
+      save.discoveredEntries,
+      entryId,
+      getJournalEntrySightingBiomeIds(entryId),
+    );
+  }
+
+  function getSelectedJournalSurveyState() {
+    return getBiomeSurveyProgress(getJournalBiomeProgressList(), selectedJournalBiomeId)?.state ?? 'none';
+  }
+
+  function isSelectedJournalSketchbookUnlocked(): boolean {
+    return isSketchbookUnlocked(getSelectedJournalSurveyState());
+  }
+
+  function getJournalSketchbookPage() {
+    const selectedBiome = biomeRegistry[selectedJournalBiomeId as keyof typeof biomeRegistry];
+    if (!selectedBiome || !isSelectedJournalSketchbookUnlocked()) {
+      return null;
+    }
+
+    return buildSketchbookPageView(selectedBiome, allEntries(), save);
+  }
+
+  function toggleJournalSketchbook(): boolean {
+    if (!isSelectedJournalSketchbookUnlocked()) {
+      journalSketchbookOpen = false;
+      return false;
+    }
+
+    journalSketchbookOpen = !journalSketchbookOpen;
+    journalComparisonOpen = false;
+    selectedSketchbookSlotId = journalSketchbookOpen
+      ? getSelectedSketchbookSlotId(selectedSketchbookSlotId)
+      : null;
+    return true;
+  }
+
+  function changeSelectedSketchbookSlot(direction: number): void {
+    if (!journalSketchbookOpen) {
+      return;
+    }
+
+    selectedSketchbookSlotId = changeSketchbookSlot(selectedSketchbookSlotId, direction);
+  }
+
+  function placeSelectedJournalEntryInSketchbook(): boolean {
+    if (!journalSketchbookOpen || !selectedJournalEntryId || !isSelectedJournalSketchbookUnlocked()) {
+      return false;
+    }
+
+    const selectedBiome = biomeRegistry[selectedJournalBiomeId as keyof typeof biomeRegistry];
+    if (!selectedBiome) {
+      return false;
+    }
+
+    const slotId = getSelectedSketchbookSlotId(selectedSketchbookSlotId);
+    if (!placeSketchbookEntry(save, selectedBiome, slotId, selectedJournalEntryId)) {
+      return false;
+    }
+
+    selectedSketchbookSlotId = slotId;
+    persistSave(save);
+    return true;
+  }
+
+  function clearSelectedJournalSketchbookSlot(): boolean {
+    if (!journalSketchbookOpen || !isSelectedJournalSketchbookUnlocked()) {
+      return false;
+    }
+
+    const slotId = getSelectedSketchbookSlotId(selectedSketchbookSlotId);
+    if (!clearSketchbookSlot(save, selectedJournalBiomeId, slotId)) {
+      return false;
+    }
+
+    selectedSketchbookSlotId = slotId;
+    persistSave(save);
+    return true;
+  }
+
+  function getCurrentZoneId(): string | null {
+    if (activeCorridor) {
+      return getCorridorZoneForOwner(activeCorridor, getContextBiomeId()).id;
+    }
+
+    return getBiomeZoneForPlayerX(currentBiomeDefinition, player.x)?.id ?? null;
+  }
+
+  function getCurrentZoneLabel(): string | null {
+    if (activeCorridor) {
+      return getCorridorZoneForOwner(activeCorridor, getContextBiomeId()).label;
+    }
+
+    return getBiomeZoneForPlayerX(getContextBiomeDefinition(), player.x)?.label ?? null;
+  }
+
+  function getFieldRequestContext() {
+    return {
+      biomes: biomeRegistry,
+      save,
+      currentBiomeId: sceneMode === 'biome' ? getContextBiomeId() : save.lastBiomeId,
+      currentZoneId: sceneMode === 'biome' ? getCurrentZoneId() : null,
+      currentPlayerX: sceneMode === 'biome' ? player.x : null,
+      currentPlayerY: sceneMode === 'biome' ? player.y : null,
+    };
+  }
+
+  function getActiveFieldRequest(): ActiveFieldRequest | null {
+    return resolveActiveFieldRequest(getFieldRequestContext());
+  }
+
+  function showFieldNotice(title: string, text: string, seconds = 2.8): void {
+    startFieldPartnerQuiet();
+    fieldRequestNotice = {
+      title,
+      text,
+    };
+    fieldRequestNoticeTimer = seconds;
+  }
+
+  function showFieldRequestNotice(requestId: string): void {
+    const definition = FIELD_REQUEST_DEFINITIONS.find((candidate) => candidate.id === requestId);
+    if (!definition) {
+      return;
+    }
+
+    showFieldNotice('TASK RECORDED', definition.title);
+  }
+
+  function maybeShowStarterFieldSeasonNotice(): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (guidedStarterNoticeShown || guidedFieldSeason.stage !== 'starter' || !guidedFieldSeason.promptNotice) {
+      return;
+    }
+
+    guidedStarterNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+  }
+
+  function maybeShowStationReturnNotice(): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (guidedStationNoticeShown || guidedFieldSeason.stage !== 'station-return' || !guidedFieldSeason.promptNotice) {
+      return;
+    }
+
+    guidedStationNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.2);
+  }
+
+  function maybeShowNextHabitatNotice(): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (guidedNextStopNoticeShown || guidedFieldSeason.stage !== 'next-habitat' || !guidedFieldSeason.promptNotice) {
+      return;
+    }
+
+    guidedNextStopNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+  }
+
+  function maybeShowRouteReplayNoticeOnBiomeEnter(biomeId: string): void {
+    if (overlayMode !== 'playing' || fieldRequestNotice) {
+      return;
+    }
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    if (routeBoard.complete || routeBoard.targetBiomeId !== biomeId || !routeBoard.replayNote) {
+      return;
+    }
+
+    showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, 3.2);
+  }
+
+  function maybeCompleteActiveFieldRequest(trigger: 'zone' | 'inspect' | 'enter-biome'): void {
+    const completedRequestId = shouldCompleteActiveFieldRequest(getFieldRequestContext(), trigger);
+    if (!completedRequestId) {
+      return;
+    }
+
+    if (recordCompletedFieldRequest(save, completedRequestId)) {
+      persistSave(save);
+      showFieldRequestNotice(completedRequestId);
+    }
+  }
+
+  function getNearbyDiscoveredEntryIdsForPrompt(radius = 56): string[] {
+    const discoveredEntryIds = new Set(getDiscoveredEntryIds(save));
+    const playerCenterX = player.x + PLAYER_WIDTH / 2;
+    const playerCenterY = player.y + PLAYER_HEIGHT / 2;
+
+    return currentBiome.entities
+      .filter((entity) => !entity.removed && discoveredEntryIds.has(entity.entryId))
+      .filter((entity) => {
+        const entityCenterX = entity.x + entity.w / 2;
+        const entityCenterY = entity.y + entity.h / 2;
+        return Math.hypot(entityCenterX - playerCenterX, entityCenterY - playerCenterY) <= radius;
+      })
+      .map((entity) => entity.entryId);
+  }
+
+  function getObservationPromptForCurrentBiome(
+    selectedEntryId: string | null = null,
+    ecosystemNote: ReturnType<typeof resolveEcosystemNoteForEntry> | null = null,
+    comparisonAvailable = false,
+  ): ObservationPrompt | null {
+    if (sceneMode !== 'biome') {
+      return null;
+    }
+
+    const zoneId = getCurrentZoneId();
+    if (!zoneId) {
+      return null;
+    }
+
+    return resolveObservationPrompt({
+      biome: getContextBiomeDefinition(),
+      zoneId,
+      nearbyDiscoveredEntryIds: getNearbyDiscoveredEntryIdsForPrompt(),
+      selectedEntryId,
+      worldState: getWorldState(getContextBiomeId()),
+      ecosystemNote,
+      comparisonAvailable,
+    });
+  }
+
+  function getFieldGuideObservationPrompt(): ObservationPrompt | null {
+    const contextBiomeId = getContextBiomeId();
+    const contextBiomeDefinition = getContextBiomeDefinition();
+    const selectedEntryId =
+      selectedJournalBiomeId === contextBiomeId ? selectedJournalEntryId : null;
+    const localDiscoveredEntryIds = getDiscoveredEntriesList(contextBiomeId).map((entry) => entry.id);
+    const ecosystemNote =
+      selectedEntryId
+        ? resolveEcosystemNoteForEntry(contextBiomeDefinition, selectedEntryId, localDiscoveredEntryIds)
+        : null;
+
+    return getObservationPromptForCurrentBiome(
+      selectedEntryId,
+      ecosystemNote,
+      Boolean(selectedEntryId && getJournalComparison(selectedEntryId)),
+    );
+  }
+
+  function getJournalObservationPrompt(
+    biomeId: string,
+    selectedEntryId: string | null,
+    ecosystemNote: ReturnType<typeof resolveEcosystemNoteForEntry>,
+    comparisonAvailable: boolean,
+  ): ObservationPrompt | null {
+    if (sceneMode !== 'biome' || biomeId !== getContextBiomeId() || ecosystemNote.state === 'locked') {
+      return null;
+    }
+
+    return getObservationPromptForCurrentBiome(selectedEntryId, ecosystemNote, comparisonAvailable);
+  }
+
+  function getFieldPartnerObservationPrompt(selectedEntryId: string | null = null): ObservationPrompt | null {
+    if (sceneMode !== 'biome') {
+      return null;
+    }
+
+    const contextBiomeId = getContextBiomeId();
+    const contextBiomeDefinition = getContextBiomeDefinition();
+    const localDiscoveredEntryIds = getDiscoveredEntriesList(contextBiomeId).map((entry) => entry.id);
+    const ecosystemNote =
+      selectedEntryId
+        ? resolveEcosystemNoteForEntry(contextBiomeDefinition, selectedEntryId, localDiscoveredEntryIds)
+        : null;
+
+    return getObservationPromptForCurrentBiome(
+      selectedEntryId,
+      ecosystemNote,
+      Boolean(selectedEntryId && getJournalComparison(selectedEntryId)),
+    );
+  }
+
+  function dismissFieldPartnerNotice(): void {
+    fieldPartnerNotice = null;
+    fieldPartnerNoticeTimer = 0;
+  }
+
+  function startFieldPartnerQuiet(seconds = FIELD_PARTNER_POST_OVERLAY_QUIET_SECONDS): void {
+    fieldPartnerQuietTimer = Math.max(fieldPartnerQuietTimer, seconds);
+    dismissFieldPartnerNotice();
+  }
+
+  function getFieldPartnerTriggerPriority(reason: FieldPartnerTrigger): number {
+    switch (reason) {
+      case 'discovery':
+        return 3;
+      case 'state-change':
+        return 2;
+      case 'biome-enter':
+      default:
+        return 1;
+    }
+  }
+
+  function queueFieldPartnerTrigger(reason: FieldPartnerTrigger, entryId: string | null = null): void {
+    if (
+      fieldPartnerPendingTrigger &&
+      getFieldPartnerTriggerPriority(fieldPartnerPendingTrigger.reason) > getFieldPartnerTriggerPriority(reason)
+    ) {
+      return;
+    }
+
+    fieldPartnerPendingTrigger = {
+      reason,
+      entryId,
+    };
+  }
+
+  function getFieldPartnerContextKey(): string {
+    const worldState = getWorldState();
+    return [
+      getContextBiomeId(),
+      getCurrentZoneId() ?? 'no-zone',
+      worldState.dayPart,
+      worldState.weather,
+    ].join('|');
+  }
+
+  function canShowFieldPartnerNotice(): boolean {
+    return (
+      overlayMode === 'playing' &&
+      sceneMode === 'biome' &&
+      !transitionState &&
+      !bubble &&
+      !fieldGuideNotice &&
+      fieldPartnerQuietTimer <= 0 &&
+      player.onGround &&
+      Math.abs(player.vx) < 1 &&
+      Math.abs(player.vy) < 1
+    );
+  }
+
+  function tryShowFieldPartnerNotice(): void {
+    if (!fieldPartnerPendingTrigger || !canShowFieldPartnerNotice()) {
+      return;
+    }
+
+    const observationPrompt = getFieldPartnerObservationPrompt(fieldPartnerPendingTrigger.entryId);
+    const nextNotice = buildFieldPartnerNotice({
+      biomeId: getContextBiomeId(),
+      zoneId: getCurrentZoneId(),
+      worldState: getWorldState(getContextBiomeId()),
+      observationPrompt,
+      trigger: fieldPartnerPendingTrigger.reason,
+    });
+    if (!nextNotice) {
+      fieldPartnerPendingTrigger = null;
+      return;
+    }
+
+    if (
+      !shouldDeliverFieldPartnerNotice({
+        trigger: fieldPartnerPendingTrigger.reason,
+        deliveredThisVisit: fieldPartnerNoticesThisVisit,
+        lastStateKey: fieldPartnerLastStateKey,
+        candidateStateKey: nextNotice.stateKey,
+        globalCooldownRemainingSeconds: fieldPartnerGlobalCooldownTimer,
+      })
+    ) {
+      fieldPartnerPendingTrigger = null;
+      return;
+    }
+
+    fieldPartnerNotice = nextNotice;
+    fieldPartnerNoticeTimer = FIELD_PARTNER_NOTICE_SECONDS;
+    fieldPartnerGlobalCooldownTimer = FIELD_PARTNER_GLOBAL_COOLDOWN_SECONDS;
+    fieldPartnerNoticesThisVisit += 1;
+    fieldPartnerLastStateKey = nextNotice.stateKey;
+    fieldPartnerPendingTrigger = null;
+  }
+
+  function setSelectedJournalEntryId(entryId: string | null): void {
+    if (selectedJournalEntryId !== entryId) {
+      journalComparisonOpen = false;
+    }
+
+    selectedJournalEntryId = entryId;
+  }
+
+  function getDefaultJournalBiomeId(): string {
+    if (sceneMode === 'world-map') {
+      return getWorldMapLocation(ecoWorldMap, worldMapState.focusedLocationId).biomeId;
+    }
+
+    return getContextBiomeId();
   }
 
   function setSelectedJournalBiome(biomeId: string, defaultToFirst = false): void {
@@ -505,6 +1326,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return;
     }
 
+    if (selectedJournalBiomeId !== biomeId) {
+      journalComparisonOpen = false;
+      journalSketchbookOpen = false;
+      selectedSketchbookSlotId = null;
+    }
     selectedJournalBiomeId = biomeId;
     setSelectedJournalEntry(defaultToFirst);
   }
@@ -517,35 +1343,153 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     setSelectedJournalBiome(biomes[nextIndex].biomeId, true);
   }
 
-  function enterBiome(biomeId: string): void {
-    const definition = biomeRegistry[biomeId as keyof typeof biomeRegistry];
-    if (!definition) {
-      throw new Error(`Unknown biome "${biomeId}".`);
-    }
-
-    currentBiomeDefinition = definition;
-    const visitCount = incrementBiomeVisit(save, biomeId);
-    currentBiome = generateBiomeInstance(definition, save, visitCount);
+  function applyScenePlayerState(
+    footX: number,
+    footY: number,
+    facing: Facing,
+  ): void {
     player = {
-      x: definition.startPosition.x,
-      y: definition.startPosition.y,
+      x: Math.round(footX - PLAYER_WIDTH / 2),
+      y: Math.round(footY - PLAYER_HEIGHT),
       vx: 0,
       vy: 0,
       onGround: false,
-      facing: 'right',
+      facing,
+      climbing: false,
+      activeClimbableId: null,
     };
 
     const baseGround = getGroundYAt(player.x + PLAYER_WIDTH / 2);
     player.y = Math.min(player.y, baseGround - PLAYER_HEIGHT);
-    cameraX = clamp(player.x - WIDTH * 0.35, 0, currentBiome.width - WIDTH);
-    bubble = null;
-    bubbleTimer = 0;
+    syncBiomeCamera();
+  }
+
+  function syncSceneBookkeeping(biomeId: string): void {
+    clearInspectSurface();
+    resetNurseryClaimedEntities();
+    fieldPartnerGlobalCooldownTimer = 0;
+    fieldPartnerPendingTrigger = null;
+    fieldPartnerNoticesThisVisit = 0;
+    fieldPartnerLastStateKey = null;
+    fieldPartnerContextKey = getFieldPartnerContextKey();
+    queueFieldPartnerTrigger('biome-enter');
+    startFieldPartnerQuiet(FIELD_PARTNER_BIOME_ENTER_QUIET_SECONDS);
     worldMapState = createWorldMapState(
       ecoWorldMap,
       getWorldMapLocationByBiomeId(ecoWorldMap, biomeId).id,
     );
     mapOriginBiomeId = biomeId;
+  }
+
+  function loadBiomeScene(
+    biomeId: string,
+    options?: { countVisit?: boolean; playerFoot?: { x: number; y: number; facing: Facing } },
+  ): void {
+    const definition = biomeRegistry[biomeId as keyof typeof biomeRegistry];
+    if (!definition) {
+      throw new Error(`Unknown biome "${biomeId}".`);
+    }
+
+    activeCorridor = null;
+    currentBiomeDefinition = definition;
+    const visitCount = options?.countVisit === false
+      ? (save.biomeVisits[biomeId] ?? 1)
+      : incrementBiomeVisit(save, biomeId);
+    currentBiome = generateBiomeInstance(definition, save, visitCount);
+    const playerFoot = options?.playerFoot ?? {
+      x: definition.startPosition.x + PLAYER_WIDTH / 2,
+      y: definition.startPosition.y + PLAYER_HEIGHT,
+      facing: 'right' as Facing,
+    };
+    applyScenePlayerState(playerFoot.x, playerFoot.y, playerFoot.facing);
+    syncSceneBookkeeping(biomeId);
     persistSave(save);
+    maybeCompleteActiveFieldRequest('enter-biome');
+    maybeShowRouteReplayNoticeOnBiomeEnter(biomeId);
+  }
+
+  function enterBiome(biomeId: string): void {
+    loadBiomeScene(biomeId);
+  }
+
+  function getCorridorDoorForTarget(
+    biomeId: string,
+    targetBiomeId: string,
+  ): CorridorDoor | null {
+    const location = getWorldMapLocationByBiomeId(ecoWorldMap, biomeId);
+    return (
+      location.corridorDoors?.find((door) => door.targetBiomeId === targetBiomeId) ?? null
+    );
+  }
+
+  function getDoorInteriorFoot(door: DoorAnchor): { x: number; y: number; facing: Facing } {
+    return {
+      x: door.facing === 'right' ? door.x - 5 : door.x + 13,
+      y: door.y + 10,
+      facing: door.facing === 'right' ? 'left' : 'right',
+    };
+  }
+
+  function getCorridorArrivalFoot(
+    biomeId: CorridorBiomeId,
+    fromBiomeId: CorridorBiomeId,
+  ): { x: number; y: number; facing: Facing } {
+    const corridorDoor = getCorridorDoorForTarget(biomeId, fromBiomeId);
+    if (corridorDoor) {
+      return getDoorInteriorFoot(corridorDoor);
+    }
+
+    const definition = biomeRegistry[biomeId as keyof typeof biomeRegistry];
+    return {
+      x: definition.startPosition.x + PLAYER_WIDTH / 2,
+      y: definition.startPosition.y + PLAYER_HEIGHT,
+      facing: 'right',
+    };
+  }
+
+  function enterCorridor(fromBiomeId: CorridorBiomeId, toBiomeId: CorridorBiomeId): void {
+    activeCorridor = createCorridorScene(save, fromBiomeId, toBiomeId);
+    currentBiomeDefinition = activeCorridor.definition;
+    currentBiome = activeCorridor.instance;
+    resetNurseryClaimedEntities();
+    const entryPoint = getCorridorEntryPoint(activeCorridor, fromBiomeId);
+    applyScenePlayerState(entryPoint.x, entryPoint.y, entryPoint.facing);
+    clearInspectSurface();
+    dismissFieldPartnerNotice();
+    fieldPartnerQuietTimer = 0;
+    fieldPartnerGlobalCooldownTimer = 0;
+    fieldPartnerPendingTrigger = null;
+    fieldPartnerNoticesThisVisit = 0;
+    fieldPartnerLastStateKey = null;
+    fieldPartnerContextKey = getFieldPartnerContextKey();
+    worldMapState = createWorldMapState(
+      ecoWorldMap,
+      getWorldMapLocationByBiomeId(ecoWorldMap, fromBiomeId).id,
+    );
+    mapOriginBiomeId = fromBiomeId;
+    startFieldPartnerQuiet(FIELD_PARTNER_BIOME_ENTER_QUIET_SECONDS);
+  }
+
+  function openWorldMapDirect(): void {
+    const biomeId = getContextBiomeId();
+    activeCorridor = null;
+    resetNurseryClaimedEntities();
+    currentBiomeDefinition = biomeRegistry[biomeId as keyof typeof biomeRegistry];
+    currentBiome = generateBiomeInstance(
+      currentBiomeDefinition,
+      save,
+      save.biomeVisits[biomeId] ?? 1,
+    );
+    worldMapState = createWorldMapState(
+      ecoWorldMap,
+      getWorldMapLocationByBiomeId(ecoWorldMap, biomeId).id,
+    );
+    mapOriginBiomeId = biomeId;
+    sceneMode = 'world-map';
+    overlayMode = 'playing';
+    clearInspectSurface();
+    startFieldPartnerQuiet();
+    maybeShowStationReturnNotice();
   }
 
   function isInInspectRange(entity: BiomeEntity): boolean {
@@ -560,26 +1504,94 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function isNearBiomeDoor(): boolean {
-    const point = getDoorInteractPoint(getCurrentBiomeDoor());
-    return (
-      distanceBetween(
-        player.x + PLAYER_WIDTH / 2,
-        player.y + PLAYER_HEIGHT / 2,
-        point.x,
-        point.y,
-      ) <= INSPECT_RANGE + 6
-    );
+    return getNearestBiomeDoor() !== null;
   }
 
-  function getDoorAtPoint(worldX: number, worldY: number): DoorAnchor | null {
-    const door = getCurrentBiomeDoor();
-    const contains =
-      worldX >= door.x &&
-      worldX <= door.x + 8 &&
-      worldY >= door.y &&
-      worldY <= door.y + 12;
+  function isNearTravelInteractable(): boolean {
+    return getNearestTravelInteractable() !== null;
+  }
 
-    return contains && isNearBiomeDoor() ? door : null;
+  function getTravelTargetAtPoint(worldX: number, worldY: number): TravelInteractable | null {
+    if (activeCorridor) {
+      return null;
+    }
+
+    for (const target of getCurrentTravelInteractables()) {
+      const { anchor } = target;
+      const contains =
+        worldX >= anchor.x &&
+        worldX <= anchor.x + 8 &&
+        worldY >= anchor.y &&
+        worldY <= anchor.y + 12;
+
+      if (contains) {
+        const nearestTarget = getNearestTravelInteractable();
+        return nearestTarget && isSameTravelInteractable(nearestTarget, target) ? target : null;
+      }
+    }
+
+    return null;
+  }
+
+  function activateTravelTarget(
+    target: TravelInteractable | null = getNearestTravelInteractable(),
+  ): void {
+    if (!target) {
+      return;
+    }
+
+    if (
+      target.kind === 'corridor' &&
+      target.targetBiomeId &&
+      isCorridorConnectedBiomeId(currentBiomeDefinition.id) &&
+      isCorridorConnectedBiomeId(target.targetBiomeId)
+    ) {
+      enterCorridor(currentBiomeDefinition.id, target.targetBiomeId);
+      return;
+    }
+
+    if (target.kind === 'map-return') {
+      startWorldMapExitTransition(target.anchor);
+    }
+  }
+
+  function updateCorridorOwnership(): void {
+    if (!activeCorridor) {
+      return;
+    }
+
+    const nextOwnerBiomeId = resolveCorridorOwnerBiomeId(
+      activeCorridor,
+      player.x + PLAYER_WIDTH / 2,
+    );
+    if (nextOwnerBiomeId === activeCorridor.ownerBiomeId) {
+      return;
+    }
+
+    activeCorridor.ownerBiomeId = nextOwnerBiomeId;
+  }
+
+  function maybeExitCorridor(): void {
+    if (!activeCorridor) {
+      return;
+    }
+
+    const exitBiomeId = getCorridorExitBiomeId(activeCorridor, player.x + PLAYER_WIDTH / 2);
+    if (!exitBiomeId) {
+      return;
+    }
+
+    const arrivalFoot = getCorridorArrivalFoot(
+      exitBiomeId,
+      exitBiomeId === activeCorridor.leftBiomeId
+        ? activeCorridor.rightBiomeId
+        : activeCorridor.leftBiomeId,
+    );
+    const shouldCountVisit = exitBiomeId !== activeCorridor.entryBiomeId;
+    loadBiomeScene(exitBiomeId, {
+      countVisit: shouldCountVisit,
+      playerFoot: arrivalFoot,
+    });
   }
 
   function inspectEntity(entityId: string): FactBubblePayload | null {
@@ -590,10 +1602,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     const entry = currentBiomeDefinition.entries[entity.entryId];
     const detail = getInspectableDetail(entry);
-    const isNewEntry = recordDiscovery(save, entry, currentBiomeDefinition.id);
+    const isNewEntry = recordDiscovery(save, entry, getContextBiomeId());
+    const nurseryGathering = tryClaimNurseryGathering(save, entry, entity.entityId, claimedNurseryEntityIds);
     entity.removed = entity.collectible;
     persistSave(save);
     setSelectedJournalEntry(true);
+    maybeCompleteActiveFieldRequest('inspect');
 
     const payload: FactBubblePayload = {
       entryId: entry.id,
@@ -605,12 +1619,21 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       category: entry.category,
       collectible: entry.collectible,
       isNewEntry,
+      closeLookAvailable: Boolean(buildCloseLookPayload(entry)),
+      resourceNote: nurseryGathering?.note,
       x: entity.x + entity.w / 2,
       y: entity.y,
     };
 
     bubble = payload;
     bubbleTimer = 6;
+    audio.playUiCue('inspect-reveal');
+    if (isNewEntry) {
+      queueFieldPartnerTrigger('discovery', entry.id);
+    }
+    if (nurseryGathering) {
+      showFieldNotice('NURSERY SUPPLY', nurseryGathering.note, 1.9);
+    }
     return payload;
   }
 
@@ -668,7 +1691,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     const currentIndex = discovered.findIndex((entry) => entry.id === selectedJournalEntryId);
     const nextIndex = currentIndex === -1 ? 0 : clamp(currentIndex + direction, 0, discovered.length - 1);
-    selectedJournalEntryId = discovered[nextIndex].id;
+    setSelectedJournalEntryId(discovered[nextIndex].id);
   }
 
   function toggleFullscreen(): void {
@@ -683,60 +1706,167 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function startPlaying(): void {
+    const startedFromTitle = overlayMode === 'title';
+    if (overlayMode === 'title') {
+      audio.playUiCue('confirm');
+    } else if (overlayMode === 'journal') {
+      audio.playUiCue('journal-toggle');
+    }
+    journalComparisonOpen = false;
+    journalSketchbookOpen = false;
+    selectedSketchbookSlotId = null;
     overlayMode = 'playing';
+    startFieldPartnerQuiet();
+    if (startedFromTitle) {
+      maybeShowStarterFieldSeasonNotice();
+    }
+  }
+
+  function toggleJournalComparison(): boolean {
+    if (!getJournalComparison()) {
+      journalComparisonOpen = false;
+      return false;
+    }
+
+    journalComparisonOpen = !journalComparisonOpen;
+    return true;
+  }
+
+  function showFieldGuideNotice(state: FieldGuideNoticeState): void {
+    startFieldPartnerQuiet();
+    fieldGuideNotice = state;
+    fieldGuideNoticeTimer = state === 'copied' ? 2.4 : 3.4;
   }
 
   function resetAdventure(): void {
     resetSaveProgress(save);
     sceneMode = 'biome';
     transitionState = null;
-    bubble = null;
-    bubbleTimer = 0;
+    clearInspectSurface();
+    fieldGuideNotice = null;
+    fieldGuideNoticeTimer = 0;
+    fieldRequestNotice = null;
+    fieldRequestNoticeTimer = 0;
+    dismissFieldPartnerNotice();
+    fieldPartnerQuietTimer = 0;
+    fieldPartnerGlobalCooldownTimer = 0;
+    fieldPartnerPendingTrigger = null;
+    fieldPartnerNoticesThisVisit = 0;
+    fieldPartnerLastStateKey = null;
+    fieldPartnerContextKey = '';
     selectedJournalBiomeId = 'beach';
-    selectedJournalEntryId = null;
+    setSelectedJournalEntryId(null);
+    journalSketchbookOpen = false;
+    selectedSketchbookSlotId = null;
     menuReturnMode = 'title';
     selectedMenuActionId = 'toggle-fullscreen';
+    selectedFieldStationUpgradeId = null;
+    selectedFieldStationView = 'season';
+    selectedNurseryCardId = 'bench';
+    selectedNurseryProjectId = null;
+    resetNurseryClaimedEntities();
     showResetConfirmation = false;
+    guidedStarterNoticeShown = false;
+    guidedStationNoticeShown = false;
+    guidedNextStopNoticeShown = false;
     enterBiome('beach');
     setSelectedJournalEntry(true);
     overlayMode = 'title';
     persistSave(save);
   }
 
+  async function activateFieldGuideFromMenu(): Promise<void> {
+    if (!canUseFieldGuideFromMenu()) {
+      return;
+    }
+
+    try {
+      const observationPrompt = getFieldGuideObservationPrompt();
+      const context = buildFieldGuideContext(
+        getContextBiomeDefinition(),
+        currentBiome,
+        save,
+        player.x,
+        player.y,
+        undefined,
+        getWorldState(),
+        observationPrompt,
+      );
+      const prompt = buildFieldGuidePrompt(context);
+
+      closeMenu();
+      const copied = await copyTextToClipboard(prompt);
+      showFieldGuideNotice(copied ? 'copied' : 'failed');
+    } catch {
+      closeMenu();
+      showFieldGuideNotice('failed');
+    }
+  }
+
   function activateMenuAction(actionId: MenuActionId): void {
     switch (actionId) {
+      case 'world-map':
+        audio.playUiCue('confirm');
+        closeMenu();
+        openWorldMapDirect();
+        break;
+      case 'field-station':
+        audio.playUiCue('confirm');
+        closeMenu();
+        openFieldStation();
+        break;
+      case 'field-guide':
+        audio.playUiCue('confirm');
+        void activateFieldGuideFromMenu();
+        break;
       case 'toggle-fullscreen':
+        audio.playUiCue('confirm');
         toggleFullscreen();
         break;
+      case 'toggle-sound':
+        save.settings.soundEnabled = !save.settings.soundEnabled;
+        persistSave(save);
+        audio.setSoundEnabled(save.settings.soundEnabled);
+        break;
       case 'toggle-inspect-hints':
+        audio.playUiCue('confirm');
         save.settings.showInspectHints = !save.settings.showInspectHints;
         persistSave(save);
         break;
       case 'reset-save':
+        audio.playUiCue('confirm');
         showResetConfirmation = true;
         selectedMenuActionId = 'cancel-reset';
         break;
       case 'cancel-reset':
+        audio.playUiCue('confirm');
         showResetConfirmation = false;
         selectedMenuActionId = 'reset-save';
         break;
       case 'confirm-reset':
+        audio.playUiCue('confirm');
         resetAdventure();
         break;
       case 'close-menu':
+        audio.playUiCue('confirm');
+        closeMenu();
+        break;
       default:
         closeMenu();
         break;
     }
   }
 
-  function startWorldMapExitTransition(): void {
-    const biomeId = currentBiomeDefinition.id;
+  function startWorldMapExitTransition(sourceAnchor: DoorAnchor | null = null): void {
+    const biomeId = getContextBiomeId();
     const location = getWorldMapLocationByBiomeId(ecoWorldMap, biomeId);
     worldMapState = createWorldMapState(ecoWorldMap, location.id);
     mapOriginBiomeId = biomeId;
+    mapReturnAnchor = sourceAnchor;
 
-    const plan = createDoorTransitionPlan(ecoWorldMap, biomeId, biomeId);
+    const plan = createDoorTransitionPlan(ecoWorldMap, biomeId, biomeId, {
+      fromBiomeDoor: sourceAnchor ?? undefined,
+    });
     transitionState = {
       kind: 'biome-to-map',
       plan,
@@ -745,12 +1875,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       endElapsed: getPhaseTime(plan, 'map-emerge', 'end'),
     };
     sceneMode = 'transition';
-    bubble = null;
-    bubbleTimer = 0;
+    clearInspectSurface();
+    startFieldPartnerQuiet();
   }
 
   function startBiomeEntryTransition(targetBiomeId: string): void {
-    const plan = createDoorTransitionPlan(ecoWorldMap, mapOriginBiomeId, targetBiomeId);
+    const destinationDoor =
+      targetBiomeId === mapOriginBiomeId ? mapReturnAnchor ?? undefined : undefined;
+    const plan = createDoorTransitionPlan(ecoWorldMap, mapOriginBiomeId, targetBiomeId, {
+      toBiomeDoor: destinationDoor,
+    });
+    mapReturnAnchor = null;
     const mapEnterStart = getPhaseTime(plan, 'map-enter', 'start');
 
     enterBiome(targetBiomeId);
@@ -762,8 +1897,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       endElapsed: plan.totalDuration,
     };
     sceneMode = 'transition';
-    bubble = null;
-    bubbleTimer = 0;
+    clearInspectSurface();
+    startFieldPartnerQuiet();
   }
 
   function updateTitleState(): void {
@@ -802,12 +1937,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return;
     }
 
+    if (
+      input.consumePressed('x') ||
+      input.consumePressed('X')
+    ) {
+      if (toggleJournalSketchbook()) {
+        return;
+      }
+    }
+
     if (input.consumePressed('ArrowLeft') || input.consumePressed('a') || input.consumePressed('A')) {
-      changeJournalBiome(-1);
+      if (journalSketchbookOpen) {
+        changeSelectedSketchbookSlot(-1);
+      } else {
+        changeJournalBiome(-1);
+      }
     }
 
     if (input.consumePressed('ArrowRight') || input.consumePressed('d') || input.consumePressed('D')) {
-      changeJournalBiome(1);
+      if (journalSketchbookOpen) {
+        changeSelectedSketchbookSlot(1);
+      } else {
+        changeJournalBiome(1);
+      }
     }
 
     if (input.consumePressed('ArrowDown') || input.consumePressed('s') || input.consumePressed('S')) {
@@ -816,6 +1968,37 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     if (input.consumePressed('ArrowUp') || input.consumePressed('w') || input.consumePressed('W')) {
       changeJournalSelection(-1);
+    }
+
+    if (
+      input.consumePressed('Enter') ||
+      input.consumePressed('e') ||
+      input.consumePressed('E') ||
+      input.consumePressed(' ') ||
+      input.consumePressed('Space')
+    ) {
+      if (journalSketchbookOpen) {
+        if (placeSelectedJournalEntryInSketchbook()) {
+          return;
+        }
+      } else if (toggleJournalComparison()) {
+        return;
+      }
+    }
+
+    if (
+      input.consumePressed('Backspace') ||
+      input.consumePressed('Delete')
+    ) {
+      if (clearSelectedJournalSketchbookSlot()) {
+        return;
+      }
+    }
+
+    if (input.consumePressed('c') || input.consumePressed('C')) {
+      if (!journalSketchbookOpen && toggleJournalComparison()) {
+        return;
+      }
     }
 
     if (click) {
@@ -841,7 +2024,265 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       );
 
       if (hit) {
-        selectedJournalEntryId = hit.entryId;
+        setSelectedJournalEntryId(hit.entryId);
+        return;
+      }
+
+      const sketchSlotHit = journalSketchSlotHitTargets.find(
+        (target) =>
+          click.x >= target.x &&
+          click.x <= target.x + target.w &&
+          click.y >= target.y &&
+          click.y <= target.y + target.h,
+      );
+
+      if (sketchSlotHit) {
+        selectedSketchbookSlotId = sketchSlotHit.slotId;
+        return;
+      }
+
+      const scrollHit = journalScrollHitTargets.find(
+        (target) =>
+          click.x >= target.x &&
+          click.x <= target.x + target.w &&
+          click.y >= target.y &&
+          click.y <= target.y + target.h,
+      );
+
+      if (scrollHit) {
+        changeJournalSelection(scrollHit.direction);
+        return;
+      }
+
+      const actionHit = journalActionHitTargets.find(
+        (target) =>
+          click.x >= target.x &&
+          click.x <= target.x + target.w &&
+          click.y >= target.y &&
+          click.y <= target.y + target.h,
+      );
+
+      if (!actionHit) {
+        return;
+      }
+
+      if (actionHit.id === 'toggle-comparison') {
+        toggleJournalComparison();
+        return;
+      }
+
+      if (actionHit.id === 'toggle-sketchbook') {
+        toggleJournalSketchbook();
+        return;
+      }
+
+      if (actionHit.id === 'place-sketch-entry') {
+        placeSelectedJournalEntryInSketchbook();
+        return;
+      }
+
+      if (actionHit.id === 'clear-sketch-slot') {
+        clearSelectedJournalSketchbookSlot();
+      }
+    }
+  }
+
+  function changeFieldStationSelection(direction: number): void {
+    const upgrades = getFieldUpgradeStates(save);
+    if (!upgrades.length) {
+      selectedFieldStationUpgradeId = null;
+      return;
+    }
+
+    const currentUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+    const currentIndex = upgrades.findIndex((upgrade) => upgrade.id === currentUpgradeId);
+    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+    const nextIndex = (safeIndex + direction + upgrades.length) % upgrades.length;
+    selectedFieldStationUpgradeId = upgrades[nextIndex].id;
+  }
+
+  type FieldStationSurface = 'season-routes' | 'season-expedition' | 'nursery';
+
+  function getFieldStationSurface(): FieldStationSurface {
+    if (selectedFieldStationView === 'nursery') {
+      return 'nursery';
+    }
+
+    return selectedFieldStationSeasonPage === 'expedition' ? 'season-expedition' : 'season-routes';
+  }
+
+  function setFieldStationSurface(surface: FieldStationSurface): void {
+    if (surface === 'nursery') {
+      selectedFieldStationView = 'nursery';
+      selectedFieldStationSeasonPage = 'routes';
+      selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+      return;
+    }
+
+    selectedFieldStationView = 'season';
+    selectedFieldStationSeasonPage = surface === 'season-expedition' ? 'expedition' : 'routes';
+    if (selectedFieldStationSeasonPage === 'routes') {
+      selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+    }
+  }
+
+  function changeFieldStationSurface(direction: number): void {
+    const order: FieldStationSurface[] = ['season-routes', 'season-expedition', 'nursery'];
+    const currentSurface = getFieldStationSurface();
+    const currentIndex = order.indexOf(currentSurface);
+    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+    const nextIndex = (safeIndex + direction + order.length) % order.length;
+    setFieldStationSurface(order[nextIndex]);
+    audio.playUiCue('menu-move');
+  }
+
+  function changeNurseryCardSelection(direction: number): void {
+    const order: NurseryCardId[] = ['bench', 'compost', 'bed'];
+    const currentIndex = order.indexOf(selectedNurseryCardId);
+    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+    const nextIndex = (safeIndex + direction + order.length) % order.length;
+    selectedNurseryCardId = order[nextIndex];
+    audio.playUiCue('menu-move');
+  }
+
+  function activateNurseryCard(): void {
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    const nurseryState = resolveNurseryStateView(save, routeBoard, selectedNurseryProjectId);
+
+    if (selectedNurseryCardId === 'bench') {
+      const nextProjectId = getNextNurseryProjectId(save, selectedNurseryProjectId, 1);
+      if (!nextProjectId) {
+        showFieldNotice('NURSERY LOCKED', 'Log more route clues before starting a nursery bed.', 2.6);
+        return;
+      }
+
+      selectedNurseryProjectId = nextProjectId;
+      audio.playUiCue('menu-move');
+      return;
+    }
+
+    if (selectedNurseryCardId === 'compost') {
+      showFieldNotice(
+        'COMPOST HEAP',
+        `The heap can finish ${nurseryState.compostRate} litter each route step.`,
+        2.4,
+      );
+      audio.playUiCue('confirm');
+      return;
+    }
+
+    if (nurseryState.activeProject?.state.stage === 'mature') {
+      if (clearNurseryTeachingBed(save)) {
+        persistSave(save);
+        showFieldNotice('BED CLEARED', 'The teaching bed is ready for a new nursery project.', 2.4);
+        audio.playUiCue('confirm');
+      }
+      return;
+    }
+
+    const projectId = nurseryState.selectedProjectId;
+    if (!projectId || !nurseryState.selectedProject?.unlocked) {
+      showFieldNotice('NURSERY LOCKED', 'Bring back more route clues before planting this bed.', 2.6);
+      return;
+    }
+
+    if (!nurseryState.selectedProject.affordable) {
+      showFieldNotice('NEED SUPPLIES', 'This bed still needs seed-stock or cuttings from the field.', 2.6);
+      return;
+    }
+
+    if (startNurseryProject(save, projectId)) {
+      persistSave(save);
+      showFieldNotice('BED STARTED', nurseryState.selectedProject.definition.title, 2.2);
+      audio.playUiCue('confirm');
+    }
+  }
+
+  function activateExpeditionCard(): void {
+    const expedition = resolveFieldSeasonExpeditionState(save);
+    const expeditionRequest = getActiveFieldRequest();
+    const currentExpeditionTask =
+      expeditionRequest && expeditionRequest.id.startsWith('forest-expedition-')
+        ? expeditionRequest
+        : null;
+    const title = currentExpeditionTask
+      ? currentExpeditionTask.title.toUpperCase()
+      : expedition.status === 'locked'
+        ? 'EXPEDITION LOCKED'
+        : expedition.status === 'ready'
+          ? 'EXPEDITION READY'
+          : expedition.status === 'active'
+            ? 'EXPEDITION OPEN'
+            : 'EXPEDITION LOGGED';
+    const text =
+      expedition.status === 'locked'
+        ? expedition.note
+        : currentExpeditionTask
+          ? currentExpeditionTask.summary
+          : `${expedition.summary} Start: ${expedition.startText}.`;
+
+    showFieldNotice(title, text, 2.8);
+    audio.playUiCue('confirm');
+  }
+
+  function updateFieldStationState(): void {
+    selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+    selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+
+    if (
+      input.consumePressed('Escape') ||
+      input.consumePressed('m') ||
+      input.consumePressed('M')
+    ) {
+      closeFieldStation();
+      return;
+    }
+
+    const moveLeft =
+      input.consumePressed('ArrowLeft') || input.consumePressed('a') || input.consumePressed('A');
+    const moveRight =
+      input.consumePressed('ArrowRight') || input.consumePressed('d') || input.consumePressed('D');
+    if (moveLeft || moveRight) {
+      changeFieldStationSurface(moveLeft ? -1 : 1);
+      return;
+    }
+
+    if (selectedFieldStationView === 'season' && selectedFieldStationSeasonPage === 'routes') {
+      if (input.consumePressed('ArrowDown') || input.consumePressed('s') || input.consumePressed('S')) {
+        changeFieldStationSelection(1);
+      }
+
+      if (input.consumePressed('ArrowUp') || input.consumePressed('w') || input.consumePressed('W')) {
+        changeFieldStationSelection(-1);
+      }
+    } else {
+      if (input.consumePressed('ArrowDown') || input.consumePressed('s') || input.consumePressed('S')) {
+        changeNurseryCardSelection(1);
+      }
+
+      if (input.consumePressed('ArrowUp') || input.consumePressed('w') || input.consumePressed('W')) {
+        changeNurseryCardSelection(-1);
+      }
+    }
+
+    if (
+      input.consumePressed('Enter') ||
+      input.consumePressed('e') ||
+      input.consumePressed('E') ||
+      input.consumePressed(' ') ||
+      input.consumePressed('Space')
+    ) {
+      if (selectedFieldStationView === 'season') {
+        if (selectedFieldStationSeasonPage === 'routes') {
+          if (selectedFieldStationUpgradeId && purchaseFieldUpgrade(save, selectedFieldStationUpgradeId)) {
+            persistSave(save);
+            selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
+          }
+        } else {
+          activateExpeditionCard();
+        }
+      } else {
+        activateNurseryCard();
       }
     }
   }
@@ -912,6 +2353,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     activateMenuAction(hit.id as MenuActionId);
   }
 
+  function updateCloseLookState(): void {
+    if (
+      input.consumePressed('Escape') ||
+      input.consumePressed('Enter') ||
+      input.consumePressed('e') ||
+      input.consumePressed('E') ||
+      input.consumePressed(' ') ||
+      input.consumePressed('Space')
+    ) {
+      closeCloseLook();
+      return;
+    }
+
+    const click = input.consumeClick();
+    if (!click) {
+      return;
+    }
+
+    if (getHitTargetAt(closeLookHitTargets, click)?.id === 'close-close-look') {
+      closeCloseLook();
+    }
+  }
+
   function updateTransitionState(dt: number): void {
     if (!transitionState) {
       return;
@@ -931,11 +2395,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     );
     const finishedKind = transitionState.kind;
     transitionState = null;
-    bubble = null;
-    bubbleTimer = 0;
+    clearInspectSurface();
+    startFieldPartnerQuiet();
 
     if (finishedKind === 'biome-to-map') {
       sceneMode = 'world-map';
+      maybeShowStationReturnNotice();
       return;
     }
 
@@ -1005,59 +2470,133 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function updateBiomeScene(dt: number): void {
     if (input.consumePressed('Escape')) {
-      bubble = null;
-      bubbleTimer = 0;
+      clearInspectSurface();
+      startFieldPartnerQuiet();
     }
 
     const moveLeft = input.isDown('ArrowLeft') || input.isDown('a') || input.isDown('A');
     const moveRight = input.isDown('ArrowRight') || input.isDown('d') || input.isDown('D');
+    const moveUp = input.isDown('ArrowUp') || input.isDown('w') || input.isDown('W');
+    const moveDown = input.isDown('ArrowDown') || input.isDown('s') || input.isDown('S');
+    const jumpPressed = input.consumePressed(' ') || input.consumePressed('Space');
+    let handledClimbing = false;
 
-    player.vx = 0;
-    if (moveLeft !== moveRight) {
-      player.vx = moveLeft ? -MOVE_SPEED : MOVE_SPEED;
-      player.facing = moveLeft ? 'left' : 'right';
+    if (!player.climbing && (moveUp || moveDown)) {
+      const climbable = getOverlappingClimbable();
+      if (climbable) {
+        player.climbing = true;
+        player.activeClimbableId = climbable.id;
+        player.vx = 0;
+        player.vy = 0;
+        player.onGround = false;
+        alignPlayerToClimbable(climbable);
+      }
     }
 
-    if ((input.consumePressed(' ') || input.consumePressed('Space')) && player.onGround) {
-      player.vy = -JUMP_SPEED;
-      player.onGround = false;
+    if (player.climbing) {
+      const climbable = getClimbableById(player.activeClimbableId) ?? getOverlappingClimbable();
+      if (!climbable) {
+        stopClimbing();
+      } else if (moveLeft !== moveRight) {
+        stopClimbing();
+        const walkSpeed = getWalkSpeed(save) * 0.72;
+        player.vx = moveLeft ? -walkSpeed : walkSpeed;
+        player.facing = moveLeft ? 'left' : 'right';
+      } else {
+        handledClimbing = true;
+        player.activeClimbableId = climbable.id;
+        alignPlayerToClimbable(climbable);
+        player.vx = 0;
+        if (moveUp === moveDown) {
+          player.vy = 0;
+        } else {
+          player.vy = moveUp ? -40 : 40;
+        }
+        const maxClimbY = Math.min(
+          climbable.y + climbable.h - PLAYER_HEIGHT,
+          getGroundYAt(climbable.x + climbable.w / 2) - PLAYER_HEIGHT,
+        );
+        player.y = clamp(player.y + player.vy * dt, climbable.topExitY, maxClimbY);
+        player.onGround = false;
+      }
     }
 
-    const previousBottom = player.y + PLAYER_HEIGHT;
-    player.x = clamp(player.x + player.vx * dt, 0, currentBiome.width - PLAYER_WIDTH);
-    player.vy += GRAVITY * dt;
-    player.y += player.vy * dt;
+    if (!handledClimbing) {
+      player.vx = 0;
+      if (moveLeft !== moveRight) {
+        const walkSpeed = getWalkSpeed(save);
+        player.vx = moveLeft ? -walkSpeed : walkSpeed;
+        player.facing = moveLeft ? 'left' : 'right';
+      }
 
-    const centerX = player.x + PLAYER_WIDTH / 2;
-    const nextBottom = player.y + PLAYER_HEIGHT;
-    const platform = getSupportingPlatform(centerX, previousBottom, nextBottom);
-    const groundY = getGroundYAt(centerX);
-    let supportY = groundY;
+      if (jumpPressed && player.onGround) {
+        player.vy = -getJumpSpeed(save);
+        player.onGround = false;
+      }
 
-    if (platform) {
-      supportY = Math.min(supportY, platform.y);
+      const previousBottom = player.y + PLAYER_HEIGHT;
+      player.x = clamp(player.x + player.vx * dt, 0, currentBiome.width - PLAYER_WIDTH);
+      player.vy += GRAVITY * dt;
+      player.y += player.vy * dt;
+
+      const centerX = player.x + PLAYER_WIDTH / 2;
+      const nextBottom = player.y + PLAYER_HEIGHT;
+      const platform = getSupportingPlatform(centerX, previousBottom, nextBottom);
+      const groundY = getGroundYAt(centerX);
+      let supportY = groundY;
+
+      if (platform) {
+        supportY = Math.min(supportY, platform.y);
+      }
+
+      if (nextBottom >= supportY) {
+        player.y = supportY - PLAYER_HEIGHT;
+        player.vy = 0;
+        player.onGround = true;
+      } else {
+        player.onGround = false;
+      }
+
+      if (player.climbing && !getOverlappingClimbable()) {
+        stopClimbing();
+      }
     }
 
-    if (nextBottom >= supportY) {
-      player.y = supportY - PLAYER_HEIGHT;
-      player.vy = 0;
-      player.onGround = true;
-    } else {
-      player.onGround = false;
+    syncBiomeCamera();
+
+    if (activeCorridor) {
+      updateCorridorOwnership();
+      maybeExitCorridor();
+      if (!activeCorridor) {
+        return;
+      }
     }
 
-    cameraX = clamp(player.x - WIDTH * 0.35, 0, currentBiome.width - WIDTH);
+    maybeCompleteActiveFieldRequest('zone');
 
     if (bubble) {
       bubbleTimer -= dt;
       if (bubbleTimer <= 0) {
-        bubble = null;
+        clearInspectSurface();
+        startFieldPartnerQuiet();
       }
     }
 
-    if (input.consumePressed('e') || input.consumePressed('E')) {
-      if (isNearBiomeDoor()) {
-        startWorldMapExitTransition();
+    if (fieldPartnerNotice && (Math.abs(player.vx) > 0 || !player.onGround || Math.abs(player.vy) > 0)) {
+      dismissFieldPartnerNotice();
+    }
+
+    const inspectPressed = input.consumePressed('e') || input.consumePressed('E');
+    const confirmPressed = input.consumePressed('Enter');
+
+    if ((inspectPressed || confirmPressed) && bubble?.closeLookAvailable) {
+      openCloseLookFromBubble();
+      return;
+    }
+
+    if (inspectPressed) {
+      if (isNearTravelInteractable()) {
+        activateTravelTarget();
         return;
       }
 
@@ -1069,19 +2608,25 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     const click = input.consumeClick();
     if (click) {
+      if (bubble && getHitTargetAt(bubbleActionHitTargets, click)?.id === 'open-close-look') {
+        openCloseLookFromBubble();
+        return;
+      }
+
       if (getHitTargetAt(hudHitTargets, click)?.id === 'open-menu') {
         openMenu('playing');
         return;
       }
 
       const worldX = click.x + cameraX;
-
-      if (getDoorAtPoint(worldX, click.y)) {
-        startWorldMapExitTransition();
+      const worldY = click.y + cameraY;
+      const target = getTravelTargetAtPoint(worldX, worldY);
+      if (target) {
+        activateTravelTarget(target);
         return;
       }
 
-      const hit = getEntityAtPoint(worldX, click.y);
+      const hit = getEntityAtPoint(worldX, worldY);
       if (hit) {
         inspectEntity(hit.entityId);
       }
@@ -1089,6 +2634,37 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function updateGameState(dt: number): void {
+    syncAudioState();
+
+    if (fieldGuideNotice) {
+      fieldGuideNoticeTimer = Math.max(0, fieldGuideNoticeTimer - dt);
+      if (fieldGuideNoticeTimer <= 0) {
+        fieldGuideNotice = null;
+      }
+    }
+
+    if (fieldRequestNotice) {
+      fieldRequestNoticeTimer = Math.max(0, fieldRequestNoticeTimer - dt);
+      if (fieldRequestNoticeTimer <= 0) {
+        fieldRequestNotice = null;
+      }
+    }
+
+    if (fieldPartnerQuietTimer > 0) {
+      fieldPartnerQuietTimer = Math.max(0, fieldPartnerQuietTimer - dt);
+    }
+
+    if (fieldPartnerGlobalCooldownTimer > 0) {
+      fieldPartnerGlobalCooldownTimer = Math.max(0, fieldPartnerGlobalCooldownTimer - dt);
+    }
+
+    if (fieldPartnerNotice) {
+      fieldPartnerNoticeTimer = Math.max(0, fieldPartnerNoticeTimer - dt);
+      if (fieldPartnerNoticeTimer <= 0) {
+        dismissFieldPartnerNotice();
+      }
+    }
+
     if (input.consumePressed('f') || input.consumePressed('F')) {
       toggleFullscreen();
     }
@@ -1096,6 +2672,16 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (input.consumePressed('m') || input.consumePressed('M')) {
       if (overlayMode === 'menu') {
         closeMenu();
+        return;
+      }
+
+      if (overlayMode === 'field-station') {
+        closeFieldStation();
+        return;
+      }
+
+      if (overlayMode === 'close-look') {
+        closeCloseLook();
         return;
       }
 
@@ -1115,14 +2701,26 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return;
     }
 
+    if (overlayMode === 'field-station') {
+      updateFieldStationState();
+      return;
+    }
+
+    if (overlayMode === 'close-look') {
+      updateCloseLookState();
+      return;
+    }
+
     if (overlayMode === 'menu') {
       updateMenuState();
       return;
     }
 
     if (sceneMode !== 'transition' && (input.consumePressed('j') || input.consumePressed('J'))) {
-      const journalBiomeId = sceneMode === 'world-map' ? mapOriginBiomeId : currentBiomeDefinition.id;
-      setSelectedJournalBiome(journalBiomeId, true);
+      setSelectedJournalBiome(getDefaultJournalBiomeId(), true);
+      journalComparisonOpen = false;
+      audio.playUiCue('journal-toggle');
+      startFieldPartnerQuiet();
       overlayMode = 'journal';
       return;
     }
@@ -1139,685 +2737,62 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         updateBiomeScene(dt);
         break;
     }
-  }
 
-  function drawCloud(x: number, y: number, width: number): void {
-    context.fillStyle = currentBiomeDefinition.palette.foam;
-    context.fillRect(x + 2, y, width - 4, 4);
-    context.fillRect(x, y + 2, width, 4);
-    context.fillRect(x + 6, y - 2, width - 12, 4);
-  }
-
-  function drawBiomeGradient(): void {
-    const gradient = context.createLinearGradient(0, 0, 0, HEIGHT);
-    gradient.addColorStop(0, currentBiomeDefinition.palette.skyTop);
-    gradient.addColorStop(1, currentBiomeDefinition.palette.skyBottom);
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, WIDTH, HEIGHT);
-  }
-
-  function drawTerrain(): void {
-    for (const layer of currentBiomeDefinition.parallaxLayers) {
-      context.fillStyle = layer.color;
-      for (let screenX = 0; screenX < WIDTH; screenX += 2) {
-        const worldX = screenX + cameraX * layer.speed;
-        const wave = Math.sin(worldX / 26) * layer.amplitude;
-        const y = layer.baseY + wave;
-        context.fillRect(screenX, y, 2, HEIGHT - y);
+    if (sceneMode === 'biome') {
+      const nextContextKey = getFieldPartnerContextKey();
+      if (fieldPartnerContextKey && nextContextKey !== fieldPartnerContextKey) {
+        fieldPartnerContextKey = nextContextKey;
+        queueFieldPartnerTrigger('state-change');
+      } else if (!fieldPartnerContextKey) {
+        fieldPartnerContextKey = nextContextKey;
       }
     }
 
-    currentBiome.clouds.forEach((cloud) => {
-      const screenX = cloud.x - cameraX * 0.15;
-      drawCloud(screenX, cloud.y, cloud.w);
-    });
-
-    if (currentBiomeDefinition.id === 'beach') {
-      context.fillStyle = '#ffd65c';
-      context.fillRect(WIDTH - 30, 12, 10, 10);
-      context.fillStyle = '#fff5b6';
-      context.fillRect(WIDTH - 28, 14, 6, 6);
-
-      context.fillStyle = currentBiomeDefinition.palette.seaTop;
-      context.fillRect(0, 92, WIDTH, 52);
-      context.fillStyle = currentBiomeDefinition.palette.foam;
-      for (let x = 0; x < WIDTH; x += 8) {
-        context.fillRect(x, 94 + ((x + frameCount) % 16 === 0 ? 0 : 1), 6, 1);
-      }
-    } else {
-      context.fillStyle = currentBiomeDefinition.palette.seaBottom;
-      context.fillRect(0, 80, WIDTH, 64);
-      context.fillStyle = currentBiomeDefinition.palette.seaTop;
-      for (let x = 0; x < WIDTH; x += 14) {
-        const height = 18 + ((x + frameCount) % 21 < 10 ? 6 : 0);
-        context.fillRect(x, 64 - (height / 3), 6, height);
-      }
-      context.fillStyle = 'rgba(220, 235, 216, 0.45)';
-      for (let x = 0; x < WIDTH; x += 18) {
-        context.fillRect(x, 86 + ((x + frameCount) % 12 < 6 ? 0 : 1), 12, 1);
-      }
-    }
-
-    const surfaceTile = currentBiomeDefinition.tileSet[0];
-    const fillTile = currentBiomeDefinition.tileSet[1];
-
-    for (let screenX = -8; screenX < WIDTH + 8; screenX += 8) {
-      const worldX = screenX + cameraX;
-      const surfaceY = Math.floor(sampleTerrainY(currentBiome.terrainSamples, worldX + 4) / 8) * 8;
-      drawSprite(context, sprites, surfaceTile, screenX, surfaceY);
-
-      for (let fillY = surfaceY + 8; fillY < HEIGHT; fillY += 8) {
-        drawSprite(context, sprites, fillTile, screenX, fillY);
-      }
-    }
-
-    for (const sparkle of currentBiome.sparkles) {
-      const screenX = sparkle.x - cameraX;
-      if (screenX < 0 || screenX > WIDTH) {
-        continue;
-      }
-
-      const pulse = Math.sin(frameCount / 12 + sparkle.phase);
-      if (pulse > 0.4) {
-        context.fillStyle = currentBiomeDefinition.palette.foam;
-        context.fillRect(screenX, sparkle.y, 1, 3);
-        context.fillRect(screenX - 1, sparkle.y + 1, 3, 1);
-      }
-    }
-
-    for (const platform of currentBiome.platforms) {
-      const screenX = platform.x - cameraX;
-      for (let x = 0; x < platform.w; x += 8) {
-        drawSprite(context, sprites, platform.spriteId, screenX + x, platform.y);
-      }
-    }
-  }
-
-  function drawBiomeDoor(openAmount = 0, highlight = false): void {
-    const door = getCurrentBiomeDoor();
-    const screenX = door.x - cameraX;
-    if (screenX < -16 || screenX > WIDTH + 16) {
-      return;
-    }
-
-    drawSprite(context, sprites, door.spriteId, screenX, door.y);
-
-    if (openAmount > 0.05) {
-      const gapWidth = Math.max(1, Math.round(openAmount * 3));
-      const gapX = door.facing === 'right' ? screenX + 2 : screenX + 6 - gapWidth;
-      context.fillStyle = 'rgba(28, 22, 18, 0.55)';
-      context.fillRect(gapX, door.y + 2, gapWidth, 7);
-      context.fillStyle = currentBiomeDefinition.palette.foam;
-      context.fillRect(gapX, door.y + 3, gapWidth, 4);
-    }
-
-    if (highlight) {
-      drawInteractMarker(context, screenX + 4, door.y - 12, 4, WIDTH - 4);
-    }
-  }
-
-  function drawEntities(showNearestMarker = true): void {
-    const nearest =
-      showNearestMarker &&
-      save.settings.showInspectHints &&
-      overlayMode === 'playing' &&
-      !bubble
-        ? getNearestInspectable()
-        : null;
-
-    for (const entity of currentBiome.entities) {
-      if (entity.removed) {
-        continue;
-      }
-
-      const screenX = entity.x - cameraX;
-      if (screenX < -24 || screenX > WIDTH + 24) {
-        continue;
-      }
-
-      context.fillStyle = 'rgba(32, 25, 20, 0.15)';
-      context.fillRect(screenX, entity.y + entity.h - 1, entity.w, 2);
-      const animated = entity.category === 'animal';
-      const frameIndex = animated ? Math.floor(frameCount / 20) % 2 : 0;
-      drawSprite(context, sprites, entity.spriteId, screenX, entity.y, frameIndex);
-
-      if (nearest?.entityId === entity.entityId) {
-        drawInteractMarker(
-          context,
-          screenX + entity.w / 2,
-          Math.round(entity.y - 12),
-          4,
-          WIDTH - 4,
-        );
-      }
-    }
+    tryShowFieldPartnerNotice();
   }
 
   function getPlayerAnimationFrame(): number {
-    return !player.onGround
+    return player.climbing
+      ? 1 + (Math.floor(frameCount / 14) % 2) * 2
+      : !player.onGround
       ? 2
       : Math.abs(player.vx) > 0
         ? 1 + (Math.floor(frameCount / 10) % 2) * 2
         : 0;
   }
 
-  function drawPlayerAt(topLeftX: number, topLeftY: number, facing: Facing, animationFrame: number): void {
-    context.fillStyle = 'rgba(32, 25, 20, 0.18)';
-    context.fillRect(topLeftX - cameraX + 2, topLeftY + PLAYER_HEIGHT, 7, 2);
-    drawSprite(
-      context,
-      sprites,
-      'player',
-      topLeftX - cameraX,
-      topLeftY - 2,
-      animationFrame,
-      facing === 'left',
-    );
-  }
-
-  function drawPlayer(): void {
-    drawPlayerAt(player.x, player.y, player.facing, getPlayerAnimationFrame());
-  }
-
-  function drawTransitionBiomeAvatar(snapshot: DoorTransitionSnapshot): void {
-    if (!snapshot.avatar || snapshot.avatar.space !== 'biome') {
-      return;
-    }
-
-    drawPlayerAt(
-      Math.round(snapshot.avatar.x - PLAYER_WIDTH / 2),
-      Math.round(snapshot.avatar.y - PLAYER_HEIGHT),
-      snapshot.avatar.facing,
-      1 + (Math.floor(frameCount / 10) % 2) * 2,
-    );
-  }
-
-  function drawBubble(): void {
-    if (!bubble) {
-      return;
-    }
-
-    const bubbleX = 6;
-    const bubbleY = HEIGHT - 47;
-    fillLeafGreenPanel(context, bubbleX, bubbleY, WIDTH - 12, 43);
-    context.font = UI_FONT_MEDIUM;
-    drawUiText(context, bubble.title, bubbleX + 5, bubbleY + 6, currentBiomeDefinition.palette.text);
-    context.font = UI_FONT_SMALL;
-    drawWrappedText(
-      context,
-      bubble.detailText,
-      bubbleX + 5,
-      bubbleY + 16,
-      WIDTH - 28,
-      7,
-      currentBiomeDefinition.palette.accent,
-      1,
-    );
-    drawWrappedText(
-      context,
-      bubble.fact,
-      bubbleX + 5,
-      bubbleY + 27,
-      WIDTH - 22,
-      7,
-      currentBiomeDefinition.palette.text,
-      2,
-    );
-
-    if (bubble.isNewEntry) {
-      context.fillStyle = currentBiomeDefinition.palette.accent;
-      context.fillRect(WIDTH - 70, bubbleY + 6, 58, 2);
-      drawUiText(context, 'New entry!', WIDTH - 70, bubbleY + 9, currentBiomeDefinition.palette.text);
-    }
-  }
-
-  function drawTitleOverlay(): void {
-    titleHitTargets = [];
-    fillLeafGreenPanel(context, 8, 8, WIDTH - 16, 128);
-    context.font = UI_FONT_MEDIUM;
-    drawUiText(context, 'ECO EXPLORER', 18, 14, currentBiomeDefinition.palette.text);
-    drawWrappedText(
-      context,
-      'Explore ecosystems, inspect nature, and build a field journal.',
-      18,
-      30,
-      78,
-      7,
-      currentBiomeDefinition.palette.text,
-      3,
-    );
-    context.fillStyle = currentBiomeDefinition.palette.accent;
-    context.fillRect(16, 60, 72, 2);
-    context.fillRect(100, 18, 2, 104);
-    context.font = UI_FONT_SMALL;
-    drawUiText(context, 'WANDER BEACHES,', 18, 68, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'FORESTS, AND', 18, 79, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'TUNDRA TRAILS.', 18, 90, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'FIND FIELD FACTS.', 18, 101, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'MOVE: A / D', 108, 24, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'OR ARROWS', 108, 35, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'JUMP: SPACE', 108, 48, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'FACTS / DOORS: E', 108, 61, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'JOURNAL: J', 108, 74, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'MAP: ARROWS', 108, 87, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'ENTER: TRAVEL', 108, 98, currentBiomeDefinition.palette.text);
-    drawPanelButton(context, 106, 111, 28, 11, 'START', {
-      fill: currentBiomeDefinition.palette.journalSelected,
-      border: currentBiomeDefinition.palette.cardShadow,
-      text: currentBiomeDefinition.palette.text,
-      selected: false,
-    });
-    titleHitTargets.push({ id: 'start-game', x: 106, y: 111, w: 28, h: 11 });
-    drawPanelButton(context, 138, 111, 28, 11, 'MENU', {
-      fill: currentBiomeDefinition.palette.journalPage,
-      border: currentBiomeDefinition.palette.cardShadow,
-      text: currentBiomeDefinition.palette.text,
-      selected: false,
-    });
-    titleHitTargets.push({ id: 'open-menu', x: 138, y: 111, w: 28, h: 11 });
-    drawUiText(context, 'CLICK ANYWHERE TO START', 18, 118, currentBiomeDefinition.palette.accent);
-  }
-
-  function drawWorldMapHud(): void {
-    fillLeafGreenPanel(context, 8, 8, WIDTH - 16, 28);
-    context.font = UI_FONT_SMALL;
-    if (worldMapState.mode === 'walking') {
-      drawUiText(context, 'TRAVELING TO THE NEXT ECOSYSTEM...', 18, 18, currentBiomeDefinition.palette.text);
-      return;
-    }
-
-    drawUiText(context, 'ARROWS: CHOOSE', 14, 14, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'ENTER: TRAVEL', 14, 22, currentBiomeDefinition.palette.text);
-    drawUiText(context, 'ESC: RETURN', 108, 18, currentBiomeDefinition.palette.text);
-  }
-
-  function drawMenuChip(): void {
-    hudHitTargets = [];
-
-    if (overlayMode !== 'playing' || sceneMode === 'transition') {
-      return;
-    }
-
-    const x = WIDTH - 42;
-    const y = 8;
-    drawPanelButton(context, x, y, 34, 11, 'MENU', {
-      fill: currentBiomeDefinition.palette.journalPage,
-      border: currentBiomeDefinition.palette.cardShadow,
-      text: currentBiomeDefinition.palette.text,
-    });
-    hudHitTargets.push({ id: 'open-menu', x, y, w: 34, h: 11 });
-  }
-
-  function drawMenuRow(
-    y: number,
-    actionId: MenuActionId,
-    label: string,
-    value?: string,
-  ): void {
-    const x = 32;
-    const w = 128;
-    const selected = selectedMenuActionId === actionId;
-    const fill = selected
-      ? currentBiomeDefinition.palette.journalPage
-      : currentBiomeDefinition.palette.journalSelected;
-    const border = selected
-      ? currentBiomeDefinition.palette.accent
-      : currentBiomeDefinition.palette.cardShadow;
-    const labelColor = currentBiomeDefinition.palette.text;
-
-    fillPixelPanel(context, x, y, w, 14, fill, border);
-    if (selected) {
-      context.fillStyle = currentBiomeDefinition.palette.accent;
-      context.fillRect(x + 4, y + 3, 2, 8);
-    }
-    drawUiText(context, label, x + 7, y + 3, labelColor);
-    menuHitTargets.push({ id: actionId, x, y, w, h: 14 });
-
-    if (!value) {
-      return;
-    }
-
-    const valueColor = currentBiomeDefinition.palette.accent;
-    drawUiText(
-      context,
-      value,
-      x + w - context.measureText(value).width - 8,
-      y + 3,
-      valueColor,
-    );
-  }
-
-  function drawMenuOverlay(): void {
-    menuHitTargets = [];
-    ensureMenuSelection();
-
-    context.fillStyle = 'rgba(32, 25, 20, 0.55)';
-    context.fillRect(0, 0, WIDTH, HEIGHT);
-    fillLeafGreenPanel(context, 20, 8, 152, 128);
-
-    context.font = UI_FONT_MEDIUM;
-    drawUiText(context, 'FIELD MENU', 34, 16, currentBiomeDefinition.palette.text);
-    context.font = UI_FONT_SMALL;
-    drawWrappedText(
-      context,
-      'Change helper settings or reset your save.',
-      34,
-      27,
-      124,
-      6,
-      currentBiomeDefinition.palette.text,
-      2,
-    );
-
-    drawMenuRow(56, 'toggle-fullscreen', 'Big screen', save.settings.fullscreen ? 'ON' : 'OFF');
-    drawMenuRow(
-      70,
-      'toggle-inspect-hints',
-      'Hint markers',
-      save.settings.showInspectHints ? 'ON' : 'OFF',
-    );
-    drawMenuRow(84, 'reset-save', 'Reset save');
-    drawMenuRow(98, 'close-menu', menuReturnMode === 'title' ? 'Back to title' : 'Back to game');
-
-    if (!showResetConfirmation) {
-      drawWrappedText(
-        context,
-        'Settings stay saved in this browser.',
-        34,
-        118,
-        124,
-        6,
-        currentBiomeDefinition.palette.accent,
-        2,
-      );
-      return;
-    }
-
-    menuHitTargets = [];
-    fillPixelPanel(
-      context,
-      28,
-      86,
-      136,
-      44,
-      currentBiomeDefinition.palette.card,
-      currentBiomeDefinition.palette.cardShadow,
-    );
-    drawUiText(context, 'RESET SAVE?', 38, 91, currentBiomeDefinition.palette.text);
-    drawWrappedText(
-      context,
-      'Journal and visits go back to the start.',
-      38,
-      99,
-      118,
-      6,
-      currentBiomeDefinition.palette.text,
-      2,
-    );
-    const keepSelected = selectedMenuActionId === 'cancel-reset';
-    drawPanelButton(context, 38, 117, 52, 10, 'KEEP IT', {
-      fill: keepSelected
-        ? currentBiomeDefinition.palette.journalPage
-        : currentBiomeDefinition.palette.journalSelected,
-      border: keepSelected
-        ? currentBiomeDefinition.palette.accent
-        : currentBiomeDefinition.palette.cardShadow,
-      text: currentBiomeDefinition.palette.text,
-      selected: false,
-    });
-    if (keepSelected) {
-      context.fillStyle = currentBiomeDefinition.palette.accent;
-      context.fillRect(42, 119, 2, 6);
-    }
-    menuHitTargets.push({ id: 'cancel-reset', x: 38, y: 117, w: 52, h: 10 });
-    const resetSelected = selectedMenuActionId === 'confirm-reset';
-    drawPanelButton(context, 102, 117, 50, 10, 'RESET', {
-      fill: resetSelected ? '#fde7d8' : '#f0c6a8',
-      border: resetSelected ? '#7d2919' : currentBiomeDefinition.palette.cardShadow,
-      text: '#7d2919',
-      selected: false,
-    });
-    if (resetSelected) {
-      context.fillStyle = '#7d2919';
-      context.fillRect(106, 119, 2, 6);
-    }
-    menuHitTargets.push({ id: 'confirm-reset', x: 102, y: 117, w: 50, h: 10 });
-  }
-
-  function formatBiomeTabLabel(biomeId: string): string {
-    return biomeId
-      .split('-')
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(' ');
-  }
-
-  function formatCategoryProgressLabel(progress: JournalBiomeProgress['categoryProgress'][number]): string {
-    const labelByCategory: Record<InspectableEntry['category'], string> = {
-      shell: 'SHELL',
-      plant: 'PLANT',
-      animal: 'ANIMAL',
-      landmark: 'PLACE',
-    };
-
-    return `${labelByCategory[progress.category]} ${progress.discoveredCount}/${progress.totalCount}`;
-  }
-
-  function drawJournalOverlay(): void {
-    const biomeProgress = getJournalBiomeProgressList();
-    const selectedBiomeProgress =
-      biomeProgress.find((biome) => biome.biomeId === selectedJournalBiomeId) ?? biomeProgress[0];
-    const discoveredEntries = getDiscoveredEntriesList(selectedBiomeProgress.biomeId);
-    journalHitTargets = [];
-    journalBiomeHitTargets = [];
-
-    if (selectedBiomeProgress.biomeId !== selectedJournalBiomeId) {
-      selectedJournalBiomeId = selectedBiomeProgress.biomeId;
-      setSelectedJournalEntry(true);
-    }
-
-    setSelectedJournalEntry(true);
-
-    context.fillStyle = 'rgba(32, 25, 20, 0.45)';
-    context.fillRect(0, 0, WIDTH, HEIGHT);
-    fillPixelPanel(
-      context,
-      8,
-      8,
-      WIDTH - 16,
-      128,
-      currentBiomeDefinition.palette.journalPage,
-      currentBiomeDefinition.palette.cardShadow,
-    );
-
-    context.font = UI_FONT_MEDIUM;
-    drawUiText(context, 'FIELD JOURNAL', 18, 13, currentBiomeDefinition.palette.text);
-    context.font = UI_FONT_SMALL;
-    drawUiText(
-      context,
-      `${getDiscoveredEntryIds(save).length} total`,
-      WIDTH - 58,
-      14,
-      currentBiomeDefinition.palette.text,
-    );
-
-    const tabGap = 4;
-    const tabWidth = Math.floor((WIDTH - 28 - tabGap * (biomeProgress.length - 1)) / biomeProgress.length);
-    let tabX = 14;
-
-    for (const biome of biomeProgress) {
-      const isSelected = biome.biomeId === selectedBiomeProgress.biomeId;
-      drawPanelButton(context, tabX, 28, tabWidth, 12, formatBiomeTabLabel(biome.biomeId), {
-        fill: isSelected
-          ? currentBiomeDefinition.palette.journalPage
-          : currentBiomeDefinition.palette.journalSelected,
-        border: isSelected
-          ? currentBiomeDefinition.palette.accent
-          : currentBiomeDefinition.palette.cardShadow,
-        text: currentBiomeDefinition.palette.text,
-        selected: false,
-      });
-      if (isSelected) {
-        context.fillStyle = currentBiomeDefinition.palette.accent;
-        context.fillRect(tabX + 4, 31, 2, 6);
-      }
-      journalBiomeHitTargets.push({ biomeId: biome.biomeId, x: tabX, y: 28, w: tabWidth, h: 12 });
-      tabX += tabWidth + tabGap;
-    }
-
-    fillPixelPanel(
-      context,
-      14,
-      44,
-      WIDTH - 28,
-      12,
-      currentBiomeDefinition.palette.journalSelected,
-      currentBiomeDefinition.palette.cardShadow,
-    );
-    drawUiText(
-      context,
-      `${selectedBiomeProgress.name} ${selectedBiomeProgress.discoveredCount}/${selectedBiomeProgress.totalCount}`,
-      18,
-      47,
-      currentBiomeDefinition.palette.text,
-    );
-
-    fillPixelPanel(
-      context,
-      14,
-      60,
-      58,
-      62,
-      currentBiomeDefinition.palette.journalSelected,
-      currentBiomeDefinition.palette.card,
-    );
-    fillPixelPanel(
-      context,
-      78,
-      60,
-      98,
-      62,
-      currentBiomeDefinition.palette.journalSelected,
-      currentBiomeDefinition.palette.cardShadow,
-    );
-
-    let listY = 66;
-    for (const categoryProgress of selectedBiomeProgress.categoryProgress) {
-      drawUiText(
-        context,
-        formatCategoryProgressLabel(categoryProgress),
-        18,
-        listY,
-        currentBiomeDefinition.palette.accent,
-      );
-      listY += 8;
-
-      const categoryEntries = discoveredEntries.filter((entry) => entry.category === categoryProgress.category);
-      for (const entry of categoryEntries) {
-        if (listY > 111) {
-          break;
-        }
-
-        const isSelected = entry.id === selectedJournalEntryId;
-        if (isSelected) {
-          fillPixelPanel(
-            context,
-            16,
-            listY - 1,
-            54,
-            10,
-            currentBiomeDefinition.palette.journalPage,
-            currentBiomeDefinition.palette.accent,
-          );
-        }
-
-        drawUiText(context, entry.commonName, 20, listY + 1, currentBiomeDefinition.palette.text);
-        journalHitTargets.push({ entryId: entry.id, x: 16, y: listY - 1, w: 54, h: 10 });
-        listY += 12;
-      }
-    }
-
-    if (!discoveredEntries.length) {
-      drawWrappedText(
-        context,
-        `This ${formatBiomeTabLabel(selectedBiomeProgress.biomeId).toLowerCase()} page is still empty. Explore and inspect nature to fill it in.`,
-        86,
-        72,
-        82,
-        7,
-        currentBiomeDefinition.palette.text,
-        4,
-      );
-      return;
-    }
-
-    const selectedEntry = discoveredEntries.find((entry) => entry.id === selectedJournalEntryId) ?? discoveredEntries[0];
-    const selectedEntryDetail = getInspectableDetail(selectedEntry);
-    drawSprite(context, sprites, selectedEntry.spriteId, 88, 70, 0);
-    context.drawImage(
-      sprites[selectedEntry.spriteId][0].canvas,
-      88,
-      70,
-      sprites[selectedEntry.spriteId][0].width * 2,
-      sprites[selectedEntry.spriteId][0].height * 2,
-    );
-
-    context.font = UI_FONT_MEDIUM;
-    drawUiText(context, selectedEntry.commonName, 112, 66, currentBiomeDefinition.palette.text);
-    context.font = UI_FONT_SMALL;
-    drawWrappedText(
-      context,
-      selectedEntryDetail.text,
-      112,
-      78,
-      56,
-      6,
-      currentBiomeDefinition.palette.accent,
-      2,
-    );
-    drawWrappedText(
-      context,
-      selectedEntry.journalText,
-      86,
-      94,
-      84,
-      6,
-      currentBiomeDefinition.palette.text,
-      4,
-    );
-  }
-
-  function drawBiomeScene(
-    highlightDoor: boolean,
-    doorOpenAmount: number,
-    showNearestMarkers: boolean,
-    transitionSnapshot: DoorTransitionSnapshot | null = null,
-  ): void {
-    drawBiomeGradient();
-    drawTerrain();
-    drawBiomeDoor(doorOpenAmount, highlightDoor);
-    drawEntities(showNearestMarkers);
-
-    if (transitionSnapshot) {
-      drawTransitionBiomeAvatar(transitionSnapshot);
-      return;
-    }
-
-    drawPlayer();
-  }
-
-  function drawWorldMapState(renderState: WorldMapState): void {
-    drawWorldMapScene(context, sprites, ecoWorldMap, renderState, frameCount);
-    drawWorldMapHud();
-  }
-
   function render(): void {
     frameCount += 1;
     context.clearRect(0, 0, WIDTH, HEIGHT);
+    bubbleActionHitTargets = [];
+    closeLookHitTargets = [];
 
+    const worldState = getWorldState();
     const transitionSnapshot = getTransitionSnapshot();
 
     if (sceneMode === 'world-map') {
-      drawWorldMapState(worldMapState);
+      const focusedSurveyState =
+        getBiomeSurveyProgress(
+          getJournalBiomeProgressList(),
+          getWorldMapLocation(ecoWorldMap, worldMapState.focusedLocationId).biomeId,
+        )?.state ?? 'none';
+      drawWorldMapScene(
+        context,
+        sprites,
+        ecoWorldMap,
+        worldMapState,
+        frameCount,
+        focusedSurveyState,
+        getRouteMarkerLocationId(),
+        getWorldMapReplayLabel(worldMapState.focusedLocationId),
+      );
+      drawWorldMapHud({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        mapMode: worldMapState.mode,
+      });
     } else if (sceneMode === 'transition' && transitionSnapshot) {
       if (transitionSnapshot.scene === 'world-map') {
         const renderState: WorldMapState = {
@@ -1829,53 +2804,354 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           mode: 'idle',
           activeRoute: null,
         };
-        drawWorldMapState(renderState);
+        const focusedSurveyState =
+          getBiomeSurveyProgress(
+            getJournalBiomeProgressList(),
+            getWorldMapLocation(ecoWorldMap, renderState.focusedLocationId).biomeId,
+          )?.state ?? 'none';
+        drawWorldMapScene(
+          context,
+          sprites,
+          ecoWorldMap,
+          renderState,
+          frameCount,
+          focusedSurveyState,
+          getRouteMarkerLocationId(),
+          getWorldMapReplayLabel(renderState.focusedLocationId),
+        );
+        drawWorldMapHud({
+          context,
+          width: WIDTH,
+          height: HEIGHT,
+          palette: currentBiomeDefinition.palette,
+          mapMode: renderState.mode,
+        });
       } else {
-        if (transitionSnapshot.avatar?.space === 'biome') {
-          cameraX = clamp(transitionSnapshot.avatar.x - WIDTH * 0.35, 0, currentBiome.width - WIDTH);
-        }
+        const transitionCameraX =
+          transitionSnapshot.avatar?.space === 'biome'
+            ? clamp(
+                transitionSnapshot.avatar.x - WIDTH * CAMERA_X_FOCUS_RATIO,
+                0,
+                Math.max(0, currentBiome.width - WIDTH),
+              )
+            : cameraX;
+        const transitionCameraY =
+          transitionSnapshot.avatar?.space === 'biome'
+            ? clamp(
+                Math.round(
+                  transitionSnapshot.avatar.y + PLAYER_HEIGHT - (HEIGHT - CAMERA_FOOT_PADDING),
+                ),
+                0,
+                Math.max(0, currentBiome.height - HEIGHT),
+              )
+            : cameraY;
 
-        drawBiomeScene(
-          false,
+        const transitionDoorOpenAmount =
           transitionSnapshot.phaseId === 'biome-exit' || transitionSnapshot.phaseId === 'fade-out'
             ? transitionSnapshot.sourceDoorOpen
-            : transitionSnapshot.destinationDoorOpen,
-          false,
-          transitionSnapshot,
+            : transitionSnapshot.destinationDoorOpen;
+        drawBiomeScene(
+          {
+            context,
+            width: WIDTH,
+            height: HEIGHT,
+            sprites,
+            biomeDefinition: currentBiomeDefinition,
+            biomeInstance: currentBiome,
+            doors: [
+              {
+                anchor: getWorldMapBiomeDoor(),
+                openAmount: transitionDoorOpenAmount,
+                highlighted: false,
+              },
+            ],
+            cameraX: transitionCameraX,
+            cameraY: transitionCameraY,
+            frameCount,
+            nearestEntityId: null,
+            player: {
+              x: player.x,
+              y: player.y,
+              facing: player.facing,
+              animationFrame: getPlayerAnimationFrame(),
+              climbing: player.climbing,
+            },
+            playerHeight: PLAYER_HEIGHT,
+            worldState,
+            transitionSnapshot,
+          },
         );
       }
 
       drawFade(context, transitionSnapshot.fadeAlpha);
     } else {
-      drawBiomeScene(
+      const nearestEntityId =
+        save.settings.showInspectHints &&
         overlayMode === 'playing' &&
-          sceneMode === 'biome' &&
-          !bubble &&
-          save.settings.showInspectHints &&
-          isNearBiomeDoor(),
-        0,
-        save.settings.showInspectHints,
+        !bubble
+          ? getNearestInspectable()?.entityId ?? null
+          : null;
+      const highlightedDoor =
+        overlayMode === 'playing' &&
+        sceneMode === 'biome' &&
+        !activeCorridor &&
+        !bubble &&
+        save.settings.showInspectHints
+          ? getNearestTravelInteractable()
+          : null;
+
+      drawBiomeScene(
+        {
+          context,
+          width: WIDTH,
+          height: HEIGHT,
+          sprites,
+          biomeDefinition: currentBiomeDefinition,
+          biomeInstance: currentBiome,
+          doors: getSceneDoors(highlightedDoor),
+          cameraX,
+          cameraY,
+          frameCount,
+          nearestEntityId,
+          player: {
+            x: player.x,
+            y: player.y,
+            facing: player.facing,
+            animationFrame: getPlayerAnimationFrame(),
+            climbing: player.climbing,
+          },
+          playerHeight: PLAYER_HEIGHT,
+          worldState,
+        },
       );
-      drawBubble();
+      bubbleActionHitTargets = drawBubbleOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        bubble,
+      });
     }
 
-    drawMenuChip();
+    hudHitTargets = drawMenuChip({
+      context,
+      width: WIDTH,
+      height: HEIGHT,
+      palette: currentBiomeDefinition.palette,
+      isVisible: overlayMode === 'playing' && sceneMode !== 'transition',
+    });
+    drawHabitatChip({
+      context,
+      width: WIDTH,
+      height: HEIGHT,
+      palette: currentBiomeDefinition.palette,
+      label: getCurrentZoneLabel(),
+      isVisible: overlayMode === 'playing' && sceneMode === 'biome',
+    });
+
+    if (fieldGuideNotice && overlayMode === 'playing' && sceneMode === 'biome') {
+      drawFieldGuideNotice({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        state: fieldGuideNotice,
+      });
+    } else if (fieldRequestNotice && overlayMode === 'playing' && sceneMode !== 'transition') {
+      drawFieldRequestNotice({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        title: fieldRequestNotice.title,
+        text: fieldRequestNotice.text,
+      });
+    } else if (fieldPartnerNotice && overlayMode === 'playing' && sceneMode === 'biome') {
+      drawFieldPartnerNotice({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        notice: fieldPartnerNotice,
+      });
+    }
 
     if (overlayMode === 'title') {
-      drawTitleOverlay();
+      titleHitTargets = drawTitleOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+      });
+    } else {
+      titleHitTargets = [];
+    }
+
+    if (overlayMode === 'close-look') {
+      closeLookHitTargets = drawCloseLookOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        sprites,
+        closeLook,
+      });
     }
 
     if (overlayMode === 'journal') {
-      drawJournalOverlay();
+      const discoveredEntryIds = getDiscoveredEntryIds(save);
+      const biomeProgress = getJournalBiomeProgressList();
+      const biomeSurveyProgress = getBiomeSurveyProgressList();
+      let selectedBiomeProgress =
+        biomeProgress.find((biome) => biome.biomeId === selectedJournalBiomeId) ?? biomeProgress[0];
+
+      if (selectedBiomeProgress.biomeId !== selectedJournalBiomeId) {
+        selectedJournalBiomeId = selectedBiomeProgress.biomeId;
+        setSelectedJournalEntry(true);
+        selectedBiomeProgress = biomeProgress.find((biome) => biome.biomeId === selectedJournalBiomeId) ?? biomeProgress[0];
+      }
+
+      setSelectedJournalEntry(true);
+      const discoveredEntries = getDiscoveredEntriesList(selectedBiomeProgress.biomeId);
+      const selectedEntry = discoveredEntries.find((entry) => entry.id === selectedJournalEntryId) ?? discoveredEntries[0] ?? null;
+      const selectedEntryDetailText = selectedEntry ? getInspectableDetail(selectedEntry).text : null;
+      const selectedEntrySightings = getJournalEntrySightingBiomeIds(selectedEntry?.id ?? null);
+      const selectedBiomeDefinition = biomeRegistry[selectedBiomeProgress.biomeId as keyof typeof biomeRegistry];
+      const selectedBiomeDiscoveredEntryIds = discoveredEntries.map((entry) => entry.id);
+      const selectedBiomeSurveyState =
+        biomeSurveyProgress.find((biome) => biome.biomeId === selectedBiomeProgress.biomeId)?.state ?? 'none';
+      const sketchbook = isSketchbookUnlocked(selectedBiomeSurveyState)
+        ? getJournalSketchbookPage()
+        : null;
+      if (!sketchbook) {
+        journalSketchbookOpen = false;
+        selectedSketchbookSlotId = null;
+      }
+      const ecosystemNote = resolveEcosystemNoteForEntry(
+        selectedBiomeDefinition,
+        selectedEntry?.id ?? null,
+        selectedBiomeDiscoveredEntryIds,
+      );
+      const fieldRequest = getActiveFieldRequest();
+      const comparison = getJournalComparison(selectedEntry?.id ?? null);
+      const observationPrompt = getJournalObservationPrompt(
+        selectedBiomeProgress.biomeId,
+        selectedEntry?.id ?? null,
+        ecosystemNote,
+        Boolean(comparison),
+      );
+      if (!comparison) {
+        journalComparisonOpen = false;
+      }
+      const journalOverlay = drawJournalOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        sprites,
+        totalDiscoveredCount: discoveredEntryIds.length,
+        biomeProgress,
+        selectedBiomeProgress,
+        selectedBiomeSurveyState,
+        discoveredEntries,
+        selectedEntryId: selectedJournalEntryId,
+        selectedEntry,
+        selectedEntryDetailText,
+        selectedEntrySightings,
+        ecosystemNote,
+        observationPrompt,
+        fieldRequest,
+        comparison,
+        isComparisonOpen: journalComparisonOpen,
+        sketchbook,
+        isSketchbookOpen: journalSketchbookOpen,
+        selectedSketchbookSlotId,
+      });
+      journalHitTargets = journalOverlay.entryTargets;
+      journalScrollHitTargets = journalOverlay.scrollTargets;
+      journalBiomeHitTargets = journalOverlay.biomeTargets;
+      journalActionHitTargets = journalOverlay.actionTargets;
+      journalSketchSlotHitTargets = journalOverlay.sketchSlotTargets;
+      journalVisibleEntryIds = journalOverlay.visibleEntryIds;
+      journalCanScrollUp = journalOverlay.canScrollUp;
+      journalCanScrollDown = journalOverlay.canScrollDown;
+    } else {
+      journalHitTargets = [];
+      journalScrollHitTargets = [];
+      journalBiomeHitTargets = [];
+      journalActionHitTargets = [];
+      journalSketchSlotHitTargets = [];
+      journalVisibleEntryIds = [];
+      journalCanScrollUp = false;
+      journalCanScrollDown = false;
+    }
+
+    if (overlayMode === 'field-station') {
+      const fieldStationState = getFieldStationState();
+      drawFieldStationOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        view: fieldStationState.view,
+        seasonPage: fieldStationState.seasonPage,
+        credits: fieldStationState.credits,
+        upgrades: fieldStationState.upgrades,
+        selectedUpgradeId: fieldStationState.selectedUpgradeId,
+        atlas: fieldStationState.atlas,
+        routeBoard: fieldStationState.routeBoard,
+        expedition: fieldStationState.expedition,
+        seasonWrap: fieldStationState.seasonWrap,
+        selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
+        nursery: fieldStationState.nursery,
+      });
     }
 
     if (overlayMode === 'menu') {
-      drawMenuOverlay();
+      ensureMenuSelection();
+      menuHitTargets = drawMenuOverlay({
+        context,
+        width: WIDTH,
+        height: HEIGHT,
+        palette: currentBiomeDefinition.palette,
+        selectedMenuActionId,
+        showResetConfirmation,
+        isFullscreen: save.settings.fullscreen,
+        soundEnabled: save.settings.soundEnabled,
+        showInspectHints: save.settings.showInspectHints,
+        showWorldMapAction: canUseWorldMapFromMenu(),
+        showFieldStationAction: canUseFieldStationFromMenu(),
+        showFieldGuideAction: canUseFieldGuideFromMenu(),
+        menuReturnMode,
+      });
+    } else {
+      menuHitTargets = [];
     }
   }
 
   function renderGameToText(): string {
     const transitionSnapshot = getTransitionSnapshot();
+    const discoveredEntryIds = getDiscoveredEntryIds(save);
+    const worldStateBiomeId =
+      sceneMode === 'world-map' || transitionSnapshot?.scene === 'world-map'
+        ? getWorldMapLocation(
+            ecoWorldMap,
+            transitionSnapshot?.activeLocationId ?? worldMapState.focusedLocationId,
+          ).biomeId
+        : transitionSnapshot?.activeBiomeId ?? getContextBiomeId();
+    const worldState = getWorldState(worldStateBiomeId);
+    const observationPrompt = getFieldGuideObservationPrompt();
+    const activeFieldRequest = getActiveFieldRequest();
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    const fieldStationState = getFieldStationState();
+    const audioState = audio.getDebugState();
+    const currentSceneBiomeDefinition = biomeRegistry[currentBiome.biomeId as keyof typeof biomeRegistry];
+    const habitatProcessIds =
+      sceneMode === 'biome' && currentSceneBiomeDefinition
+        ? getActiveHabitatProcessMoments(currentSceneBiomeDefinition, currentBiome.visitCount, worldState).map(
+            (moment) => moment.id,
+          )
+        : [];
     const nearby = sceneMode === 'biome'
       ? currentBiome.entities
           .filter((entity) => !entity.removed)
@@ -1910,6 +3186,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
               vx: Math.round(player.vx),
               vy: Math.round(player.vy),
               facing: player.facing,
+              climbing: player.climbing,
+              activeClimbableId: player.activeClimbableId,
               space: 'biome' as const,
             };
 
@@ -1917,8 +3195,24 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       coordinateSystem: 'origin top-left, x right, y down',
       scene: sceneMode,
       mode: overlayMode,
-      biomeId: transitionSnapshot?.activeBiomeId ?? currentBiome.biomeId,
-      visitCount: currentBiome.visitCount,
+      biomeId: transitionSnapshot?.activeBiomeId ?? getContextBiomeId(),
+      sceneBiomeId: currentBiome.biomeId,
+      zoneId: sceneMode === 'biome' ? getCurrentZoneId() : null,
+      habitatChipLabel: sceneMode === 'biome' ? getCurrentZoneLabel() : null,
+      visitCount: getContextVisitCount(),
+      worldState,
+      habitatProcesses: habitatProcessIds,
+      observationPrompt: serializeObservationPrompt(observationPrompt),
+      activeFieldRequest: serializeActiveFieldRequest(activeFieldRequest),
+      guidedFieldSeason: {
+        stage: guidedFieldSeason.stage,
+        stationNote: guidedFieldSeason.stationNote,
+        nextBiomeId: guidedFieldSeason.nextBiomeId,
+      },
+      camera: {
+        x: Math.round(cameraX),
+        y: Math.round(cameraY),
+      },
       player: scenePlayer,
       worldMap:
         sceneMode === 'world-map' || transitionSnapshot?.scene === 'world-map'
@@ -1926,6 +3220,13 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
               currentLocationId: worldMapState.currentLocationId,
               focusedLocationId: worldMapState.focusedLocationId,
               mode: worldMapState.mode,
+              routeMarkerLocationId: getRouteMarkerLocationId(),
+              routeReplayLabel: getWorldMapReplayLabel(worldMapState.focusedLocationId),
+              focusedSurveyState:
+                getBiomeSurveyProgress(
+                  getJournalBiomeProgressList(),
+                  getWorldMapLocation(ecoWorldMap, worldMapState.focusedLocationId).biomeId,
+                )?.state ?? 'none',
             }
           : null,
       transition: transitionSnapshot && transitionState
@@ -1936,21 +3237,67 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             toBiomeId: transitionState.plan.toBiomeId,
           }
         : null,
+      corridor:
+        activeCorridor
+          ? {
+              id: activeCorridor.id,
+              ownerBiomeId: activeCorridor.ownerBiomeId,
+              thresholdX: activeCorridor.thresholdX,
+              leftBiomeId: activeCorridor.leftBiomeId,
+              rightBiomeId: activeCorridor.rightBiomeId,
+              zoneId: getCorridorZoneForOwner(activeCorridor, activeCorridor.ownerBiomeId).id,
+            }
+          : null,
       nearbyInspectables: nearby,
       nearbyDoor:
-        sceneMode === 'biome'
+        sceneMode === 'biome' && !activeCorridor
           ? {
-              biomeId: currentBiomeDefinition.id,
+              biomeId: getContextBiomeId(),
               inRange: isNearBiomeDoor(),
+              targetBiomeId: getNearestBiomeDoor()?.targetBiomeId ?? null,
             }
+          : null,
+      nearbyTravelTarget:
+        sceneMode === 'biome' && !activeCorridor
+          ? (() => {
+              const target = getNearestTravelInteractable();
+              return target
+                ? {
+                    kind: target.kind,
+                    inRange: true,
+                    targetBiomeId: target.targetBiomeId,
+                  }
+                : null;
+            })()
+          : null,
+      nearbyClimbable:
+        sceneMode === 'biome'
+          ? (() => {
+              const climbable = getActiveClimbHintClimbable();
+              return climbable
+                ? {
+                    id: climbable.id,
+                    inRange: true,
+                  }
+                : null;
+            })()
           : null,
       openBubble: bubble
         ? {
+            entryId: bubble.entryId,
             title: bubble.title,
             detailLabel: bubble.detailLabel,
             detailText: bubble.detailText,
             scientificName: bubble.detailLabel === 'Scientific name' ? bubble.detailText : undefined,
             isNewEntry: bubble.isNewEntry,
+            closeLookAvailable: bubble.closeLookAvailable,
+          }
+        : null,
+      closeLook: closeLook
+        ? {
+            entryId: closeLook.entryId,
+            title: closeLook.title,
+            callouts: [...closeLook.callouts],
           }
         : null,
       menu:
@@ -1958,26 +3305,202 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           ? {
               returnMode: menuReturnMode,
               selectedAction: selectedMenuActionId,
+              availableActions: getMenuActionIds(),
               confirmReset: showResetConfirmation,
             }
           : null,
+      fieldGuideNotice: fieldGuideNotice
+        ? {
+            state: fieldGuideNotice,
+          }
+        : null,
+      fieldRequestNotice: fieldRequestNotice
+        ? {
+            title: fieldRequestNotice.title,
+            text: fieldRequestNotice.text,
+          }
+        : null,
+      fieldPartner: {
+        active: serializeFieldPartnerNotice(fieldPartnerNotice),
+        pendingTrigger: fieldPartnerPendingTrigger
+          ? {
+              reason: fieldPartnerPendingTrigger.reason,
+              entryId: fieldPartnerPendingTrigger.entryId,
+            }
+          : null,
+        noticesThisVisit: fieldPartnerNoticesThisVisit,
+        quiet: fieldPartnerQuietTimer > 0,
+        globalCooldownRemaining: Number(fieldPartnerGlobalCooldownTimer.toFixed(2)),
+      },
       settings: {
         fullscreen: save.settings.fullscreen,
         showInspectHints: save.settings.showInspectHints,
+        soundEnabled: save.settings.soundEnabled,
+      },
+      sound: audioState,
+      movement: {
+        walkSpeed: fieldStationState.walkSpeed,
+        jumpSpeed: fieldStationState.jumpSpeed,
+      },
+      fieldStation: {
+        view: fieldStationState.view,
+        seasonPage: fieldStationState.seasonPage,
+        credits: fieldStationState.credits,
+        recentSources: fieldStationState.recentSources,
+        selectedUpgradeId: fieldStationState.selectedUpgradeId,
+        selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
+        selectedNurseryProjectId: fieldStationState.nursery.selectedProjectId,
+        seasonNote: fieldStationState.seasonNote,
+        seasonWrap: fieldStationState.seasonWrap,
+        atlas: fieldStationState.atlas,
+        routeBoard: fieldStationState.routeBoard,
+        expedition: fieldStationState.expedition,
+        nursery: {
+          resources: fieldStationState.nursery.resources,
+          selectedProject: fieldStationState.nursery.selectedProject
+            ? {
+                id: fieldStationState.nursery.selectedProject.definition.id,
+                title: fieldStationState.nursery.selectedProject.definition.title,
+                entryId: fieldStationState.nursery.selectedProject.definition.entryId,
+                unlocked: fieldStationState.nursery.selectedProject.unlocked,
+                affordable: fieldStationState.nursery.selectedProject.affordable,
+              }
+            : null,
+          activeProject: fieldStationState.nursery.activeProject
+            ? {
+                id: fieldStationState.nursery.activeProject.definition.id,
+                title: fieldStationState.nursery.activeProject.definition.title,
+                stage: fieldStationState.nursery.activeProject.state.stage,
+                rewardClaimed: fieldStationState.nursery.activeProject.rewardClaimed,
+              }
+            : null,
+          routeSupportHint: fieldStationState.nursery.routeSupportHint,
+          utilityNote: fieldStationState.nursery.utilityNote,
+          compostRate: fieldStationState.nursery.compostRate,
+          extras: fieldStationState.nursery.extras.map((extra) => ({
+            id: extra.id,
+            title: extra.title,
+            unlocked: extra.unlocked,
+          })),
+        },
+        purchasedUpgradeIds: [...save.purchasedUpgradeIds],
+        upgrades: fieldStationState.upgrades.map((upgrade) => ({
+          id: upgrade.id,
+          title: upgrade.title,
+          cost: upgrade.cost,
+          owned: upgrade.owned,
+          affordable: upgrade.affordable,
+          walkSpeed: upgrade.walkSpeed,
+        })),
       },
       journal:
         overlayMode === 'journal'
-          ? {
-              selectedBiomeId: selectedJournalBiomeId,
-              selectedEntryId: selectedJournalEntryId,
-              biomeProgress: getJournalBiomeProgressList().map((biome) => ({
-                biomeId: biome.biomeId,
-                discoveredCount: biome.discoveredCount,
-                totalCount: biome.totalCount,
-              })),
-            }
+          ? (() => {
+              const selectedBiome = biomeRegistry[selectedJournalBiomeId as keyof typeof biomeRegistry];
+              const selectedBiomeDiscoveredEntryIds = getDiscoveredEntriesList(selectedJournalBiomeId).map((entry) => entry.id);
+              const noteState = resolveEcosystemNoteForEntry(
+                selectedBiome,
+                selectedJournalEntryId,
+                selectedBiomeDiscoveredEntryIds,
+              );
+              const comparison = getJournalComparison(selectedJournalEntryId);
+              const selectedSurveyState = getSelectedJournalSurveyState();
+              const sketchbook = isSketchbookUnlocked(selectedSurveyState)
+                ? getJournalSketchbookPage()
+                : null;
+              const journalObservationPrompt = getJournalObservationPrompt(
+                selectedJournalBiomeId,
+                selectedJournalEntryId,
+                noteState,
+                Boolean(comparison),
+              );
+
+              return {
+                selectedBiomeId: selectedJournalBiomeId,
+                selectedEntryId: selectedJournalEntryId,
+                selectedSurveyState,
+                selectedEntrySightings: getJournalEntrySightingBiomeIds(selectedJournalEntryId),
+                visibleEntryIds: journalVisibleEntryIds,
+                canScrollUp: journalCanScrollUp,
+                canScrollDown: journalCanScrollDown,
+                scrollTargets: journalScrollHitTargets.map((target) => ({
+                  direction: target.direction,
+                  x: target.x,
+                  y: target.y,
+                  w: target.w,
+                  h: target.h,
+                })),
+                actionTargets: journalActionHitTargets.map((target) => ({
+                  id: target.id,
+                  x: target.x,
+                  y: target.y,
+                  w: target.w,
+                  h: target.h,
+                })),
+                sketchSlotTargets: journalSketchSlotHitTargets.map((target) => ({
+                  slotId: target.slotId,
+                  x: target.x,
+                  y: target.y,
+                  w: target.w,
+                  h: target.h,
+                })),
+                biomeProgress: getJournalBiomeProgressList().map((biome) => ({
+                  biomeId: biome.biomeId,
+                  discoveredCount: biome.discoveredCount,
+                  totalCount: biome.totalCount,
+                  surveyState:
+                    getBiomeSurveyProgress(getJournalBiomeProgressList(), biome.biomeId)?.state ?? 'none',
+                })),
+                ecosystemNote:
+                  noteState.state === 'none'
+                    ? null
+                    : {
+                        state: noteState.state,
+                        discoveredCount: noteState.discoveredCount,
+                        requiredCount: noteState.requiredCount,
+                        title: noteState.note?.title ?? null,
+                        summary: noteState.note?.summary ?? null,
+                      },
+                fieldRequest: serializeActiveFieldRequest(activeFieldRequest),
+                observationPrompt: serializeObservationPrompt(journalObservationPrompt),
+                sketchbook: sketchbook
+                  ? {
+                      available: true,
+                      open: journalSketchbookOpen,
+                      selectedSlotId: selectedSketchbookSlotId,
+                      slots: sketchbook.slots.map((slot) => ({
+                        slotId: slot.slotId,
+                        label: slot.label,
+                        entryId: slot.entryId,
+                        entryName: slot.entry?.commonName ?? null,
+                      })),
+                    }
+                  : {
+                      available: false,
+                      open: false,
+                      selectedSlotId: null,
+                      slots: [],
+                    },
+                comparison: comparison
+                  ? {
+                      available: true,
+                      open: journalComparisonOpen,
+                      cards: comparison.cards.map((card) => ({
+                        biomeId: card.biomeId,
+                        biomeName: card.biomeName,
+                        noteTitle: card.noteTitle,
+                        noteSummary: card.noteSummary,
+                      })),
+                    }
+                  : {
+                      available: false,
+                      open: false,
+                      cards: [],
+                    },
+              };
+            })()
           : null,
-      discoveredJournalCount: getDiscoveredEntryIds(save).length,
+      discoveredJournalCount: discoveredEntryIds.length,
     });
   }
 

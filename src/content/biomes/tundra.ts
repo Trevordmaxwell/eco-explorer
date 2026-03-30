@@ -1,18 +1,10 @@
 import { tundraPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
+import { arcticWillowEntry, crowberryEntry, lingonberryEntry, mountainAvensEntry } from '../shared-entries';
 
 const tundraEntries = {
-  'arctic-willow': {
-    id: 'arctic-willow',
-    commonName: 'Arctic Willow',
-    scientificName: 'Salix arctica',
-    category: 'plant',
-    shortFact: 'Arctic willow grows low to the ground so strong wind blows over it.',
-    journalText:
-      'Arctic willow is one of the tiniest woody plants in the far north. Staying close to the soil helps it keep warmer air around its stems and leaves.',
-    spriteId: 'arctic-willow',
-    collectible: false,
-  },
+  'arctic-willow': arcticWillowEntry,
+  'mountain-avens': mountainAvensEntry,
   'purple-saxifrage': {
     id: 'purple-saxifrage',
     commonName: 'Purple Saxifrage',
@@ -35,6 +27,17 @@ const tundraEntries = {
     spriteId: 'cottongrass',
     collectible: false,
   },
+  'woolly-lousewort': {
+    id: 'woolly-lousewort',
+    commonName: 'Woolly Lousewort',
+    scientificName: 'Pedicularis dasyantha',
+    category: 'plant',
+    shortFact: 'Woolly lousewort keeps fuzzy stems that help with cold, windy tundra weather.',
+    journalText:
+      'Woolly lousewort grows on open tundra where wind and cold can be harsh. Its fuzzy stem helps trap a little warmer air close to the plant.',
+    spriteId: 'woolly-lousewort',
+    collectible: false,
+  },
   cloudberry: {
     id: 'cloudberry',
     commonName: 'Cloudberry',
@@ -46,16 +49,18 @@ const tundraEntries = {
     spriteId: 'cloudberry',
     collectible: true,
   },
-  crowberry: {
-    id: 'crowberry',
-    commonName: 'Crowberry',
-    scientificName: 'Empetrum nigrum',
+  lingonberry: lingonberryEntry,
+  crowberry: crowberryEntry,
+  'bigelows-sedge': {
+    id: 'bigelows-sedge',
+    commonName: "Bigelow's Sedge",
+    scientificName: 'Carex bigelowii',
     category: 'plant',
-    shortFact: 'Crowberry keeps tiny evergreen leaves so it can start growing quickly after winter.',
+    shortFact: "Bigelow's sedge grows in low tussocks that lift leaves above wet, cold tundra soil.",
     journalText:
-      'Crowberry is a low Arctic shrub with dark berries. Its small leaves help the plant hold on to water when cold wind sweeps across the tundra.',
-    spriteId: 'crowberry',
-    collectible: true,
+      "Bigelow's sedge is a low northern sedge that often grows in raised tussocks. Those springy clumps help shape wet tundra ground and can give small animals cover between stems.",
+    spriteId: 'bigelows-sedge',
+    collectible: false,
   },
   'arctic-hare': {
     id: 'arctic-hare',
@@ -79,6 +84,17 @@ const tundraEntries = {
     spriteId: 'snow-bunting',
     collectible: false,
   },
+  'northern-collared-lemming': {
+    id: 'northern-collared-lemming',
+    commonName: 'Northern Collared Lemming',
+    scientificName: 'Dicrostonyx groenlandicus',
+    category: 'animal',
+    shortFact: 'Northern collared lemmings live low in tundra plants where snow can cover them.',
+    journalText:
+      'Northern collared lemmings are small tundra rodents that move through low plants and snowy cover. They are an important food source for many Arctic predators.',
+    spriteId: 'northern-collared-lemming',
+    collectible: false,
+  },
 } satisfies BiomeDefinition['entries'];
 
 export const tundraBiome: BiomeDefinition = {
@@ -96,8 +112,9 @@ export const tundraBiome: BiomeDefinition = {
     sampleStep: 16,
     zones: [
       { id: 'wind-bluff', label: 'Wind Bluff', start: 0, end: 150, surfaceBaseY: 108, surfaceVariance: 4 },
-      { id: 'snow-meadow', label: 'Snow Meadow', start: 150, end: 340, surfaceBaseY: 112, surfaceVariance: 3 },
-      { id: 'frost-ridge', label: 'Frost Ridge', start: 340, end: 520, surfaceBaseY: 109, surfaceVariance: 5 },
+      { id: 'snow-meadow', label: 'Snow Meadow', start: 150, end: 304, surfaceBaseY: 112, surfaceVariance: 3 },
+      { id: 'thaw-skirt', label: 'Thaw Skirt', start: 304, end: 408, surfaceBaseY: 118, surfaceVariance: 4 },
+      { id: 'frost-ridge', label: 'Frost Ridge', start: 408, end: 520, surfaceBaseY: 109, surfaceVariance: 5 },
       { id: 'meltwater-edge', label: 'Meltwater Edge', start: 520, end: 640, surfaceBaseY: 114, surfaceVariance: 4 },
     ],
     platformRules: [
@@ -126,6 +143,32 @@ export const tundraBiome: BiomeDefinition = {
         spriteId: 'ice-platform',
       },
     ],
+    authoredPlatforms: [
+      {
+        id: 'thaw-skirt-entry-heave',
+        spriteId: 'ice-platform',
+        x: 314,
+        y: 104,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-upper-shelf',
+        spriteId: 'ice-platform',
+        x: 348,
+        y: 98,
+        w: 88,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-exit-heave',
+        spriteId: 'ice-platform',
+        x: 446,
+        y: 103,
+        w: 24,
+        h: 4,
+      },
+    ],
   },
   spawnTables: [
     {
@@ -150,6 +193,15 @@ export const tundraBiome: BiomeDefinition = {
       ],
     },
     {
+      id: 'stable-sedge-tussocks',
+      zoneId: 'snow-meadow',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'bigelows-sedge', weight: 1 }],
+    },
+    {
       id: 'stable-grasses',
       zoneId: 'meltwater-edge',
       refreshPolicy: 'stable',
@@ -162,6 +214,55 @@ export const tundraBiome: BiomeDefinition = {
       ],
     },
     {
+      id: 'stable-ridge-flowers',
+      zoneId: 'frost-ridge',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'woolly-lousewort', weight: 1 }],
+    },
+    {
+      id: 'stable-ridge-mats',
+      zoneId: 'frost-ridge',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 26,
+      entries: [{ entryId: 'mountain-avens', weight: 1 }],
+    },
+    {
+      id: 'stable-thaw-edge',
+      zoneId: 'thaw-skirt',
+      refreshPolicy: 'stable',
+      minCount: 3,
+      maxCount: 4,
+      spacing: 22,
+      entries: [
+        { entryId: 'purple-saxifrage', weight: 2 },
+        { entryId: 'cottongrass', weight: 2 },
+        { entryId: 'arctic-willow', weight: 1 },
+      ],
+    },
+    {
+      id: 'stable-thaw-tussocks',
+      zoneId: 'thaw-skirt',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'bigelows-sedge', weight: 1 }],
+    },
+    {
+      id: 'stable-thaw-shelter',
+      zoneId: 'thaw-skirt',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'woolly-lousewort', weight: 1 }],
+    },
+    {
       id: 'berry-patches',
       zoneId: 'snow-meadow',
       refreshPolicy: 'visit',
@@ -171,6 +272,7 @@ export const tundraBiome: BiomeDefinition = {
       entries: [
         { entryId: 'cloudberry', weight: 3 },
         { entryId: 'crowberry', weight: 2 },
+        { entryId: 'lingonberry', weight: 2 },
       ],
     },
     {
@@ -183,6 +285,7 @@ export const tundraBiome: BiomeDefinition = {
       entries: [
         { entryId: 'crowberry', weight: 3 },
         { entryId: 'cloudberry', weight: 1 },
+        { entryId: 'lingonberry', weight: 1 },
       ],
     },
     {
@@ -209,12 +312,124 @@ export const tundraBiome: BiomeDefinition = {
         { entryId: 'arctic-hare', weight: 1 },
       ],
     },
+    {
+      id: 'tussock-life',
+      zoneId: 'snow-meadow',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 30,
+      entries: [{ entryId: 'northern-collared-lemming', weight: 1 }],
+    },
+    {
+      id: 'thaw-skirt-life',
+      zoneId: 'thaw-skirt',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 28,
+      entries: [
+        { entryId: 'northern-collared-lemming', weight: 2 },
+        { entryId: 'snow-bunting', weight: 1 },
+      ],
+    },
   ],
   ambientRules: {
     cloudCount: [1, 3],
     sparkleCount: [10, 16],
   },
   entries: tundraEntries,
+  ecosystemNotes: [
+    {
+      id: 'staying-low',
+      title: 'Staying Low',
+      entryIds: ['arctic-willow', 'purple-saxifrage', 'woolly-lousewort', 'crowberry'],
+      summary:
+        'Low tundra plants stay near calmer, slightly warmer air.',
+      observationPrompt:
+        'Which shapes hide from strong wind?',
+      zoneId: 'wind-bluff',
+    },
+    {
+      id: 'tussock-ground',
+      title: 'Tussock Ground',
+      entryIds: ['bigelows-sedge', 'cottongrass', 'northern-collared-lemming'],
+      minimumDiscoveries: 2,
+      summary:
+        'Raised sedge tussocks make springy ground that protects wet soil and gives small animals cover.',
+      observationPrompt:
+        'What here makes the ground feel springier?',
+      zoneId: 'snow-meadow',
+    },
+    {
+      id: 'brief-thaw-bloom',
+      title: 'Brief Thaw Bloom',
+      entryIds: ['mountain-avens', 'woolly-lousewort'],
+      summary:
+        'On exposed tundra ridges, low flowers use brief thaws before the cold wind returns.',
+      observationPrompt:
+        'Which bloom seems built for a brief thaw?',
+      zoneId: 'frost-ridge',
+    },
+    {
+      id: 'short-summer-rush',
+      title: 'Short Summer Rush',
+      entryIds: ['cottongrass', 'cloudberry', 'snow-bunting'],
+      summary:
+        'Plants and birds must use the short summer fast.',
+      observationPrompt:
+        'What hints at a very short summer?',
+      zoneId: 'snow-meadow',
+    },
+  ],
+  phenology: {
+    phases: {
+      early: {
+        skyWashTop: 'rgba(246, 248, 252, 0.14)',
+        skyWashBottom: 'rgba(238, 243, 248, 0.08)',
+        groundWash: 'rgba(226, 236, 243, 0.11)',
+        parallaxColors: ['#e2edf3', '#a7bfd0'],
+        entryAccents: [
+          { entryId: 'purple-saxifrage', style: 'bloom', primaryColor: '#b183df', secondaryColor: '#e2c8f9' },
+        ],
+      },
+      peak: {
+        skyWashTop: 'rgba(231, 241, 236, 0.08)',
+        skyWashBottom: 'rgba(235, 243, 241, 0.05)',
+        groundWash: 'rgba(169, 201, 175, 0.08)',
+        parallaxColors: ['#d7e8ea', '#97b3be'],
+        entryAccents: [
+          { entryId: 'mountain-avens', style: 'bloom', primaryColor: '#fff3cf', secondaryColor: '#dcc36f' },
+          { entryId: 'cloudberry', style: 'berry', primaryColor: '#efab52', secondaryColor: '#ffdeb5' },
+          { entryId: 'woolly-lousewort', style: 'bloom', primaryColor: '#cb84b0', secondaryColor: '#f0c6df' },
+        ],
+        spawnEmphasis: [{ tableId: 'berry-patches', minCountDelta: 1, maxCountDelta: 1 }],
+      },
+      late: {
+        skyWashTop: 'rgba(227, 227, 236, 0.10)',
+        skyWashBottom: 'rgba(233, 237, 243, 0.06)',
+        groundWash: 'rgba(190, 196, 180, 0.10)',
+        parallaxColors: ['#d6e0e8', '#91a9b8'],
+        entryAccents: [
+          { entryId: 'cottongrass', style: 'tuft', primaryColor: '#f8fbff', secondaryColor: '#d5dfec' },
+          { entryId: 'crowberry', style: 'berry', primaryColor: '#2f2d49', secondaryColor: '#8f8db8' },
+        ],
+        spawnEmphasis: [{ tableId: 'ridge-berries', minCountDelta: 1, maxCountDelta: 1 }],
+      },
+    },
+  },
+  processMoments: [
+    {
+      id: 'thaw-fringe',
+      style: 'thaw-fringe',
+      entryIds: ['arctic-willow', 'purple-saxifrage', 'cottongrass'],
+      zoneIds: ['snow-meadow', 'thaw-skirt', 'meltwater-edge'],
+      minimumVisitCount: 2,
+      phenologyPhases: ['peak'],
+      primaryColor: '#76a7a3',
+      secondaryColor: '#e6f4ec',
+    },
+  ],
   startPosition: {
     x: 24,
     y: 82,

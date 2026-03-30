@@ -1,0 +1,189 @@
+{
+  "packet_id": "ECO-PACKET-014",
+  "version": 14,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Approved living-world sequence: day-part, weather, naturalist prompts, field partner",
+  "summary": "Fourteenth structured packet for Eco Explorer. The user has explicitly approved the living-world direction, and the first four slices are now aligned. Day-part and weather are live and reviewed cleanly, the notebook-style naturalist prompt layer is live, and the compact journal-surface follow-up now reviews cleanly as well. The first field-partner pass also landed without destabilizing the UI, but `critic-22` found that it still collapses the scout handoff into four family-generic lines and has not yet adopted the fuller cue-bank cadence plan. The next active living-world step is therefore a larger authored follow-up pass, after which a clean review can hand the lane forward to the parked phenology sequence.",
+  "source_reports": [
+    "docs/reports/2026-03-28-post-28-roadmap.md",
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-living-world-grounding-handoff.md",
+    "docs/reports/2026-03-28-day-part-mood-matrix-handoff.md",
+    "docs/reports/2026-03-28-first-day-part-review.md",
+    "docs/reports/2026-03-28-day-part-ordering-follow-up-review.md",
+    "docs/reports/2026-03-28-weather-readability-matrix-handoff.md",
+    "docs/reports/2026-03-29-weather-pass-review.md",
+    "docs/reports/2026-03-28-notebook-prompt-handoff.md",
+    "docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md",
+    "docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md",
+    "docs/reports/2026-03-28-prompt-partner-surface-handoff.md",
+    "docs/reports/2026-03-29-notebook-prompt-review.md",
+    "docs/reports/2026-03-29-notebook-prompt-follow-up-review.md",
+    "docs/reports/2026-03-29-field-partner-cue-bank-handoff.md",
+    "docs/reports/2026-03-29-field-partner-review.md",
+    "docs/ai-naturalist-design.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-04",
+    "ECO-20260328-scout-22",
+    "ECO-20260328-scout-23",
+    "ECO-20260328-scout-24",
+    "ECO-20260329-scout-29",
+    "ECO-20260328-main-31",
+    "ECO-20260328-critic-18",
+    "ECO-20260328-main-45",
+    "ECO-20260328-critic-19",
+    "ECO-20260328-main-32",
+    "ECO-20260328-critic-20",
+    "ECO-20260328-main-33",
+    "ECO-20260328-critic-21",
+    "ECO-20260329-main-49",
+    "ECO-20260329-critic-25",
+    "ECO-20260328-main-34",
+    "ECO-20260328-critic-22",
+    "ECO-20260329-main-50",
+    "ECO-20260329-critic-26",
+    "ECO-20260328-main-37"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-29",
+    "ECO-20260328-main-30"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-31",
+      "goal": "Add a simple day-part system through a shared deterministic world-state helper, starting with `dawn`, `day`, and `dusk`.",
+      "why_now": "Time-of-day is the lowest-risk first living-world slice, and the day-part mood matrix is now specific enough to support implementation without reopening broad feature design."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-critic-18",
+      "goal": "Review the first day-part pass for readability, atmosphere, and world-state scope discipline.",
+      "why_now": "The first living-world slice needs a dedicated critique pass before weather builds on top of it."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-main-45",
+      "goal": "Align the shared day-part cycle to a forward-feeling temporal order without losing the calm visual-first scope of the first pass.",
+      "why_now": "Weather, notebook prompts, and the field partner will all inherit awkward timing language if the core seam stays `day -> dusk -> dawn`."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-critic-19",
+      "goal": "Review the day-part ordering follow-up for temporal clarity, readability, and scope discipline.",
+      "why_now": "The first world-state seam is worth rechecking once its temporal order is cleaned up, because weather should build on the corrected version, not the awkward one."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-main-32",
+      "goal": "Add biome-specific weather ambience by extending the same shared world-state helper with one calm weather profile per biome family.",
+      "why_now": "Weather builds on the day-part feel and can stay mostly visual and atmospheric at first if it does not invent a separate simulation."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260328-critic-20",
+      "goal": "Review the first weather pass for readability, biome distinction, and world-state scope discipline.",
+      "why_now": "Weather is the next living-world layer and should get a dedicated critique pass before notebook prompts build on it."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260328-main-33",
+      "goal": "Add notebook-style observation prompts using biome, zone, world-state, and ecosystem-note context signals.",
+      "why_now": "The weather pass is now verified clean, so the next strongest living-world gain is one calm observation lens that can use place, time, weather, and journal context together."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260329-main-49",
+      "goal": "Refit the notebook-prompt journal surface so prompts stay readable and additive instead of replacing unlocked ecosystem-note teaching.",
+      "why_now": "The first prompt pass is worth keeping, but the surface needs one compact readability/additivity follow-up before the field partner builds on top of it."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260329-scout-29",
+      "goal": "Prepare a compact authored field-partner cue bank and silence-state matrix that can support the first implementation without pushing it toward chatter.",
+      "why_now": "This can run in parallel with `main-34` and reduce the risk that the first field-partner pass improvises tone, cadence, or suppression rules."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260328-main-34",
+      "goal": "Add a lightweight field partner layer built on the same deterministic world-state and naturalist context signals.",
+      "why_now": "The companion will be stronger if it speaks about real living-world signals instead of being added as a generic overlay first, but it should wait until the notebook-prompt surface is stable."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260328-critic-22",
+      "goal": "Review the first field-partner pass for tone, silence discipline, science grounding, and HUD restraint.",
+      "why_now": "The first companion pass needed a dedicated critique before the living-world lane moved on, because even a calm-feeling partner can still drift into generic or under-authored territory."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260329-main-50",
+      "goal": "Replace the family-generic field-partner lines with a small authored cue bank plus the fuller silence and cadence plan from the scout handoff.",
+      "why_now": "The first pass is safe enough to keep, but the next real quality gain is making it biome-local and cue-aware before phenology or later partner growth builds on a too-generic seam."
+    },
+    {
+      "step": 13,
+      "queue_id": "ECO-20260329-critic-26",
+      "goal": "Review the authored field-partner follow-up and promote phenology if the companion layer is now stable enough to carry forward.",
+      "why_now": "A clean authored follow-up should unblock the next larger living-world chunk instead of leaving the lane stalled on tiny partner corrections."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate for every prompt, cue, and environmental change.",
+    "These systems should deepen noticing and atmosphere, not add punishment or urgency.",
+    "Keep HUD growth minimal and playfield-safe.",
+    "Build the sequence on one shared deterministic world-state helper instead of four disconnected feature systems.",
+    "Day-part should start with `dawn`, `day`, and `dusk`; any moonlit variant is a later readability-gated stretch, not a v1 requirement.",
+    "Weather should start with `clear` plus one calm profile per biome family and stay render-first before any broader emphasis or spawn effects.",
+    "Chronological day-part labels should move in a forward-feeling order before weather or prompt language builds on them.",
+    "Naturalist prompts and the field partner should remain optional, warm, and non-quiz-like.",
+    "Naturalist prompts should stay relationship-first: shelter, timing, neighbor-role, and comparison cues grounded in local evidence.",
+    "The first notebook-prompt pass should start from a small authored seed set with simple evidence-aware unlock and rotation rules instead of broad runtime chatter.",
+    "Notebook prompts should not displace unlocked ecosystem-note teaching; the compact journal surface needs room for both the stable relationship and the current observation lens.",
+    "Prompt and partner surfaces should stay distinct: prompts live in the compact notebook flow first, while the partner uses a tiny transient in-biome strip only when needed.",
+    "Field-partner delivery should feel like a notebook margin and default to silence during overlays, map travel, active inspect, transitions, and repeated same-state revisits.",
+    "The first field-partner pass should use a small authored cue bank plus explicit silence, cooldown, and repeat-suppression rules instead of freeform runtime chatter.",
+    "Field-partner follow-up work should replace family-only paraphrases with cue-specific authored lines before the feature expands any further.",
+    "Field-partner cadence should include both cue-level dedupe and a meaningful quiet window, not just a per-visit line cap.",
+    "Direct API mode is not required for the first naturalist or field-partner implementation.",
+    "The day-part and weather foundations are now stable enough for notebook prompts, but keep `main-34` ordered behind the prompt-surface follow-up rather than overlapping them."
+  ],
+  "file_targets": [
+    "src/engine/biome-scene-render.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/field-partner.ts",
+    "src/engine/generation.ts",
+    "src/engine/field-guide.ts",
+    "src/engine/game.ts",
+    "src/engine/journal.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine",
+    "src/content/biomes",
+    "src/test",
+    "docs/ai-naturalist-design.md",
+    "docs/architecture.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Living-world features land in a calm, ordered sequence.",
+    "The first implementation slices stay atmospheric and readable.",
+    "The sequence grows from shared world-state signals instead of one-off feature logic.",
+    "The companion/naturalist layers are built on real world-state signals rather than floating above the game."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-living-world-sequence.md, docs/reports/2026-03-28-living-world-grounding-handoff.md, docs/reports/2026-03-28-day-part-mood-matrix-handoff.md, docs/reports/2026-03-28-first-day-part-review.md, docs/reports/2026-03-28-day-part-ordering-follow-up-review.md, docs/reports/2026-03-28-weather-readability-matrix-handoff.md, docs/reports/2026-03-29-weather-pass-review.md, docs/reports/2026-03-28-notebook-prompt-handoff.md, docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md, docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md, docs/reports/2026-03-28-prompt-partner-surface-handoff.md, docs/reports/2026-03-29-notebook-prompt-review.md, docs/reports/2026-03-29-notebook-prompt-follow-up-review.md, docs/reports/2026-03-29-field-partner-cue-bank-handoff.md, docs/reports/2026-03-29-field-partner-review.md, and this packet. The first field-partner pass is live and stable enough to keep, but the next active step is `main-50`: replace the family-only partner copy with the authored cue bank, adopt the fuller silence and cooldown plan, and keep the strip tiny so a clean follow-up review can hand the lane onward to phenology."
+}

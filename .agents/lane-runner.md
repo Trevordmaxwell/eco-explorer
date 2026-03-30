@@ -1,0 +1,67 @@
+# Lane Runner Guide
+
+Use this when one agent is wearing all three hats inside one lane.
+
+## Core Rule
+
+Do not keep rolling forward from short-term memory alone.
+
+Before every new queue item, restart the read chain so you re-enter the right role, lane scope, and packet context.
+
+## Read Chain Before Every Item
+
+1. `AGENTS.md`
+2. `.agents/lane-runner.md`
+3. `.agents/project-memory.md`
+4. `.agents/work-queue.md`
+5. your lane brief in `.agents/lanes/`
+6. the queue item's packet in `.agents/packets/`, if present
+7. the matching role file in `.agents/roles/`
+8. `.agents/critic-brief.md` if the item owner is `critic-agent` or the item is review-heavy
+9. the latest relevant report in `docs/reports/`
+10. any code or docs needed for the actual task
+
+## How To Pick The Next Item
+
+- Work in one lane only.
+- Ignore actionable items from other lanes unless explicitly reassigned.
+- Walk the queue top to bottom.
+- Take the first item in your lane that is actionable for its current status:
+  - `READY`
+  - `IN PROGRESS` if you already claimed it
+  - `BLOCKED-BY-IMPLEMENTATION` only when its implementation dependency has now landed and it is the rightful next critique step
+
+## Role Switching
+
+The queue item's `Owner` decides which hat you wear for that step.
+
+- `main-agent`: implement only the approved chunk
+- `critic-agent`: review, stress-test, and decide whether the next gated step can move
+- `scout-agent`: prepare findings, packets, and the next chunk without overbuilding
+
+Do not blend the hats at the same time. Finish the current role step, update the shared surfaces, then restart the chain before switching to the next role.
+
+## Promotion Rules
+
+- If you finish a `scout-agent` item and its dependent item is now unblocked, update the queue accordingly.
+- If you finish a clean `critic-agent` gate and the queue item explicitly says to promote the next step, you may do so.
+- If a dependency is still uncertain, leave the next step blocked and document why.
+
+## Parallel Lane Rules
+
+- One agent should normally own one lane.
+- Different lanes should minimize file overlap.
+- If your task would cross heavily into another lane's scope, split it, queue it, or escalate instead of freelancing across both lanes.
+
+## Completion Loop
+
+After every item:
+
+- update `.agents/work-queue.md`
+- update `.agents/project-memory.md` only if a durable rule changed
+- update `progress.md` only for real milestones
+- add a report or packet when future agents will need it
+- run `npm run validate:agents` after queue or packet edits
+- run tests and `npm run build` when runtime code changes
+
+Then restart the read chain before choosing the next item.

@@ -29,6 +29,32 @@ export const forestAmbientSprites: SpriteSource[] = [
     ],
   },
   {
+    id: 'ensatina',
+    palette: {
+      a: '#9f5e49',
+      b: '#d9b59a',
+      c: masterPalette.ink,
+    },
+    frames: [
+      [
+        '........',
+        '..aaaa..',
+        '.abbbba.',
+        '.abbccaa',
+        '..b..c..',
+        '.c....c.',
+      ],
+      [
+        '........',
+        '..aaaa..',
+        '.abbbba.',
+        '.abbccaa',
+        '.c..b...',
+        '...c...c',
+      ],
+    ],
+  },
+  {
     id: 'steller-jay',
     palette: {
       a: '#4f6fbc',
@@ -50,6 +76,33 @@ export const forestAmbientSprites: SpriteSource[] = [
         '...abda.',
         '..abbbaa',
         '..abcc..',
+        '..d.b...',
+        '...d...d',
+      ],
+    ],
+  },
+  {
+    id: 'pileated-woodpecker',
+    palette: {
+      a: '#d14c3e',
+      b: masterPalette.ink,
+      c: masterPalette.cloud,
+      d: masterPalette.barkLight,
+    },
+    frames: [
+      [
+        '....aa..',
+        '...abbd.',
+        '..abbbba',
+        '..bbcc..',
+        '...b.d..',
+        '..d...d.',
+      ],
+      [
+        '....aa..',
+        '...abbd.',
+        '..abbbba',
+        '..bbcc..',
         '..d.b...',
         '...d...d',
       ],

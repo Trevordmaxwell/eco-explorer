@@ -3,7 +3,7 @@ import { masterPalette } from './palette';
 
 export const collectibleSprites: SpriteSource[] = [
   {
-    id: 'coquina-shell',
+    id: 'native-littleneck-shell',
     palette: {
       a: masterPalette.shellCream,
       b: masterPalette.shellPink,
@@ -33,7 +33,7 @@ export const collectibleSprites: SpriteSource[] = [
     ]],
   },
   {
-    id: 'auger-shell',
+    id: 'razor-clam-shell',
     palette: {
       a: masterPalette.shellCream,
       b: masterPalette.shellPink,
@@ -46,6 +46,23 @@ export const collectibleSprites: SpriteSource[] = [
       '..aba.',
       '...a..',
       '...a..',
+    ]],
+  },
+  {
+    id: 'sand-dollar-test',
+    palette: {
+      a: masterPalette.shellCream,
+      b: masterPalette.shellGold,
+      c: masterPalette.sandMid,
+    },
+    frames: [[
+      '..aaa..',
+      '.ababa.',
+      'abbbbba',
+      '.abbba.',
+      'abbbbba',
+      '.ababa.',
+      '..aca..',
     ]],
   },
 ];

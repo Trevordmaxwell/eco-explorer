@@ -1,0 +1,139 @@
+{
+  "packet_id": "ECO-PACKET-024",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Next gameplay phase: activate the inland route and make the back half of the world feel authored",
+  "summary": "Twenty-fourth structured packet for Eco Explorer. Packet `023` is now fully complete: the field-season board is live, route-aligned coastal content landed, treeline has a traversal shelter proof, a third small station utility exists, and inland revisit process moments are visible. The next leverage is to activate the inland half of the world as a real second chapter. That means one second live field-season route, alpine route content fuel, one short tundra traversal proof, one compact route-completion acknowledgment, and only then subtle inland corridor-authored beats.",
+  "source_reports": [
+    "docs/reports/2026-03-30-field-season-routes-phase.md",
+    "docs/reports/2026-03-30-act-two-route-matrix-handoff.md",
+    "docs/reports/2026-03-30-treeline-shelter-handoff.md",
+    "docs/reports/2026-03-30-route-reward-ethics-handoff.md",
+    "docs/reports/2026-03-30-inland-route-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-38",
+    "ECO-20260330-scout-39",
+    "ECO-20260330-scout-40",
+    "ECO-20260330-main-65",
+    "ECO-20260330-critic-41",
+    "ECO-20260330-main-66",
+    "ECO-20260330-critic-42",
+    "ECO-20260330-main-67",
+    "ECO-20260330-critic-43",
+    "ECO-20260330-main-68",
+    "ECO-20260330-critic-44",
+    "ECO-20260330-main-69"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-60",
+    "ECO-20260330-main-62",
+    "ECO-20260330-main-63",
+    "ECO-20260330-main-64"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-38",
+      "goal": "Prepare the inland route beat sheet and pacing for the second live line on the field-season board.",
+      "why_now": "The second route should feel authored and chapter-like, not improvised from existing route fragments."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-65",
+      "goal": "Activate the second live inland route on the field-season board.",
+      "why_now": "The back half of the world now has enough traversal and process support to become a real second chapter."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-41",
+      "goal": "Review the second route for pacing, clarity, and whether the inland half now feels authored instead of merely unlocked.",
+      "why_now": "The route shell should be critiqued before more alpine content and traversal are shaped around it."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-main-66",
+      "goal": "Add alpine route content fuel across forest, treeline, and tundra.",
+      "why_now": "The inland route needs its own discoveries, comparisons, and notes instead of borrowing all of its momentum from the coastal board work."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-critic-42",
+      "goal": "Review the alpine route content pass for science quality, pacing, and whether it distinguishes the inland chapter from the coastal one.",
+      "why_now": "The route should feel richer, not just colder and more crowded."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-main-67",
+      "goal": "Add one short tundra traversal proof aligned to the inland route.",
+      "why_now": "A compact high-latitude movement proof will make the inland route feel like a true place, not just a route board checkbox."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-critic-43",
+      "goal": "Review the tundra traversal proof for readability, tone, and kid-friendly difficulty.",
+      "why_now": "Tundra is easy to over-harden or over-flatten if it is not critiqued directly."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-68",
+      "goal": "Add one compact route-completion summary or atlas acknowledgment at the field station.",
+      "why_now": "Two routes are enough to justify a small sense of seasonal progress without turning the station into a dashboard."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-44",
+      "goal": "Review the route-completion acknowledgment for tone, readability, and whether it stays fieldwork-first rather than score-like.",
+      "why_now": "Recognition is good leverage, but it can easily become gamified in the wrong way."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-69",
+      "goal": "Add quiet authored inland corridor beats after the second route and route-completion shell are stable.",
+      "why_now": "The inland seams will teach better once the route layer gives players a reason to walk them deliberately."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Do not respond to a clear queue with disconnected side features.",
+    "The second route should make the inland branch feel authored, not just unlocked.",
+    "Keep one live inland route at a time instead of opening several equal-weight route tracks immediately.",
+    "The field-station board should stay compact and notebook-like.",
+    "Tundra traversal should stay short, readable, and shelter-aware.",
+    "Route-completion acknowledgment should feel like fieldwork recognition, not a score screen.",
+    "Corridor-authored route beats should stay quiet and note-backed rather than becoming tutorial chatter."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md",
+    "src/engine/field-station.ts",
+    "src/engine/progression.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/corridor.ts",
+    "src/content/biomes",
+    "src/content/world-map.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The queue again points at one coherent gameplay phase instead of going blank.",
+    "The inland half of the world becomes a true second chapter rather than a late-game afterthought.",
+    "Later corridor and atlas work now have a stronger authored inland route to build on."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-30-field-season-routes-phase.md, docs/reports/2026-03-30-act-two-route-matrix-handoff.md, docs/reports/2026-03-30-treeline-shelter-handoff.md, docs/reports/2026-03-30-route-reward-ethics-handoff.md, docs/reports/2026-03-30-inland-route-phase.md, and this packet. Treat the clear queue as a signal to make the inland half of the world feel authored. The next live move is a second field-season route, not another disconnected feature drop."
+}

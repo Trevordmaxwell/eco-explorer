@@ -1,0 +1,124 @@
+{
+  "packet_id": "ECO-PACKET-029",
+  "version": 3,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Content richness lane",
+  "summary": "Twenty-ninth structured packet for Eco Explorer. Lane 2 is a parallel content-richness lane that deepens the world through authored discovery packs and journal-facing richness while staying mostly inside `src/content/**` and existing surfaces. The lane should strengthen the coastal front, then the alpine half, then expand shared-species comparisons and close-look candidates without reopening route or station systems.",
+  "source_reports": [
+    "docs/reports/2026-03-30-content-richness-lane.md",
+    "docs/reports/2026-03-30-coastal-front-richness-handoff.md",
+    "docs/reports/2026-03-30-alpine-content-richness-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-54",
+    "ECO-20260330-main-86",
+    "ECO-20260330-critic-63",
+    "ECO-20260330-scout-55",
+    "ECO-20260330-main-87",
+    "ECO-20260330-critic-64",
+    "ECO-20260330-scout-56",
+    "ECO-20260330-main-88",
+    "ECO-20260330-critic-65",
+    "ECO-20260330-main-90"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-54",
+      "goal": "Prepare the coastal-front content richness pack.",
+      "why_now": "The coast is the safest place to add immediate density without colliding with the systems lane."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-86",
+      "goal": "Implement the coastal-front content richness pack.",
+      "why_now": "The front half of the world benefits most from additional authored density right now."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-63",
+      "goal": "Review the coastal-front content richness pack.",
+      "why_now": "Science accuracy and readability stay the main gate for a content-only lane."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-55",
+      "goal": "Prepare the alpine content richness pack.",
+      "why_now": "Treeline and tundra can deepen in parallel without stepping on the route-board lane."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-87",
+      "goal": "Implement the alpine content richness pack.",
+      "why_now": "The inland half should gain more authored richness after the coastal-front pass proves the lane."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-64",
+      "goal": "Review the alpine content richness pack.",
+      "why_now": "The lane should only continue if it stays science-safe and calm."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-56",
+      "goal": "Prepare comparison and close-look expansion candidates.",
+      "why_now": "Once the world is denser, the journal can become more rewarding without new systems."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-88",
+      "goal": "Expand shared-species comparisons and close-look content.",
+      "why_now": "This gives the content lane a high-signal journal payoff using systems already in place."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-65",
+      "goal": "Review the comparison and close-look expansion.",
+      "why_now": "The lane should end with a quality gate before any next content wave is queued."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-90",
+      "goal": "Add one small sketchbook or atlas richness follow-up after the content wave proves out.",
+      "why_now": "A tiny payoff pass helps lane 2 capitalize on new density without opening another system."
+    }
+  ],
+  "guardrails": [
+    "Prefer `src/content/**`, science docs, and content-focused tests.",
+    "Avoid route-board, station-shell, and wider progression changes.",
+    "Use existing comparison, note, close-look, and sketchbook systems instead of inventing new ones.",
+    "During the coastal-front pass, add source-backed discoveries and notes first; defer comparison allowlist and close-look payload expansion to the later journal-richness step unless a new authored entry must be seeded now.",
+    "During the alpine pass, prioritize one shared alpine anchor plus one treeline and one tundra-side density beat; avoid reopening field-request, route, or expedition logic.",
+    "Keep additions science-safe, kid-readable, and visually calm."
+  ],
+  "file_targets": [
+    "src/content",
+    "docs/science-source-ledger.md",
+    "src/test/content-quality.test.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The world feels denser and more collectible without system drift.",
+    "Lane 2 stays mostly inside content-owned files.",
+    "Journal-facing richness improves without new UI or progression layers."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-30-content-richness-lane.md, and this packet. Treat lane 2 as a content-owned parallel lane. Deepen the world through authored discovery packs, note richness, comparisons, and close-look content while avoiding route-board and station-shell work."
+}

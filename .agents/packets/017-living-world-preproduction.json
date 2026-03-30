@@ -1,0 +1,76 @@
+{
+  "packet_id": "ECO-PACKET-017",
+  "version": 2,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Scout preproduction for day-part, weather, and phenology",
+  "summary": "Seventeenth structured packet for Eco Explorer. The scout has finished the currently active depth backlog, so the best downtime use now is preproduction support for the approved living-world sequence. This packet created a small scout-only queue for a day-part mood matrix, a weather readability matrix, and a phenology readiness audit. All three planning-only handoffs are now complete, giving later implementation more grounded biome-by-biome mood, readability, and authored-content guidance.",
+  "source_reports": [
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-living-world-grounding-handoff.md",
+    "docs/reports/2026-03-28-phenology-grounding-handoff.md",
+    "docs/reports/2026-03-28-living-world-preproduction-sequence.md",
+    "docs/reports/2026-03-28-day-part-mood-matrix-handoff.md",
+    "docs/reports/2026-03-28-weather-readability-matrix-handoff.md",
+    "docs/reports/2026-03-28-phenology-readiness-audit.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-18",
+    "ECO-20260328-scout-19",
+    "ECO-20260328-scout-20",
+    "ECO-20260328-main-31",
+    "ECO-20260328-main-32",
+    "ECO-20260328-main-37"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "scout-agent",
+    "scout-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-18",
+      "goal": "Prepare a five-biome day-part mood matrix with readability guardrails.",
+      "why_now": "This is the cleanest preproduction input for `main-31` and helps future living-world work stay art-forward without becoming guesswork."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-scout-19",
+      "goal": "Prepare a biome weather readability matrix with atmospheric boundaries and emphasis rules.",
+      "why_now": "Weather is already approved, and this planning pass can prevent future visibility or clutter regressions before implementation begins."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-scout-20",
+      "goal": "Audit phenology-ready species, zones, and authored changes across the live five-biome chain.",
+      "why_now": "Phenology will be strongest if the content readiness work happens before implementation pressure makes it ad hoc."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "These tasks are planning-only and should not start implementation work.",
+    "Keep the work mood-first and readability-first rather than simulation-heavy.",
+    "Tie recommendations to the live five-biome chain and the current `192x144` notebook/playfield constraints.",
+    "Prefer compact matrices and concrete authored examples over open-ended feature essays."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md",
+    "src/content/biomes",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/generation.ts",
+    "src/engine/types.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The scout stays productive without pulling implementation away from current work.",
+    "Later day-part, weather, and phenology work will have clearer biome-specific direction.",
+    "Future living-world work stays readable and authored instead of becoming a loose systems blob."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-living-world-sequence.md, docs/reports/2026-03-28-living-world-grounding-handoff.md, docs/reports/2026-03-28-phenology-grounding-handoff.md, docs/reports/2026-03-28-living-world-preproduction-sequence.md, and this packet. Treat these scout tasks as planning-only preproduction for later living-world implementation, with a focus on biome-by-biome mood, readability, and authored content readiness."
+}

@@ -9,6 +9,12 @@ This is the shared queue for all agents working in this repo.
 - If you discover new work, append a new item in `Intake` or `Ready` with a unique ID.
 - If you finish an item, move it to `Done` with a short completion note.
 - If you cannot proceed, move it to `Blocked` and explain the blocker clearly.
+- Keep section/status alignment strict:
+  - `Ready` is for `READY` and `IN PROGRESS`
+  - `Blocked` is for `BLOCKED` and `BLOCKED-BY-IMPLEMENTATION`
+  - `Parked` is for `PARKED`
+  - `Done` is for `DONE`
+- Run `npm run validate:agents` after editing queue or packet files.
 
 ## Status Key
 
@@ -19,69 +25,127 @@ This is the shared queue for all agents working in this repo.
 - `PARKED`: useful later, not active now
 - `DONE`: completed
 
+## Lane Rules
+
+- New active items should include a `Lane:` field.
+- Lane runners should only pull items from their assigned lane.
+- Before every new item, lane runners should reread `AGENTS.md`, `.agents/lane-runner.md`, `.agents/project-memory.md`, `.agents/work-queue.md`, the lane brief, the packet, and the matching role file.
+- The queue item's `Owner` still decides which hat the lane runner wears for that step.
+- Items without a `Lane:` field are legacy or archived unless explicitly reactivated.
+
+## Active Lanes
+
+- `lane-1`: systems, progression, station, replay, and expedition growth
+- `lane-2`: content density, journal richness, comparisons, and atlas-facing content depth
+- `lane-3`: caves, giant-tree climbing, vertical traversal, and sub-ecosystem exploration depth
+
 ## Ready
 
-### ECO-20260327-critic-02
+### ECO-20260330-main-87
 
-- Status: `READY`
-- Owner: `critic-agent`
+- Status: `IN PROGRESS`
+- Owner: `main-agent`
+- Lane: `lane-2`
 - Priority: `P2`
-- Title: `Review the live world-travel integration`
-- Source: `docs/reports/2026-03-27-world-travel-scout.md`
-- Packet: `.agents/packets/002-world-travel-integration.json`
-- Depends on: `ECO-20260327-main-03`
+- Title: `Implement the alpine content richness pack`
+- Source: `docs/reports/2026-03-30-alpine-content-richness-handoff.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-critic-63`, `ECO-20260330-scout-55`
 
 Goal:
 
-- Review whether the new map travel and doorway transitions feel readable, playful, and consistent with the handheld game direction once they are live.
+- Add the second lane-2 content enrichment pack across treeline and tundra, using existing notebook, comparison, and discovery systems to deepen the alpine half of the world.
 
 Acceptance:
 
-- critique checks travel readability, pacing, and child comprehension
-- notes call out any architecture drift from the scene integration
-- any next-step fixes get added back to the queue
+- alpine biomes gain meaningful new authored content
+- the pack complements lane-1 work instead of conflicting with it
+- no new station or route system is required
 
-### ECO-20260327-critic-03
+### ECO-20260330-scout-56
 
 - Status: `READY`
-- Owner: `critic-agent`
-- Priority: `P2`
-- Title: `Review the widened viewport and readability pass`
-- Source: `docs/reports/2026-03-27-post-travel-queue-pass.md`
-- Packet: `.agents/packets/003-screen-ux-and-progression.json`
-- Depends on: `ECO-20260327-main-04`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare comparison and close-look expansion candidates`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `none`
 
 Goal:
 
-- Review the widened play surface for readability, hierarchy, and playfield protection.
+- Identify the best next shared-species comparison pairs and close-look candidates that can be expanded through authored content without a new UI system.
 
 Acceptance:
 
-- critique stays practical and file-anchored
-- any regressions in density or focus are called out clearly
-- next-step work is added back to the queue if needed
+- candidates are tightly scoped
+- they fit existing comparison and close-look surfaces
+- they minimize overlap with lane-1 station and expedition work
 
-### ECO-20260327-critic-04
+### ECO-20260330-main-85
 
-- Status: `READY`
-- Owner: `critic-agent`
+- Status: `IN PROGRESS`
+- Owner: `main-agent`
+- Lane: `lane-1`
 - Priority: `P2`
-- Title: `Review menu, settings, and save-reset UX`
-- Source: `docs/reports/2026-03-27-post-travel-queue-pass.md`
-- Packet: `.agents/packets/003-screen-ux-and-progression.json`
-- Depends on: `ECO-20260327-main-05`
+- Title: `Deepen the expedition with content and one tiny support hook`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-critic-61`, `ECO-20260330-scout-53`
 
 Goal:
 
-- Review the new system surface for readability, kid-friendly wording, and safe persistence behavior.
+- Add the most useful expedition-specific content and, only if needed, one tiny support hook that deepens the field-adventure loop without opening a heavier system.
 
 Acceptance:
 
-- critique stays practical and actionable
-- save-reset and settings concerns are clearly documented
-- next-step work is added back to the queue if needed
+- the expedition feels complete rather than skeletal
+- any reward or support stays minimal and optional
+- no heavy inventory, loot, or survival layer appears
 
-## Blocked
+### ECO-20260330-scout-60
+
+- Status: `READY`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the first giant-tree old-growth pocket`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `none`
+
+Goal:
+
+- Ground the first giant-tree climbing chapter as a fun old-growth pocket with redwood-like scale cheats, trunk shelves, canopy pockets, and science-safe old-growth cues.
+
+Acceptance:
+
+- the scale strategy is readable and practical
+- the giant-tree pocket feels magical but grounded
+- the concept stays kid-friendly and exploration-first
+
+### ECO-20260330-scout-61
+
+- Status: `READY`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the first deeper cave sub-ecosystem chapter`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `none`
+
+Goal:
+
+- Ground the first deeper cave chapter as a layered extension of the live forest hollow work, with calmer moisture, root, stone, and light-transition identities rather than danger or survival framing.
+
+Acceptance:
+
+- cave chapter beats are clear
+- sub-ecosystem identities are distinct and readable
+- the concept stays calm and exploration-forward
+
 ## Parked
 
 ### ECO-20260327-scout-01
@@ -99,11 +163,3891 @@ Note:
 - This recommendation pass is superseded by the newer critic-driven packet `003`.
 - The scout agent already delivered more valuable near-term work through the world-travel scaffold and packet `002`.
 
+## Blocked
+
+### ECO-20260328-main-13
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Consider direct API mode for the field guide only after clipboard mode proves out`
+- Source: `docs/ai-naturalist-design.md`, `docs/reports/2026-03-29-direct-api-mode-feasibility.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `ECO-20260328-main-12`
+
+Note:
+
+- Clipboard Mode A and prompt-safety follow-ups are now solid, but the repo is still a browser-only Vite client.
+- Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
+
+### ECO-20260330-critic-62
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the finished expedition chapter`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-85`
+
+Goal:
+
+- Review the finished expedition chapter and decide whether the new station-plus-expedition pattern is strong enough to carry the next larger expansion wave.
+
+Acceptance:
+
+- the expedition pattern feels durable
+- the station still feels calm and expandable
+- if the pass is clean enough, the next larger phase can build on expeditions rather than raw route count
+
+### ECO-20260330-main-89
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P3`
+- Title: `Add one second-expedition teaser if the first expedition pattern holds`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-critic-62`
+
+Goal:
+
+- If the first expedition chapter reviews cleanly, add one tiny teaser or placeholder for the next expedition so the new station pattern feels durable without opening a full second expedition immediately.
+
+Acceptance:
+
+- the teaser is compact and calm
+- no second expedition fully lands yet
+- the station still feels notebook-like
+
+### ECO-20260330-main-90
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Add one sketchbook and atlas richness follow-up after the content lane proves out`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-critic-65`
+
+Goal:
+
+- Add one compact journal-facing follow-up that helps sketchbook or atlas richness capitalize on the new content density without opening a new UI or progression lane.
+
+Acceptance:
+
+- the follow-up is content-first and low-risk
+- it improves the feeling of discovery payoff
+- it stays inside existing surfaces
+
+### ECO-20260330-main-92
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement the first giant-tree old-growth pocket`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-critic-66`, `ECO-20260330-scout-60`
+
+Goal:
+
+- Build the first giant-tree climbing chapter as an old-growth pocket with redwood-like scale cheats, trunk shelves, and canopy-adjacent sub-ecosystem cues that feel magical but still readable.
+
+Acceptance:
+
+- one big-tree chapter is live
+- climbing feels meaningfully taller than current tree proofs
+- the pocket stays grounded and kid-friendly
+
+### ECO-20260330-critic-67
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the first giant-tree old-growth pocket`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-main-92`
+
+Goal:
+
+- Review the giant-tree pocket for scale readability, traversal clarity, and whether it introduces a believable and fun sub-ecosystem rather than just a taller platform stack.
+
+Acceptance:
+
+- the old-growth pocket reads clearly
+- traversal remains friendly
+- if the pass is clean enough, promote `ECO-20260330-main-93` to `READY`
+
+### ECO-20260330-main-93
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement the first deeper cave sub-ecosystem chapter`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-critic-67`, `ECO-20260330-scout-61`
+
+Goal:
+
+- Build the first deeper cave chapter as a layered extension of the forest hollow work, with distinct moisture, stone, root, and filtered-light identities rather than danger framing.
+
+Acceptance:
+
+- one deeper cave chapter is live
+- chambers feel distinct and exploratory
+- the cave remains cozy and legible
+
+### ECO-20260330-critic-68
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the first deeper cave chapter`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-main-93`
+
+Goal:
+
+- Review the deeper cave chapter for navigation clarity, atmosphere, and whether it expands the game’s exploration depth without turning into a danger or survival space.
+
+Acceptance:
+
+- cave readability holds
+- the sub-ecosystem feels worth revisiting
+- if the pass is clean enough, promote `ECO-20260330-main-94` to `READY`
+
+### ECO-20260330-main-94
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Connect giant-tree and deep-cave exploration through one optional wilderness bridge`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-critic-68`
+
+Goal:
+
+- Add one small connective bridge between the giant-tree and deep-cave work so lane 3 starts to feel like a coherent vertical-exploration family instead of two isolated experiments.
+
+Acceptance:
+
+- the bridge is optional and lightweight
+- it improves coherence without forcing a new progression layer
+- the overall lane still feels cozy and readable
+
+### ECO-20260330-critic-69
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the first vertical-exploration family pass`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-main-94`
+
+Goal:
+
+- Review the combined giant-tree and deep-cave lane and decide whether the project now has a durable vertical-exploration family worth extending later.
+
+Acceptance:
+
+- tree and cave work feel like a coherent family
+- readability and tone still hold
+- if the pass is clean enough, lane 3 can plan its next wave from a stable base
+
+### ECO-20260330-critic-64
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the alpine content richness pack`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-main-87`
+
+Goal:
+
+- Review the alpine content pack for science quality, child readability, and whether it deepens the journal and exploration loop without overcomplicating it.
+
+Acceptance:
+
+- alpine additions are accurate and calm
+- the journal and world feel richer
+- if the pass is clean enough to proceed, promote `ECO-20260330-main-88` to `READY`
+
+### ECO-20260330-main-88
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Expand shared-species comparisons and close-look content`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-critic-64`, `ECO-20260330-scout-56`
+
+Goal:
+
+- Use the existing shared-species comparison and close-look systems to add one compact wave of richer journal-facing content across the live world.
+
+Acceptance:
+
+- new comparison pairs feel educationally strong
+- new close-look candidates are visual-first and science-safe
+- the expansion stays within existing UI surfaces
+
+### ECO-20260330-critic-65
+
+- Status: `BLOCKED-BY-IMPLEMENTATION`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the comparison and close-look expansion`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-main-88`
+
+Goal:
+
+- Review the lane-2 journal-richness pass and confirm it deepens collectibility and learning without forcing new UI or progression systems.
+
+Acceptance:
+
+- new content feels worth discovering
+- comparison and close-look remain readable and calm
+- if the pass is clean enough, lane-2 can queue a next content wave instead of reopening system work
+
 ## Intake
 
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260330-critic-61
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the first deeper expedition chapter`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-84`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-root-hollow-expedition-review.md`. The expedition reads like a real calm forest chapter, not a fourth route or a survival detour, so `ECO-20260330-scout-53` is now promoted to `READY` while `ECO-20260330-main-85` stays blocked behind that tiny support-guidance pass.
+
+### ECO-20260330-main-84
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Activate the first deeper expedition chapter`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-critic-60`, `ECO-20260330-scout-52`
+
+Completion Note:
+
+- Activated `ROOT HOLLOW` as one live three-leg forest chapter by extending the field-request chain through `Lower Hollow`, `Trunk Climb`, and `Upper Run`, making the expedition card stage-aware, and updating the post-route atlas/wrap handoff to point into the expedition instead of ending the season cold. Verified with focused `field-requests`, `field-season-board`, and `runtime-smoke` coverage, full `npm test`, `npm run build`, `npm run validate:agents`, and live browser checks showing both the ready expedition station page and the logged `Upper Run` finish with 0 console errors.
+
+### ECO-20260330-main-91
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Expand traversal runtime for giant trees and deeper caves`
+- Source: `docs/reports/2026-03-30-vertical-runtime-split-handoff.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-scout-59`
+
+Completion Note:
+
+- Added `cameraY`, taller authored biome-height support, and a new authored `depthFeatures` seam across the engine, then used `forest` as a light proof with a deeper `root-hollow` chamber and reusable chamber-pocket framing. Verified with focused `forest-biome` and `runtime-smoke` tests, full `npm test -- --run`, `npm run build`, `npm run validate:agents`, the standard web-game client in `output/main-91-web-game`, and a direct browser root-hollow capture in `output/main-91-root-hollow-browser` showing `camera.y > 0` with zero captured errors.
+
+### ECO-20260330-critic-66
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review the giant-tree and deep-cave runtime expansion`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `ECO-20260330-main-91`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-vertical-runtime-expansion-review.md`. The runtime split is clean enough to keep lane 3 moving, with one non-blocking watch item around mixed-height travel coverage, so `ECO-20260330-main-92` should stay blocked only on `ECO-20260330-scout-60`.
+
+### ECO-20260330-scout-59
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare the deep-cave and giant-tree runtime split`
+- Source: `docs/reports/2026-03-30-deep-caves-and-giant-trees-lane.md`
+- Packet: `.agents/packets/030-deep-caves-and-giant-trees-lane.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-vertical-runtime-split-handoff.md`, narrowing the next lane-3 implementation pass to `cameraY`, taller authored biome heights, and one small authored depth-feature seam instead of a full cave-engine rewrite.
+
+### ECO-20260330-critic-60
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review the season-page station evolution`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-83`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-season-page-station-review.md`. The new `ROUTES | EXPEDITION` pattern stays warm, compact, and notebook-like at `256x160`, so `ECO-20260330-main-84` is now promoted to `READY`.
+
+### ECO-20260330-main-83
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Add the first season-page station evolution and expedition slot`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-81`, `ECO-20260330-critic-59`, `ECO-20260330-scout-51`
+
+Completion Note:
+
+- Evolved the station into a calm `SEASON` page turn by keeping `ROUTES` as the wrap-strip plus route-board home and adding one larger `EXPEDITION` slot for `ROOT HOLLOW`, while preserving `NURSERY` as the only top-level sibling view. Verified with focused `field-season-board` and `runtime-smoke` tests, full `npm test`, repeated `npm run build`, seeded live browser station captures for both `ROUTES` and `EXPEDITION`, and 0 browser console errors.
+
+### ECO-20260330-scout-52
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the first deeper forest expedition chapter`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-81`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-forest-expedition-beat-sheet-handoff.md`, grounding the first deeper chapter as one calm three-leg forest outing through `root-hollow`, trunk climb space, and `log-run` re-entry.
+
+### ECO-20260330-scout-53
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P3`
+- Title: `Prepare expedition reward and support guidance`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-84`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-root-hollow-support-guidance.md`, recommending `Route Marker` as the only tiny off-to-the-side expedition support hook and keeping the rest of `main-85` notebook-first through authored `root-hollow` and `log-run` cues. `ECO-20260330-main-85` is now promoted to `READY`.
+
+### ECO-20260330-main-86
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement the coastal-front content richness pack`
+- Source: `docs/reports/2026-03-30-coastal-front-richness-handoff.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-scout-54`
+
+Completion Note:
+
+- Added `sand-dollar-test` to beach, shared `nootka-rose` across `coastal-scrub` and `forest`, and `red-huckleberry` to the first forest half, plus new ecosystem notes, science-ledger coverage, and content tests. Verified with focused content tests, full `npm test`, `npm run build`, the shared web-game client, and targeted browser captures in `output/web-game-main-86-targeted/` with zero console errors.
+
+### ECO-20260330-critic-63
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review the coastal-front content richness pack`
+- Source: `docs/reports/2026-03-30-coastal-front-richness-handoff.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `ECO-20260330-main-86`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-coastal-front-richness-review.md`. The coastal pack itself is science-safe, readable, and visually calm enough to keep lane 2 moving; the only catch was a stale unrelated field-request count assertion in `src/test/content-quality.test.ts`, so `ECO-20260330-main-87` still just waits on `ECO-20260330-scout-55`.
+
+### ECO-20260330-scout-54
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the coastal-front content richness pack`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-coastal-front-richness-handoff.md`, narrowing the first lane-2 pack to `sand-dollar-test`, shared `nootka-rose`, and `red-huckleberry`, plus one new note in each coastal biome and explicit later targets for `nootka-rose` comparison and `sand-dollar-test` close-look work.
+
+### ECO-20260330-scout-55
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the alpine content richness pack`
+- Source: `docs/reports/2026-03-30-content-richness-lane.md`
+- Packet: `.agents/packets/029-content-richness-lane.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-alpine-content-richness-handoff.md`, narrowing the next lane-2 pack to shared `lingonberry`, treeline `white-arctic-mountain-heather`, tundra `Bigelow's sedge`, one new note per alpine biome, and explicit source grounding that stays out of route, request, and expedition logic; `ECO-20260330-main-87` is now `READY`.
+
+### ECO-20260330-scout-51
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare season pages and one expedition slot`
+- Source: `docs/reports/2026-03-30-season-pages-and-expeditions-phase.md`
+- Packet: `.agents/packets/028-season-pages-and-expeditions-phase.json`
+- Depends on: `ECO-20260330-main-81`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-season-pages-station-handoff.md`, narrowing the station evolution to `SEASON | NURSERY` with one calm `ROUTES | EXPEDITION` page turn and a single larger expedition slot instead of more route-board compression.
+
+### ECO-20260330-main-80
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add a compact season-wrap and next-outing teaser`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-critic-57`, `ECO-20260330-scout-49`
+
+Completion Note:
+
+- Turned the field-station top strip into a tiny `seasonWrap` lane that now resolves `NEXT OUTING`, `TODAY`, and `ROUTE LOGGED` states from the active route instead of only echoing recent credits. Verified with focused `field-season-board` and `runtime-smoke` tests, full `npm test`, `npm run build`, the shared web-game client in `output/web-game-main-80`, and seeded live browser station checks with 0 console errors.
+
+### ECO-20260330-critic-58
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the season-wrap station pass`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-80`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-season-wrap-station-review.md`. The station closure pass stayed warm, compact, and readable at `256x160`, so the coastal continuity slice was safe to proceed.
+
+### ECO-20260330-scout-50
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare quiet coastal corridor-authored beats`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-78`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-coastal-corridor-beat-matrix-handoff.md`, narrowing the coastal continuity pass to carrier-first seam work plus one scrub-to-forest notebook window keyed to `coastal-edge-shade`.
+
+### ECO-20260330-main-81
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add quiet authored coastal corridor beats`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-critic-58`, `ECO-20260330-scout-50`
+
+Completion Note:
+
+- Added the quiet coastal continuity follow-through: `beach <-> coastal-scrub` now carries a clearer `dune-lupine` to `pacific-wax-myrtle` handoff, and `coastal-scrub <-> forest` now carries `salmonberry` plus `nurse-log` so the one added `coastal-edge-shade` partner cue can land without a new corridor UI layer. Verified with focused corridor and field-partner tests, full `npm test`, `npm run build`, and a browser-side live module check with 0 console errors.
+
+### ECO-20260330-critic-59
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the coastal corridor continuity pass`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-81`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-coastal-corridor-continuity-review.md`. The coast now feels more evenly authored without prompt clutter or roster drift, so the packet’s last small replay follow-up could proceed.
+
+### ECO-20260330-main-82
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add one small route-replay surfacing follow-up if the phase reviews cleanly`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-critic-59`
+
+Completion Note:
+
+- Added one compact world-map replay follow-up: when the focused destination is also the live replay target, the map footer now surfaces `Today: <replay note>` instead of growing a new route panel. Verified with focused `runtime-smoke` coverage, full `npm test`, `npm run build`, and a seeded live browser map capture showing `Today: Moist Edge` with 0 console errors.
+
+### ECO-20260330-main-79
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Add the first route-aware revisit variant pass`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-78`, `ECO-20260330-critic-56`
+
+Completion Note:
+
+- Added the first replay-note pass across the three live routes by resolving active-beat variants from existing world-state, habitat-process, and nursery seams, then mirrored the active variant into a short biome-entry notice. Verified with focused `field-season-board` and `runtime-smoke` tests, full `npm test`, `npm run build`, `npm run validate:agents`, the shared web-game client, and seeded live browser checks showing `Moist Edge` on forest entry and the station board with 0 console errors.
+
+### ECO-20260330-critic-57
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the route-aware revisit variant pass`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-79`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-30-route-replay-variant-review.md`. The replay pass stayed subtle, readable, and authored in tests plus seeded browser checks, so the next station-wrap item can move forward.
+
+### ECO-20260330-scout-48
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the route-aware revisit variant matrix`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-78`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-30-route-replay-variant-matrix-handoff.md`, grounding the replay pass around one active-route note at a time, fed by existing day-part, weather, phenology, process-moment, and nursery-support seams instead of a new replay or season system.
+- Narrowed the best first implementation to a pure route replay resolver plus one visible active-route surfacing pass, and promoted `ECO-20260330-main-79` into active work with a concrete matrix across all three live routes.
+
+### ECO-20260330-scout-49
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare compact season-wrap copy and station-flow guidance`
+- Source: `docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md`
+- Packet: `.agents/packets/027-route-replay-and-season-wrap-phase.json`
+- Depends on: `ECO-20260330-main-78`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-30-season-wrap-copy-handoff.md`, narrowing the next station pass to one notebook-like wrap lane in the existing top strip plus one soft next-outing teaser, with explicit guardrails against new station panels or score-screen framing.
+
+### ECO-20260330-main-78
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Refine the field station for three-route readability and stopping points`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-critic-55`, `ECO-20260330-scout-47`
+
+Completion Note:
+
+- Tightened the season view into one compact recent-or-stop strip, a route-title-plus-beat board, a smaller atlas count strip, and flat one-line support rows so three-route active and logged states read cleanly at `256x160` without drifting into a dashboard.
+- Verified with focused field-station or field-season or runtime tests, full `npm test`, `npm run build`, the shared web-game client in `output/web-game-main-78-final`, and seeded live browser field-station passes at `http://127.0.0.1:4189/` with zero browser console errors.
+
+### ECO-20260330-critic-56
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the three-route field-station board`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-78`
+
+Completion Note:
+
+- Logged the clean review in `docs/reports/2026-03-30-three-route-station-review.md` after re-checking the refined station layout in code, focused station/runtime tests, full `npm test`, `npm run build`, the shared web-game client, and seeded live browser field-station passes.
+- Found no blocking issues: the route board stays primary, the stop cue reads cleanly, the atlas is secondary again, and support rows no longer compete with the chapter board. The only forward watch item is that a fourth live route should use a new station pattern instead of more compression.
+
+### ECO-20260330-main-70
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Land the nursery-forward field-station wave`
+- Source: `docs/reports/2026-03-30-nursery-forward-field-adventure.md`
+- Packet: `.agents/packets/025-nursery-forward-field-adventure.json`
+- Depends on: `ECO-20260330-main-69`
+
+Completion Note:
+
+- Added the first nursery-forward gameplay wave as a compact `SEASON | NURSERY` field-station split instead of a separate management screen, then landed the nursery runtime in `src/engine/nursery.ts` with deterministic save-backed resources, one teaching bed, safe gathering, automatic compost processing, six growable projects, balanced reward hooks, and two tiny habitat extras.
+- Wired nursery gathering into live inspect flow, added nursery state to the station overlay and debug surface, extended save migration and reset handling, and added focused nursery coverage plus a runtime station flow test.
+- Verified with focused nursery/save/field-station/runtime tests, full `npm test -- --run`, `npm run build`, a local live browser pass at `http://127.0.0.1:4190/`, and zero browser console errors.
+
+### ECO-20260330-critic-52
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the merged nursery-forward field-station pass`
+- Source: `docs/reports/2026-03-30-nursery-forward-field-adventure.md`
+- Packet: `.agents/packets/025-nursery-forward-field-adventure.json`
+- Depends on: `ECO-20260330-main-70`
+
+Completion Note:
+
+- Re-reviewed the merged nursery pass in code, focused nursery or station or save tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser field-station pass at `http://127.0.0.1:4190/`.
+- Found no blocking issues: science-safe gathering still reads as selective and ethical, the nursery remains secondary to expeditions, and the reward mix stays balanced between route support, quiet beauty, and one tiny utility.
+- Logged the clean review in `docs/reports/2026-03-30-nursery-forward-review.md` and left `ECO-20260330-main-75` blocked only on the scout handoff.
+
+### ECO-20260330-scout-44
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare Edge Pattern Line with nursery-aware hooks`
+- Source: `docs/reports/2026-03-30-nursery-forward-field-adventure.md`
+- Packet: `.agents/packets/025-nursery-forward-field-adventure.json`
+- Depends on: `ECO-20260330-main-70`
+
+Completion Note:
+
+- Mapped the cleanest third route to `Edge Pattern Line`, a compact `coastal-scrub -> forest -> treeline` board that teaches transition patterns instead of repeating the coastal shelter or inland short-season structures.
+- Left a concrete handoff in `docs/reports/2026-03-30-edge-pattern-line-handoff.md` with three proposed beats, candidate request entries, board copy direction, route-marker sequencing, and one important runtime note: nursery route support should resolve by active beat instead of the first claimed matching plant reward.
+- Promoted `ECO-20260330-main-75` into active implementation now that both the nursery review and the route prep are in place.
+
+### ECO-20260330-main-75
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Activate Edge Pattern Line after the nursery wave stabilizes`
+- Source: `docs/reports/2026-03-30-nursery-forward-field-adventure.md`
+- Packet: `.agents/packets/025-nursery-forward-field-adventure.json`
+- Depends on: `ECO-20260330-critic-52`, `ECO-20260330-scout-44`
+
+Completion Note:
+
+- Activated `Edge Pattern Line` as the live third field-season route: the station board now pivots from the logged inland line into three transition-driven beats across `coastal-scrub`, `forest`, and `treeline`, with new request ids, route-marker targets, and atlas guidance wired through the existing station shell instead of a new route system.
+- Updated nursery route support so `edge-pattern-line` resolves clue text by the active route beat, letting `dune-lupine`, `salmonberry`, and `mountain-avens` act as optional beat-specific hints instead of collapsing the whole route onto the first claimed matching reward.
+- Verified with focused route or request or nursery or runtime tests, full `npm test`, repeated `npm run build`, `npm run validate:agents`, the shared web-game client in `output/web-game-main-75-finalpass`, and seeded live field-station browser captures in `output/main-75-browser-finalpass` with zero console errors.
+
+### ECO-20260330-critic-53
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review Edge Pattern Line as the first post-nursery route`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-75`
+
+Completion Note:
+
+- Re-reviewed `Edge Pattern Line` in code, focused route/request/nursery/runtime tests, full `npm test`, `npm run build`, `npm run validate:agents`, the shared web-game client, and a seeded live browser field-station pass at `http://127.0.0.1:4190/`.
+- Found no blocking issues: the third route reads as a transition chapter, nursery support stays beat-specific and hint-like, and the station still communicates the active line cleanly enough at handheld scale.
+- Logged the clean review in `docs/reports/2026-03-30-edge-pattern-line-review.md` and kept `ECO-20260330-main-76` blocked only on `ECO-20260330-scout-45`.
+
+### ECO-20260330-scout-45
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare Edge Pattern Line content fuel and transition-note matrix`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-75`
+
+Completion Note:
+
+- Mapped the smallest useful content-fuel pack for `Edge Pattern Line` in `docs/reports/2026-03-30-edge-pattern-content-matrix-handoff.md`, grounding the route around one stronger scrub-side shrub-cover support, `salmonberry` as the shared middle-edge anchor, and one treeline bridge note tying tree shapes to low fell growth.
+- Kept the recommendations notebook-first and route-sized: one compact note or prompt addition per beat is preferred over new species or new progression shells.
+- Promoted `ECO-20260330-main-76` into active implementation now that the route shell review and content matrix are both in place.
+
+### ECO-20260330-main-76
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Deepen Edge Pattern Line with transition-driven content fuel`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-critic-53`, `ECO-20260330-scout-45`
+
+Goal:
+
+- Add the discoveries, comparison anchors, ecosystem-note supports, and route-aware prompt moments that make `Edge Pattern Line` feel like a real transition chapter instead of a thin route wrapper.
+
+Acceptance:
+
+- at least one stronger transition-backed discovery support lands
+- at least one comparison or note anchor reinforces pattern change
+- the route remains compact, science-safe, and notebook-first
+
+Completion Note:
+
+- Added the `sturdier-cover` coastal-scrub note, the `forest-middle-edge` forest comparison prompt, and the `tree-line-drops` treeline bridge note so `Edge Pattern Line` now teaches scrub-to-cover, cool-edge, and low-fell pattern change through compact notebook content instead of a new system.
+- Verified with focused content tests, full `npm test`, `npm run build`, the shared web-game client in `output/web-game-main-76`, a seeded live field-station browser pass in `output/main-76-browser`, and a browser-side module check confirming `sturdier-cover`, `forest-middle-edge`, and `tree-line-drops` resolve with zero console errors.
+
+### ECO-20260330-critic-54
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the Edge Pattern Line content fuel`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-76`
+
+Completion Note:
+
+- Logged the clean review in `docs/reports/2026-03-30-edge-pattern-content-fuel-review.md` after re-checking the new transition notes and prompt against the route goals, focused content tests, full `npm test`, `npm run build`, the shared web-game client, and the seeded browser artifacts.
+- Found no blocking issues: the route now teaches stronger scrub, forest-edge, and low-fell pattern changes without expanding scope into a new system or heavier reading load.
+- Left `ECO-20260330-main-77` clear on review, with the next traversal proof ready to move as soon as the scout concept landed.
+
+### ECO-20260330-scout-46
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare one front-half sheltered traversal proof`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-75`
+
+Goal:
+
+- Ground one short optional beach or coastal-scrub traversal proof, such as a dune-cut, wrack underpass, driftwood shelter, or low hollow, that broadens movement identity without turning into a cave-system rewrite.
+
+Acceptance:
+
+- one best traversal concept is recommended
+- difficulty stays gentle and readable at `256x160`
+- the concept ties back to route or habitat context instead of isolated platforming
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-30-front-half-sheltered-traversal-handoff.md`, recommending a beach-side `driftwood lee pocket` at the `dry-sand -> tide-line` seam instead of stacking another traversal proof onto `coastal-scrub`.
+- Grounded the handoff around existing habitat roles (`driftwood-log`, `bull-kelp-wrack`, `pacific-sand-crab`) and current engine strengths: one shallow lowered lane, one overhead driftwood shelter shape, no cave-system rewrite.
+- Promoted `ECO-20260330-main-77` into active implementation now that both the content-fuel review and the traversal concept are in place.
+
+### ECO-20260330-main-77
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add one front-half sheltered traversal proof`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-critic-54`, `ECO-20260330-scout-46`
+
+Goal:
+
+- Deepen the beach or coastal front half with one short optional sheltered traversal proof that broadens movement identity without becoming a difficulty spike or a generalized cave system.
+
+Acceptance:
+
+- one optional sheltered or lowered route exists
+- movement stays curiosity-forward and kid-friendly
+- the traversal proof ties back to route or habitat context
+
+Completion Note:
+
+- Added a beach-side `Lee Pocket` between `Dry Sand` and `Tide Line`, with one shallow lowered route, three authored driftwood shelter platforms above it, and existing wrack-side carriers instead of a new cave or traversal system.
+- Added focused beach generation tests and a runtime smoke pass so the proof now locks down the new zone, the overhead shelter shape, and live carrier presence in play.
+- Verified with focused beach/runtime tests, full `npm test`, `npm run build`, the shared web-game client in `output/web-game-main-77-final`, and a seeded live browser pass in `output/main-77-browser` showing `zoneId: "lee-pocket"` with zero console errors.
+
+### ECO-20260330-critic-55
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the front-half sheltered traversal proof`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-77`
+
+Completion Note:
+
+- Logged the clean review in `docs/reports/2026-03-30-front-half-traversal-review.md` after re-checking the beach pocket geometry, focused beach/runtime tests, full `npm test`, `npm run build`, the shared web-game client, and the seeded browser pass.
+- Found no blocking issues: the new `Lee Pocket` stays broad, readable, and habitat-grounded, and it gives the coast a distinct traversal beat without escalating into hard platforming or a cave subsystem.
+- Left `ECO-20260330-main-78` blocked only on `ECO-20260330-scout-47`, since the station scaling pass still needs its scout guidance before implementation.
+
+### ECO-20260330-scout-47
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare three-route field-station board scaling and stopping-point cues`
+- Source: `docs/reports/2026-03-30-post-edge-pattern-phase.md`
+- Packet: `.agents/packets/026-post-edge-pattern-phase.json`
+- Depends on: `ECO-20260330-main-75`
+
+Goal:
+
+- Plan the smallest field-station board refinements needed once the third route is live so the station still feels warm, compact, and chapter-like instead of turning into a dashboard.
+
+Acceptance:
+
+- three-route ordering and spacing are defined
+- one calm stopping-point signal is recommended
+- nursery and atlas remain secondary to the active route board
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-30-three-route-station-scaling-handoff.md`, grounding the next station pass around one lighter credit strip, a still-primary route board, a compact atlas strip, and flat support rows that can hold all three upgrades.
+- Recommended the stopping-point cue as a tiny header note when the active route is logged instead of another panel or reward screen.
+- Promoted `ECO-20260330-main-78` into active implementation now that both the traversal review and the station-scaling handoff are in place.
+
+### ECO-20260330-main-69
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add quiet authored inland corridor beats after the second route stabilizes`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-critic-44`
+
+Completion Note:
+
+- Added quiet inland seam carriers instead of a larger corridor rewrite: `forest <-> treeline` now carries `salal-berry` into first `mountain-avens`, while `treeline <-> tundra` now carries `mountain-avens` and `woolly-lousewort` into the open-ground handoff.
+- Added one small tundra-side notebook window by teaching `wind-bluff` to ask what still makes a calmer pocket close to the ground, then let the existing `tundra-low-shelter` partner cue recognize that prompt without adding a new HUD system.
+- Verified with focused corridor or prompt or partner tests, full `npm test`, `npm run build`, the shared web-game client, and seeded live browser passes at `http://127.0.0.1:4189/` showing `salal-berry` on the forest-owned seam, `mountain-avens` on the treeline-owned seam, the new tundra-side shelter prompt on `treeline-tundra-corridor`, and zero console errors.
+
+### ECO-20260330-critic-44
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the route-completion acknowledgment`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-68`
+
+Completion Note:
+
+- Re-reviewed the new field-station atlas strip in code, focused field-season or runtime tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser field-station pass showing the logged coastal route plus the active inland board together on the same compact station surface.
+- Found no blocking issues: the acknowledgment reads like notebook recognition instead of a score wall, the route board stays visually primary, and the atlas copy still points players forward instead of trapping the station in retrospective completion framing.
+- Logged the clean review in `docs/reports/2026-03-30-route-atlas-review.md` and promoted `ECO-20260330-main-69` into active implementation.
+
+### ECO-20260330-main-68
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add one compact route-completion summary or atlas acknowledgment`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-critic-43`, `ECO-20260330-scout-40`
+
+Completion Note:
+
+- Added one tiny `FIELD ATLAS` strip to the field station so logged routes are recognized in a notebook-like way without turning the station into a dashboard or score screen.
+- Threaded the atlas through pure field-season state, the live station overlay, and `render_game_to_text()` so the compact route acknowledgment stays deterministic, testable, and secondary to the active route board.
+- Verified with focused field-station or runtime tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser field-station pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-critic-43
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the tundra traversal proof`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-67`
+
+Completion Note:
+
+- Re-reviewed the tundra traversal proof in code, focused tundra or content or habitat-process tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser pass showing the `Thaw Skirt` seam with active `thaw-fringe`, the lower thaw lane, and the upper ice-step shelf.
+- Found no blocking issues: the proof stays short, readable, and season-grounded, and it teaches thaw-aware movement without hardening tundra into a punishing platform lane.
+- Logged the clean review in `docs/reports/2026-03-30-tundra-traversal-proof-review.md` and promoted `ECO-20260330-main-68` into active implementation.
+
+### ECO-20260330-main-67
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add one short tundra traversal proof aligned to the inland route`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-critic-42`, `ECO-20260330-scout-39`
+
+Completion Note:
+
+- Added the first tundra traversal proof as a new `thaw-skirt` seam band between `snow-meadow` and `frost-ridge`, with one lowered thaw-edge recovery lane, one upper ice-step shelf, and new thaw-band plant or animal carriers to keep the route legible.
+- Extended tundra revisit ecology so `thaw-fringe` now supports the new seam, letting the traversal proof read as seasonal ground change instead of a disconnected platform pocket.
+- Verified with focused tundra or content or habitat-process tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-critic-42
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the alpine route content fuel pass`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-66`
+
+Completion Note:
+
+- Re-reviewed the inland content pass in code, the focused shared-entry or note or prompt or comparison tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser journal pass showing `mountain-avens` comparison cards for `Fell Bloom Window` and `Brief Thaw Bloom`.
+- Found no blocking issues: the inland chapter now feels like its own authored ecology lesson instead of a colder echo of the coastal route, and the comparison-open journal still reads cleanly at `256x160`.
+- Logged the clean review in `docs/reports/2026-03-30-alpine-route-content-review.md` and promoted `ECO-20260330-main-67` into active implementation.
+
+### ECO-20260330-main-66
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Add alpine route content fuel across forest, treeline, and tundra`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-critic-41`
+
+Completion Note:
+
+- Added the first inland content-fuel layer by turning `mountain-avens` into a shared alpine discovery across `treeline` and `tundra`, then using it to unlock note-backed comparison cards between `Fell Bloom Window` and `Brief Thaw Bloom`.
+- Added one forest route-support notebook seed plus new treeline and tundra prompt or note support so the inland chapter now teaches thinning cover, exposed fell bloom, and brief thaw timing through the journal instead of another heavier progression shell.
+- Verified with focused content tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser journal pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-critic-41
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the second live inland route`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-65`
+
+Completion Note:
+
+- Re-reviewed the new inland route in code, focused field-season or request tests, full `npm test`, `npm run build`, and a live field-station browser pass showing `TREELINE SHELTER LINE` with the route marker pointed at `treeline`.
+- Found no blocking issues: the inland line feels distinct from the coastal one, stays notebook-first, and keeps the board compact enough for the handheld surface.
+- Logged the clean review in `docs/reports/2026-03-30-inland-route-review.md` and promoted `ECO-20260330-main-66` into active implementation.
+
+### ECO-20260330-main-65
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Activate the second live inland route on the field-season board`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-60`, `ECO-20260330-main-62`, `ECO-20260330-main-63`, `ECO-20260330-main-64`
+
+Completion Note:
+
+- Activated `Treeline Shelter Line` as the second live field-season route by pivoting the board off the completed coastal line and into three medium inland beats: treeline shelter, tundra short season, and tundra survey.
+- Added the supporting inland notebook request chain in `treeline` and `tundra`, and let the existing route marker now point at `treeline` first and then `tundra` through the same board state.
+- Verified with focused board or request or runtime tests, full `npm test`, `npm run build`, and a live field-station browser pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-scout-40
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare route-completion acknowledgment framing for the field station`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-63`
+
+Completion Note:
+
+- Grounded the best route-completion acknowledgment as one tiny atlas-style logged-routes strip inside the field station, keeping the tone notebook-first and explicitly avoiding score, trophy, or completion-ladder framing.
+- Logged the recommendation in `docs/reports/2026-03-30-route-completion-acknowledgment-handoff.md`.
+
+### ECO-20260330-scout-39
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare tundra traversal concepts for the next inland movement proof`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-62`, `ECO-20260330-main-64`
+
+Completion Note:
+
+- Recommended a thaw-pool skirt at the late `snow-meadow` / early `frost-ridge` seam, with one frost-heave upper line and one lower sheltered recovery lane, as the strongest future tundra traversal proof.
+- Logged the traversal concept in `docs/reports/2026-03-30-tundra-traversal-concepts-handoff.md`.
+
+### ECO-20260330-scout-38
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the inland route beat sheet and pacing for the second live field-season line`
+- Source: `docs/reports/2026-03-30-inland-route-phase.md`
+- Packet: `.agents/packets/024-inland-route-phase.json`
+- Depends on: `ECO-20260330-main-64`
+
+Completion Note:
+
+- Recommended `Treeline Shelter Line` as the second live route and grounded it around three medium beats: one treeline shelter request, one tundra short-season request, and one tundra survey finish instead of another station-return beat.
+- Logged the pacing and route identity in `docs/reports/2026-03-30-inland-route-beat-sheet-handoff.md`.
+
+### ECO-20260330-main-64
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Expand inland process moments and route revisit support`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-critic-40`
+
+Completion Note:
+
+- Expanded authored revisit ecology beyond coastal scrub: `forest` now shows a late wet `moisture-hold`, `treeline` now shows a late windy `frost-rime`, and `tundra` now shows a peak-season `thaw-fringe`, each tied to specific entries and zones instead of generic scene effects.
+- Extended the biome renderer so habitat-process styles are now style-specific, then locked the behavior down with new habitat-process unit coverage plus runtime smoke checks for forest, treeline, and tundra revisit states.
+- Verified with `npm run validate:agents`, focused habitat-process or runtime tests, full `npm test`, `npm run build`, and a live treeline browser pass at `http://127.0.0.1:4189/` that reached `Dwarf Shrub`, reported `habitatProcesses: [\"frost-rime\"]`, and logged zero console errors.
+
+### ECO-20260330-critic-40
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the next route reward or utility unlock`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-main-63`
+
+Completion Note:
+
+- Re-reviewed the new `Route Marker` utility in code, focused field-station or route tests, full `npm test`, `npm run build`, and a seeded world-map browser pass that showed the next route stop pinned cleanly without adding grindy reward pressure.
+- Found no blocking issues: the reward stays observational and map-facing, reinforces the field station as a calm home base, and cleanly promotes `ECO-20260330-main-64`.
+- Logged the clean review in `docs/reports/2026-03-30-route-marker-review.md`.
+
+### ECO-20260330-main-63
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add one route reward or utility unlock beyond the current movement pair`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-critic-39`, `ECO-20260330-scout-37`
+
+Completion Note:
+
+- Added `Route Marker` as a small third field-station upgrade that unlocks after `field-step`, points the world map at the next route stop, and keeps route support inside the existing station board instead of expanding the economy layer.
+- Threaded the marker through the field-season board state, world-map rendering, overlay layout, and `render_game_to_text()` so the utility stays deterministic and easy to smoke-test.
+- Verified with focused field-station or route tests, full `npm test`, `npm run build`, and a seeded world-map browser pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-critic-39
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the treeline traversal shelter proof`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-main-62`
+
+Completion Note:
+
+- Re-reviewed the treeline shelter pass in code, focused treeline/content tests, full `npm test`, `npm run build`, and a live browser pass that reached the new `Dwarf Shrub` lee-side lane and triggered the new shelter prompt.
+- Found no blocking issues: the proof is short, readable, and locally taught instead of turning treeline into a harsher platforming lane.
+- Logged the clean review in `docs/reports/2026-03-30-treeline-shelter-review.md` and promoted `ECO-20260330-main-63` into active implementation.
+
+### ECO-20260330-main-62
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Deepen treeline with a sheltered traversal proof for the next route phase`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-critic-38`, `ECO-20260330-scout-36`
+
+Completion Note:
+
+- Added a lowered treeline lee-pocket through `dwarf-shrub`, three authored granite platforms for an upper shelf route, and one local shelter lesson through the new `Stone Shelter` note and `treeline-stone-shelter` prompt.
+- Kept the pass route-shaped by pairing the geometry proof with a small shelter-carrier content beat instead of broad alpine density or extra station logic.
+- Verified with focused treeline/content tests, full `npm test`, `npm run build`, and a representative browser pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-scout-37
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare route reward and station ethics guidance for the next utility tier`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260329-main-58`
+
+Completion Note:
+
+- Recommended `Route Marker` as the strongest next utility tier: a small world-map or station-facing route target helper that supports fieldwork without drifting into a market loop.
+- Logged the ethics and utility framing in `docs/reports/2026-03-30-route-reward-ethics-handoff.md`.
+
+### ECO-20260330-scout-36
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare treeline traversal shelter concepts and content support for the next movement-heavy biome`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260329-main-57`, `ECO-20260329-main-59`
+
+Completion Note:
+
+- Grounded the next treeline proof around a short lee-side lane between `krummholz-belt` and `dwarf-shrub`, with one upper ridge option, one lower shelter option, and one compact rock or snow-pocket pocket.
+- Logged the geometry and content support recommendation in `docs/reports/2026-03-30-treeline-shelter-handoff.md`.
+
+### ECO-20260330-scout-35
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the act-two beat sheet and route matrix for the first field-season board`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260329-main-59`
+
+Completion Note:
+
+- Recommended `Treeline Shelter Line` as the strongest act-two route and `Short Season Line` as the later inland reserve, while keeping the board to one live line plus one hinted future line.
+- Logged the route matrix and staging guidance in `docs/reports/2026-03-30-act-two-route-matrix-handoff.md`.
+
+### ECO-20260330-critic-38
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the route-aligned content fuel pack`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-main-61`
+
+Completion Note:
+
+- Re-reviewed the route content pass in code, focused authoring tests, full `npm test`, `npm run build`, and a seeded browser journal check showing the new `salmonberry` comparison cards between `coastal-scrub` and `forest`.
+- Found no blocking issues; the pass deepens the live route through note-backed ecotone content instead of inflating totals.
+- Logged the clean review in `docs/reports/2026-03-30-route-content-fuel-review.md`.
+
+### ECO-20260330-main-61
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Add a route-aligned content fuel pack for the first field-season board`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-critic-37`
+
+Completion Note:
+
+- Added a route-specific content pack across `beach`, `coastal-scrub`, and `forest`: a new beach `Shelter Line Start` note, a `windbreak-swale` support beat in coastal scrub, and a shared `salmonberry` anchor that now supports forest-side `Creekside Shelter` comparison.
+- Kept the pass notebook-first by using new notes, one small prompt seed, one shared-species comparison anchor, and targeted spawn support instead of adding another station or request layer.
+- Verified with focused authoring tests, full `npm test`, `npm run build`, and a representative seeded browser pass at `http://127.0.0.1:4189/` with zero console errors.
+
+### ECO-20260330-critic-37
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the field-season board and route progression v1`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260330-main-60`
+
+Completion Note:
+
+- Re-reviewed the field-season board pass in code, focused tests, full `npm test`, build output, the shared browser client, and a seeded field-station browser capture at `256x160`.
+- Found no blocking issues: the route board stays grouped into medium beats instead of a quest checklist, the station now reads more like a home base, and the one-line summary budgets keep the board readable at the handheld viewport.
+- Logged the clean review in `docs/reports/2026-03-30-field-season-board-review.md` and promoted `ECO-20260330-main-61` into active implementation.
+
+### ECO-20260330-main-60
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Implement the field-season board and route progression v1`
+- Source: `docs/reports/2026-03-30-field-season-routes-phase.md`
+- Packet: `.agents/packets/023-field-season-routes.json`
+- Depends on: `ECO-20260329-main-55`, `ECO-20260329-main-58`, `ECO-20260329-main-59`, `ECO-20260329-main-48`
+
+Completion Note:
+
+- Added one compact `Field season` board inside the field-station overlay, backed by a pure `src/engine/field-season-board.ts` resolver that groups the first coastal shelter route into three medium beats: forest study, station return, and coastal comparison.
+- Kept the route notebook-first by reusing the existing request chain, field-station ledger, and guided-season state instead of adding a separate quest shell; `render_game_to_text()` now exposes `fieldStation.routeBoard` so the board is deterministic and smoke-testable.
+- Verified with focused route/runtime tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded field-station browser capture at `256x160` with zero browser console errors.
+
+### ECO-20260328-main-19
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P4`
+- Title: `Add a small zone label or habitat chip if location context still needs surfacing`
+- Source: `docs/ecotone-design.md`
+- Depends on: `ECO-20260328-main-10`, `ECO-20260328-main-16`
+
+Completion Note:
+
+- Added one tiny top-left habitat chip during biome play so the current zone stays legible without turning the HUD into a dashboard; `src/engine/overlay-render.ts` now draws the calm chip opposite `MENU`, and `src/engine/game.ts` resolves the live zone label for both runtime rendering and debug text.
+- Extended `render_game_to_text()` with `habitatChipLabel` and added focused smoke coverage in `src/test/runtime-smoke.test.ts`, keeping ecotone movement and zone-context surfacing deterministic and testable.
+- Verified with focused runtime smoke tests, full `npm test`, `npm run build`, `npm run validate:agents`, the shared web-game client, and a seeded browser pass showing `Windbreak Swale` at `256x160` with zero browser console errors.
+
+### ECO-20260329-main-59
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add visible ecology process moments as the next living-world expansion`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-58`
+
+Completion Note:
+
+- Added one authored living-world seam instead of a heavier simulation: biomes can now define deterministic `processMoments`, and `Coastal Scrub` uses that to surface a late-season `sand-capture` moment around dune and shrub anchors after revisits.
+- Wired the process layer through `src/engine/habitat-process.ts`, biome validation, the scene renderer, and `render_game_to_text()`, so the moment is both visible in the playfield and testable in debug state.
+- Verified with focused habitat-process/runtime tests, full `npm test`, `npm run build`, `npm run validate:agents`, and a seeded late-visit coastal browser pass showing active `sand-capture` with zero browser console errors. Packet `022` now has no remaining active items.
+
+### ECO-20260329-main-58
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add a second-tier field-station upgrade or utility unlock`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`, `docs/reports/2026-03-29-field-station-credit-handoff.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-57`
+
+Completion Note:
+
+- Added one literal tier-two station upgrade instead of a broader utility system: `src/engine/field-station.ts` now gates `Field Step` behind owned `Trail Stride`, keeping the first station view calm for early saves while giving the second traversal phase one modest movement reward.
+- Extended the runtime seam so owned upgrades can modify both walk and jump movement safely, then tightened the field-station overlay in `src/engine/overlay-render.ts` so the two-card station state stays readable inside the existing handheld panel without turning into a larger shop screen.
+- Verified with focused station/runtime tests, full `npm test`, `npm run build`, `npm run validate:agents`, and a seeded world-map field-station browser pass showing `Trail Stride` plus the new `Field Step` card with zero browser console errors before promoting `ECO-20260329-main-59`.
+
+### ECO-20260329-main-57
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Spread traversal depth to a second biome`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`, `docs/reports/2026-03-29-guided-field-season-beat-sheet.md`, `docs/reports/2026-03-29-guided-loop-content-fuel-review.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-critic-36`
+
+Completion Note:
+
+- Deepened `Coastal Scrub` instead of `treeline`, following the guided-loop beat sheet and content-fuel review: `src/content/biomes/coastal-scrub.ts` now inserts a lowered `Windbreak Swale` between `shrub-thicket` and `shore-pine-stand`, adds three authored drift-log platforms for a clear upper route, and reinforces the sheltered lane with swale cover spawns.
+- Kept the traversal proof within the existing terrain model, mirroring the forest pass with one readable optional lower lane plus one forgiving upper bridge instead of a new movement system or precision-platform challenge.
+- Verified with focused coastal traversal tests, full `npm test`, `npm run build`, a seeded live browser pass that reached the new swale route at `256x160`, and zero browser console errors before promoting `ECO-20260329-main-58` into active implementation.
+
+### ECO-20260329-critic-36
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the content fuel pack for the guided loop`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-56`
+
+Completion Note:
+
+- Re-reviewed the guided-loop content fuel pass in code, focused tests, full tests, build output, and a seeded browser journal pass on `Coastal Scrub`.
+- Found no blocking issues: the new coastal follow-on requests, note support, and comparison allowlist additions make the early loop feel fuller and more gradient-aware without creating a heavier progression shell or overrunning the `256x160` notebook budget.
+- Logged the clean review in `docs/reports/2026-03-29-guided-loop-content-fuel-review.md` and promoted `ECO-20260329-main-57` into active implementation with `Coastal Scrub` as the recommended traversal target.
+
+### ECO-20260329-main-56
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Add a content fuel pack for the guided field-season loop`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-critic-35`
+
+Completion Note:
+
+- Strengthened the early guided loop with one tighter beach-to-coast shelter thread and one coast-to-forest moisture thread: `src/content/biomes/beach.ts` now adds the `low-dune-bloom` note, `src/content/biomes/coastal-scrub.ts` now adds the `edge-moisture` note plus denser back-dune and forest-edge support, and `src/engine/journal-comparison.ts` now allows `sand-verbena` and `sword-fern` to anchor shared-species comparison.
+- Extended the authored notebook layer in `src/engine/field-requests.ts` and `src/engine/observation-prompts.ts` so the loop now continues from `Forest Survey` into `Shelter Shift` and `Edge Moisture`, with dynamic zone-label progress text that stays readable at the handheld layout.
+- Verified with focused content tests, full `npm test`, `npm run build`, the shared web-game client, and a seeded browser journal pass showing `Shelter Shift` fitting cleanly inside the live notebook surface with zero browser console errors.
+
+### ECO-20260329-scout-34
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the act-one beat sheet and content matrix for the guided field-season loop`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-53`, `ECO-20260329-critic-30`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-guided-field-season-beat-sheet.md`, recommending the strongest fresh-save path from beach notebook task through forest traversal, forest comparison, station return, and into `Coastal Scrub`.
+- Mapped the active systems per beat and called out the remaining thin spots that matter most now: `Coastal Scrub` still needs geometry depth more than more text, the station is near its copy budget, and future shared-species work should stay note-backed and habitat-role-driven.
+- The scout memo now grounds `ECO-20260329-main-57` toward `Coastal Scrub` as the best second traversal-heavy biome.
+
+### ECO-20260329-critic-35
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the first guided field-season loop`
+- Source: `docs/reports/2026-03-29-next-high-leverage-phase.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-55`
+
+Completion Note:
+
+- Re-reviewed the guided field-season loop in code, focused tests, full tests, build output, validator output, and live browser/state captures for the fresh-save starter note plus the station-return and next-stop beats.
+- Found no blocking issues: the loop now reads as one authored arc, the notebook task is clearer before the player reaches Forest Trail, the station beat lands as a reward instead of a dashboard, and the new `Coastal Scrub` pointer is visible without becoming a quest log.
+- Logged the clean review in `docs/reports/2026-03-29-guided-field-season-loop-review.md` and promoted `ECO-20260329-main-56` to `READY`, with one non-blocking caution to keep future station copy within the current `256x160` field-station budget.
+
+### ECO-20260329-main-55
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Implement the first guided field-season loop`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`, `docs/reports/2026-03-29-next-high-leverage-phase.md`
+- Packet: `.agents/packets/022-guided-field-season.json`
+- Depends on: `ECO-20260329-main-53`, `ECO-20260329-critic-30`, `ECO-20260329-critic-34`
+
+Completion Note:
+
+- Added a small guided-season resolver and used it to turn the live traversal, request, journal, and station systems into one fresh-save arc: the game now opens with one visible Forest Trail notebook task, request progress points toward the target biome before arrival, the world-map station becomes the authored return beat after the forest survey slice, and buying `trail-stride` flips both station copy and an in-world notice toward `Coastal Scrub` as the next comparison stop.
+- Kept the pass lightweight by reusing the existing request chain and station ledger instead of adding a quest log, and tightened the request copy so the forest loop escalates from route-finding to damp-ground comparison to survey more clearly.
+- Verified with focused tests, full `npm test`, `npm run build`, `npm run validate:agents`, the shared web-game client, starter and field-station browser captures, and zero browser console errors.
+
+### ECO-20260329-critic-28
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the first deeper exploration and cave proof`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-main-51`
+
+Completion Note:
+
+- Re-reviewed the forest traversal proof in code, focused tests, full tests, build, validator, and a live browser pass at the shipped `256x160` viewport.
+- Found no material issues: the new `root-hollow` slice reads as a sheltered optional detour, keeps the upper and lower routes readable, and does not turn the game into a precision-platform lane or break the existing travel flow.
+- Wrote the clean-pass review in `docs/reports/2026-03-29-forest-traversal-proof-review.md` and promoted `ECO-20260329-main-52` into active implementation.
+
+### ECO-20260329-main-51
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Deepen one biome with more vertical exploration and a shallow cave detour`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-forest-traversal-proof-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260328-main-37`, `ECO-20260329-scout-32`
+
+Completion Note:
+
+- Deepened `forest` by splitting late `fern-hollow` into a new lowered `root-hollow` lane and adding authored overhead log platforms that create a readable upper route plus one sheltered lower detour without rewriting the terrain engine.
+- Reinforced the hollow with lower-route moisture life in `src/content/biomes/forest.ts`, and generalized `src/engine/generation.ts` with optional authored-platform support so the geometry can stay stable and intentionally shaped.
+- Verified with focused biome tests, full tests, `npm run build`, `npm run validate:agents`, and a live browser pass showing the hollow clearly at `256x160` before handing off to `critic-28`.
+
+### ECO-20260329-main-52
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Add notebook-style field requests as the first functional objective layer`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-main-51`, `ECO-20260329-scout-31`
+
+Goal:
+
+- Add the first calm objective layer on top of the stronger traversal proof without opening a quest-log lane.
+
+Acceptance:
+
+- use the journal, survey-state, and current ecology/world-state systems to add a few small field requests without building a giant quest log or score ladder
+- keep the tone observational and child-friendly: prompts should feel like naturalist assignments, not chores
+- start with one calm active notebook request at a time instead of a stacked task list
+- make completed requests resolve to durable request ids or ledger entries so the later field-station pass can convert them into credit without item turn-ins
+
+Completion Note:
+
+- Added the first notebook-first request layer in `src/engine/field-requests.ts` and `src/engine/game.ts`, keeping one active field request at a time, resolving progress from authored biome, inspect, and survey triggers, and storing completed request ids durably in save state.
+- Surfaced the request calmly through the journal footer card plus a small in-world completion notice in `src/engine/overlay-render.ts`, and fixed the empty-journal branch so the request card still renders even when no local discoveries are listed yet.
+- Verified with focused request/save/content/runtime tests, full `npm test`, `npm run build`, a live browser pass at `256x160`, and zero browser console errors before handing off to `critic-29`.
+
+### ECO-20260329-critic-29
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the first field-request layer`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-main-52`
+
+Goal:
+
+- Check whether the first request layer adds purpose and structure without turning the game into a quest log, chore list, or cluttered HUD.
+
+Acceptance:
+
+- review checks tone, ecology grounding, surface clutter, and whether the requests deepen exploration instead of replacing it
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+- if the pass is clean enough to proceed, promote `ECO-20260329-main-53` to `READY`
+
+Completion Note:
+
+- Re-reviewed the new request layer in code, focused tests, full tests, and a seeded live browser check, then wrote the clean-pass memo in `docs/reports/2026-03-29-field-request-layer-review.md`.
+- Found no blocking issues after the journal footer-card regression was fixed during implementation: the request tone stays notebook-first, the surface stays compact, and the ledger-ready completion ids keep the later field-station loop science-safe.
+- Closed the critique gate and promoted `ECO-20260329-main-53` into implementation.
+
+### ECO-20260329-main-53
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add a tiny field-station loop with one gentle movement upgrade`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`, `docs/reports/2026-03-29-field-station-credit-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-main-52`, `ECO-20260329-scout-33`
+
+Goal:
+
+- Add a tiny cozy field-station loop that turns survey and notebook progress into one gentle upgrade without shifting the game toward harvesting or shop management.
+
+Acceptance:
+
+- the field-station model uses surveyed biomes and completed notebook requests as credit sources instead of directly cashing in living finds
+- the first station surface lives in world-map context and stays compact, readable, and easy to skip
+- start with one small upgrade that slightly improves movement while keeping the game cozy and easy to read
+- the loop persists cleanly in save data and stays grounded in tests
+
+Completion Note:
+
+- Added a compact world-map `Field station` overlay plus a pure `src/engine/field-station.ts` ledger that turns surveyed biomes and completed field requests into durable field credit without turning collectibles or the in-biome menu into a store.
+- Shipped the first upgrade as `trail-stride`, a small walk-speed increase wired into runtime movement and save state, with recent support-source context so the station still reads like a survey-support surface instead of a reward shop.
+- Verified with focused field-station/save/runtime/content tests, full `npm test`, `npm run build`, and a live browser flow that opened the station, purchased the upgrade, confirmed the `OWNED` state, and stayed at zero console errors before handing off to `critic-30`.
+
+### ECO-20260329-critic-30
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the field-station upgrade loop`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-main-53`
+
+Goal:
+
+- Check whether the first upgrade loop stays science-safe, cozy, and proportionate while making exploration feel more game-like.
+
+Acceptance:
+
+- review checks economy framing, upgrade readability, pacing, and whether the loop avoids extraction-first messaging
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+
+Completion Note:
+
+- Re-reviewed the field-station loop in code, focused tests, full tests, build output, and a seeded live browser run, then wrote the clean-pass memo in `docs/reports/2026-03-29-field-station-loop-review.md`.
+- Found no blocking issues: the economy framing stays survey-first, the world-map-context station remains compact and optional, and the first movement upgrade is proportionate enough to keep the cozy tone intact.
+- Closed packet `021`'s active gameplay implementation and critique steps so the queue can move back to the parked depth lane.
+
+### ECO-20260328-main-40
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add a small sketchbook mode`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-sketchbook-v1-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-39`
+
+Goal:
+
+- Add a calm journal-hosted sketchbook spread per biome using local discovered entries as anchored notebook stamps instead of opening a freehand editor or crafting loop.
+
+Acceptance:
+
+- sketchbook mode opens from the journal only when the selected biome is at least `surveyed`
+- the source list uses only entries discovered in the currently selected biome, including shared species only after a true local sighting
+- the first pass uses a few anchored slots with place, replace, and clear flows instead of drag editing or freehand drawing
+- sketchbook page state persists per biome in save data without adding a second progression ladder
+- relevant tests, `npm run build`, and `npm run validate:agents` stay green
+
+Completion Note:
+
+- Added `src/engine/sketchbook.ts` plus save-backed `sketchbookPages` state so each biome can keep one small anchored stamp spread without introducing a freehand editor, drag system, or new progression ladder.
+- Refit the journal detail pane in `src/engine/overlay-render.ts` and `src/engine/game.ts` so surveyed biomes unlock a sketchbook toggle, the existing discovered-entry list becomes the stamp source picker, and `x`/slot selection/place/clear flows all stay inside the existing notebook shell.
+- Verified with new sketchbook helper tests, expanded save/runtime smoke coverage, full `npm test`, `npm run build`, the shared web-game client, and a seeded live browser pass at `256x160` with zero console errors.
+
+### ECO-20260329-critic-32
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first sketchbook mode`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-sketchbook-v1-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-40`
+
+Goal:
+
+- Check whether sketchbook v1 adds personal notebook authorship without turning the journal into an editor, inventory screen, or second progression ladder.
+
+Acceptance:
+
+- review checks notebook readability, local-discovery guardrails, save stability, and whether the feature feels personal and art-forward rather than system-heavy
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+- if the pass is clean enough to proceed, promote `ECO-20260328-main-41` to `READY`
+
+Completion Note:
+
+- Re-reviewed the sketchbook pass in code, focused tests, full tests, build output, the shared web-game client, and a seeded live browser journal flow, then wrote the clean-pass memo in `docs/reports/2026-03-29-sketchbook-v1-review.md`.
+- Found no blocking issues: the feature stays journal-hosted, local-discovery-safe, and save-light, and the only live readability issue found during review was a small source-strip collision that was fixed before the pass closed.
+- Closed the sketchbook review gate and promoted `ECO-20260328-main-41` into active implementation.
+
+### ECO-20260328-main-41
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add sparse biome soundscapes and UI audio`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-soundscape-direction-handoff.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-29`
+
+Goal:
+
+- Add the first sparse audio pass with one lightweight ambient layer per biome family plus a tiny UI cue set, keeping the sound cozy and optional instead of turning the game into a louder arcade surface.
+
+Acceptance:
+
+- add one lightweight audio engine that unlocks safely after user interaction and does not require a large asset pipeline
+- ship one low-volume ambience profile per live biome family plus a tiny UI cue set for menu or notebook interactions
+- add only one `Sound: ON/OFF` style preference in the current settings surface and persist it safely in save data
+- expose enough debug state to smoke-test the active ambience profile and sound setting without relying on ears alone
+- relevant tests, `npm run build`, and `npm run validate:agents` stay green
+
+Completion Note:
+
+- Added `src/engine/audio.ts` as the first sparse Web Audio layer, mapping the five live biomes onto quiet ambience profiles and adding tiny UI cues for menu movement, confirm, journal toggle, and inspect reveal without opening a music-asset pipeline.
+- Wired the sound pass through `src/engine/game.ts`, `src/engine/overlay-render.ts`, `src/engine/save.ts`, `src/engine/types.ts`, and `src/engine/input.ts` so the engine arms safely after interaction, exposes debug state in `render_game_to_text()`, and persists one compact `Sound` toggle in the menu.
+- Verified with new audio/save/runtime tests, full `npm test`, `npm run build`, the shared web-game client, and a live browser pass at `256x160` that toggled sound cleanly and stayed at zero console errors.
+
+### ECO-20260329-critic-33
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first soundscape pass`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-soundscape-direction-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-41`
+
+Goal:
+
+- Check whether the first sound pass adds warmth and feedback without making the game noisy, overstimulating, or awkwardly technical.
+
+Acceptance:
+
+- review checks ambience restraint, toggle readability, browser safety, and whether the sound layer supports the cozy notebook-first tone
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+- if the pass is clean enough to proceed, promote `ECO-20260328-main-42` to `READY`
+
+Completion Note:
+
+- Re-reviewed the sound pass in code, focused tests, full tests, build output, the shared web-game client, and a live browser toggle flow, then wrote the clean-pass memo in `docs/reports/2026-03-29-soundscape-v1-review.md`.
+- Found no blocking issues: the ambience stays sparse, the single toggle keeps the settings surface calm, and the only regression uncovered during review was a missing `toggle-sound` menu action route that was fixed and re-verified before closing.
+- Closed the sound review gate, promoted `ECO-20260328-main-42`, and opened `ECO-20260329-critic-34` as the next blocked critique lane for the close-look pass.
+
+### ECO-20260328-main-42
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P4`
+- Title: `Add occasional close-look inspect vignettes`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-close-look-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-29`
+
+Goal:
+
+- Add one small close-look extension to the normal inspect loop for a few visual-first discoveries, using a centered vignette card that teaches through enlarged art and tiny callouts instead of more prose.
+
+Acceptance:
+
+- only a small allowlisted set of entries gets close-look treatment in v1
+- supported entries keep the normal inspect bubble as the first step and open the vignette as a special follow-up instead of replacing inspect entirely
+- the close-look card stays centered and visual-first, using enlarged art plus one or two tiny callouts and one short line of explanation
+- unsupported entries still use the standard inspect flow with no extra UI noise
+- relevant tests, `npm run build`, and `npm run validate:agents` stay green
+
+Completion Note:
+
+- Added `src/engine/close-look.ts` as a tiny allowlisted data seam for the first visual-first entries, then extended `src/engine/game.ts`, `src/engine/overlay-render.ts`, and `src/engine/types.ts` so supported discoveries surface a `Look close` follow-up from the normal inspect bubble and open one centered vignette card instead of a journal detour.
+- Kept the first pass deliberately small: only a few entries get the card, the normal inspect bubble still comes first, and `render_game_to_text()` now exposes both `openBubble.closeLookAvailable` and active `closeLook` state for smoke and browser checks.
+- Verified with new close-look helper tests, expanded runtime smoke coverage, full `npm test`, `npm run build`, `npm run validate:agents`, the shared web-game client, and a seeded live browser pass at `256x160` with zero console errors.
+
+### ECO-20260329-critic-34
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P4`
+- Title: `Review the first close-look vignette pass`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-close-look-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-42`
+
+Goal:
+
+- Check whether the first close-look pass teaches visually without bloating inspect, opening a second journal lane, or making the game read like a slideshow.
+
+Acceptance:
+
+- review checks scope restraint, supported-entry choice, readability at `256x160`, and whether close-look returns cleanly to normal play
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+- if the pass is clean enough, close packet `015`'s current active implementation and review lane
+
+Completion Note:
+
+- Re-reviewed the close-look pass in code, focused tests, full tests, build output, the shared web-game client, and a seeded live browser walkthrough, then wrote the clean-pass memo in `docs/reports/2026-03-29-close-look-v1-review.md`.
+- Found no blocking issues: the feature stays rare, inspect-first, and visual-first, and the one live layout issue found during review was a too-tight callout-chip treatment that was fixed and re-verified before the pass closed.
+- Closed packet `015`'s active close-look implementation and critique lane without adding new follow-on work.
+
+### ECO-20260329-main-48
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add authored map-return posts to the walkable chain`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-critic-24`
+
+Completion Note:
+
+- Landed one authored `map-post` per corridor-enabled biome in `src/content/world-map.ts`, then finished the runtime interaction pass in `src/engine/game.ts` so corridor doors and map-return posts share one travel-target flow while preserving corridor walking priority.
+- Updated `src/engine/door-transition.ts` so opening the map from a post animates from that post and same-biome map cancel returns to the same interior anchor instead of the old edge doorway; documented the shipped behavior in `docs/world-travel.md`.
+- Verified with focused travel tests, full tests, `npm run build`, `npm run validate:agents`, and a live browser pass with zero console errors; wrote the clean critic memo in `docs/reports/2026-03-29-map-return-post-review.md`, which closes packet `019`'s active main/critic lane.
+
+### ECO-20260329-critic-24
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the full continuous corridor chain`
+- Source: `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-main-47`
+
+Completion Note:
+
+- Re-reviewed the expanded chain in code, docs, focused and full tests, plus a live browser walk from `beach` to `tundra` with zero console errors.
+- Found no material issues in the wider corridor model: threshold ownership still switches once, `worldStep` still commits on full exits only, and the world map still has a useful job as menu-open fast travel.
+- Wrote the clean-pass review in `docs/reports/2026-03-29-full-corridor-chain-review.md` and promoted `ECO-20260329-main-48`.
+
+### ECO-20260329-main-47
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Generalize continuous corridor travel to the full adjacent chain`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-corridor-threshold-state-audit.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`, `docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-critic-31`
+
+Completion Note:
+
+- Expanded the corridor model from the first `beach <-> coastal-scrub` proof to the full adjacent live chain by authoring dedicated seam scenes for `coastal-scrub <-> forest`, `forest <-> treeline`, and `treeline <-> tundra` in `src/engine/corridor.ts`, each with one ownership threshold and pair-specific art blending.
+- Generalized biome travel doors so corridor-enabled habitats can hand off in both directions while keeping save ownership, journal context, prompts, and living-world state stable until full seam exit; the world map still stays available through the menu.
+- Verified with focused plus full tests, `npm run build`, and a live browser walk from title to `tundra` across all four seams with zero captured console errors; synced `docs/world-travel.md` to the shipped chain before handing off to `critic-24`.
+
+### ECO-20260329-critic-31
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P1`
+- Title: `Review the stabilized first corridor proof`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-first-corridor-proof-review.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-main-54`
+
+Completion Note:
+
+- Re-reviewed the stabilized first seam with focused tests, build, validator, code inspection, and the representative browser captures in `output/main-54-corridor-stabilization`.
+- Confirmed that threshold pacing no longer inflates visits or advances the living-world seam, and that the dedicated inland-facing beach corridor door fixes the earlier tide-side framing problem.
+- Wrote the clean-pass review in `docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md` and promoted `ECO-20260329-main-47` to `READY`.
+
+### ECO-20260329-main-54
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Stabilize the first corridor proof before spreading it across the full chain`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-first-corridor-proof-review.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-main-46`, `ECO-20260329-critic-23`
+
+Completion Note:
+
+- Stabilized the seam bookkeeping by separating threshold ownership from visit accounting: pacing back and forth inside `src/engine/corridor.ts` no longer advances `worldStep` or biome visits, and the corridor now counts as a biome visit only when the player fully exits into the neighboring biome.
+- Tightened the beach-side framing by giving `Sunny Beach` a dedicated inland-facing gameplay corridor door while preserving the original map-linked biome door for world-map transitions, so the first seam reads like habitat continuity instead of a tide-edge inversion.
+- Verified with focused plus full tests, `npm run build`, `npm run validate:agents`, the shared web-game client, and browser captures in `output/main-54-corridor-stabilization` with zero captured console errors; promoted `ECO-20260329-critic-31` for the stabilization re-review before any full-chain expansion.
+
+### ECO-20260329-critic-23
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the first continuous corridor-travel proof`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md`, `docs/reports/2026-03-29-corridor-threshold-state-audit.md`, `docs/reports/2026-03-29-beach-orientation-fix-options.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-main-46`
+
+Completion Note:
+
+- Verified the first dedicated `beach <-> coastal-scrub` seam proof with focused tests, build, validator, capture review, and a live deterministic browser pass.
+- Logged one blocking state-model issue: repeated threshold crossing inside the same corridor session currently increments biome visits and advances `worldStep`, which rotates visible day-part, weather, and phenology just from pacing across the seam.
+- Logged one smaller travel-readability issue: the beach side of the proof still borrows the live seaward beach door, so the entry framing does not fully read like inland continuity yet.
+- Added `ECO-20260329-main-54` as the stabilization follow-up and `ECO-20260329-critic-31` as the re-review gate; `ECO-20260329-main-47` stays parked behind that review.
+
+### ECO-20260329-main-46
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Prototype one adjacent walkable corridor between neighboring ecosystems`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md`, `docs/reports/2026-03-29-corridor-threshold-state-audit.md`, `docs/reports/2026-03-29-beach-orientation-fix-options.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-main-50`, `ECO-20260328-main-37`, `ECO-20260328-main-44`
+
+Completion Note:
+
+- Landed the first dedicated `beach <-> coastal-scrub` seam proof in `src/engine/corridor.ts` instead of chaining live biome exits directly, with a narrow edge-focused corridor that blends beach dune-edge into coastal back-dune.
+- Kept one clear threshold-owned state handoff across save, journal, field guide, ecosystem notes, notebook prompts, field partner, and weather or phenology context while preserving the world map as optional fast travel through the field menu during the proof.
+- Verified with focused plus full tests, `npm run build`, `npm run validate:agents`, the shared web-game client, and representative seeded browser captures in `output/main-46-corridor-browser` with zero captured console errors; promoted `ECO-20260329-critic-23` for review before broader corridor expansion.
+
+### ECO-20260328-main-44
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P4`
+- Title: `Add tiny beach phenology reinforcement if the first pass still reads thin`
+- Source: `docs/reports/2026-03-28-beach-phenology-support-handoff.md`, `docs/reports/2026-03-29-first-phenology-review.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-37`
+
+Completion Note:
+
+- Reinforced the beach phenology branch without expanding the roster: `sand-verbena` and `beach-grass` now use phase-specific sprite variants for `early`, `peak`, and `late`, while `bull-kelp-wrack` stays the only small late support accent and `wrack-line` remains the light late spawn emphasis.
+- Added the tiny authoring seam needed to support that pass by letting phenology entry accents optionally override `spriteId` during render, then locked the behavior with focused beach phenology assertions in `src/test/phenology.test.ts`.
+- Verified with focused tests, `npm run build`, `npm run validate:agents`, the shared web-game client, and representative seeded beach captures in `output/main-44-beach-captures-seed-2` with zero captured console errors; `ECO-20260329-main-46` is now unblocked and promoted.
+
+### ECO-20260328-main-37
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Extend world-state into gentle seasonal and phenology variation`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-phenology-grounding-handoff.md`, `docs/reports/2026-03-28-phenology-readiness-audit.md`, `docs/reports/2026-03-28-beach-phenology-support-handoff.md`, `docs/reports/2026-03-29-authored-field-partner-follow-up-review.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-32`
+
+Completion Note:
+
+- Extended `src/engine/world-state.ts` with one deterministic shared `early` / `peak` / `late` phase, added optional biome-local phenology authoring to the five live biome packs, and threaded the phase through debug plus field-guide context without reopening notebook or partner UI scope.
+- Landed the first visible phenology pass through small render-side sky or ground washes, per-entry pixel accents, and selective visit-table spawn emphasis for berries, cones, strawberry patches, and wrack while keeping stable terrain and habitat anchors fixed.
+- Verified with focused plus full tests, `npm run build`, `npm run validate:agents`, the shared web-game client, and seeded browser captures for beach, coastal scrub, forest, treeline, and tundra in `output/main-37-phenology-captures` with zero captured console errors; promoted `ECO-20260329-critic-27` so critique can decide whether beach still needs the tiny `main-44` reinforcement pass.
+
+### ECO-20260329-critic-27
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the first phenology pass`
+- Source: `docs/reports/2026-03-28-phenology-grounding-handoff.md`, `docs/reports/2026-03-28-phenology-readiness-audit.md`, `docs/reports/2026-03-28-beach-phenology-support-handoff.md`, `docs/reports/2026-03-29-first-phenology-review.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-37`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-first-phenology-review.md` after reviewing the landed phenology seams, representative seeded browser captures, targeted tests, build, validator, and a live browser load with zero console errors.
+- No structural blocker in the shared seam: the deterministic `early` / `peak` / `late` model, render-side wash approach, and stronger forest, treeline, and tundra phase reads all landed well at `256x160`.
+- Logged one real follow-on: beach remains the weakest phenology branch, so `ECO-20260328-main-44` is now promoted for a tiny coast-only reinforcement pass before the first `beach <-> coastal-scrub` corridor proof.
+
+### ECO-20260329-critic-26
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the authored field-partner follow-up`
+- Source: `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`, `docs/reports/2026-03-29-field-partner-review.md`, `docs/reports/2026-03-29-authored-field-partner-follow-up-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260329-main-50`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-authored-field-partner-follow-up-review.md` after focused tests, build, validator, and scripted live browser checks of both prompt-linked and no-prompt fallback states.
+- No material findings: the partner now resolves authored biome-local cues, uses restrained fallback lines only in strong world-state conditions, and holds a real cooldown seam without bloating the UI.
+- Promoted `ECO-20260328-main-37` to `READY` and added `ECO-20260329-critic-27` behind it so the living-world lane can move on to phenology in an orderly way.
+
+### ECO-20260329-main-50
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Replace the generic field-partner pass with an authored cue-bank and real silence cadence`
+- Source: `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`, `docs/reports/2026-03-29-field-partner-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-34`
+
+Completion Note:
+
+- Replaced the family-generic partner copy with a compact authored cue bank keyed to live biome, zone, world-state, and prompt or note context, plus restrained no-prompt fallback cues only for strong readable weather or time-of-day states.
+- Upgraded the runtime cadence with cue-aware dedupe, a real global cooldown, and calmer post-overlay quiet windows in the existing tiny transient strip, without adding any new companion HUD surface.
+- Re-verified with focused plus full tests, `npm run build`, `npm run validate:agents`, the shared web-game client, and seeded live browser captures for both a prompt-linked coastal-scrub cue and a no-prompt forest fallback cue with zero captured console errors.
+
+### ECO-20260328-critic-22
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first field-partner pass`
+- Source: `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`, `docs/reports/2026-03-29-field-partner-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-34`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-field-partner-review.md` after focused tests, build, validator, and seeded live browser checks.
+- Kept the field-partner direction, but queued one authored follow-up before phenology because the live implementation still collapses the cue bank into four generic family lines and has not yet adopted the fuller cooldown plan from the scout handoff.
+- Promoted `ECO-20260329-main-50` so the main lane can do the larger authored field-partner cleanup next, with `ECO-20260329-critic-26` set to promote phenology if that follow-up comes back clean.
+
+### ECO-20260328-main-34
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add a lightweight field partner layer`
+- Source: `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-notebook-prompt-follow-up-review.md`, `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260329-main-49`
+
+Completion Note:
+
+- Added `src/engine/field-partner.ts` as a thin authored cue and cadence layer on top of the existing observation-prompt seam, then wired a tiny transient in-biome strip through `src/engine/game.ts` and `src/engine/overlay-render.ts` with strong silence rules for overlays, inspect bubbles, transitions, world-map travel, field-guide notices, and repeat-state revisits.
+- Added pure helper coverage plus runtime smoke coverage for calm biome-play delivery and journal/transition silence, then re-verified with `npm test -- --run`, `npm run build`, `npm run validate:agents`, the shared web-game client, and seeded browser captures for the live partner strip and journal suppression with zero console errors.
+
+### ECO-20260329-main-49
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Refit the notebook-prompt journal surface so it stays readable and keeps ecosystem-note teaching`
+- Source: `docs/reports/2026-03-28-notebook-prompt-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-notebook-prompt-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-33`
+
+Completion Note:
+
+- Refit the journal detail pane into a split companion layout for unlocked note-plus-prompt states, widening the right pane, keeping stable ecosystem-note teaching visible, and giving longer notebook prompt seeds their own compact card instead of replacing the note block.
+- Exposed note summaries in `render_game_to_text()`, added runtime coverage for the coastal-scrub seed prompt plus unlocked note coexistence, and re-verified with `npm test -- --run`, `npm run build`, `npm run validate:agents`, the shared web-game client, and a seeded browser journal capture with zero console errors.
+
+### ECO-20260329-critic-25
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the notebook-prompt journal-surface follow-up`
+- Source: `docs/reports/2026-03-29-notebook-prompt-review.md`, `docs/reports/2026-03-29-notebook-prompt-follow-up-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260329-main-49`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-notebook-prompt-follow-up-review.md` after focused tests, build, validator, and seeded browser checks of beach and coastal-scrub journal states.
+- No new blocking issues: representative prompt copy now fits, unlocked ecosystem-note teaching stays visible alongside the prompt, and the field-guide prompt reuse remains grounded in the same local evidence.
+- Promoted `ECO-20260328-main-34` to `READY` so the next living-world slice can move on to the lightweight field partner.
+
+### ECO-20260329-scout-30
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Produce a world-continuity preproduction pack`
+- Source: `docs/reports/2026-03-29-world-continuity-preproduction-sequence.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-29-world-continuity-preproduction-pack.md`
+- Packet: `.agents/packets/020-world-continuity-preproduction.json`
+- Depends on: `ECO-20260329-scout-25`, `ECO-20260329-scout-26`, `ECO-20260329-scout-27`, `ECO-20260329-scout-28`, `ECO-20260328-scout-16`, `ECO-20260328-scout-21`, `ECO-20260329-scout-29`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-world-continuity-preproduction-pack.md` with one continuity synthesis, one five-transition matrix, and one cue/opportunity matrix.
+- Recommended the first post-phenology continuity bundle as `main-46`: one `beach <-> coastal-scrub` seam that uses a few strong visual and phenology signals while leaving full audio rollout and map-return posts for later passes.
+- Updated the parked corridor, sound, and corridor-review queue items so later agents can pick up the grouped plan cleanly instead of re-stitching the same sidecars by hand.
+
+### ECO-20260329-scout-31
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Ground the next functional game loop around exploration, requests, and upgrades`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`.
+- Compared three lightweight loop shapes and kept the sequence on exploration geometry first, notebook-style requests second, and a tiny field-station loop third.
+- Grounded the first traversal proof in `forest`, and narrowed the later request and upgrade lane around journal/survey/world-state evidence plus survey-credit framing instead of specimen selling.
+
+### ECO-20260329-scout-32
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the first exploration-geometry and cave proof handoff`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`, `docs/reports/2026-03-29-forest-traversal-proof-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-scout-31`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-forest-traversal-proof-handoff.md`.
+- Narrowed the first traversal proof to late `fern-hollow` into `log-run`, with one clearer upper log route and one short sheltered lower lane.
+- Kept the first proof away from a true cave-engine rewrite by recommending a root-hollow or hollow-log detour that preserves the current surface-plus-platform runtime model.
+
+### ECO-20260329-scout-33
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Ground the field-station upgrade loop and science-safe economy framing`
+- Source: `docs/reports/2026-03-29-functional-gameplay-sequence.md`, `docs/reports/2026-03-29-functional-gameplay-loop-handoff.md`, `docs/reports/2026-03-29-field-station-credit-handoff.md`
+- Packet: `.agents/packets/021-functional-gameplay-loop.json`
+- Depends on: `ECO-20260329-scout-31`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-field-station-credit-handoff.md`.
+- Compared three economy framings and kept the first station loop on a world-map-context field-station ledger instead of a literal specimen market or a larger in-biome shop row.
+- Defined the v1 credit model around surveyed biomes plus completed notebook requests, with a small walk-speed boost as the safest first upgrade.
+
+### ECO-20260329-scout-29
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the first field-partner cue bank and silence-state matrix`
+- Source: `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-notebook-prompt-follow-up-review.md`, `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260329-main-49`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-field-partner-cue-bank-handoff.md`.
+- Prepared a compact first cue bank keyed to live biome, zone, day-part, weather, and notebook-prompt context so `main-34` can stay authored instead of improvising chatter.
+- Added a silence-state matrix, cadence rules, and a dedupe key so the first field-partner pass stays below the priority of inspect, journal, map, transitions, and field-guide notices.
+
+### ECO-20260329-scout-26
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the first corridor edge-content matrix`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-scout-25`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md`.
+- Tightened the first proof around edge-only content: beach dune-edge into coastal back-dune, with `dune-lupine` as the main new-habitat signal and no tidepool or inland scrub/forest clutter in v1.
+
+### ECO-20260329-scout-27
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Audit corridor threshold state ownership`
+- Source: `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-corridor-threshold-state-audit.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-scout-25`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-corridor-threshold-state-audit.md`.
+- Locked the first proof to one ownership threshold: art can blend early, but save, journal, field-guide, prompt, note, and weather ownership should switch once and should not introduce a separate corridor biome id.
+
+### ECO-20260329-scout-28
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Compare safe fixes for the beach corridor orientation mismatch`
+- Source: `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`, `docs/reports/2026-03-29-beach-orientation-fix-options.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260329-scout-25`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-beach-orientation-fix-options.md`.
+- Compared three safe fixes and kept the recommendation on a dedicated seam scene, since it solves the beach-right-edge mismatch without destabilizing the live beach, map, or save flow.
+
+### ECO-20260328-critic-21
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first notebook-prompt pass`
+- Source: `docs/reports/2026-03-28-notebook-prompt-handoff.md`, `docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`, `docs/reports/2026-03-29-notebook-prompt-review.md`
+- Depends on: `ECO-20260328-main-33`
+
+Goal:
+
+- Check whether the first notebook-prompt layer deepens observation without turning into chores, chatter, or UI clutter.
+
+Acceptance:
+
+- review checks tone, science grounding, player readability, and UI restraint
+- review checks whether the first prompt pass stays authored and evidence-aware instead of drifting into generic chatter
+- findings are written to a dated report with file anchors
+- any new follow-on work is added back into the queue if needed
+- if the pass is clean enough to proceed, promote `ECO-20260328-main-34` to `READY`
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-29-notebook-prompt-review.md` after focused tests, build, validator, and live browser checks of representative seeded journal states.
+- Kept the notebook-prompt direction, but queued one surface follow-up before the field-partner lane: representative prompt text still clips in the compact journal card, and active prompts currently displace unlocked ecosystem-note teaching instead of sitting alongside it.
+
+### ECO-20260328-main-33
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add naturalist observation prompts tied to world state`
+- Source: `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-notebook-prompt-handoff.md`, `docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-32`
+
+Completion Note:
+
+- Added `src/engine/observation-prompts.ts` with a small authored seed set plus ecosystem-note fallback, then threaded the same resolver into the journal companion area, field-guide clipboard prompt, and safe runtime debug state without adding a new always-on HUD surface.
+- Verified with new pure/helper/runtime coverage, `npm test -- --run`, `npm run build`, the shared web-game client, and a seeded browser journal capture with zero captured console errors.
+
+### ECO-20260329-scout-25
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the hybrid continuous corridor-travel handoff`
+- Source: `docs/world-travel.md`, `docs/reports/2026-03-29-continuous-corridor-travel-sequence.md`, `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`
+- Packet: `.agents/packets/019-continuous-corridor-travel.json`
+- Depends on: `ECO-20260328-main-16`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md`.
+- Tightened the future corridor proof around a dedicated `beach <-> coastal-scrub` seam scene, a `160`-unit visible blend band with one centered ownership threshold, and a later one-post-per-biome map-return pattern.
+- Logged the key orientation risk so future implementation does not try to wire the current beach right-side exit directly into `coastal-scrub`.
+
+### ECO-20260328-scout-22
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the first weather-aware notebook prompt candidate set`
+- Source: `docs/reports/2026-03-28-notebook-prompt-handoff.md`, `docs/reports/2026-03-28-weather-readability-matrix-handoff.md`, `docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md`
+- Depends on: `ECO-20260328-scout-13`, `ECO-20260328-scout-19`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-28-weather-aware-notebook-prompts-handoff.md`.
+- Narrowed `main-33` to a small authored prompt seed set with simple evidence-aware unlock and rotation rules instead of broad runtime-generated chatter.
+
+### ECO-20260328-scout-23
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare field-partner tone and interruption boundaries`
+- Source: `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/ai-naturalist-design.md`, `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`
+- Depends on: `ECO-20260328-scout-04`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-28-field-partner-tone-boundaries-handoff.md`.
+- Tightened `main-34` around notebook-margin tone, sparse cadence, and explicit silence rules for overlays, travel, inspect, and repeat-state revisits.
+
+### ECO-20260328-scout-24
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare compact prompt and partner surface recommendations`
+- Source: `docs/reports/2026-03-28-compact-ui-handoff.md`, `docs/reports/2026-03-28-notebook-prompt-handoff.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`
+- Depends on: `ECO-20260328-scout-22`, `ECO-20260328-scout-23`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-28-prompt-partner-surface-handoff.md`.
+- Locked the first prompt and partner surfaces apart: prompts should stay in the compact notebook flow, while the field partner should use a tiny transient in-biome strip only when needed.
+
+### ECO-20260328-main-32
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add biome-specific weather ambience`
+- Source: `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-weather-readability-matrix-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-45`
+
+Goal:
+
+- Add the next calm living-world layer by extending the shared world-state seam with small, readable biome-family weather moods.
+
+Acceptance:
+
+- start with `clear` plus one calm weather profile per biome family
+- keep the first pass render-first and readable at `192x144`
+- extend the shared world-state helper instead of inventing a parallel weather simulation
+- tests, build, validator, and a live browser verification pass stay green
+
+Completion note:
+
+- Extended `world-state` to resolve `clear` plus family weather profiles (`marine-haze`, `mist-drip`, `ridge-wind`, `light-flurry`) from the same deterministic seam, threaded `weather` through debug and field-guide surfaces, and kept the first pass render-side in `biome-scene-render`.
+- Verified with `npm test -- --run`, `npm run build`, the shared web-game client, seeded weather captures across all five live biomes, and zero captured browser console errors.
+
+### ECO-20260328-critic-20
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first weather pass`
+- Source: `docs/reports/2026-03-28-weather-readability-matrix-handoff.md`, `docs/reports/2026-03-29-weather-pass-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-32`
+
+Goal:
+
+- Check whether the first weather layer deepens atmosphere without muddying readability or splintering the shared world-state seam.
+
+Acceptance:
+
+- review checks readability at `192x144`, biome distinctness, and world-state scope discipline
+- findings are written to a dated report with file anchors
+- any new follow-on work is added back into the queue if needed
+- if the pass is clean enough to proceed, promote `ECO-20260328-main-33` to `READY`
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-29-weather-pass-review.md` after targeted tests, build, validator, and live browser checks across clear and active-weather states in the five live biomes.
+- Found no material issues in the first weather pass and promoted `ECO-20260328-main-33` to `READY` so the living-world lane can continue into notebook prompts.
+
+### ECO-20260328-critic-19
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the day-part ordering follow-up`
+- Source: `docs/reports/2026-03-28-first-day-part-review.md`, `docs/reports/2026-03-28-day-part-ordering-follow-up-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-45`
+
+Goal:
+
+- Confirm that the day-part seam now progresses in a forward-feeling order without losing readability or calm atmosphere.
+
+Acceptance:
+
+- review checks temporal clarity, readability, and scope discipline
+- findings are written to a dated report with file anchors
+- any new follow-on work is added back into the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-day-part-ordering-follow-up-review.md` and did not find a new issue in the landed follow-up.
+- Confirmed that fresh saves start in neutral `day`, migrated legacy saves preserve the same visible mood, and the shared seam now reads forward as `dawn -> day -> dusk`.
+
+### ECO-20260328-main-45
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Align the day-part cycle with a forward-feeling temporal order`
+- Source: `docs/reports/2026-03-28-first-day-part-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-critic-18`
+
+Goal:
+
+- Keep the first living-world slice calm and readable, but make the shared timing seam easier for future weather and notebook systems to reason about.
+
+Acceptance:
+
+- the shared day-part sequence reads in a forward-feeling order instead of `day -> dusk -> dawn`
+- fresh saves still start in the intended neutral mood without surprising onboarding regressions
+- `render_game_to_text()`, field-guide context, and tests all match the updated ordering
+- browser verification still looks readable in representative beach and alpine states
+
+Implementation note:
+
+- Changed the core sequence to `dawn -> day -> dusk`, added a tiny save migration/version seam so existing local saves keep their visible mood, seeded fresh saves to neutral `day`, and re-verified the debug, prompt, and browser surfaces in beach and treeline captures with zero console errors.
+
+### ECO-20260328-critic-18
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first day-part pass`
+- Source: `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-day-part-mood-matrix-handoff.md`, `docs/reports/2026-03-28-first-day-part-review.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-31`
+
+Goal:
+
+- Check whether the first living-world slice deepens atmosphere across the five-biome chain without hurting readability, calm pacing, or science framing.
+
+Acceptance:
+
+- review checks readability at `192x144`, atmosphere value, and shared world-state scope discipline
+- findings are written to a dated report with file anchors
+- any follow-on work is added back into the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-first-day-part-review.md` after targeted tests, build, validator, and live browser checks across beach and treeline day-part states.
+- Found one follow-up worth doing before weather: the shared `world-state` helper currently cycles `day -> dusk -> dawn`, which keeps the visuals calm but gives later weather and prompt layers a backward-feeling temporal order.
+
+### ECO-20260328-main-31
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add a simple day-part system`
+- Source: `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`, `docs/reports/2026-03-28-day-part-mood-matrix-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-29`, `ECO-20260328-main-30`
+
+Goal:
+
+- Establish the first calm living-world slice through a shared deterministic world-state seam and readable biome mood shifts.
+
+Acceptance:
+
+- add a shared day-part seam with `dawn`, `day`, and `dusk`
+- apply palette, sky, parallax, or ambience shifts across all five live biomes without hurting readability at `192x144`
+- keep the first pass render-first with no timers, pressure, or heavy simulation behavior
+- expose the new state through debug output or existing hooks so runtime tests can verify it
+- tests, build, queue validation, and a browser verification pass stay green
+
+Implementation note:
+
+- Added `src/engine/world-state.ts` with deterministic `worldStep -> dayPart` resolution, threaded `worldState` through render/debug/field-guide surfaces, applied authored day-part palette profiles across the five live biomes, added save/runtime/field-guide coverage, and browser-checked seeded captures with zero console errors.
+
+### ECO-20260328-scout-21
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare a small beach phenology support pass`
+- Source: `docs/reports/2026-03-28-phenology-readiness-audit.md`, `docs/reports/2026-03-28-beach-phenology-support-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-scout-20`
+
+Goal:
+
+- Strengthen the beach branch for later phenology work by identifying a tiny authored reinforcement pass instead of waiting until seasonal work is half-built.
+
+Acceptance:
+
+- identify 1-3 science-safe beach phase anchors or authored tweaks that would make `early` / `peak` / `late` feel more legible
+- keep the proposal small enough to pair cleanly with `main-37` instead of turning into a large content expansion
+- tie recommendations to the current beach zones, live species set, and existing ecosystem-note structure
+- write the handoff as a dated report and add any resulting implementation follow-on back into the queue
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-beach-phenology-support-handoff.md` to keep the beach fix tiny and inside the current species set instead of turning beach phenology into a broader coast content expansion.
+- Recommended `sand-verbena` as the primary phase anchor, `beach-grass` as the structural dune anchor, and `bull-kelp-wrack` as a late-support accent only, while explicitly avoiding animal breeding or shell-variation logic as the first beach phenology fix.
+- Added a small parked follow-on so future phenology work can reinforce beach readability without rediscovering the same support plan during `main-37`.
+
+### ECO-20260328-critic-17
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the comparison-layout follow-up`
+- Source: `docs/reports/2026-03-28-shared-species-comparison-review.md`, `docs/reports/2026-03-28-comparison-layout-follow-up-review.md`
+- Packet: `.agents/packets/018-comparison-layout-follow-up.json`
+- Depends on: `ECO-20260328-main-43`
+
+Goal:
+
+- Check whether the comparison-layout fix restores readability without bloating the journal.
+
+Acceptance:
+
+- review checks card readability, notebook fit, and scope discipline
+- findings are written to a dated report with file anchors
+- any follow-on work is added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-comparison-layout-follow-up-review.md` and did not find a new readability or scope regression in the landed layout pass.
+- Confirmed in a seeded live browser check that the comparison-open journal state now gives the habitat cards enough room to read cleanly at `192x144` while keeping the same-pane notebook feel.
+
+### ECO-20260328-main-43
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Rebalance the comparison-open journal layout`
+- Source: `docs/reports/2026-03-28-shared-species-comparison-review.md`
+- Packet: `.agents/packets/018-comparison-layout-follow-up.json`
+- Depends on: `ECO-20260328-main-39`
+
+Goal:
+
+- Keep the same-pane comparison feature, but make the live comparison-open view clearly readable inside the current notebook shell.
+
+Acceptance:
+
+- the comparison-open view gives the habitat cards enough vertical budget to read cleanly at `192x144`
+- the comparison cards no longer feel cramped or visually collide with surrounding content in the live journal
+- the feature stays same-pane, spoiler-safe, and limited to the current note-backed candidate set
+- tests, build, and a live browser verification pass stay green
+
+Completion note:
+
+- Rebalanced `src/engine/overlay-render.ts` so comparison-open mode drops back to a minimal two-line header and gives the habitat cards most of the right pane, with slightly wider detail space and wrapped card summaries when height allows.
+- Verified with targeted comparison/runtime tests, full `npm test -- --run`, `npm run build`, `npm run validate:agents`, the shared web-game client smoke pass, and a seeded Playwright comparison capture in `output/comparison-layout-followup.png`.
+
+### ECO-20260328-scout-20
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Audit phenology-ready content across the live biome chain`
+- Source: `docs/reports/2026-03-28-living-world-preproduction-sequence.md`, `docs/reports/2026-03-28-phenology-readiness-audit.md`
+- Packet: `.agents/packets/017-living-world-preproduction.json`
+- Depends on: `none`
+
+Goal:
+
+- Map the current live species, zones, and authored notes against the approved early / peak / late phenology model.
+
+Acceptance:
+
+- identifies which live entries already support phase variation well
+- flags where more authored support will be needed before `main-37`
+- keeps the pass grounded in current content instead of abstract season design
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-phenology-readiness-audit.md` to map the live five-biome entries, zones, and ecosystem notes against the approved `early` / `peak` / `late` phenology model.
+- Recommended a selective first phenology rollout built around the strongest current bloom, berry, and first-frost anchors in forest, treeline, and tundra, while flagging the beach branch as the thinnest late-phase biome.
+- Tightened parked `main-37` and refreshed the future depth packet so later implementation starts with the clearest current phase hooks instead of forcing an even but weaker first pass across every biome.
+
+### ECO-20260328-scout-19
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare a biome weather readability matrix`
+- Source: `docs/reports/2026-03-28-living-world-preproduction-sequence.md`, `docs/reports/2026-03-28-weather-readability-matrix-handoff.md`
+- Packet: `.agents/packets/017-living-world-preproduction.json`
+- Depends on: `none`
+
+Goal:
+
+- Define a calm weather plan for each biome family that stays atmospheric without making the game harder to read.
+
+Acceptance:
+
+- recommends a small weather set by biome family
+- distinguishes atmospheric-only changes from safe emphasis or spawn-shift ideas
+- gives `main-32` a concrete readability-first handoff
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-weather-readability-matrix-handoff.md` to narrow the first weather pass around `clear` plus one calm special weather profile per biome family.
+- Recommended a render-first v1 with `marine-haze`, `mist-drip`, `ridge-wind`, and `light-flurry`, while separating atmospheric-only changes from the tiny later emphasis ideas that might justify generation work.
+- Tightened parked `main-32` and refreshed the living-world packet so future weather work stays small, readable, and family-based instead of turning into a generic weather bucket.
+
+### ECO-20260328-scout-18
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare a five-biome day-part mood matrix`
+- Source: `docs/reports/2026-03-28-living-world-preproduction-sequence.md`, `docs/reports/2026-03-28-day-part-mood-matrix-handoff.md`
+- Packet: `.agents/packets/017-living-world-preproduction.json`
+- Depends on: `none`
+
+Goal:
+
+- Build a compact biome-by-biome day-part reference that will make the first living-world visual pass more deliberate and readable.
+
+Acceptance:
+
+- defines mood direction for the live five-biome chain across a small set of day parts
+- calls out silhouette, contrast, and visibility risks for the current viewport
+- gives `main-31` a concrete implementation-facing handoff without opening implementation work now
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-day-part-mood-matrix-handoff.md` to ground the first living-world visual slice in the live five-biome palettes, parallax stacks, cloud rules, and current `192x144` readability limits.
+- Recommended `dawn`, `day`, and `dusk` as the true first-pass day-part set, with `moonlit evening` treated as a later readability-gated stretch instead of a required v1 state.
+- Tightened parked `main-31` and refreshed the living-world packets so future implementation inherits biome-specific mood direction, visibility risks, and a render-first scope without reopening implementation work now.
+
+### ECO-20260328-critic-16
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the shared-species comparison page pass`
+- Source: `docs/reports/2026-03-28-shared-species-comparison-handoff.md`, `docs/reports/2026-03-28-shared-species-comparison-review.md`
+- Packet: `.agents/packets/016-shared-species-comparison-pages.json`
+- Depends on: `ECO-20260328-main-39`
+
+Goal:
+
+- Check whether the first comparison-page pass stays readable, spoiler-safe, and ecologically meaningful.
+
+Acceptance:
+
+- review checks readability, spoiler safety, and whether the feature teaches cross-habitat difference instead of repeating facts
+- findings are written to a dated report with file anchors
+- any follow-on work is added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-shared-species-comparison-review.md` and confirmed that the same-pane note-backed comparison concept is worth keeping.
+- Logged one live-readability follow-up: the comparison-open view is too vertically tight at `192x144`, so the habitat-card text needs a dedicated layout rebalance before this pattern expands.
+
+### ECO-20260328-main-39
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add shared-species comparison pages to the journal`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-shared-species-comparison-handoff.md`
+- Packet: `.agents/packets/016-shared-species-comparison-pages.json`
+- Depends on: `ECO-20260328-main-18`, `ECO-20260328-main-35`, `ECO-20260328-main-36`
+
+Goal:
+
+- Add a compact journal comparison layer for the strongest shared species so the same organism can teach different habitat roles once the player has seen it in multiple places.
+
+Acceptance:
+
+- comparison content unlocks only after the same shared `entryId` has been seen in at least two biomes
+- the first pass stays inside the current journal detail pane instead of adding a new top-level journal mode
+- the implementation stays narrow around note-backed candidates such as `beach-grass`, `arctic-willow`, and `crowberry`
+- the comparison surface stays compact, calm, and spoiler-safe on the current notebook shell
+- tests cover unlock logic, unseen-habitat safety, and the first UI state
+
+Completion note:
+
+- Added `src/engine/journal-comparison.ts` plus journal/render wiring so note-backed same-pane comparison cards unlock only after a shared species has local unlocked ecosystem-note context in at least two seen biomes.
+- Verified the first pass through new comparison-specific tests, expanded runtime smoke coverage, full `npm test -- --run`, `npm run build`, and a seeded browser comparison capture that tightened the live notebook layout before handoff.
+
+### ECO-20260328-critic-15
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the dense journal navigation pass`
+- Source: `docs/reports/2026-03-28-content-density-review.md`, `docs/reports/2026-03-28-dense-journal-navigation-review.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-36`
+
+Goal:
+
+- Check whether the denser journal stays readable and calm once its list surface can handle full biome completion.
+
+Acceptance:
+
+- review checks layout clarity, interaction clarity, and clutter risk
+- findings are written to a dated report with file anchors
+- any follow-on work is added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-dense-journal-navigation-review.md` and did not find a new usability regression in the landed journal windowing pass.
+- Confirmed that the new selection-centered list seam and the explicit up/down affordances keep dense biome pages navigable by both keyboard and pointer without breaking the compact notebook tone.
+
+### ECO-20260328-critic-14
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the shared-species local-sighting progression fix`
+- Source: `docs/reports/2026-03-28-lightweight-progression-review.md`, `docs/reports/2026-03-28-local-sighting-progression-fix-review.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-35`
+
+Goal:
+
+- Check whether the shared-species fix restores true per-biome progress without breaking the multi-biome journal model.
+
+Acceptance:
+
+- review checks local-sighting correctness, tone, and journal consistency
+- findings are written to a dated report with file anchors
+- any follow-on work is added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-local-sighting-progression-fix-review.md` and did not find a new correctness issue in the landed local-sighting follow-up.
+- Confirmed that per-biome journal progress, survey states, and ecosystem-note unlock checks now consistently respect local `biomeIds` sightings for shared species.
+
+### ECO-20260328-scout-13
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Shape notebook-style relationship prompts`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-notebook-prompt-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `none`
+
+Goal:
+
+- Define a better future prompt layer that feels like a naturalist notebook instead of quests, chores, or quizzes.
+
+Acceptance:
+
+- recommends prompt families that reward noticing pattern, shelter, exposure, and comparison
+- keeps prompts optional, kid-readable, and non-checklist-like
+- hands the main agent a small future implementation path tied to existing journal, ecosystem-note, and field-guide systems
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-notebook-prompt-handoff.md` to ground the future prompt layer in the live field-guide, ecosystem-note, journal, and overlay seams instead of treating it as a generic AI helper feature.
+- Recommended one deterministic notebook-prompt helper that selects a single observation lens from shelter, timing, neighbor-role, or evidence-backed comparison families.
+- Refreshed packets `014` and `015` and tightened parked `main-33` so future implementation stays same-pane, optional, spoiler-safe, and relationship-first rather than turning into chores or chatter.
+
+### ECO-20260328-scout-14
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Plan shared-species comparison pages`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-shared-species-comparison-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `ECO-20260328-main-35`
+
+Goal:
+
+- Turn the multi-biome sightings system into a future journal expansion that compares one organism across habitats.
+
+Acceptance:
+
+- recommends a calm comparison-page format that fits the current journal identity
+- explains how comparison pages should teach different roles, neighbors, and conditions without repeating fact bubbles
+- keeps scope small enough for one future main-agent pass
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-shared-species-comparison-handoff.md` to ground future comparison pages in the existing `Seen in:` journal row, multi-biome sightings model, and local ecosystem-note summaries.
+- Recommended a same-pane comparison mode with compact stacked habitat cards built from note-backed role differences instead of repeated fact text or a new encyclopedia surface.
+- Refreshed packet `015` and tightened parked `main-39` so the first pass stays narrow around the strongest initial species set: `beach-grass`, `arctic-willow`, and `crowberry`.
+
+### ECO-20260328-scout-15
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Scope sketchbook mode v1`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-sketchbook-v1-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `none`
+
+Goal:
+
+- Design a small authorship system that feels like a field notebook spread instead of crafting.
+
+Acceptance:
+
+- defines a minimal first version using sketches, stamps, silhouettes, or arranged finds
+- keeps the system art-forward and personal without adding management-heavy complexity
+- identifies the safest journal or save seams for a future implementation pass
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-sketchbook-v1-handoff.md` to scope sketchbook mode around the live journal, save, and local discovery seams rather than around a new freehand editor.
+- Recommended a biome-based sketchbook spread that uses local discovered-entry stamps in a few anchored slots, reusing the journal list as the source picker and the journal page as the host surface.
+- Refreshed packet `015` and tightened parked `main-40` so the first pass stays personal and art-forward without drifting into drag-heavy editing, crafting, or inventory management.
+
+### ECO-20260328-scout-16
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare a soundscape direction pass`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-soundscape-direction-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `none`
+
+Goal:
+
+- Create a future audio plan that deepens feel without demanding a huge music or simulation system.
+
+Acceptance:
+
+- recommends sparse biome sound layers, UI blips, and zone or mood cues
+- keeps the audio direction warm and calm instead of busy
+- gives future implementation a staged path from simple ambience to richer sound identity
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-soundscape-direction-handoff.md` to ground the sound pass in the current no-audio runtime, menu/settings seams, biome identity, and living-world direction.
+- Recommended a lightweight Web Audio layer with one low-volume ambience bed per biome family, a tiny UI cue set, and a single sound toggle instead of a large music or simulation-heavy sound system.
+- Refreshed packet `015` and tightened parked `main-41` so the first pass stays sparse, warm, biome-distinct, and ready to layer day-part or weather later without starting noisy.
+
+### ECO-20260328-scout-17
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Plan a close-look inspect mode`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-close-look-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `none`
+
+Goal:
+
+- Prepare a small future inspect expansion that sometimes shows a deeper magnified or observational view.
+
+Acceptance:
+
+- recommends which kinds of discoveries deserve a close-look treatment
+- keeps the feature visually explanatory and delight-driven instead of text-heavy
+- leaves a clear v1 implementation shape for future agents
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-close-look-handoff.md` to ground close-look mode in the current inspect bubble, overlay, and runtime seams instead of inventing a second journal system.
+- Recommended a few visual-first entries only, with one centered vignette card and less text than the standard inspect bubble rather than a new default inspect flow.
+- Refreshed packet `015` and tightened parked `main-42` so the first pass stays selective, explanatory, and layered on top of the current inspect interaction.
+
+### ECO-20260328-scout-12
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Ground the seasons and phenology sequence`
+- Source: `docs/reports/2026-03-28-depth-and-game-feel-sequence.md`, `docs/reports/2026-03-28-phenology-grounding-handoff.md`
+- Packet: `.agents/packets/015-depth-and-game-feel.json`
+- Depends on: `none`
+
+Goal:
+
+- Turn the approved seasons and phenology direction into one practical future handoff that fits the existing world-state plan.
+
+Acceptance:
+
+- recommends a calm first phenology slice and a safe ordering after day-part and weather
+- keeps the feature science-forward and art-forward without becoming a heavy simulation
+- gives future implementation concrete file seams, scope limits, and test ideas
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-phenology-grounding-handoff.md` to map the approved seasons and phenology direction onto the live biome data, renderer, generation, field-guide, and shared world-state seams.
+- Recommended a coarse shared `early` / `peak` / `late` phenology phase with biome-local authored profiles so coast, forest, treeline, and tundra can change mood without a full calendar simulation.
+- Refreshed packet `015` and tightened parked `main-37` so future implementation starts with small render and spawn-emphasis changes, deterministic testing hooks, and no pressure-heavy season system.
+
+### ECO-20260328-main-35
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Make biome pages and survey progress local-sighting aware for shared species`
+- Source: `docs/reports/2026-03-28-lightweight-progression-review.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-18`, `ECO-20260328-main-30`
+
+Goal:
+
+- Keep the cozy multi-biome journal model while restoring true per-biome discovery logic for shared species.
+
+Acceptance:
+
+- biome progress and survey states derive from `JournalEntryState.biomeIds`, not just global discovered entry ids
+- shared species only count for a biome after the player has actually seen them there
+- biome journal pages and multi-biome sightings stay consistent with the new local-sighting rule
+- tests cover cross-biome shared-species behavior so the regression stays locked down
+
+Completion note:
+
+- Reworked `src/engine/journal.ts` and the journal call sites in `src/engine/game.ts` so per-biome progress, survey states, journal membership, and ecosystem-note resolution all derive from local sightings in `JournalEntryState.biomeIds`.
+- Added shared-species regression coverage in `src/test/journal.test.ts`, `src/test/journal-selector.test.ts`, and `src/test/runtime-smoke.test.ts` so beach/coastal-scrub and treeline/tundra overlap no longer leaks progress into biomes where the player has not actually seen that entry.
+
+### ECO-20260328-main-36
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Make dense journal biome pages fully navigable`
+- Source: `docs/reports/2026-03-28-content-density-review.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-35`
+
+Goal:
+
+- Preserve the calm journal feel while making full late-biome entry lists readable and selectable after the density pass.
+
+Acceptance:
+
+- fully discovered dense biomes no longer strand entries behind a static `MORE...` cutoff
+- mouse and keyboard navigation both keep the active entry visible
+- the journal stays playfield-safe and notebook-like instead of turning into a dashboard
+- tests cover the new dense-list navigation behavior
+
+Completion note:
+
+- Added `src/engine/journal-list.ts` plus new overlay/game wiring so dense biome pages now use a selection-centered visible window with explicit up/down scroll affordances, visible-entry debug state, and pointer targets instead of a dead-end `MORE...` label.
+- Locked the behavior down with `src/test/journal-list.test.ts` and an expanded `src/test/runtime-smoke.test.ts` pass that exercises both keyboard movement and pointer clicks on the dense beach journal page.
+
+### ECO-20260328-critic-13
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the first progression layer`
+- Source: `docs/reports/2026-03-28-post-28-roadmap.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-30`
+
+Goal:
+
+- Check whether the first progression layer still feels cozy, readable, and educationally aligned.
+
+Acceptance:
+
+- critique checks tone, clutter risk, and learning fit
+- any problems are written up with concrete file anchors
+- follow-on fixes are added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-lightweight-progression-review.md` and confirmed the survey-state UI stays calm, but the underlying biome progress is still wrong for shared species.
+- Logged that `buildJournalBiomeProgress()` and `getDiscoveredEntriesForBiome()` still key off global discovered entry ids, so entries like `beach-grass` can make later habitats look discovered before the player actually finds them there.
+- Queued `ECO-20260328-main-35` plus `ECO-20260328-critic-14` so the next pass fixes the local-sighting logic and adds the missing shared-species progression coverage.
+
+### ECO-20260328-critic-12
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the five-biome content-density pass`
+- Source: `docs/reports/2026-03-28-post-28-roadmap.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-29`
+
+Goal:
+
+- Check whether the new content pass stays science-safe, readable, and biome-specific.
+
+Acceptance:
+
+- review checks science accuracy, content readability, and biome distinctness
+- any problems are written to a dated report with file anchors
+- follow-on fixes are added back to the queue if needed
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-content-density-review.md` and found no new science blockers in the five-biome density pass.
+- Logged that the denser biome pages now outrun the fixed journal list budget, leaving a static `MORE...` cutoff that hides entries and only exposes click targets for the visible rows.
+- Queued `ECO-20260328-main-36` plus `ECO-20260328-critic-15` so the journal can stay calm while still handling full biome completion.
+
+### ECO-20260328-scout-04
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Break the broader living-world feature pack into grounded follow-on slices`
+- Source: `docs/ai-naturalist-design.md`, `docs/reports/2026-03-28-living-world-sequence.md`, `docs/reports/2026-03-28-living-world-grounding-handoff.md`
+- Packet: `.agents/packets/014-living-world-sequence.json`
+- Depends on: `ECO-20260328-main-12`
+
+Goal:
+
+- Turn the approved living-world feature set into one concrete future implementation sequence without activating those systems yet.
+
+Acceptance:
+
+- produces one grounded handoff for the approved living-world sequence
+- preserves the approved order: day-part, weather, naturalist prompts, field partner
+- keeps implementation of `main-31` through `main-34` parked until the current phase-two work is stable
+- gives future agents concrete slices instead of a speculative feature blob
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-living-world-grounding-handoff.md` to map the approved future features onto the live runtime seams in `biome-scene-render`, `generation`, `field-guide`, and `game`.
+- Recommended one shared deterministic `world-state` seam as the backbone for the full living-world sequence so day-part, weather, prompts, and partner behavior do not splinter into four unrelated systems.
+- Refreshed packet `014` and tightened the parked `main-31` through `main-34` notes so future agents inherit concrete first-scope rules while the whole sequence stays parked behind the current phase-two work.
+
+### ECO-20260328-scout-11
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the lightweight progression handoff`
+- Source: `docs/reports/2026-03-28-post-28-roadmap.md`, `docs/reports/2026-03-28-lightweight-progression-handoff.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-28`
+
+Goal:
+
+- Compare a few calm progression options and recommend one journal-first next layer after the content pass.
+
+Acceptance:
+
+- compares at least two compact progression directions
+- recommends one progression layer that fits the current cozy exploration tone
+- avoids quests, score-chasing, and heavy HUD growth
+- gives the main agent concrete implementation guidance rather than general product theory
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-lightweight-progression-handoff.md` to compare compact progression directions against the live journal, map, save, and runtime seams.
+- Recommended per-biome survey states as the first progression layer: `surveyed` at four discoveries in a biome and `complete` at full biome completion, surfaced primarily in the journal with only tiny optional map echo.
+- Refreshed packet `013` and tightened `ECO-20260328-main-30` so the next implementation pass stays small, derived, and blocked on the content-density pass instead of drifting into quests or score systems.
+
+### ECO-20260328-main-30
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Implement lightweight biome survey progression in the journal`
+- Source: `docs/reports/2026-03-28-post-28-roadmap.md`, `docs/reports/2026-03-28-lightweight-progression-handoff.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-29`, `ECO-20260328-scout-11`
+
+Goal:
+
+- Add one calm progression layer that gives discovery more shape through per-biome survey states without turning the game into a quest list.
+
+Acceptance:
+
+- each biome can resolve to compact `none`, `surveyed`, or `complete` progression states based on discovery counts
+- the journal is the source of truth and any map feedback stays tiny and secondary
+- the progression layer adds motivation without adding timers, chores, score pressure, or a quest log
+- it fits inside the current journal/map/game UI structure cleanly
+- build and agent validation stay green
+
+Completion note:
+
+- Added `src/engine/progression.ts` as the pure source of truth for biome survey states, using `none`, `surveyed`, and `complete` with a shared four-discovery threshold before full completion.
+- Surfaced the label primarily in the journal progress row, echoed it in tiny form on the focused world-map panel, and exposed both journal and world-map survey state through `render_game_to_text()`.
+- Added new progression and runtime smoke coverage so the threshold logic, journal output, and map echo stay locked down without introducing a quest log or larger HUD.
+
+### ECO-20260328-main-29
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Expand discovery density across the live five-biome chain`
+- Source: `docs/reports/2026-03-28-post-28-roadmap.md`
+- Packet: `.agents/packets/013-phase-two-roadmap.json`
+- Depends on: `ECO-20260328-main-28`
+
+Goal:
+
+- Make the live world feel fuller by adding a measured second layer of authored discoveries across all five biomes.
+
+Acceptance:
+
+- each live biome gains at least two new authored discoverable entries
+- the new entries strengthen biome identity instead of blurring habitats together
+- facts remain science-safe and readable for kids
+- spawn tables, tests, and source notes are updated with the new content
+- build and agent validation stay green
+
+Completion note:
+
+- Added two new authored discoveries to every live biome, including beach wrack and plovers, denser coastal scrub shrubs and fruit, deeper forest wildflower and bird life, alpine cushion plants and marmots, and a fuller tundra layer with lousewort and collared lemmings.
+- Wired the new entries into live spawn tables, added matching sprite assets, and refreshed the biome, journal, and content tests so the denser five-biome route stays deterministic and science-safe.
+- Updated `docs/science-source-ledger.md`, `docs/world-travel.md`, and the progress/history surfaces so the repo documentation matches the expanded live world.
+
+### ECO-20260328-main-28
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Fix the remaining Pacific coastal science mismatches`
+- Source: `docs/reports/2026-03-28-live-biome-science-audit.md`, `docs/science-source-ledger.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-27`
+
+Goal:
+
+- Clean up the last two coastal science mismatches so the live Pacific branch stays accurate.
+
+Acceptance:
+
+- `sea-rocket` is no longer treated as the default shared native Pacific foredune anchor without explicit introduced-species framing
+- `pickleweed` is no longer taught or placed like tidepool content
+- any replacement or reframing keeps the beach and coastal-scrub branch readable for kids
+- save behavior, tests, build, and agent validation stay green
+
+Completion note:
+
+- Added `yellow sand verbena` as a native shared Pacific dune plant for beach and coastal scrub, shifted the live dune spawn tables to feature it, and removed the old tidepool `pickleweed` slot from the beach runtime.
+- Reframed `sea-rocket` explicitly as an introduced Pacific-coast plant and removed it from the coastal-scrub ecosystem-note anchor list so it no longer reads like the default native foredune teacher.
+- Added a save migration from legacy `pickleweed` discoveries to `sand-verbena`, updated the shared-entry and journal/save tests, and synced the travel/design/source docs to the corrected coastal branch.
+
+### ECO-20260328-critic-10
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Run a science fact audit across the live biome set`
+- Source: `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-18`
+
+Goal:
+
+- Perform one explicit science-accuracy sweep across the live and newly added biome content so factual drift does not accumulate silently as the world expands.
+
+Acceptance:
+
+- the audit checks scientific names, fact wording, and habitat pairings across live biomes and shared species
+- any issues are written up in a dated report with clear file anchors
+- any fixes needed are added back to the queue
+
+Completion note:
+
+- Audited the live biome content against the source ledger plus current external references and found two remaining coastal issues: `sea-rocket` is still being used like a native Pacific shared anchor even though `Cakile edentula` is introduced on the Pacific coast, and `pickleweed` is still being framed and placed like tidepool content instead of salt-marsh content.
+- Did not find a new science blocker in the current forest, treeline, tundra, or shared alpine content.
+- Wrote the findings to `docs/reports/2026-03-28-live-biome-science-audit.md`, refreshed `docs/science-source-ledger.md`, and queued `ECO-20260328-main-28` for the remaining Pacific coastal cleanup.
+
+### ECO-20260328-main-27
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Harden the live map loop with a true smoke test and synced travel docs`
+- Source: `docs/reports/2026-03-28-five-biome-chain-review.md`, `docs/world-travel.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-26`, `ECO-20260328-main-18`
+
+Goal:
+
+- Lock the live five-biome travel loop into tests and bring the travel doc back in sync with the actual shipped content.
+
+Acceptance:
+
+- deterministic coverage exercises biome exit, world-map focus movement, journal open from map, and a live destination trip through the five-biome chain
+- `docs/world-travel.md` matches the current live biome content and travel behavior
+- tests, build, and agent validation stay green
+
+Completion note:
+
+- Extended the runtime smoke loop to exit forest through the live door, browse the world map, open the journal on focused treeline, then continue onward through the authored chain and arrive in tundra before the later save/journal checks.
+- Fixed the hidden multi-hop transition bug by making doorway transition plans use the same routed location path as the world-map walker, so journeys like `forest -> tundra` no longer assume a nonexistent direct connection.
+- Rewrote `docs/world-travel.md` to match the current five-biome runtime, including the live species set, map/journal behavior, and the actual test files that guard travel today.
+
+### ECO-20260328-main-26
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Make the world-map journal follow the focused destination`
+- Source: `docs/reports/2026-03-28-five-biome-chain-review.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-16`
+
+Goal:
+
+- Keep the journal anchored to the place the player is actively browsing when it is opened from the world map.
+
+Acceptance:
+
+- opening the journal from the world map defaults to the focused map node's biome, not the doorway origin biome
+- opening the journal from inside a biome still defaults to the current biome
+- the change stays small and does not destabilize travel transitions
+- tests, build, and agent validation stay green
+
+Completion note:
+
+- Replaced the map-journal default from stale `mapOriginBiomeId` to the actively focused world-map node's biome, while leaving biome-side journal opening anchored to the current biome.
+- Extended the runtime smoke test to enter the world map from a live forest door, move focus to treeline, open the journal from the map, and confirm it selects `treeline` before returning cleanly to the map and biome flow.
+- Re-verified with targeted and full test runs, `npm run build`, the shared web-game client, and a live browser pass that showed `focusedLocationId: treeline` with `journal.selectedBiomeId: treeline` and zero console errors.
+
+### ECO-20260328-main-18
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Add journal support for multi-biome sightings`
+- Source: `docs/ecotone-design.md`, `docs/reports/2026-03-28-multi-biome-sightings-handoff.md`
+- Packet: `.agents/packets/012-multi-biome-sightings-prep.json`
+- Depends on: `ECO-20260328-main-16`, `ECO-20260328-main-17`
+
+Goal:
+
+- Let the journal persist and show when the same species has been found in more than one ecosystem without creating duplicate entries.
+
+Acceptance:
+
+- repeat sightings in a new biome extend the same discovered entry instead of being ignored
+- shared-species entries can surface multiple biome sightings in a lightweight readable way
+- journal entries remain deduplicated by `entryId`
+- the change stays calm and discovery-first instead of turning into a checklist wall
+
+Completion note:
+
+- Expanded discovered-entry save state from one `biomeId` to ordered `biomeIds`, added a safe legacy migration path, and taught `recordDiscovery()` to append new habitat sightings without cloning entries.
+- Added a tiny journal helper plus detail-pane rendering so shared species can show one compact `Seen in:` row, while keeping the list view calm and keyed to the original `entryId`.
+- Updated save, journal, biome, field-guide, and runtime smoke coverage, then re-verified with build, tests, the shared web-game client, and a live browser journal pass with zero console errors.
+
+### ECO-20260328-critic-08
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review the five-biome ecotone chain`
+- Source: `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-16`
+
+Goal:
+
+- Review whether the full ecosystem chain feels educationally coherent, readable, and worth traversing.
+
+Acceptance:
+
+- critique checks travel flow, ecotone storytelling, and journal fit
+- remaining issues are added back to the queue if needed
+
+Completion note:
+
+- Confirmed that the live `beach -> coastal-scrub -> forest -> treeline -> tundra` chain is worth keeping and the five-biome journal selector still fits the current screen.
+- Logged one real player-facing follow-up: opening the journal from the world map still anchors to the doorway origin biome instead of the focused node.
+- Logged one hardening follow-up: the deterministic smoke loop still skips the actual map browsing and travel path, and `docs/world-travel.md` is now stale enough to mislead future agents.
+
+### ECO-20260328-scout-10
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the multi-biome sightings handoff for main-18`
+- Source: `docs/reports/2026-03-28-multi-biome-sightings-handoff.md`, `docs/reports/2026-03-28-shared-species-handoff.md`, `docs/reports/2026-03-28-treeline-review.md`
+- Packet: `.agents/packets/012-multi-biome-sightings-prep.json`
+- Depends on: `ECO-20260328-main-17`
+
+Goal:
+
+- Compare a few compact journal treatments for showing that one species has been seen in multiple habitats, then recommend one clear path for main-18.
+
+Acceptance:
+
+- recommends one compact multi-biome sightings pattern
+- keeps the journal calm and readable at the current game resolution
+- gives the main agent concrete implementation guidance instead of general UX theory
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-multi-biome-sightings-handoff.md` to compare compact sightings treatments against the live five-biome journal and recommend one detail-pane `Seen in:` row instead of list badges or a checklist mode.
+- Confirmed that the real implementation seam is in save persistence, not just rendering: `JournalEntryState` still stores one `biomeId`, and `recordDiscovery()` currently ignores repeat sightings in new biomes.
+- Refreshed packet `012` and `ECO-20260328-main-18` so the next implementation pass is explicitly scoped to a small save migration plus one compact journal detail treatment.
+
+### ECO-20260328-main-16
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Wire ecotones into the world map and travel runtime`
+- Source: `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-15`, `ECO-20260328-main-17`, `ECO-20260328-main-25`
+
+Goal:
+
+- Connect the five-biome ecosystem chain into the world map and live travel flow while preserving journal behavior and transition readability.
+
+Acceptance:
+
+- travel works across the five-biome chain
+- shared-species journal behavior stays correct
+- build and tests stay green
+
+Completion note:
+
+- Promoted `Coastal Scrub` and `Treeline Pass` into the live biome registry, expanded the world-map graph into a five-stop beach-to-tundra chain, and added dedicated map sprites plus a small habitat-gradient art pass so the route reads clearly on the live map.
+- Compacted the world-map help HUD into smaller LeafGreen-style chips so the new treeline and tundra end of the route stay visible during live travel selection.
+- Updated world-map and runtime smoke coverage to exercise the new ecotone ordering, five-biome journal progress, and a live treeline reload path, then re-verified with build, tests, agent validation, and browser checks.
+
+### ECO-20260328-main-25
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add lichen-safe category handling before Treeline goes live`
+- Source: `docs/reports/2026-03-28-treeline-review.md`
+- Packet: `.agents/packets/010-ecotone-follow-on-prep.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Stop the journal and field-guide surfaces from teaching that lichens are plants once Treeline is part of the live ecosystem chain.
+
+Acceptance:
+
+- `reindeer-lichen` is no longer surfaced to players as a plant in journal or field-guide category language
+- the fix stays lightweight and readable for kids
+- supporting tests are updated and build/tests stay green
+
+Completion note:
+
+- Added a dedicated `lichen` category to the inspectable type model, kept its runtime sizing aligned with plants, and retagged `reindeer-lichen` in the isolated treeline biome.
+- Updated journal and field-guide category ordering and wording so player-facing progress rows, hidden-find summaries, and copied field-guide prompts now call lichens `lichen` instead of `plant`.
+- Added treeline, journal, and field-guide tests for the new category and re-verified the live runtime with build, tests, the shared web-game client, and a clean browser console pass.
+
+### ECO-20260328-main-17
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Create a shared-species module for parent biomes and ecotones`
+- Source: `docs/reports/2026-03-28-shared-species-handoff.md`, `docs/ecotone-design.md`
+- Packet: `.agents/packets/011-shared-species-layer.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Centralize the species that appear in both a parent biome and its ecotone so IDs, facts, and journal behavior stay consistent before the five-biome chain is wired live.
+
+Acceptance:
+
+- shared species such as `beach-grass`, `sword-fern`, `arctic-willow`, and `crowberry` come from one stable data surface or an equally clear single-source pattern
+- entry IDs stay identical across parent biomes and ecotones
+- the follow-on world-map wiring task can use shared species without duplicate-content drift
+
+Completion note:
+
+- Added `src/content/shared-entries.ts` as the canonical source for the five current edge species: `beach-grass`, `sea-rocket`, `sword-fern`, `arctic-willow`, and `crowberry`.
+- Updated beach, coastal scrub, forest, treeline, and tundra to import those shared entries directly instead of spreading entry objects between biome modules.
+- Added a dedicated shared-entry ownership test so later world-map and multi-biome journal work can rely on one stable source without changing save keys or biome-local spawn tables.
+
+### ECO-20260328-scout-09
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare the shared-species handoff for main-17`
+- Source: `docs/reports/2026-03-28-shared-species-handoff.md`, `docs/reports/2026-03-28-treeline-review.md`
+- Packet: `.agents/packets/011-shared-species-layer.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Map the smallest clean source-of-truth pattern for species shared between parent biomes and ecotones before main-17 starts moving content around.
+
+Acceptance:
+
+- identifies which live and planned entries should stay canonical across biome files
+- recommends where the shared layer should live and how much migration is actually needed
+- protects journal IDs and current content ownership boundaries
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-shared-species-handoff.md` to narrow the shared-species problem to the five currently duplicated edge species: `beach-grass`, `sea-rocket`, `sword-fern`, `arctic-willow`, and `crowberry`.
+- Recommended a single shared-entry layer instead of the current biome-to-biome spread-copy pattern, while explicitly keeping spawn tables, notes, terrain rules, and unique species local to each biome file.
+- Added packet `011` and moved `ECO-20260328-main-17` onto it so the next implementation pass stays scoped to canonical shared entries instead of drifting into a larger registry refactor.
+
+### ECO-20260328-scout-08
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the five-biome journal selector handoff for main-21`
+- Source: `docs/reports/2026-03-28-five-biome-journal-selector-handoff.md`, `docs/reports/2026-03-28-readability-pass-review.md`
+- Packet: `.agents/packets/010-ecotone-follow-on-prep.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Compare a few practical selector patterns for `Beach`, `Coastal Scrub`, `Forest`, `Treeline`, and `Tundra`, then recommend one compact direction the main agent can implement inside the current `192x144` journal shell.
+
+Acceptance:
+
+- recommends one clear selector approach for five biome names at the current resolution
+- calls out tradeoffs briefly without reopening the whole journal design
+- leaves the main agent with concrete implementation guidance instead of abstract UI talk
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-five-biome-journal-selector-handoff.md` to compare compact selector patterns against the current `192x144` journal shell and confirm that the already-landed arrow-plus-label pager is the right five-biome direction.
+- Verified the current selector behavior against `src/engine/journal-selector.ts`, `src/engine/overlay-render.ts`, and `src/engine/game.ts`, then re-ran `npm test -- --run src/test/journal-selector.test.ts src/test/journal.test.ts`.
+- Closed the scout prep as a queue-sync task because `ECO-20260328-main-21` had already solved the equal-width-tab problem in code.
+
+### ECO-20260328-main-21
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Replace equal-width journal biome tabs before the five-biome chain goes live`
+- Source: `docs/reports/2026-03-28-readability-pass-review.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Make biome selection in the journal scale cleanly to `Beach`, `Coastal Scrub`, `Forest`, `Treeline`, and `Tundra` without clipping or turning the top bar into noise.
+
+Acceptance:
+
+- five-biome journal navigation fits cleanly inside the existing `192x144` safe area
+- the selector stays simple enough for kids to understand quickly
+- the solution avoids reintroducing heavy page chrome or a cluttered always-on HUD
+
+Completion note:
+
+- Replaced the old equal-width journal tabs with a compact left/right habitat pager, centered biome label, and small position markers that keep the journal header calm inside the current `192x144` safe area.
+- Added a dedicated selector helper plus layout tests for the full five-biome chain, and extended the runtime smoke test so keyboard journal paging stays covered.
+
+### ECO-20260328-critic-11
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review Treeline ecotone content`
+- Source: `docs/reports/2026-03-28-treeline-review.md`, `docs/ecotone-design.md`, `docs/science-source-ledger.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-15`
+
+Goal:
+
+- Review the isolated Treeline scaffold for science accuracy, gradient readability, and live-chain fit before later ecotone wiring.
+
+Acceptance:
+
+- critique checks species accuracy, zone storytelling, and any content-model drift that would matter once Treeline is live
+- remaining issues are added back to the queue if needed
+
+Completion note:
+
+- Reviewed `Treeline Pass` and confirmed that its four-zone structure, shared tundra-facing IDs, and stress-gradient ecosystem notes are strong and aligned with the existing science ledger.
+- Logged one real follow-up in `docs/reports/2026-03-28-treeline-review.md`: the current shared category model still forces `reindeer-lichen` into the `plant` bucket, which would surface the wrong science in journal and field-guide UI.
+- Added `ECO-20260328-main-25` plus two scout prep items so the next journal-selector and shared-species tasks can move with cleaner context while the lichen mismatch is tracked explicitly before live wiring.
+
+### ECO-20260328-critic-07
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P3`
+- Title: `Review Coastal Scrub ecotone content`
+- Source: `docs/reports/2026-03-28-coastal-scrub-review.md`, `docs/reports/2026-03-28-coastal-branch-geography-handoff.md`, `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-14`
+
+Goal:
+
+- Review the first ecotone biome for science accuracy, gradient readability, and sprite clarity before the second ecotone is scaffolded.
+
+Acceptance:
+
+- critique checks species accuracy, zone storytelling, and readability
+- any science or content drift is called out clearly
+- next-step fixes are added back to the queue if needed
+
+Completion note:
+
+- Reviewed the isolated `Coastal Scrub` biome and confirmed that its four-zone structure, facilitation notes, shared edge IDs, and export-only rollout are all solid foundations.
+- Logged one real blocker in `docs/reports/2026-03-28-coastal-scrub-review.md`: the implemented biome still carries Atlantic anchors through `Spartina patens`, `Morella pensylvanica`, and the inherited `Ammophila breviligulata` beach edge.
+- Retargeted `ECO-20260328-main-24` so the next coastal pass fixes the live beach, the already-landed `Coastal Scrub` implementation, and the source docs before further coastal-branch expansion.
+
+### ECO-20260328-main-14
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Scaffold the Coastal Scrub ecotone biome`
+- Source: `docs/reports/2026-03-28-coastal-branch-geography-handoff.md`, `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-main-24`
+
+Goal:
+
+- Create the Coastal Scrub biome with its own palette, entries, spawn tables, assets, and tests before wiring it into the live travel chain.
+
+Acceptance:
+
+- the biome has the intended four-zone gradient
+- scientific names and facts are accurate
+- tests and build stay green
+
+Completion note:
+
+- Added an isolated `Coastal Scrub` biome module in `src/content/biomes/coastal-scrub.ts` with the intended `back-dune -> shrub-thicket -> shore-pine-stand -> forest-edge` gradient, shared edge-species IDs, and two ecosystem notes centered on facilitation and shelter.
+- Added dedicated Coastal Scrub asset modules under `src/assets/` plus export-only biome indexing in `src/content/biomes/index.ts`, while deliberately keeping the biome out of the live registry so world travel and current beach play stay stable.
+- Added Coastal Scrub validation/generation coverage in `src/test/coastal-scrub-biome.test.ts`, expanded shared biome/content guardrails, and re-verified with `npm test -- --run`, `npm run build`, `npm run validate:agents`, the shared web-game Playwright client, and a live browser console/state pass with zero new errors.
+
+### ECO-20260328-main-24
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Realign the coastal branch to a Pacific gradient across beach and Coastal Scrub`
+- Source: `docs/reports/2026-03-28-coastal-branch-geography-handoff.md`, `docs/reports/2026-03-28-coastal-scrub-review.md`
+- Packet: `.agents/packets/009-coastal-branch-geography.json`
+- Depends on: `ECO-20260328-scout-07`
+
+Goal:
+
+- Make the beach-to-forest side science-coherent by updating the live beach content, the already-landed `Coastal Scrub` biome, and the source docs around a Pacific coastal gradient before further coastal-branch expansion or wiring.
+
+Acceptance:
+
+- replaces or removes the strongest Atlantic-anchoring beach entries that conflict with the Pacific forest branch
+- updates `src/content/biomes/coastal-scrub.ts` and `docs/ecotone-design.md` so the coastal ecotone no longer mixes incompatible coasts
+- refreshes supporting tests or docs so the coastal branch can proceed without reopening the geography question
+
+Completion note:
+
+- Updated the live beach in `src/content/biomes/beach.ts` to a Pacific branch by swapping in American dunegrass, Pacific littleneck and razor clam shell finds, Lewis' moon snail, and Pacific sand crab while keeping the same cozy gameplay roles and retuning ecosystem-note links.
+- Updated `src/content/biomes/coastal-scrub.ts` and `docs/ecotone-design.md` to the same Pacific direction by replacing the old Atlantic scrub anchors with `sea-rocket` and Pacific wax myrtle while preserving the facilitation and forest-edge teaching shape.
+- Added save-ID migration in `src/engine/save.ts`, refreshed the affected tests/docs, and re-verified with build/tests/browser checks so old beach discoveries do not silently disappear after the species pivot.
+
+### ECO-20260328-main-15
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Scaffold the Treeline ecotone biome`
+- Source: `docs/reports/2026-03-28-coastal-scrub-review.md`, `docs/ecotone-design.md`
+- Packet: `.agents/packets/006-ecotone-biomes.json`
+- Depends on: `ECO-20260328-critic-07`
+
+Goal:
+
+- Create the Treeline biome with its own gradient, entries, spawn tables, assets, and tests in isolation.
+
+Acceptance:
+
+- the biome has the intended four-zone gradient
+- scientific names and facts are accurate
+- tests and build stay green
+
+Completion note:
+
+- Added an isolated `Treeline Pass` biome in `src/content/biomes/treeline.ts` with the intended `thin-canopy -> krummholz-belt -> dwarf-shrub -> lichen-fell` gradient, shared tundra-facing `arctic-willow` and `crowberry` IDs, and stress-gradient ecosystem notes focused on wind-shaped growth and low-ground survivors.
+- Added dedicated Treeline asset modules under `src/assets/` for tiles, flora, collectibles, and ambient sprites, then exported the biome from `src/content/biomes/index.ts` without wiring it into the live registry so the current travel flow stays stable.
+- Added Treeline validation/generation coverage in `src/test/treeline-biome.test.ts`, expanded shared biome/content guardrails, and re-verified with `npm test -- --run`, `npm run build`, the shared web-game Playwright client, and a live browser console pass with zero new errors.
+
+### ECO-20260328-scout-07
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Resolve the coastal-branch geography before Coastal Scrub is finalized`
+- Source: `docs/reports/2026-03-28-coastal-branch-geography-handoff.md`
+- Packet: `.agents/packets/009-coastal-branch-geography.json`
+- Depends on: `ECO-20260328-scout-06`
+
+Goal:
+
+- Compare the smallest science-safe ways to resolve the mixed Atlantic/Pacific coastal species set before the five-biome gradient is treated as one coherent branch.
+
+Acceptance:
+
+- identifies the current mixed-region conflict with cited species and sources
+- recommends one path: Pacific coastal gradient, Atlantic coastal gradient, or explicit separate-locale framing
+- maps the minimum species, content, or world-map framing changes needed before or during `Coastal Scrub` scaffolding
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-coastal-branch-geography-handoff.md` to compare Pacific-pivot, Atlantic-pivot, and separate-locale framing options against the live world map and the new science ledger.
+- Recommended a Pacific coastal gradient as the smallest path that preserves the current beach-to-forest-to-tundra teaching shape, then mapped the minimum beach and `Coastal Scrub` species changes needed to get there.
+- Added packet `009` plus new main-agent task `ECO-20260328-main-24` so the geography cleanup happens before `ECO-20260328-main-14` scaffolds `Coastal Scrub`.
+
+### ECO-20260328-scout-06
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P3`
+- Title: `Prepare a science source ledger for live biomes and upcoming ecotones`
+- Source: `docs/science-source-ledger.md`
+- Depends on: `none`
+
+Goal:
+
+- Gather a compact, durable reference sheet for live and planned biome species and ecology claims so future content work and the later science audit have a stronger baseline.
+
+Acceptance:
+
+- creates a durable doc with source-backed notes for beach, forest, tundra, Coastal Scrub, and Treeline content
+- flags any claim that still needs verification before ship
+- adds queue follow-ons only if a real accuracy risk is found
+
+Completion note:
+
+- Added `docs/science-source-ledger.md` with source-backed notes for the live beach, forest, and tundra content plus the planned `Coastal Scrub` and `Treeline` ecotones.
+- Flagged one real science risk: the current coastal branch mixes Atlantic or Mid-Atlantic species with Pacific coastal forest species while the design doc still presents them as one continuous gradient.
+- Added `ECO-20260328-scout-07` so the branch geography gets resolved before `Coastal Scrub` is treated as final content.
+
+### ECO-20260328-scout-05
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare a compact UI handoff for title copy budgets and journal note-panel refit`
+- Source: `docs/reports/2026-03-28-compact-ui-handoff.md`
+- Packet: `.agents/packets/008-compact-ui-follow-ons.json`
+- Depends on: `none`
+
+Completion note:
+
+- Compared three practical title-copy-budget options and three journal note-panel options in `docs/reports/2026-03-28-compact-ui-handoff.md`.
+- Recommended preserving the landed authored title-copy-budget pattern from `main-20` and implementing `main-22` as a same-pane companion note card instead of a note-only swap or a new toggle mode.
+- Moved `main-22` onto packet `008` so the next UI cleanup has a compact, dedicated handoff instead of relying on the broader ecosystem-note packet.
+
+### ECO-20260328-main-22
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Refit the journal ecosystem-note panel so it adds to entry learning instead of replacing it`
+- Source: `docs/reports/2026-03-28-compact-ui-handoff.md`
+- Packet: `.agents/packets/008-compact-ui-follow-ons.json`
+- Depends on: `ECO-20260328-main-12`, `ECO-20260328-main-10`
+
+Goal:
+
+- Keep the ecosystem-note system, but rebalance the journal detail pane so the selected entry still teaches its own species/place details while the note adds relationship context cleanly.
+
+Acceptance:
+
+- selected entries with notes still keep their own journal teaching visible
+- the note surface exposes at least one authored cue beyond the raw summary, preferably the note title and a short observation prompt
+- current beach, forest, and tundra note states fit cleanly at `192x144` with no clipped note or lock text
+- spoiler-safe locked behavior remains intact and build/tests stay green
+
+Completion note:
+
+- Refit the journal detail pane in `src/engine/overlay-render.ts` so entries with ecosystem notes keep their own species/place journal excerpt visible while the note becomes a smaller companion card instead of a full-body replacement.
+- Surfaced authored note titles plus short observation cues for unlocked notes, tightened the locked-note hint copy, and reduced right-pane padding/gaps so the beach, forest, and tundra note states all fit cleanly in the live `192x144` journal.
+- Tightened the live note title/prompt copy budgets in `src/content/biomes/beach.ts`, `src/content/biomes/forest.ts`, and `src/content/biomes/tundra.ts`, updated `src/test/content-quality.test.ts`, then re-verified with `npm test -- --run`, `npm run build`, the shared web-game client, and fresh headless screenshots/state captures for beach unlocked, forest locked, and tundra unlocked journal views with no console errors.
+
+### ECO-20260328-main-23
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Tighten field-guide prompt safety and fallback messaging`
+- Source: `docs/reports/2026-03-28-field-guide-review.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `ECO-20260328-main-22`
+
+Goal:
+
+- Keep clipboard Mode A, but remove spoiler and hallucination pressure from the copied prompt and make the failure notice feel a little more player-facing.
+
+Acceptance:
+
+- the copied prompt does not expose exact undiscovered species names
+- the prompt instructions ask for grounded ecological relationships without pressuring the model to invent unsupported processes
+- the failed-copy notice gives one short next-step hint without adding heavy UI
+- build and tests stay green
+
+Completion note:
+
+- Updated `src/engine/field-guide.ts` so the copied prompt now hides undiscovered exact names, summarizes hidden biome content by category counts, and explicitly tells the model to stay within relationships the current context can actually support.
+- Refined the field-guide failure toast in `src/engine/overlay-render.ts` and `src/engine/game.ts` so copy failures show a short retry hint instead of a debug-sounding warning, while keeping the lightweight in-canvas notice pattern.
+- Added stricter prompt-safety assertions in `src/test/field-guide.test.ts` and `src/test/runtime-smoke.test.ts`, refreshed `docs/ai-naturalist-design.md`, then re-verified with `npm test -- --run`, `npm run build`, and headless browser captures for both successful copy and failed-copy notice states with zero console errors.
+
+### ECO-20260328-main-20
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Tighten title-screen copy budgets so key onboarding text never truncates silently`
+- Source: `docs/reports/2026-03-28-readability-pass-review.md`
+- Packet: `.agents/packets/004-readability-runtime-ecology.json`
+- Depends on: `ECO-20260328-main-12`
+
+Goal:
+
+- Preserve the clean `192x144` title layout while making sure the onboarding copy still communicates the journal loop and other core ideas.
+
+Acceptance:
+
+- the title subtitle keeps the `field journal` idea visible inside the current safe area
+- the solution uses a real copy budget or equivalent guardrail, not a one-off nudge
+- build and tests stay green
+
+Completion note:
+
+- Replaced wrapped title subtitle text with explicit budgeted subtitle/flavor lines in `src/engine/title-copy.ts`, so the title screen keeps the `field journal` concept without relying on silent wrap truncation.
+- Updated `src/engine/overlay-render.ts` to render the budgeted lines directly, preserving the current shell layout while removing the previous wrap-and-clip risk.
+- Added `src/test/title-copy.test.ts` to guard the title copy budgets, then re-verified with `npm test -- --run`, `npm run build`, and a fresh headless title-screen screenshot with no console errors.
+
+### ECO-20260328-main-12
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Wire the field guide into the menu with clipboard Mode A`
+- Source: `docs/ai-naturalist-design.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `ECO-20260328-main-11`
+
+Goal:
+
+- Add a `Field guide` action to the in-game menu that assembles the current field-guide prompt, copies it to the clipboard, and shows a short confirmation state.
+
+Acceptance:
+
+- the action is available only in biome play, not on the world map or during transitions
+- activating it copies the generated prompt to the clipboard
+- the game shows a brief confirmation without heavy new chrome
+- build and tests stay green
+
+Completion note:
+
+- Added a biome-only `Field guide` menu action, a small clipboard helper, and a lightweight in-game copy toast without exposing prompt contents in `render_game_to_text()`.
+- Wired safe menu metadata into the debug state so title and play menus can verify the action appears only when expected, while the actual copied prompt stays out of runtime text surfaces.
+- Added clipboard coverage plus expanded runtime smoke coverage, then re-verified with `npm test -- --run`, `npm run build`, and headless browser screenshots for title menu, play menu, and copied-toast states with zero console errors.
+
+### ECO-20260328-critic-06
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review field-guide prompt quality and clipboard UX`
+- Source: `docs/reports/2026-03-28-field-guide-review.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `ECO-20260328-main-12`
+
+Goal:
+
+- Review whether the field-guide prompt and confirmation flow are readable, science-safe, and worthwhile for kids and co-players.
+
+Acceptance:
+
+- critique checks prompt quality, wording, and menu fit
+- notes call out hallucination or overclaim risk in the prompt framing
+- any next-step fixes get added back to the queue if needed
+
+Completion note:
+
+- Confirmed that clipboard Mode A is a good fit for the current menu flow: the action appears only during biome play, the success toast is lightweight, and the copied prompt stays out of debug surfaces.
+- Logged the main prompt-quality risk in `docs/reports/2026-03-28-field-guide-review.md`: the copied prompt currently reveals exact undiscovered species names and asks the model for stronger ecological claims than the current local context can safely support.
+- Added one focused follow-up task so prompt safety and the failed-copy toast can be tightened before any direct API field-guide mode is revisited.
+
+### ECO-20260328-main-10
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Implement journal-first ecosystem notes for relationship teaching`
+- Source: `docs/reports/2026-03-28-ecosystem-relationship-scout.md`
+- Packet: `.agents/packets/007-ecosystem-relationship-layer.json`
+- Depends on: `ECO-20260328-scout-03`, `ECO-20260328-main-08`
+
+Goal:
+
+- Add one lightweight system that helps players understand how discoveries relate to habitat, shelter, food, decomposition, seed spread, or zones across the live biomes.
+
+Acceptance:
+
+- discovered journal entries can surface authored ecosystem notes tied to related discoveries in beach, forest, and tundra
+- the relationship logic lives in content plus a small helper, not only as hardcoded journal strings
+- the system keeps the cozy exploration feel, avoids species-name spoilers for locked notes, and leaves build/tests green
+
+Completion note:
+
+- Added authored `ecosystemNotes` to beach, forest, and tundra biome content, plus a small pure resolver in `src/engine/ecosystem-notes.ts` so unlock logic stays data-driven instead of living in renderer strings.
+- Wired the journal detail pane and `render_game_to_text()` to surface unlocked or spoiler-safe locked note states for discovered entries without adding a new overlay or quiz system.
+- Added helper and runtime coverage in `src/test/ecosystem-notes.test.ts` and `src/test/runtime-smoke.test.ts`, then re-verified with `npm test -- --run`, `npm run build`, the shared web-game client, and a headless journal screenshot pass with zero console errors.
+
+### ECO-20260328-critic-09
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the first ecosystem-note teaching pass`
+- Source: `docs/reports/2026-03-28-ecosystem-note-review.md`
+- Packet: `.agents/packets/007-ecosystem-relationship-layer.json`
+- Depends on: `ECO-20260328-main-10`
+
+Goal:
+
+- Review whether the first journal-first relationship layer is science-safe, readable, and worth keeping as the template for future biome teaching.
+
+Acceptance:
+
+- critique checks note wording, ecological claims, and child readability
+- critique checks that locked-note behavior does not spoil undiscovered exact names
+- any follow-up fixes get added back to the queue clearly
+
+Completion note:
+
+- Confirmed that the first ecosystem-note pass is worth keeping: the science claims are modest and sound, and the locked state remains spoiler-safe.
+- Logged one main follow-up in `docs/reports/2026-03-28-ecosystem-note-review.md`: the note currently replaces the selected entry’s own journal teaching and still clips live copy in both unlocked and locked states.
+- Left the note-selection heuristic in `src/engine/ecosystem-notes.ts` as a watchlist item rather than queueing a rewrite, since the current overlap is still small.
+
+### ECO-20260328-scout-03
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Priority: `P2`
+- Title: `Prepare the first ecosystem-relationship teaching packet`
+- Source: `docs/reports/2026-03-28-ecosystem-relationship-scout.md`
+- Packet: `.agents/packets/007-ecosystem-relationship-layer.json`
+- Depends on: `none`
+
+Goal:
+
+- Turn the next education layer into a small, science-accurate, implementable packet that connects discoveries to habitat roles and relationships across the live biome set.
+
+Acceptance:
+
+- the report or packet recommends a small slice the main agent can actually build next
+- science claims are accurate and age-appropriate
+- recommendations avoid quizzes, achievement-first framing, or content bloat
+
+Completion note:
+
+- Wrote `docs/reports/2026-03-28-ecosystem-relationship-scout.md` and packet `007` to turn the generic “relationship teaching” idea into a concrete next implementation slice.
+- Recommended a journal-first `ecosystem notes` system backed by authored biome note data and a small pure helper instead of a new overlay, quiz layer, or AI-dependent feature.
+- Added a critic follow-up item so the first relationship pass gets reviewed for science accuracy, readability, and spoiler safety after implementation.
+
+### ECO-20260328-critic-05
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the text-layout stabilization pass`
+- Source: `docs/reports/2026-03-28-readability-pass-review.md`
+- Packet: `.agents/packets/004-readability-runtime-ecology.json`
+- Depends on: `ECO-20260328-main-07`
+
+Goal:
+
+- Review first-screen readability and any remaining overflow after the structural layout pass.
+
+Acceptance:
+
+- critique checks title, menu, journal, and fact surfaces
+- notes call out any remaining clipping, density, or child-comprehension issues
+- next-step work is added back to the queue if needed
+
+Completion note:
+
+- Confirmed that the original title CTA clipping is fixed and that the extracted layout/render seams are the right direction.
+- Logged two concrete follow-ons in `docs/reports/2026-03-28-readability-pass-review.md`: the title subtitle still silently drops the `field journal` promise, and the equal-width journal tabs will not scale to the planned five-biome chain.
+- Also noted that the live visual pass was interrupted by an active in-progress `ecosystemNotes` runtime regression from current main-agent work, so the next screenshot-heavy critique should happen after `main-12` settles again.
+
+### ECO-20260328-main-09
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Add deterministic runtime smoke coverage for the lived game loop`
+- Source: `docs/reports/2026-03-28-current-state-review.md`
+- Packet: `.agents/packets/004-readability-runtime-ecology.json`
+- Depends on: `ECO-20260328-main-08`
+
+Goal:
+
+- Cover the main player path using the existing debug hooks and save reloads, not just helper-level tests.
+
+Acceptance:
+
+- smoke coverage exercises title -> play -> inspect -> journal or menu -> travel or reload
+- coverage checks persistence-sensitive behavior
+- critical-loop verification no longer depends only on manual browser memory
+
+Completion note:
+
+- Added `src/test/runtime-smoke.test.ts`, a deterministic fake-DOM harness that drives `createGame`, `window.advanceTime(ms)`, and `window.render_game_to_text()` through title, movement, inspect, journal, menu, biome enter, and reload persistence.
+- The smoke test uses a fixed save seed plus `loadOrCreateSave()` to verify discovery persistence and last-biome continuity without depending on a real browser or brittle helper-only assertions.
+- Verified again with `npm test -- --run`, `npm run build`, and a fresh shared web-game Playwright-client title pass after the new test landed.
+
+### ECO-20260328-main-08
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Extract scene and overlay seams out of src/engine/game.ts`
+- Source: `docs/reports/2026-03-28-current-state-review.md`
+- Packet: `.agents/packets/004-readability-runtime-ecology.json`
+- Depends on: `ECO-20260328-main-07`
+
+Goal:
+
+- Reduce the concentration risk in `src/engine/game.ts` by extracting coherent scene, overlay, or UI modules without changing behavior.
+
+Acceptance:
+
+- `src/engine/game.ts` is meaningfully smaller and easier to scan
+- scene and overlay boundaries are clearer for future biome and menu work
+- build and existing tests stay green
+
+Completion note:
+
+- Extracted shared pixel-UI primitives into `src/engine/pixel-ui.ts`, overlay rendering into `src/engine/overlay-render.ts`, and biome scene drawing into `src/engine/biome-scene-render.ts`.
+- Reduced `src/engine/game.ts` from 2157 lines to 1326 lines while keeping it focused on simulation, input, save state, and orchestration instead of raw rendering details.
+- Verified with `npm test -- --run`, `npm run build`, the shared web-game Playwright client, and fresh browser captures for title, journal, and menu with matching `render_game_to_text()` output and no console-error artifacts.
+
+### ECO-20260328-main-07
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P1`
+- Title: `Stabilize text layout and title-screen readability after the 192x144 expansion`
+- Source: `docs/reports/2026-03-28-current-state-review.md`
+- Packet: `.agents/packets/004-readability-runtime-ecology.json`
+- Depends on: `none`
+
+Goal:
+
+- Remove clipping and overlap across the current title screen and other text-heavy in-canvas surfaces using shared layout rules instead of one-off nudges.
+
+Acceptance:
+
+- title controls and CTA fit cleanly at `192x144`
+- long text in title, menu, journal, and fact surfaces respects safe areas
+- the solution leaves behind clearer reusable layout helpers, constants, or structure
+
+Completion note:
+
+- Added a shared `src/engine/ui-layout.ts` helper module for inset/split/wrap rules and refit the title, menu, journal, and fact-card overlays around explicit panel/content rectangles instead of ad hoc coordinates.
+- Tightened the title CTA lane, menu rows, journal panes, and fact badge/layout so the `192x144` screen reads cleanly with fewer collisions and better button/text alignment.
+- Verified with `npm test -- --run`, `npm run build`, the shared web-game Playwright client, and fresh browser captures for title, journal, menu, and inspected fact panels with no console-error artifacts.
+
+### ECO-20260328-main-11
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Priority: `P2`
+- Title: `Create field-guide context builder and prompt assembler`
+- Source: `docs/ai-naturalist-design.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `none`
+
+Completion note:
+
+- Added a new pure module in `src/engine/field-guide.ts` with zone detection, current-context assembly, and naturalist prompt generation.
+- Added supporting field-guide types to `src/engine/types.ts` and new unit coverage in `src/test/field-guide.test.ts`, including discovery flags, distance sorting, zone boundaries, and landmark handling.
+- Verified the work with a green `npm test` and `npm run build`.
+
+### ECO-20260327-critic-04
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review menu, settings, and save-reset UX`
+- Source: `docs/reports/2026-03-27-post-travel-queue-pass.md`
+- Packet: `.agents/packets/003-screen-ux-and-progression.json`
+- Depends on: `ECO-20260327-main-05`
+
+Completion note:
+
+- Reviewed the post-menu runtime using the current code, a green build/test pass, and the live screen baseline available in this critique turn.
+- The menu direction and persistence wording are sound overall, with no new blocker on save-reset behavior, but the same text-layout brittleness that shows up on the title card should be treated as a shared UI concern.
+- Added packet `004` and queued the next work so readability stabilization happens before more copy-heavy surfaces accumulate.
+
+### ECO-20260327-critic-03
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the widened viewport and readability pass`
+- Source: `docs/reports/2026-03-27-post-travel-queue-pass.md`
+- Packet: `.agents/packets/003-screen-ux-and-progression.json`
+- Depends on: `ECO-20260327-main-04`
+
+Completion note:
+
+- Reviewed the widened-screen direction against the current code, green verification, and a fresh headless title-screen capture.
+- The `192x144` frame is the right baseline, but the live title layout still clips and overlaps copy, so the next queue wave now starts with a structural readability pass instead of more feature layering.
+- Logged that follow-on work in `docs/reports/2026-03-28-current-state-review.md` and packet `004`.
+
+### ECO-20260327-critic-02
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Priority: `P2`
+- Title: `Review the live world-travel integration`
+- Source: `docs/reports/2026-03-27-world-travel-scout.md`
+- Packet: `.agents/packets/002-world-travel-integration.json`
+- Depends on: `ECO-20260327-main-03`
+
+Completion note:
+
+- Reviewed the integrated world-travel runtime through current code, green build/tests, and the post-integration project state after travel, journal, menu, and tundra work landed.
+- The travel direction is correct and worth preserving, but it increases the concentration risk inside `src/engine/game.ts`, which is now the next technical pressure point.
+- Added that architecture follow-up into the new queue wave and packet `004`.
 
 ### ECO-20260327-main-05
 

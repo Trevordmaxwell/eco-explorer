@@ -1,0 +1,123 @@
+{
+  "packet_id": "ECO-PACKET-022",
+  "version": 1,
+  "created_at": "2026-03-29",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Next high-leverage phase: a guided field-season loop that makes the current systems feel like one game",
+  "summary": "Twenty-second structured packet for Eco Explorer. The queue is clear because many foundational systems are now live: corridor travel, field requests, a field station, traversal geometry, sketchbook, sound, close-look inspect, and the living-world seam. The highest-value next phase is no longer another isolated feature. It is one short authored field-season loop that ties those systems together for a fresh-save player, followed by more authored content fuel, a second traversal-heavy biome, and only then a broader second-tier station or ecology-process expansion.",
+  "source_reports": [
+    "docs/reports/2026-03-29-functional-gameplay-sequence.md",
+    "docs/reports/2026-03-29-functional-gameplay-loop-handoff.md",
+    "docs/reports/2026-03-29-next-high-leverage-phase.md",
+    "docs/reports/2026-03-29-world-continuity-preproduction-pack.md",
+    "docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260329-scout-34",
+    "ECO-20260329-main-55",
+    "ECO-20260329-critic-35",
+    "ECO-20260329-main-56",
+    "ECO-20260329-critic-36",
+    "ECO-20260329-main-57",
+    "ECO-20260329-main-58",
+    "ECO-20260329-main-59"
+  ],
+  "depends_on": [
+    "ECO-20260329-main-53",
+    "ECO-20260329-critic-30",
+    "ECO-20260329-critic-34"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260329-scout-34",
+      "goal": "Beat-map the first guided field-season loop so the next main pass has a compact authored arc instead of another loose feature drop.",
+      "why_now": "The current systems are broad enough that the next leverage comes from coherence and pacing, not from adding one more disconnected subsystem."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260329-main-55",
+      "goal": "Implement the first guided field-season loop for a fresh save.",
+      "why_now": "This is the shortest path from a strong systems sandbox to a stronger 'game' feeling."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260329-critic-35",
+      "goal": "Review the first guided field-season loop for cohesion, tone, and whether it actually makes the live systems feel connected.",
+      "why_now": "The first arc should be criticized before the project spends more content and traversal work feeding it."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260329-main-56",
+      "goal": "Add a content fuel pack for the loop: more discoveries, stronger note/request support, and another comparison-worthy shared species pair.",
+      "why_now": "The live systems now risk outrunning the authored content that supports them."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260329-critic-36",
+      "goal": "Review the content fuel pack for science quality, pacing, and whether it makes the loop feel fuller rather than busier.",
+      "why_now": "More content is only leverage if it improves the actual player experience."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260329-main-57",
+      "goal": "Spread traversal depth to a second biome after the forest proof.",
+      "why_now": "One traversal-heavy biome is a proof; two makes movement feel like a real pillar."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260329-main-58",
+      "goal": "Add one second-tier field-station upgrade or utility unlock.",
+      "why_now": "A slightly richer station loop makes more sense after the first guided arc and a second traversal-heavy biome exist."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260329-main-59",
+      "goal": "Wake up the next ecology-process layer as visible revisit change instead of generic ambience growth.",
+      "why_now": "Weather and phenology will land harder once the player has clearer authored reasons to revisit places."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Do not respond to a clear queue with random polish work.",
+    "The next phase should emphasize cohesion over feature count.",
+    "The first guided loop should feel notebook-first and child-friendly, not like a quest-log tutorial funnel.",
+    "The field station should stay science-safe and observational rather than extraction-first.",
+    "Fresh-save onboarding should introduce live systems in a calm order instead of exposing everything immediately.",
+    "More content should feed the loop and the teaching, not just inflate totals.",
+    "Traversal spread should stay authored and forgiving, not precision-platform-heavy.",
+    "Any later ecology-process work should show pattern, shelter, timing, or visible habitat change, not just extra effects."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md",
+    "src/engine/game.ts",
+    "src/engine/progression.ts",
+    "src/engine/journal.ts",
+    "src/engine/field-station.ts",
+    "src/engine/observation-prompts.ts",
+    "src/engine/corridor.ts",
+    "src/content/biomes",
+    "src/content/world-map.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The next phase gives agents one cohesive direction instead of a blank queue.",
+    "The project starts feeling more like one authored game instead of a bag of successful subsystems.",
+    "Later content and process expansions now have a stronger player-loop foundation to land on."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-29-functional-gameplay-sequence.md, docs/reports/2026-03-29-functional-gameplay-loop-handoff.md, docs/reports/2026-03-29-next-high-leverage-phase.md, docs/reports/2026-03-29-world-continuity-preproduction-pack.md, docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md, and this packet. Treat the clear queue as a signal to start the next cohesion phase, not to drift into random polish. The highest-value next work is one short guided field-season loop, then more authored content fuel, then a second traversal-heavy biome, then a slightly richer station loop."
+}

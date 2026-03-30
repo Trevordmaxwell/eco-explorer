@@ -1,0 +1,69 @@
+{
+  "packet_id": "ECO-PACKET-008",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "scout-agent",
+  "status": "READY",
+  "title": "Compact UI follow-ons for title copy and journal notes",
+  "summary": "Eighth structured packet for Eco Explorer. The title-copy-budget fix from `main-20` is the right pattern to preserve, not reopen. The next compact-UI implementation should focus on `main-22`: refit the journal detail pane so selected entries keep their own teaching text while ecosystem notes appear as a smaller companion card with authored note identity and a short observation cue.",
+  "source_reports": [
+    "docs/reports/2026-03-28-readability-pass-review.md",
+    "docs/reports/2026-03-28-ecosystem-note-review.md",
+    "docs/reports/2026-03-28-compact-ui-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-05",
+    "ECO-20260328-main-22"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-10",
+    "ECO-20260328-main-12",
+    "ECO-20260328-main-20"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-05",
+      "goal": "Compare compact UI options for the title copy budget and the journal note-panel refit, then recommend one small direction.",
+      "why_now": "The title pattern is now stable and the note-panel follow-up is narrow enough that a concrete handoff will be faster than another exploratory implementation loop."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-22",
+      "goal": "Refit the journal detail pane with a same-pane companion note card while preserving the authored title-copy-budget pattern already landed on the title screen.",
+      "why_now": "The note system is conceptually sound, but the current presentation still clips and replaces too much entry-specific teaching."
+    }
+  ],
+  "guardrails": [
+    "Treat the title-copy-budget pattern in `src/engine/title-copy.ts` as settled precedent. Do not reopen title geometry unless a different product need forces it.",
+    "Do not reintroduce dynamic runtime truncation for core onboarding concepts like the field journal loop.",
+    "In the journal, keep `selectedEntry.journalText` visible when a note exists.",
+    "Prefer a smaller same-pane companion note card over a new toggle, tab, or overlay mode.",
+    "Use authored note identity where possible: title first, then a short observation cue; do not rely only on generic labels.",
+    "If space is too tight for all note fields, prioritize title plus prompt over repeating the full summary.",
+    "Locked note copy must stay spoiler-safe and be shorter than the current generic unlock sentence."
+  ],
+  "file_targets": [
+    "src/engine/title-copy.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/ui-layout.ts",
+    "src/test/title-copy.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/tundra.ts",
+    "docs/reports/2026-03-28-compact-ui-handoff.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The title screen keeps the field-journal promise visible without reopening layout drift.",
+    "Selected entries with notes still show their own species/place learning in the journal.",
+    "The note surface exposes authored identity beyond a raw summary, preferably title plus a short observation cue.",
+    "Current beach, forest, and tundra note states fit cleanly inside the live 192x144 journal without clipped note or lock text."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-readability-pass-review.md, docs/reports/2026-03-28-ecosystem-note-review.md, docs/reports/2026-03-28-compact-ui-handoff.md, and this packet. Preserve the landed title-copy-budget pattern from main-20, then refit the journal detail pane in main-22 with a same-pane companion note card that keeps entry teaching visible."
+}

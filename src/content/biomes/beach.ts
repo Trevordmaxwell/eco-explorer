@@ -1,82 +1,75 @@
 import { beachPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
+import { beachGrassEntry, sandVerbenaEntry, seaRocketEntry } from '../shared-entries';
 
 const beachEntries = {
-  'coquina-shell': {
-    id: 'coquina-shell',
-    commonName: 'Coquina Shell',
-    scientificName: 'Donax variabilis',
+  'native-littleneck-shell': {
+    id: 'native-littleneck-shell',
+    commonName: 'Pacific Littleneck Shell',
+    scientificName: 'Leukoma staminea',
     category: 'shell',
-    shortFact: 'Coquina clams can dig into wet sand in only a few seconds.',
+    shortFact: 'Pacific littlenecks stay buried a few inches deep in sand or gravel.',
     journalText:
-      'Coquina clams live right where waves wash in and out. Their quick digging helps them stay safe when the surf is rough.',
-    spriteId: 'coquina-shell',
+      'Pacific littlenecks are clams with rounded shells marked by rings and lines. They spend much of their lives buried below the surface on Pacific shorelines.',
+    spriteId: 'native-littleneck-shell',
     collectible: true,
   },
   'moon-snail-shell': {
     id: 'moon-snail-shell',
-    commonName: 'Moon Snail Shell',
-    scientificName: 'Neverita duplicata',
+    commonName: "Lewis' Moon Snail Shell",
+    scientificName: 'Neverita lewisii',
     category: 'shell',
-    shortFact: 'Moon snails use a strong foot like a shovel to move through sand.',
+    shortFact: 'Lewis moon snails live in sandy places and have one large rounded whorl.',
     journalText:
-      'Moon snails are sea snails that burrow under the sand. Their smooth, rounded shells help protect their soft bodies.',
+      "Lewis' moon snails live on Pacific coasts in sandy places protected from heavy surf. Their big rounded shells belong to one of the largest snails along this coast.",
     spriteId: 'moon-snail-shell',
     collectible: true,
   },
-  'auger-shell': {
-    id: 'auger-shell',
-    commonName: 'Auger Shell',
-    scientificName: 'Terebra dislocata',
+  'razor-clam-shell': {
+    id: 'razor-clam-shell',
+    commonName: 'Pacific Razor Clam Shell',
+    scientificName: 'Siliqua patula',
     category: 'shell',
-    shortFact: 'Its long, skinny shell helps the animal slip into sandy places.',
+    shortFact: 'Razor clams have long narrow shells and live on Pacific ocean beaches.',
     journalText:
-      'Auger snails have tall spiral shells. Shell shapes can tell us a lot about how animals move and where they live.',
-    spriteId: 'auger-shell',
+      'Pacific razor clams live on ocean beaches from California to Alaska. Their long shells help them fit into wet sand where waves rise and fall.',
+    spriteId: 'razor-clam-shell',
     collectible: true,
   },
-  'beach-grass': {
-    id: 'beach-grass',
-    commonName: 'Beach Grass',
-    scientificName: 'Ammophila breviligulata',
-    category: 'plant',
-    shortFact: 'Beach grass roots help hold dunes in place when wind blows.',
-    journalText:
-      'Beach grass is an important dune plant. Its roots trap sand and help make small hills called dunes stronger.',
-    spriteId: 'beach-grass',
-    collectible: false,
-  },
-  'sea-rocket': {
-    id: 'sea-rocket',
-    commonName: 'Sea Rocket',
-    scientificName: 'Cakile edentula',
-    category: 'plant',
-    shortFact: 'Sea rocket can grow in salty sand where many other plants would struggle.',
-    journalText:
-      'Sea rocket is a tough beach plant with small flowers and thick leaves. It is built to handle salt spray, bright sun, and shifting sand.',
-    spriteId: 'sea-rocket',
-    collectible: false,
-  },
-  pickleweed: {
-    id: 'pickleweed',
-    commonName: 'Pickleweed',
-    scientificName: 'Salicornia pacifica',
-    category: 'plant',
-    shortFact: 'Pickleweed stores water in its stems so it can live in salty places.',
-    journalText:
-      'Pickleweed is a salt-loving plant often found near marshes and tide pools. Its juicy stems help it survive when the ground is salty.',
-    spriteId: 'pickleweed',
-    collectible: false,
-  },
-  'ghost-crab': {
-    id: 'ghost-crab',
-    commonName: 'Ghost Crab',
-    scientificName: 'Ocypode quadrata',
+  'sand-dollar-test': {
+    id: 'sand-dollar-test',
+    commonName: 'Pacific Sand Dollar Test',
+    scientificName: 'Dendraster excentricus',
     category: 'animal',
-    shortFact: 'Ghost crabs can run sideways very fast to escape danger.',
+    shortFact: 'A sand dollar test is the hard body left after the living animal loses its tiny spines.',
     journalText:
-      'Ghost crabs spend time on sandy beaches and hide in burrows. They help the beach ecosystem by eating small bits of plants and animals.',
-    spriteId: 'ghost-crab',
+      'Pacific sand dollars are sea urchin relatives that burrow partway into sandy shore bottoms. After one dies and dries, its pale hard test can wash onto the beach.',
+    spriteId: 'sand-dollar-test',
+    collectible: true,
+  },
+  'beach-grass': beachGrassEntry,
+  'sand-verbena': sandVerbenaEntry,
+  'sea-rocket': seaRocketEntry,
+  'western-snowy-plover': {
+    id: 'western-snowy-plover',
+    commonName: 'Western Snowy Plover',
+    scientificName: 'Charadrius nivosus nivosus',
+    category: 'animal',
+    shortFact: 'Western snowy plovers nest right on open sand where beaches stay wide and quiet.',
+    journalText:
+      'Western snowy plovers are small shorebirds that rest and nest on open sandy beaches. They depend on wide beach habitat where nests are easier to spot and protect.',
+    spriteId: 'western-snowy-plover',
+    collectible: false,
+  },
+  'pacific-sand-crab': {
+    id: 'pacific-sand-crab',
+    commonName: 'Pacific Sand Crab',
+    scientificName: 'Emerita analoga',
+    category: 'animal',
+    shortFact: 'Pacific sand crabs are important food for fishes and shorebirds.',
+    journalText:
+      'Pacific sand crabs live in the surf zone of sandy beaches. Healthy wet sand and kelp wrack help support them and the birds that feed on them.',
+    spriteId: 'pacific-sand-crab',
     collectible: false,
   },
   sanderling: {
@@ -102,6 +95,18 @@ const beachEntries = {
     spriteId: 'driftwood-log',
     collectible: false,
   },
+  'bull-kelp-wrack': {
+    id: 'bull-kelp-wrack',
+    commonName: 'Bull Kelp Wrack',
+    category: 'landmark',
+    subtitle: 'Washed-up food raft',
+    subtitleLabel: 'Habitat role',
+    shortFact: 'Washed-up kelp can feed tiny beach insects and the birds that eat them.',
+    journalText:
+      'Bull kelp can wash ashore after storms and tides. On the beach, wrack becomes food and shelter for small animals that help feed shorebirds.',
+    spriteId: 'bull-kelp-wrack',
+    collectible: false,
+  },
 } satisfies BiomeDefinition['entries'];
 
 export const beachBiome: BiomeDefinition = {
@@ -119,8 +124,9 @@ export const beachBiome: BiomeDefinition = {
     sampleStep: 16,
     zones: [
       { id: 'dune-edge', label: 'Dune Edge', start: 0, end: 146, surfaceBaseY: 104, surfaceVariance: 7 },
-      { id: 'dry-sand', label: 'Dry Sand', start: 146, end: 336, surfaceBaseY: 112, surfaceVariance: 4 },
-      { id: 'tide-line', label: 'Tide Line', start: 336, end: 514, surfaceBaseY: 118, surfaceVariance: 3 },
+      { id: 'dry-sand', label: 'Dry Sand', start: 146, end: 288, surfaceBaseY: 112, surfaceVariance: 4 },
+      { id: 'lee-pocket', label: 'Lee Pocket', start: 288, end: 400, surfaceBaseY: 123, surfaceVariance: 2 },
+      { id: 'tide-line', label: 'Tide Line', start: 400, end: 514, surfaceBaseY: 118, surfaceVariance: 3 },
       { id: 'tidepool', label: 'Tidepool', start: 514, end: 640, surfaceBaseY: 114, surfaceVariance: 6 },
     ],
     platformRules: [
@@ -149,6 +155,32 @@ export const beachBiome: BiomeDefinition = {
         spriteId: 'rock-platform',
       },
     ],
+    authoredPlatforms: [
+      {
+        id: 'lee-pocket-entry-drift',
+        spriteId: 'drift-platform',
+        x: 304,
+        y: 109,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-drift-span',
+        spriteId: 'drift-platform',
+        x: 330,
+        y: 101,
+        w: 64,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-exit-drift',
+        spriteId: 'drift-platform',
+        x: 400,
+        y: 109,
+        w: 22,
+        h: 4,
+      },
+    ],
   },
   spawnTables: [
     {
@@ -160,7 +192,8 @@ export const beachBiome: BiomeDefinition = {
       spacing: 26,
       entries: [
         { entryId: 'beach-grass', weight: 5 },
-        { entryId: 'sea-rocket', weight: 2 },
+        { entryId: 'sand-verbena', weight: 2 },
+        { entryId: 'sea-rocket', weight: 1 },
       ],
     },
     {
@@ -171,27 +204,28 @@ export const beachBiome: BiomeDefinition = {
       maxCount: 3,
       spacing: 34,
       entries: [
-        { entryId: 'sea-rocket', weight: 4 },
+        { entryId: 'sand-verbena', weight: 4 },
         { entryId: 'beach-grass', weight: 2 },
+        { entryId: 'sea-rocket', weight: 1 },
       ],
     },
     {
-      id: 'stable-pickleweed',
-      zoneId: 'tidepool',
-      refreshPolicy: 'stable',
-      minCount: 1,
-      maxCount: 2,
-      spacing: 34,
-      entries: [{ entryId: 'pickleweed', weight: 1 }],
-    },
-    {
       id: 'stable-landmark',
-      zoneId: 'dry-sand',
+      zoneId: 'lee-pocket',
       refreshPolicy: 'stable',
       minCount: 1,
       maxCount: 1,
       spacing: 12,
       entries: [{ entryId: 'driftwood-log', weight: 1 }],
+    },
+    {
+      id: 'wrack-line',
+      zoneId: 'tide-line',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 36,
+      entries: [{ entryId: 'bull-kelp-wrack', weight: 1 }],
     },
     {
       id: 'shells',
@@ -201,9 +235,10 @@ export const beachBiome: BiomeDefinition = {
       maxCount: 6,
       spacing: 16,
       entries: [
-        { entryId: 'coquina-shell', weight: 5 },
+        { entryId: 'native-littleneck-shell', weight: 5 },
         { entryId: 'moon-snail-shell', weight: 3 },
-        { entryId: 'auger-shell', weight: 2 },
+        { entryId: 'razor-clam-shell', weight: 2 },
+        { entryId: 'sand-dollar-test', weight: 2 },
       ],
     },
     {
@@ -215,7 +250,8 @@ export const beachBiome: BiomeDefinition = {
       spacing: 18,
       entries: [
         { entryId: 'moon-snail-shell', weight: 3 },
-        { entryId: 'auger-shell', weight: 2 },
+        { entryId: 'razor-clam-shell', weight: 2 },
+        { entryId: 'sand-dollar-test', weight: 1 },
       ],
     },
     {
@@ -223,11 +259,25 @@ export const beachBiome: BiomeDefinition = {
       zoneId: 'tide-line',
       refreshPolicy: 'visit',
       minCount: 2,
-      maxCount: 3,
+      maxCount: 4,
       spacing: 28,
       entries: [
-        { entryId: 'ghost-crab', weight: 3 },
+        { entryId: 'pacific-sand-crab', weight: 3 },
         { entryId: 'sanderling', weight: 2 },
+        { entryId: 'western-snowy-plover', weight: 2 },
+      ],
+    },
+    {
+      id: 'lee-pocket-life',
+      zoneId: 'lee-pocket',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 28,
+      entries: [
+        { entryId: 'bull-kelp-wrack', weight: 2 },
+        { entryId: 'pacific-sand-crab', weight: 2 },
+        { entryId: 'sanderling', weight: 1 },
       ],
     },
   ],
@@ -236,6 +286,133 @@ export const beachBiome: BiomeDefinition = {
     sparkleCount: [10, 18],
   },
   entries: beachEntries,
+  ecosystemNotes: [
+    {
+      id: 'low-dune-bloom',
+      title: 'Low Dune Bloom',
+      entryIds: ['sand-verbena', 'beach-grass'],
+      minimumDiscoveries: 2,
+      summary:
+        'Sand verbena stays low beside dunegrass where the first dunes still take full wind and salt.',
+      observationPrompt:
+        'Which low flowers still look protected here?',
+      zoneId: 'dune-edge',
+    },
+    {
+      id: 'shore-shelter',
+      title: 'Shore Shelter',
+      entryIds: ['beach-grass', 'driftwood-log', 'pacific-sand-crab'],
+      summary:
+        'Roots and driftwood make calm hiding spots for small beach animals.',
+      observationPrompt:
+        'Where looks safer by grass or wood?',
+      zoneId: 'dune-edge',
+    },
+    {
+      id: 'shelter-line-start',
+      title: 'Shelter Line Start',
+      entryIds: ['sea-rocket', 'sand-verbena', 'beach-grass'],
+      minimumDiscoveries: 2,
+      summary:
+        'On the open beach, the lowest plants mark where the first shelter line begins.',
+      observationPrompt:
+        'Which plants mark the start of shelter here?',
+      zoneId: 'dry-sand',
+    },
+    {
+      id: 'washed-clues',
+      title: 'Washed Clues',
+      entryIds: ['sand-dollar-test', 'moon-snail-shell', 'bull-kelp-wrack'],
+      minimumDiscoveries: 2,
+      summary:
+        'The tide line mixes wrack with empty remains, so waves leave clues from just offshore.',
+      observationPrompt:
+        'Which clues here were washed in by waves?',
+      zoneId: 'tide-line',
+    },
+    {
+      id: 'wave-edge-survivors',
+      title: 'Wave-Edge Survivors',
+      entryIds: ['native-littleneck-shell', 'pacific-sand-crab', 'western-snowy-plover', 'bull-kelp-wrack'],
+      summary:
+        'At the tide line, wrack and waves shape food for birds and burrowers.',
+      observationPrompt:
+        'Who moves first with a new wave?',
+      zoneId: 'tide-line',
+    },
+  ],
+  phenology: {
+    phases: {
+      early: {
+        skyWashTop: 'rgba(245, 244, 216, 0.14)',
+        skyWashBottom: 'rgba(248, 245, 226, 0.08)',
+        groundWash: 'rgba(222, 226, 166, 0.12)',
+        parallaxColors: ['#e4d09a', '#6fb1c0'],
+        entryAccents: [
+          {
+            entryId: 'beach-grass',
+            style: 'tuft',
+            primaryColor: '#7d9d57',
+            secondaryColor: '#c3d47d',
+            spriteId: 'beach-grass-early',
+          },
+          {
+            entryId: 'sand-verbena',
+            style: 'tuft',
+            primaryColor: '#91aa59',
+            secondaryColor: '#e4d79b',
+            spriteId: 'sand-verbena-early',
+          },
+        ],
+      },
+      peak: {
+        skyWashTop: 'rgba(255, 237, 190, 0.12)',
+        skyWashBottom: 'rgba(244, 248, 236, 0.08)',
+        groundWash: 'rgba(228, 214, 138, 0.14)',
+        parallaxColors: ['#f0cf92', '#72b8c8'],
+        entryAccents: [
+          {
+            entryId: 'beach-grass',
+            style: 'tuft',
+            primaryColor: '#8aaa57',
+            secondaryColor: '#d7df8a',
+            spriteId: 'beach-grass-peak',
+          },
+          {
+            entryId: 'sand-verbena',
+            style: 'bloom',
+            primaryColor: '#f4cf62',
+            secondaryColor: '#fff3ce',
+            spriteId: 'sand-verbena-peak',
+          },
+        ],
+      },
+      late: {
+        skyWashTop: 'rgba(238, 214, 176, 0.14)',
+        skyWashBottom: 'rgba(236, 225, 198, 0.08)',
+        groundWash: 'rgba(205, 182, 118, 0.18)',
+        parallaxColors: ['#dcb57e', '#5f9bae'],
+        entryAccents: [
+          {
+            entryId: 'sand-verbena',
+            style: 'seed',
+            primaryColor: '#cc9e60',
+            secondaryColor: '#f1dab3',
+            spriteId: 'sand-verbena-late',
+          },
+          {
+            entryId: 'beach-grass',
+            style: 'seed',
+            primaryColor: '#d0b36a',
+            secondaryColor: '#f3e2a6',
+            spriteId: 'beach-grass-late',
+          },
+          { entryId: 'bull-kelp-wrack', style: 'tuft', primaryColor: '#6b7b46', secondaryColor: '#b7aa78' },
+        ],
+        spawnEmphasis: [{ tableId: 'wrack-line', minCountDelta: 1, maxCountDelta: 1 }],
+      },
+    },
+  },
   startPosition: {
     x: 28,
     y: 80,

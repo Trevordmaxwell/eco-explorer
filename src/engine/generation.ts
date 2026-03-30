@@ -1,16 +1,22 @@
 import { createSeededRandom, lerp } from './random';
+import { applyPhenologyToSpawnTable, getPhenologyPhaseProfile } from './phenology';
 import type {
   BiomeDefinition,
   BiomeEntity,
   BiomeInstance,
   BiomeZone,
+  Climbable,
   Cloud,
+  DepthFeature,
+  EcosystemNote,
+  HabitatProcessMoment,
   InspectableEntry,
   Platform,
   SaveState,
   SpawnTable,
   TerrainSample,
 } from './types';
+import { buildWorldState } from './world-state';
 
 const CATEGORY_SIZES: Record<
   InspectableEntry['category'],
@@ -18,6 +24,7 @@ const CATEGORY_SIZES: Record<
 > = {
   shell: { width: 6, height: 6 },
   plant: { width: 8, height: 12 },
+  lichen: { width: 8, height: 12 },
   animal: { width: 8, height: 6 },
   landmark: { width: 14, height: 6 },
 };
@@ -52,11 +59,129 @@ function validateInspectableEntry(entry: InspectableEntry): void {
   }
 }
 
+function validateEcosystemNote(
+  note: EcosystemNote,
+  biomeId: string,
+  entryIds: Set<string>,
+  zoneIds: Set<string>,
+): void {
+  if (!note.id.trim()) {
+    throw new Error(`Ecosystem note in biome "${biomeId}" needs an id.`);
+  }
+
+  if (!note.title.trim() || !note.summary.trim() || !note.observationPrompt.trim()) {
+    throw new Error(`Ecosystem note "${note.id}" in biome "${biomeId}" needs text.`);
+  }
+
+  if (note.entryIds.length < 2) {
+    throw new Error(`Ecosystem note "${note.id}" in biome "${biomeId}" needs at least two linked entries.`);
+  }
+
+  const uniqueEntryIds = new Set(note.entryIds);
+  if (uniqueEntryIds.size !== note.entryIds.length) {
+    throw new Error(`Ecosystem note "${note.id}" in biome "${biomeId}" has duplicate linked entries.`);
+  }
+
+  for (const entryId of note.entryIds) {
+    if (!entryIds.has(entryId)) {
+      throw new Error(`Ecosystem note "${note.id}" in biome "${biomeId}" references missing entry "${entryId}".`);
+    }
+  }
+
+  if (note.zoneId && !zoneIds.has(note.zoneId)) {
+    throw new Error(`Ecosystem note "${note.id}" in biome "${biomeId}" references missing zone "${note.zoneId}".`);
+  }
+}
+
+function validatePhenologyProfile(definition: BiomeDefinition): void {
+  if (!definition.phenology) {
+    return;
+  }
+
+  const entryIds = new Set(Object.keys(definition.entries));
+  const spawnTables = new Map(definition.spawnTables.map((table) => [table.id, table]));
+
+  for (const [phase, profile] of Object.entries(definition.phenology.phases)) {
+    for (const accent of profile?.entryAccents ?? []) {
+      if (!entryIds.has(accent.entryId)) {
+        throw new Error(`Phenology accent "${accent.entryId}" in biome "${definition.id}" (${phase}) is missing.`);
+      }
+    }
+
+    for (const emphasis of profile?.spawnEmphasis ?? []) {
+      const table = spawnTables.get(emphasis.tableId);
+      if (!table) {
+        throw new Error(
+          `Phenology spawn emphasis "${emphasis.tableId}" in biome "${definition.id}" (${phase}) is missing.`,
+        );
+      }
+
+      for (const entryId of Object.keys(emphasis.weightAdjustments ?? {})) {
+        if (!table.entries.some((entry) => entry.entryId === entryId)) {
+          throw new Error(
+            `Phenology spawn emphasis "${emphasis.tableId}" in biome "${definition.id}" (${phase}) references missing "${entryId}".`,
+          );
+        }
+      }
+
+      const minCount = table.minCount + (emphasis.minCountDelta ?? 0);
+      const maxCount = table.maxCount + (emphasis.maxCountDelta ?? 0);
+      if (minCount < 0 || maxCount < minCount) {
+        throw new Error(
+          `Phenology spawn emphasis "${emphasis.tableId}" in biome "${definition.id}" (${phase}) has invalid counts.`,
+        );
+      }
+    }
+  }
+}
+
+function validateHabitatProcessMoment(
+  moment: HabitatProcessMoment,
+  biomeId: string,
+  entryIds: Set<string>,
+  zoneIds: Set<string>,
+): void {
+  if (!moment.id.trim()) {
+    throw new Error(`Habitat process moment in biome "${biomeId}" needs an id.`);
+  }
+
+  if (moment.entryIds.length < 1) {
+    throw new Error(`Habitat process moment "${moment.id}" in biome "${biomeId}" needs linked entries.`);
+  }
+
+  for (const entryId of moment.entryIds) {
+    if (!entryIds.has(entryId)) {
+      throw new Error(
+        `Habitat process moment "${moment.id}" in biome "${biomeId}" references missing entry "${entryId}".`,
+      );
+    }
+  }
+
+  for (const zoneId of moment.zoneIds ?? []) {
+    if (!zoneIds.has(zoneId)) {
+      throw new Error(
+        `Habitat process moment "${moment.id}" in biome "${biomeId}" references missing zone "${zoneId}".`,
+      );
+    }
+  }
+}
+
 export function validateBiomeDefinition(definition: BiomeDefinition): void {
   const entryIds = new Set(Object.keys(definition.entries));
+  const zoneIds = new Set(definition.terrainRules.zones.map((zone) => zone.id));
 
   for (const entry of Object.values(definition.entries)) {
     validateInspectableEntry(entry);
+  }
+
+  for (const note of definition.ecosystemNotes) {
+    validateEcosystemNote(note, definition.id, entryIds, zoneIds);
+  }
+
+  validatePhenologyProfile(definition);
+
+  for (const moment of definition.processMoments ?? []) {
+    validateHabitatProcessMoment(moment, definition.id, entryIds, zoneIds);
   }
 
   for (const table of definition.spawnTables) {
@@ -75,6 +200,74 @@ export function validateBiomeDefinition(definition: BiomeDefinition): void {
       if (!entryIds.has(entry.entryId)) {
         throw new Error(`Spawn entry "${entry.entryId}" in ${table.id} is missing from biome entries.`);
       }
+    }
+  }
+
+  for (const platform of definition.terrainRules.authoredPlatforms ?? []) {
+    if (platform.w <= 0 || platform.h <= 0) {
+      throw new Error(`Authored platform "${platform.id}" in biome "${definition.id}" needs positive size.`);
+    }
+
+    if (platform.x < 0 || platform.x + platform.w > definition.terrainRules.worldWidth) {
+      throw new Error(`Authored platform "${platform.id}" in biome "${definition.id}" is out of bounds.`);
+    }
+
+    if (platform.y < 0 || platform.y > definition.terrainRules.worldHeight) {
+      throw new Error(`Authored platform "${platform.id}" in biome "${definition.id}" has an invalid y position.`);
+    }
+  }
+
+  for (const climbable of definition.terrainRules.authoredClimbables ?? []) {
+    if (climbable.w <= 0 || climbable.h <= 0) {
+      throw new Error(`Authored climbable "${climbable.id}" in biome "${definition.id}" needs positive size.`);
+    }
+
+    if (climbable.x < 0 || climbable.x + climbable.w > definition.terrainRules.worldWidth) {
+      throw new Error(`Authored climbable "${climbable.id}" in biome "${definition.id}" is out of bounds.`);
+    }
+
+    if (climbable.y < 0 || climbable.y + climbable.h > definition.terrainRules.worldHeight) {
+      throw new Error(`Authored climbable "${climbable.id}" in biome "${definition.id}" has an invalid height.`);
+    }
+
+    if (climbable.topExitY < 0 || climbable.topExitY > definition.terrainRules.worldHeight) {
+      throw new Error(`Authored climbable "${climbable.id}" in biome "${definition.id}" has an invalid top exit.`);
+    }
+
+    if (climbable.topExitY > climbable.y + climbable.h) {
+      throw new Error(`Authored climbable "${climbable.id}" in biome "${definition.id}" exits below its trunk.`);
+    }
+  }
+
+  for (const feature of definition.terrainRules.authoredDepthFeatures ?? []) {
+    if (feature.w <= 0 || feature.h <= 0) {
+      throw new Error(`Authored depth feature "${feature.id}" in biome "${definition.id}" needs positive size.`);
+    }
+
+    if (feature.x < 0 || feature.x + feature.w > definition.terrainRules.worldWidth) {
+      throw new Error(`Authored depth feature "${feature.id}" in biome "${definition.id}" is out of bounds.`);
+    }
+
+    if (feature.y < 0 || feature.y + feature.h > definition.terrainRules.worldHeight) {
+      throw new Error(`Authored depth feature "${feature.id}" in biome "${definition.id}" has an invalid height.`);
+    }
+  }
+
+  for (const placement of definition.terrainRules.authoredEntities ?? []) {
+    const entry = definition.entries[placement.entryId];
+    if (!entry) {
+      throw new Error(
+        `Authored entity "${placement.id}" in biome "${definition.id}" references missing entry "${placement.entryId}".`,
+      );
+    }
+
+    const size = CATEGORY_SIZES[entry.category];
+    if (placement.x < 0 || placement.x + size.width > definition.terrainRules.worldWidth) {
+      throw new Error(`Authored entity "${placement.id}" in biome "${definition.id}" is out of bounds.`);
+    }
+
+    if (placement.y < 0 || placement.y + size.height > definition.terrainRules.worldHeight) {
+      throw new Error(`Authored entity "${placement.id}" in biome "${definition.id}" has an invalid y position.`);
     }
   }
 }
@@ -177,7 +370,47 @@ function createPlatforms(
     }
   }
 
-  return platforms;
+  for (const platform of definition.terrainRules.authoredPlatforms ?? []) {
+    platforms.push({ ...platform });
+  }
+
+  return platforms.sort((left, right) => left.x - right.x || left.y - right.y);
+}
+
+function createClimbables(definition: BiomeDefinition): Climbable[] {
+  return [...(definition.terrainRules.authoredClimbables ?? [])]
+    .map((climbable) => ({ ...climbable }))
+    .sort((left, right) => left.x - right.x || left.y - right.y);
+}
+
+function createDepthFeatures(definition: BiomeDefinition): DepthFeature[] {
+  return [...(definition.terrainRules.authoredDepthFeatures ?? [])]
+    .map((feature) => ({ ...feature }))
+    .sort((left, right) => left.y - right.y || left.x - right.x);
+}
+
+function createAuthoredEntities(definition: BiomeDefinition): BiomeEntity[] {
+  return [...(definition.terrainRules.authoredEntities ?? [])]
+    .map((placement) => {
+      const entry = definition.entries[placement.entryId];
+      const size = CATEGORY_SIZES[entry.category];
+
+      return {
+        entityId: `authored-${placement.id}-${entry.id}`,
+        entryId: entry.id,
+        spriteId: entry.spriteId,
+        x: Math.round(placement.x),
+        y: Math.round(placement.y),
+        w: size.width,
+        h: size.height,
+        category: entry.category,
+        collectible: entry.collectible,
+        refreshPolicy: placement.refreshPolicy ?? 'stable',
+        castsShadow: placement.castsShadow ?? true,
+        removed: false,
+      };
+    })
+    .sort((left, right) => left.x - right.x || left.y - right.y);
 }
 
 function createEntity(
@@ -201,6 +434,7 @@ function createEntity(
     category: entry.category,
     collectible: entry.collectible,
     refreshPolicy: table.refreshPolicy,
+    castsShadow: true,
     removed: false,
   };
 }
@@ -269,18 +503,24 @@ export function generateBiomeInstance(
 
   const stableSeed = `${save.worldSeed}:${definition.id}:stable`;
   const refreshSeed = `${save.worldSeed}:${definition.id}:visit:${visitCount}`;
+  const phenologyPhase = buildWorldState(save, definition.id).phenologyPhase;
   const terrainSamples = buildTerrainSamples(definition, stableSeed);
   const platforms = createPlatforms(definition, terrainSamples, stableSeed);
+  const climbables = createClimbables(definition);
   const clouds = createClouds(definition, stableSeed);
-  const entities = definition.spawnTables.flatMap((table) =>
+  const phaseProfile = getPhenologyPhaseProfile(definition, phenologyPhase);
+  const spawnedEntities = definition.spawnTables.flatMap((table) =>
     spawnTableEntities(
       definition,
-      table,
+      phaseProfile.spawnEmphasis?.length ? applyPhenologyToSpawnTable(table, definition, phenologyPhase) : table,
       terrainSamples,
       table.refreshPolicy === 'stable'
         ? `${stableSeed}:${table.id}`
         : `${refreshSeed}:${table.id}`,
     ),
+  );
+  const entities = [...spawnedEntities, ...createAuthoredEntities(definition)].sort(
+    (left, right) => left.x - right.x || left.y - right.y,
   );
 
   return {
@@ -288,6 +528,8 @@ export function generateBiomeInstance(
     visitCount,
     terrainSamples,
     platforms,
+    depthFeatures: createDepthFeatures(definition),
+    climbables,
     entities,
     sparkles: createSparkles(definition, refreshSeed),
     clouds,

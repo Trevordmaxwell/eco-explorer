@@ -1,0 +1,68 @@
+{
+  "packet_id": "ECO-PACKET-009",
+  "version": 2,
+  "created_at": "2026-03-28",
+  "created_by_role": "scout-agent",
+  "status": "READY",
+  "title": "Coastal branch geography alignment before Coastal Scrub",
+  "summary": "Ninth structured packet for Eco Explorer. The new science ledger found a real mixed-region problem in the planned coastal branch: the live beach and draft Coastal Scrub targets combine Atlantic or Mid-Atlantic species with a Pacific forest and treeline branch. The smallest science-safe fix is to align the coastal side to a Pacific gradient before Coastal Scrub scaffolding continues.",
+  "source_reports": [
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-03-28-coastal-branch-geography-handoff.md",
+    "docs/reports/2026-03-28-coastal-scrub-review.md",
+    "docs/ecotone-design.md",
+    "docs/world-travel.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-07",
+    "ECO-20260328-main-24"
+  ],
+  "depends_on": [
+    "ECO-20260328-scout-06"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-07",
+      "goal": "Compare the three realistic ways to resolve the mixed Atlantic and Pacific coastal branch, then recommend one path with minimum changes.",
+      "why_now": "Coastal Scrub should not be scaffolded from a contradictory science base when the conflict is already visible in the source ledger."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-24",
+      "goal": "Realign the live beach content, the already-landed Coastal Scrub implementation, and the source docs to a Pacific gradient before further coastal-branch work.",
+      "why_now": "The Coastal Scrub review confirmed that the mixed-coast issue is now present in real code, not just in planning docs."
+    }
+  ],
+  "guardrails": [
+    "Treat the beach-to-forest side as one continuous ecosystem gradient, not a mixed-coast postcard route.",
+    "Choose the Pacific coastal gradient path unless a deliberate product decision explicitly changes the world map to separate locales.",
+    "Prefer the smallest replacements that preserve gameplay roles such as dune grass, shore invertebrate, and beach collectible rhythm.",
+    "Use accepted names when taxonomy has shifted, and avoid carrying outdated names forward into new content docs.",
+    "Keep broad species only when they do not reintroduce the same geography conflict.",
+    "Update the implemented Coastal Scrub biome and any supporting tests or docs in the same pass so the repo stops carrying two competing coastal truths."
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "docs/ecotone-design.md",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-03-28-coastal-branch-geography-handoff.md",
+    "docs/reports/2026-03-28-coastal-scrub-review.md",
+    "src/test/biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/content-quality.test.ts",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The beach-to-forest side reads as one Pacific coastal branch instead of a mixed Atlantic and Pacific collage.",
+    "The strongest Atlantic anchors are removed or replaced in both the live beach and the landed Coastal Scrub biome.",
+    "The Coastal Scrub target list becomes regionally coherent without weakening the facilitation lesson.",
+    "Future ecotone work can proceed from one cleaned coastal source of truth instead of reopening geography ad hoc."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/science-source-ledger.md, docs/reports/2026-03-28-coastal-branch-geography-handoff.md, docs/reports/2026-03-28-coastal-scrub-review.md, docs/ecotone-design.md, docs/world-travel.md, and this packet. Align the beach side to a Pacific coastal gradient by replacing the strongest Atlantic anchors in the live beach and the already-landed Coastal Scrub biome, then update the source docs so the branch stays science-coherent."
+}

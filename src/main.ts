@@ -14,8 +14,8 @@ app.innerHTML = `
       <div class="frame">
         <canvas
           id="game-canvas"
-          width="192"
-          height="144"
+          width="256"
+          height="160"
           aria-label="Eco Explorer game canvas"
         ></canvas>
       </div>

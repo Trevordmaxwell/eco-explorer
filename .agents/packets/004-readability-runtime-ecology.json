@@ -1,0 +1,103 @@
+{
+  "packet_id": "ECO-PACKET-004",
+  "version": 1,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Readability stabilization, runtime seams, and ecosystem depth",
+  "summary": "Fourth structured packet for Eco Explorer. The project now has real multi-biome play, menu/settings, and a stronger screen shape. This packet turns the next critique pass into concrete follow-on work: fix the remaining text-layout breakage, stop `src/engine/game.ts` from absorbing every new system, add loop-level smoke coverage, and prepare the first deeper ecosystem-teaching layer for the live biome set.",
+  "source_reports": [
+    "docs/reports/2026-03-28-current-state-review.md",
+    "docs/reports/2026-03-27-post-travel-queue-pass.md",
+    "docs/reports/2026-03-28-readability-pass-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-07",
+    "ECO-20260328-critic-05",
+    "ECO-20260328-main-08",
+    "ECO-20260328-main-09",
+    "ECO-20260328-scout-03",
+    "ECO-20260328-main-10",
+    "ECO-20260328-main-20"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent",
+    "scout-agent",
+    "main-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-07",
+      "goal": "Stabilize text layout and title-screen readability after the 192x144 expansion.",
+      "why_now": "The live title screen still clips and overlaps text, so the widened-screen pass is not fully settled yet."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-critic-05",
+      "goal": "Review the readability pass and catch any remaining clipping, density, or child-comprehension issues.",
+      "why_now": "The title, menu, journal, and fact surfaces are all text-heavy enough that a quick critique pass will save rework."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-main-08",
+      "goal": "Extract stable scene and overlay seams out of `src/engine/game.ts` without changing behavior.",
+      "why_now": "The runtime is now large enough that architecture concentration is the main technical risk."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-main-09",
+      "goal": "Add deterministic runtime smoke coverage for the lived player loop.",
+      "why_now": "Helper tests are good, but the project now needs loop-level confidence around stateful gameplay."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-scout-03",
+      "goal": "Prepare the first ecosystem-relationship teaching packet with science-accurate, small-scope recommendations for the live biome set.",
+      "why_now": "The content is ready for deeper ecology framing, but the next step should be researched and scoped before implementation."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260328-main-10",
+      "goal": "Implement one lightweight ecosystem-relationship teaching layer without hardcoding only one or two biomes.",
+      "why_now": "The project should keep moving toward ecosystem understanding, not just collectible isolated facts."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260328-main-20",
+      "goal": "Tighten title-screen copy budgets so key onboarding text never truncates silently.",
+      "why_now": "The structural layout pass worked, but the latest review found that the title copy still drops core onboarding language when space gets tight."
+    }
+  ],
+  "guardrails": [
+    "Do not treat the current clipping as a font-only problem; fix layout budgets and CTA separation structurally.",
+    "Do not reintroduce large external webpage chrome just to solve text overflow.",
+    "Do not keep patching individual x/y positions without leaving behind clearer layout helpers, constants, or seams.",
+    "Refactor `src/engine/game.ts` by extracting coherent modules, not by scattering behavior in hard-to-trace ways.",
+    "Use the existing `window.advanceTime(ms)` and `window.render_game_to_text()` hooks for smoke coverage wherever practical.",
+    "Science accuracy remains a hard gate for the ecosystem-depth packet.",
+    "Deeper teaching should connect habitat roles and relationships without turning the game into a quiz or achievement-first system."
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/journal.ts",
+    "src/engine/save.ts",
+    "src/engine/types.ts",
+    "src/test",
+    "src/content/biomes",
+    "docs/reports",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The title and other text-heavy surfaces read cleanly at 192x144 without clipping or collisions.",
+    "`src/engine/game.ts` is no longer the only viable place to change scene and overlay behavior.",
+    "The main player loop has deterministic smoke coverage beyond helper-level tests.",
+    "The next learning-layer work deepens ecosystem understanding without breaking the cozy exploration tone."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, and this packet. Start with text-layout stabilization, then reduce `src/engine/game.ts` concentration, then add loop-level smoke coverage. In parallel or just after that, the scout agent should prepare the first ecosystem-relationship teaching packet for the live biome set."
+}

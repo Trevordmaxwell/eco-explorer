@@ -1,0 +1,121 @@
+{
+  "packet_id": "ECO-PACKET-027",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Route replay and season-wrap phase",
+  "summary": "Twenty-seventh structured packet for Eco Explorer. After the three-route station pass, the best next phase is not a fourth live route. The current three-route season should instead become more replayable and more chapter-like through route-aware revisit variants, one compact season-wrap station pass, and quiet coastal corridor-authored beats that mirror the inland continuity work.",
+  "source_reports": [
+    "docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-main-79",
+    "ECO-20260330-critic-57",
+    "ECO-20260330-scout-48",
+    "ECO-20260330-main-80",
+    "ECO-20260330-critic-58",
+    "ECO-20260330-scout-49",
+    "ECO-20260330-main-81",
+    "ECO-20260330-critic-59",
+    "ECO-20260330-scout-50",
+    "ECO-20260330-main-82"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-78",
+    "ECO-20260330-critic-56"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-48",
+      "goal": "Prepare a route-aware revisit variant matrix using day-part, weather, phenology, process moments, notes, and nursery clue windows.",
+      "why_now": "The current world already has enough systems to make repeat outings feel richer without adding another feature lane."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-79",
+      "goal": "Implement the first route-aware revisit variant pass.",
+      "why_now": "Replay value is the highest-leverage improvement now that three routes are live."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-57",
+      "goal": "Review the revisit variants for subtlety, readability, and chapter feel.",
+      "why_now": "Replay support only helps if it feels authored instead of random."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-49",
+      "goal": "Prepare compact season-wrap copy and station-flow guidance.",
+      "why_now": "The station needs a slightly stronger sense of closure without becoming a score screen."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-80",
+      "goal": "Add one compact season-wrap and next-outing teaser pass to the field station.",
+      "why_now": "A better stopping point will make the routes feel more like episodes."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-58",
+      "goal": "Review the season-wrap pass for warmth, restraint, and clarity.",
+      "why_now": "The station should feel more satisfying, not busier."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-50",
+      "goal": "Prepare the coastal corridor authored-beat matrix.",
+      "why_now": "The coast should get the same authored continuity the inland branch now has."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-81",
+      "goal": "Add quiet authored coastal corridor beats.",
+      "why_now": "The full chain will feel more coherent if the coast carries the same subtle continuity the inland seams already have."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-59",
+      "goal": "Review the coastal corridor continuity pass.",
+      "why_now": "The coast should feel authored and calm, not mechanically busier."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-82",
+      "goal": "Optional small follow-on to tighten route replay surfacing if the phase reviews cleanly.",
+      "why_now": "Keep one small buffer item behind the continuity wave instead of letting the queue go empty again."
+    }
+  ],
+  "guardrails": [
+    "Do not add a fourth live route in this phase.",
+    "Do not add a heavier seasonal calendar or management screen.",
+    "Keep season-wrap UI notebook-like and avoid score-screen energy.",
+    "Keep coastal corridor beats quiet and carrier-first.",
+    "Use existing living-world seams instead of inventing a new replay system."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Replay support makes the current three-route season feel richer without adding a fourth route.",
+    "Station stops feel more like episode endings and next-outing handoffs.",
+    "The coastal half of the world gains the same authored continuity feel as the inland half."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-30-route-replay-and-season-wrap-phase.md, and this packet. Treat the current three-route field season as the live baseline. The next phase should make it more replayable and more chapter-like through revisit variants, a compact season-wrap pass, and quiet coastal corridor continuity."
+}

@@ -3,7 +3,7 @@ import { masterPalette } from './palette';
 
 export const ambientSprites: SpriteSource[] = [
   {
-    id: 'ghost-crab',
+    id: 'pacific-sand-crab',
     palette: {
       a: masterPalette.crabRed,
       b: masterPalette.shellCream,
@@ -69,6 +69,49 @@ export const ambientSprites: SpriteSource[] = [
       '.abbcbbbcbba..',
       '..bbbbbbbb....',
       '...abbaaa.....',
+    ]],
+  },
+  {
+    id: 'western-snowy-plover',
+    palette: {
+      a: masterPalette.cloud,
+      b: masterPalette.birdCream,
+      c: masterPalette.rockDark,
+      d: masterPalette.ink,
+    },
+    frames: [
+      [
+        '....aa..',
+        '...abcd.',
+        '..abbbaa',
+        '..abbb..',
+        '...c.c..',
+        '..d...d.',
+      ],
+      [
+        '....aa..',
+        '...abcd.',
+        '..abbbaa',
+        '..abbb..',
+        '..d.c...',
+        '...d...d',
+      ],
+    ],
+  },
+  {
+    id: 'bull-kelp-wrack',
+    palette: {
+      a: masterPalette.leafDark,
+      b: masterPalette.leafLight,
+      c: masterPalette.seaDark,
+    },
+    frames: [[
+      '..............',
+      '...a...a......',
+      '..ab..aba.....',
+      '.abbcabbba....',
+      '..bbcbbba.....',
+      '...ccccc......',
     ]],
   },
 ];

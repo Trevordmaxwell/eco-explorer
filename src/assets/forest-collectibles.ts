@@ -18,4 +18,28 @@ export const forestCollectibleSprites: SpriteSource[] = [
       '...c..',
     ]],
   },
+  {
+    id: 'red-huckleberry',
+    palette: {
+      a: masterPalette.fernDark,
+      b: masterPalette.fernLight,
+      c: masterPalette.coral,
+      d: masterPalette.shellCream,
+      e: masterPalette.barkLight,
+    },
+    frames: [[
+      '...cc...',
+      '..cddc..',
+      '.bcddcb.',
+      '..abba..',
+      '.abbba..',
+      '.bbabb..',
+      '..abbb..',
+      '.abbba..',
+      '...e....',
+      '..eee...',
+      '.eeeee..',
+      '........',
+    ]],
+  },
 ];

@@ -1,0 +1,65 @@
+{
+  "packet_id": "ECO-PACKET-012",
+  "version": 2,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Multi-biome sightings prep for the journal",
+  "summary": "Twelfth structured packet for Eco Explorer. With the five-biome chain now live and shared species already deduplicated by entry ID, the next journal gap is that a species can appear in more than one biome while save data still records discovery as a single-biome event. This packet carries the scout handoff and the main-agent follow-through for a compact, save-backed multi-biome sightings treatment.",
+  "source_reports": [
+    "docs/ecotone-design.md",
+    "docs/reports/2026-03-28-five-biome-journal-selector-handoff.md",
+    "docs/reports/2026-03-28-shared-species-handoff.md",
+    "docs/reports/2026-03-28-treeline-review.md",
+    "docs/reports/2026-03-28-multi-biome-sightings-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-10",
+    "ECO-20260328-main-18"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-17"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-scout-10",
+      "goal": "Prepare a compact handoff for how multi-biome sightings should appear in the journal once the live five-biome chain exists.",
+      "why_now": "The shared-species data layer already exists, so the next likely friction is player-facing presentation rather than data plumbing."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-18",
+      "goal": "Implement a calm, readable multi-biome sightings treatment in the journal with the small save-model expansion it requires.",
+      "why_now": "The five-biome chain is live, but shared species still read like single-habitat discoveries until repeated sightings can be persisted and surfaced without clutter."
+    }
+  ],
+  "guardrails": [
+    "Keep the journal discovery-first and avoid turning species pages into checklist dashboards.",
+    "Prefer one compact visual treatment over multiple competing badges, chips, and counters.",
+    "Do not add more persistent HUD to solve a journal-only communication problem.",
+    "Shared species should remain deduplicated by entry ID.",
+    "Migrate legacy single-biome discovery saves without wiping progress."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    "src/engine/types.ts",
+    "src/engine/save.ts",
+    "src/engine/journal.ts",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The scout handoff should recommend one clear journal pattern for multi-biome sightings plus the data seam that must land first.",
+    "The recommended treatment should scale to five biomes inside the existing 192x144 screen language.",
+    "The implementation should let repeated shared-species sightings persist on one entry without clutter."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/ecotone-design.md, docs/reports/2026-03-28-multi-biome-sightings-handoff.md, and this packet. Implement one save-backed, compact journal treatment for repeated shared-species sightings so entries stay deduplicated by entry ID while the detail pane can show which biomes that species has been seen in."
+}

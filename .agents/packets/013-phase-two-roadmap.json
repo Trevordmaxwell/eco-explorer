@@ -1,0 +1,97 @@
+{
+  "packet_id": "ECO-PACKET-013",
+  "version": 4,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Phase two roadmap: content density, light progression, then living-world slices",
+  "summary": "Thirteenth structured packet for Eco Explorer. The project has crossed out of foundation cleanup and into deliberate phase-two planning. The live five-biome world is now denser, the first light journal-first progression layer is in place, and the two immediate follow-up fixes both landed cleanly: shared species now respect local sightings for per-biome progress, and dense journal pages now stay navigable through compact windowing instead of a dead-end cutoff.",
+  "source_reports": [
+    "docs/reports/2026-03-28-post-28-roadmap.md",
+    "docs/reports/2026-03-28-live-biome-science-audit.md",
+    "docs/reports/2026-03-28-five-biome-chain-review.md",
+    "docs/reports/2026-03-28-lightweight-progression-handoff.md",
+    "docs/reports/2026-03-28-content-density-review.md",
+    "docs/reports/2026-03-28-lightweight-progression-review.md",
+    "docs/reports/2026-03-28-local-sighting-progression-fix-review.md",
+    "docs/reports/2026-03-28-dense-journal-navigation-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-29",
+    "ECO-20260328-critic-12",
+    "ECO-20260328-scout-11",
+    "ECO-20260328-main-30",
+    "ECO-20260328-critic-13",
+    "ECO-20260328-main-35",
+    "ECO-20260328-critic-14",
+    "ECO-20260328-main-36",
+    "ECO-20260328-critic-15"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "scout-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-29",
+      "goal": "Expand authored discovery density across the live five-biome chain.",
+      "why_now": "This is the highest payoff next move because it makes the game feel fuller without changing the core interaction model."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-scout-11",
+      "goal": "Prepare a compact lightweight-progression handoff while the content pass is underway.",
+      "why_now": "This can run in parallel so the next system step is concrete before the content-density pass finishes."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-critic-12",
+      "goal": "Review the content-density pass for science safety, readability, and biome identity.",
+      "why_now": "More content helps only if the new entries still read clearly and keep each habitat distinct."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-main-30",
+      "goal": "Implement one calm journal-first progression layer using per-biome survey states.",
+      "why_now": "After the content pass lands, this is the smallest next system that can improve motivation without breaking the cozy direction."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-critic-13",
+      "goal": "Review the first progression layer for tone, readability, and learning fit.",
+      "why_now": "Progression can drift into quest or score energy quickly, so a critique pass should check tone before living-world systems open up."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate for every new content entry.",
+    "New entries should deepen biome identity instead of making habitats blur together.",
+    "The journal should stay calm and notebook-like, not dashboard-like.",
+    "Progression should reward noticing and revisiting, not add chores or urgency.",
+    "Prefer compact per-biome survey states over quest logs, score ranks, or another prose-heavy journal card.",
+    "Do not activate the broad parked living-world pack until content density and light progression are both stable.",
+    "Keep the build green after each step."
+  ],
+  "file_targets": [
+    "src/content/biomes",
+    "src/content/shared-entries.ts",
+    "src/engine",
+    "src/test",
+    "docs/science-source-ledger.md",
+    "docs/content-authoring.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Each live biome feels denser and more worth exploring.",
+    "The next progression layer stays cozy and discovery-first.",
+    "The first progression pass uses one compact per-biome survey state instead of a checklist or global score ladder.",
+    "Shared species do not inflate later-biome survey progress before the player actually sees them there.",
+    "The denser journal remains fully navigable without losing its calm notebook feel.",
+    "The game earns larger phase-two systems instead of jumping to them early."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-post-28-roadmap.md, docs/reports/2026-03-28-lightweight-progression-handoff.md, and this packet. Treat this as the phase-two sequence after the coastal science cleanup, and implement the lightweight progression step as compact per-biome survey states rather than a quest or score system."
+}

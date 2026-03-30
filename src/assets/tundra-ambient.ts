@@ -56,4 +56,30 @@ export const tundraAmbientSprites: SpriteSource[] = [
       ],
     ],
   },
+  {
+    id: 'northern-collared-lemming',
+    palette: {
+      a: '#8d7862',
+      b: '#e5d5be',
+      c: masterPalette.ink,
+    },
+    frames: [
+      [
+        '........',
+        '...aaa..',
+        '..abbbca',
+        '..abbbb.',
+        '.a....a.',
+        '..c..c..',
+      ],
+      [
+        '........',
+        '...aaa..',
+        '..abbbca',
+        '..abbbb.',
+        '..a..a..',
+        '.c....c.',
+      ],
+    ],
+  },
 ];

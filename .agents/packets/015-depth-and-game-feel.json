@@ -1,0 +1,174 @@
+{
+  "packet_id": "ECO-PACKET-015",
+  "version": 16,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Approved future depth sequence: phenology, notebook prompts, comparison pages, sketchbook, sound, close-look",
+  "summary": "Fifteenth structured packet for Eco Explorer. The broader depth-and-game-feel lane remains approved beyond the heavier gameplay sequence. Phenology, shared-species comparison, sketchbook, sound, and the first close-look vignette pass are now live, so this packet no longer has an active main/critic implementation lane.",
+  "source_reports": [
+    "docs/reports/2026-03-28-post-28-roadmap.md",
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-depth-and-game-feel-sequence.md",
+    "docs/reports/2026-03-28-phenology-grounding-handoff.md",
+    "docs/reports/2026-03-28-phenology-readiness-audit.md",
+    "docs/reports/2026-03-28-beach-phenology-support-handoff.md",
+    "docs/reports/2026-03-29-authored-field-partner-follow-up-review.md",
+    "docs/reports/2026-03-29-first-phenology-review.md",
+    "docs/reports/2026-03-28-notebook-prompt-handoff.md",
+    "docs/reports/2026-03-28-shared-species-comparison-handoff.md",
+    "docs/reports/2026-03-28-sketchbook-v1-handoff.md",
+    "docs/reports/2026-03-28-soundscape-direction-handoff.md",
+    "docs/reports/2026-03-29-soundscape-v1-review.md",
+    "docs/reports/2026-03-28-close-look-handoff.md",
+    "docs/reports/2026-03-29-close-look-v1-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-scout-12",
+    "ECO-20260328-scout-13",
+    "ECO-20260328-scout-14",
+    "ECO-20260328-scout-15",
+    "ECO-20260328-scout-16",
+    "ECO-20260328-scout-17",
+    "ECO-20260328-scout-21",
+    "ECO-20260328-main-37",
+    "ECO-20260329-critic-27",
+    "ECO-20260328-main-44",
+    "ECO-20260328-main-39",
+    "ECO-20260328-main-40",
+    "ECO-20260329-critic-32",
+    "ECO-20260328-main-41",
+    "ECO-20260329-critic-33",
+    "ECO-20260328-main-42",
+    "ECO-20260329-critic-34"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-35",
+    "ECO-20260328-main-36"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "scout-agent",
+    "scout-agent",
+    "scout-agent",
+    "scout-agent",
+    "scout-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-37",
+      "goal": "Ground the seasons and phenology sequence around one coarse world-state phase plus biome-local authored profiles.",
+      "why_now": "The authored field-partner follow-up now reviews cleanly, so the next living-world gain is finally the first phenology pass rather than more partner cleanup."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260329-critic-27",
+      "goal": "Review the first phenology pass for readability, science grounding, and whether beach still needs the tiny reinforcement follow-on.",
+      "why_now": "Phenology is the next active main lane and needs its own critique gate before the project folds those new signals into the first corridor-continuity bundle."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-main-44",
+      "goal": "Apply one tiny beach-only reinforcement pass so the coast reads the live `early` / `peak` / `late` sequence more clearly beside the inland and alpine branches.",
+      "why_now": "The first phenology critique came back structurally positive, but it confirmed that beach is still the weakest branch and should be tightened before the first corridor proof uses coastal phenology as a continuity signal."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-scout-12",
+      "goal": "Ground the seasons and phenology sequence around one coarse world-state phase plus biome-local authored profiles.",
+      "why_now": "This is still the strongest future expansion line and now has a live first pass plus one tiny coast-side refinement target."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-scout-13",
+      "goal": "Shape notebook-style relationship prompts around shelter, timing, neighbor-role, and comparison families tied to local evidence.",
+      "why_now": "This tightens the future naturalist prompt work before implementation starts and keeps it attached to notebook observation instead of generic helper chatter."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260328-scout-14",
+      "goal": "Prepare note-backed shared-species comparison page guidance that grows from the existing multi-biome sightings row and journal detail pane.",
+      "why_now": "This is one of the highest-leverage future journal expansions and now has a concrete low-clutter format before implementation pressure arrives."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260328-scout-15",
+      "goal": "Scope a journal-hosted sketchbook mode around anchored stamp composition instead of a freehand editor.",
+      "why_now": "This could become the emotional heart of the journal, but it now has a constrained first-scope plan that keeps authorship calm and buildable."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260328-scout-16",
+      "goal": "Define a sparse soundscape direction around one lightweight audio engine, biome ambience beds, and tiny UI cues.",
+      "why_now": "Audio is a major missing sense in the current build and now has a concrete low-system first pass instead of a vague future music bucket."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260328-scout-17",
+      "goal": "Plan an occasional close-look inspect mode around a handful of visual-first entries and one centered vignette card.",
+      "why_now": "This adds delight and teaching value, but it now has a tight first-scope shape that stays selective and avoids turning every inspect into a second journal page."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260328-scout-21",
+      "goal": "Prepare one tiny beach phenology support pass that makes `early` / `peak` / `late` feel clearer without forcing a large content expansion.",
+      "why_now": "The audit and the first phenology critique both identified beach as the weakest branch, so that small support plan is now an active follow-on instead of a purely hypothetical future helper."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Prompts should feel like a field notebook, not chores, scores, or quizzes.",
+    "Phenology should feel like the world being in a different mood, not a heavy simulation or real-time calendar.",
+    "Start with a coarse shared phase and biome-local authored responses instead of a universal four-season matrix.",
+    "The first phenology implementation should prioritize the strongest current live anchors and accept a small beach support pass if late-phase cues there still feel thin.",
+    "Any beach phenology support pass should stay tiny, zone-aware, and science-safe rather than reopening the whole coastline content set.",
+    "If beach reinforcement is needed, keep it inside the current species set around `sand-verbena`, `beach-grass`, and a secondary wrack accent instead of adding new coastal species or animal-state systems.",
+    "Notebook prompts should stay one calm observation at a time and grow from local evidence rather than from a task list.",
+    "Comparison pages should teach habitat-role differences through note-backed cards, not by repeating fact text or opening a giant matrix.",
+    "Sketchbook v1 should use local discovered-entry stamps and anchored layouts instead of freehand drawing, drag-heavy editing, or crafting loops.",
+    "Sketchbook work should be expressive and personal, not crafting or base-building.",
+    "Sound should start with one low-volume ambience bed per biome family plus a tiny UI cue set, not a large music system or constant layered noise.",
+    "Sound should stay sparse, warm, and biome-distinct instead of constant or overstimulating.",
+    "Close-look mode should start with a few visual-first entries and a small vignette card that reduces text load instead of expanding it.",
+    "Close-look inspect moments should reduce text load when possible and stay reserved for discoveries that benefit from visual focus.",
+    "If the first phenology critique still finds beach underpowered, prefer the tiny `main-44` support pass before using coastal phenology as a major continuity signal in the first corridor proof.",
+    "These scout tasks are planning-only and should not pull the main implementation queue off the current active phenology follow-on."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-03-28-post-28-roadmap.md",
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-phenology-grounding-handoff.md",
+    "docs/reports/2026-03-28-notebook-prompt-handoff.md",
+    "docs/reports/2026-03-28-shared-species-comparison-handoff.md",
+    "docs/reports/2026-03-28-sketchbook-v1-handoff.md",
+    "docs/reports/2026-03-28-soundscape-direction-handoff.md",
+    "docs/reports/2026-03-28-close-look-handoff.md",
+    "docs/ai-naturalist-design.md",
+    "docs/content-authoring.md",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/journal.ts",
+    "src/engine/generation.ts",
+    "src/engine/field-guide.ts",
+    "src/engine/inspectables.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/save.ts",
+    "src/engine/types.ts",
+    "src/assets",
+    "src/content/biomes",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "Future depth work is ordered and durable instead of being a loose idea pile.",
+    "The scout can stay useful in downtime without destabilizing current implementation work.",
+    "The long-term plan stays centered on pattern, change, shelter, exposure, and comparison.",
+    "Future expansions deepen observation and authorship instead of adding generic game systems."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-28-post-28-roadmap.md, docs/reports/2026-03-28-living-world-sequence.md, docs/reports/2026-03-28-depth-and-game-feel-sequence.md, docs/reports/2026-03-28-phenology-grounding-handoff.md, docs/reports/2026-03-28-phenology-readiness-audit.md, docs/reports/2026-03-28-beach-phenology-support-handoff.md, docs/reports/2026-03-29-authored-field-partner-follow-up-review.md, docs/reports/2026-03-29-first-phenology-review.md, docs/reports/2026-03-28-notebook-prompt-handoff.md, docs/reports/2026-03-28-shared-species-comparison-handoff.md, docs/reports/2026-03-28-sketchbook-v1-handoff.md, docs/reports/2026-03-28-soundscape-direction-handoff.md, docs/reports/2026-03-28-close-look-handoff.md, and this packet. Treat these as approved future depth directions. The shared phenology seam is now live and structurally sound, but `main-44` is the next active tiny coast-only follow-on because beach still reads like the weakest branch beside forest, treeline, and tundra."
+}

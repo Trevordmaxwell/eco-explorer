@@ -1,0 +1,83 @@
+{
+  "packet_id": "ECO-PACKET-005",
+  "version": 2,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "AI field guide: pure context layer, clipboard mode, and parked API follow-up",
+  "summary": "Fifth structured packet for Eco Explorer. This packet captures the field-guide work imported from the external handoff pack, but grounded for the live repo: the pure context and prompt module is now implemented, clipboard Mode A is the next safe integration step, and direct API mode stays parked until the safer path is proven out.",
+  "source_reports": [
+    "docs/ai-naturalist-design.md",
+    "docs/reports/2026-03-28-field-guide-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-11",
+    "ECO-20260328-main-12",
+    "ECO-20260328-critic-06",
+    "ECO-20260328-main-23",
+    "ECO-20260328-main-13"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-11",
+      "goal": "Land the pure field-guide data module and prompt builder with tests.",
+      "why_now": "This is self-contained and already safe to verify without touching the runtime UI."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-main-12",
+      "goal": "Wire clipboard Mode A into the in-game menu with a short confirmation state.",
+      "why_now": "Clipboard mode is useful immediately and avoids API-key, privacy, and error-handling complexity."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-critic-06",
+      "goal": "Review prompt quality, child readability, and the clipboard UX after menu wiring lands.",
+      "why_now": "The prompt is a teaching surface, so it deserves critique before any network mode is added."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-main-23",
+      "goal": "Tighten the copied prompt so it avoids undiscovered-name spoilers, reduces hallucination pressure, and gives the failed-copy toast a clearer next step.",
+      "why_now": "Clipboard mode is useful, but it should be safer and more grounded before the project reopens any direct API path."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-main-13",
+      "goal": "Consider direct API mode only after clipboard mode is solid and privacy safeguards are explicit.",
+      "why_now": "This is more invasive and should remain a follow-up, not the first integration."
+    }
+  ],
+  "guardrails": [
+    "Keep the context builder pure and deterministic.",
+    "Do not let field-guide work leak API keys or prompt contents into debug surfaces.",
+    "Do not expose exact undiscovered species names in the copied prompt.",
+    "Do not pressure the model to infer unsupported ecological processes from thin local context.",
+    "Clipboard Mode A is the default and fallback path.",
+    "Do not let the field guide turn into quiz or checklist output.",
+    "Science accuracy remains a hard gate for prompt wording and surrounding UX."
+  ],
+  "file_targets": [
+    "src/engine/field-guide.ts",
+    "src/engine/game.ts",
+    "src/engine/types.ts",
+    "src/test/field-guide.test.ts",
+    "docs/ai-naturalist-design.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The pure context layer is tested and stable.",
+    "Clipboard Mode A feels native to the current menu flow.",
+    "Future field-guide work keeps the cozy tone and improves ecosystem understanding."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/ai-naturalist-design.md, and this packet. The pure field-guide module is already in place. The next safe step is clipboard Mode A through the in-game menu. Keep direct API mode parked until privacy, save, and readability concerns are clearly handled."
+}

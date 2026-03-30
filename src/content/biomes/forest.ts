@@ -1,5 +1,6 @@
 import { forestPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
+import { nootkaRoseEntry, salmonberryEntry, swordFernEntry } from '../shared-entries';
 
 const forestEntries = {
   'douglas-fir-sapling': {
@@ -13,17 +14,7 @@ const forestEntries = {
     spriteId: 'douglas-fir-sapling',
     collectible: false,
   },
-  'sword-fern': {
-    id: 'sword-fern',
-    commonName: 'Sword Fern',
-    scientificName: 'Polystichum munitum',
-    category: 'plant',
-    shortFact: 'Sword ferns stay green through cool, damp seasons on the forest floor.',
-    journalText:
-      'Sword ferns grow in shady places where the soil stays moist. Their long fronds help cover the ground and shelter tiny animals.',
-    spriteId: 'sword-fern',
-    collectible: false,
-  },
+  'sword-fern': swordFernEntry,
   'redwood-sorrel': {
     id: 'redwood-sorrel',
     commonName: 'Redwood Sorrel',
@@ -33,6 +24,39 @@ const forestEntries = {
     journalText:
       'Redwood sorrel likes cool, shady forests. Its clover-shaped leaves help it catch gentle light without drying out.',
     spriteId: 'redwood-sorrel',
+    collectible: false,
+  },
+  'western-trillium': {
+    id: 'western-trillium',
+    commonName: 'Western Trillium',
+    scientificName: 'Trillium ovatum',
+    category: 'plant',
+    shortFact: 'Western trillium likes rich, shady forest ground where the soil stays cool.',
+    journalText:
+      'Western trillium is a forest wildflower of moist Pacific woods. It grows on rich shady ground beneath bigger trees and shows how layered the forest floor can be.',
+    spriteId: 'western-trillium',
+    collectible: false,
+  },
+  'licorice-fern': {
+    id: 'licorice-fern',
+    commonName: 'Licorice Fern',
+    scientificName: 'Polypodium glycyrrhiza',
+    category: 'plant',
+    shortFact: 'Licorice fern can grow on mossy trunks, logs, and rocks where rain keeps it damp.',
+    journalText:
+      'Licorice fern often grows above the ground on mossy bark, logs, or rocks in moist Pacific forests. Its creeping stem helps it spread across those damp surfaces.',
+    spriteId: 'licorice-fern',
+    collectible: false,
+  },
+  'tree-lungwort': {
+    id: 'tree-lungwort',
+    commonName: 'Tree Lungwort',
+    scientificName: 'Lobaria pulmonaria',
+    category: 'lichen',
+    shortFact: 'Tree lungwort grows on damp trunks and mossy rocks, where it helps feed forest nutrient cycles.',
+    journalText:
+      'Tree lungwort is a leafy lichen of cool, humid forests. Because cyanobacteria live inside it, tree lungwort can help move nitrogen into the forest food web.',
+    spriteId: 'tree-lungwort',
     collectible: false,
   },
   'salal-berry': {
@@ -46,6 +70,19 @@ const forestEntries = {
     spriteId: 'salal-berry',
     collectible: true,
   },
+  'nootka-rose': nootkaRoseEntry,
+  'red-huckleberry': {
+    id: 'red-huckleberry',
+    commonName: 'Red Huckleberry',
+    scientificName: 'Vaccinium parvifolium',
+    category: 'plant',
+    shortFact: 'Red huckleberry often grows from mossy logs or stumps on cool Pacific forest edges.',
+    journalText:
+      'Red huckleberry is a Pacific forest shrub with bright red berries. It often grows from old mossy logs or stumps where filtered light and moisture help it start.',
+    spriteId: 'red-huckleberry',
+    collectible: true,
+  },
+  'salmonberry': salmonberryEntry,
   'fir-cone': {
     id: 'fir-cone',
     commonName: 'Douglas-fir Cone',
@@ -56,6 +93,17 @@ const forestEntries = {
       'A Douglas-fir cone holds seeds between its scales. When the cone dries out, the scales spread apart so wind can carry the seeds away.',
     spriteId: 'fir-cone',
     collectible: true,
+  },
+  ensatina: {
+    id: 'ensatina',
+    commonName: 'Ensatina Salamander',
+    scientificName: 'Ensatina eschscholtzii',
+    category: 'animal',
+    shortFact: 'Ensatina salamanders hide in damp logs and rocks so their skin stays moist.',
+    journalText:
+      'An ensatina is a lungless salamander of shady forests. It spends much of its time tucked under logs, bark, or stones where moisture stays trapped.',
+    spriteId: 'ensatina',
+    collectible: false,
   },
   'banana-slug': {
     id: 'banana-slug',
@@ -79,6 +127,17 @@ const forestEntries = {
     spriteId: 'steller-jay',
     collectible: false,
   },
+  'pileated-woodpecker': {
+    id: 'pileated-woodpecker',
+    commonName: 'Pileated Woodpecker',
+    scientificName: 'Dryocopus pileatus',
+    category: 'animal',
+    shortFact: 'Pileated woodpeckers chisel dead wood to find carpenter ants and other insects.',
+    journalText:
+      'Pileated woodpeckers are big forest birds that hammer dead wood for insects and nesting holes. Their digging can leave cavities that other animals use later.',
+    spriteId: 'pileated-woodpecker',
+    collectible: false,
+  },
 } satisfies BiomeDefinition['entries'];
 
 export const forestBiome: BiomeDefinition = {
@@ -92,12 +151,13 @@ export const forestBiome: BiomeDefinition = {
   ],
   terrainRules: {
     worldWidth: 640,
-    worldHeight: 144,
+    worldHeight: 208,
     sampleStep: 16,
     zones: [
       { id: 'trailhead', label: 'Trailhead', start: 0, end: 150, surfaceBaseY: 110, surfaceVariance: 4 },
-      { id: 'fern-hollow', label: 'Fern Hollow', start: 150, end: 350, surfaceBaseY: 114, surfaceVariance: 5 },
-      { id: 'log-run', label: 'Log Run', start: 350, end: 520, surfaceBaseY: 111, surfaceVariance: 4 },
+      { id: 'fern-hollow', label: 'Fern Hollow', start: 150, end: 280, surfaceBaseY: 116, surfaceVariance: 5 },
+      { id: 'root-hollow', label: 'Root Hollow', start: 280, end: 420, surfaceBaseY: 150, surfaceVariance: 4 },
+      { id: 'log-run', label: 'Log Run', start: 420, end: 520, surfaceBaseY: 118, surfaceVariance: 4 },
       { id: 'creek-bend', label: 'Creek Bend', start: 520, end: 640, surfaceBaseY: 116, surfaceVariance: 6 },
     ],
     platformRules: [
@@ -126,6 +186,139 @@ export const forestBiome: BiomeDefinition = {
         spriteId: 'log-platform',
       },
     ],
+    authoredPlatforms: [
+      {
+        id: 'root-hollow-entry-log',
+        spriteId: 'log-platform',
+        x: 286,
+        y: 128,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'root-hollow-mid-ledge',
+        spriteId: 'rock-platform',
+        x: 318,
+        y: 108,
+        w: 84,
+        h: 4,
+      },
+      {
+        id: 'root-hollow-cave-sill',
+        spriteId: 'rock-platform',
+        x: 350,
+        y: 142,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'root-hollow-high-ledge',
+        spriteId: 'rock-platform',
+        x: 400,
+        y: 88,
+        w: 28,
+        h: 4,
+      },
+      {
+        id: 'root-hollow-exit-log',
+        spriteId: 'log-platform',
+        x: 430,
+        y: 116,
+        w: 24,
+        h: 4,
+      },
+    ],
+    authoredDepthFeatures: [
+      {
+        id: 'root-hollow-root-arch',
+        style: 'root-chamber',
+        x: 284,
+        y: 70,
+        w: 148,
+        h: 110,
+      },
+      {
+        id: 'root-hollow-stone-pocket',
+        style: 'stone-pocket',
+        x: 336,
+        y: 132,
+        w: 82,
+        h: 38,
+      },
+    ],
+    authoredClimbables: [
+      {
+        id: 'root-hollow-fir-trunk',
+        spriteId: 'climb-trunk',
+        canopySpriteId: 'climb-canopy',
+        x: 332,
+        y: 46,
+        w: 8,
+        h: 108,
+        topExitY: 98,
+      },
+      {
+        id: 'root-hollow-cave-trunk',
+        spriteId: 'climb-trunk',
+        x: 404,
+        y: 38,
+        w: 8,
+        h: 120,
+        topExitY: 78,
+      },
+      {
+        id: 'log-run-fir-trunk',
+        spriteId: 'climb-trunk',
+        canopySpriteId: 'climb-canopy',
+        x: 446,
+        y: 56,
+        w: 8,
+        h: 74,
+        topExitY: 96,
+      },
+    ],
+    authoredEntities: [
+      {
+        id: 'root-hollow-licorice-trunk',
+        entryId: 'licorice-fern',
+        x: 324,
+        y: 118,
+        castsShadow: false,
+      },
+      {
+        id: 'root-hollow-lungwort-sill',
+        entryId: 'tree-lungwort',
+        x: 348,
+        y: 130,
+        castsShadow: false,
+      },
+      {
+        id: 'root-hollow-ensatina-sill',
+        entryId: 'ensatina',
+        x: 364,
+        y: 146,
+      },
+      {
+        id: 'root-hollow-lungwort-mid-ledge',
+        entryId: 'tree-lungwort',
+        x: 384,
+        y: 100,
+        castsShadow: false,
+      },
+      {
+        id: 'root-hollow-licorice-high-ledge',
+        entryId: 'licorice-fern',
+        x: 410,
+        y: 76,
+      },
+      {
+        id: 'log-run-licorice-trunk',
+        entryId: 'licorice-fern',
+        x: 438,
+        y: 90,
+        castsShadow: false,
+      },
+    ],
   },
   spawnTables: [
     {
@@ -136,6 +329,15 @@ export const forestBiome: BiomeDefinition = {
       maxCount: 3,
       spacing: 34,
       entries: [{ entryId: 'douglas-fir-sapling', weight: 1 }],
+    },
+    {
+      id: 'stable-trailhead-thicket',
+      zoneId: 'trailhead',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 28,
+      entries: [{ entryId: 'nootka-rose', weight: 1 }],
     },
     {
       id: 'stable-forest-floor',
@@ -150,6 +352,24 @@ export const forestBiome: BiomeDefinition = {
       ],
     },
     {
+      id: 'stable-fern-edge-rose',
+      zoneId: 'fern-hollow',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 1,
+      spacing: 28,
+      entries: [{ entryId: 'nootka-rose', weight: 1 }],
+    },
+    {
+      id: 'stable-shade-flowers',
+      zoneId: 'fern-hollow',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 30,
+      entries: [{ entryId: 'western-trillium', weight: 1 }],
+    },
+    {
       id: 'stable-creek-floor',
       zoneId: 'creek-bend',
       refreshPolicy: 'stable',
@@ -159,6 +379,7 @@ export const forestBiome: BiomeDefinition = {
       entries: [
         { entryId: 'redwood-sorrel', weight: 4 },
         { entryId: 'sword-fern', weight: 2 },
+        { entryId: 'western-trillium', weight: 1 },
       ],
     },
     {
@@ -171,6 +392,42 @@ export const forestBiome: BiomeDefinition = {
       entries: [{ entryId: 'fir-cone', weight: 1 }],
     },
     {
+      id: 'root-hollow-floor',
+      zoneId: 'root-hollow',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 22,
+      entries: [
+        { entryId: 'sword-fern', weight: 4 },
+        { entryId: 'redwood-sorrel', weight: 3 },
+      ],
+    },
+    {
+      id: 'root-hollow-life',
+      zoneId: 'root-hollow',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 28,
+      entries: [
+        { entryId: 'banana-slug', weight: 3 },
+        { entryId: 'ensatina', weight: 1 },
+      ],
+    },
+    {
+      id: 'trailhead-berries',
+      zoneId: 'trailhead',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 26,
+      entries: [
+        { entryId: 'red-huckleberry', weight: 3 },
+        { entryId: 'salmonberry', weight: 1 },
+      ],
+    },
+    {
       id: 'berry-patches',
       zoneId: 'fern-hollow',
       refreshPolicy: 'visit',
@@ -178,6 +435,24 @@ export const forestBiome: BiomeDefinition = {
       maxCount: 3,
       spacing: 22,
       entries: [{ entryId: 'salal-berry', weight: 1 }],
+    },
+    {
+      id: 'fern-edge-berries',
+      zoneId: 'fern-hollow',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'red-huckleberry', weight: 1 }],
+    },
+    {
+      id: 'creek-berries',
+      zoneId: 'creek-bend',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'salmonberry', weight: 1 }],
     },
     {
       id: 'canopy-life',
@@ -200,12 +475,123 @@ export const forestBiome: BiomeDefinition = {
         { entryId: 'steller-jay', weight: 1 },
       ],
     },
+    {
+      id: 'woodpecker-canopy',
+      zoneId: 'log-run',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 40,
+      entries: [{ entryId: 'pileated-woodpecker', weight: 1 }],
+    },
   ],
   ambientRules: {
     cloudCount: [1, 2],
     sparkleCount: [6, 12],
   },
   entries: forestEntries,
+  ecosystemNotes: [
+    {
+      id: 'edge-berry-thicket',
+      title: 'Edge Berry Thicket',
+      entryIds: ['nootka-rose', 'red-huckleberry', 'salmonberry'],
+      minimumDiscoveries: 2,
+      summary:
+        'The first forest edge stacks thorny stems and berries into a shadier thicket than the scrub behind.',
+      observationPrompt:
+        'Where does the first berry thicket gather?',
+      zoneId: 'trailhead',
+    },
+    {
+      id: 'forest-floor-recycling',
+      title: 'Forest Floor Cycle',
+      entryIds: ['banana-slug', 'sword-fern', 'western-trillium', 'douglas-fir-sapling'],
+      summary:
+        'Broken leaves feed soil for ferns and young trees.',
+      observationPrompt:
+        'What shows dead leaves feeding soil?',
+      zoneId: 'root-hollow',
+    },
+    {
+      id: 'hollow-moisture',
+      title: 'Hollow Moisture',
+      entryIds: ['licorice-fern', 'tree-lungwort', 'ensatina'],
+      minimumDiscoveries: 2,
+      summary:
+        'Cool bark, rock, and logs make tiny wet shelters above the soil.',
+      observationPrompt:
+        'What here seems to hold moisture off the ground?',
+      zoneId: 'root-hollow',
+    },
+    {
+      id: 'forest-seed-travel',
+      title: 'Seed Travel',
+      entryIds: ['salal-berry', 'fir-cone', 'steller-jay'],
+      summary:
+        'Some forest seeds ride the wind, while others move with animals.',
+      observationPrompt:
+        'Which seeds seem ready to travel?',
+      zoneId: 'log-run',
+    },
+    {
+      id: 'creekside-shelter',
+      title: 'Creekside Shelter',
+      entryIds: ['salmonberry', 'redwood-sorrel', 'sword-fern'],
+      minimumDiscoveries: 2,
+      summary:
+        'At wetter forest edges, berries and low leaves show where cool cover still holds.',
+      observationPrompt:
+        'What here looks held by cool, wet cover?',
+      zoneId: 'creek-bend',
+    },
+  ],
+  phenology: {
+    phases: {
+      early: {
+        skyWashTop: 'rgba(231, 240, 224, 0.10)',
+        skyWashBottom: 'rgba(239, 243, 232, 0.05)',
+        groundWash: 'rgba(122, 150, 96, 0.08)',
+        parallaxColors: ['#9daf90', '#5f835c'],
+        entryAccents: [
+          { entryId: 'western-trillium', style: 'bloom', primaryColor: '#fff8e5', secondaryColor: '#f6d687' },
+        ],
+      },
+      peak: {
+        skyWashTop: 'rgba(219, 233, 205, 0.06)',
+        skyWashBottom: 'rgba(231, 239, 226, 0.05)',
+        groundWash: 'rgba(110, 156, 96, 0.10)',
+        parallaxColors: ['#98ad8e', '#5f875a'],
+        entryAccents: [
+          { entryId: 'salal-berry', style: 'berry', primaryColor: '#43589a', secondaryColor: '#b3bff1' },
+        ],
+        spawnEmphasis: [{ tableId: 'berry-patches', maxCountDelta: 1 }],
+      },
+      late: {
+        skyWashTop: 'rgba(214, 202, 172, 0.10)',
+        skyWashBottom: 'rgba(227, 221, 196, 0.05)',
+        groundWash: 'rgba(144, 114, 78, 0.12)',
+        parallaxColors: ['#9f977d', '#596d4b'],
+        entryAccents: [
+          { entryId: 'fir-cone', style: 'cone', primaryColor: '#8a5731', secondaryColor: '#d8b07e' },
+          { entryId: 'salal-berry', style: 'berry', primaryColor: '#57417c', secondaryColor: '#c3b3df' },
+        ],
+        spawnEmphasis: [{ tableId: 'forest-cones', minCountDelta: 1, maxCountDelta: 1 }],
+      },
+    },
+  },
+  processMoments: [
+    {
+      id: 'moisture-hold',
+      style: 'moisture-hold',
+      entryIds: ['sword-fern', 'redwood-sorrel', 'salmonberry'],
+      zoneIds: ['root-hollow', 'creek-bend'],
+      minimumVisitCount: 2,
+      weatherProfiles: ['mist-drip'],
+      phenologyPhases: ['late'],
+      primaryColor: '#4f6658',
+      secondaryColor: '#d2e6d8',
+    },
+  ],
   startPosition: {
     x: 26,
     y: 82,

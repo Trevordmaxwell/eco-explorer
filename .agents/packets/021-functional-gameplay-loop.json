@@ -1,0 +1,143 @@
+{
+  "packet_id": "ECO-PACKET-021",
+  "version": 3,
+  "created_at": "2026-03-29",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Functional gameplay shift: exploration geometry, field requests, and field-station upgrades",
+  "summary": "Twenty-first structured packet for Eco Explorer. The user wants the game to feel more game-like after the current living-world stopping point. The scout lane has now grounded the first two follow-ons: `main-51` should be a forest-first traversal proof centered in late `fern-hollow` into `log-run`, using an upper log route plus one short sheltered lower lane rather than a true cave-engine rewrite; `main-53` should be a world-map-context field-station ledger that converts surveyed biomes plus completed notebook requests into field credit for one gentle movement upgrade. Sketchbook, broader sound, and close-look inspect remain approved, but they should now sit behind this gameplay lane.",
+  "source_reports": [
+    "docs/reports/2026-03-29-functional-gameplay-sequence.md",
+    "docs/reports/2026-03-29-functional-gameplay-loop-handoff.md",
+    "docs/reports/2026-03-29-forest-traversal-proof-handoff.md",
+    "docs/reports/2026-03-29-field-station-credit-handoff.md",
+    "docs/reports/2026-03-29-world-continuity-preproduction-pack.md",
+    "docs/reports/2026-03-29-continuous-corridor-travel-sequence.md",
+    "docs/reports/2026-03-28-depth-and-game-feel-sequence.md"
+  ],
+  "queue_refs": [
+    "ECO-20260329-scout-31",
+    "ECO-20260329-scout-32",
+    "ECO-20260329-scout-33",
+    "ECO-20260329-main-51",
+    "ECO-20260329-critic-28",
+    "ECO-20260329-main-52",
+    "ECO-20260329-critic-29",
+    "ECO-20260329-main-53",
+    "ECO-20260329-critic-30"
+  ],
+  "depends_on": [
+    "ECO-20260328-main-37"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260329-scout-31",
+      "goal": "Turn the user's more-game-like direction into one grounded sequence for exploration, requests, and upgrades.",
+      "why_now": "The project now has enough educational and atmospheric scaffolding that the next sharp gain is a stronger play loop, not another narrow polish system."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260329-scout-32",
+      "goal": "Prepare a compact exploration-geometry handoff with one best biome candidate for a shallow cave, hollow, or underpass proof.",
+      "why_now": "Verticality and a short down-and-back detour are the safest first way to make the world feel more playable without changing genres."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260329-main-51",
+      "goal": "Implement one richer traversal proof with more vertical routes and one short cave or hollow detour.",
+      "why_now": "Movement and terrain should get stronger before the game adds another meta-layer on top."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260329-critic-28",
+      "goal": "Review the exploration proof for readability, flow, difficulty, and whether it still feels cozy.",
+      "why_now": "Traversal changes can quietly turn into friction or confusion if they are not reviewed against the live child-facing feel."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260329-main-52",
+      "goal": "Add a tiny notebook-style field-request layer tied to exploration and ecology patterns.",
+      "why_now": "Once terrain can reward curiosity, the next layer should add purpose without becoming a quest log."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260329-critic-29",
+      "goal": "Review the first field-request pass for tone, clutter, and science grounding.",
+      "why_now": "Requests are useful only if they still feel like naturalist prompts instead of chores."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260329-scout-33",
+      "goal": "Ground the upgrade economy around a field-station or research-cart model instead of direct specimen selling.",
+      "why_now": "The user wants a market/power-up loop, but the science tone is better served by a survey-token or field-credit model."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260329-main-53",
+      "goal": "Add one tiny field-station upgrade loop with one gentle movement upgrade.",
+      "why_now": "A modest upgrade loop can make exploration feel more game-like without swamping the educational core."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260329-critic-30",
+      "goal": "Review the field-station loop for ethics, pacing, and cozy fit.",
+      "why_now": "The economy framing matters a lot for a nature game aimed at kids, so this needs an explicit science-safe review."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate.",
+    "Keep the game cozy, exploratory, and child-readable; do not turn it into combat, grind, or precision platforming.",
+    "Use the current `256x160` viewport baseline and keep any new HUD or objective surface compact.",
+    "Requests should feel like notebook prompts or field assignments, not like chores, timers, or achievement grinds.",
+    "The first request pass should reuse existing journal, survey, prompt, and world-state evidence instead of introducing a separate quest-log state model.",
+    "Avoid a literal market that teaches direct selling of living nature finds.",
+    "If an economy exists, route it through survey progress, completed requests, field credit, stamps, or a research-station model instead of extraction-first selling.",
+    "Collectibles should stay discovery flavor and ecology evidence in v1, not direct currency.",
+    "The first upgrade should be modest, legible, and movement-oriented, such as slightly faster walk speed or a small jump boost.",
+    "Caves and vertical routes should be short authored detours, not long dungeon spaces.",
+    "The first forest traversal proof should stay in late `fern-hollow` into `log-run` so start, map-return, and corridor anchors remain clear.",
+    "The first traversal proof should prefer a sheltered lower lane such as a root-hollow or hollow-log underpass instead of a generic overhang cave system.",
+    "Exploration geometry should stay forgiving and readable for kids ages 7-10."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "src/content/world-map.ts",
+    "src/content/biomes",
+    "src/assets/tiles.ts",
+    "src/assets/forest-flora.ts",
+    "src/engine/game.ts",
+    "src/engine/generation.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/observation-prompts.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/journal.ts",
+    "src/engine/progression.ts",
+    "src/engine/save.ts",
+    "src/engine/types.ts",
+    "src/engine/world-map-render.ts",
+    "src/engine/world-state.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The long-term plan now favors a stronger play loop over narrower polish features.",
+    "Future game-like systems stay science-safe and cozy instead of drifting into generic achievement design.",
+    "Exploration, objectives, and upgrades all build on the current journal and ecology systems rather than replacing them.",
+    "Field requests stay notebook-first and evidence-aware instead of opening a separate contract or quest-log surface.",
+    "Upgrade rewards convert fieldwork into gentle field credit rather than pricing individual finds.",
+    "The first traversal proof strengthens forest exploration without reopening a large cave or tilemap system.",
+    "The first station loop stays world-map-context and ledger-light instead of bloating the in-biome field menu."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-29-functional-gameplay-sequence.md, docs/reports/2026-03-29-functional-gameplay-loop-handoff.md, docs/reports/2026-03-29-forest-traversal-proof-handoff.md, docs/reports/2026-03-29-field-station-credit-handoff.md, docs/reports/2026-03-29-world-continuity-preproduction-pack.md, docs/reports/2026-03-29-continuous-corridor-travel-sequence.md, docs/reports/2026-03-28-depth-and-game-feel-sequence.md, and this packet. Treat the next strategic shift as functional gameplay: first a forest-only traversal proof in late `fern-hollow` into `log-run` using a sheltered lower lane instead of a true cave-engine rewrite, then notebook-style field requests built from journal, survey, and world-state evidence, then a world-map-context field-station ledger built on field credit rather than specimen selling. Keep sketchbook, broader sound, and close-look mode approved but lower priority than this lane."
+}

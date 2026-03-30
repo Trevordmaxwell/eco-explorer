@@ -1,0 +1,85 @@
+{
+  "packet_id": "ECO-PACKET-020",
+  "version": 2,
+  "created_at": "2026-03-29",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Bigger scout assignment: world continuity preproduction pack",
+  "summary": "Twentieth structured packet for Eco Explorer. The project now has several approved future directions that all point toward the same bigger feeling: a world that can be walked through, revisited, and noticed as one changing ecological gradient. Corridor travel, phenology, sound, map-return posts, notebook prompts, and field-partner cues had been scoped in isolation. The scout synthesis report is now complete and recommends one clear later grouping: after the authored field-partner cleanup and the first phenology pass, use the first `beach <-> coastal-scrub` corridor proof as the continuity spine, then let broader sound and map-return work follow the proof instead of preceding it.",
+  "source_reports": [
+    "docs/reports/2026-03-29-world-continuity-preproduction-sequence.md",
+    "docs/reports/2026-03-29-continuous-corridor-travel-sequence.md",
+    "docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md",
+    "docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md",
+    "docs/reports/2026-03-29-corridor-threshold-state-audit.md",
+    "docs/reports/2026-03-29-beach-orientation-fix-options.md",
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-phenology-grounding-handoff.md",
+    "docs/reports/2026-03-28-phenology-readiness-audit.md",
+    "docs/reports/2026-03-28-soundscape-direction-handoff.md",
+    "docs/reports/2026-03-29-field-partner-cue-bank-handoff.md",
+    "docs/reports/2026-03-29-world-continuity-preproduction-pack.md",
+    "docs/world-travel.md",
+    "docs/science-source-ledger.md"
+  ],
+  "queue_refs": [
+    "ECO-20260329-scout-30",
+    "ECO-20260329-main-46",
+    "ECO-20260329-critic-23",
+    "ECO-20260328-main-37",
+    "ECO-20260328-main-41",
+    "ECO-20260329-main-47",
+    "ECO-20260329-main-48"
+  ],
+  "depends_on": [
+    "ECO-20260329-scout-25",
+    "ECO-20260329-scout-26",
+    "ECO-20260329-scout-27",
+    "ECO-20260329-scout-28",
+    "ECO-20260328-scout-16",
+    "ECO-20260328-scout-21",
+    "ECO-20260329-scout-29"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260329-scout-30",
+      "goal": "Produce one cohesive world-continuity preproduction pack covering corridor travel, phenology visibility, sound opportunities, and quiet companion/prompt usage across the five-biome chain.",
+      "why_now": "This is the right bigger scout assignment: it stays planning-only, does not block the active main lane, and turns several already-approved future directions into one coherent implementation map."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate for shared species, transition ecology, and seasonal or phenology framing.",
+    "This is planning-only work; do not implement code.",
+    "Do not replace the world map with a fully stitched open world in the recommendation.",
+    "Keep corridor advice adjacent-pair oriented and threshold-aware.",
+    "Treat phenology as mood-first and authored, not as a heavy calendar simulation.",
+    "Treat sound as sparse and supportive, not constant.",
+    "Keep notebook-prompt and field-partner opportunities quiet by default and grounded in local readable evidence.",
+    "Protect `192x144` readability and the small playfield in every recommendation.",
+    "Prefer a few strong signals per transition over giant feature matrices."
+  ],
+  "file_targets": [
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/world-travel.md",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-03-29-continuous-corridor-travel-sequence.md",
+    "docs/reports/2026-03-28-living-world-sequence.md",
+    "docs/reports/2026-03-28-phenology-grounding-handoff.md",
+    "docs/reports/2026-03-28-phenology-readiness-audit.md",
+    "docs/reports/2026-03-28-soundscape-direction-handoff.md",
+    "docs/reports/2026-03-29-field-partner-cue-bank-handoff.md"
+  ],
+  "acceptance_focus": [
+    "Scout produces one coherent world-feel plan instead of more isolated sidecars.",
+    "Future corridor, phenology, sound, and companion work become easier to sequence and group.",
+    "The game's long-term direction stays centered on gradients, change over time, and quiet observation.",
+    "Later implementation packets can be chunkier and more confident because synthesis work happened up front."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-29-world-continuity-preproduction-sequence.md, docs/reports/2026-03-29-world-continuity-preproduction-pack.md, docs/reports/2026-03-29-continuous-corridor-travel-sequence.md, docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md, docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md, docs/reports/2026-03-29-corridor-threshold-state-audit.md, docs/reports/2026-03-29-beach-orientation-fix-options.md, docs/reports/2026-03-28-living-world-sequence.md, docs/reports/2026-03-28-phenology-grounding-handoff.md, docs/reports/2026-03-28-phenology-readiness-audit.md, docs/reports/2026-03-28-soundscape-direction-handoff.md, docs/reports/2026-03-29-field-partner-cue-bank-handoff.md, docs/world-travel.md, docs/science-source-ledger.md, and this packet. The synthesis is now done: treat the first `beach <-> coastal-scrub` corridor proof as the preferred post-phenology world-continuity bundle, keep the proof narrow and threshold-readable, and let broader sound plus later map-return work follow that proof instead of shipping in the same first pass."
+}

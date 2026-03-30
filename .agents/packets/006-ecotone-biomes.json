@@ -1,0 +1,159 @@
+{
+  "packet_id": "ECO-PACKET-006",
+  "version": 6,
+  "created_at": "2026-03-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Ecotone transition biomes: Coastal Scrub and Treeline",
+  "summary": "Sixth structured packet for Eco Explorer. Coastal Scrub and Treeline are now live in the five-biome chain between beach, forest, and tundra. The remaining work in this packet is the post-wiring science and polish layer: keep the Pacific coastal branch accurate, surface shared-species overlap clearly, harden the live route with better coverage, and finish the post-audit coastal cleanup.",
+  "source_reports": [
+    "docs/ecotone-design.md",
+    "docs/reports/2026-03-28-external-pack-reconciliation.md",
+    "docs/reports/2026-03-28-readability-pass-review.md",
+    "docs/reports/2026-03-28-treeline-review.md",
+    "docs/reports/2026-03-28-five-biome-chain-review.md",
+    "docs/reports/2026-03-28-live-biome-science-audit.md"
+  ],
+  "queue_refs": [
+    "ECO-20260328-main-14",
+    "ECO-20260328-critic-07",
+    "ECO-20260328-main-15",
+    "ECO-20260328-critic-11",
+    "ECO-20260328-main-21",
+    "ECO-20260328-main-17",
+    "ECO-20260328-main-16",
+    "ECO-20260328-critic-08",
+    "ECO-20260328-main-26",
+    "ECO-20260328-main-18",
+    "ECO-20260328-main-27",
+    "ECO-20260328-critic-10",
+    "ECO-20260328-main-28"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "main-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260328-main-14",
+      "goal": "Scaffold the Coastal Scrub biome in isolation with assets, biome data, and tests.",
+      "why_now": "Content-first scaffolding keeps the live runtime stable while making the new biome testable."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260328-critic-07",
+      "goal": "Review Coastal Scrub for science accuracy, gradient readability, and sprite legibility.",
+      "why_now": "Science accuracy is a hard gate and should be checked before Treeline scaffolding."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260328-main-15",
+      "goal": "Scaffold the Treeline biome in isolation with assets, biome data, and tests.",
+      "why_now": "Same pattern as Coastal Scrub: content first, wiring later."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260328-critic-11",
+      "goal": "Review Treeline for science accuracy, gradient readability, and any content-model mismatch that matters once it becomes live.",
+      "why_now": "Treeline introduces lichens and tundra-edge shared species, so one critique pass now is cheaper than fixing drift after travel wiring."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260328-main-21",
+      "goal": "Replace the current equal-width journal biome tabs with a selector that can survive the full five-biome chain.",
+      "why_now": "The current three-tab layout will not fit names like Coastal Scrub once the ecotones are wired live."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260328-main-17",
+      "goal": "Create a shared-species module or equally clear single-source pattern for species that appear in both parent biomes and ecotones.",
+      "why_now": "This prevents duplicate-content drift and protects journal behavior before the five-biome chain is wired."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260328-main-16",
+      "goal": "Wire both ecotones into the world map and live travel runtime.",
+      "why_now": "After both biomes are stable in isolation, connect the five-biome gradient chain."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260328-critic-08",
+      "goal": "Review the complete five-biome gradient chain.",
+      "why_now": "The travel flow and educational gradient only become clear when the full chain is live."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260328-main-26",
+      "goal": "Make the journal follow the focused world-map node when it is opened from the map.",
+      "why_now": "Now that the full route is live, the map and journal need to feel like one connected browsing loop instead of two separate modes."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260328-main-18",
+      "goal": "Let the journal surface multi-biome sightings for shared species without creating duplicate entries.",
+      "why_now": "This is where the ecotone lesson starts to feel visible to the player instead of staying hidden in content data."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260328-main-27",
+      "goal": "Add a true world-map travel smoke and sync the travel doc to the live content set.",
+      "why_now": "After the journal context and shared-species overlap are settled, the live route should be locked into tests and docs so future agents are not working from stale assumptions."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260328-critic-10",
+      "goal": "Run an explicit science-accuracy audit across the live biome set after the ecotone chain and journal updates land.",
+      "why_now": "The content surface is larger now, so factual drift should be checked directly instead of assumed away."
+    },
+    {
+      "step": 13,
+      "queue_id": "ECO-20260328-main-28",
+      "goal": "Fix the remaining Pacific coastal science mismatches surfaced by the audit.",
+      "why_now": "The five-biome route is now structurally sound, so the next best improvement is tightening the last two coastal accuracy issues instead of letting them linger."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy is a hard gate for every species, fact, and habitat pairing.",
+    "Pacific coastal content should use native anchor species unless the game intentionally teaches an introduced species as introduced.",
+    "Ecotone zones must read as left-to-right gradients, not arbitrary mixed-species lists.",
+    "The five-biome journal selector must stay readable at 192x144 instead of assuming the current three-tab math will hold forever.",
+    "Opening the journal from the world map should respect the place the player is actively browsing, not stale doorway-origin state.",
+    "Shared species should preserve entry IDs across parent biome and ecotone so the journal deduplicates correctly.",
+    "Do not destabilize the live runtime while scaffolding the first ecotone biome.",
+    "Keep the build green after each major step."
+  ],
+  "file_targets": [
+    "src/assets",
+    "src/content/biomes",
+    "src/content/world-map.ts",
+    "src/engine/game.ts",
+    "src/test",
+    "docs/ecotone-design.md",
+    "docs/world-travel.md",
+    "docs/content-authoring.md",
+    "docs/architecture.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The final ecosystem chain reads as a gradient: beach -> coastal-scrub -> forest -> treeline -> tundra.",
+    "Each ecotone teaches a distinct ecological concept through placement and content.",
+    "Shared species behave correctly in the journal and discovery flow.",
+    "Map browsing, journal context, and travel flow feel like one connected system instead of detached modes.",
+    "The Pacific beach-to-scrub branch avoids quietly teaching introduced or mismatched habitat content as if it were the default native pattern.",
+    "The new biomes feel like connected habitats, not side-theme levels."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/ecotone-design.md, and this packet. Start with Coastal Scrub as an isolated biome and keep the live runtime stable until both ecotones have tests."
+}

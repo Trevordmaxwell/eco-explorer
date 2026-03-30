@@ -1,7 +1,19 @@
 import type { WorldMapDefinition } from '../content/world-map';
 import { worldMapPalette } from '../assets/palette';
+import { formatBiomeSurveyStateLabel, type BiomeSurveyState } from './progression';
 import { drawSprite, type SpriteRegistry } from './sprites';
 import { buildRoutePoints, getWorldMapLocation, type WorldMapState } from './world-map';
+
+const WORLD_MAP_ART_WIDTH = 192;
+const WORLD_MAP_ART_HEIGHT = 144;
+
+function scaleMapWidth(definition: WorldMapDefinition, value: number): number {
+  return Math.round((value / WORLD_MAP_ART_WIDTH) * definition.width);
+}
+
+function scaleMapHeight(definition: WorldMapDefinition, value: number): number {
+  return Math.round((value / WORLD_MAP_ART_HEIGHT) * definition.height);
+}
 
 function fillPixelPanel(
   context: CanvasRenderingContext2D,
@@ -52,12 +64,29 @@ function drawFocusMarker(
   context.fillRect(x - 4, markerY + 4, 10, 2);
 }
 
+function drawRouteMarker(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  frameCount: number,
+): void {
+  const pulse = frameCount % 24 < 12 ? 0 : 1;
+
+  context.fillStyle = worldMapPalette.accent;
+  context.fillRect(x + 5, y - 8 - pulse, 2, 8);
+  context.fillRect(x + 7, y - 8 - pulse, 5, 2);
+  context.fillRect(x + 7, y - 6 - pulse, 4, 2);
+}
+
 export function drawWorldMapScene(
   context: CanvasRenderingContext2D,
   sprites: SpriteRegistry,
   definition: WorldMapDefinition,
   state: WorldMapState,
   frameCount: number,
+  focusedSurveyState: BiomeSurveyState = 'none',
+  routeMarkerLocationId: string | null = null,
+  routeReplayLabel: string | null = null,
 ): void {
   const gradient = context.createLinearGradient(0, 0, 0, definition.height);
   gradient.addColorStop(0, worldMapPalette.skyTop);
@@ -66,15 +95,51 @@ export function drawWorldMapScene(
   context.fillRect(0, 0, definition.width, definition.height);
 
   context.fillStyle = worldMapPalette.ocean;
-  context.fillRect(0, 84, 70, 60);
+  context.fillRect(0, scaleMapHeight(definition, 74), scaleMapWidth(definition, 82), scaleMapHeight(definition, 70));
   context.fillStyle = worldMapPalette.oceanDark;
-  context.fillRect(0, 92, 70, 52);
+  context.fillRect(0, scaleMapHeight(definition, 88), scaleMapWidth(definition, 70), scaleMapHeight(definition, 56));
+  context.fillStyle = worldMapPalette.beach;
+  context.fillRect(
+    scaleMapWidth(definition, 18),
+    scaleMapHeight(definition, 78),
+    scaleMapWidth(definition, 76),
+    scaleMapHeight(definition, 44),
+  );
+  context.fillStyle = worldMapPalette.scrub;
+  context.fillRect(
+    scaleMapWidth(definition, 58),
+    scaleMapHeight(definition, 64),
+    scaleMapWidth(definition, 58),
+    scaleMapHeight(definition, 34),
+  );
   context.fillStyle = worldMapPalette.landLight;
-  context.fillRect(24, 52, 152, 78);
-  context.fillStyle = worldMapPalette.landDark;
-  context.fillRect(58, 28, 120, 62);
+  context.fillRect(
+    scaleMapWidth(definition, 88),
+    scaleMapHeight(definition, 48),
+    scaleMapWidth(definition, 54),
+    scaleMapHeight(definition, 40),
+  );
   context.fillStyle = worldMapPalette.forest;
-  context.fillRect(84, 34, 82, 42);
+  context.fillRect(
+    scaleMapWidth(definition, 102),
+    scaleMapHeight(definition, 36),
+    scaleMapWidth(definition, 52),
+    scaleMapHeight(definition, 40),
+  );
+  context.fillStyle = worldMapPalette.ridge;
+  context.fillRect(
+    scaleMapWidth(definition, 132),
+    scaleMapHeight(definition, 24),
+    scaleMapWidth(definition, 34),
+    scaleMapHeight(definition, 28),
+  );
+  context.fillStyle = worldMapPalette.snowcap;
+  context.fillRect(
+    scaleMapWidth(definition, 150),
+    scaleMapHeight(definition, 10),
+    scaleMapWidth(definition, 28),
+    scaleMapHeight(definition, 22),
+  );
 
   for (const connection of definition.connections) {
     const route = buildRoutePoints(definition, [connection.from, connection.to]);
@@ -83,6 +148,10 @@ export function drawWorldMapScene(
 
   for (const location of definition.locations) {
     drawSprite(context, sprites, location.spriteId, location.mapDoor.x, location.mapDoor.y);
+
+    if (location.id === routeMarkerLocationId) {
+      drawRouteMarker(context, location.node.x, location.node.y, frameCount);
+    }
 
     if (location.id === state.focusedLocationId) {
       drawFocusMarker(context, location.node.x, location.node.y, frameCount);
@@ -116,6 +185,17 @@ export function drawWorldMapScene(
   context.font = 'bold 8px Verdana, Geneva, sans-serif';
   context.fillStyle = worldMapPalette.text;
   context.fillText(focused.label.toUpperCase(), 14, definition.height - 24);
+  const surveyLabel = formatBiomeSurveyStateLabel(focusedSurveyState);
+  if (surveyLabel) {
+    context.font = 'bold 7px Verdana, Geneva, sans-serif';
+    context.fillStyle = worldMapPalette.accent;
+    context.fillText(
+      surveyLabel,
+      definition.width - 14 - context.measureText(surveyLabel).width,
+      definition.height - 24,
+    );
+  }
   context.font = 'bold 7px Verdana, Geneva, sans-serif';
-  context.fillText(focused.summary, 14, definition.height - 14);
+  context.fillStyle = routeReplayLabel ? worldMapPalette.accent : worldMapPalette.text;
+  context.fillText(routeReplayLabel ?? focused.summary, 14, definition.height - 14);
 }

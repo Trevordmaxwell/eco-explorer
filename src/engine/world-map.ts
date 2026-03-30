@@ -133,6 +133,18 @@ function findLocationRoute(
   return null;
 }
 
+export function getWorldMapRouteLocationIds(
+  definition: WorldMapDefinition,
+  fromId: string,
+  toId: string,
+): string[] {
+  const routeIds = findLocationRoute(definition, fromId, toId);
+  if (!routeIds) {
+    throw new Error(`No world-map route exists between "${fromId}" and "${toId}".`);
+  }
+  return routeIds;
+}
+
 export function buildRoutePoints(
   definition: WorldMapDefinition,
   locationIds: string[],
@@ -315,8 +327,10 @@ export function beginWorldMapWalk(
     return false;
   }
 
-  const routeIds = findLocationRoute(definition, state.currentLocationId, targetLocationId);
-  if (!routeIds) {
+  let routeIds: string[];
+  try {
+    routeIds = getWorldMapRouteLocationIds(definition, state.currentLocationId, targetLocationId);
+  } catch {
     return false;
   }
 

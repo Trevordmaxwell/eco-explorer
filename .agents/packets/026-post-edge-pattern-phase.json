@@ -1,0 +1,125 @@
+{
+  "packet_id": "ECO-PACKET-026",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Post-Edge Pattern chapter-building phase",
+  "summary": "Twenty-sixth structured packet for Eco Explorer. With `Edge Pattern Line` in flight, the next high-leverage phase is to turn the third route, nursery, front-half exploration, and station board into one stronger chapter of play. The work should review the route, deepen it with transition-driven content fuel, add one short front-half sheltered traversal proof, and then tighten the field-station board for three-route readability and stopping-point cues.",
+  "source_reports": [
+    "docs/reports/2026-03-30-post-edge-pattern-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-main-75",
+    "ECO-20260330-scout-45",
+    "ECO-20260330-scout-46",
+    "ECO-20260330-scout-47",
+    "ECO-20260330-critic-53",
+    "ECO-20260330-main-76",
+    "ECO-20260330-critic-54",
+    "ECO-20260330-main-77",
+    "ECO-20260330-critic-55",
+    "ECO-20260330-main-78",
+    "ECO-20260330-critic-56"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-75"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-45",
+      "goal": "Prepare the transition-content matrix for `Edge Pattern Line`, including discoveries, note hooks, comparison anchors, and nursery-aware clue moments.",
+      "why_now": "The third route should be deepened through authored content rather than another new system."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-critic-53",
+      "goal": "Review `Edge Pattern Line` as the first post-nursery route and confirm it reads as a transition chapter.",
+      "why_now": "The route shell needs one clean critique gate before follow-on content grows around it."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-main-76",
+      "goal": "Deepen `Edge Pattern Line` with transition-driven content fuel.",
+      "why_now": "The route should teach pattern change through discoveries, notes, and comparisons rather than only through board structure."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-46",
+      "goal": "Prepare one front-half sheltered traversal proof for the beach or coastal branch.",
+      "why_now": "The front half of the world still needs its own readable movement identity."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-critic-54",
+      "goal": "Review the transition-content fuel for science quality and route clarity.",
+      "why_now": "This is the point where the route can either deepen the game or just inflate counts."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-main-77",
+      "goal": "Add one short front-half sheltered traversal proof.",
+      "why_now": "A small optional lower route or shelter lane is the most efficient way to broaden exploration feel without a cave-system rewrite."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-47",
+      "goal": "Prepare three-route field-station board scaling and stopping-point cues.",
+      "why_now": "Once three routes are live, the station needs better episode closure without becoming a dashboard."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-critic-55",
+      "goal": "Review the front-half traversal proof for readability, difficulty, and habitat fit.",
+      "why_now": "The extra traversal identity is valuable only if it stays gentle and readable."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-main-78",
+      "goal": "Refine the field station for three-route readability and stopping points.",
+      "why_now": "The station now needs one compact chapter-shaping pass more than it needs another new progression system."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-critic-56",
+      "goal": "Review the three-route station board for compactness, warmth, and chapter feel.",
+      "why_now": "The phase is successful only if the station remains a calm notebook base instead of drifting into management UI."
+    }
+  ],
+  "guardrails": [
+    "Do not add a fourth route in this phase.",
+    "Do not broaden the nursery into freeform base-building or a larger resource economy.",
+    "Keep front-half traversal curiosity-forward and avoid hard platforming spikes.",
+    "Do not generalize into a cave or overhang engine in this phase.",
+    "Keep the field station compact, readable at 256x160, and episode-shaped rather than dashboard-like.",
+    "Use authored discoveries, notes, prompts, and comparisons to teach transition patterns instead of bolting on a new progression surface."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/world-map-render.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The third route feels like a real transition chapter instead of only another board entry.",
+    "The front half of the world gains one readable sheltered traversal identity without a runtime rewrite.",
+    "Three-route station play remains calm, compact, and satisfying at 256x160."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/reports/2026-03-30-post-edge-pattern-phase.md, and this packet. Treat Edge Pattern Line as the current active route and use this packet to line up the next cohesive chapter-building phase: review the route, deepen its transition content, add one front-half sheltered traversal proof, and then tighten the station board for three-route readability."
+}

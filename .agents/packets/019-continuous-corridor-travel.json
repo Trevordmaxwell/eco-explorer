@@ -1,0 +1,138 @@
+{
+  "packet_id": "ECO-PACKET-019",
+  "version": 5,
+  "created_at": "2026-03-29",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Approved future travel direction: hybrid continuous biome corridors plus optional world map",
+  "summary": "Nineteenth structured packet for Eco Explorer. The user approved a future direction where neighboring ecosystems can be walked between continuously instead of always requiring the world map. The recommended shape is hybrid, not replacement: keep the current world map as optional fast travel and orientation, but add authored adjacent-biome blend corridors so the player can walk through visible habitat change. The first `beach <-> coastal-scrub` proof has now survived its stabilization follow-up review: threshold pacing no longer inflates biome visits or `worldStep`, the beach side uses a dedicated inland-facing corridor door, and the next active corridor step is the full adjacent-chain expansion.",
+  "source_reports": [
+    "docs/world-travel.md",
+    "docs/reports/2026-03-29-continuous-corridor-travel-sequence.md",
+    "docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md",
+    "docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md",
+    "docs/reports/2026-03-29-corridor-threshold-state-audit.md",
+    "docs/reports/2026-03-29-beach-orientation-fix-options.md",
+    "docs/reports/2026-03-29-first-corridor-proof-review.md",
+    "docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md",
+    "docs/ecotone-design.md",
+    "docs/science-source-ledger.md"
+  ],
+  "queue_refs": [
+    "ECO-20260329-scout-25",
+    "ECO-20260329-scout-26",
+    "ECO-20260329-scout-27",
+    "ECO-20260329-scout-28",
+    "ECO-20260329-main-46",
+    "ECO-20260329-critic-23",
+    "ECO-20260329-main-54",
+    "ECO-20260329-critic-31",
+    "ECO-20260329-main-47",
+    "ECO-20260329-critic-24",
+    "ECO-20260329-main-48"
+  ],
+  "depends_on": [
+    "ECO-20260327-main-03",
+    "ECO-20260328-main-16"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260329-scout-25",
+      "goal": "Ground the hybrid corridor model, first proof pair, and map-return cadence.",
+      "why_now": "This gives the project a durable travel direction without derailing the current living-world implementation lane."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260329-main-46",
+      "goal": "Build one adjacent walkable corridor between `beach` and `coastal-scrub` while keeping the map intact.",
+      "why_now": "That pair is the safest science-safe visual proof and already has shared edge species and ecotone logic."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260329-critic-23",
+      "goal": "Review the corridor proof for ecology clarity, readability, and coexistence with the map.",
+      "why_now": "The corridor model should be criticized before it gets generalized into a wider travel refactor."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260329-main-54",
+      "goal": "Stabilize the first corridor proof so threshold pacing does not distort living-world state and the beach-side entry reads more naturally before expansion.",
+      "why_now": "The first critique found that the seam art is good enough to keep, but the ownership bookkeeping and entry framing still need one corrective pass before this model spreads to the whole chain."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260329-critic-31",
+      "goal": "Re-review the stabilized corridor proof before any full-chain expansion wakes up.",
+      "why_now": "The project should only generalize the corridor model after the first seam survives a second pass focused on state stability and entry readability."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260329-main-47",
+      "goal": "Generalize continuous corridor travel to the full adjacent biome chain.",
+      "why_now": "The stabilized first seam now reviews cleanly, so the next leverage is turning the route into a truly walkable habitat gradient instead of a single special case."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260329-critic-24",
+      "goal": "Review the full chain for pacing, science coherence, and UI/orchestration strain.",
+      "why_now": "A chain-wide corridor pass can introduce state and readability drift that the first proof would not expose."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260329-main-48",
+      "goal": "Add authored map-return posts or doors at consistent intervals so the map becomes optional, not missing.",
+      "why_now": "The walking chain works best when players can still exit to a bigger navigation layer without walking the whole route every time."
+    }
+  ],
+  "guardrails": [
+    "Science accuracy remains a hard gate for transition-zone species, facts, and ecology framing.",
+    "Do not replace the world map outright in the first pass.",
+    "Do not attempt a giant stitched five-biome super-level as the first implementation.",
+    "Use one clear biome-ownership threshold plus a longer visual blend band so state remains understandable.",
+    "Favor adjacent pair corridors over global travel rewrites.",
+    "Keep the first proof focused on `beach` and `coastal-scrub`.",
+    "Treat the first proof as a dedicated seam scene, not a direct connection between the current live biome exits.",
+    "Do not wire the current beach right-side exit directly into `coastal-scrub`; the proof must account for the beach strip currently facing seaward on its right edge.",
+    "Keep the first corridor proof edge-focused: beach dune-edge into coastal back-dune with only the earliest scrub cues, not a full mixed-biome roster.",
+    "Let terrain, parallax, and decor blend before the threshold, but switch save, journal, field-guide, note, prompt, and weather ownership once at the threshold.",
+    "Do not add a separate saved corridor biome id in the first proof.",
+    "Threshold ownership and visit accounting are separate concerns: pacing back and forth inside the same corridor session must not repeatedly advance `worldStep`, visits, weather, or phenology.",
+    "The first corridor proof should not let repeated threshold oscillation act like a hidden time-skip or biome-refresh mechanic.",
+    "Map-return access should be authored and calm, not cluttered or constant.",
+    "For later map-return work, prefer one stable interior post per corridor-enabled biome instead of placing a post at every threshold.",
+    "Blend zones should read through art, decor, terrain, and shared species rather than through HUD explanation.",
+    "The first pass should preserve the current save model, journal logic, and deterministic world-state seam as much as possible.",
+    "The beach-side entry of the first proof should read as inland continuity strongly enough that the player is not effectively walking into the seam from the live tide-side exit framing.",
+    "This sequence is approved future work and should not preempt the currently active living-world lane."
+  ],
+  "file_targets": [
+    "docs/world-travel.md",
+    "docs/reports/2026-03-29-continuous-corridor-travel-sequence.md",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "src/content/world-map.ts",
+    "src/content/biomes",
+    "src/engine/game.ts",
+    "src/engine/generation.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/door-transition.ts",
+    "src/engine/world-map.ts",
+    "src/test"
+  ],
+  "acceptance_focus": [
+    "The project gains a durable, grounded plan for continuous ecosystem walking.",
+    "The map remains useful as optional fast travel and orientation.",
+    "Transition zones deepen the game's ecosystem-gradient identity instead of turning into generic level joins.",
+    "Future implementation can start from one safe adjacent proof instead of a risky world rewrite."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/project-memory.md, .agents/work-queue.md, docs/world-travel.md, docs/reports/2026-03-29-continuous-corridor-travel-sequence.md, docs/reports/2026-03-29-hybrid-corridor-travel-handoff.md, docs/reports/2026-03-29-corridor-edge-content-matrix-handoff.md, docs/reports/2026-03-29-corridor-threshold-state-audit.md, docs/reports/2026-03-29-beach-orientation-fix-options.md, docs/reports/2026-03-29-first-corridor-proof-review.md, docs/reports/2026-03-29-corridor-stabilization-follow-up-review.md, docs/ecotone-design.md, docs/science-source-ledger.md, and this packet. Treat continuous travel as a hybrid future direction: keep the world map for optional fast travel, but let adjacent-biome blend corridors become walkable without hard cuts. The first `beach <-> coastal-scrub` seam now reviews cleanly after stabilization, so `main-47` is the active next step for expanding the model across the full adjacent chain."
+}

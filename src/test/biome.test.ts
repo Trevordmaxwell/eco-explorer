@@ -1,11 +1,20 @@
 import { describe, expect, it } from 'vitest';
 import { beachBiome } from '../content/biomes/beach';
+import { coastalScrubBiome } from '../content/biomes/coastal-scrub';
 import { forestBiome } from '../content/biomes/forest';
+import { treelineBiome } from '../content/biomes/treeline';
 import { tundraBiome } from '../content/biomes/tundra';
 import { generateBiomeInstance, validateBiomeDefinition } from '../engine/generation';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
 
-const authoredBiomes = [beachBiome, forestBiome, tundraBiome];
+const authoredBiomes = [beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome];
+const phaseTwoEntryIdsByBiome: Record<string, string[]> = {
+  beach: ['western-snowy-plover', 'bull-kelp-wrack'],
+  'coastal-scrub': ['coyote-brush', 'beach-strawberry'],
+  forest: ['western-trillium', 'pileated-woodpecker'],
+  treeline: ['moss-campion', 'hoary-marmot'],
+  tundra: ['woolly-lousewort', 'northern-collared-lemming'],
+};
 
 describe('authored biome definitions', () => {
   it('have valid spawn references and metadata', () => {
@@ -29,6 +38,19 @@ describe('authored biome definitions', () => {
         }
 
         expect(entry.scientificName.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('keeps the phase-two density discoveries live in each biome', () => {
+    for (const biome of authoredBiomes) {
+      const spawnEntryIds = new Set(
+        biome.spawnTables.flatMap((table) => table.entries.map((entry) => entry.entryId)),
+      );
+
+      for (const entryId of phaseTwoEntryIdsByBiome[biome.id]) {
+        expect(biome.entries[entryId]).toBeDefined();
+        expect(spawnEntryIds.has(entryId)).toBe(true);
       }
     }
   });
@@ -68,15 +90,18 @@ describe('biome generation', () => {
 });
 
 describe('journal discovery', () => {
-  it('records a discovery once and ignores repeats', () => {
+  it('records a discovery once and expands it with new biome sightings', () => {
     const save = createNewSaveState('journal-seed');
-    const entry = beachBiome.entries['coquina-shell'];
+    const entry = beachBiome.entries['beach-grass'];
 
     const first = recordDiscovery(save, entry, 'beach');
     const second = recordDiscovery(save, entry, 'beach');
+    const third = recordDiscovery(save, entry, 'coastal-scrub');
 
     expect(first).toBe(true);
     expect(second).toBe(false);
-    expect(Object.keys(save.discoveredEntries)).toEqual(['coquina-shell']);
+    expect(third).toBe(false);
+    expect(save.discoveredEntries['beach-grass'].biomeIds).toEqual(['beach', 'coastal-scrub']);
+    expect(Object.keys(save.discoveredEntries)).toEqual(['beach-grass']);
   });
 });
