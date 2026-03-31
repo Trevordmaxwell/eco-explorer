@@ -39,6 +39,7 @@ Lane 1 currently owns:
 - the first deeper forest expedition chapter
 - season-capstone closure and next-season handoff
 - compact station growth instead of a larger quest shell
+- pre-playthrough first-session clarity and standalone polish
 
 ## Success Condition
 

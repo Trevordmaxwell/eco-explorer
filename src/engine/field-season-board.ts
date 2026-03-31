@@ -90,6 +90,7 @@ function hasCompletedRequest(save: SaveState, requestId: string): boolean {
 }
 
 const FOREST_EXPEDITION_CHAPTER_REQUEST_ID = 'forest-expedition-upper-run';
+const FOREST_EXPEDITION_EVIDENCE_TOTAL = 4;
 
 function getExpeditionChapterProgress(save: SaveState) {
   return save.routeV2Progress?.requestId === FOREST_EXPEDITION_CHAPTER_REQUEST_ID
@@ -756,12 +757,15 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
     } else if (expeditionNotebookReady) {
       summary = 'Root Hollow is ready to file. Return to the field station and log the chapter.';
       nextDirection = 'Next: return to the field station and file the Root Hollow note.';
-    } else if (expeditionEvidenceCount >= 2) {
+    } else if (expeditionEvidenceCount >= 3) {
       summary = 'Root Hollow is nearly filed. Carry the high run back into Log Run.';
       nextDirection = 'Next: follow the high return into Log Run.';
+    } else if (expeditionEvidenceCount >= 2) {
+      summary = 'Root Hollow is underway. Climb from the stone pocket toward the root-held return.';
+      nextDirection = 'Next: climb through Root Hollow to the root-held return.';
     } else if (expeditionStarted) {
-      summary = 'Root Hollow is underway. Climb from the seep mark toward the root-held return.';
-      nextDirection = 'Next: climb through Root Hollow to the root-held clue.';
+      summary = 'Root Hollow is underway. Drop below the climb and read the stone pocket.';
+      nextDirection = 'Next: drop into the stone pocket below the climb.';
     } else {
       summary = 'Edge line logged. Next: open the Root Hollow expedition.';
       nextDirection = 'Next: open the Root Hollow expedition from the field station.';
@@ -827,13 +831,15 @@ export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null 
           ? 'Next: file the season at the station.'
           : hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
             ? 'Next: tie coast and hollow in Forest Trail.'
-          : isExpeditionNotebookReady(save)
-            ? 'Next: file the Root Hollow note.'
-            : getExpeditionEvidenceCount(save) >= 2
+            : isExpeditionNotebookReady(save)
+              ? 'Next: file the Root Hollow note.'
+            : getExpeditionEvidenceCount(save) >= 3
               ? 'Next: follow the Root Hollow high return.'
-              : getExpeditionEvidenceCount(save) >= 1
-                ? 'Next: climb through Root Hollow.'
-              : 'Next: open Root Hollow below the forest.'
+              : getExpeditionEvidenceCount(save) >= 2
+                ? 'Next: climb toward the root-held return.'
+                : getExpeditionEvidenceCount(save) >= 1
+                  ? 'Next: drop into the stone pocket below.'
+                : 'Next: open Root Hollow below the forest.'
         : hasCompletedRequest(save, 'tundra-survey-slice')
           ? 'Next: follow the low-fell edge line.'
           : loggedRoutes.length > 1
@@ -919,9 +925,9 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         title: 'ROOT HOLLOW',
         status,
         statusLabel: 'LOGGED',
-        summary: 'The forest chapter is filed from seep mark to the high run.',
+        summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
         startText: 'Forest Trail to Root Hollow',
-        note: 'Revisit for seep shelter, root-held cover, and high-run clues.',
+        note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
         teaser: resolveNextSeasonSetupTeaser(save),
       };
     case 'active':
@@ -929,20 +935,24 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         id: 'root-hollow-expedition',
         title: 'ROOT HOLLOW',
         status,
-        statusLabel: expeditionNotebookReady ? 'NOTE READY' : `${expeditionEvidenceCount}/3`,
+        statusLabel: expeditionNotebookReady ? 'NOTE READY' : `${expeditionEvidenceCount}/${FOREST_EXPEDITION_EVIDENCE_TOTAL}`,
         summary:
           expeditionNotebookReady
-            ? 'The chapter is ready to file from seep mark to high run.'
-            : expeditionEvidenceCount >= 2
-              ? 'The seep mark and root-held clue are logged. One high-run clue still leads back into the open forest.'
-              : 'The seep mark is logged. The climb now leads toward the root-held return above the seep floor.',
+            ? 'The chapter is ready to file from seep mark through the stone pocket and root-held return to the high run.'
+            : expeditionEvidenceCount >= 3
+              ? 'The seep mark, stone-pocket clue, and root-held clue are logged. One high-run clue still leads back into the open forest.'
+              : expeditionEvidenceCount >= 2
+                ? 'The seep mark and stone-pocket clue are logged. Climb toward the root-held return above the seep floor.'
+                : 'The seep mark is logged. Drop into the stone pocket below the climb.',
         startText: 'Forest Trail to Root Hollow',
         note:
           expeditionNotebookReady
             ? 'Next: file the Root Hollow note at the field station.'
-            : expeditionEvidenceCount >= 2
+            : expeditionEvidenceCount >= 3
               ? 'Next: follow the high return into Log Run.'
-              : 'Next: climb through Root Hollow to the root-held return.',
+              : expeditionEvidenceCount >= 2
+                ? 'Next: climb through Root Hollow to the root-held return.'
+                : 'Next: drop into the stone pocket below the climb.',
         teaser: null,
       };
     case 'ready':
@@ -951,7 +961,7 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         title: 'ROOT HOLLOW',
         status,
         statusLabel: 'READY',
-        summary: 'One deeper forest chapter is staged from seep mark through root-held return to the high run.',
+        summary: 'One deeper forest chapter is staged from seep mark through the stone pocket and root-held return to the high run.',
         startText: 'Forest Trail to Root Hollow',
         note: 'Start when you want a longer forest outing.',
         teaser: null,

@@ -384,15 +384,20 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     id: 'forest-expedition-upper-run',
     biomeId: 'forest',
     title: 'Root Hollow',
-    summary: 'In Root Hollow, log seep-mark, root-held, and high-run clues before filing the chapter.',
+    summary: 'Log seep-mark, stone-pocket, root-held, and high-run clues in Root Hollow, then file the note.',
     unlockAfter: ['treeline-low-fell'],
     type: 'assemble-evidence',
-    zoneIds: ['root-hollow', 'seep-pocket', 'filtered-return', 'log-run'],
+    zoneIds: ['root-hollow', 'seep-pocket', 'stone-basin', 'filtered-return', 'log-run'],
     evidenceSlots: [
       {
         id: 'seep-mark',
         label: 'Seep-mark clue',
         entryIds: ['seep-stone'],
+      },
+      {
+        id: 'stone-pocket',
+        label: 'Stone-pocket clue',
+        entryIds: ['banana-slug', 'ensatina'],
       },
       {
         id: 'root-held',
@@ -405,7 +410,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
         entryIds: ['fir-cone'],
       },
     ],
-    slotOrder: ['seep-mark', 'root-held', 'high-run'],
+    slotOrder: ['seep-mark', 'stone-pocket', 'root-held', 'high-run'],
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Root Hollow note.',

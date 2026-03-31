@@ -1,5 +1,6 @@
 import type { DoorAnchor } from '../content/world-map';
 import { masterPalette } from '../assets/palette';
+import { findClimbHintTarget } from './climb-navigation';
 import { getCorridorVisuals, type CorridorVisualSpec } from './corridor';
 import type { DoorTransitionSnapshot } from './door-transition';
 import { sampleTerrainY } from './generation';
@@ -787,23 +788,12 @@ function getClimbHintTarget(
     return null;
   }
 
-  const centerX = player.x + 5;
-  const playerTop = player.y;
-  const playerBottom = player.y + 10;
-
-  for (const climbable of biomeInstance.climbables) {
-    if (centerX < climbable.x - 3 || centerX > climbable.x + climbable.w + 3) {
-      continue;
-    }
-
-    if (playerBottom < climbable.y || playerTop > climbable.y + climbable.h) {
-      continue;
-    }
-
-    return climbable;
-  }
-
-  return null;
+  return findClimbHintTarget(biomeInstance.climbables, {
+    x: player.x,
+    y: player.y,
+    width: 10,
+    height: 10,
+  });
 }
 
 export function drawBiomeScene({

@@ -41,6 +41,7 @@ Current emphasis:
 - archive and sketchbook payoff through existing surfaces
 - note-backed comparison and close-look growth
 - science-ledger and content-quality support for new authored spaces
+- pre-playthrough review-first freeze unless a real blocker is found in active route content
 
 ## Success Condition
 

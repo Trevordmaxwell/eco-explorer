@@ -114,11 +114,11 @@ export function resolveGuidedFieldSeasonState(
       stage: 'station-return',
       stationNote: {
         title: 'RETURN TO STATION',
-        text: 'Forest Trail is logged. Open the world-map field station and pick up Trail Stride for longer walks.',
+        text: 'Forest Trail is logged. Use the menu for World map, then stop at the field station for Trail Stride.',
       },
       promptNotice: {
         title: 'FIELD STATION',
-        text: 'Open the world-map field station for new support.',
+        text: 'Menu to World map, then Field station.',
       },
       nextBiomeId: null,
     };
@@ -150,7 +150,7 @@ export function resolveGuidedFieldSeasonState(
     },
     promptNotice: {
       title: 'NOTEBOOK TASK',
-      text: 'Travel to Forest Trail and find Hidden Hollow.',
+      text: 'Menu to World map, then Forest Trail.',
     },
     nextBiomeId: 'forest',
   };

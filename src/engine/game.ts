@@ -66,6 +66,7 @@ import { resolveGuidedFieldSeasonState } from './guided-field-season';
 import { createAudioEngine, resolveAmbientProfileId } from './audio';
 import { drawBiomeScene } from './biome-scene-render';
 import { buildCloseLookPayload } from './close-look';
+import { findClimbGrabTarget, findClimbHintTarget } from './climb-navigation';
 import { generateBiomeInstance, sampleTerrainY } from './generation';
 import { InputController } from './input';
 import { getInspectableDetail } from './inspectables';
@@ -100,6 +101,7 @@ import {
   drawHabitatChip,
   drawFieldPartnerNotice,
   drawFieldGuideNotice,
+  drawFieldRequestHintChip,
   drawFieldRequestNotice,
   drawFieldStationOverlay,
   drawJournalOverlay,
@@ -168,6 +170,10 @@ const GRAVITY = 320;
 const INSPECT_RANGE = 22;
 const CAMERA_X_FOCUS_RATIO = 0.35;
 const CAMERA_FOOT_PADDING = 28;
+const CAMERA_CLIMB_FOOT_PADDING = 18;
+const FIELD_NOTICE_DEFAULT_SECONDS = 4.2;
+const FIELD_NOTICE_IMPORTANT_SECONDS = 4.8;
+const FIELD_NOTICE_RECORDED_SECONDS = 3.8;
 const FIELD_PARTNER_NOTICE_SECONDS = 3.2;
 const FIELD_PARTNER_GLOBAL_COOLDOWN_SECONDS = 20;
 const FIELD_PARTNER_POST_OVERLAY_QUIET_SECONDS = 2.4;
@@ -417,7 +423,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function openMenu(returnMode: 'title' | 'playing' | 'journal'): void {
     menuReturnMode = returnMode;
     overlayMode = 'menu';
-    selectedMenuActionId = 'toggle-fullscreen';
+    selectedMenuActionId = getDefaultMenuActionId();
     showResetConfirmation = false;
     clearInspectSurface();
     startFieldPartnerQuiet();
@@ -613,6 +619,35 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         ];
   }
 
+  function getDefaultMenuActionId(): MenuActionId {
+    const available = getMenuActionIds();
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+
+    if (
+      menuReturnMode === 'playing' &&
+      sceneMode === 'biome' &&
+      (guidedFieldSeason.stage === 'starter' || guidedFieldSeason.stage === 'station-return') &&
+      available.includes('world-map')
+    ) {
+      return 'world-map';
+    }
+
+    if (
+      menuReturnMode === 'playing' &&
+      sceneMode === 'world-map' &&
+      guidedFieldSeason.stage === 'station-return' &&
+      available.includes('field-station')
+    ) {
+      return 'field-station';
+    }
+
+    if (available.includes('toggle-fullscreen')) {
+      return 'toggle-fullscreen';
+    }
+
+    return available[0] ?? 'toggle-fullscreen';
+  }
+
   function ensureMenuSelection(): void {
     const available = getMenuActionIds();
     if (!available.includes(selectedMenuActionId)) {
@@ -688,24 +723,13 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return currentBiome.climbables.find((climbable) => climbable.id === climbableId) ?? null;
   }
 
-  function getOverlappingClimbable(playerState = player): Climbable | null {
-    const centerX = playerState.x + PLAYER_WIDTH / 2;
-    const playerTop = playerState.y;
-    const playerBottom = playerState.y + PLAYER_HEIGHT;
-
-    for (const climbable of currentBiome.climbables) {
-      if (centerX < climbable.x - 3 || centerX > climbable.x + climbable.w + 3) {
-        continue;
-      }
-
-      if (playerBottom < climbable.y || playerTop > climbable.y + climbable.h) {
-        continue;
-      }
-
-      return climbable;
-    }
-
-    return null;
+  function getReachableClimbable(playerState = player): Climbable | null {
+    return findClimbGrabTarget(currentBiome.climbables, {
+      x: playerState.x,
+      y: playerState.y,
+      width: PLAYER_WIDTH,
+      height: PLAYER_HEIGHT,
+    });
   }
 
   function alignPlayerToClimbable(climbable: Climbable): void {
@@ -726,7 +750,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return null;
     }
 
-    return getOverlappingClimbable();
+    return findClimbHintTarget(currentBiome.climbables, {
+      x: player.x,
+      y: player.y,
+      width: PLAYER_WIDTH,
+      height: PLAYER_HEIGHT,
+    });
   }
 
   function getCurrentMapLocation() {
@@ -961,7 +990,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       0,
       Math.max(0, currentBiome.width - WIDTH),
     );
-    const focusY = targetY + PLAYER_HEIGHT - (HEIGHT - CAMERA_FOOT_PADDING);
+    const footPadding = player.climbing ? CAMERA_CLIMB_FOOT_PADDING : CAMERA_FOOT_PADDING;
+    const focusY = targetY + PLAYER_HEIGHT - (HEIGHT - footPadding);
     cameraY = clamp(Math.round(focusY), 0, Math.max(0, currentBiome.height - HEIGHT));
   }
 
@@ -1139,7 +1169,23 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return resolveActiveFieldRequest(getFieldRequestContext());
   }
 
-  function showFieldNotice(title: string, text: string, seconds = 2.8): void {
+  function getFieldRequestHint() {
+    if (overlayMode !== 'playing' || sceneMode !== 'biome' || fieldRequestNotice) {
+      return null;
+    }
+
+    const activeFieldRequest = getActiveFieldRequest();
+    if (!activeFieldRequest) {
+      return null;
+    }
+
+    return {
+      label: 'NOTEBOOK J',
+      title: activeFieldRequest.title,
+    };
+  }
+
+  function showFieldNotice(title: string, text: string, seconds = FIELD_NOTICE_DEFAULT_SECONDS): void {
     startFieldPartnerQuiet();
     fieldRequestNotice = {
       title,
@@ -1154,7 +1200,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return;
     }
 
-    showFieldNotice('TASK RECORDED', definition.title);
+    showFieldNotice('TASK RECORDED', definition.title, FIELD_NOTICE_RECORDED_SECONDS);
   }
 
   function maybeShowStarterFieldSeasonNotice(): void {
@@ -1164,7 +1210,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     guidedStarterNoticeShown = true;
-    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeShowStationReturnNotice(): void {
@@ -1174,7 +1220,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     guidedStationNoticeShown = true;
-    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.2);
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeShowSeasonCapstoneNoticeOnBiomeEnter(biomeId: string): void {
@@ -1190,7 +1236,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     guidedSeasonCapstoneNoticeShown = true;
-    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeShowSeasonCloseNotice(): void {
@@ -1200,7 +1246,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     guidedSeasonCloseNoticeShown = true;
-    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.4);
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeShowWorldMapFieldSeasonNotice(): void {
@@ -1215,7 +1261,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     guidedNextStopNoticeShown = true;
-    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeShowRouteReplayNoticeOnBiomeEnter(biomeId: string): void {
@@ -1228,7 +1274,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return;
     }
 
-    showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, 3.2);
+    showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
   function maybeCompleteActiveFieldRequest(
@@ -1245,7 +1291,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       showFieldNotice(
         result.noticeTitle ?? 'NOTEBOOK READY',
         result.noticeText ?? 'Return to the field station and file this note.',
-        3.2,
+        FIELD_NOTICE_IMPORTANT_SECONDS,
       );
       return;
     }
@@ -2704,7 +2750,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     let handledClimbing = false;
 
     if (!player.climbing && (moveUp || moveDown)) {
-      const climbable = getOverlappingClimbable();
+      const climbable = getReachableClimbable();
       if (climbable) {
         player.climbing = true;
         player.activeClimbableId = climbable.id;
@@ -2716,7 +2762,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     if (player.climbing) {
-      const climbable = getClimbableById(player.activeClimbableId) ?? getOverlappingClimbable();
+      const climbable = getClimbableById(player.activeClimbableId) ?? getReachableClimbable();
       if (!climbable) {
         stopClimbing();
       } else if (moveLeft !== moveRight) {
@@ -2779,7 +2825,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         player.onGround = false;
       }
 
-      if (player.climbing && !getOverlappingClimbable()) {
+      if (player.climbing && !getReachableClimbable()) {
         stopClimbing();
       }
     }
@@ -3184,6 +3230,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       label: getCurrentZoneLabel(),
       isVisible: overlayMode === 'playing' && sceneMode === 'biome',
     });
+    const fieldRequestHint = getFieldRequestHint();
+    drawFieldRequestHintChip({
+      context,
+      width: WIDTH,
+      height: HEIGHT,
+      palette: currentBiomeDefinition.palette,
+      title: fieldRequestHint?.title ?? null,
+      isVisible: fieldRequestHint !== null,
+    });
 
     if (fieldGuideNotice && overlayMode === 'playing' && sceneMode === 'biome') {
       drawFieldGuideNotice({
@@ -3381,6 +3436,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const worldState = getWorldState(worldStateBiomeId);
     const observationPrompt = getFieldGuideObservationPrompt();
     const activeFieldRequest = getActiveFieldRequest();
+    const fieldRequestHint = getFieldRequestHint();
     const guidedFieldSeason = getGuidedFieldSeasonState();
     const fieldStationState = getFieldStationState();
     const audioState = audio.getDebugState();
@@ -3445,6 +3501,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       habitatProcesses: habitatProcessIds,
       observationPrompt: serializeObservationPrompt(observationPrompt),
       activeFieldRequest: serializeActiveFieldRequest(activeFieldRequest),
+      fieldRequestHint,
       guidedFieldSeason: {
         stage: guidedFieldSeason.stage,
         stationNote: guidedFieldSeason.stationNote,

@@ -1,0 +1,149 @@
+{
+  "packet_id": "ECO-PACKET-039",
+  "version": 4,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Pre-playthrough priority pass",
+  "summary": "Thirty-ninth structured packet for Eco Explorer. This packet narrows the remaining pre-playthrough token budget to four jobs: lane 1 should make the first session feel self-contained and standalone, including a late tiny menu-focus follow-up after critique, lane 4 should deepen Root Hollow with one evidence-backed middle leg instead of applying an older field-case patch literally, lane 3 should polish canopy and cave readability instead of widening geometry again, and lane 2 should stay in review-first freeze mode unless it finds a real blocker in active route content.",
+  "source_reports": [
+    "docs/reports/2026-03-31-pre-playthrough-priority-pass.md",
+    "docs/reports/2026-03-31-root-hollow-field-case-review.md",
+    "docs/reports/2026-03-31-first-session-standalone-review.md",
+    "docs/reports/2026-03-31-root-hollow-legacy-normalization-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-critic-77",
+    "ECO-20260331-main-01",
+    "ECO-20260331-critic-01",
+    "ECO-20260331-main-05",
+    "ECO-20260331-critic-05",
+    "ECO-20260331-main-02",
+    "ECO-20260331-critic-02",
+    "ECO-20260331-main-03",
+    "ECO-20260331-critic-03",
+    "ECO-20260331-main-04",
+    "ECO-20260331-critic-04",
+    "ECO-20260331-main-06",
+    "ECO-20260331-critic-06"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-critic-77",
+      "goal": "Close or reopen lane 2 with the smallest possible pre-playthrough budget.",
+      "why_now": "Lane 2 should only keep moving before the playthrough if there is a real blocker in active route content."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-01",
+      "goal": "Make the first session understandable without external docs.",
+      "why_now": "A self-contained opening will make the playthrough feedback far more reliable."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-01",
+      "goal": "Review the first-session polish from a fresh-player perspective.",
+      "why_now": "This is the fastest way to catch confusing onboarding before the human run."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-main-05",
+      "goal": "Default menu focus to the first travel or support action so the taught keyboard path is truthful.",
+      "why_now": "The standalone copy is better, but the live keyboard default still lands on helper toggles instead of the route-support actions."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-critic-05",
+      "goal": "Review the menu default-focus follow-up for fresh-playthrough clarity.",
+      "why_now": "The menu should now reward the exact `M` then `Enter` path the player has just been taught."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-main-02",
+      "goal": "Polish the current canopy and cave family for readability and recovery.",
+      "why_now": "Those spaces are already a strength, but they still have the biggest disorientation risk in a full playthrough."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260331-critic-02",
+      "goal": "Review the vertical polish pass for playthrough readiness.",
+      "why_now": "The lane should prove the spaces are readable before widening them any further."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260331-main-03",
+      "goal": "Add one evidence-backed middle leg to Root Hollow's chapter loop.",
+      "why_now": "This is the most valuable remaining gameplay push from the external handoff that still fits the current live Route v2 architecture."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260331-critic-03",
+      "goal": "Review the Root Hollow follow-up for calm chapter feel and handheld readability.",
+      "why_now": "The expedition should feel deeper, but not noisier or more system-heavy, before the playthrough."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260331-main-04",
+      "goal": "Normalize legacy Root Hollow progress to the new four-leg chapter shape.",
+      "why_now": "The pre-playthrough chapter follow-up is clean for fresh saves, but older in-progress expedition states now need a truthful recovery path."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260331-critic-04",
+      "goal": "Review the Root Hollow legacy-progress normalization.",
+      "why_now": "Save recoverability is a hard gate, so the cleanup pass needs a final check before lane 4 stands down."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260331-main-06",
+      "goal": "Trim the Root Hollow request summary back under the shared notebook budget.",
+      "why_now": "The legacy-save normalization is clean, but lane 4 still leaves the shared content-quality suite red on a 101-character field-request summary."
+    },
+    {
+      "step": 13,
+      "queue_id": "ECO-20260331-critic-06",
+      "goal": "Review the Root Hollow notebook-budget follow-up.",
+      "why_now": "Lane 4 should stand down only once the four-leg chapter copy is truthful and the shared compact-copy guardrail is green again."
+    }
+  ],
+  "guardrails": [
+    "Do not spend pre-playthrough budget on a fourth route, a second expedition card, a bigger archive shell, or a larger station dashboard.",
+    "Do not apply the external field-case patch literally where current Route v2 code already supersedes it.",
+    "Prefer contained file-level polish and truthful copy over new surface area.",
+    "Keep the game cozy, science-first, and readable at 256x160."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "A fresh player can find the journal, world map, field station, and active route without outside explanation.",
+    "The default menu focus supports the taught keyboard path instead of dropping onto helper toggles first.",
+    "Root Hollow feels more like an authored chapter without opening a new UI or system family.",
+    "Legacy in-progress Root Hollow saves recover truthfully into the new chapter shape.",
+    "The current canopy and cave family feels readable enough to judge fairly in a full playthrough."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, your lane brief, docs/reports/2026-03-31-pre-playthrough-priority-pass.md, and this packet. Treat this as a pre-playthrough polish pass: improve standalone clarity, expedition truth and depth, and vertical readability while explicitly avoiding broader expansion that can wait until after the human playthrough."
+}

@@ -10,7 +10,7 @@ import {
   resolveActiveFieldRequest,
   shouldCompleteActiveFieldRequest,
 } from '../engine/field-requests';
-import { createNewSaveState, recordDiscovery } from '../engine/save';
+import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 
 function createForestContext(
   completedFieldRequestIds: string[] = [],
@@ -666,6 +666,11 @@ describe('field requests', () => {
     expect(advanceActiveFieldRequest(context, 'inspect', 'fir-cone')).toBeNull();
     expect(context.save.routeV2Progress).toBeNull();
 
+    context.currentZoneId = 'stone-basin';
+    expect(getHandLensNotebookFit(context, 'banana-slug')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'banana-slug')).toBeNull();
+    expect(context.save.routeV2Progress).toBeNull();
+
     context.currentZoneId = 'seep-pocket';
     expect(getHandLensNotebookFit(context, 'seep-stone')).toBe('Notebook fit: seep mark');
     expect(advanceActiveFieldRequest(context, 'inspect', 'seep-stone')).toBeNull();
@@ -680,6 +685,14 @@ describe('field requests', () => {
     expect(advanceActiveFieldRequest(context, 'inspect', 'fir-cone')).toBeNull();
 
     context.currentZoneId = 'filtered-return';
+    expect(getHandLensNotebookFit(context, 'root-curtain')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'root-curtain')).toBeNull();
+
+    context.currentZoneId = 'stone-basin';
+    expect(getHandLensNotebookFit(context, 'banana-slug')).toBe('Notebook fit: stone pocket');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'banana-slug')).toBeNull();
+
+    context.currentZoneId = 'filtered-return';
     expect(getHandLensNotebookFit(context, 'root-curtain')).toBe('Notebook fit: root held');
   });
 
@@ -692,7 +705,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'forest-expedition-upper-run',
       title: 'Root Hollow',
-      progressLabel: '0/3 clues',
+      progressLabel: '0/4 clues',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -701,6 +714,10 @@ describe('field requests', () => {
 
     expect(getHandLensNotebookFit(context, 'seep-stone')).toBe('Notebook fit: seep mark');
     expect(advanceActiveFieldRequest(context, 'inspect', 'seep-stone')).toBeNull();
+
+    context.currentZoneId = 'stone-basin';
+    expect(getHandLensNotebookFit(context, 'banana-slug')).toBe('Notebook fit: stone pocket');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'banana-slug')).toBeNull();
 
     context.currentZoneId = 'filtered-return';
     expect(getHandLensNotebookFit(context, 'root-curtain')).toBe('Notebook fit: root held');
@@ -720,6 +737,7 @@ describe('field requests', () => {
         status: 'ready-to-synthesize',
         evidenceSlots: [
           { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'stone-pocket', entryId: 'banana-slug' },
           { slotId: 'root-held', entryId: 'root-curtain' },
           { slotId: 'high-run', entryId: 'fir-cone' },
         ],
@@ -727,6 +745,48 @@ describe('field requests', () => {
     });
 
     expect(fileReadyRouteV2FieldRequest(context.save)).toBe('forest-expedition-upper-run');
+  });
+
+  it('keeps legacy notebook-ready Root Hollow saves fileable after normalization', () => {
+    const save = normalizeSaveState({
+      worldSeed: 'legacy-root-hollow-ready-request-seed',
+      completedFieldRequestIds: ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'],
+      routeV2Progress: {
+        requestId: 'forest-expedition-upper-run',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: [],
+        evidenceSlots: [
+          { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'root-held', entryId: 'root-curtain' },
+          { slotId: 'high-run', entryId: 'fir-cone' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+    const context = {
+      biomes: biomeRegistry,
+      save,
+      currentBiomeId: 'forest',
+      currentZoneId: 'log-run',
+      currentPlayerX: null,
+      currentPlayerY: null,
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'forest-expedition-upper-run',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        evidenceSlots: [
+          { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'stone-pocket', entryId: 'banana-slug' },
+          { slotId: 'root-held', entryId: 'root-curtain' },
+          { slotId: 'high-run', entryId: 'fir-cone' },
+        ],
+      },
+    });
+
+    expect(fileReadyRouteV2FieldRequest(save)).toBe('forest-expedition-upper-run');
+    expect(save.completedFieldRequestIds).toContain('forest-expedition-upper-run');
   });
 
   it('moves into the season capstone after the expedition reconnects with Log Run', () => {

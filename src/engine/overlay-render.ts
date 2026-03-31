@@ -58,6 +58,18 @@ export type MenuActionId =
 
 export type UiActionId = 'start-game' | 'open-menu' | MenuActionId;
 
+export const TITLE_ACTION_ROWS = [
+  ['MOVE', 'A / D'],
+  ['', 'ARROWS'],
+  ['JUMP', 'SPACE'],
+  ['LOOK', 'E / CLICK'],
+  ['BOOK', 'J'],
+  ['MENU', 'M'],
+  ['PICK', 'ENTER'],
+] as const;
+
+export const TITLE_START_HINT = 'START, THEN OPEN MENU FOR MAP OR STATION.';
+
 export interface ButtonHitTarget {
   id: UiActionId;
   x: number;
@@ -138,6 +150,60 @@ interface CloseLookOverlayOptions extends OverlaySurfaceOptions {
   closeLook: CloseLookPayload | null;
 }
 
+export interface MenuOverlayCopyOptions {
+  showWorldMapAction: boolean;
+  showFieldStationAction: boolean;
+  showFieldGuideAction: boolean;
+}
+
+export function getMenuOverlayIntroText({
+  showWorldMapAction,
+  showFieldStationAction,
+  showFieldGuideAction,
+}: MenuOverlayCopyOptions): string {
+  if (showWorldMapAction && showFieldStationAction) {
+    return 'World map handles travel. Field station handles support.';
+  }
+
+  if (showWorldMapAction) {
+    return 'World map handles travel. Journal stays on J.';
+  }
+
+  if (showFieldStationAction) {
+    return 'Field station handles support and route upgrades.';
+  }
+
+  if (showFieldGuideAction) {
+    return 'Field guide, helpers, and save options stay here.';
+  }
+
+  return 'Change helper settings or reset your save.';
+}
+
+export function getMenuOverlayHelperText({
+  showWorldMapAction,
+  showFieldStationAction,
+  showFieldGuideAction,
+}: MenuOverlayCopyOptions): string {
+  if (showWorldMapAction && showFieldStationAction) {
+    return 'Pick a stop, then press Enter to open it.';
+  }
+
+  if (showWorldMapAction) {
+    return 'Pick World map for routes. Sound wakes after your first key or click.';
+  }
+
+  if (showFieldStationAction) {
+    return 'Trail Stride, credits, and season notes live here.';
+  }
+
+  if (showFieldGuideAction) {
+    return 'Sound wakes after your first key or click.';
+  }
+
+  return 'Sound wakes after your first key or click.';
+}
+
 interface TitleOverlayOptions extends OverlaySurfaceOptions {}
 
 interface WorldMapHudOptions extends OverlaySurfaceOptions {
@@ -190,6 +256,11 @@ interface FieldGuideNoticeOptions extends OverlaySurfaceOptions {
 interface FieldRequestNoticeOptions extends OverlaySurfaceOptions {
   title: string;
   text: string;
+}
+
+interface FieldRequestHintOptions extends OverlaySurfaceOptions {
+  title: string | null;
+  isVisible: boolean;
 }
 
 interface FieldPartnerNoticeOptions extends OverlaySurfaceOptions {
@@ -527,15 +598,6 @@ export function drawTitleOverlay({ context, width, height, palette }: TitleOverl
   const { top: bodyRect, bottom: ctaRect } = takeBottom(contentRect, 24, 6);
   const leftColumnWidth = Math.max(96, Math.min(Math.floor(bodyRect.w * 0.46), bodyRect.w - 92));
   const [leftColumnRect, rightColumnRect] = splitRectColumns(bodyRect, leftColumnWidth, 10);
-  const titleActions = [
-    ['MOVE', 'A / D'],
-    ['', 'ARROWS'],
-    ['JUMP', 'SPACE'],
-    ['LOOK', 'E / CLICK'],
-    ['BOOK', 'J'],
-    ['MAP', 'ARROWS'],
-    ['GO', 'ENTER'],
-  ] as const;
 
   fillLeafGreenPanel(context, panelRect.x, panelRect.y, panelRect.w, panelRect.h);
   context.font = UI_FONT_MEDIUM;
@@ -556,7 +618,7 @@ export function drawTitleOverlay({ context, width, height, palette }: TitleOverl
 
   drawUiText(context, 'HOW TO PLAY', rightColumnRect.x, rightColumnRect.y, palette.text);
   let rowY = rightColumnRect.y + 12;
-  for (const [label, value] of titleActions) {
+  for (const [label, value] of TITLE_ACTION_ROWS) {
     if (label) {
       drawUiText(context, label, rightColumnRect.x, rowY, palette.text);
     }
@@ -571,7 +633,7 @@ export function drawTitleOverlay({ context, width, height, palette }: TitleOverl
   const menuButtonRect = makeRect(startButtonRect.x + startButtonRect.w + 4, startButtonRect.y, 34, 11);
   drawWrappedTextInRect(
     context,
-    'CLICK OR PRESS ENTER TO START',
+    TITLE_START_HINT,
     makeRect(ctaRect.x, ctaRect.y + 5, startButtonRect.x - ctaRect.x - 8, ctaRect.h - 6),
     7,
     palette.accent,
@@ -663,6 +725,11 @@ export function drawMenuOverlay({
   menuReturnMode,
 }: MenuOverlayOptions): ButtonHitTarget[] {
   const hitTargets: ButtonHitTarget[] = [];
+  const copyOptions = {
+    showWorldMapAction,
+    showFieldStationAction,
+    showFieldGuideAction,
+  };
   const panelWidth = Math.min(width - 28, 188);
   const panelRect = makeRect(Math.floor((width - panelWidth) / 2), 10, panelWidth, height - 20);
   const contentRect = insetRect(panelRect, 10);
@@ -682,11 +749,7 @@ export function drawMenuOverlay({
   context.font = UI_FONT_SMALL;
   drawWrappedTextInRect(
     context,
-    showFieldStationAction
-      ? 'Station, helpers, and save options.'
-      : showFieldGuideAction
-      ? 'Tools, helpers, and save options.'
-      : 'Change helper settings or reset your save.',
+    getMenuOverlayIntroText(copyOptions),
     makeRect(contentRect.x, contentRect.y + 12, contentRect.w, 16),
     6,
     palette.text,
@@ -731,11 +794,7 @@ export function drawMenuOverlay({
   if (!showResetConfirmation) {
     drawWrappedTextInRect(
       context,
-      showFieldStationAction
-        ? 'Credit and sound both stay low-key here.'
-        : showFieldGuideAction
-        ? 'Sound wakes after your first key or click.'
-        : 'Sound wakes after your first key or click.',
+      getMenuOverlayHelperText(copyOptions),
       helperRect,
       6,
       palette.accent,
@@ -817,12 +876,38 @@ export function drawFieldRequestNotice({
   title,
   text,
 }: FieldRequestNoticeOptions): void {
-  const rect = makeRect(Math.round((width - 148) / 2), height - 30, 148, 26);
+  const rect = makeRect(Math.round((width - 154) / 2), height - 36, 154, 32);
 
   fillLeafGreenPanel(context, rect.x, rect.y, rect.w, rect.h);
   context.font = UI_FONT_SMALL;
   drawUiTextInRect(context, fitTextToWidth(context, title.toUpperCase(), rect.w - 8), makeRect(rect.x + 4, rect.y + 2, rect.w - 8, 8), '#395f56', { align: 'center' });
   drawUiTextInRect(context, fitTextToWidth(context, text, rect.w - 8), makeRect(rect.x + 4, rect.y + 10, rect.w - 8, 8), '#395f56', { align: 'center' });
+  drawUiTextInRect(context, 'DETAILS IN JOURNAL (J)', makeRect(rect.x + 4, rect.y + 19, rect.w - 8, 8), '#395f56', { align: 'center' });
+}
+
+export function drawFieldRequestHintChip({
+  context,
+  width,
+  palette,
+  title,
+  isVisible,
+}: FieldRequestHintOptions): void {
+  if (!isVisible || !title) {
+    return;
+  }
+
+  const rect = makeRect(width - 86, 24, 78, 18);
+  fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.cardShadow);
+  drawUiTextInRect(context, 'NOTEBOOK J', makeRect(rect.x + 4, rect.y + 2, rect.w - 8, 8), palette.accent, {
+    align: 'center',
+  });
+  drawUiTextInRect(
+    context,
+    fitTextToWidth(context, title.toUpperCase(), rect.w - 8),
+    makeRect(rect.x + 4, rect.y + 9, rect.w - 8, 8),
+    palette.text,
+    { align: 'center' },
+  );
 }
 
 export function drawFieldPartnerNotice({

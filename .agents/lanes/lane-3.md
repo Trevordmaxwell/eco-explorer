@@ -41,6 +41,7 @@ Lane 3 should turn the current cave and climbable proofs into deeper, more magic
 - cozy exploration, not danger
 - upward canopy growth and downward chamber growth after the first family pass
 - tiny readability supports instead of a bigger traversal HUD
+- pre-playthrough readability and recovery polish before another expansion beat
 
 ## Success Condition
 

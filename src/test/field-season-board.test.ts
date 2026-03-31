@@ -11,7 +11,7 @@ import {
   resolveFieldStationSubtitle,
   resolveFieldSeasonWrapState,
 } from '../engine/field-season-board';
-import { createNewSaveState, recordDiscovery } from '../engine/save';
+import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 
 describe('field season board', () => {
   it('starts with the forest hollow beat active and the coastal line queued behind it', () => {
@@ -470,7 +470,7 @@ describe('field season board', () => {
       title: 'ROOT HOLLOW',
       status: 'ready',
       statusLabel: 'READY',
-      summary: 'One deeper forest chapter is staged from seep mark through root-held return to the high run.',
+      summary: 'One deeper forest chapter is staged from seep mark through the stone pocket and root-held return to the high run.',
       startText: 'Forest Trail to Root Hollow',
       note: 'Start when you want a longer forest outing.',
       teaser: null,
@@ -491,10 +491,77 @@ describe('field season board', () => {
       id: 'root-hollow-expedition',
       title: 'ROOT HOLLOW',
       status: 'active',
-      statusLabel: '1/3',
-      summary: 'The seep mark is logged. The climb now leads toward the root-held return above the seep floor.',
+      statusLabel: '1/4',
+      summary: 'The seep mark is logged. Drop into the stone pocket below the climb.',
+      startText: 'Forest Trail to Root Hollow',
+      note: 'Next: drop into the stone pocket below the climb.',
+      teaser: null,
+    });
+  });
+
+  it('tracks the new stone-pocket middle leg before the climb return', () => {
+    const save = createNewSaveState('field-season-expedition-active-stone-pocket-seed');
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'];
+    save.routeV2Progress = {
+      requestId: 'forest-expedition-upper-run',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+      ],
+    };
+
+    expect(resolveFieldSeasonExpeditionState(save)).toEqual({
+      id: 'root-hollow-expedition',
+      title: 'ROOT HOLLOW',
+      status: 'active',
+      statusLabel: '2/4',
+      summary: 'The seep mark and stone-pocket clue are logged. Climb toward the root-held return above the seep floor.',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: climb through Root Hollow to the root-held return.',
+      teaser: null,
+    });
+  });
+
+  it('reads normalized legacy Root Hollow gathering saves through truthful station copy', () => {
+    const save = normalizeSaveState({
+      worldSeed: 'legacy-root-hollow-board-seed',
+      completedFieldRequestIds: ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'],
+      routeV2Progress: {
+        requestId: 'forest-expedition-upper-run',
+        status: 'gathering',
+        landmarkEntryIds: [],
+        evidenceSlots: [
+          { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'root-held', entryId: 'root-curtain' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      routeId: 'edge-pattern-line',
+      complete: true,
+      summary: 'Root Hollow is nearly filed. Carry the high run back into Log Run.',
+      nextDirection: 'Next: follow the high return into Log Run.',
+    });
+    expect(resolveFieldAtlasState(save)).toEqual({
+      title: 'FIELD ATLAS',
+      loggedRoutes: [
+        'COASTAL SHELTER LINE logged',
+        'TREELINE SHELTER LINE logged',
+        'EDGE PATTERN LINE logged',
+      ],
+      note: 'Next: follow the Root Hollow high return.',
+    });
+    expect(resolveFieldSeasonExpeditionState(save)).toEqual({
+      id: 'root-hollow-expedition',
+      title: 'ROOT HOLLOW',
+      status: 'active',
+      statusLabel: '3/4',
+      summary: 'The seep mark, stone-pocket clue, and root-held clue are logged. One high-run clue still leads back into the open forest.',
+      startText: 'Forest Trail to Root Hollow',
+      note: 'Next: follow the high return into Log Run.',
       teaser: null,
     });
   });
@@ -508,6 +575,7 @@ describe('field season board', () => {
       landmarkEntryIds: [],
       evidenceSlots: [
         { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
         { slotId: 'root-held', entryId: 'root-curtain' },
         { slotId: 'high-run', entryId: 'fir-cone' },
       ],
@@ -518,7 +586,7 @@ describe('field season board', () => {
       title: 'ROOT HOLLOW',
       status: 'active',
       statusLabel: 'NOTE READY',
-      summary: 'The chapter is ready to file from seep mark to high run.',
+      summary: 'The chapter is ready to file from seep mark through the stone pocket and root-held return to the high run.',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: file the Root Hollow note at the field station.',
       teaser: null,
@@ -539,9 +607,9 @@ describe('field season board', () => {
       title: 'ROOT HOLLOW',
       status: 'logged',
       statusLabel: 'LOGGED',
-      summary: 'The forest chapter is filed from seep mark to the high run.',
+      summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
       startText: 'Forest Trail to Root Hollow',
-      note: 'Revisit for seep shelter, root-held cover, and high-run clues.',
+      note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
       teaser: {
         label: 'NEXT EXPEDITION',
         text: 'Another special outing can open here later.',
@@ -564,9 +632,9 @@ describe('field season board', () => {
       title: 'ROOT HOLLOW',
       status: 'logged',
       statusLabel: 'LOGGED',
-      summary: 'The forest chapter is filed from seep mark to the high run.',
+      summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
       startText: 'Forest Trail to Root Hollow',
-      note: 'Revisit for seep shelter, root-held cover, and high-run clues.',
+      note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
       teaser: {
         label: 'NEXT FIELD SEASON',
         text: 'Take the High Pass next.',

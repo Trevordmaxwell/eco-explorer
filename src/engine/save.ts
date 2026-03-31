@@ -15,6 +15,8 @@ import { normalizeSketchbookPages } from './sketchbook';
 
 const STORAGE_KEY = 'eco-explorer-save-v1';
 const CURRENT_WORLD_STATE_VERSION = 2;
+const ROOT_HOLLOW_EXPEDITION_REQUEST_ID = 'forest-expedition-upper-run';
+const ROOT_HOLLOW_STONE_POCKET_COMPAT_ENTRY_ID = 'banana-slug';
 type PersistedJournalEntryState = Partial<JournalEntryState> & { biomeId?: string };
 type PersistedSaveState = Partial<Omit<SaveState, 'settings' | 'discoveredEntries'>> & {
   discoveredEntries?: Record<string, PersistedJournalEntryState>;
@@ -166,7 +168,7 @@ function normalizeRouteV2Progress(
     return null;
   }
 
-  return {
+  const normalizedProgress = {
     requestId: candidate.requestId,
     status: candidate.status,
     landmarkEntryIds: Array.isArray(candidate.landmarkEntryIds)
@@ -182,6 +184,37 @@ function normalizeRouteV2Progress(
             : [],
         )
       : [],
+  };
+
+  if (normalizedProgress.requestId !== ROOT_HOLLOW_EXPEDITION_REQUEST_ID) {
+    return normalizedProgress;
+  }
+
+  const filledSlotIds = new Set(normalizedProgress.evidenceSlots.map((slot) => slot.slotId));
+  const shouldInjectStonePocket =
+    filledSlotIds.has('seep-mark')
+    && !filledSlotIds.has('stone-pocket')
+    && (filledSlotIds.has('root-held') || filledSlotIds.has('high-run'));
+
+  if (!shouldInjectStonePocket) {
+    return normalizedProgress;
+  }
+
+  const normalizedEvidenceSlots = [
+    ...normalizedProgress.evidenceSlots.filter((slot) => slot.slotId === 'seep-mark'),
+    {
+      slotId: 'stone-pocket',
+      entryId: ROOT_HOLLOW_STONE_POCKET_COMPAT_ENTRY_ID,
+    },
+    ...normalizedProgress.evidenceSlots.filter(
+      (slot) => slot.slotId !== 'seep-mark' && slot.slotId !== 'stone-pocket',
+    ),
+  ];
+
+  return {
+    ...normalizedProgress,
+    status: normalizedEvidenceSlots.length >= 4 ? normalizedProgress.status : 'gathering',
+    evidenceSlots: normalizedEvidenceSlots,
   };
 }
 

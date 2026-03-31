@@ -14,6 +14,7 @@ describe('guided field season', () => {
       nextBiomeId: 'forest',
       promptNotice: {
         title: 'NOTEBOOK TASK',
+        text: 'Menu to World map, then Forest Trail.',
       },
     });
   });
@@ -54,9 +55,11 @@ describe('guided field season', () => {
       stage: 'station-return',
       stationNote: {
         title: 'RETURN TO STATION',
+        text: 'Forest Trail is logged. Use the menu for World map, then stop at the field station for Trail Stride.',
       },
       promptNotice: {
         title: 'FIELD STATION',
+        text: 'Menu to World map, then Field station.',
       },
     });
   });

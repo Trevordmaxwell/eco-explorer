@@ -325,9 +325,9 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.mode).toBe('menu');
     expect(state.menu?.availableActions).toContain('field-guide');
-    expect(state.menu?.selectedAction).toBe('toggle-fullscreen');
+    expect(state.menu?.selectedAction).toBe('world-map');
 
-    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'ArrowDown');
     state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('field-guide');
 
@@ -355,8 +355,6 @@ describe('runtime smoke loop', () => {
     expect(state.nearbyDoor?.inRange).toBe(true);
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('world-map');
 
@@ -473,8 +471,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Escape');
     game.enterBiome('forest');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
     expect(state.worldMap?.focusedLocationId).toBe('forest');
@@ -578,8 +574,10 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'm');
     state = readState(fakeWindow);
     expect(state.menu?.availableActions).toContain('toggle-sound');
-    expect(state.menu?.selectedAction).toBe('toggle-fullscreen');
+    expect(state.menu?.selectedAction).toBe('world-map');
 
+    tapKey(fakeWindow, 'ArrowDown');
+    tapKey(fakeWindow, 'ArrowDown');
     tapKey(fakeWindow, 'ArrowDown');
     state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('toggle-sound');
@@ -701,6 +699,13 @@ describe('runtime smoke loop', () => {
       title: 'NOTEBOOK READY',
       text: 'Return to the field station and file the Hidden Hollow note.',
     });
+    fakeWindow.advanceTime?.(5200);
+    state = readState(fakeWindow);
+    expect(state.fieldRequestNotice).toBeNull();
+    expect(state.fieldRequestHint).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Hidden Hollow',
+    });
 
     tapKey(fakeWindow, 'j');
     state = readState(fakeWindow);
@@ -727,8 +732,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     game.enterBiome('forest');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
     expect(state.worldMap?.focusedLocationId).toBe('forest');
@@ -977,6 +980,45 @@ describe('runtime smoke loop', () => {
     );
     expect(state.zoneId).toBe('log-run');
     expect(state.player?.y).toBeLessThanOrEqual(126);
+  });
+
+  it('lets the player catch the cave trunk from a slightly offset recovery position', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-cave-trunk-catch-seed');
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('forest');
+
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'stone-basin' &&
+        nextState.player?.x >= 382 &&
+        nextState.nearbyClimbable?.id === 'root-hollow-cave-trunk',
+      860,
+    );
+    expect(state.zoneId).toBe('stone-basin');
+    expect(state.player?.x).toBeLessThanOrEqual(395);
+    expect(state.nearbyClimbable).toMatchObject({
+      id: 'root-hollow-cave-trunk',
+      inRange: true,
+    });
+
+    state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowUp',
+      (nextState) => nextState.player?.climbing && nextState.player?.activeClimbableId === 'root-hollow-cave-trunk',
+      80,
+    );
+    expect(state.player).toMatchObject({
+      climbing: true,
+      activeClimbableId: 'root-hollow-cave-trunk',
+    });
   });
 
   it('adds a calmer upper-return nook so the cave family reads like a loop instead of a one-way corridor', () => {
@@ -1455,8 +1497,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     game.enterBiome('forest');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
     expect(state.worldMap?.focusedLocationId).toBe('forest');
@@ -1464,9 +1504,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'm');
     state = readState(fakeWindow);
     expect(state.menu?.availableActions).toContain('field-station');
-
-    tapKey(fakeWindow, 'ArrowUp');
-    state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('field-station');
 
     tapKey(fakeWindow, 'Enter');
@@ -1538,8 +1575,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     game.enterBiome('forest');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
 
@@ -1663,51 +1698,44 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldStation?.expedition).toMatchObject({
       status: 'active',
-      statusLabel: '1/3',
+      statusLabel: '1/4',
     });
 
     state = advanceWhileHoldingKeyUntil(
       fakeWindow,
-      'ArrowLeft',
+      'ArrowRight',
       (nextState) =>
-        nextState.zoneId === 'root-hollow' &&
-        nextState.nearbyClimbable?.id === 'root-hollow-fir-trunk',
-      120,
+        nextState.zoneId === 'stone-basin' &&
+        nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'banana-slug'),
+      180,
     );
-    expect(state.nearbyClimbable).toMatchObject({
-      id: 'root-hollow-fir-trunk',
-      inRange: true,
+    const stonePocketClue = state.nearbyInspectables.find((entity: any) => entity.entryId === 'banana-slug');
+    if (!stonePocketClue) {
+      throw new Error('Expected stone-basin life to anchor the Root Hollow middle leg.');
+    }
+
+    game.inspectEntity(stonePocketClue.entityId);
+    fakeWindow.advanceTime?.(16);
+    state = readState(fakeWindow);
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'forest-expedition-upper-run',
+      status: 'gathering',
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+      ],
+    });
+    expect(state.fieldStation?.expedition).toMatchObject({
+      status: 'active',
+      statusLabel: '2/4',
     });
 
     state = advanceWhileHoldingKeyUntil(
       fakeWindow,
-      'ArrowUp',
-      (nextState) => nextState.player?.climbing && nextState.player?.activeClimbableId === 'root-hollow-fir-trunk',
-      80,
-    );
-    expect(state.player).toMatchObject({
-      climbing: true,
-      activeClimbableId: 'root-hollow-fir-trunk',
-    });
-
-    advanceWhileHoldingKeyUntil(
-      fakeWindow,
-      'ArrowUp',
-      (nextState) => nextState.player?.climbing && nextState.player?.y <= 98,
-      80,
-    );
-
-    advanceWhileHoldingKeyUntil(
-      fakeWindow,
       'ArrowRight',
-      (nextState) => !nextState.player?.climbing && nextState.player?.y <= 98 && nextState.player?.x >= 340,
-      80,
-    );
-
-    state = advanceWhileHoldingKeyUntil(
-      fakeWindow,
-      'ArrowRight',
-      (nextState) => nextState.player?.y <= 98 && nextState.nearbyClimbable?.id === 'root-hollow-cave-trunk',
+      (nextState) =>
+        nextState.zoneId === 'stone-basin' &&
+        nextState.nearbyClimbable?.id === 'root-hollow-cave-trunk',
       120,
     );
     expect(state.nearbyClimbable).toMatchObject({
@@ -1715,18 +1743,24 @@ describe('runtime smoke loop', () => {
       inRange: true,
     });
 
-    advanceWhileHoldingKeyUntil(
+    state = advanceWhileHoldingKeyUntil(
       fakeWindow,
       'ArrowUp',
-      (nextState) => nextState.player?.climbing && nextState.player?.activeClimbableId === 'root-hollow-cave-trunk',
+      (nextState) =>
+        nextState.player?.climbing &&
+        nextState.player?.activeClimbableId === 'root-hollow-cave-trunk',
       80,
     );
+    expect(state.player).toMatchObject({
+      climbing: true,
+      activeClimbableId: 'root-hollow-cave-trunk',
+    });
 
     advanceWhileHoldingKeyUntil(
       fakeWindow,
       'ArrowUp',
       (nextState) => nextState.player?.climbing && nextState.player?.y <= 80,
-      120,
+      220,
     );
 
     state = advanceWhileHoldingKeyUntil(
@@ -1750,12 +1784,13 @@ describe('runtime smoke loop', () => {
       status: 'gathering',
       evidenceSlots: [
         { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
         { slotId: 'root-held', entryId: 'root-curtain' },
       ],
     });
     expect(state.fieldStation?.expedition).toMatchObject({
       status: 'active',
-      statusLabel: '2/3',
+      statusLabel: '3/4',
     });
 
     state = advanceWhileHoldingKeyUntil(
@@ -1780,6 +1815,7 @@ describe('runtime smoke loop', () => {
       status: 'ready-to-synthesize',
       evidenceSlots: [
         { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
         { slotId: 'root-held', entryId: 'root-curtain' },
         { slotId: 'high-run', entryId: 'fir-cone' },
       ],
@@ -1794,13 +1830,10 @@ describe('runtime smoke loop', () => {
     });
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.mode).toBe('field-station');
@@ -2141,13 +2174,10 @@ describe('runtime smoke loop', () => {
 
     tapKey(fakeWindow, 'Enter');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
 
     const state = readState(fakeWindow);
@@ -2178,7 +2208,13 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldRequestNotice).toMatchObject({
       title: 'NOTEBOOK TASK',
+      text: 'Menu to World map, then Forest Trail.',
     });
+
+    tapKey(fakeWindow, 'm');
+    state = readState(fakeWindow);
+    expect(state.menu?.selectedAction).toBe('world-map');
+    tapKey(fakeWindow, 'Escape');
 
     seededSave.completedFieldRequestIds = [
       'forest-hidden-hollow',
@@ -2190,8 +2226,8 @@ describe('runtime smoke loop', () => {
     }
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
+    state = readState(fakeWindow);
+    expect(state.menu?.selectedAction).toBe('world-map');
     tapKey(fakeWindow, 'Enter');
     state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
     expect(state.guidedFieldSeason).toMatchObject({
@@ -2199,10 +2235,12 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldRequestNotice).toMatchObject({
       title: 'FIELD STATION',
+      text: 'Menu to World map, then Field station.',
     });
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
+    state = readState(fakeWindow);
+    expect(state.menu?.selectedAction).toBe('field-station');
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.mode).toBe('field-station');
@@ -2211,7 +2249,7 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'RETURN TO STATION',
-      text: 'Forest Trail is logged. Open the world-map field station and pick up Trail Stride for longer walks.',
+      text: 'Forest Trail is logged. Use the menu for World map, then stop at the field station for Trail Stride.',
     });
 
     tapKey(fakeWindow, 'Enter');
@@ -2560,8 +2598,6 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.menu?.availableActions).toContain('world-map');
 
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('world-map');
 
@@ -2750,8 +2786,6 @@ describe('runtime smoke loop', () => {
     expect(state.player.x).toBeLessThan(180);
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     state = readState(fakeWindow);
     expect(state.menu?.selectedAction).toBe('world-map');
 
@@ -2792,8 +2826,6 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
 
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
-    tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
 
     let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map', 120);
@@ -2950,7 +2982,7 @@ describe('runtime smoke loop', () => {
 
     tapKey(fakeWindow, 'Escape');
     tapKey(fakeWindow, 'm');
-    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'ArrowDown');
     tapKey(fakeWindow, 'Enter');
     await Promise.resolve();
     await Promise.resolve();

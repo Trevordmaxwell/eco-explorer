@@ -327,6 +327,60 @@ describe('reset save progress', () => {
     });
   });
 
+  it('migrates legacy Root Hollow gathering progress into the four-leg chapter shape', () => {
+    const migrated = normalizeSaveState({
+      worldSeed: 'legacy-root-hollow-gathering-seed',
+      routeV2Progress: {
+        requestId: 'forest-expedition-upper-run',
+        status: 'gathering',
+        landmarkEntryIds: [],
+        evidenceSlots: [
+          { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'root-held', entryId: 'root-curtain' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(migrated.routeV2Progress).toEqual({
+      requestId: 'forest-expedition-upper-run',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+      ],
+    });
+  });
+
+  it('migrates legacy Root Hollow notebook-ready progress into the four-leg chapter shape', () => {
+    const migrated = normalizeSaveState({
+      worldSeed: 'legacy-root-hollow-ready-seed',
+      routeV2Progress: {
+        requestId: 'forest-expedition-upper-run',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: [],
+        evidenceSlots: [
+          { slotId: 'seep-mark', entryId: 'seep-stone' },
+          { slotId: 'root-held', entryId: 'root-curtain' },
+          { slotId: 'high-run', entryId: 'fir-cone' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(migrated.routeV2Progress).toEqual({
+      requestId: 'forest-expedition-upper-run',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+        { slotId: 'high-run', entryId: 'fir-cone' },
+      ],
+    });
+  });
+
   it('cycles outing support only when route marker is owned', () => {
     const save = createNewSaveState('outing-support-cycle-seed');
 

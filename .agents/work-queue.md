@@ -42,27 +42,6 @@ This is the shared queue for all agents working in this repo.
 
 ## Ready
 
-### ECO-20260330-critic-77
-
-- Status: `READY`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Review the full lane-2 follow-on richness wave`
-- Source: `docs/reports/2026-03-30-sub-ecosystem-and-archive-richness-phase.md`
-- Packet: `.agents/packets/032-sub-ecosystem-and-archive-richness-phase.json`
-- Depends on: `ECO-20260330-main-102`
-
-Goal:
-
-- Review the full follow-on lane-2 wave and decide whether the content lane is ready for another broader phase later.
-
-Acceptance:
-
-- the richness wave feels coherent
-- science and readability stay intact
-- the lane leaves behind strong content payoff without system drift
-
 ## Parked
 
 ### ECO-20260327-scout-01
@@ -229,6 +208,166 @@ Use this section for newly discovered work that is not yet approved or prioritiz
 
 ## Done
 
+### ECO-20260331-critic-06
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the Root Hollow notebook-budget follow-up`
+- Source: `docs/reports/2026-03-31-root-hollow-summary-budget-handoff.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-06`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-root-hollow-summary-budget-review.md`. No blocking issue remains: the live `forest-expedition-upper-run` summary is now 94 chars, `src/test/content-quality.test.ts` is green again on `main`, and the follow-up stayed copy-only inside the existing Route v2 request definition.
+- Re-verified with `npx vitest run src/test/content-quality.test.ts` plus a direct spot-check of `src/engine/field-requests.ts`. Lane 4 has no remaining active pre-playthrough queue item after this gate.
+
+### ECO-20260331-main-06
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Tighten Root Hollow request copy back under the notebook budget`
+- Source: `docs/reports/2026-03-31-root-hollow-legacy-normalization-review.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-critic-04`
+
+Completion Note:
+
+- Shortened the live `forest-expedition-upper-run` summary to `Log seep-mark, stone-pocket, root-held, and high-run clues in Root Hollow, then file the note.`, which keeps the four-leg chapter truthful while fitting back under the shared 96-character notebook budget.
+- Verified with `npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts` and `npm run build`, and added `docs/reports/2026-03-31-root-hollow-summary-budget-handoff.md` for the final lane-4 review. `ECO-20260331-critic-06` is now `READY`.
+
+### ECO-20260331-critic-04
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the Root Hollow legacy-progress normalization`
+- Source: `docs/reports/2026-03-31-root-hollow-field-case-review.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-04`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-root-hollow-legacy-normalization-review.md`. The save-load normalization is the right narrow fix for older `ROOT HOLLOW` progress, and the focused save/request/station tests are green, but lane 4 still leaves one blocking shared guardrail red: the live `forest-expedition-upper-run` summary is 101 chars and fails `src/test/content-quality.test.ts` against the 96-char notebook budget.
+- Added `ECO-20260331-main-06` as a tiny copy-only follow-up and `ECO-20260331-critic-06` as its closing gate. Lane 4 should not stand down until that budget failure is cleared on `main`.
+
+### ECO-20260331-main-04
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Normalize legacy Root Hollow progress to the four-leg chapter`
+- Source: `docs/reports/2026-03-31-root-hollow-field-case-review.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-critic-03`
+
+Completion Note:
+
+- Added one narrow save-load normalization for legacy `forest-expedition-upper-run` progress: older three-leg states that had already reached `root-held` or `high-run` now gain a compatibility `stone-pocket` slot on load so the live expedition, route-board, and atlas copy stay truthful to the four-leg chapter.
+- Verified with `npx vitest run src/test/save.test.ts src/test/field-requests.test.ts src/test/field-season-board.test.ts` and `npm run build`, and added `docs/reports/2026-03-31-root-hollow-legacy-normalization-handoff.md` for the final gate. `ECO-20260331-critic-04` is now `READY`.
+
+### ECO-20260331-critic-05
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review the first-session menu default focus`
+- Source: `docs/reports/2026-03-31-first-session-standalone-review.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-05`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-first-session-menu-focus-review.md`. The guided menu default now lands on `world-map` during starter and station-return biome play, and on `field-station` during station-return world-map play, which makes the taught `M -> Enter` path truthful without broadening the change into every midgame menu.
+- No new lane-1 blocker remains. Verified against the focused lane-1 test suite, seeded browser captures in `output/lane-1-main-05-browser/`, and zero browser console errors. Full `npm test` remains red only because of the existing lane-4 field-request budget failure in `src/test/content-quality.test.ts`.
+
+### ECO-20260331-main-05
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Default menu focus to the first travel or support action`
+- Source: `docs/reports/2026-03-31-first-session-standalone-review.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-critic-01`
+
+Completion Note:
+
+- Targeted the onboarding-only states instead of changing every menu in the game: `openMenu()` now defaults to `world-map` during guided `starter` and `station-return` biome play, and to `field-station` on the world map during guided `station-return`, while later midgame menus still keep their existing helper-first default.
+- Added runtime coverage for those starter and station-return defaults, then verified with `npm test -- --run src/test/overlay-copy.test.ts src/test/guided-field-season.test.ts src/test/runtime-smoke.test.ts`, `npm run build`, `npm run validate:agents`, and seeded browser captures in `output/lane-1-main-05-browser/` showing the highlighted rows with zero console errors. Full `npm test` still reports the same unrelated lane-4 field-request budget failure in `src/test/content-quality.test.ts`.
+
+### ECO-20260331-critic-01
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review first-session standalone clarity`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-01`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-first-session-standalone-review.md`. The title, menu, and field-notice copy now teach the right first-session loop, but one blocking keyboard-first mismatch remains: `openMenu()` still resets focus to `toggle-fullscreen`, so `M` then `Enter` does not follow the newly taught `world-map` or `field-station` path.
+- Added `ECO-20260331-main-05` as the narrow follow-up and `ECO-20260331-critic-05` as its gate. This is a compact lane-1 implementation fix, not a request for a larger tutorial surface.
+
+### ECO-20260331-main-01
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Make the first session self-contained for playthrough`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Tightened the first-session loop through existing surfaces only: the title now teaches `BOOK J`, `MENU M`, and `PICK ENTER`, the biome menu now explains that world map handles travel while the journal stays on `J`, the world-map menu now frames field station as the support stop, and the fresh-save starter plus station-return notices now explicitly point the player through `Menu -> World map -> Forest Trail` and later `Menu -> World map -> Field station`.
+- Added focused guard coverage in `src/test/overlay-copy.test.ts`, `src/test/guided-field-season.test.ts`, and `src/test/runtime-smoke.test.ts`, then verified with those focused tests, `npm run build`, `npm run validate:agents`, and a seeded browser pass in `output/lane-1-main-01-browser/` with zero console errors. Full `npm test` still has one unrelated pre-existing failure outside lane 1: `src/test/content-quality.test.ts` flags the lane-4 `forest-expedition-upper-run` summary as 101 chars against the shared 96-char field-request budget.
+
+### ECO-20260331-critic-03
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the Root Hollow field-case follow-up`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-03`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-root-hollow-field-case-review.md`. The new `stone-pocket` middle leg is the right compact chapter deepening for fresh saves, but one blocking truth gap remains: older in-progress `forest-expedition-upper-run` saves still use the old three-slot shape, so station copy and notebook-ready filing can misread or skip the new leg.
+- Added `ECO-20260331-main-04` as the required lane-4 follow-up and linked it back into packet `039` version `2`. The blocker is narrow, save-facing, and still inside the same Route v2 seam, so lane 4 should fix that normalization pass before standing down.
+
+### ECO-20260331-main-03
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Deepen Root Hollow with one evidence-backed middle leg`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Deepened `ROOT HOLLOW` inside the existing Route v2 chapter shell by adding an ordered `stone-pocket` middle leg between `seep-mark` and `root-held`, reusing the live `stone-basin` damp-life clues instead of adding new UI, geometry, or expedition surfaces.
+- Updated the expedition card, route-board handoff, atlas guidance, and notebook-flow tests so the live copy stays truthful to the new `seep-mark -> stone-pocket -> root-held -> high-run` sequence. Added `docs/reports/2026-03-31-root-hollow-middle-leg-handoff.md` for the review step and verified with `npx vitest run src/test/field-requests.test.ts src/test/field-season-board.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "turns the forest expedition slot into a single notebook-led chapter"`, and `npm run build`. `ECO-20260331-critic-03` is now `READY`.
+
 ### ECO-20260330-main-102
 
 - Status: `DONE`
@@ -244,6 +383,54 @@ Completion Note:
 
 - Closed the lane-2 wave with one small support pass instead of another feature: added science-ledger coverage for `seep-stone` and `root-curtain`, gave `cottongrass` a compact `sketchbookNote`, exported the close-look allowlist for docs-aware guardrails, and added ledger-backed content-quality coverage plus a sketchbook regression test.
 - Verified with focused `sketchbook`, `close-look`, and targeted `content-quality` coverage, `npm run build`, `npm run validate:agents`, the required web-game client pass in `output/lane-2-main-102-client/`, and a seeded browser capture in `output/lane-2-main-102-browser/` showing the tundra sketchbook state with zero captured console errors. Broader `content-quality` still has an unrelated field-request budget failure outside lane 2, so this pass kept verification scoped to the touched guardrails. `ECO-20260330-critic-77` is now `READY`.
+
+### ECO-20260330-critic-77
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the full lane-2 follow-on richness wave`
+- Source: `docs/reports/2026-03-30-sub-ecosystem-and-archive-richness-phase.md`
+- Packet: `.agents/packets/032-sub-ecosystem-and-archive-richness-phase.json`
+- Depends on: `ECO-20260330-main-102`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-lane-2-richness-wave-review.md`. No blocking science, readability, or system-drift issue surfaced across the full packet `032` wave, so lane 2 stays frozen after this clean gate instead of promoting the parked follow-ons.
+- Re-verified with focused `sketchbook`, `close-look`, and targeted `content-quality` coverage plus `npm run build`; the saved lane-2 browser artifacts still show only the existing tight-layout watch items, not a new blocker.
+
+### ECO-20260331-main-02
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Polish canopy and cave readability for a full playthrough`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Landed one contained forest vertical-polish pass instead of new route breadth: added shared climb-target helpers so cave and canopy trunks can be caught from a slightly offset recovery position, reused that looser hint seam in render hinting, and biased the climb camera upward just enough to show more route context while climbing.
+- Verified with `npm test -- --run src/test/climb-navigation.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "lets the player descend through the seep pocket into a deeper stone basin and recover through the brighter return|lets the player catch the cave trunk from a slightly offset recovery position|adds a calmer upper-return nook so the cave family reads like a loop instead of a one-way corridor|adds an optional old-growth giant-tree climb with a sheltered upper-canopy pocket|continues the upper canopy into a tiny bark-window nook and keeps the return snag readable"`, `npm run build`, the required `develop-web-game` client pass in `output/main-02-client/`, and seeded browser verification on the forest path with zero Playwright console errors. `ECO-20260331-critic-02` is now `READY`.
+
+### ECO-20260331-critic-02
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review canopy and cave playthrough readability`
+- Source: `docs/reports/2026-03-31-pre-playthrough-priority-pass.md`
+- Packet: `.agents/packets/039-pre-playthrough-priority-pass.json`
+- Depends on: `ECO-20260331-main-02`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-canopy-and-cave-playthrough-readability-review.md`. No blocking issue was found: the forest polish pass spends its budget on a slightly more forgiving shared climb seam and a modest climb-only camera nudge, which is enough to make `stone-basin` recovery cleaner without reopening geometry or HUD growth.
+- Re-checked `src/engine/climb-navigation.ts`, the touched runtime coverage, a seeded live forest cave pass, `output/lane-3-critic-02/cave-offset.png`, and `npm run build`; the final Playwright console check returned zero errors. Lane 3 has no further active pre-playthrough item after this review.
 
 ### ECO-20260330-main-120
 

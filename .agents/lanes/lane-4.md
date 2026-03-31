@@ -41,6 +41,7 @@ Lane 4 currently owns:
 - one station-side notebook synthesis flow
 - the first transition and inland Route v2 follow-ons
 - the first expedition-as-chapter rebuild
+- the pre-playthrough `ROOT HOLLOW` follow-up with one additional evidence-backed middle leg
 
 ## Success Condition
 
