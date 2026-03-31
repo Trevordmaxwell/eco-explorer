@@ -1,0 +1,99 @@
+{
+  "packet_id": "ECO-PACKET-038",
+  "version": 3,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Canopy wayfinding and cavern loop phase",
+  "summary": "Thirty-eighth structured packet for Eco Explorer. This is a future lane-3 follow-on after the current canopy-and-cavern growth wave: add one upper-canopy continuation and one calmer cavern-loop follow-up, using tiny wayfinding and recovery cues so the vertical-exploration family feels more coherent without turning into a maze or platform gauntlet.",
+  "source_reports": [
+    "docs/reports/2026-03-30-canopy-wayfinding-and-cavern-loop-phase.md",
+    "docs/reports/2026-03-30-upper-canopy-continuation-handoff.md",
+    "docs/reports/2026-03-30-cavern-loop-follow-up-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-83",
+    "ECO-20260330-main-119",
+    "ECO-20260330-critic-94",
+    "ECO-20260330-scout-84",
+    "ECO-20260330-main-120",
+    "ECO-20260330-critic-95"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-81"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-83",
+      "goal": "Prepare an upper-canopy continuation pack.",
+      "why_now": "After the current vertical family wave, the canopy is the clearest next place to extend."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-119",
+      "goal": "Implement the upper-canopy continuation.",
+      "why_now": "This is the fastest way to make the giant-tree branch feel more complete."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-94",
+      "goal": "Review the upper-canopy continuation.",
+      "why_now": "Height and readability need an early check before the lane deepens further."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-84",
+      "goal": "Prepare the cavern loop and wayfinding follow-up.",
+      "why_now": "Once the canopy side is stronger, the cave side should get a clearer return rhythm."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-120",
+      "goal": "Implement the cavern loop and wayfinding follow-up.",
+      "why_now": "This is the smallest follow-on that makes the deeper cave family feel more coherent."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-95",
+      "goal": "Review the canopy and cavern loop follow-on.",
+      "why_now": "Lane 3 should only keep growing if the vertical family stays readable and inviting."
+    }
+  ],
+  "guardrails": [
+    "Do not add combat, danger meters, or a larger traversal HUD.",
+    "Keep wayfinding tiny and in-world.",
+    "Preserve forgiving, kid-friendly recovery."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The canopy and cave branches feel more coherent as one vertical family.",
+    "Wayfinding stays subtle and readable.",
+    "Lane 3 keeps growing through place identity rather than difficulty spikes."
+  ],
+  "implementation_notes": [
+    "For `main-119`, prefer one tiny trunk-interior or bark-window continuation inside the existing old-growth canopy family rather than another broad height spike.",
+    "Keep the current top route (`main trunk -> upper snag -> canopy rung -> high perch`) as the only approach, then add one short new climbable and one compact upper shelf if needed.",
+    "Do not add a second vertical cue or denser marker spread; rely on existing trunk visibility and the current canopy-opening cue.",
+    "If visual support is needed, slightly widen the existing `old-growth-canopy-pocket` and `old-growth-trunk-interior` instead of inventing a new depth-feature style.",
+    "For `main-120`, keep `stone-basin` as the deepest point and spend the budget on one same-footprint upper-return nook or shelf tied to the current `root-hollow-cave-trunk`, not on a wider tunnel or another lower chamber.",
+    "Reuse the current cave cue language if the loop needs support; at most move or add one more tiny `recovery-light`-style cave cue rather than inventing a second marker type."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-03-30-canopy-wayfinding-and-cavern-loop-phase.md, docs/reports/2026-03-30-upper-canopy-continuation-review.md, docs/reports/2026-03-30-cavern-loop-follow-up-handoff.md, and this packet. Treat packet `038` as a two-part lane-3 follow-on: the canopy half is now closed, so the next live step should strengthen the cave side through one same-footprint upper-return loop plus tiny reused cave wayfinding, keeping the vertical family coherent without becoming harsher."
+}

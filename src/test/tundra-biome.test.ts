@@ -42,6 +42,24 @@ describe('tundra biome definition', () => {
     expect(spawnEntryIds.has('bigelows-sedge')).toBe(true);
     expect(spawnEntryIds.has('lingonberry')).toBe(true);
   });
+
+  it('splits the Short Season route carriers across snow meadow and thaw skirt', () => {
+    const snowMeadowEntryIds = new Set(
+      tundraBiome.spawnTables
+        .filter((table) => table.zoneId === 'snow-meadow')
+        .flatMap((table) => table.entries.map((entry) => entry.entryId)),
+    );
+    const thawSkirtEntryIds = new Set(
+      tundraBiome.spawnTables
+        .filter((table) => table.zoneId === 'thaw-skirt')
+        .flatMap((table) => table.entries.map((entry) => entry.entryId)),
+    );
+
+    expect(snowMeadowEntryIds.has('purple-saxifrage')).toBe(true);
+    expect(snowMeadowEntryIds.has('cloudberry')).toBe(true);
+    expect(snowMeadowEntryIds.has('cottongrass')).toBe(false);
+    expect(thawSkirtEntryIds.has('cottongrass')).toBe(true);
+  });
 });
 
 describe('tundra biome generation', () => {

@@ -7,6 +7,11 @@ interface CloseLookSeed {
 }
 
 const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
+  'sand-dollar-test': {
+    callouts: ['star pattern', 'petal grooves'],
+    sentence: 'This hard sand dollar test shows where the living animal once was.',
+    spriteScale: 7,
+  },
   'moon-snail-shell': {
     callouts: ['rounded whorl', 'shell opening'],
     sentence: 'Most of this shell is one big spiral turn.',
@@ -32,7 +37,24 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Staying low helps this flower face cold Arctic wind.',
     spriteScale: 4,
   },
+  'lingonberry': {
+    callouts: ['berry cluster', 'evergreen leaves'],
+    sentence: 'Evergreen leaves help lingonberry stay ready for short cool seasons.',
+    spriteScale: 5,
+  },
+  'frost-heave-boulder': {
+    callouts: ['lifted edge', 'cold-worked ground'],
+    sentence: 'Freeze and thaw can slowly lift this stone from cold ground.',
+    spriteScale: 5,
+  },
+  cottongrass: {
+    callouts: ['white tuft', 'wet stem base'],
+    sentence: 'These fluffy fibers help cottongrass seeds ride the wind.',
+    spriteScale: 5,
+  },
 };
+
+export const CLOSE_LOOK_ENTRY_IDS = Object.freeze(Object.keys(CLOSE_LOOK_SEEDS));
 
 export function supportsCloseLook(entryId: string | null): boolean {
   return Boolean(entryId && CLOSE_LOOK_SEEDS[entryId]);

@@ -57,6 +57,7 @@ const treelineEntries = {
     shortFact: 'White arctic mountain heather forms low mats that help protect tiny stems from alpine wind.',
     journalText:
       'White arctic mountain heather is a low heath plant of arctic-alpine ground. Its tight mat of tiny stems helps it stay close to calmer air near the soil.',
+    sketchbookNote: 'Tight mats staying low beneath alpine wind.',
     spriteId: 'white-arctic-mountain-heather',
     collectible: false,
   },
@@ -115,6 +116,7 @@ const treelineEntries = {
     shortFact: 'Strong wind can keep treeline spruce low, crooked, and shrubby.',
     journalText:
       'Krummholz is the name for trees bent and stunted by cold wind near treeline. They show how harsh weather can reshape growth.',
+    sketchbookNote: 'Wind-bent spruce showing where treeline gives way.',
     spriteId: 'krummholz-spruce',
     collectible: false,
   },
@@ -127,6 +129,7 @@ const treelineEntries = {
     shortFact: 'Freezing and thawing ground can slowly push big stones upward.',
     journalText:
       'A frost-heave boulder is moved by ground that freezes, swells, and thaws again. Cold landscapes can shift rocks without any animal lifting them.',
+    sketchbookNote: 'Lifted stone showing freeze-thaw ground at work.',
     spriteId: 'frost-heave-boulder',
     collectible: false,
   },
@@ -445,6 +448,16 @@ export const treelineBiome: BiomeDefinition = {
       observationPrompt:
         'What here breaks the wind first?',
       zoneId: 'dwarf-shrub',
+    },
+    {
+      id: 'cold-ground-works',
+      title: 'Cold Ground Works',
+      entryIds: ['dwarf-birch', 'reindeer-lichen', 'frost-heave-boulder'],
+      minimumDiscoveries: 2,
+      summary:
+        'Freeze-thaw stone and low growth show where cold ground still shapes the fell.',
+      observationPrompt:
+        'What here still looks shaped by cold ground?',
     },
   ],
   phenology: {

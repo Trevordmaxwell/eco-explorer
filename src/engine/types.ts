@@ -9,6 +9,7 @@ export type PhenologyPhase = 'early' | 'peak' | 'late';
 export type PhenologyAccentStyle = 'bloom' | 'berry' | 'seed' | 'cone' | 'tuft' | 'frost';
 export type HabitatProcessStyle = 'sand-drift' | 'moisture-hold' | 'frost-rime' | 'thaw-fringe';
 export type DepthFeatureStyle = 'root-chamber' | 'stone-pocket' | 'canopy-pocket' | 'trunk-interior';
+export type VerticalCueStyle = 'recovery-light' | 'canopy-opening';
 export type ObservationPromptFamily = 'shelter' | 'timing' | 'neighbors' | 'comparison';
 export type SketchbookSlotId = 'top-left' | 'top-right' | 'lower-center';
 export type FieldStationView = 'season' | 'nursery';
@@ -18,6 +19,20 @@ export type NurserySourceMode = 'seed' | 'cutting';
 export type NurseryRewardKind = 'beauty' | 'route-support' | 'utility';
 export type NurseryGrowthStage = 'stocked' | 'rooting' | 'growing' | 'mature';
 export type NurseryExtraId = 'log-pile' | 'pollinator-patch';
+export type OutingSupportId = 'hand-lens' | 'route-marker';
+export type RouteV2ProgressStatus = 'gathering' | 'ready-to-synthesize';
+
+export interface RouteV2EvidenceSlotProgress {
+  slotId: string;
+  entryId: string;
+}
+
+export interface RouteV2FieldRequestProgressState {
+  requestId: string;
+  status: RouteV2ProgressStatus;
+  landmarkEntryIds: string[];
+  evidenceSlots: RouteV2EvidenceSlotProgress[];
+}
 
 export interface ObservationPrompt {
   id: string;
@@ -51,6 +66,8 @@ export interface SaveState {
   discoveredEntries: Record<string, JournalEntryState>;
   sketchbookPages: Record<string, SketchbookPageState>;
   completedFieldRequestIds: string[];
+  routeV2Progress: RouteV2FieldRequestProgressState | null;
+  selectedOutingSupportId: OutingSupportId;
   fieldCredits: number;
   claimedFieldCreditIds: string[];
   purchasedUpgradeIds: string[];
@@ -113,6 +130,7 @@ interface InspectableEntryBase {
   category: InspectableCategory;
   shortFact: string;
   journalText: string;
+  sketchbookNote?: string;
   spriteId: string;
   collectible: boolean;
 }
@@ -232,6 +250,14 @@ export interface HabitatProcessMoment {
   secondaryColor?: string;
 }
 
+export interface VerticalCue {
+  id: string;
+  style: VerticalCueStyle;
+  x: number;
+  y: number;
+  zoneIds: string[];
+}
+
 export interface BiomeDefinition {
   id: string;
   name: string;
@@ -245,6 +271,7 @@ export interface BiomeDefinition {
   ecosystemNotes: EcosystemNote[];
   phenology?: BiomePhenologyProfile;
   processMoments?: HabitatProcessMoment[];
+  verticalCues?: VerticalCue[];
   startPosition: { x: number; y: number };
 }
 

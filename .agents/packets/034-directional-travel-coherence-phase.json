@@ -1,0 +1,94 @@
+{
+  "packet_id": "ECO-PACKET-034",
+  "version": 3,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Directional travel coherence phase",
+  "summary": "Thirty-fourth structured packet for Eco Explorer. After the season-capstone wave, lane 1 should run a focused directional travel coherence pass so corridor entries, exits, world-map returns, and travel-facing cues feel spatially believable and less disorienting without rewriting the hybrid map-plus-corridor model. The scout audit narrows the first main pass to stable same-biome map-return anchoring, tiny target-aware travel cues, and direction-first world-map footer copy. The follow-up scout handoff narrows the final pass to shared menu and post map-exit framing plus one tiny world-map origin reminder.",
+  "source_reports": [
+    "docs/reports/2026-03-30-directional-travel-coherence-phase.md",
+    "docs/reports/2026-03-30-directional-travel-coherence-audit.md",
+    "docs/reports/2026-03-30-directional-travel-follow-up-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-71",
+    "ECO-20260330-main-107",
+    "ECO-20260330-critic-82",
+    "ECO-20260330-scout-72",
+    "ECO-20260330-main-108",
+    "ECO-20260330-critic-83"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-73"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-71",
+      "goal": "Audit the current travel chain for directional incoherence.",
+      "why_now": "The current hybrid travel model works, but orientation is still one of the biggest remaining player-facing clarity issues."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-107",
+      "goal": "Implement the first directional travel coherence pass.",
+      "why_now": "This is the main systems polish step that makes the world feel more connected."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-82",
+      "goal": "Review the directional travel coherence pass.",
+      "why_now": "The pass only succeeds if it reduces disorientation without becoming over-guided."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-72",
+      "goal": "Prepare one compact directional follow-up.",
+      "why_now": "There will likely be a small number of stubborn confusion points worth a second, lighter pass."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-108",
+      "goal": "Implement the directional follow-up pass: shared map-exit framing plus a tiny origin reminder.",
+      "why_now": "A small follow-up should finish the travel-coherence lane more cleanly than one oversized first pass."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-83",
+      "goal": "Review the completed directional travel phase.",
+      "why_now": "This is the gate for whether travel now supports the ecosystem-gradient fantasy clearly enough."
+    }
+  ],
+  "guardrails": [
+    "Do not replace the hybrid map-plus-corridor model.",
+    "Do not add a large new HUD or navigation panel.",
+    "Prefer spatial framing, anchors, and subtle cues over tutorial text.",
+    "Keep the pass in lane 1 and centered on coherence, not on broader content expansion.",
+    "Preserve the cozy exploratory tone while reducing disorientation."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content/world-map.ts",
+    "src/test",
+    "docs/world-travel.md",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Travel feels less spatially backward or disorienting.",
+    "Map returns, corridor entries, and exit framing feel more coherent.",
+    "The world reads more like one connected gradient."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-03-30-directional-travel-coherence-phase.md, and this packet. Treat this as a lane-1 systems polish wave. Keep the hybrid map-plus-corridor model, but make biome-to-biome travel feel directionally coherent and less disorienting through better framing, anchors, and subtle travel cues."
+}

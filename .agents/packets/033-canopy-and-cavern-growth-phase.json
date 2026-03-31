@@ -1,0 +1,131 @@
+{
+  "packet_id": "ECO-PACKET-033",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Canopy and cavern growth phase",
+  "summary": "Thirty-third structured packet for Eco Explorer. After lane 3 proves its first giant-tree and deeper-cave family pass, the next growth wave should extend upward into a richer canopy pocket, downward into a more layered cave continuation, and then tighten readability through tiny wayfinding and one optional crossover beat instead of opening a larger traversal rewrite.",
+  "source_reports": [
+    "docs/reports/2026-03-30-canopy-and-cavern-growth-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-68",
+    "ECO-20260330-main-103",
+    "ECO-20260330-critic-78",
+    "ECO-20260330-scout-69",
+    "ECO-20260330-main-104",
+    "ECO-20260330-critic-79",
+    "ECO-20260330-scout-70",
+    "ECO-20260330-main-105",
+    "ECO-20260330-critic-80",
+    "ECO-20260330-main-106",
+    "ECO-20260330-critic-81"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-69"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-68",
+      "goal": "Prepare an upper-canopy pocket extension.",
+      "why_now": "The first giant-tree pass should grow upward one careful step before the lane broadens further."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-103",
+      "goal": "Implement the upper-canopy pocket extension.",
+      "why_now": "A stronger canopy layer makes giant-tree exploration feel more magical and complete."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-78",
+      "goal": "Review the upper-canopy pocket.",
+      "why_now": "The canopy must stay readable and friendly at the current screen scale."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-69",
+      "goal": "Prepare a multi-chamber cave continuation.",
+      "why_now": "The cave family should deepen one authored layer at a time instead of jumping to a full cave engine."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-104",
+      "goal": "Implement the multi-chamber cave continuation.",
+      "why_now": "A second chamber family proves the cave lane has more than one novelty beat."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-79",
+      "goal": "Review the multi-chamber cave continuation.",
+      "why_now": "The deeper cave layer should stay cozy and navigable."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-70",
+      "goal": "Prepare tiny vertical wayfinding and recovery cues.",
+      "why_now": "Higher and deeper spaces need a little more support before the lane grows again."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-105",
+      "goal": "Add tiny wayfinding and recovery cues for tall and deep spaces.",
+      "why_now": "These cues should improve traversal clarity without turning into a new HUD system."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-80",
+      "goal": "Review the wayfinding and recovery layer.",
+      "why_now": "The support layer only helps if it stays subtle."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-106",
+      "goal": "Add one optional canopy-to-cavern crossover beat.",
+      "why_now": "A light crossover will make the expanded lane feel like a real family of spaces."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260330-critic-81",
+      "goal": "Review the expanded vertical-exploration family.",
+      "why_now": "This is the gate for whether lane 3 is ready for another larger wave later."
+    }
+  ],
+  "guardrails": [
+    "Do not add combat, fail-state danger, or survival framing.",
+    "Do not build a generalized cave engine or broad climbing rewrite in this phase.",
+    "Keep traversal readable and kid-friendly.",
+    "Use authored canopy and cavern pockets rather than large procedural expansion.",
+    "Treat giant trees and caves as science-forward sub-ecosystems, not fantasy set pieces."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The canopy feels richer without becoming confusing.",
+    "The cave family feels deeper without becoming hostile.",
+    "Lane 3 grows into a clearer long-term pillar for vertical exploration."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-03-30-canopy-and-cavern-growth-phase.md, and this packet. Treat lane 3's next wave as a careful upward-and-downward growth pass: extend the canopy, deepen the cave family, add tiny readability supports, and connect the lane with one optional crossover beat without opening a larger traversal rewrite."
+}

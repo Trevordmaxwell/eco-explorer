@@ -160,4 +160,31 @@ describe('nursery growth and rewards', () => {
       'Brief bright bloom often holds where the ground stays open but low.',
     );
   });
+
+  it('keeps the salmonberry clue alive once the route is logged and the season moves into root hollow', () => {
+    const save = createNewSaveState('nursery-capstone-support-seed');
+    save.nurseryClaimedRewardIds = ['nursery:salmonberry-support'];
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'];
+
+    syncNurseryState(save);
+
+    const expeditionReadyView = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: null },
+      null,
+    );
+    expect(expeditionReadyView.routeSupportHint).toBe(
+      'Salmonberry still marks the cooler forest return near Root Hollow.',
+    );
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'forest-expedition-upper-run'];
+    const capstoneView = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: null },
+      null,
+    );
+    expect(capstoneView.routeSupportHint).toBe(
+      'Salmonberry still marks the cooler forest return tying the season together.',
+    );
+  });
 });

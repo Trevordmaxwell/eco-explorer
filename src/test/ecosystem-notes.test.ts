@@ -47,9 +47,9 @@ describe('ecosystem note resolution', () => {
 
   it('returns none for entries without a matching ecosystem note', () => {
     const resolved = resolveEcosystemNoteForEntry(
-      forestBiome,
-      'pileated-woodpecker',
-      ['pileated-woodpecker'],
+      beachBiome,
+      'sanderling',
+      ['sanderling'],
     );
 
     expect(resolved).toEqual({
@@ -126,6 +126,35 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('creekside-shelter');
   });
 
+  it('supports the new forest root-held shelter note once off-ground moisture clues overlap', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'root-curtain',
+      ['root-curtain', 'tree-lungwort'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('root-held-shelter');
+  });
+
+  it('keeps the old-wood link locked until the player reaches a true old-growth clue', () => {
+    const locked = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'fallen-giant-log',
+      ['fallen-giant-log', 'seep-stone'],
+    );
+    const unlocked = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'woodpecker-cavity',
+      ['fallen-giant-log', 'seep-stone', 'woodpecker-cavity'],
+    );
+
+    expect(locked.state).toBe('locked');
+    expect(locked.note).toBeNull();
+    expect(unlocked.state).toBe('unlocked');
+    expect(unlocked.note?.id).toBe('old-wood-link');
+  });
+
   it('supports the treeline shelter note through the new lee-pocket pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       treelineBiome,
@@ -170,6 +199,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('heath-berry-mats');
   });
 
+  it('supports the new treeline cold-ground note through the low shrub and lichen pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      treelineBiome,
+      'dwarf-birch',
+      ['dwarf-birch', 'reindeer-lichen'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('cold-ground-works');
+  });
+
   it('supports the new tundra thaw-bloom note through the ridge flower pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       tundraBiome,
@@ -190,5 +230,16 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('tussock-ground');
+  });
+
+  it('supports the new tundra thaw-edge note through the willow and cottongrass pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      tundraBiome,
+      'arctic-willow',
+      ['arctic-willow', 'cottongrass'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('thaw-edge');
   });
 });

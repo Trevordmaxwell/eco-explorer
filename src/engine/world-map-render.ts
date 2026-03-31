@@ -30,6 +30,25 @@ function fillPixelPanel(
   context.fillRect(x + 2, y + 2, w - 4, h - 4);
 }
 
+function fitTextToWidth(
+  context: CanvasRenderingContext2D,
+  text: string,
+  maxWidth: number,
+): string {
+  if (!text || context.measureText(text).width <= maxWidth) {
+    return text;
+  }
+
+  const ellipsis = '...';
+  let next = text;
+
+  while (next.length > 0 && context.measureText(`${next}${ellipsis}`).width > maxWidth) {
+    next = next.slice(0, -1);
+  }
+
+  return next.length > 0 ? `${next}${ellipsis}` : ellipsis;
+}
+
 function drawPath(
   context: CanvasRenderingContext2D,
   points: Array<{ x: number; y: number }>,
@@ -87,6 +106,7 @@ export function drawWorldMapScene(
   focusedSurveyState: BiomeSurveyState = 'none',
   routeMarkerLocationId: string | null = null,
   routeReplayLabel: string | null = null,
+  originLabel: string | null = null,
 ): void {
   const gradient = context.createLinearGradient(0, 0, 0, definition.height);
   gradient.addColorStop(0, worldMapPalette.skyTop);
@@ -184,14 +204,21 @@ export function drawWorldMapScene(
   );
   context.font = 'bold 8px Verdana, Geneva, sans-serif';
   context.fillStyle = worldMapPalette.text;
-  context.fillText(focused.label.toUpperCase(), 14, definition.height - 24);
+  const focusedLabel = focused.label.toUpperCase();
+  context.fillText(focusedLabel, 14, definition.height - 24);
   const surveyLabel = formatBiomeSurveyStateLabel(focusedSurveyState);
-  if (surveyLabel) {
+  const secondaryTopLabel = originLabel ?? surveyLabel;
+  if (secondaryTopLabel) {
     context.font = 'bold 7px Verdana, Geneva, sans-serif';
-    context.fillStyle = worldMapPalette.accent;
+    const availableWidth = Math.max(
+      36,
+      definition.width - 18 - context.measureText(focusedLabel).width - 28,
+    );
+    const fittedLabel = fitTextToWidth(context, secondaryTopLabel, availableWidth);
+    context.fillStyle = originLabel ? worldMapPalette.text : worldMapPalette.accent;
     context.fillText(
-      surveyLabel,
-      definition.width - 14 - context.measureText(surveyLabel).width,
+      fittedLabel,
+      definition.width - 14 - context.measureText(fittedLabel).width,
       definition.height - 24,
     );
   }

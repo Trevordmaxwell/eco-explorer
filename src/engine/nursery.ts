@@ -7,7 +7,7 @@ import type {
   NurseryResourceKind,
   SaveState,
 } from './types';
-import type { FieldSeasonBoardState } from './field-season-board';
+import { resolveNurseryCapstoneSupportHint, type FieldSeasonBoardState } from './field-season-board';
 
 export type NurseryCardId = 'bench' | 'compost' | 'bed';
 
@@ -467,7 +467,10 @@ export function resolveNurseryStateView(
       ...definition,
       unlocked: save.nurseryUnlockedExtraIds.includes(definition.id),
     })),
-    routeSupportHint: edgePatternRouteSupport ?? routeSupportProject?.definition.rewardSummary ?? null,
+    routeSupportHint:
+      edgePatternRouteSupport
+      ?? routeSupportProject?.definition.rewardSummary
+      ?? resolveNurseryCapstoneSupportHint(save),
     utilityNote,
     compostRate: getUtilityCompostRate(save),
   };

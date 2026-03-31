@@ -24,6 +24,7 @@ const tundraEntries = {
     shortFact: 'Its fluffy seed heads help wind carry new seeds across wet tundra.',
     journalText:
       'Cottongrass grows in soggy Arctic soil. The white tufts are not cotton at all. They are seed fibers that help spread the plant.',
+    sketchbookNote: 'White tufts marking a brief wet thaw band.',
     spriteId: 'cottongrass',
     collectible: false,
   },
@@ -59,6 +60,7 @@ const tundraEntries = {
     shortFact: "Bigelow's sedge grows in low tussocks that lift leaves above wet, cold tundra soil.",
     journalText:
       "Bigelow's sedge is a low northern sedge that often grows in raised tussocks. Those springy clumps help shape wet tundra ground and can give small animals cover between stems.",
+    sketchbookNote: 'Raised tussocks shaping wet tundra ground.',
     spriteId: 'bigelows-sedge',
     collectible: false,
   },
@@ -187,10 +189,7 @@ export const tundraBiome: BiomeDefinition = {
       minCount: 3,
       maxCount: 4,
       spacing: 22,
-      entries: [
-        { entryId: 'purple-saxifrage', weight: 4 },
-        { entryId: 'cottongrass', weight: 3 },
-      ],
+      entries: [{ entryId: 'purple-saxifrage', weight: 4 }],
     },
     {
       id: 'stable-sedge-tussocks',
@@ -374,12 +373,23 @@ export const tundraBiome: BiomeDefinition = {
     {
       id: 'short-summer-rush',
       title: 'Short Summer Rush',
-      entryIds: ['cottongrass', 'cloudberry', 'snow-bunting'],
+      entryIds: ['purple-saxifrage', 'cloudberry', 'snow-bunting'],
       summary:
         'Plants and birds must use the short summer fast.',
       observationPrompt:
         'What hints at a very short summer?',
       zoneId: 'snow-meadow',
+    },
+    {
+      id: 'thaw-edge',
+      title: 'Thaw Edge',
+      entryIds: ['arctic-willow', 'purple-saxifrage', 'cottongrass'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low shrubs, blooms, and tufts mark the brief wet edge where tundra starts to thaw.',
+      observationPrompt:
+        'What here marks the wet edge of thaw?',
+      zoneId: 'thaw-skirt',
     },
   ],
   phenology: {

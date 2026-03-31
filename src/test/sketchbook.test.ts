@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { beachBiome, coastalScrubBiome } from '../content/biomes';
+import { beachBiome, coastalScrubBiome, forestBiome, tundraBiome } from '../content/biomes';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
 import {
   buildSketchbookPageView,
@@ -54,9 +54,63 @@ describe('sketchbook helpers', () => {
 
     expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
       entryId: 'sand-verbena',
+      note: 'Low bloom on bright shifting dunes.',
       entry: {
         commonName: 'Yellow Sand Verbena',
       },
+    });
+  });
+
+  it('prefers authored sketchbook notes over the default short fact', () => {
+    const save = createNewSaveState('sketchbook-note-seed');
+    recordDiscovery(save, beachBiome.entries['sand-dollar-test'], 'beach');
+    placeSketchbookEntry(save, beachBiome, 'top-left', 'sand-dollar-test');
+
+    const page = buildSketchbookPageView(
+      beachBiome,
+      beachBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'sand-dollar-test',
+      note: 'A pale shore clue washed from sandy shallows.',
+    });
+  });
+
+  it('surfaces new landmark notes for route-defining forest memory anchors', () => {
+    const save = createNewSaveState('sketchbook-forest-landmark-note-seed');
+    const entry = forestBiome.entries['root-curtain'];
+    recordDiscovery(save, entry, 'forest');
+    placeSketchbookEntry(save, forestBiome, 'top-left', 'root-curtain');
+
+    const page = buildSketchbookPageView(
+      forestBiome,
+      forestBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'root-curtain',
+      note: 'Dim root shelter catching drips above the cave.',
+    });
+  });
+
+  it('surfaces the thaw-band note for the new tundra process carrier', () => {
+    const save = createNewSaveState('sketchbook-tundra-process-note-seed');
+    const entry = tundraBiome.entries.cottongrass;
+    recordDiscovery(save, entry, 'tundra');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'cottongrass');
+
+    const page = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'cottongrass',
+      note: 'White tufts marking a brief wet thaw band.',
     });
   });
 });

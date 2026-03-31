@@ -1,0 +1,207 @@
+{
+  "packet_id": "ECO-PACKET-035",
+  "version": 6,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Gameplay loop and Route v2 lane",
+  "summary": "Thirty-fifth structured packet for Eco Explorer. Lane 4 is a gameplay-loop cohesion lane that should turn outings into clearer cozy naturalist adventures through Route v2 conversions, one tiny pre-outing support choice, station-side notebook synthesis, and soft replay windows. The packet now carries the first forest pilot handoffs, the support-slot handoff, the notebook-return handoff, the transition-route conversion pack, the inland stress-and-exposure conversion pack, the thaw-edge alignment fix, the first expedition-as-chapter handoff that collapses Root Hollow into one place-led climb-and-return note instead of three legacy checkpoint requests, and the follow-up fix that makes Root Hollow's live clue sequence match that authored chapter copy.",
+  "source_reports": [
+    "docs/reports/2026-03-30-gameplay-loop-and-route-v2-lane.md",
+    "docs/reports/2026-03-30-route-v2-pilot-conversion-handoff.md",
+    "docs/reports/2026-03-30-tiny-outing-support-slot-handoff.md",
+    "docs/reports/2026-03-30-route-v2-notebook-synthesis-handoff.md",
+    "docs/reports/2026-03-30-transition-route-v2-conversion-handoff.md",
+    "docs/reports/2026-03-30-inland-route-v2-conversion-handoff.md",
+    "docs/reports/2026-03-30-expedition-as-chapter-handoff.md",
+    "docs/reports/2026-03-30-route-v2-chapter-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-73",
+    "ECO-20260330-scout-74",
+    "ECO-20260330-scout-75",
+    "ECO-20260330-main-109",
+    "ECO-20260330-critic-84",
+    "ECO-20260330-main-110",
+    "ECO-20260330-critic-85",
+    "ECO-20260330-main-111",
+    "ECO-20260330-critic-86",
+    "ECO-20260330-scout-76",
+    "ECO-20260330-main-112",
+    "ECO-20260330-critic-87",
+    "ECO-20260330-scout-77",
+    "ECO-20260330-main-113",
+    "ECO-20260330-critic-88",
+    "ECO-20260330-main-121",
+    "ECO-20260330-scout-78",
+    "ECO-20260330-main-114",
+    "ECO-20260330-critic-89",
+    "ECO-20260330-main-122"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "scout-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-73",
+      "goal": "Prepare the first Route v2 pilot conversion pack.",
+      "why_now": "The lane should start from concrete existing routes, not abstract theory."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-scout-74",
+      "goal": "Prepare the tiny outing-support slot handoff.",
+      "why_now": "One small player choice is the cleanest first gamification layer."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-scout-75",
+      "goal": "Prepare the notebook synthesis return flow.",
+      "why_now": "Route v2 only works if the finish step is calm, clear, and compact."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-main-109",
+      "goal": "Implement the Route v2 core runtime.",
+      "why_now": "The lane needs one save-safe foundation before it converts real routes."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-critic-84",
+      "goal": "Review the Route v2 core runtime.",
+      "why_now": "The new core touches save, request, and station seams and needs an early safety check."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-main-110",
+      "goal": "Convert Hidden Hollow and Moisture Holders to Route v2.",
+      "why_now": "The forest pair is the strongest first pilot for wayfinding plus evidence assembly."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-critic-85",
+      "goal": "Review the first Route v2 forest pilot.",
+      "why_now": "The first live outing loop needs a quality gate before the lane widens."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-111",
+      "goal": "Add one tiny outing-support choice and route-aware today note.",
+      "why_now": "This is the smallest choice-and-anticipation layer that makes outings feel more like game sessions."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-86",
+      "goal": "Review the support choice and soft replay note.",
+      "why_now": "The lane should only continue if those additions stay compact and calm."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-scout-76",
+      "goal": "Prepare the transition-route conversion pack.",
+      "why_now": "The next strongest proof is the middle-habitat comparison and transition pair."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260330-main-112",
+      "goal": "Convert Scrub Pattern and Cool Edge to Route v2.",
+      "why_now": "These routes can best prove that the model works outside the forest starter pair."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260330-critic-87",
+      "goal": "Review the transition-route conversion.",
+      "why_now": "The middle-habitat phase should feel like observations and choices, not disguised counts."
+    },
+    {
+      "step": 13,
+      "queue_id": "ECO-20260330-scout-77",
+      "goal": "Prepare the inland stress-and-exposure conversion pack.",
+      "why_now": "The inland branch should become the stronger second act of the season."
+    },
+    {
+      "step": 14,
+      "queue_id": "ECO-20260330-main-113",
+      "goal": "Convert the inland line to Route v2.",
+      "why_now": "This is the point where lane 4 proves the outing model can carry a broader chapter."
+    },
+    {
+      "step": 15,
+      "queue_id": "ECO-20260330-critic-88",
+      "goal": "Review the inland Route v2 line.",
+      "why_now": "The inland branch should stay distinct, science-safe, and calm."
+    },
+    {
+      "step": 16,
+      "queue_id": "ECO-20260330-main-121",
+      "goal": "Force Short Season to cross the thaw edge for real.",
+      "why_now": "The new inland middle beat should feel spatial, not like a one-zone gather wearing Route v2 copy."
+    },
+    {
+      "step": 17,
+      "queue_id": "ECO-20260330-scout-78",
+      "goal": "Prepare the first expedition-as-chapter handoff.",
+      "why_now": "Once outings feel coherent, the next step is to turn one expedition into a true chapter."
+    },
+    {
+      "step": 18,
+      "queue_id": "ECO-20260330-main-114",
+      "goal": "Rebuild Root Hollow as the first Route v2 chapter.",
+      "why_now": "Root Hollow is already the best live template for a fuller authored outing."
+    },
+    {
+      "step": 19,
+      "queue_id": "ECO-20260330-critic-89",
+      "goal": "Review the first full Route v2 chapter.",
+      "why_now": "This is the gate for whether lane 4 has really made the game loop feel more like a game."
+    },
+    {
+      "step": 20,
+      "queue_id": "ECO-20260330-main-122",
+      "goal": "Make Root Hollow's live clue order match its chapter copy.",
+      "why_now": "The new chapter framing only holds if the expedition guidance stays truthful when players inspect clues out of order."
+    }
+  ],
+  "guardrails": [
+    "Do not add combat, health, survival meters, or failure-state pressure.",
+    "Do not add a larger quest log, planner, or loadout screen.",
+    "Keep the support choice tiny and route-facing.",
+    "Reuse the existing station and replay seams instead of opening a parallel hint system.",
+    "Treat route completion as notebook synthesis plus gathered evidence, not as instant inspection counts."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Outings feel more purposeful and game-like without changing genre.",
+    "The station remains compact while gaining a tiny meaningful choice and payoff seam.",
+    "Route v2 grows from existing routes and chapters instead of replacing the whole game shell."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-03-30-gameplay-loop-and-route-v2-lane.md, and this packet. Treat lane 4 as the gameplay-loop cohesion lane: retrofit a few strong outings into Route v2, add one tiny support choice, finish outings through notebook synthesis, and use replay seams to make the game feel more like a cozy naturalist adventure without adding a bigger quest shell."
+}

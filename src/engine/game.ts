@@ -21,8 +21,10 @@ import {
 import { resolveEcosystemNoteForEntry } from './ecosystem-notes';
 import {
   resolveFieldAtlasState,
+  resolveFieldSeasonArchiveState,
   resolveFieldSeasonBoardState,
   resolveFieldSeasonExpeditionState,
+  resolveFieldStationSubtitle,
   resolveFieldSeasonWrapState,
 } from './field-season-board';
 import {
@@ -53,9 +55,11 @@ import {
   type FieldPartnerTrigger,
 } from './field-partner';
 import {
+  advanceActiveFieldRequest,
+  fileReadyRouteV2FieldRequest,
   FIELD_REQUEST_DEFINITIONS,
+  getHandLensNotebookFit,
   resolveActiveFieldRequest,
-  shouldCompleteActiveFieldRequest,
   type ActiveFieldRequest,
 } from './field-requests';
 import { resolveGuidedFieldSeasonState } from './guided-field-season';
@@ -116,14 +120,17 @@ import {
 import { clamp } from './random';
 import { copyTextToClipboard } from './clipboard';
 import {
+  cycleSelectedOutingSupportId,
   getDiscoveredEntryIds,
   incrementBiomeVisit,
   persistSave,
   recordDiscovery,
   recordCompletedFieldRequest,
+  resolveSelectedOutingSupportId,
   resetSaveProgress,
 } from './save';
 import { createSpriteRegistry } from './sprites';
+import { resolveVisibleVerticalCues } from './vertical-cues';
 import { drawWorldMapScene } from './world-map-render';
 import {
   beginWorldMapWalk,
@@ -203,12 +210,14 @@ interface RenderDoorState {
   anchor: DoorAnchor;
   openAmount: number;
   highlighted: boolean;
+  label: string | null;
 }
 
 interface TravelInteractable {
   kind: 'corridor' | 'map-return';
   anchor: DoorAnchor;
   targetBiomeId: CorridorBiomeId | null;
+  label: string;
 }
 
 interface PendingFieldPartnerTrigger {
@@ -315,6 +324,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   let selectedMenuActionId: MenuActionId = 'toggle-fullscreen';
   let showResetConfirmation = false;
   let selectedFieldStationUpgradeId: string | null = null;
+  let outingSupportSelected = false;
   let selectedFieldStationView: FieldStationView = 'season';
   let selectedFieldStationSeasonPage: FieldStationSeasonPage = 'routes';
   let selectedNurseryCardId: NurseryCardId = 'bench';
@@ -334,6 +344,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   let fieldPartnerContextKey = '';
   let guidedStarterNoticeShown = false;
   let guidedStationNoticeShown = false;
+  let guidedSeasonCapstoneNoticeShown = false;
+  let guidedSeasonCloseNoticeShown = false;
   let guidedNextStopNoticeShown = false;
   let worldMapState = createWorldMapState(
     ecoWorldMap,
@@ -478,18 +490,30 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
     const expedition = resolveFieldSeasonExpeditionState(save);
     const atlas = resolveFieldAtlasState(save);
+    const archive = resolveFieldSeasonArchiveState(save);
+    const selectedOutingSupportId = resolveSelectedOutingSupportId(save);
     const seasonWrap = resolveFieldSeasonWrapState(
       biomeRegistry,
       routeBoard,
       guidedFieldSeason.stationNote,
       atlas,
+      archive,
+      selectedOutingSupportId,
+    );
+    const subtitle = resolveFieldStationSubtitle(
+      selectedFieldStationView,
+      selectedFieldStationSeasonPage,
+      seasonWrap,
     );
     const selectedUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
     const selectedProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
     return {
       view: selectedFieldStationView,
       seasonPage: selectedFieldStationSeasonPage,
+      subtitle,
       credits: save.fieldCredits,
+      selectedOutingSupportId,
+      outingSupportSelected,
       recentSources: getRecentFieldCreditSources(biomeRegistry, save),
       upgrades: getFieldUpgradeStates(save),
       selectedUpgradeId,
@@ -510,9 +534,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       return null;
     }
 
+    if (resolveSelectedOutingSupportId(save) !== 'route-marker') {
+      return null;
+    }
+
     const fieldStationState = getFieldStationState();
+    const guidedFieldSeason = getGuidedFieldSeasonState();
     const targetBiomeId =
       fieldStationState.routeBoard.targetBiomeId ??
+      (guidedFieldSeason.stage === 'season-capstone' ? 'forest' : null) ??
       (fieldStationState.expedition.status === 'ready' || fieldStationState.expedition.status === 'active'
         ? 'forest'
         : null);
@@ -533,6 +563,21 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return replayLocationId === focusedLocationId ? `Today: ${routeBoard.replayNote.title}` : null;
   }
 
+  function getWorldMapOriginLabel(
+    currentLocationId: string,
+    focusedLocationId: string,
+  ): string | null {
+    if (currentLocationId === focusedLocationId) {
+      return null;
+    }
+
+    return `FROM ${getWorldMapLocation(ecoWorldMap, currentLocationId).label.toUpperCase()}`;
+  }
+
+  function getWorldMapApproachLabel(locationId: string): string | null {
+    return getWorldMapLocation(ecoWorldMap, locationId).approachLabel ?? null;
+  }
+
   function openFieldStation(): void {
     const claimedSources = syncFieldStationLedger(biomeRegistry, save);
     const nurseryChanged = syncNurseryState(save);
@@ -541,6 +586,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
     selectedFieldStationView = 'season';
     selectedFieldStationSeasonPage = 'routes';
+    outingSupportSelected = false;
     selectedNurseryCardId = 'bench';
     selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
     selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
@@ -728,6 +774,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       title: fieldRequest.title,
       summary: fieldRequest.summary,
       progressLabel: fieldRequest.progressLabel,
+      routeV2: fieldRequest.routeV2,
     };
   }
 
@@ -749,6 +796,26 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getCurrentMapLocation().corridorDoors ?? [];
   }
 
+  function getPreferredMapReturnAnchor(biomeId: string): DoorAnchor | null {
+    return getWorldMapLocationByBiomeId(ecoWorldMap, biomeId).mapReturnPost ?? null;
+  }
+
+  function getTravelInteractableLabel(
+    kind: TravelInteractable['kind'],
+    targetBiomeId: CorridorBiomeId | null,
+    mapReturnLabel: string | null = null,
+  ): string {
+    if (kind === 'map-return') {
+      return mapReturnLabel ?? 'WORLD MAP';
+    }
+
+    if (!targetBiomeId) {
+      return 'TRAVEL';
+    }
+
+    return `TO ${getWorldMapLocationByBiomeId(ecoWorldMap, targetBiomeId).label.toUpperCase()}`;
+  }
+
   function getCurrentTravelInteractables(): TravelInteractable[] {
     if (activeCorridor) {
       return [];
@@ -759,6 +826,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       kind: 'corridor',
       anchor: door,
       targetBiomeId: isCorridorConnectedBiomeId(door.targetBiomeId) ? door.targetBiomeId : null,
+      label: getTravelInteractableLabel(
+        'corridor',
+        isCorridorConnectedBiomeId(door.targetBiomeId) ? door.targetBiomeId : null,
+      ),
     }));
 
     if (location.mapReturnPost) {
@@ -766,6 +837,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         kind: 'map-return',
         anchor: location.mapReturnPost,
         targetBiomeId: null,
+        label: getTravelInteractableLabel('map-return', null, location.mapReturnLabel ?? null),
       });
     }
 
@@ -802,6 +874,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           anchor: getWorldMapBiomeDoor(),
           openAmount: getTransitionSnapshot()?.sourceDoorOpen ?? 0,
           highlighted: false,
+          label: null,
         },
       ];
     }
@@ -810,6 +883,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       anchor: target.anchor,
       openAmount: 0,
       highlighted: isSameTravelInteractable(highlightedTarget, target),
+      label: target.label,
     }));
   }
 
@@ -1027,6 +1101,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getBiomeZoneForPlayerX(getContextBiomeDefinition(), player.x)?.label ?? null;
   }
 
+  function getVisibleVerticalCuesForRender() {
+    if (
+      overlayMode !== 'playing' ||
+      sceneMode !== 'biome' ||
+      activeCorridor ||
+      bubble ||
+      !save.settings.showInspectHints
+    ) {
+      return [];
+    }
+
+    return resolveVisibleVerticalCues(
+      getContextBiomeDefinition(),
+      getCurrentZoneId(),
+      {
+        x: cameraX,
+        y: cameraY,
+        w: WIDTH,
+        h: HEIGHT,
+      },
+    );
+  }
+
   function getFieldRequestContext() {
     return {
       biomes: biomeRegistry,
@@ -1080,6 +1177,37 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.2);
   }
 
+  function maybeShowSeasonCapstoneNoticeOnBiomeEnter(biomeId: string): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (
+      biomeId !== 'forest' ||
+      guidedSeasonCapstoneNoticeShown ||
+      guidedFieldSeason.stage !== 'season-capstone' ||
+      !guidedFieldSeason.promptNotice ||
+      fieldRequestNotice
+    ) {
+      return;
+    }
+
+    guidedSeasonCapstoneNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+  }
+
+  function maybeShowSeasonCloseNotice(): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (guidedSeasonCloseNoticeShown || guidedFieldSeason.stage !== 'season-close' || !guidedFieldSeason.promptNotice) {
+      return;
+    }
+
+    guidedSeasonCloseNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.4);
+  }
+
+  function maybeShowWorldMapFieldSeasonNotice(): void {
+    maybeShowSeasonCloseNotice();
+    maybeShowStationReturnNotice();
+  }
+
   function maybeShowNextHabitatNotice(): void {
     const guidedFieldSeason = getGuidedFieldSeasonState();
     if (guidedNextStopNoticeShown || guidedFieldSeason.stage !== 'next-habitat' || !guidedFieldSeason.promptNotice) {
@@ -1103,16 +1231,39 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, 3.2);
   }
 
-  function maybeCompleteActiveFieldRequest(trigger: 'zone' | 'inspect' | 'enter-biome'): void {
-    const completedRequestId = shouldCompleteActiveFieldRequest(getFieldRequestContext(), trigger);
-    if (!completedRequestId) {
+  function maybeCompleteActiveFieldRequest(
+    trigger: 'zone' | 'inspect' | 'enter-biome',
+    entryId?: string | null,
+  ): void {
+    const result = advanceActiveFieldRequest(getFieldRequestContext(), trigger, entryId);
+    if (!result) {
       return;
     }
 
-    if (recordCompletedFieldRequest(save, completedRequestId)) {
+    if (result.status === 'ready-to-synthesize') {
       persistSave(save);
-      showFieldRequestNotice(completedRequestId);
+      showFieldNotice(
+        result.noticeTitle ?? 'NOTEBOOK READY',
+        result.noticeText ?? 'Return to the field station and file this note.',
+        3.2,
+      );
+      return;
     }
+
+    if (!recordCompletedFieldRequest(save, result.requestId)) {
+      return;
+    }
+
+    persistSave(save);
+    if (result.requestId === 'forest-expedition-upper-run') {
+      const guidedFieldSeason = getGuidedFieldSeasonState();
+      if (guidedFieldSeason.stage === 'season-capstone' && guidedFieldSeason.promptNotice) {
+        guidedSeasonCapstoneNoticeShown = true;
+        showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
+        return;
+      }
+    }
+    showFieldRequestNotice(result.requestId);
   }
 
   function getNearbyDiscoveredEntryIdsForPrompt(radius = 56): string[] {
@@ -1406,6 +1557,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     persistSave(save);
     maybeCompleteActiveFieldRequest('enter-biome');
     maybeShowRouteReplayNoticeOnBiomeEnter(biomeId);
+    maybeShowSeasonCapstoneNoticeOnBiomeEnter(biomeId);
   }
 
   function enterBiome(biomeId: string): void {
@@ -1472,6 +1624,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function openWorldMapDirect(): void {
     const biomeId = getContextBiomeId();
+    const returnAnchor = !activeCorridor ? getPreferredMapReturnAnchor(biomeId) : null;
+    if (returnAnchor) {
+      startWorldMapExitTransition(returnAnchor);
+      return;
+    }
+
     activeCorridor = null;
     resetNurseryClaimedEntities();
     currentBiomeDefinition = biomeRegistry[biomeId as keyof typeof biomeRegistry];
@@ -1485,11 +1643,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       getWorldMapLocationByBiomeId(ecoWorldMap, biomeId).id,
     );
     mapOriginBiomeId = biomeId;
+    mapReturnAnchor = getPreferredMapReturnAnchor(biomeId);
     sceneMode = 'world-map';
     overlayMode = 'playing';
     clearInspectSurface();
     startFieldPartnerQuiet();
-    maybeShowStationReturnNotice();
+    maybeShowWorldMapFieldSeasonNotice();
   }
 
   function isInInspectRange(entity: BiomeEntity): boolean {
@@ -1604,10 +1763,14 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const detail = getInspectableDetail(entry);
     const isNewEntry = recordDiscovery(save, entry, getContextBiomeId());
     const nurseryGathering = tryClaimNurseryGathering(save, entry, entity.entityId, claimedNurseryEntityIds);
+    const handLensNotebookFit =
+      resolveSelectedOutingSupportId(save) === 'hand-lens'
+        ? getHandLensNotebookFit(getFieldRequestContext(), entry.id)
+        : null;
     entity.removed = entity.collectible;
     persistSave(save);
     setSelectedJournalEntry(true);
-    maybeCompleteActiveFieldRequest('inspect');
+    maybeCompleteActiveFieldRequest('inspect', entry.id);
 
     const payload: FactBubblePayload = {
       entryId: entry.id,
@@ -1620,7 +1783,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       collectible: entry.collectible,
       isNewEntry,
       closeLookAvailable: Boolean(buildCloseLookPayload(entry)),
-      resourceNote: nurseryGathering?.note,
+      resourceNote: handLensNotebookFit ?? nurseryGathering?.note,
       x: entity.x + entity.w / 2,
       y: entity.y,
     };
@@ -1768,6 +1931,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     showResetConfirmation = false;
     guidedStarterNoticeShown = false;
     guidedStationNoticeShown = false;
+    guidedSeasonCapstoneNoticeShown = false;
+    guidedSeasonCloseNoticeShown = false;
     guidedNextStopNoticeShown = false;
     enterBiome('beach');
     setSelectedJournalEntry(true);
@@ -1860,12 +2025,13 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function startWorldMapExitTransition(sourceAnchor: DoorAnchor | null = null): void {
     const biomeId = getContextBiomeId();
     const location = getWorldMapLocationByBiomeId(ecoWorldMap, biomeId);
+    const returnAnchor = sourceAnchor ?? getPreferredMapReturnAnchor(biomeId);
     worldMapState = createWorldMapState(ecoWorldMap, location.id);
     mapOriginBiomeId = biomeId;
-    mapReturnAnchor = sourceAnchor;
+    mapReturnAnchor = returnAnchor;
 
     const plan = createDoorTransitionPlan(ecoWorldMap, biomeId, biomeId, {
-      fromBiomeDoor: sourceAnchor ?? undefined,
+      fromBiomeDoor: returnAnchor ?? undefined,
     });
     transitionState = {
       kind: 'biome-to-map',
@@ -2091,14 +2257,23 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const upgrades = getFieldUpgradeStates(save);
     if (!upgrades.length) {
       selectedFieldStationUpgradeId = null;
+      outingSupportSelected = true;
       return;
     }
 
     const currentUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-    const currentIndex = upgrades.findIndex((upgrade) => upgrade.id === currentUpgradeId);
-    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
-    const nextIndex = (safeIndex + direction + upgrades.length) % upgrades.length;
-    selectedFieldStationUpgradeId = upgrades[nextIndex].id;
+    const currentIndex = outingSupportSelected
+      ? 0
+      : Math.max(1, upgrades.findIndex((upgrade) => upgrade.id === currentUpgradeId) + 1);
+    const nextIndex = (currentIndex + direction + upgrades.length + 1) % (upgrades.length + 1);
+
+    if (nextIndex === 0) {
+      outingSupportSelected = true;
+      return;
+    }
+
+    outingSupportSelected = false;
+    selectedFieldStationUpgradeId = upgrades[nextIndex - 1].id;
   }
 
   type FieldStationSurface = 'season-routes' | 'season-expedition' | 'nursery';
@@ -2115,6 +2290,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (surface === 'nursery') {
       selectedFieldStationView = 'nursery';
       selectedFieldStationSeasonPage = 'routes';
+      outingSupportSelected = false;
       selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
       return;
     }
@@ -2122,6 +2298,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     selectedFieldStationView = 'season';
     selectedFieldStationSeasonPage = surface === 'season-expedition' ? 'expedition' : 'routes';
     if (selectedFieldStationSeasonPage === 'routes') {
+      outingSupportSelected = false;
       selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
     }
   }
@@ -2225,6 +2402,34 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     audio.playUiCue('confirm');
   }
 
+  function toggleOutingSupport(): void {
+    const previousSupportId = resolveSelectedOutingSupportId(save);
+    const nextSupportId = cycleSelectedOutingSupportId(save);
+    persistSave(save);
+
+    if (previousSupportId === nextSupportId && nextSupportId === 'hand-lens') {
+      showFieldNotice(
+        'OUTING SUPPORT',
+        'Hand Lens stays active until Route Marker is owned.',
+        2.6,
+      );
+    } else if (nextSupportId === 'route-marker') {
+      showFieldNotice(
+        'OUTING SUPPORT',
+        'Route Marker will guide this outing on the world map.',
+        2.6,
+      );
+    } else {
+      showFieldNotice(
+        'OUTING SUPPORT',
+        'Hand Lens will tag notebook-fit clues in inspect bubbles.',
+        2.6,
+      );
+    }
+
+    audio.playUiCue('confirm');
+  }
+
   function updateFieldStationState(): void {
     selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
     selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
@@ -2274,12 +2479,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     ) {
       if (selectedFieldStationView === 'season') {
         if (selectedFieldStationSeasonPage === 'routes') {
-          if (selectedFieldStationUpgradeId && purchaseFieldUpgrade(save, selectedFieldStationUpgradeId)) {
+          const filedRequestId = fileReadyRouteV2FieldRequest(save);
+          if (filedRequestId) {
+            persistSave(save);
+            showFieldRequestNotice(filedRequestId);
+          } else if (outingSupportSelected) {
+            toggleOutingSupport();
+          } else if (selectedFieldStationUpgradeId && purchaseFieldUpgrade(save, selectedFieldStationUpgradeId)) {
             persistSave(save);
             selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
           }
         } else {
-          activateExpeditionCard();
+          const expeditionReadyToFile =
+            save.routeV2Progress?.status === 'ready-to-synthesize'
+            && save.routeV2Progress.requestId.startsWith('forest-expedition-');
+          if (expeditionReadyToFile) {
+            const filedRequestId = fileReadyRouteV2FieldRequest(save);
+            if (filedRequestId) {
+              persistSave(save);
+              showFieldRequestNotice(filedRequestId);
+            }
+          } else {
+            activateExpeditionCard();
+          }
         }
       } else {
         activateNurseryCard();
@@ -2400,7 +2622,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     if (finishedKind === 'biome-to-map') {
       sceneMode = 'world-map';
-      maybeShowStationReturnNotice();
+      maybeShowWorldMapFieldSeasonNotice();
       return;
     }
 
@@ -2785,6 +3007,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         focusedSurveyState,
         getRouteMarkerLocationId(),
         getWorldMapReplayLabel(worldMapState.focusedLocationId),
+        getWorldMapOriginLabel(worldMapState.currentLocationId, worldMapState.focusedLocationId),
       );
       drawWorldMapHud({
         context,
@@ -2792,6 +3015,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         height: HEIGHT,
         palette: currentBiomeDefinition.palette,
         mapMode: worldMapState.mode,
+        walkingLabel:
+          worldMapState.mode === 'walking'
+            ? getWorldMapApproachLabel(worldMapState.focusedLocationId)
+            : null,
       });
     } else if (sceneMode === 'transition' && transitionSnapshot) {
       if (transitionSnapshot.scene === 'world-map') {
@@ -2818,6 +3045,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           focusedSurveyState,
           getRouteMarkerLocationId(),
           getWorldMapReplayLabel(renderState.focusedLocationId),
+          getWorldMapOriginLabel(renderState.currentLocationId, renderState.focusedLocationId),
         );
         drawWorldMapHud({
           context,
@@ -2825,6 +3053,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           height: HEIGHT,
           palette: currentBiomeDefinition.palette,
           mapMode: renderState.mode,
+          walkingLabel:
+            renderState.mode === 'walking'
+              ? getWorldMapApproachLabel(renderState.focusedLocationId)
+              : null,
         });
       } else {
         const transitionCameraX =
@@ -2863,12 +3095,14 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
                 anchor: getWorldMapBiomeDoor(),
                 openAmount: transitionDoorOpenAmount,
                 highlighted: false,
+                label: null,
               },
             ],
             cameraX: transitionCameraX,
             cameraY: transitionCameraY,
             frameCount,
             nearestEntityId: null,
+            verticalCues: [],
             player: {
               x: player.x,
               y: player.y,
@@ -2899,6 +3133,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         save.settings.showInspectHints
           ? getNearestTravelInteractable()
           : null;
+      const visibleVerticalCues = getVisibleVerticalCuesForRender();
 
       drawBiomeScene(
         {
@@ -2913,6 +3148,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           cameraY,
           frameCount,
           nearestEntityId,
+          verticalCues: visibleVerticalCues,
           player: {
             x: player.x,
             y: player.y,
@@ -3095,7 +3331,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         palette: currentBiomeDefinition.palette,
         view: fieldStationState.view,
         seasonPage: fieldStationState.seasonPage,
+        subtitle: fieldStationState.subtitle,
         credits: fieldStationState.credits,
+        selectedOutingSupportId: fieldStationState.selectedOutingSupportId,
+        outingSupportSelected: fieldStationState.outingSupportSelected,
         upgrades: fieldStationState.upgrades,
         selectedUpgradeId: fieldStationState.selectedUpgradeId,
         atlas: fieldStationState.atlas,
@@ -3145,6 +3384,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const guidedFieldSeason = getGuidedFieldSeasonState();
     const fieldStationState = getFieldStationState();
     const audioState = audio.getDebugState();
+    const visibleVerticalCueIds = getVisibleVerticalCuesForRender().map((cue) => cue.id);
     const currentSceneBiomeDefinition = biomeRegistry[currentBiome.biomeId as keyof typeof biomeRegistry];
     const habitatProcessIds =
       sceneMode === 'biome' && currentSceneBiomeDefinition
@@ -3199,6 +3439,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       sceneBiomeId: currentBiome.biomeId,
       zoneId: sceneMode === 'biome' ? getCurrentZoneId() : null,
       habitatChipLabel: sceneMode === 'biome' ? getCurrentZoneLabel() : null,
+      visibleVerticalCueIds,
       visitCount: getContextVisitCount(),
       worldState,
       habitatProcesses: habitatProcessIds,
@@ -3219,7 +3460,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           ? {
               currentLocationId: worldMapState.currentLocationId,
               focusedLocationId: worldMapState.focusedLocationId,
+              originLabel: getWorldMapOriginLabel(
+                worldMapState.currentLocationId,
+                worldMapState.focusedLocationId,
+              ),
               mode: worldMapState.mode,
+              walkingLabel:
+                worldMapState.mode === 'walking'
+                  ? getWorldMapApproachLabel(worldMapState.focusedLocationId)
+                  : null,
               routeMarkerLocationId: getRouteMarkerLocationId(),
               routeReplayLabel: getWorldMapReplayLabel(worldMapState.focusedLocationId),
               focusedSurveyState:
@@ -3266,6 +3515,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
                     kind: target.kind,
                     inRange: true,
                     targetBiomeId: target.targetBiomeId,
+                    label: target.label,
                   }
                 : null;
             })()
@@ -3345,7 +3595,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       fieldStation: {
         view: fieldStationState.view,
         seasonPage: fieldStationState.seasonPage,
+        subtitle: fieldStationState.subtitle,
         credits: fieldStationState.credits,
+        selectedOutingSupportId: fieldStationState.selectedOutingSupportId,
+        outingSupportSelected: fieldStationState.outingSupportSelected,
         recentSources: fieldStationState.recentSources,
         selectedUpgradeId: fieldStationState.selectedUpgradeId,
         selectedNurseryCardId: fieldStationState.selectedNurseryCardId,

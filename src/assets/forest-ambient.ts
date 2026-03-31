@@ -3,6 +3,63 @@ import { masterPalette } from './palette';
 
 export const forestAmbientSprites: SpriteSource[] = [
   {
+    id: 'root-curtain',
+    palette: {
+      a: masterPalette.barkDark,
+      b: masterPalette.barkLight,
+      c: masterPalette.mossDark,
+      d: masterPalette.soilDark,
+    },
+    frames: [[
+      '..a..a..a...',
+      '..ab.ab.ab..',
+      '..ab.ab.ab..',
+      '..ab.ab.ab..',
+      '..ab.ab.ab..',
+      '...bcbcb....',
+      '...b.b.b....',
+      '...d.d.d....',
+      '............',
+      '............',
+    ]],
+  },
+  {
+    id: 'woodpecker-cavity',
+    palette: {
+      a: masterPalette.barkLight,
+      b: masterPalette.barkDark,
+      c: masterPalette.soilDark,
+      d: masterPalette.ink,
+    },
+    frames: [[
+      '............',
+      '...abba.....',
+      '..abccba....',
+      '.abccddba...',
+      '.abccddba...',
+      '..abccba....',
+      '...abba.....',
+      '............',
+    ]],
+  },
+  {
+    id: 'seep-stone',
+    palette: {
+      a: masterPalette.alpineStoneLight,
+      b: masterPalette.rockDark,
+      c: masterPalette.mist,
+      d: masterPalette.mossDark,
+    },
+    frames: [[
+      '..............',
+      '....aaac......',
+      '..aaabbbaa....',
+      '.abbbdbbbba...',
+      '.abbbbdbbba...',
+      '..abbbbbba....',
+    ]],
+  },
+  {
     id: 'banana-slug',
     palette: {
       a: masterPalette.slugGold,

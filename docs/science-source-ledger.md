@@ -1,7 +1,7 @@
 # Science Source Ledger
 
-Date: 2026-03-28
-Status: Updated after `ECO-20260328-main-29`
+Date: 2026-03-30
+Status: Updated after `ECO-20260330-main-102`
 
 ## Purpose
 
@@ -69,9 +69,12 @@ The coastal side now follows a Pacific branch.
 | `banana-slug` | `Verified` | Moisture and decomposition roles are safe and kid-friendly. | [NPS species page](https://www.nps.gov/muwo/learn/nature/banana-slug.htm) |
 | `steller-jay` | `Verified` | Loud calls, caching, and seed-movement framing are sound. | [Cornell Lab](https://www.allaboutbirds.org/guide/stellers_jay/lifehistory) |
 | `western-trillium` | `Verified` | `Trillium ovatum` is a real Pacific forest wildflower of moist conifer and mixed woods, so the shady-forest lesson is a good fit. | [USFS western white trillium](https://www.fs.usda.gov/wildflowers/plant-of-the-week/trillium_ovatum_ovatum.shtml), [Mount Rainier forest wildflowers](https://www.nps.gov/mora/learn/nature/forest-wildflowers-white.htm) |
+| `seep-stone` | `Verified` | USGS and NPS both support seeps as small groundwater discharges that keep rock or soil damp, so using one under-root stone as a slow-seep landmark is a safe teaching cue. | [USGS groundwater basics](https://www.usgs.gov/water-science-school/science/groundwater-what-groundwater), [Delaware Water Gap springs and seeps](https://www.nps.gov/dewa/learn/nature/springs.htm) |
 | `pileated-woodpecker` | `Verified` | NPS sources directly support the dead-wood, carpenter-ant, and cavity-digging teaching role. | [NPS pileated woodpecker](https://www.nps.gov/articles/pileated-woodpecker.htm), [Big Thicket pileated woodpecker](https://www.nps.gov/bith/learn/nature/pileated-woodpecker.htm) |
+| `woodpecker-cavity` | `Verified` | The landmark is a safe extension of the live pileated-woodpecker teaching role because the same NPS sources directly support cavity digging and later shelter use in old wood. | [NPS pileated woodpecker](https://www.nps.gov/articles/pileated-woodpecker.htm), [Big Thicket pileated woodpecker](https://www.nps.gov/bith/learn/nature/pileated-woodpecker.htm) |
 | `licorice-fern` | `Verified` | USFS and Olympic sources directly support `Polypodium glycyrrhiza` as an epiphytic Pacific forest fern on mossy trunks, logs, and branches. | [USFS fern structure](https://www.fs.usda.gov/wildflowers/beauty/ferns/structure.shtml), [Olympic mural plants](https://www.nps.gov/olym/learn/photosmultimedia/upload/MuralPlantsBlackBar-Final.pdf) |
 | `tree-lungwort` | `Verified` | NPS directly supports `Lobaria pulmonaria` on damp trunks and mossy rocks in moist Pacific forests and links it to nitrogen cycling. | [NPS tree lungwort](https://www.nps.gov/articles/000/tree-lungwort.htm) |
+| `root-curtain` | `Watch` | This is a habitat landmark rather than a taxonomic entry. Using a hanging root curtain as a shaded drip-and-bark shelter is a cautious inference from official seep guidance plus Olympic's documented damp bark-and-moss substrate story, so the copy should stay general. | [Delaware Water Gap springs and seeps](https://www.nps.gov/dewa/learn/nature/springs.htm), [Olympic mosses](https://www.nps.gov/olym/learn/nature/mosses.htm), [USFS roots and slope stability](https://research.fs.usda.gov/treesearch/8693) |
 | `ensatina` | `Verified` | NPS sources support ensatina as a moist-forest salamander found under logs, bark, or rocks, with eggs laid on land in hidden damp shelter. | [Crater Lake reptiles and amphibians](https://www.nps.gov/crla/planyourvisit/upload/Reptiles-and-Amphibians-508.pdf), [Yosemite ensatina sighting](https://www.nps.gov/yose/blogs/wildlife-and-other-sightings-sierra-ensatina.htm) |
 
 ## Tundra

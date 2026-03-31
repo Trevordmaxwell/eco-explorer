@@ -54,6 +54,7 @@ const coastalScrubEntries = {
     shortFact: 'Shore pine can grow in windy places with sandy, nutrient-poor soil.',
     journalText:
       'Shore pine is the coastal form of lodgepole pine. It can survive where wind, salt spray, and poor soil keep many forest trees away.',
+    sketchbookNote: 'Wind-shaped pine holding the sheltered edge.',
     spriteId: 'shore-pine',
     collectible: false,
   },
@@ -102,6 +103,7 @@ const coastalScrubEntries = {
     shortFact: 'A rotting log can hold water and give tiny plants a place to start.',
     journalText:
       'A nurse log is a fallen tree that slowly breaks down. It can stay moist, hold nutrients, and help seedlings begin life above the forest floor.',
+    sketchbookNote: 'Soft old wood holding moisture for new starts.',
     spriteId: 'nurse-log',
     collectible: false,
   },

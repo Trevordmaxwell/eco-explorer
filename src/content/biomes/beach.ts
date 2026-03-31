@@ -44,6 +44,7 @@ const beachEntries = {
     shortFact: 'A sand dollar test is the hard body left after the living animal loses its tiny spines.',
     journalText:
       'Pacific sand dollars are sea urchin relatives that burrow partway into sandy shore bottoms. After one dies and dries, its pale hard test can wash onto the beach.',
+    sketchbookNote: 'A pale shore clue washed from sandy shallows.',
     spriteId: 'sand-dollar-test',
     collectible: true,
   },
@@ -92,6 +93,7 @@ const beachEntries = {
     shortFact: 'Driftwood can create shelter for tiny beach animals and insects.',
     journalText:
       'Driftwood is wood that has been carried by water and waves. It becomes part of the shoreline habitat and can offer shade and shelter.',
+    sketchbookNote: 'Bleached wood making shade above the sand.',
     spriteId: 'driftwood-log',
     collectible: false,
   },
@@ -104,6 +106,7 @@ const beachEntries = {
     shortFact: 'Washed-up kelp can feed tiny beach insects and the birds that eat them.',
     journalText:
       'Bull kelp can wash ashore after storms and tides. On the beach, wrack becomes food and shelter for small animals that help feed shorebirds.',
+    sketchbookNote: 'Kelp ribbons left as beach food and cover.',
     spriteId: 'bull-kelp-wrack',
     collectible: false,
   },

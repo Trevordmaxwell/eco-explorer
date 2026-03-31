@@ -7,6 +7,8 @@ export type GuidedFieldSeasonStage =
   | 'starter'
   | 'forest-study'
   | 'station-return'
+  | 'season-capstone'
+  | 'season-close'
   | 'next-habitat'
   | 'settled';
 
@@ -45,8 +47,40 @@ export function resolveGuidedFieldSeasonState(
     hasCompletedRequest(save, 'forest-survey-slice') ||
     forestSurveyState === 'surveyed' ||
     forestSurveyState === 'complete';
+  const expeditionLogged = hasCompletedRequest(save, 'forest-expedition-upper-run');
+  const seasonThreadsLogged = hasCompletedRequest(save, 'forest-season-threads');
   const trailStrideOwned = hasFieldUpgrade(save, 'trail-stride');
   const coastalScrubVisited = (save.biomeVisits['coastal-scrub'] ?? 0) > 0;
+
+  if (seasonThreadsLogged) {
+    return {
+      stage: 'season-close',
+      stationNote: {
+        title: 'RETURN TO STATION',
+        text: 'The season threads are logged. Return to the field station for a calm season close.',
+      },
+      promptNotice: {
+        title: 'RETURN TO STATION',
+        text: 'The season threads are logged. Return to the field station for a calm season close.',
+      },
+      nextBiomeId: null,
+    };
+  }
+
+  if (expeditionLogged) {
+    return {
+      stage: 'season-capstone',
+      stationNote: {
+        title: 'SEASON THREADS',
+        text: 'Forest Trail has one last notebook pass. Tie together floor cover, edge growth, and canopy life.',
+      },
+      promptNotice: {
+        title: 'SEASON THREADS',
+        text: 'Back in Forest Trail, log the clues that tie this season together.',
+      },
+      nextBiomeId: 'forest',
+    };
+  }
 
   if (trailStrideOwned && coastalScrubVisited) {
     return {

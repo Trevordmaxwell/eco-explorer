@@ -1,0 +1,94 @@
+{
+  "packet_id": "ECO-PACKET-036",
+  "version": 3,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Regional travel and season-two approach phase",
+  "summary": "Thirty-sixth structured packet for Eco Explorer. This is a lane-1 follow-on after the directional travel coherence phase: first strengthen map-return posts and one walking-only regional approach cue, then tighten the logged expedition footer into one calm region-led next-season invitation without opening a larger navigation UI or route catalog.",
+  "source_reports": [
+    "docs/reports/2026-03-30-regional-travel-and-season-two-approach-phase.md",
+    "docs/reports/2026-03-30-regional-travel-post-and-approach-handoff.md",
+    "docs/reports/2026-03-30-second-season-district-invitation-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-79",
+    "ECO-20260330-main-115",
+    "ECO-20260330-critic-90",
+    "ECO-20260330-scout-80",
+    "ECO-20260330-main-116",
+    "ECO-20260330-critic-91"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-83"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-79",
+      "goal": "Prepare regional travel and map-return post guidance.",
+      "why_now": "Once directional travel is coherent, the next travel improvement should be one stronger sense of regional approach."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-115",
+      "goal": "Add one compact regional pack: region-labeled map-return posts plus a walking-only approach cue.",
+      "why_now": "This is the smallest follow-on that makes the world feel more chapter-like without another map UI."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-90",
+      "goal": "Review the regional travel and approach pass.",
+      "why_now": "The pass should stay calm and subtle."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-80",
+      "goal": "Prepare the second-season district invitation.",
+      "why_now": "After travel is clearer, one tiny outward invitation is the next best lane-1 payoff."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-116",
+      "goal": "Shorten the logged expedition teaser into one calm region-led second-season invitation.",
+      "why_now": "The regional travel pass already gave the map its new vocabulary, so the next move is to make the station echo that outward direction without another surface."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-91",
+      "goal": "Review the second-season district invitation.",
+      "why_now": "Lane 1 should only keep this if it stays light and notebook-like."
+    }
+  ],
+  "guardrails": [
+    "Do not add a larger map HUD or navigation layer.",
+    "Keep the work after directional coherence, not before it.",
+    "Prefer spatial framing and tiny cues over more copy.",
+    "Use the existing logged expedition teaser as the invitation seam instead of adding another station panel.",
+    "Do not replace the current corridor destination labels; they already carry the directional load.",
+    "Treat the already-landed regional map labels and approach cues as the map side of the invitation."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content/world-map.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Travel feels more regionally grounded after the coherence pass.",
+    "The station and map point gently toward the next season.",
+    "Lane 1 stays compact and avoids a larger navigation shell."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-03-30-regional-travel-and-season-two-approach-phase.md, and this packet. Treat this as a future lane-1 follow-on after travel coherence: add subtle regional approach cues, calmer map-return posts, and one tiny outward invitation without opening a larger map UI."
+}

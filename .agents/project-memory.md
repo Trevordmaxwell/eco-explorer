@@ -69,6 +69,19 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - The first stronger game-loop expansion should go in order: exploration geometry first, notebook-style field requests second, and a tiny field-station upgrade loop third.
 - Now that traversal, requests, station, sketchbook, sound, close-look, and the stabilized corridor lane are all live, the next highest-leverage phase is a short guided field-season loop that makes those systems feel like one authored game instead of a set of successful subsystems.
 - The field station now hosts one compact `Field season` board with a single live authored route grouped into three medium beats; future route work should keep that notebook-first, station-centered shape instead of growing into a separate quest log.
+- The next structural gameplay phase should frame Eco Explorer as a cozy naturalist adventure loop: plan one outing, travel with a purpose, solve a light observational or traversal problem, log the result, and unlock the next support or chapter.
+- Route-v2 work should replace hidden-checklist request beats with evidence-backed outing types such as wayfinding, assemble-evidence, transect, and landmark-backed interpretation, starting by retrofitting a few strong existing routes instead of opening a separate quest shell.
+- Route-v2 completion should happen after a tiny station-side notebook synthesis step, not immediately when the player first gathers the in-world clues.
+- The first Route-v2 notebook return should reuse the existing `ROUTES` page: once a beat is ready, the strip shifts to `NOTEBOOK READY` and one `Enter` press files the note before normal support purchases resume.
+- The Route-v2 core runtime is now live as one persisted `routeV2Progress` record plus `selectedOutingSupportId`, so future route conversions should reuse that single active-note seam instead of adding per-route trackers or another station ledger.
+- The first live Route-v2 forest pilot now uses `Hidden Hollow` as a seep-stone-confirmed place-memory beat followed by `Moisture Holders` as a `shelter` / `ground` / `living` evidence set across `root-hollow`, `seep-pocket`, and `filtered-return`; future Route-v2 conversions should keep that place-plus-notebook shape instead of falling back to raw inspect counts.
+- The middle-habitat Route-v2 follow-on should keep reusing `assemble-evidence` rather than adding a new transition core: `scrub-edge-pattern` is now a three-zone `back-dune -> windbreak-swale -> forest-edge` transect, while `forest-cool-edge` stays a tighter `creek-bend` transition read with `edge-carrier`, `cool-floor`, and `wet-shade` slots.
+- The inland Route-v2 follow-on should keep reusing `assemble-evidence` too: `treeline-stone-shelter` now spans `krummholz-belt -> dwarf-shrub` with `stone-break`, `bent-cover`, and `lee-life`, `tundra-short-season` spans `snow-meadow -> thaw-skirt` with `first-bloom`, `wet-tuft`, and `brief-fruit` and should keep those carriers split across the thaw edge instead of collapsing into `snow-meadow` alone, and `treeline-low-fell` stays on `edge-pattern-line` as the `last-tree-shape` / `low-wood` / `fell-bloom` exposure capstone.
+- Chapter-scale Route-v2 outings may now opt into ordered evidence slots when their live guidance assumes a specific sequence; `ROOT HOLLOW` is the first live use and must progress `seep-mark -> root-held -> high-run`, while normal `assemble-evidence` routes should stay unordered unless the authored chapter truly needs sequencing.
+- Pre-outing choice should stay to one tiny support slot on the existing `SEASON` surface, not a larger loadout, inventory, or secondary station page.
+- The first Route-v2 support slot should stay to `hand-lens` or owned `route-marker`: `hand-lens` only annotates qualifying inspect bubbles with notebook-fit guidance, while `route-marker` reuses the existing world-map marker and season note instead of adding a separate hint UI.
+- The live support-slot behavior should persist the chosen `selectedOutingSupportId` in save state, but `route-marker` should only drive the world-map marker when explicitly selected and `hand-lens` should keep the compact `TODAY` strip clue-first.
+- Lane 4 is the approved parallel lane for gameplay-loop cohesion; its scout prep can start immediately, but its first main implementation step should wait until `ECO-20260330-critic-71` is clean so the active lane-1 capstone and handoff wave is not interrupted.
 - After the nursery wave and the third-route activation, the next highest-leverage phase should deepen that route through transition-driven content fuel, one front-half sheltered traversal proof, and a compact three-route field-station scaling pass before adding another large system.
 - The three-route field-station scaling pass is now live as one compact recent-or-stop strip, one route-title-plus-beat board, one tiny atlas count strip, and flat support rows; this is the safe upper density for the current `256x160` station shell, so a fourth live route should wait for a different station pattern instead of another compression pass.
 - The nursery should keep acting as a secondary support loop for route progression and chapter feel; it should not expand into a broader resource economy or base-building lane during the current phase.
@@ -150,10 +163,25 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - The project now supports lane-based single-agent runners: one agent can alternate scout, main, and critic roles inside one lane as long as it restarts the read chain before every new item and stays inside that lane's scope.
 - Lane 1 is the systems-and-progression lane; lane 2 is the content-and-atlas-richness lane. Parallel agents should stay in separate lanes whenever possible.
 - Lane 2 should prefer `src/content/**`, science docs, and content-facing tests, using existing journal, note, comparison, close-look, and sketchbook systems instead of reopening station or progression architecture.
+- Lane 2 archive-richness passes should keep the atlas and station shell unchanged, strengthening filed-memory copy and route-defining sketchbook notes instead of adding a new archive panel.
 - The first lane-2 coastal richness pass should center on washed-shore clues, thorny scrub cover, and coast-facing forest berry thickets, while leaving actual comparison-allowlist and close-look expansion for the later journal-richness step.
 - The first lane-2 coastal richness pass is now live as `sand-dollar-test` on beach, shared `nootka-rose` thickets across scrub and forest, and `red-huckleberry` at the first forest edge; later journal-depth work should build on those note-backed additions instead of reopening coastal travel or station systems.
+- After the current lane-2 comparison wave, the next content-richness pass should favor sub-ecosystem support content and archive payoff for the newer old-growth and cave spaces rather than broad undirected biome sprawl.
+- The first lane-2 sub-ecosystem support pass is now live as one compact forest microhabitat wave: `root-curtain` deepens `filtered-return`, `woodpecker-cavity` gives the old-growth trunk a stronger shelter clue, and `Old Wood Link` now waits for a true old-growth discovery instead of unlocking from bridge-side clues alone.
 - Lane 3 is the vertical-exploration lane, focused on deeper caves, giant-tree climbing, and science-forward sub-ecosystem spaces; it should avoid station and route-board work unless explicitly handed off.
 - The first lane-3 runtime pass should expand vertical budget through `cameraY`, taller authored biome heights, and small authored depth features; it should not turn the engine into a procedural cave-topology or ceiling-collision rewrite.
+- The first giant-tree lane should sell redwood-like wonder through unnamed Pacific old-growth conifer cues, scale cheats, epiphytes, and nurse-log structure rather than by introducing literal coast-redwood taxonomy into the live forest branch.
+- The first deeper cave chapter should stay forest-hosted beneath `root-hollow`, using layered seep, root, stone, and filtered-light sub-areas rather than a separate dark-cave biome or a true cave-topology rewrite.
+- After lane 3's first giant-tree and cave family pass, the next vertical wave should grow upward into richer canopy pockets and downward into multi-chamber cave continuation before any larger traversal rewrite is attempted.
+- Tiny wayfinding and recovery cues are approved for later vertical work, but they should stay subtle and should not become a larger HUD or signposting layer.
+- The first lane-3 wayfinding pass now confirms the right ceiling for this support: tiny authored in-world cues behind the existing hint toggle are acceptable, but later vertical beats should reuse that quiet layer instead of adding a second cue language or denser marker spread.
+- The first lane-3 crossover beat is now live as one optional elevated old-wood limb from the bridge family into the old-growth climb; later vertical follow-ons should build coherence through world-space links like that before they add more cue density or a larger traversal shell.
+- With packet `033` now closed, the next lane-3 canopy follow-on should continue through one tiny trunk-interior or bark-window nook off the existing top route rather than spending more budget on a broader height spike, a second crossover, or new cue language.
+- With the bark-window canopy follow-on now closed, packet `038` should spend its cave-side implementation budget on one same-footprint upper-return loop or root-window nook tied to the current `root-hollow-cave-trunk`, not on another lower chamber or a wider tunnel under `log-run`.
+- Lane 1's season-capstone and next-season handoff wave is now live: `Season Threads` closes the first season, the routes page files it as `SEASON ARCHIVE`, the logged expedition card carries one `NEXT FIELD SEASON` teaser, and the nursery keeps one quiet salmonberry support clue without becoming a second planner.
+- Lane 1's current queued wave is directional travel coherence across corridors, map returns, and biome-transition framing.
+- Lane 2's next queued wave is sub-ecosystem and archive richness.
+- Lane 3's next queued wave is the cave-side upper-return loop and final cavern-loop follow-on from packet `038`.
 - The first route-replay pass should stay one active-beat variant at a time, driven by existing world-state, habitat-process, and nursery seams rather than a separate replay system or route-history layer.
 - Station stopping-point guidance should stay inside one tiny wrap lane in the existing season strip, not expand into a new recap card or score panel.
 - Coastal corridor continuity should stay carrier-first, with at most one notebook or partner window on the scrub-to-forest seam where `coastal-edge-shade` and the `salmonberry` edge read are strongest.
@@ -162,6 +190,17 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - The first season-page station evolution is now live as a compact `ROUTES | EXPEDITION` page turn inside `SEASON`: the routes page keeps wrap, board, atlas, and support, while the expedition page stays one single `ROOT HOLLOW` slot instead of growing a dashboard or multiple expedition cards.
 - The new forest cave and climbable work is the best current foundation for a more exploration-forward expedition chapter, as long as it stays calm, readable, and free of combat or survival drift.
 - The first deeper expedition chapter is now live as one `ROOT HOLLOW` outing threaded through the existing forest runtime: `Lower Hollow` -> `Trunk Climb` -> `Upper Run`, with the expedition card and post-route atlas/wrap copy reflecting chapter progress instead of leaving the season at a dead end.
+- The next lane-4 expedition pass should rebuild `ROOT HOLLOW` inside that same one-card slot as a single Route-v2 chapter: one seep-mark place anchor, one short climb-and-return evidence set, and one notebook filing finish, rather than keeping three separate checkpoint requests.
+- Expedition support should stay notebook-first and off to the side: the first live follow-up now reuses the existing `Route Marker` to point back to `Forest Trail` while `ROOT HOLLOW` is ready or active, and it deepens the chapter through authored `root-hollow` / `log-run` prompt and partner cues instead of a new reward row, nursery branch, or expedition inventory.
+- Expedition growth should stay one-card-first: once the first chapter is logged, the station may show one tiny logged-only `NEXT EXPEDITION` footer teaser, but it should not surface a second playable expedition card until a real next chapter is ready.
+- After the first expedition and teaser pass, lane 1 should move into a season-capstone and next-season handoff phase before opening another large route or expedition branch.
+- That capstone phase should close the current season cleanly through existing notebook, station, and nursery systems instead of adding a bigger quest shell.
+- The first season-capstone closure is now live as one forest-centered `Season Threads` notebook request after `Upper Run`, with route-board, atlas, season-wrap, and route-marker guidance pointing into that last Forest Trail outing and then back to the field station once it is logged.
+- The first season-close station archive is now live by reusing the routes-page top strip as `SEASON ARCHIVE` once `Season Threads` is logged, while the routes-page subtitle carries the soft "another field season can open later" handoff instead of adding another panel or card.
+- After the season-capstone wave, one of the next lane-1 priorities should be directional travel coherence across corridors, map returns, and transition framing; the hybrid travel model is approved, but it should feel spatially believable rather than disorienting.
+- Travel coherence should keep leaning on stable interior map-return posts, shared menu-and-post exit framing in biome interiors, tiny destination-aware corridor and post cues, direction-first world-map footer copy, and one compact origin reminder instead of a larger navigation HUD.
+- The first post-coherence regional travel follow-on is now live as authored region labels on interior map-return posts plus one walking-only world-map approach cue; later lane-1 travel warmth should keep building from those existing seams instead of adding a larger planner or persistent HUD.
+- The second-season invitation is now live as a shorter logged `ROOT HOLLOW` footer teaser that echoes the travel lane's `High Pass` region language; future next-season surfacing should build from that one expedition-footer seam instead of adding another station panel or map HUD.
 
 ## Current Known Risks
 
@@ -264,6 +303,14 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - `docs/reports/2026-03-28-ecosystem-note-review.md`
 - `docs/reports/2026-03-28-field-guide-review.md`
 - `docs/reports/2026-03-28-external-pack-reconciliation.md`
+- `docs/reports/2026-03-30-season-capstone-and-next-season-phase.md`
+- `docs/reports/2026-03-30-sub-ecosystem-and-archive-richness-phase.md`
+- `docs/reports/2026-03-30-canopy-and-cavern-growth-phase.md`
+- `docs/reports/2026-03-30-directional-travel-coherence-phase.md`
+- `docs/reports/2026-03-30-gameplay-loop-and-route-v2-lane.md`
+- `docs/reports/2026-03-30-regional-travel-and-season-two-approach-phase.md`
+- `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
+- `docs/reports/2026-03-30-canopy-wayfinding-and-cavern-loop-phase.md`
 - `docs/science-source-ledger.md`
 - `docs/ai-naturalist-design.md`
 - `docs/ecotone-design.md`

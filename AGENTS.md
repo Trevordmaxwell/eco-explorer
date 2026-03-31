@@ -2,6 +2,12 @@
 
 This project is set up so new agents can plug in without needing prior chat context.
 
+## Active Working Branch
+
+The active shared working branch is currently `codex/snapshot-20260330`.
+
+Before editing code or docs, agents should verify the current branch with `git branch --show-current`. If it is not `codex/snapshot-20260330`, switch to that branch before continuing unless the user explicitly assigns a different branch.
+
 ## Start Here
 
 Read these files in order before doing work:
@@ -99,6 +105,7 @@ Queue items remain the source of truth for priority, owner, and status. Packets 
 - `lane-1`: systems, progression, station, replay, season pages, expeditions
 - `lane-2`: content density, atlas and journal richness, comparisons, close-look depth
 - `lane-3`: caves, giant-tree climbing, vertical traversal, and sub-ecosystem exploration depth
+- `lane-4`: gameplay-loop cohesion, Route v2 outings, tiny pre-outing support choice, notebook synthesis, and soft replay windows
 
 ## Queue Item Template
 

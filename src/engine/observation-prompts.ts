@@ -175,10 +175,10 @@ export const OBSERVATION_PROMPT_SEEDS: readonly ObservationPromptSeed[] = [
     id: 'tundra-short-season',
     biomeId: 'tundra',
     family: 'timing',
-    text: 'Which plant seems ready for a very short bright season?',
-    zoneIds: ['snow-meadow'],
+    text: 'What here marks the short season at the thaw edge?',
+    zoneIds: ['thaw-skirt'],
     weatherProfiles: ['clear', 'light-flurry'],
-    requiredEntryIds: ['purple-saxifrage', 'cottongrass', 'cloudberry'],
+    requiredEntryIds: ['purple-saxifrage', 'cottongrass', 'arctic-willow'],
   },
   {
     id: 'tundra-low-shelter',

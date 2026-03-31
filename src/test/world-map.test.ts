@@ -82,6 +82,32 @@ describe('world map travel scaffold', () => {
       expect(nearestDoorGap).toBeGreaterThanOrEqual(96);
     }
   });
+
+  it('authors compact regional labels for map-return posts and walking approaches', () => {
+    expect(
+      ecoWorldMap.locations.map((location) => ({
+        id: location.id,
+        mapReturnLabel: location.mapReturnLabel,
+        approachLabel: location.approachLabel,
+      })),
+    ).toEqual([
+      { id: 'beach', mapReturnLabel: 'COAST MAP', approachLabel: 'COAST APPROACH' },
+      { id: 'coastal-scrub', mapReturnLabel: 'COAST MAP', approachLabel: 'COAST APPROACH' },
+      { id: 'forest', mapReturnLabel: 'INLAND MAP', approachLabel: 'INLAND APPROACH' },
+      { id: 'treeline', mapReturnLabel: 'HIGH PASS MAP', approachLabel: 'HIGH PASS' },
+      { id: 'tundra', mapReturnLabel: 'HIGH COUNTRY MAP', approachLabel: 'HIGH COUNTRY' },
+    ]);
+  });
+
+  it('uses direction-first footer summaries across the biome chain', () => {
+    expect(ecoWorldMap.locations.map((location) => location.summary)).toEqual([
+      'Ocean edge. Inland path leads to scrub.',
+      'Between beach dunes and forest shade.',
+      'Middle woods between scrub and treeline.',
+      'High pass between forest and tundra.',
+      'Highest reach beyond treeline.',
+    ]);
+  });
 });
 
 describe('door transition planning', () => {

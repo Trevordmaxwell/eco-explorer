@@ -15,6 +15,7 @@ import type {
   SaveState,
   SpawnTable,
   TerrainSample,
+  VerticalCue,
 } from './types';
 import { buildWorldState } from './world-state';
 
@@ -166,6 +167,36 @@ function validateHabitatProcessMoment(
   }
 }
 
+function validateVerticalCue(
+  cue: VerticalCue,
+  biomeId: string,
+  zoneIds: Set<string>,
+  worldWidth: number,
+  worldHeight: number,
+): void {
+  if (!cue.id.trim()) {
+    throw new Error(`Vertical cue in biome "${biomeId}" needs an id.`);
+  }
+
+  if (cue.zoneIds.length < 1) {
+    throw new Error(`Vertical cue "${cue.id}" in biome "${biomeId}" needs at least one zone.`);
+  }
+
+  for (const zoneId of cue.zoneIds) {
+    if (!zoneIds.has(zoneId)) {
+      throw new Error(`Vertical cue "${cue.id}" in biome "${biomeId}" references missing zone "${zoneId}".`);
+    }
+  }
+
+  if (cue.x < 0 || cue.x > worldWidth) {
+    throw new Error(`Vertical cue "${cue.id}" in biome "${biomeId}" is out of horizontal bounds.`);
+  }
+
+  if (cue.y < 0 || cue.y > worldHeight) {
+    throw new Error(`Vertical cue "${cue.id}" in biome "${biomeId}" is out of vertical bounds.`);
+  }
+}
+
 export function validateBiomeDefinition(definition: BiomeDefinition): void {
   const entryIds = new Set(Object.keys(definition.entries));
   const zoneIds = new Set(definition.terrainRules.zones.map((zone) => zone.id));
@@ -182,6 +213,16 @@ export function validateBiomeDefinition(definition: BiomeDefinition): void {
 
   for (const moment of definition.processMoments ?? []) {
     validateHabitatProcessMoment(moment, definition.id, entryIds, zoneIds);
+  }
+
+  for (const cue of definition.verticalCues ?? []) {
+    validateVerticalCue(
+      cue,
+      definition.id,
+      zoneIds,
+      definition.terrainRules.worldWidth,
+      definition.terrainRules.worldHeight,
+    );
   }
 
   for (const table of definition.spawnTables) {

@@ -33,6 +33,7 @@ export const sandVerbenaEntry = {
   shortFact: 'Yellow sand verbena spreads low over Pacific dunes where wind and salt are strong.',
   journalText:
     'Yellow sand verbena is a native Pacific beach plant with thick leaves and bright flowers. Its low stems help it handle sunny, shifting dunes near the shore.',
+  sketchbookNote: 'Low bloom on bright shifting dunes.',
   spriteId: 'sand-verbena',
   collectible: false,
 } satisfies InspectableEntry;
@@ -69,6 +70,7 @@ export const nootkaRoseEntry = {
   shortFact: 'Nootka rose grows in thorny thickets that shelter birds and small mammals on Pacific edges.',
   journalText:
     'Nootka rose is a native Pacific shrub of coastal thickets and forest edges. Its thorny stems build cover, and its flowers and red hips help support insects and wildlife.',
+  sketchbookNote: 'Thorny cover along scrub and forest edges.',
   spriteId: 'nootka-rose',
   collectible: false,
 } satisfies InspectableEntry;
@@ -106,6 +108,7 @@ export const mountainAvensEntry = {
   shortFact: 'Mountain avens forms low mats that help it handle windy alpine ground.',
   journalText:
     'Mountain avens is a low Arctic-alpine plant with bright flowers. Growing in tight mats helps it stay close to warmer ground.',
+  sketchbookNote: 'Bright mats hugging cold open ground.',
   spriteId: 'mountain-avens',
   collectible: false,
 } satisfies InspectableEntry;
@@ -118,6 +121,7 @@ export const lingonberryEntry = {
   shortFact: 'Lingonberry keeps evergreen leaves and bright berries through cold alpine and tundra weather.',
   journalText:
     'Lingonberry is a low northern berry shrub of alpine heaths and tundra. Its evergreen leaves and bright red fruit help it make the most of short cool seasons.',
+  sketchbookNote: 'Evergreen berry mats for short cool seasons.',
   spriteId: 'lingonberry',
   collectible: true,
 } satisfies InspectableEntry;

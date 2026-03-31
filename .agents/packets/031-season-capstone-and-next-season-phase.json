@@ -1,0 +1,130 @@
+{
+  "packet_id": "ECO-PACKET-031",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Season capstone and next-season phase",
+  "summary": "Thirty-first structured packet for Eco Explorer. Lane 1 should follow the first expedition wave with a compact season-capstone phase that makes the current field season feel complete, then hand the player cleanly toward the next season without opening a larger quest log or another crowded station board.",
+  "source_reports": [
+    "docs/reports/2026-03-30-season-capstone-and-next-season-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-62",
+    "ECO-20260330-main-95",
+    "ECO-20260330-critic-70",
+    "ECO-20260330-scout-63",
+    "ECO-20260330-main-96",
+    "ECO-20260330-critic-71",
+    "ECO-20260330-scout-64",
+    "ECO-20260330-main-97",
+    "ECO-20260330-critic-72",
+    "ECO-20260330-main-98",
+    "ECO-20260330-critic-73"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-89"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-62",
+      "goal": "Prepare the first field-season capstone notebook arc.",
+      "why_now": "The current season has enough route and expedition material to benefit from one authored closure arc before broader expansion."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-95",
+      "goal": "Implement the first season-capstone notebook arc.",
+      "why_now": "The game needs a satisfying chapter finish, not just more adjacent systems."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-70",
+      "goal": "Review the season-capstone arc.",
+      "why_now": "The capstone should feel like a calm field finale, not a chore ladder."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-63",
+      "goal": "Prepare a compact season archive and next-season handoff.",
+      "why_now": "Once the season closes well, the station needs a quiet way to preserve that progress and point forward."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-96",
+      "goal": "Add a season archive strip and next-season handoff.",
+      "why_now": "The station should acknowledge finished chapters without becoming a dashboard."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-71",
+      "goal": "Review the archive and handoff pass.",
+      "why_now": "Closure only works if it stays compact and readable."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-64",
+      "goal": "Prepare nursery-backed capstone support cues.",
+      "why_now": "The nursery should support the season loop, but only in a small way."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-97",
+      "goal": "Tie nursery support into the capstone and expedition loop.",
+      "why_now": "This is the cleanest way to connect the new support loop back into the main game shape."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-72",
+      "goal": "Review the nursery-backed capstone support.",
+      "why_now": "The nursery must remain secondary and calm."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-98",
+      "goal": "Add one calm next-season setup card.",
+      "why_now": "The player should leave the current season with one clear sense of what comes next."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260330-critic-73",
+      "goal": "Review the full capstone and next-season handoff.",
+      "why_now": "This is the quality gate for whether lane 1 can move forward from the current season cleanly."
+    }
+  ],
+  "guardrails": [
+    "Do not add a larger quest log or multi-panel chapter dashboard.",
+    "Do not open a second fully playable expedition card in this phase.",
+    "Keep the field station notebook-like and handheld-readable.",
+    "Let nursery support stay secondary and clue-like.",
+    "Preserve the cozy field-adventure tone."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The current season feels authored from start to finish.",
+    "The station provides chapter closure without becoming a dashboard.",
+    "The nursery deepens the loop without dominating it."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-03-30-season-capstone-and-next-season-phase.md, and this packet. Treat lane 1's next wave as a season-capstone and handoff phase: close the current field season cleanly, archive it gently, tie in one small nursery support layer, and point the player toward the next season without opening a bigger quest shell."
+}

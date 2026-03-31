@@ -1,10 +1,12 @@
 import type {
   InspectableEntry,
   JournalEntryState,
+  OutingSupportId,
   NurseryExtraId,
   NurseryProjectSlotsState,
   NurseryProjectState,
   NurseryResourceLedger,
+  RouteV2FieldRequestProgressState,
   SaveSettings,
   SaveState,
 } from './types';
@@ -149,6 +151,51 @@ function normalizeNurseryExtraIds(value: PersistedSaveState['nurseryUnlockedExtr
     : [];
 }
 
+function normalizeRouteV2Progress(
+  value: PersistedSaveState['routeV2Progress'],
+): RouteV2FieldRequestProgressState | null {
+  if (!value || typeof value !== 'object') {
+    return null;
+  }
+
+  const candidate = value as Partial<RouteV2FieldRequestProgressState>;
+  if (
+    typeof candidate.requestId !== 'string' ||
+    (candidate.status !== 'gathering' && candidate.status !== 'ready-to-synthesize')
+  ) {
+    return null;
+  }
+
+  return {
+    requestId: candidate.requestId,
+    status: candidate.status,
+    landmarkEntryIds: Array.isArray(candidate.landmarkEntryIds)
+      ? candidate.landmarkEntryIds.filter((entryId): entryId is string => typeof entryId === 'string')
+      : [],
+    evidenceSlots: Array.isArray(candidate.evidenceSlots)
+      ? candidate.evidenceSlots.flatMap((slot) =>
+          slot &&
+          typeof slot === 'object' &&
+          typeof slot.slotId === 'string' &&
+          typeof slot.entryId === 'string'
+            ? [{ slotId: slot.slotId, entryId: slot.entryId }]
+            : [],
+        )
+      : [],
+  };
+}
+
+function normalizeSelectedOutingSupportId(
+  value: PersistedSaveState['selectedOutingSupportId'],
+  purchasedUpgradeIds: string[],
+): OutingSupportId {
+  if (value === 'route-marker' && purchasedUpgradeIds.includes('route-marker')) {
+    return 'route-marker';
+  }
+
+  return 'hand-lens';
+}
+
 export function createDefaultSettings(overrides: Partial<SaveSettings> = {}): SaveSettings {
   return {
     fullscreen: overrides.fullscreen ?? false,
@@ -166,6 +213,8 @@ export function createNewSaveState(seed = createRandomSeed()): SaveState {
     discoveredEntries: {},
     sketchbookPages: {},
     completedFieldRequestIds: [],
+    routeV2Progress: null,
+    selectedOutingSupportId: 'hand-lens',
     fieldCredits: 0,
     claimedFieldCreditIds: [],
     purchasedUpgradeIds: [],
@@ -204,6 +253,9 @@ export function normalizeSaveState(
   parsed: PersistedSaveState,
 ): SaveState {
   const worldState = normalizeWorldStep(parsed);
+  const purchasedUpgradeIds = Array.isArray(parsed.purchasedUpgradeIds)
+    ? parsed.purchasedUpgradeIds.filter((value): value is string => typeof value === 'string')
+    : [];
 
   return {
     worldSeed: parsed.worldSeed ?? createRandomSeed(),
@@ -215,6 +267,11 @@ export function normalizeSaveState(
     completedFieldRequestIds: Array.isArray(parsed.completedFieldRequestIds)
       ? parsed.completedFieldRequestIds.filter((value): value is string => typeof value === 'string')
       : [],
+    routeV2Progress: normalizeRouteV2Progress(parsed.routeV2Progress),
+    selectedOutingSupportId: normalizeSelectedOutingSupportId(
+      parsed.selectedOutingSupportId,
+      purchasedUpgradeIds,
+    ),
     fieldCredits:
       typeof parsed.fieldCredits === 'number' && Number.isFinite(parsed.fieldCredits)
         ? Math.max(0, Math.floor(parsed.fieldCredits))
@@ -222,9 +279,7 @@ export function normalizeSaveState(
     claimedFieldCreditIds: Array.isArray(parsed.claimedFieldCreditIds)
       ? parsed.claimedFieldCreditIds.filter((value): value is string => typeof value === 'string')
       : [],
-    purchasedUpgradeIds: Array.isArray(parsed.purchasedUpgradeIds)
-      ? parsed.purchasedUpgradeIds.filter((value): value is string => typeof value === 'string')
-      : [],
+    purchasedUpgradeIds,
     nurseryResources: normalizeNurseryResources(parsed.nurseryResources),
     nurseryProjects: normalizeNurseryProjects(parsed.nurseryProjects),
     nurseryUnlockedExtraIds: normalizeNurseryExtraIds(parsed.nurseryUnlockedExtraIds),
@@ -292,6 +347,8 @@ export function resetSaveProgress(save: SaveState): void {
   save.discoveredEntries = fresh.discoveredEntries;
   save.sketchbookPages = fresh.sketchbookPages;
   save.completedFieldRequestIds = fresh.completedFieldRequestIds;
+  save.routeV2Progress = fresh.routeV2Progress;
+  save.selectedOutingSupportId = fresh.selectedOutingSupportId;
   save.fieldCredits = fresh.fieldCredits;
   save.claimedFieldCreditIds = fresh.claimedFieldCreditIds;
   save.purchasedUpgradeIds = fresh.purchasedUpgradeIds;
@@ -337,4 +394,20 @@ export function recordCompletedFieldRequest(save: SaveState, requestId: string):
 
   save.completedFieldRequestIds = [...save.completedFieldRequestIds, requestId];
   return true;
+}
+
+export function resolveSelectedOutingSupportId(save: SaveState): OutingSupportId {
+  return save.selectedOutingSupportId === 'route-marker' && !save.purchasedUpgradeIds.includes('route-marker')
+    ? 'hand-lens'
+    : save.selectedOutingSupportId;
+}
+
+export function cycleSelectedOutingSupportId(save: SaveState): OutingSupportId {
+  const current = resolveSelectedOutingSupportId(save);
+  const next =
+    current === 'hand-lens' && save.purchasedUpgradeIds.includes('route-marker')
+      ? 'route-marker'
+      : 'hand-lens';
+  save.selectedOutingSupportId = next;
+  return next;
 }

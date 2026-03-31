@@ -168,6 +168,27 @@ describe('observation prompt resolution', () => {
     });
   });
 
+  it('uses the short-season thaw-edge seed once thaw-edge bloom and tuft clues are present', () => {
+    const prompt = resolveObservationPrompt({
+      biome: tundraBiome,
+      zoneId: 'thaw-skirt',
+      nearbyDiscoveredEntryIds: ['purple-saxifrage', 'cottongrass', 'arctic-willow'],
+      worldState: {
+        worldAge: 5,
+        dayPart: 'day',
+        weather: 'clear',
+        phenologyPhase: 'peak',
+      },
+    });
+
+    expect(prompt).toMatchObject({
+      id: 'tundra-short-season',
+      family: 'timing',
+      source: 'seed',
+      text: 'What here marks the short season at the thaw edge?',
+    });
+  });
+
   it('uses the new windbreak-swale shelter seed when runner cover and shrubs are both present', () => {
     const prompt = resolveObservationPrompt({
       biome: coastalScrubBiome,

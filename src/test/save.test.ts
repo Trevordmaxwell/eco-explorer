@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { beachBiome } from '../content/biomes/beach';
 import {
+  cycleSelectedOutingSupportId,
   createDefaultSettings,
   createNewSaveState,
   incrementBiomeVisit,
@@ -113,6 +114,8 @@ describe('save settings defaults', () => {
 
     expect(save.sketchbookPages).toEqual({});
     expect(save.completedFieldRequestIds).toEqual([]);
+    expect(save.routeV2Progress).toBeNull();
+    expect(save.selectedOutingSupportId).toBe('hand-lens');
     expect(save.fieldCredits).toBe(0);
     expect(save.claimedFieldCreditIds).toEqual([]);
     expect(save.purchasedUpgradeIds).toEqual([]);
@@ -267,5 +270,79 @@ describe('reset save progress', () => {
     expect(migrated.nurseryUnlockedExtraIds).toEqual(['log-pile']);
     expect(migrated.nurseryClaimedRewardIds).toEqual(['nursery:sand-verbena-support']);
     expect(migrated.nurseryLastProcessedWorldStep).toBe(5);
+  });
+
+  it('normalizes Route v2 progress and outing support safely', () => {
+    const migrated = normalizeSaveState({
+      worldSeed: 'legacy-route-v2-seed',
+      purchasedUpgradeIds: ['route-marker'],
+      selectedOutingSupportId: 'route-marker',
+      routeV2Progress: {
+        requestId: 'forest-hidden-hollow',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: ['fallen-log-marker', 3 as unknown as string],
+        evidenceSlots: [
+          {
+            slotId: 'cover',
+            entryId: 'sword-fern',
+          },
+          {
+            slotId: 2 as unknown as string,
+            entryId: 'banana-slug',
+          },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(migrated.selectedOutingSupportId).toBe('route-marker');
+    expect(migrated.routeV2Progress).toEqual({
+      requestId: 'forest-hidden-hollow',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: ['fallen-log-marker'],
+      evidenceSlots: [
+        {
+          slotId: 'cover',
+          entryId: 'sword-fern',
+        },
+      ],
+    });
+
+    const fallback = normalizeSaveState({
+      worldSeed: 'legacy-route-v2-fallback-seed',
+      selectedOutingSupportId: 'route-marker',
+      routeV2Progress: {
+        requestId: 'forest-hidden-hollow',
+        status: 'gathering',
+        landmarkEntryIds: [],
+        evidenceSlots: [],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(fallback.selectedOutingSupportId).toBe('hand-lens');
+    expect(fallback.routeV2Progress).toEqual({
+      requestId: 'forest-hidden-hollow',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [],
+    });
+  });
+
+  it('cycles outing support only when route marker is owned', () => {
+    const save = createNewSaveState('outing-support-cycle-seed');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
+    expect(save.selectedOutingSupportId).toBe('hand-lens');
+
+    save.purchasedUpgradeIds = ['route-marker'];
+    expect(cycleSelectedOutingSupportId(save)).toBe('route-marker');
+    expect(save.selectedOutingSupportId).toBe('route-marker');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
+    expect(save.selectedOutingSupportId).toBe('hand-lens');
+
+    save.selectedOutingSupportId = 'route-marker';
+    save.purchasedUpgradeIds = [];
+    expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
+    expect(save.selectedOutingSupportId).toBe('hand-lens');
   });
 });

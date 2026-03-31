@@ -73,6 +73,11 @@ describe('journal progress', () => {
             discoveredCount: 0,
             totalCount: Object.values(forestBiome.entries).filter((entry) => entry.category === 'animal').length,
           },
+          {
+            category: 'landmark',
+            discoveredCount: 0,
+            totalCount: Object.values(forestBiome.entries).filter((entry) => entry.category === 'landmark').length,
+          },
         ],
       },
     ]);

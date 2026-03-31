@@ -16,12 +16,21 @@ export interface SketchbookSlotPlacement {
   label: string;
   entryId: string | null;
   entry: InspectableEntry | null;
+  note: string | null;
 }
 
 export interface SketchbookPageView {
   biomeId: string;
   biomeName: string;
   slots: SketchbookSlotPlacement[];
+}
+
+export function getSketchbookEntryNote(entry: InspectableEntry | null): string | null {
+  if (!entry) {
+    return null;
+  }
+
+  return entry.sketchbookNote ?? entry.shortFact;
 }
 
 export function normalizeSketchbookPages(raw: unknown): SaveState['sketchbookPages'] {
@@ -164,6 +173,7 @@ export function buildSketchbookPageView(
         label: SKETCHBOOK_SLOT_LABELS[slotId],
         entryId,
         entry: entryId ? entriesById[entryId] ?? null : null,
+        note: getSketchbookEntryNote(entryId ? entriesById[entryId] ?? null : null),
       };
     }),
   };

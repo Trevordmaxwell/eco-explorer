@@ -1,0 +1,139 @@
+{
+  "packet_id": "ECO-PACKET-032",
+  "version": 4,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Sub-ecosystem and archive richness phase",
+  "summary": "Thirty-second structured packet for Eco Explorer. After the current comparison and close-look wave, lane 2 should deepen the newly opened sub-ecosystem spaces and the game's archive surfaces through authored content, notes, close-look additions, and science-safe payoff passes while staying mostly inside content-owned files.",
+  "source_reports": [
+    "docs/reports/2026-03-30-sub-ecosystem-and-archive-richness-phase.md",
+    "docs/reports/2026-03-30-old-growth-and-cave-support-pack-handoff.md",
+    "docs/reports/2026-03-30-atlas-and-sketchbook-archive-richness-handoff.md",
+    "docs/reports/2026-03-30-process-backed-note-and-close-look-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-65",
+    "ECO-20260330-main-99",
+    "ECO-20260330-critic-74",
+    "ECO-20260330-scout-66",
+    "ECO-20260330-main-100",
+    "ECO-20260330-critic-75",
+    "ECO-20260330-scout-67",
+    "ECO-20260330-main-101",
+    "ECO-20260330-critic-76",
+    "ECO-20260330-main-102",
+    "ECO-20260330-critic-77"
+  ],
+  "depends_on": [
+    "ECO-20260330-main-90",
+    "ECO-20260330-critic-69"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-65",
+      "goal": "Prepare an old-growth and cave support content pack.",
+      "why_now": "Lane 3's newer spaces need content density as soon as they prove out."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-99",
+      "goal": "Implement the old-growth and cave support content pack.",
+      "why_now": "New sub-ecosystem spaces should feel alive, not just spatially larger."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-74",
+      "goal": "Review the sub-ecosystem content support pack.",
+      "why_now": "Science accuracy and readability remain the lane's main gate."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-66",
+      "goal": "Prepare an atlas and sketchbook archive-richness pass.",
+      "why_now": "Logged routes and expeditions should feel more personal through existing archive surfaces."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-100",
+      "goal": "Add atlas and sketchbook archive richness.",
+      "why_now": "The game's growing chapter structure needs stronger notebook payoff."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-75",
+      "goal": "Review the archive-richness pass.",
+      "why_now": "Archive payoff should stay compact and content-first."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260330-scout-67",
+      "goal": "Prepare process-backed notes and close-look candidates.",
+      "why_now": "Existing process, note, and close-look systems can carry one more content wave without new UI."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260330-main-101",
+      "goal": "Add process-backed note and close-look richness.",
+      "why_now": "This helps the world feel more observant and seasonal using systems that are already live."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260330-critic-76",
+      "goal": "Review the process-backed richness pass.",
+      "why_now": "The lane should only keep going if the additions stay calm and science-safe."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260330-main-102",
+      "goal": "Run one final quiet science-ledger and payoff sweep.",
+      "why_now": "A small closing sweep helps the lane leave behind clean content support rather than just more entries."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260330-critic-77",
+      "goal": "Review the full follow-on lane-2 richness wave.",
+      "why_now": "This is the quality gate before lane 2 spins into another broader content phase."
+    }
+  ],
+  "guardrails": [
+    "Stay mostly inside src/content, science docs, and content-facing tests.",
+    "Avoid route-board shell changes, field-station structure changes, and broader progression logic.",
+    "Use existing note, comparison, close-look, sketchbook, and atlas systems.",
+    "Keep science accuracy and kid readability as hard gates.",
+    "Prefer meaningful content support for new spaces over broad undirected biome sprawl.",
+    "For the first sub-ecosystem support pass, favor one cave landmark, one old-growth-specific landmark, and tighter notebook synthesis over a broad new species wave.",
+    "For the first archive-richness pass, keep the atlas shell unchanged and use filed-memory copy plus route-defining sketchbook notes instead of a new archive panel.",
+    "For the process-backed follow-on, favor treeline and tundra process-teaching notes plus two visual-first close-look additions instead of reopening forest microhabitats or widening comparisons.",
+    "Do not spend the process-backed follow-on on new observation prompt seeds; the current prompt seed seam cannot filter on phenology without systems work."
+  ],
+  "file_targets": [
+    "src/content",
+    "docs/science-source-ledger.md",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "New sub-ecosystem spaces feel richer as soon as they land.",
+    "Atlas and sketchbook payoff gets stronger without a new UI shell.",
+    "Lane 2 stays content-owned and science-safe."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-30-sub-ecosystem-and-archive-richness-phase.md, docs/reports/2026-03-30-old-growth-and-cave-support-pack-handoff.md, docs/reports/2026-03-30-atlas-and-sketchbook-archive-richness-handoff.md, docs/reports/2026-03-30-process-backed-note-and-close-look-handoff.md, and this packet. Treat lane 2's next wave as a content-owned follow-on: keep the new forest microhabitat work parked, use one alpine-only process-teaching pass to add a treeline freeze-thaw note, a tundra thaw-edge note, and two visual-first close-look entries, and avoid new prompt-seed or comparison expansion in this step."
+}

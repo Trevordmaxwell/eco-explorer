@@ -1,4 +1,5 @@
 import { maxLinesForHeight, type UiRect, wrapTextLines } from './ui-layout';
+import type { VerticalCueStyle } from './types';
 
 export const UI_FONT_SMALL = 'bold 7px Verdana, Geneva, sans-serif';
 export const UI_FONT_MEDIUM = 'bold 8px Verdana, Geneva, sans-serif';
@@ -133,6 +134,28 @@ export function drawInteractMarker(
   context.fillRect(x + 1, topY + 5, 7, 1);
 }
 
+export function drawTravelCue(
+  context: CanvasRenderingContext2D,
+  label: string,
+  centerX: number,
+  markerTopY: number,
+  minX: number,
+  maxX: number,
+): void {
+  const previousFont = context.font;
+  context.font = UI_FONT_SMALL;
+
+  const panelWidth = Math.max(28, Math.ceil(context.measureText(label).width) + 8);
+  const panelX = Math.max(minX, Math.min(Math.round(centerX - panelWidth / 2), maxX - panelWidth));
+  const panelY = Math.max(4, markerTopY - 14);
+
+  fillPixelPanel(context, panelX, panelY, panelWidth, 10, '#fff7de', '#395f56');
+  drawUiText(context, label, panelX + 4, panelY + 7, '#395f56');
+  context.font = previousFont;
+
+  drawInteractMarker(context, centerX, markerTopY, minX, maxX);
+}
+
 export function drawClimbHint(
   context: CanvasRenderingContext2D,
   centerX: number,
@@ -157,6 +180,32 @@ export function drawClimbHint(
   context.fillRect(x + 2, topY + 2, 3, 1);
   context.fillRect(x + 3, topY + 4, 1, 1);
   context.fillRect(x + 3, topY + 6, 1, 1);
+}
+
+export function drawVerticalCue(
+  context: CanvasRenderingContext2D,
+  style: VerticalCueStyle,
+  x: number,
+  y: number,
+): void {
+  if (style === 'recovery-light') {
+    context.fillStyle = '#c98a4f';
+    context.fillRect(x + 2, y, 2, 1);
+    context.fillRect(x + 1, y + 1, 4, 1);
+    context.fillStyle = '#fff7de';
+    context.fillRect(x + 2, y + 2, 2, 5);
+    context.fillRect(x + 1, y + 4, 4, 1);
+    return;
+  }
+
+  context.fillStyle = '#c98a4f';
+  context.fillRect(x + 1, y, 4, 1);
+  context.fillRect(x, y + 1, 1, 2);
+  context.fillRect(x + 5, y + 1, 1, 2);
+  context.fillRect(x + 1, y + 3, 4, 1);
+  context.fillStyle = '#fff7de';
+  context.fillRect(x + 1, y + 1, 4, 2);
+  context.fillRect(x + 2, y + 2, 2, 1);
 }
 
 export function drawPanelButton(

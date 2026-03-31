@@ -1,0 +1,90 @@
+{
+  "packet_id": "ECO-PACKET-037",
+  "version": 1,
+  "created_at": "2026-03-30",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Microhabitat archive richness follow-on phase",
+  "summary": "Thirty-seventh structured packet for Eco Explorer. This is a future lane-2 follow-on after the current richness wave: deepen old-growth, under-root, and cave-adjacent microhabitats with narrow science-safe content packs, then add one quiet archive or sketchbook payoff inside existing surfaces.",
+  "source_reports": [
+    "docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260330-scout-81",
+    "ECO-20260330-main-117",
+    "ECO-20260330-critic-92",
+    "ECO-20260330-scout-82",
+    "ECO-20260330-main-118",
+    "ECO-20260330-critic-93"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-77"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260330-scout-81",
+      "goal": "Prepare a microhabitat content pack.",
+      "why_now": "Lane 2 should eventually support the new old-growth and cave-adjacent spaces without reopening systems work."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260330-main-117",
+      "goal": "Implement the first microhabitat content pack.",
+      "why_now": "This is the narrowest way to make those new spaces feel denser and more teachable."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260330-critic-92",
+      "goal": "Review the microhabitat content pack.",
+      "why_now": "The pack should stay science-safe and content-owned."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260330-scout-82",
+      "goal": "Prepare one microhabitat archive and sketchbook payoff.",
+      "why_now": "After the content lands, one quiet memory payoff is the next best lane-2 move."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260330-main-118",
+      "goal": "Add a microhabitat archive and sketchbook payoff.",
+      "why_now": "This lets lane 2 leave behind stronger place memory without inventing a new shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260330-critic-93",
+      "goal": "Review the microhabitat archive payoff.",
+      "why_now": "The archive/sketchbook layer should stay compact and optional."
+    }
+  ],
+  "guardrails": [
+    "Do not widen route, station, or traversal logic.",
+    "Keep the payoff inside existing archive or sketchbook surfaces.",
+    "Prefer a few strong microhabitat anchors over broad taxonomy sprawl."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine/close-look.ts",
+    "src/engine/sketchbook.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "New microhabitats feel denser and more science-rich.",
+    "One compact archive or sketchbook payoff makes them more memorable.",
+    "Lane 2 remains content-owned and calm."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md, and this packet. Treat this as a future lane-2 follow-on: deepen old-growth and cave-adjacent microhabitats with narrow content packs, then add one quiet archive or sketchbook payoff without reopening route or station systems."
+}

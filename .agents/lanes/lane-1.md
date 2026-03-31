@@ -37,6 +37,8 @@ Lane 1 currently owns:
 - coastal corridor continuity
 - season pages and expedition slot evolution
 - the first deeper forest expedition chapter
+- season-capstone closure and next-season handoff
+- compact station growth instead of a larger quest shell
 
 ## Success Condition
 

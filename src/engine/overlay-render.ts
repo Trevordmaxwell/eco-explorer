@@ -40,6 +40,7 @@ import type {
   FactBubblePayload,
   InspectableEntry,
   ObservationPrompt,
+  OutingSupportId,
   SketchbookSlotId,
 } from './types';
 
@@ -141,6 +142,7 @@ interface TitleOverlayOptions extends OverlaySurfaceOptions {}
 
 interface WorldMapHudOptions extends OverlaySurfaceOptions {
   mapMode: 'idle' | 'walking';
+  walkingLabel?: string | null;
 }
 
 interface MenuChipOptions extends OverlaySurfaceOptions {
@@ -167,7 +169,10 @@ interface MenuOverlayOptions extends OverlaySurfaceOptions {
 interface FieldStationOverlayOptions extends OverlaySurfaceOptions {
   view: FieldStationView;
   seasonPage: FieldStationSeasonPage;
+  subtitle: string;
   credits: number;
+  selectedOutingSupportId: OutingSupportId;
+  outingSupportSelected: boolean;
   upgrades: FieldUpgradeState[];
   selectedUpgradeId: string | null;
   atlas: FieldAtlasState | null;
@@ -590,11 +595,16 @@ export function drawTitleOverlay({ context, width, height, palette }: TitleOverl
   return titleHitTargets;
 }
 
-export function drawWorldMapHud({ context, width, palette, mapMode }: WorldMapHudOptions): void {
+export function drawWorldMapHud({ context, width, palette, mapMode, walkingLabel }: WorldMapHudOptions): void {
   context.font = UI_FONT_SMALL;
   if (mapMode === 'walking') {
     fillLeafGreenPanel(context, 8, 8, 116, 14);
-    drawUiTextInRect(context, 'TRAVELING TO NEXT STOP', makeRect(12, 10, 108, 10), palette.text);
+    drawUiTextInRect(
+      context,
+      fitTextToWidth(context, walkingLabel ?? 'TRAVELING TO NEXT STOP', 108),
+      makeRect(12, 10, 108, 10),
+      palette.text,
+    );
     return;
   }
 
@@ -843,7 +853,10 @@ export function drawFieldStationOverlay({
   palette,
   view,
   seasonPage,
+  subtitle,
   credits,
+  selectedOutingSupportId,
+  outingSupportSelected,
   upgrades,
   selectedUpgradeId,
   atlas,
@@ -857,12 +870,6 @@ export function drawFieldStationOverlay({
   const panelRect = makeRect(Math.floor((width - panelWidth) / 2), 8, panelWidth, height - 16);
   const contentRect = insetRect(panelRect, 10);
   const creditLabel = `${credits}C`;
-  const subtitle =
-    view === 'nursery'
-      ? 'Nursery beds and quiet station care.'
-      : seasonPage === 'routes'
-        ? 'Route board and calm field support.'
-        : 'Deeper forest chapter beyond the routes.';
   const tabY = contentRect.y + 12;
   const tabGap = 4;
   const tabWidth = Math.floor((contentRect.w - tabGap) / 2);
@@ -959,6 +966,26 @@ export function drawFieldStationOverlay({
         expeditionStatusColor,
         3,
       );
+      if (expedition.teaser) {
+        const teaserRect = makeRect(contentRect.x, cardRect.y + cardRect.h + 2, contentRect.w, 13);
+        fillPixelPanel(
+          context,
+          teaserRect.x,
+          teaserRect.y,
+          teaserRect.w,
+          teaserRect.h,
+          palette.journalSelected,
+          palette.cardShadow,
+        );
+        drawUiText(context, expedition.teaser.label, teaserRect.x + 4, teaserRect.y + 2, palette.accent);
+        drawUiText(
+          context,
+          fitTextToWidth(context, expedition.teaser.text, teaserRect.w - 8),
+          teaserRect.x + 4,
+          teaserRect.y + 8,
+          palette.text,
+        );
+      }
       return;
     }
 
@@ -1019,6 +1046,8 @@ export function drawFieldStationOverlay({
       const prefix =
         beat.status === 'done'
           ? 'DONE'
+          : beat.status === 'ready'
+          ? 'FILE'
           : beat.status === 'active'
           ? 'NOW'
           : 'NEXT';
@@ -1028,7 +1057,7 @@ export function drawFieldStationOverlay({
         fitTextToWidth(context, `${prefix} ${beat.title}`, boardRect.w - 8),
         boardRect.x + 4,
         beatY,
-        beat.status === 'active' ? palette.accent : palette.text,
+        beat.status === 'active' || beat.status === 'ready' ? palette.accent : palette.text,
       );
     });
 
@@ -1053,6 +1082,27 @@ export function drawFieldStationOverlay({
 
     drawUiText(context, 'SUPPORT', upgradesRect.x, upgradesRect.y, palette.accent);
     let upgradeCardY = upgradesRect.y + 6;
+    const outingSupportRowRect = makeRect(upgradesRect.x, upgradeCardY, upgradesRect.w, 6);
+    if (outingSupportSelected) {
+      context.fillStyle = palette.journalSelected;
+      context.fillRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w, outingSupportRowRect.h);
+      context.fillStyle = palette.accent;
+      context.fillRect(outingSupportRowRect.x + 2, outingSupportRowRect.y + 1, 2, outingSupportRowRect.h - 2);
+    }
+    drawUiTextInRect(
+      context,
+      'OUTING SUPPORT',
+      makeRect(outingSupportRowRect.x + 8, outingSupportRowRect.y, outingSupportRowRect.w - 72, outingSupportRowRect.h),
+      palette.text,
+    );
+    drawUiTextInRect(
+      context,
+      selectedOutingSupportId === 'route-marker' ? 'ROUTE MARKER' : 'HAND LENS',
+      makeRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w - 4, outingSupportRowRect.h),
+      selectedOutingSupportId === 'route-marker' ? palette.accent : palette.text,
+      { align: 'right' },
+    );
+    upgradeCardY += 7;
     upgrades.forEach((upgrade) => {
       const selected = upgrade.id === selectedUpgradeId;
       const rowHeight = 6;
@@ -1266,6 +1316,14 @@ function drawSketchbookDetail(
   const buttonY = rect.y + rect.h - 10;
   const placeButtonRect = makeRect(rect.x, buttonY, 38, 10);
   const clearButtonRect = makeRect(placeButtonRect.x + placeButtonRect.w + 4, buttonY, 38, 10);
+  const selectedSlot =
+    sketchbook.slots.find((slot) => slot.slotId === selectedSketchbookSlotId) ?? sketchbook.slots[0] ?? null;
+  const noteEntry = selectedSlot?.entry ?? selectedEntry;
+  const noteText =
+    selectedSlot?.note ??
+    noteEntry?.sketchbookNote ??
+    noteEntry?.shortFact ??
+    'Pick one from the list.';
 
   drawUiText(context, 'SKETCHBOOK', rect.x, rect.y + 1, palette.accent);
   drawPanelButton(
@@ -1290,23 +1348,21 @@ function drawSketchbookDetail(
   });
 
   fillPixelPanel(context, sourceRect.x, sourceRect.y, sourceRect.w, sourceRect.h, palette.journalPage, palette.accent);
-  drawUiTextInRect(context, 'SOURCE', makeRect(sourceRect.x + 4, sourceRect.y, sourceRect.w - 8, 10), palette.accent);
+  drawUiTextInRect(
+    context,
+    noteEntry ? 'FIELD NOTE' : 'SOURCE',
+    makeRect(sourceRect.x + 4, sourceRect.y, sourceRect.w - 8, 10),
+    palette.accent,
+  );
   drawUiText(
     context,
-    fitTextToWidth(context, selectedEntry?.commonName ?? 'Pick one from the list.', sourceRect.w - 8),
+    fitTextToWidth(context, noteText, sourceRect.w - 8),
     sourceRect.x + 4,
     sourceRect.y + 10,
     palette.text,
   );
 
   fillPixelPanel(context, pageRect.x, pageRect.y, pageRect.w, pageRect.h, '#f2ead8', palette.cardShadow);
-  drawUiText(
-    context,
-    fitTextToWidth(context, sketchbook.biomeName.toUpperCase(), pageRect.w - 8),
-    pageRect.x + 4,
-    pageRect.y - 7,
-    palette.accent,
-  );
 
   for (const slot of sketchbook.slots) {
     const slotRect = slotRects[slot.slotId];

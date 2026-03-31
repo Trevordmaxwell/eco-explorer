@@ -5,6 +5,7 @@ import type { BiomeDefinition, JournalEntryState } from './types';
 const COMPARISON_ENTRY_IDS = new Set([
   'beach-grass',
   'sand-verbena',
+  'nootka-rose',
   'salmonberry',
   'sword-fern',
   'arctic-willow',

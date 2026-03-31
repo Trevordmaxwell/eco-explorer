@@ -35,6 +35,13 @@ If a content idea clearly requires those files, leave a handoff for lane 1 inste
 
 Lane 2 should deepen the existing world through content packs and journal-richness work that can ride on already-landed systems.
 
+Current emphasis:
+
+- richer coastal, alpine, and sub-ecosystem discoveries
+- archive and sketchbook payoff through existing surfaces
+- note-backed comparison and close-look growth
+- science-ledger and content-quality support for new authored spaces
+
 ## Success Condition
 
 Lane 2 should make the world feel denser, more collectible, and more educationally rich without changing the game’s overall progression shape.

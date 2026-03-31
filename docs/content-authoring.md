@@ -9,6 +9,7 @@
    - `category`
    - `shortFact`
    - `journalText`
+   - optional `sketchbookNote`
    - `spriteId`
    - `collectible`
    - organism entries (`shell`, `plant`, `lichen`, `animal`) also need `scientificName`
@@ -152,7 +153,13 @@ Guidance:
 - Use `category: 'lichen'` for lichen organisms instead of grouping them under plants.
 - Use a plain-language `subtitle` for landmark or habitat entries instead of inventing Latin.
 - Use `journalText` for the slightly longer explanation shown in the journal.
+- Use optional `sketchbookNote` for one short notebook-style line in the sketchbook; keep it more evocative than `shortFact`, but still science-safe.
 - Favor habitat, adaptation, and ecosystem facts over trivia with no environmental context.
+
+## Science ledger upkeep
+
+- When you add a new landmark, process-teaching carrier, or close-look entry, add or update its row in `docs/science-source-ledger.md`.
+- If a new entry is meant to be a remembered route or process anchor, prefer adding a short `sketchbookNote` so the archive surfaces keep a compact payoff later.
 
 ## Ecosystem note template
 
@@ -185,6 +192,7 @@ Guidance:
 
 - `shortFact`: `<= 100` characters, one sentence
 - `journalText`: aim for `<= 180` characters and `1-2` sentences
+- `sketchbookNote`: aim for `<= 48` characters and one short line
 - `ecosystemNotes[].title`: `<= 28` characters
 - `ecosystemNotes[].summary`: `<= 110` characters
 - `ecosystemNotes[].observationPrompt`: `<= 90` characters and usually phrased as a question

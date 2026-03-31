@@ -106,7 +106,9 @@ Map-return post layout:
 
 - each corridor-enabled biome has one authored `map-post` in a stable interior zone
 - posts are separate from corridor thresholds and do not replace adjacent walking
+- posts now carry compact region-facing labels such as `COAST MAP`, `INLAND MAP`, or `HIGH PASS MAP` instead of one generic cue
 - opening the map from a post returns you to that same interior anchor if you cancel back into the origin biome
+- opening the map from the in-game menu now uses that same preferred authored interior post when the player is in a biome interior, so the map opens through the same exit framing and same-biome cancel does not fall back to the old edge doorway
 - the world map is still available from the in-game menu as a secondary access path
 
 ## World map
@@ -124,7 +126,15 @@ Each location includes:
 - a world-map node position
 - a map-door anchor
 - a biome-door anchor
-- label and summary text
+- label and short direction-first summary text
+
+Travel-facing cueing stays intentionally tiny:
+
+- highlighted corridor doors now show a small destination label such as `TO COASTAL SCRUB`
+- highlighted interior posts now use short region-aware labels such as `INLAND MAP`
+- the world-map footer now reinforces where a habitat sits in the coast-to-inland chain instead of only listing flavor words
+- when map focus moves away from the current location, the footer adds one compact origin reminder such as `FROM SUNNY BEACH`
+- while the avatar is actively walking on the map, the top-left travel panel now swaps the generic next-stop copy for one short authored approach cue such as `HIGH PASS`
 
 Connections are authored as waypoint paths so the avatar walks a readable route instead of teleporting across the map.
 
@@ -160,11 +170,12 @@ Corridor path:
 Map path:
 
 1. In a corridor-enabled biome, either walk to the authored map-return post and press `E`, or open the field menu and choose `World map`.
-2. On the map, use arrows to move focus through the habitat chain.
-3. Press `J` on the map to open the journal for the currently focused biome, not the doorway origin biome.
-4. Press `Enter` or `E` on a focused destination to start the live route walk.
-5. The avatar travels the authored path and enters the destination biome through its linked doorway.
-6. Press `Esc` to return to the biome you exited from; if you opened the map from a map-return post, you re-enter near that same post instead of the old edge doorway.
+2. In biome interiors, both access paths now use the same authored biome-to-map travel framing; corridor-side menu access still opens the map directly so seam pacing stays light.
+3. On the map, use arrows to move focus through the habitat chain.
+4. Press `J` on the map to open the journal for the currently focused biome, not the doorway origin biome.
+5. Press `Enter` or `E` on a focused destination to start the live route walk.
+6. The avatar travels the authored path and enters the destination biome through its linked doorway.
+7. Press `Esc` to return to the biome you exited from; in corridor-enabled biomes, same-biome cancel now prefers the authored interior map-return post whether the map opened from that post or from the field menu.
 
 Current map-side controls:
 

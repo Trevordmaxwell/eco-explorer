@@ -5,7 +5,7 @@ import type { DoorTransitionSnapshot } from './door-transition';
 import { sampleTerrainY } from './generation';
 import { resolveHabitatProcessMomentForEntity } from './habitat-process';
 import { getPhenologyAccentMap, getPhenologyPhaseProfile } from './phenology';
-import { drawClimbHint, drawInteractMarker } from './pixel-ui';
+import { drawClimbHint, drawInteractMarker, drawTravelCue, drawVerticalCue } from './pixel-ui';
 import { drawSprite, type SpriteRegistry } from './sprites';
 import type {
   BiomeDefinition,
@@ -16,6 +16,7 @@ import type {
   DayPart,
   HabitatProcessStyle,
   PhenologyEntryAccent,
+  VerticalCue,
   WeatherProfile,
 } from './types';
 import type { WorldState } from './world-state';
@@ -35,11 +36,12 @@ interface BiomeSceneRenderOptions {
   sprites: SpriteRegistry;
   biomeDefinition: BiomeDefinition;
   biomeInstance: BiomeInstance;
-  doors: Array<{ anchor: DoorAnchor; openAmount: number; highlighted: boolean }>;
+  doors: Array<{ anchor: DoorAnchor; openAmount: number; highlighted: boolean; label: string | null }>;
   cameraX: number;
   cameraY: number;
   frameCount: number;
   nearestEntityId: string | null;
+  verticalCues: VerticalCue[];
   player: PlayerRenderState;
   playerHeight: number;
   worldState: WorldState;
@@ -816,6 +818,7 @@ export function drawBiomeScene({
   cameraY,
   frameCount,
   nearestEntityId,
+  verticalCues,
   player,
   playerHeight,
   worldState,
@@ -893,6 +896,16 @@ export function drawBiomeScene({
     drawDepthFeature(context, feature, cameraX, cameraY, width, height);
   }
 
+  for (const cue of verticalCues) {
+    const screenX = cue.x - cameraX;
+    const screenY = cue.y - cameraY;
+    if (screenX < -12 || screenX > width + 12 || screenY < -12 || screenY > height + 12) {
+      continue;
+    }
+
+    drawVerticalCue(context, cue.style, screenX, screenY);
+  }
+
   for (let screenX = -8; screenX < width + 8; screenX += 8) {
     const worldX = screenX + cameraX;
     const surfaceY = Math.floor(sampleTerrainY(biomeInstance.terrainSamples, worldX + 4) / 8) * 8;
@@ -961,7 +974,11 @@ export function drawBiomeScene({
     }
 
     if (door.highlighted) {
-      drawInteractMarker(context, doorScreenX + 4, doorScreenY - 12, 4, width - 4);
+      if (door.label) {
+        drawTravelCue(context, door.label, doorScreenX + 4, doorScreenY - 12, 4, width - 4);
+      } else {
+        drawInteractMarker(context, doorScreenX + 4, doorScreenY - 12, 4, width - 4);
+      }
     }
   }
 

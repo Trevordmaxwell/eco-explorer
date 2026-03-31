@@ -4,8 +4,11 @@ import { biomeRegistry } from '../content/biomes';
 import { forestBiome } from '../content/biomes/forest';
 import {
   resolveFieldAtlasState,
+  resolveNurseryCapstoneSupportHint,
+  resolveFieldSeasonArchiveState,
   resolveFieldSeasonBoardState,
   resolveFieldSeasonExpeditionState,
+  resolveFieldStationSubtitle,
   resolveFieldSeasonWrapState,
 } from '../engine/field-season-board';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
@@ -96,9 +99,16 @@ describe('field season board', () => {
       progressLabel: '0/3 logged',
       targetBiomeId: 'treeline',
       complete: false,
-      nextDirection: 'Next: travel to Treeline Pass and log two shelter clues.',
+      summary: 'Leave canopy cover. Follow shelter and thaw into the inland exposure chapter.',
+      nextDirection:
+        'Next: travel to Treeline Pass and match one stone break, one bent cover, and one lee-life clue.',
       beats: [
-        { id: 'treeline-shelter', status: 'active', title: 'Treeline Shelter' },
+        {
+          id: 'treeline-shelter',
+          status: 'active',
+          title: 'Treeline Shelter',
+          detail: 'Match one stone break, one bent cover, and one lee-life clue where treeline still blocks the wind.',
+        },
         { id: 'tundra-short-season', status: 'upcoming', title: 'Short Season' },
         { id: 'tundra-survey', status: 'upcoming', title: 'Tundra Survey' },
       ],
@@ -119,9 +129,17 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       progressLabel: '1/3 logged',
       targetBiomeId: 'tundra',
+      summary: 'Treeline shelter logged. Follow the thaw edge into the shorter season.',
+      nextDirection:
+        'Next: travel to Tundra Reach and match one first bloom, one wet tuft, and one brief-fruit clue.',
       beats: [
         { id: 'treeline-shelter', status: 'done', title: 'Treeline Shelter Logged' },
-        { id: 'tundra-short-season', status: 'active', title: 'Short Season' },
+        {
+          id: 'tundra-short-season',
+          status: 'active',
+          title: 'Short Season',
+          detail: 'Match one first bloom, one wet tuft, and one brief-fruit clue across the thaw edge.',
+        },
         { id: 'tundra-survey', status: 'upcoming', title: 'Tundra Survey' },
       ],
     });
@@ -132,7 +150,12 @@ describe('field season board', () => {
       targetBiomeId: 'tundra',
       beats: [
         { id: 'treeline-shelter', status: 'done' },
-        { id: 'tundra-short-season', status: 'done', title: 'Short Season Logged' },
+        {
+          id: 'tundra-short-season',
+          status: 'done',
+          title: 'Short Season Logged',
+          detail: 'First bloom, wet tuft, and brief-fruit clues now read as one thaw-window timing pass.',
+        },
         { id: 'tundra-survey', status: 'active', title: 'Tundra Survey' },
       ],
     });
@@ -142,11 +165,19 @@ describe('field season board', () => {
       routeId: 'edge-pattern-line',
       routeTitle: 'EDGE PATTERN LINE',
       branchLabel: 'Coastal Scrub -> Forest -> Treeline',
+      summary: 'Follow the coast-to-forest transition from pioneer scrub into lower fell.',
       progressLabel: '0/3 logged',
+      nextDirection:
+        'Next: travel to Coastal Scrub and match one clue from each stage of the edge pattern.',
       targetBiomeId: 'coastal-scrub',
       complete: false,
       beats: [
-        { id: 'scrub-edge-pattern', status: 'active', title: 'Scrub Pattern' },
+        {
+          id: 'scrub-edge-pattern',
+          status: 'active',
+          title: 'Scrub Pattern',
+          detail: 'Match one open pioneer, one holding cover, and one thicker-edge clue from dune to forest edge.',
+        },
         { id: 'forest-cool-edge', status: 'upcoming', title: 'Cool Edge' },
         { id: 'treeline-low-fell', status: 'upcoming', title: 'Low Fell' },
       ],
@@ -172,7 +203,12 @@ describe('field season board', () => {
       progressLabel: '0/3 logged',
       targetBiomeId: 'coastal-scrub',
       beats: [
-        { id: 'scrub-edge-pattern', status: 'active', title: 'Scrub Pattern' },
+        {
+          id: 'scrub-edge-pattern',
+          status: 'active',
+          title: 'Scrub Pattern',
+          detail: 'Match one open pioneer, one holding cover, and one thicker-edge clue from dune to forest edge.',
+        },
         { id: 'forest-cool-edge', status: 'upcoming', title: 'Cool Edge' },
         { id: 'treeline-low-fell', status: 'upcoming', title: 'Low Fell' },
       ],
@@ -180,11 +216,19 @@ describe('field season board', () => {
 
     save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'scrub-edge-pattern'];
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      summary: 'Scrub pattern logged. Read the cooler forest side of the transition next.',
       progressLabel: '1/3 logged',
+      nextDirection:
+        'Next: travel to Forest Trail and match one edge carrier, one cool floor, and one wet shade clue.',
       targetBiomeId: 'forest',
       beats: [
         { id: 'scrub-edge-pattern', status: 'done', title: 'Scrub Pattern Logged' },
-        { id: 'forest-cool-edge', status: 'active', title: 'Cool Edge' },
+        {
+          id: 'forest-cool-edge',
+          status: 'active',
+          title: 'Cool Edge',
+          detail: 'Match one edge carrier, one cool floor, and one wet shade clue at Creek Bend.',
+        },
         { id: 'treeline-low-fell', status: 'upcoming', title: 'Low Fell' },
       ],
     });
@@ -193,10 +237,18 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       progressLabel: '2/3 logged',
       targetBiomeId: 'treeline',
+      summary: 'Cool edge logged. Follow the line into the inland exposure roles.',
+      nextDirection:
+        'Next: travel to Treeline Pass and match one last tree shape, one low wood, and one fell-bloom clue.',
       beats: [
         { id: 'scrub-edge-pattern', status: 'done' },
         { id: 'forest-cool-edge', status: 'done', title: 'Cool Edge Logged' },
-        { id: 'treeline-low-fell', status: 'active', title: 'Low Fell' },
+        {
+          id: 'treeline-low-fell',
+          status: 'active',
+          title: 'Low Fell',
+          detail: 'Match one last tree shape, one low wood, and one fell-bloom clue from krummholz to lichen fell.',
+        },
       ],
     });
 
@@ -209,7 +261,12 @@ describe('field season board', () => {
       beats: [
         { id: 'scrub-edge-pattern', status: 'done' },
         { id: 'forest-cool-edge', status: 'done' },
-        { id: 'treeline-low-fell', status: 'done', title: 'Edge Line Logged' },
+        {
+          id: 'treeline-low-fell',
+          status: 'done',
+          title: 'Edge Line Logged',
+          detail: 'Last tree shape, low wood, and fell bloom clues now finish the edge line as one exposure read.',
+        },
       ],
     });
   });
@@ -231,6 +288,49 @@ describe('field season board', () => {
         expect.objectContaining({ id: 'forest-study', status: 'active', title: 'Dawn Hollow' }),
       ]),
     );
+  });
+
+  it('marks the active route beat notebook-ready until the note is filed at the station', () => {
+    const save = createNewSaveState('field-season-board-notebook-ready-seed');
+    save.routeV2Progress = {
+      requestId: 'forest-hidden-hollow',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: ['fallen-log-marker'],
+      evidenceSlots: [],
+    };
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    expect(routeBoard).toMatchObject({
+      targetBiomeId: null,
+      summary: 'Return to the field station and file this note before the next outing.',
+      nextDirection: 'Next: return to the field station and file the notebook note.',
+      notebookReady: {
+        requestId: 'forest-hidden-hollow',
+        text: 'File the notebook note before the next outing.',
+      },
+    });
+    expect(routeBoard.beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'forest-study',
+          status: 'ready',
+        }),
+      ]),
+    );
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+      ),
+    ).toEqual({
+      label: 'NOTEBOOK READY',
+      text: 'File the notebook note before the next outing.',
+    });
   });
 
   it('surfaces a rime-shelter replay note on late treeline shelter revisits', () => {
@@ -302,14 +402,14 @@ describe('field season board', () => {
     expect(resolveFieldAtlasState(save)).toEqual({
       title: 'FIELD ATLAS',
       loggedRoutes: ['COASTAL SHELTER LINE logged'],
-      note: 'Next: keep following the inland line.',
+      note: 'Next: follow the inland shelter line.',
     });
 
     save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'tundra-survey-slice'];
     expect(resolveFieldAtlasState(save)).toEqual({
       title: 'FIELD ATLAS',
       loggedRoutes: ['COASTAL SHELTER LINE logged', 'TREELINE SHELTER LINE logged'],
-      note: 'Next: follow the edge pattern line.',
+      note: 'Next: follow the low-fell edge line.',
     });
 
     save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'treeline-low-fell'];
@@ -320,7 +420,29 @@ describe('field season board', () => {
         'TREELINE SHELTER LINE logged',
         'EDGE PATTERN LINE logged',
       ],
-      note: 'Next: open the Root Hollow expedition.',
+      note: 'Next: open Root Hollow below the forest.',
+    });
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'forest-expedition-upper-run'];
+    expect(resolveFieldAtlasState(save)).toEqual({
+      title: 'FIELD ATLAS',
+      loggedRoutes: [
+        'COASTAL SHELTER LINE logged',
+        'TREELINE SHELTER LINE logged',
+        'EDGE PATTERN LINE logged',
+      ],
+      note: 'Next: tie coast and hollow in Forest Trail.',
+    });
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'forest-season-threads'];
+    expect(resolveFieldAtlasState(save)).toEqual({
+      title: 'FIELD ATLAS',
+      loggedRoutes: [
+        'COASTAL SHELTER LINE logged',
+        'TREELINE SHELTER LINE logged',
+        'EDGE PATTERN LINE logged',
+      ],
+      note: 'Next: file the season at the station.',
     });
   });
 
@@ -335,6 +457,7 @@ describe('field season board', () => {
       summary: 'A deeper forest outing opens after the season routes are logged.',
       startText: 'Forest Trail to Root Hollow',
       note: '3 more routes need logging first.',
+      teaser: null,
     });
   });
 
@@ -347,54 +470,111 @@ describe('field season board', () => {
       title: 'ROOT HOLLOW',
       status: 'ready',
       statusLabel: 'READY',
-      summary: 'One deeper forest outing is staged through lower hollow, trunk climb, and upper run.',
+      summary: 'One deeper forest chapter is staged from seep mark through root-held return to the high run.',
       startText: 'Forest Trail to Root Hollow',
       note: 'Start when you want a longer forest outing.',
+      teaser: null,
     });
   });
 
-  it('tracks expedition progress once the lower hollow leg is logged', () => {
-    const save = createNewSaveState('field-season-expedition-active-lower-seed');
-    save.completedFieldRequestIds = [
-      'coastal-edge-moisture',
-      'tundra-survey-slice',
-      'treeline-low-fell',
-      'forest-expedition-lower-hollow',
-    ];
+  it('tracks expedition progress from the chapter evidence count', () => {
+    const save = createNewSaveState('field-season-expedition-active-seep-seed');
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'];
+    save.routeV2Progress = {
+      requestId: 'forest-expedition-upper-run',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'seep-mark', entryId: 'seep-stone' }],
+    };
 
     expect(resolveFieldSeasonExpeditionState(save)).toEqual({
       id: 'root-hollow-expedition',
       title: 'ROOT HOLLOW',
       status: 'active',
       statusLabel: '1/3',
-      summary: 'The lower hollow leg is logged. The climb now leads toward the high shelf above the cave lane.',
+      summary: 'The seep mark is logged. The climb now leads toward the root-held return above the seep floor.',
       startText: 'Forest Trail to Root Hollow',
-      note: 'Next: climb the forgiving trunks to the high shelf.',
+      note: 'Next: climb through Root Hollow to the root-held return.',
+      teaser: null,
     });
   });
 
-  it('tracks expedition progress once the climb leg is logged', () => {
-    const save = createNewSaveState('field-season-expedition-active-climb-seed');
-    save.completedFieldRequestIds = [
-      'coastal-edge-moisture',
-      'tundra-survey-slice',
-      'treeline-low-fell',
-      'forest-expedition-lower-hollow',
-      'forest-expedition-trunk-climb',
-    ];
+  it('shows the expedition card as notebook-ready once the chapter clues are complete', () => {
+    const save = createNewSaveState('field-season-expedition-note-ready-seed');
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'];
+    save.routeV2Progress = {
+      requestId: 'forest-expedition-upper-run',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+        { slotId: 'high-run', entryId: 'fir-cone' },
+      ],
+    };
 
     expect(resolveFieldSeasonExpeditionState(save)).toEqual({
       id: 'root-hollow-expedition',
       title: 'ROOT HOLLOW',
       status: 'active',
-      statusLabel: '2/3',
-      summary: 'The hollow and climb legs are logged. One upper-run finish still leads back into the open forest.',
+      statusLabel: 'NOTE READY',
+      summary: 'The chapter is ready to file from seep mark to high run.',
       startText: 'Forest Trail to Root Hollow',
-      note: 'Next: follow the high exit into Log Run.',
+      note: 'Next: file the Root Hollow note at the field station.',
+      teaser: null,
     });
   });
 
-  it('uses a soft next-outing wrap when a route is just getting started', () => {
+  it('adds one tiny next-expedition teaser once the first expedition is fully logged', () => {
+    const save = createNewSaveState('field-season-expedition-logged-seed');
+    save.completedFieldRequestIds = [
+      'coastal-edge-moisture',
+      'tundra-survey-slice',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+    ];
+
+    expect(resolveFieldSeasonExpeditionState(save)).toEqual({
+      id: 'root-hollow-expedition',
+      title: 'ROOT HOLLOW',
+      status: 'logged',
+      statusLabel: 'LOGGED',
+      summary: 'The forest chapter is filed from seep mark to the high run.',
+      startText: 'Forest Trail to Root Hollow',
+      note: 'Revisit for seep shelter, root-held cover, and high-run clues.',
+      teaser: {
+        label: 'NEXT EXPEDITION',
+        text: 'Another special outing can open here later.',
+      },
+    });
+  });
+
+  it('turns the logged expedition footer into a next-season setup card once the season is filed', () => {
+    const save = createNewSaveState('field-season-expedition-next-season-seed');
+    save.completedFieldRequestIds = [
+      'coastal-edge-moisture',
+      'tundra-survey-slice',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ];
+
+    expect(resolveFieldSeasonExpeditionState(save)).toEqual({
+      id: 'root-hollow-expedition',
+      title: 'ROOT HOLLOW',
+      status: 'logged',
+      statusLabel: 'LOGGED',
+      summary: 'The forest chapter is filed from seep mark to the high run.',
+      startText: 'Forest Trail to Root Hollow',
+      note: 'Revisit for seep shelter, root-held cover, and high-run clues.',
+      teaser: {
+        label: 'NEXT FIELD SEASON',
+        text: 'Take the High Pass next.',
+      },
+    });
+  });
+
+  it('uses a clue-facing today wrap when hand lens is the active outing support', () => {
     const save = createNewSaveState('field-season-wrap-starter-seed');
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
 
@@ -409,12 +589,36 @@ describe('field season board', () => {
         resolveFieldAtlasState(save),
       ),
     ).toEqual({
-      label: 'NEXT OUTING',
-      text: 'Start with Forest Trail.',
+      label: 'TODAY',
+      text: 'Find the lower hollow and confirm the seep stone.',
     });
   });
 
-  it('uses the replay note as the active season-wrap cue when a replay window is live', () => {
+  it('keeps the today wrap travel-facing when route marker is the active outing support', () => {
+    const save = createNewSaveState('field-season-wrap-starter-route-marker-seed');
+    save.purchasedUpgradeIds = ['route-marker'];
+    save.selectedOutingSupportId = 'route-marker';
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIRST FIELD SEASON',
+          text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'route-marker',
+      ),
+    ).toEqual({
+      label: 'TODAY',
+      text: 'Travel to Forest Trail and find Hidden Hollow.',
+    });
+  });
+
+  it('uses the replay note text as the active season-wrap cue when hand lens is live', () => {
     const save = createNewSaveState('field-season-wrap-replay-seed');
     save.completedFieldRequestIds = [
       'forest-hidden-hollow',
@@ -440,6 +644,43 @@ describe('field season board', () => {
           text: 'Keep comparing nearby habitats and checking the station between longer routes.',
         },
         resolveFieldAtlasState(save),
+      ),
+    ).toEqual({
+      label: 'TODAY',
+      text: 'Cool wet holdovers make the forest middle edge easiest to compare again.',
+    });
+  });
+
+  it('keeps replay notes travel-facing when route marker is selected', () => {
+    const save = createNewSaveState('field-season-wrap-replay-route-marker-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+    ];
+    save.purchasedUpgradeIds = ['route-marker'];
+    save.selectedOutingSupportId = 'route-marker';
+    save.worldStep = 6;
+    save.biomeVisits.forest = 2;
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'route-marker',
       ),
     ).toEqual({
       label: 'TODAY',
@@ -476,7 +717,116 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'ROUTE LOGGED',
-      text: 'Open the Root Hollow expedition.',
+      text: 'Open Root Hollow below the forest.',
     });
+  });
+
+  it('points the routes page at Forest Trail once the expedition reconnects the season', () => {
+    const save = createNewSaveState('field-season-wrap-capstone-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+    ];
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(routeBoard).toMatchObject({
+      complete: true,
+      summary: 'Root Hollow reconnects the season. Tie the threads together back in Forest Trail.',
+    });
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'SEASON THREADS',
+          text: 'Forest Trail has one last notebook pass. Tie together floor cover, edge growth, and canopy life.',
+        },
+        resolveFieldAtlasState(save),
+      ),
+    ).toEqual({
+      label: 'ROUTE LOGGED',
+      text: 'Tie coast and hollow in Forest Trail.',
+    });
+  });
+
+  it('points the season wrap back to the station once the capstone is logged', () => {
+    const save = createNewSaveState('field-season-wrap-close-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ];
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(routeBoard).toMatchObject({
+      complete: true,
+      summary: 'Season threads logged. Return to the field station for a calm season close.',
+    });
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'RETURN TO STATION',
+          text: 'The season threads are logged. Return to the field station for a calm season close.',
+        },
+        resolveFieldAtlasState(save),
+        resolveFieldSeasonArchiveState(save),
+      ),
+    ).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'Coast, ridge, and Root Hollow filed.',
+    });
+  });
+
+  it('uses the filed-season subtitle only when the archive strip is active', () => {
+    expect(
+      resolveFieldStationSubtitle('season', 'routes', {
+        label: 'SEASON ARCHIVE',
+        text: 'Coast, ridge, and Root Hollow filed.',
+      }),
+    ).toBe('This season is filed. Another field season can open here later.');
+
+    expect(
+      resolveFieldStationSubtitle('season', 'routes', {
+        label: 'ROUTE LOGGED',
+        text: 'Open the Root Hollow expedition.',
+      }),
+    ).toBe('Route board and calm field support.');
+  });
+
+  it('derives one salmonberry-led nursery clue once the season moves beyond the route board', () => {
+    const save = createNewSaveState('field-season-nursery-support-seed');
+    save.nurseryClaimedRewardIds = ['nursery:salmonberry-support'];
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'tundra-survey-slice', 'treeline-low-fell'];
+
+    expect(resolveNurseryCapstoneSupportHint(save)).toBe(
+      'Salmonberry still marks the cooler forest return near Root Hollow.',
+    );
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'forest-expedition-upper-run'];
+    expect(resolveNurseryCapstoneSupportHint(save)).toBe(
+      'Salmonberry still marks the cooler forest return tying the season together.',
+    );
   });
 });

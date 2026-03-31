@@ -1,10 +1,12 @@
 import { describe, expect, it } from 'vitest';
+import scienceLedgerMarkdown from '../../docs/science-source-ledger.md?raw';
 
 import { beachBiome } from '../content/biomes/beach';
 import { coastalScrubBiome } from '../content/biomes/coastal-scrub';
 import { forestBiome } from '../content/biomes/forest';
 import { treelineBiome } from '../content/biomes/treeline';
 import { tundraBiome } from '../content/biomes/tundra';
+import { CLOSE_LOOK_ENTRY_IDS } from '../engine/close-look';
 import { FIELD_REQUEST_DEFINITIONS } from '../engine/field-requests';
 import { OBSERVATION_PROMPT_SEEDS } from '../engine/observation-prompts';
 
@@ -17,6 +19,8 @@ const NOTE_PROMPT_MAX = 52;
 const OBSERVATION_PROMPT_MAX = 60;
 const FIELD_REQUEST_TITLE_MAX = 18;
 const FIELD_REQUEST_SUMMARY_MAX = 96;
+const SKETCHBOOK_NOTE_MAX = 56;
+const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity'] as const;
 
 function countSentences(text: string): number {
   return text
@@ -57,12 +61,25 @@ describe('content quality guardrails', () => {
   });
 
   it('keeps field-request copy within the compact notebook budget', () => {
-    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(14);
+    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(13);
 
     for (const request of FIELD_REQUEST_DEFINITIONS) {
       expect(request.title.length).toBeLessThanOrEqual(FIELD_REQUEST_TITLE_MAX);
       expect(request.summary.length).toBeLessThanOrEqual(FIELD_REQUEST_SUMMARY_MAX);
       expect(countSentences(request.summary)).toBe(1);
+    }
+  });
+
+  it('keeps authored sketchbook notes within the compact source-strip budget', () => {
+    for (const biome of authoredBiomes) {
+      for (const entry of Object.values(biome.entries)) {
+        if (!entry.sketchbookNote) {
+          continue;
+        }
+
+        expect(entry.sketchbookNote.length).toBeLessThanOrEqual(SKETCHBOOK_NOTE_MAX);
+        expect(countSentences(entry.sketchbookNote)).toBe(1);
+      }
     }
   });
 
@@ -101,6 +118,18 @@ describe('content quality guardrails', () => {
           expect(note.minimumDiscoveries).toBeLessThanOrEqual(note.entryIds.length);
         }
       }
+    }
+  });
+
+  it('keeps the close-look allowlist backed by the science source ledger', () => {
+    for (const entryId of CLOSE_LOOK_ENTRY_IDS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps recent landmark teaching anchors backed by the science source ledger', () => {
+    for (const entryId of SCIENCE_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
     }
   });
 });

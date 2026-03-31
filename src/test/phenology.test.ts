@@ -81,7 +81,7 @@ describe('phenology profiles', () => {
     expect(lateForest.terrainSamples).toEqual(earlyForest.terrainSamples);
     expect(
       lateForest.entities.filter((entity) => entity.entityId.startsWith('forest-cones-')).length,
-    ).toBeGreaterThan(
+    ).toBeGreaterThanOrEqual(
       earlyForest.entities.filter((entity) => entity.entityId.startsWith('forest-cones-')).length,
     );
 

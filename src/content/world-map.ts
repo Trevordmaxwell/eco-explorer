@@ -21,6 +21,8 @@ export interface WorldMapLocation {
   biomeId: string;
   label: string;
   summary: string;
+  mapReturnLabel?: string;
+  approachLabel?: string;
   previewColor: string;
   node: MapPoint;
   mapDoor: DoorAnchor;
@@ -92,7 +94,9 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'beach',
       biomeId: 'beach',
       label: 'Sunny Beach',
-      summary: 'Shells, dunes, and shore life.',
+      summary: 'Ocean edge. Inland path leads to scrub.',
+      mapReturnLabel: 'COAST MAP',
+      approachLabel: 'COAST APPROACH',
       previewColor: '#73a8b7',
       node: scaleMapPoint(36, 100),
       mapDoor: scaleMapDoor(24, 88, 'right', 'map-beach-door'),
@@ -113,7 +117,9 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'coastal-scrub',
       biomeId: 'coastal-scrub',
       label: 'Coastal Scrub',
-      summary: 'Shrubs, dunes, and forest edge.',
+      summary: 'Between beach dunes and forest shade.',
+      mapReturnLabel: 'COAST MAP',
+      approachLabel: 'COAST APPROACH',
       previewColor: '#6f8b66',
       node: scaleMapPoint(78, 86),
       mapDoor: scaleMapDoor(66, 74, 'left', 'map-coastal-scrub-door'),
@@ -141,7 +147,9 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'forest',
       biomeId: 'forest',
       label: 'Forest Trail',
-      summary: 'Ferns, cones, and canopy life.',
+      summary: 'Middle woods between scrub and treeline.',
+      mapReturnLabel: 'INLAND MAP',
+      approachLabel: 'INLAND APPROACH',
       previewColor: '#4b6e43',
       node: scaleMapPoint(120, 64),
       mapDoor: scaleMapDoor(108, 52, 'left', 'map-forest-door'),
@@ -155,7 +163,7 @@ export const ecoWorldMap: WorldMapDefinition = {
           targetBiomeId: 'coastal-scrub',
         },
         {
-          x: 608,
+          x: 770,
           y: 90,
           facing: 'right',
           spriteId: 'travel-door',
@@ -169,7 +177,9 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'treeline',
       biomeId: 'treeline',
       label: 'Treeline Pass',
-      summary: 'Wind, low trees, and lichen.',
+      summary: 'High pass between forest and tundra.',
+      mapReturnLabel: 'HIGH PASS MAP',
+      approachLabel: 'HIGH PASS',
       previewColor: '#86928a',
       node: scaleMapPoint(149, 40),
       mapDoor: scaleMapDoor(137, 28, 'left', 'map-treeline-door'),
@@ -197,7 +207,9 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'tundra',
       biomeId: 'tundra',
       label: 'Tundra Reach',
-      summary: 'Snow, berries, and Arctic life.',
+      summary: 'Highest reach beyond treeline.',
+      mapReturnLabel: 'HIGH COUNTRY MAP',
+      approachLabel: 'HIGH COUNTRY',
       previewColor: '#8ebdd0',
       node: scaleMapPoint(166, 18),
       mapDoor: scaleMapDoor(154, 6, 'left', 'map-tundra-door'),

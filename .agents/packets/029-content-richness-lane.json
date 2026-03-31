@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-029",
-  "version": 3,
+  "version": 4,
   "created_at": "2026-03-30",
   "created_by_role": "critic-agent",
   "status": "READY",
@@ -9,7 +9,8 @@
   "source_reports": [
     "docs/reports/2026-03-30-content-richness-lane.md",
     "docs/reports/2026-03-30-coastal-front-richness-handoff.md",
-    "docs/reports/2026-03-30-alpine-content-richness-handoff.md"
+    "docs/reports/2026-03-30-alpine-content-richness-handoff.md",
+    "docs/reports/2026-03-30-comparison-close-look-candidates-handoff.md"
   ],
   "queue_refs": [
     "ECO-20260330-scout-54",
@@ -103,6 +104,8 @@
     "Use existing comparison, note, close-look, and sketchbook systems instead of inventing new ones.",
     "During the coastal-front pass, add source-backed discoveries and notes first; defer comparison allowlist and close-look payload expansion to the later journal-richness step unless a new authored entry must be seeded now.",
     "During the alpine pass, prioritize one shared alpine anchor plus one treeline and one tundra-side density beat; avoid reopening field-request, route, or expedition logic.",
+    "During the journal-richness pass, add at most one new comparison entry and keep it note-backed; do not loosen the comparison rule just to force `lingonberry` live before tundra has its own local berry-note support.",
+    "During the same pass, keep close-look expansion to the strongest visual-first additions instead of growing the allowlist broadly.",
     "Keep additions science-safe, kid-readable, and visually calm."
   ],
   "file_targets": [

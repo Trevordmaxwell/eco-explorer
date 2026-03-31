@@ -156,6 +156,36 @@ describe('journal comparison resolution', () => {
     ]);
   });
 
+  it('supports nootka rose once thorny scrub and forest-edge thicket notes are both unlocked', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'nootka-rose': {
+          entryId: 'nootka-rose',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['coastal-scrub', 'forest'],
+        },
+        'song-sparrow': {
+          entryId: 'song-sparrow',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+        'red-huckleberry': {
+          entryId: 'red-huckleberry',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['forest'],
+        },
+      },
+      'nootka-rose',
+      ['coastal-scrub', 'forest'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Thorny Cover',
+      'Edge Berry Thicket',
+    ]);
+  });
+
   it('supports a coastal-to-forest comparison for salmonberry once both local notes unlock', () => {
     const comparison = resolveJournalComparison(
       biomeRegistry,
@@ -238,5 +268,32 @@ describe('journal comparison resolution', () => {
     );
 
     expect(comparison?.cards.map((card) => card.noteTitle)).toEqual(['Fell Bloom Window', 'Brief Thaw Bloom']);
+  });
+
+  it('keeps lingonberry comparison hidden until tundra gains its own local berry note support', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'lingonberry': {
+          entryId: 'lingonberry',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['treeline', 'tundra'],
+        },
+        'bog-blueberry': {
+          entryId: 'bog-blueberry',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['treeline'],
+        },
+        'bigelows-sedge': {
+          entryId: 'bigelows-sedge',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['tundra'],
+        },
+      },
+      'lingonberry',
+      ['treeline', 'tundra'],
+    );
+
+    expect(comparison).toBeNull();
   });
 });

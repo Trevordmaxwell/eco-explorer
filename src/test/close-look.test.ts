@@ -1,19 +1,31 @@
 import { describe, expect, it } from 'vitest';
 
-import { beachBiome, forestBiome } from '../content/biomes';
+import { beachBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
 import { buildCloseLookPayload, supportsCloseLook } from '../engine/close-look';
 
 describe('close-look helpers', () => {
   it('only supports the small allowlisted entry set', () => {
+    expect(supportsCloseLook('sand-dollar-test')).toBe(true);
     expect(supportsCloseLook('moon-snail-shell')).toBe(true);
     expect(supportsCloseLook('fir-cone')).toBe(true);
     expect(supportsCloseLook('reindeer-lichen')).toBe(true);
     expect(supportsCloseLook('purple-saxifrage')).toBe(true);
+    expect(supportsCloseLook('lingonberry')).toBe(true);
+    expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
+    expect(supportsCloseLook('cottongrass')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
   });
 
   it('builds a compact payload for supported entries only', () => {
+    const sandDollarPayload = buildCloseLookPayload(beachBiome.entries['sand-dollar-test']);
+    expect(sandDollarPayload).toMatchObject({
+      entryId: 'sand-dollar-test',
+      title: 'Pacific Sand Dollar Test',
+      spriteId: 'sand-dollar-test',
+    });
+    expect(sandDollarPayload?.callouts).toContain('star pattern');
+
     const shellPayload = buildCloseLookPayload(beachBiome.entries['moon-snail-shell']);
     expect(shellPayload).toMatchObject({
       entryId: 'moon-snail-shell',
@@ -27,5 +39,29 @@ describe('close-look helpers', () => {
 
     const conePayload = buildCloseLookPayload(forestBiome.entries['fir-cone']);
     expect(conePayload?.callouts).toContain('cone scales');
+
+    const lingonberryPayload = buildCloseLookPayload(treelineBiome.entries.lingonberry);
+    expect(lingonberryPayload).toMatchObject({
+      entryId: 'lingonberry',
+      title: 'Lingonberry',
+      spriteId: 'lingonberry',
+    });
+    expect(lingonberryPayload?.callouts).toContain('evergreen leaves');
+
+    const boulderPayload = buildCloseLookPayload(treelineBiome.entries['frost-heave-boulder']);
+    expect(boulderPayload).toMatchObject({
+      entryId: 'frost-heave-boulder',
+      title: 'Frost-Heave Boulder',
+      spriteId: 'frost-heave-boulder',
+    });
+    expect(boulderPayload?.callouts).toContain('cold-worked ground');
+
+    const cottongrassPayload = buildCloseLookPayload(tundraBiome.entries.cottongrass);
+    expect(cottongrassPayload).toMatchObject({
+      entryId: 'cottongrass',
+      title: 'Cottongrass',
+      spriteId: 'cottongrass',
+    });
+    expect(cottongrassPayload?.callouts).toContain('white tuft');
   });
 });

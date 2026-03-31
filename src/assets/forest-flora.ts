@@ -43,6 +43,32 @@ export const forestFloraSprites: SpriteSource[] = [
     ]],
   },
   {
+    id: 'giant-canopy',
+    palette: {
+      a: masterPalette.canopyDark,
+      b: masterPalette.canopyLight,
+      c: masterPalette.barkLight,
+    },
+    frames: [[
+      '............aaabbb..............',
+      '.........aaabbbbbbaa............',
+      '......aaabbbbbbbbbbbba..........',
+      '....aabbbbbbbbbbbbbbbbba........',
+      '...abbbbbbabbbbbbbbbbbbba.......',
+      '..abbbbbbbbbbbbbbbbbbbbbba......',
+      '..abbbbbbbbbbbbbbbbbbbbbba......',
+      '...abbbbbbbbbbbbbbbbbbbba.......',
+      '....aabbbbbbbbbbbbbbbbba........',
+      '......aabbbbbbbbbbbbbaa.........',
+      '.........aaabcccccbaa...........',
+      '............ccccccc.............',
+      '.............ccccc..............',
+      '..............ccc...............',
+      '...............c................',
+      '................................',
+    ]],
+  },
+  {
     id: 'douglas-fir-sapling',
     palette: {
       a: masterPalette.fernDark,
