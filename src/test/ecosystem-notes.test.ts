@@ -155,6 +155,50 @@ describe('ecosystem note resolution', () => {
     expect(unlocked.note?.id).toBe('old-wood-link');
   });
 
+  it('supports the new old-wood nursery note once a seedling and nurse log are both found', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'western-hemlock-seedling',
+      ['fallen-giant-log', 'western-hemlock-seedling'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('old-wood-nursery');
+  });
+
+  it('supports the refreshed old-growth bark note through the new hanging lichen pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'old-mans-beard',
+      ['old-mans-beard', 'tree-lungwort'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('old-growth-bark-life');
+  });
+
+  it('supports the new canopy garden note once branch moss overlaps old-growth life', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'canopy-moss-bed',
+      ['canopy-moss-bed', 'western-hemlock-seedling'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('forests-above');
+  });
+
+  it('supports the new seep-wall note once moss and seep carriers overlap', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'seep-moss-mat',
+      ['seep-moss-mat', 'seep-stone'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('seep-wall-garden');
+  });
+
   it('supports the treeline shelter note through the new lee-pocket pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       treelineBiome,
@@ -241,5 +285,16 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('thaw-edge');
+  });
+
+  it('supports the new tundra berry-mat note through the lingonberry and crowberry pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      tundraBiome,
+      'lingonberry',
+      ['lingonberry', 'crowberry'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('evergreen-berry-mats');
   });
 });

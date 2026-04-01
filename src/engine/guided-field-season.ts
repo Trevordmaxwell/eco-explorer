@@ -8,7 +8,7 @@ export type GuidedFieldSeasonStage =
   | 'forest-study'
   | 'station-return'
   | 'season-capstone'
-  | 'season-close'
+  | 'next-season-open'
   | 'next-habitat'
   | 'settled';
 
@@ -54,16 +54,13 @@ export function resolveGuidedFieldSeasonState(
 
   if (seasonThreadsLogged) {
     return {
-      stage: 'season-close',
+      stage: 'next-season-open',
       stationNote: {
-        title: 'RETURN TO STATION',
-        text: 'The season threads are logged. Return to the field station for a calm season close.',
+        title: 'NEXT FIELD SEASON',
+        text: 'High Pass opens next from Treeline Pass when you are ready.',
       },
-      promptNotice: {
-        title: 'RETURN TO STATION',
-        text: 'The season threads are logged. Return to the field station for a calm season close.',
-      },
-      nextBiomeId: null,
+      promptNotice: null,
+      nextBiomeId: 'treeline',
     };
   }
 

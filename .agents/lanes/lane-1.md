@@ -33,13 +33,11 @@ It may touch content files when a route or expedition step needs authored suppor
 
 Lane 1 currently owns:
 
-- replay and season-wrap
-- coastal corridor continuity
-- season pages and expedition slot evolution
-- the first deeper forest expedition chapter
-- season-capstone closure and next-season handoff
-- compact station growth instead of a larger quest shell
-- pre-playthrough first-session clarity and standalone polish
+- season-two opening through the existing station and map seams
+- active outing discoverability and route-launch clarity
+- regional travel warmth and compact destination framing
+- expedition and season-page growth without dashboard drift
+- progression and pacing glue between finished chapters
 
 ## Success Condition
 

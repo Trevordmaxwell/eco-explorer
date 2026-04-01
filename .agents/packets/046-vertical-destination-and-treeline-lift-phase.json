@@ -1,0 +1,88 @@
+{
+  "packet_id": "ECO-PACKET-046",
+  "version": 1,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Vertical destination and treeline lift phase",
+  "summary": "Forty-sixth structured packet for Eco Explorer. This lane-3 wave makes the forest giant-tree line feel more destination-ready, then starts a second vertical identity in treeline with one compact lee-side ascent proof.",
+  "source_reports": [
+    "docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-96",
+    "ECO-20260331-main-134",
+    "ECO-20260331-critic-107",
+    "ECO-20260331-scout-97",
+    "ECO-20260331-main-135",
+    "ECO-20260331-critic-108"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-96",
+      "goal": "Prepare the forest giant-tree destination loop handoff.",
+      "why_now": "The forest vertical family is strong enough for a more destination-like follow-on."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-134",
+      "goal": "Implement the giant-tree destination loop.",
+      "why_now": "A stronger destination loop will make lane 3 feel more outing-grade."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-107",
+      "goal": "Review the giant-tree destination loop.",
+      "why_now": "The space needs to stay readable and recoverable while becoming more special."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-97",
+      "goal": "Prepare the first treeline lee-side ascent proof.",
+      "why_now": "Lane 3 should begin a second vertical family instead of only extending forest."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-135",
+      "goal": "Implement the treeline ascent proof.",
+      "why_now": "A small treeline shelter ascent will broaden vertical identity without too much risk."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-108",
+      "goal": "Review the treeline ascent proof.",
+      "why_now": "Treeline should gain a promising vertical beat without losing its calm readability."
+    }
+  ],
+  "guardrails": [
+    "Keep the spaces cozy and recoverable.",
+    "Reuse the current tiny cue language.",
+    "Do not open a harsher traversal shell or denser HUD.",
+    "Keep the treeline proof compact and shelter-oriented."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The forest giant-tree line feels more destination-ready.",
+    "Treeline gains the beginning of its own vertical identity.",
+    "Lane 3 grows in variety without turning harsh."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md, and this packet. Treat this as lane 3's next wave: make the forest giant-tree line more destination-ready, then add one compact treeline lee-side ascent proof while keeping the spaces cozy and recoverable."
+}

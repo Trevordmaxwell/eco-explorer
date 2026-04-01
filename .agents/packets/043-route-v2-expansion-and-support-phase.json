@@ -1,0 +1,92 @@
+{
+  "packet_id": "ECO-PACKET-043",
+  "version": 3,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Route v2 expansion and support phase",
+  "summary": "Forty-third structured packet for Eco Explorer. This lane-4 wave extends the outing loop beyond the current forest chapter by first adding a true coastal transect Route v2 type on `scrub-edge-pattern`, then following with one calm support-slot and notebook-return pass built around `note-tabs` plus route-authored filing copy.",
+  "source_reports": [
+    "docs/reports/2026-03-31-route-v2-expansion-and-support-phase.md",
+    "docs/reports/2026-03-31-coastal-transect-route-v2-handoff.md",
+    "docs/reports/2026-03-31-note-tabs-notebook-return-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-90",
+    "ECO-20260331-main-128",
+    "ECO-20260331-critic-101",
+    "ECO-20260331-scout-91",
+    "ECO-20260331-main-129",
+    "ECO-20260331-critic-102"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-90",
+      "goal": "Prepare the first post-forest Route v2 expansion pack.",
+      "why_now": "The core forest chapter now proves the shape, so the next gain is to bring that authored outing feel into another route family."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-128",
+      "goal": "Implement a true coastal transect Route v2 type and convert `scrub-edge-pattern` on the edge-pattern line to use it.",
+      "why_now": "The next gameplay gain is a route that really teaches staged coast-to-forest reading instead of another unordered evidence set."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-101",
+      "goal": "Review the coastal transect Route v2 expansion pass.",
+      "why_now": "The converted edge-pattern outing should feel like a purposeful mini-transect without cluttering the station shell or reopening the save model."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-91",
+      "goal": "Prepare one calm support-slot and notebook-return follow-on.",
+      "why_now": "Once another route family feels stronger, the next lane-4 gain is a tiny extra choice and a slightly richer filing payoff."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-129",
+      "goal": "Implement `note-tabs`, support-aware strip copy, and richer route-authored filing payoff.",
+      "why_now": "This can make outings feel more complete without opening a larger inventory or quest shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-102",
+      "goal": "Review the support-slot and notebook-return follow-on.",
+      "why_now": "The support choice and filing payoff should feel satisfying, not noisy."
+    }
+  ],
+  "guardrails": [
+    "Do not add a new station page, quest log, or inventory shell.",
+    "Keep support growth tiny and optional.",
+    "Reuse the existing routeV2Progress.evidenceSlots seam instead of adding another transect save ledger.",
+    "Reuse existing world-state and filing seams.",
+    "Keep the tone cozy, notebook-first, and science-forward.",
+    "Keep the third support text-only and inside the existing `SUPPORT` row plus strip logic."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "A non-forest route family gains a stronger Route v2 outing shape.",
+    "One additional support choice and filing payoff make outings feel more complete without clutter.",
+    "Lane 4 remains about clear goals, small choices, and notebook-style return."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-03-31-route-v2-expansion-and-support-phase.md, docs/reports/2026-03-31-note-tabs-notebook-return-handoff.md, and this packet. Treat this as lane 4's next gameplay-loop wave: extend Route v2 beyond the current forest chapter, then add one calm support-slot and notebook-return follow-on without opening a larger quest or inventory shell."
+}

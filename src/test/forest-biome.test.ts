@@ -66,7 +66,8 @@ describe('forest biome generation', () => {
 
     const terrainAtFernHollow = instance.terrainSamples.find((sample) => sample.x === 272);
     const terrainAtRootHollow = instance.terrainSamples.find((sample) => sample.x === 320);
-    const terrainAtSeepPocket = instance.terrainSamples.find((sample) => sample.x === 368);
+    const terrainAtSeepPocket = instance.terrainSamples.find((sample) => sample.x === 352);
+    const terrainAtUnderBasin = instance.terrainSamples.find((sample) => sample.x === 368);
     const terrainAtStoneBasin = instance.terrainSamples.find((sample) => sample.x === 384);
     const terrainAtFilteredReturn = instance.terrainSamples.find((sample) => sample.x === 416);
     const terrainAtLogRun = instance.terrainSamples.find((sample) => sample.x === 448);
@@ -91,14 +92,16 @@ describe('forest biome generation', () => {
     expect(terrainAtFernHollow).toBeDefined();
     expect(terrainAtRootHollow).toBeDefined();
     expect(terrainAtSeepPocket).toBeDefined();
+    expect(terrainAtUnderBasin).toBeDefined();
     expect(terrainAtStoneBasin).toBeDefined();
     expect(terrainAtFilteredReturn).toBeDefined();
     expect(terrainAtLogRun).toBeDefined();
     expect(instance.height).toBe(336);
     expect((terrainAtRootHollow?.y ?? 0) - (terrainAtFernHollow?.y ?? 0)).toBeGreaterThanOrEqual(23);
-    expect((terrainAtSeepPocket?.y ?? 0) - (terrainAtRootHollow?.y ?? 0)).toBeGreaterThanOrEqual(22);
-    expect((terrainAtStoneBasin?.y ?? 0) - (terrainAtSeepPocket?.y ?? 0)).toBeGreaterThanOrEqual(18);
-    expect((terrainAtStoneBasin?.y ?? 0) - (terrainAtFilteredReturn?.y ?? 0)).toBeGreaterThanOrEqual(26);
+    expect((terrainAtSeepPocket?.y ?? 0) - (terrainAtRootHollow?.y ?? 0)).toBeGreaterThanOrEqual(24);
+    expect((terrainAtUnderBasin?.y ?? 0) - (terrainAtSeepPocket?.y ?? 0)).toBeGreaterThanOrEqual(22);
+    expect((terrainAtUnderBasin?.y ?? 0) - (terrainAtStoneBasin?.y ?? 0)).toBeGreaterThanOrEqual(10);
+    expect((terrainAtStoneBasin?.y ?? 0) - (terrainAtFilteredReturn?.y ?? 0)).toBeGreaterThanOrEqual(24);
     expect((terrainAtFilteredReturn?.y ?? 0) - (terrainAtLogRun?.y ?? 0)).toBeGreaterThanOrEqual(28);
     expect(rootPlatforms.map((platform) => platform.id)).toEqual([
       'root-hollow-entry-log',
@@ -111,7 +114,8 @@ describe('forest biome generation', () => {
     ]);
     expect(depthFeatures).toEqual(expect.arrayContaining([
       { id: 'root-hollow-root-arch', style: 'root-chamber', y: 64, h: 170 },
-      { id: 'root-hollow-stone-basin', style: 'stone-pocket', y: 188, h: 56 },
+      { id: 'root-hollow-stone-basin', style: 'stone-pocket', y: 186, h: 66 },
+      { id: 'root-hollow-under-basin-pocket', style: 'stone-pocket', y: 208, h: 40 },
       { id: 'root-hollow-filtered-pocket', style: 'root-chamber', y: 100, h: 104 },
     ]));
     expect(climbables).toEqual(expect.arrayContaining([
@@ -161,19 +165,22 @@ describe('forest biome generation', () => {
     expect((terrainAtOldGrowthPocket?.y ?? 0) - (terrainAtOldGrowthRise?.y ?? 0)).toBeGreaterThanOrEqual(18);
     expect(oldGrowthPlatforms.map((platform) => platform.id)).toEqual([
       'old-growth-root-log',
+      'old-growth-crown-rest',
       'old-growth-crossover-limb',
-      'old-growth-crown-window',
       'old-growth-bark-shelf',
+      'old-growth-crown-window',
       'old-growth-high-perch',
       'old-growth-inner-bark-rest',
+      'old-growth-inner-loop-step',
       'old-growth-canopy-ledge',
     ]);
     expect(oldGrowthDepthFeatures).toEqual([
-      { id: 'old-growth-canopy-pocket', style: 'canopy-pocket', y: 14, h: 104 },
+      { id: 'old-growth-canopy-pocket', style: 'canopy-pocket', y: 6, h: 112 },
       { id: 'old-growth-trunk-interior', style: 'trunk-interior', y: 56, h: 134 },
     ]);
     expect(oldGrowthClimbables).toEqual([
       { id: 'old-growth-inner-bark-snag', x: 678, w: 8, topExitY: 18 },
+      { id: 'old-growth-crown-snag', x: 680, w: 8, topExitY: 4 },
       { id: 'old-growth-main-trunk', x: 686, w: 24, topExitY: 108 },
       { id: 'old-growth-canopy-rung', x: 708, w: 8, topExitY: 26 },
       { id: 'old-growth-upper-snag', x: 736, w: 8, topExitY: 48 },
@@ -273,12 +280,15 @@ describe('forest biome generation', () => {
       { entryId: 'licorice-fern', x: 324, y: 118, castsShadow: false },
       { entryId: 'tree-lungwort', x: 350, y: 148, castsShadow: false },
       { entryId: 'seep-stone', x: 356, y: 172, castsShadow: true },
-      { entryId: 'ensatina', x: 384, y: 210, castsShadow: true },
-      { entryId: 'banana-slug', x: 396, y: 212, castsShadow: true },
+      { entryId: 'tree-lungwort', x: 366, y: 222, castsShadow: false },
+      { entryId: 'seep-moss-mat', x: 374, y: 194, castsShadow: false },
+      { entryId: 'tree-lungwort', x: 380, y: 88, castsShadow: false },
+      { entryId: 'ensatina', x: 380, y: 220, castsShadow: true },
       { entryId: 'tree-lungwort', x: 384, y: 100, castsShadow: false },
+      { entryId: 'seep-moss-mat', x: 394, y: 136, castsShadow: false },
+      { entryId: 'banana-slug', x: 394, y: 218, castsShadow: true },
       { entryId: 'redwood-sorrel', x: 402, y: 150, castsShadow: true },
       { entryId: 'root-curtain', x: 414, y: 124, castsShadow: false },
-      { entryId: 'tree-lungwort', x: 380, y: 88, castsShadow: false },
       { entryId: 'licorice-fern', x: 410, y: 76, castsShadow: true },
       { entryId: 'licorice-fern', x: 438, y: 90, castsShadow: false },
     ]));
@@ -297,16 +307,54 @@ describe('forest biome generation', () => {
       }));
 
     expect(oldGrowthNiches).toEqual([
+      { entryId: 'western-hemlock-seedling', x: 620, y: 88, castsShadow: true },
       { entryId: 'redwood-sorrel', x: 640, y: 164, castsShadow: true },
       { entryId: 'red-huckleberry', x: 656, y: 152, castsShadow: true },
+      { entryId: 'tree-lungwort', x: 660, y: 10, castsShadow: false },
       { entryId: 'tree-lungwort', x: 666, y: 24, castsShadow: false },
+      { entryId: 'old-mans-beard', x: 672, y: 14, castsShadow: false },
+      { entryId: 'canopy-moss-bed', x: 680, y: 22, castsShadow: false },
       { entryId: 'licorice-fern', x: 694, y: 106, castsShadow: false },
       { entryId: 'licorice-fern', x: 700, y: 30, castsShadow: false },
       { entryId: 'woodpecker-cavity', x: 702, y: 132, castsShadow: false },
       { entryId: 'tree-lungwort', x: 724, y: 54, castsShadow: false },
+      { entryId: 'canopy-moss-bed', x: 734, y: 44, castsShadow: false },
+      { entryId: 'western-hemlock-seedling', x: 736, y: 108, castsShadow: true },
       { entryId: 'tree-lungwort', x: 748, y: 74, castsShadow: false },
+      { entryId: 'old-mans-beard', x: 754, y: 46, castsShadow: false },
       { entryId: 'pileated-woodpecker', x: 764, y: 64, castsShadow: true },
     ]);
+  });
+
+  it('adds canopy and seep notes while keeping the refreshed old-growth note set', () => {
+    const nurseryNote = forestBiome.ecosystemNotes.find((note) => note.id === 'old-wood-nursery');
+    const barkNote = forestBiome.ecosystemNotes.find((note) => note.id === 'old-growth-bark-life');
+    const canopyNote = forestBiome.ecosystemNotes.find((note) => note.id === 'forests-above');
+    const seepNote = forestBiome.ecosystemNotes.find((note) => note.id === 'seep-wall-garden');
+
+    expect(nurseryNote).toMatchObject({
+      title: 'Old-Wood Nursery',
+      minimumDiscoveries: 2,
+      entryIds: ['fallen-giant-log', 'western-hemlock-seedling'],
+    });
+    expect(barkNote).toMatchObject({
+      title: 'Hanging Bark Life',
+      minimumDiscoveries: 2,
+      entryIds: ['old-mans-beard', 'tree-lungwort', 'woodpecker-cavity'],
+      zoneId: 'old-growth-pocket',
+    });
+    expect(canopyNote).toMatchObject({
+      title: 'Forests Above',
+      minimumDiscoveries: 2,
+      entryIds: ['canopy-moss-bed', 'old-mans-beard', 'western-hemlock-seedling'],
+      zoneId: 'old-growth-pocket',
+    });
+    expect(seepNote).toMatchObject({
+      title: 'Seep Wall Garden',
+      minimumDiscoveries: 2,
+      entryIds: ['seep-moss-mat', 'seep-stone', 'tree-lungwort'],
+      zoneId: 'stone-basin',
+    });
   });
 
   it('adds a richer berry and thorny edge to the first forest half', () => {

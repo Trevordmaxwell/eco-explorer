@@ -7,6 +7,7 @@ import {
   advanceFieldRequestDefinition,
   fileReadyRouteV2FieldRequest,
   getHandLensNotebookFit,
+  resolveRouteV2FiledNoteText,
   resolveActiveFieldRequest,
   shouldCompleteActiveFieldRequest,
 } from '../engine/field-requests';
@@ -471,7 +472,7 @@ describe('field requests', () => {
     expect(activeRequest).toMatchObject({
       id: 'scrub-edge-pattern',
       title: 'Scrub Pattern',
-      progressLabel: '0/3 clues',
+      progressLabel: 'Return To Back Dune',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -479,7 +480,7 @@ describe('field requests', () => {
     });
   });
 
-  it('formats transition notebook-fit copy without hyphenated slot text', () => {
+  it('only exposes the next transect stage through the hand lens', () => {
     const scrubContext = createCoastalContext(
       [
         'forest-hidden-hollow',
@@ -495,14 +496,19 @@ describe('field requests', () => {
     );
 
     expect(getHandLensNotebookFit(scrubContext, 'dune-lupine')).toBe('Notebook fit: open pioneer');
+    expect(getHandLensNotebookFit(scrubContext, 'pacific-wax-myrtle')).toBeNull();
+    expect(getHandLensNotebookFit(scrubContext, 'salmonberry')).toBeNull();
+
+    expect(advanceActiveFieldRequest(scrubContext, 'inspect', 'dune-lupine')).toBeNull();
 
     scrubContext.currentZoneId = 'windbreak-swale';
     expect(getHandLensNotebookFit(scrubContext, 'pacific-wax-myrtle')).toBe(
       'Notebook fit: holding cover',
     );
+    expect(getHandLensNotebookFit(scrubContext, 'salmonberry')).toBeNull();
 
     scrubContext.currentZoneId = 'forest-edge';
-    expect(getHandLensNotebookFit(scrubContext, 'salmonberry')).toBe('Notebook fit: thicker edge');
+    expect(getHandLensNotebookFit(scrubContext, 'salmonberry')).toBeNull();
   });
 
   it('completes the edge-pattern request chain through notebook-ready scrub and forest beats', () => {
@@ -522,13 +528,19 @@ describe('field requests', () => {
 
     expect(resolveActiveFieldRequest(scrubContext)).toMatchObject({
       id: 'scrub-edge-pattern',
-      progressLabel: '0/3 clues',
+      progressLabel: '0/3 stages',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
       },
     });
 
+    scrubContext.currentZoneId = 'windbreak-swale';
+    expect(advanceActiveFieldRequest(scrubContext, 'inspect', 'pacific-wax-myrtle')).toBeNull();
+    scrubContext.currentZoneId = 'forest-edge';
+    expect(advanceActiveFieldRequest(scrubContext, 'inspect', 'salmonberry')).toBeNull();
+
+    scrubContext.currentZoneId = 'back-dune';
     expect(advanceActiveFieldRequest(scrubContext, 'inspect', 'dune-lupine')).toBeNull();
     scrubContext.currentZoneId = 'windbreak-swale';
     expect(advanceActiveFieldRequest(scrubContext, 'inspect', 'pacific-wax-myrtle')).toBeNull();
@@ -564,6 +576,8 @@ describe('field requests', () => {
 
     expect(resolveActiveFieldRequest(forestContext)).toMatchObject({
       id: 'forest-cool-edge',
+      title: 'Cool Edge',
+      summary: 'At Creek Bend, file edge-carrier, cool-floor, and wet-shade clues along the cooler forest side.',
       progressLabel: '0/3 clues',
       routeV2: {
         status: 'gathering',
@@ -633,6 +647,165 @@ describe('field requests', () => {
       },
     });
     expect(fileReadyRouteV2FieldRequest(treelineContext.save)).toBe('treeline-low-fell');
+  });
+
+  it('turns forest-cool-edge into a process-backed outing during the moisture-hold window', () => {
+    const context = createForestContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+      ],
+      'creek-bend',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits.forest = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'forest-cool-edge',
+      title: 'Moist Edge',
+      summary: 'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
+      progressLabel: '0/3 clues',
+    });
+  });
+
+  it('builds clue-backed filed note text from gathered route evidence', () => {
+    const context = createForestContext(['forest-hidden-hollow'], 'root-hollow');
+    context.save.routeV2Progress = {
+      requestId: 'forest-moisture-holders',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'shelter', entryId: 'licorice-fern' },
+        { slotId: 'ground', entryId: 'seep-stone' },
+        { slotId: 'living', entryId: 'banana-slug' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'forest-moisture-holders')).toBe(
+      'Licorice Fern, Seep Stone, and Banana Slug show the hollow holding moisture.',
+    );
+    expect(resolveActiveFieldRequest(context)?.routeV2?.filedText).toBe(
+      'Licorice Fern, Seep Stone, and Banana Slug show the hollow holding moisture.',
+    );
+  });
+
+  it('orders clue-backed expedition filed note text by the route slot order', () => {
+    const context = createForestContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+        'treeline-low-fell',
+      ],
+      'root-hollow',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'forest-expedition-upper-run',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'high-run', entryId: 'fir-cone' },
+        { slotId: 'stone-pocket', entryId: 'ensatina' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'forest-expedition-upper-run')).toBe(
+      'Seep Stone, Ensatina Salamander, Root Curtain, and Douglas-fir Cone now map the whole hollow return.',
+    );
+  });
+
+  it('keeps clue-backed filed note text stable when forest-cool-edge was reframed as Moist Edge', () => {
+    const context = createForestContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+      ],
+      'creek-bend',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits.forest = 2;
+    context.save.routeV2Progress = {
+      requestId: 'forest-cool-edge',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'edge-carrier', entryId: 'salmonberry' },
+        { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+        { slotId: 'wet-shade', entryId: 'sword-fern' },
+      ],
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      title: 'Cool Edge',
+      summary: 'Return to the field station and file the Cool Edge note.',
+      routeV2: {
+        filedText: 'Salmonberry, Redwood Sorrel, and Sword Fern now read as the cooler forest middle.',
+      },
+    });
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'forest-cool-edge')).toBe(
+      'Salmonberry, Redwood Sorrel, and Sword Fern now read as the cooler forest middle.',
+    );
+  });
+
+  it('keeps older in-progress scrub transect saves coherent through first-missing-stage guidance', () => {
+    const scrubContext = createCoastalContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+      ],
+      'back-dune',
+    );
+    scrubContext.save.routeV2Progress = {
+      requestId: 'scrub-edge-pattern',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' }],
+    };
+
+    expect(resolveActiveFieldRequest(scrubContext)).toMatchObject({
+      id: 'scrub-edge-pattern',
+      progressLabel: '1/3 stages',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' }],
+      },
+    });
+    expect(getHandLensNotebookFit(scrubContext, 'dune-lupine')).toBe('Notebook fit: open pioneer');
+
+    scrubContext.currentZoneId = 'windbreak-swale';
+    expect(resolveActiveFieldRequest(scrubContext)).toMatchObject({
+      id: 'scrub-edge-pattern',
+      progressLabel: 'Return To Back Dune',
+    });
   });
 
   it('unlocks the expedition after the three season routes are logged', () => {

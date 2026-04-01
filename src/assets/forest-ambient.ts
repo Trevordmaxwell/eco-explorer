@@ -60,6 +60,42 @@ export const forestAmbientSprites: SpriteSource[] = [
     ]],
   },
   {
+    id: 'seep-moss-mat',
+    palette: {
+      a: masterPalette.mossDark,
+      b: masterPalette.mossLight,
+      c: masterPalette.lichenPale,
+      d: masterPalette.alpineStoneLight,
+    },
+    frames: [[
+      '..............',
+      '....abcc......',
+      '..aabbccaa....',
+      '.abbccbbbaa...',
+      '.abbbddbcca...',
+      '..abbbccba....',
+    ]],
+  },
+  {
+    id: 'canopy-moss-bed',
+    palette: {
+      a: masterPalette.mossDark,
+      b: masterPalette.mossLight,
+      c: masterPalette.lichenPale,
+      d: masterPalette.barkLight,
+    },
+    frames: [[
+      '................',
+      '.....aaabcc.....',
+      '...aaabbbbcc....',
+      '..abbbbbbbbcc...',
+      '..abbbbabbbbcc..',
+      '...abbbbbbbbdd..',
+      '....aaabbbbddd..',
+      '......ddddddd...',
+    ]],
+  },
+  {
     id: 'banana-slug',
     palette: {
       a: masterPalette.slugGold,

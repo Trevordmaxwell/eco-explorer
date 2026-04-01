@@ -34,14 +34,12 @@ If lane 4 discovers a content-only need, leave it for lane 2. If it discovers a 
 
 Lane 4 currently owns:
 
-- Route v2 core runtime
-- evidence-slot and landmark-backed requests
-- the first forest pilot conversion
-- one tiny outing-support choice
-- one station-side notebook synthesis flow
-- the first transition and inland Route v2 follow-ons
-- the first expedition-as-chapter rebuild
-- the pre-playthrough `ROOT HOLLOW` follow-up with one additional evidence-backed middle leg
+- Route v2 core runtime and rollout to stronger outing shapes
+- evidence-slot, landmark-backed, and future transect or process-backed requests
+- tiny pre-outing support choice growth, one calm step at a time
+- station-side notebook synthesis and route-completion payoff
+- replay-aware route framing tied to existing world-state
+- chapter-grade outings that feel like authored mini-adventures
 
 ## Success Condition
 

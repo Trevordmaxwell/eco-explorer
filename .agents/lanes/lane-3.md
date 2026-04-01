@@ -35,13 +35,12 @@ If lane 3 discovers a progression or station need, leave a handoff for lane 1 in
 
 Lane 3 should turn the current cave and climbable proofs into deeper, more magical vertical exploration:
 
-- bigger trees
-- deeper caves
-- readable sub-ecosystems
+- expedition-grade giant-tree spaces
+- deeper cave pockets and recoverable chamber families
+- readable canopy, trunk, hollow, and cavern sub-ecosystems
 - cozy exploration, not danger
-- upward canopy growth and downward chamber growth after the first family pass
-- tiny readability supports instead of a bigger traversal HUD
-- pre-playthrough readability and recovery polish before another expansion beat
+- quiet wayfinding supports instead of a bigger traversal HUD
+- realistic-enough scale cheats when they improve wonder and play
 
 ## Success Condition
 

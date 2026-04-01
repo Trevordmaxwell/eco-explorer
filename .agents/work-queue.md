@@ -59,132 +59,6 @@ Note:
 - This recommendation pass is superseded by the newer critic-driven packet `003`.
 - The scout agent already delivered more valuable near-term work through the world-travel scaffold and packet `002`.
 
-### ECO-20260330-scout-81
-
-- Status: `PARKED`
-- Owner: `scout-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Prepare a microhabitat content pack`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-critic-77`
-
-Goal:
-
-- Prepare a content-richness follow-on focused on old-growth, under-root, and cave-adjacent microhabitats without reopening route or traversal runtime.
-
-Acceptance:
-
-- the pack is tightly scoped
-- it is science-safe
-- it stays content-owned
-
-### ECO-20260330-main-117
-
-- Status: `PARKED`
-- Owner: `main-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Implement the first microhabitat content pack`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-scout-81`
-
-Goal:
-
-- Deepen the new old-growth and cave-adjacent spaces through authored discoveries, ecosystem notes, and comparison-ready anchors.
-
-Acceptance:
-
-- one microhabitat pack is live
-- the added content feels denser without spreading into systems work
-- science quality remains strong
-
-### ECO-20260330-critic-92
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Review the microhabitat content pack`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-main-117`
-
-Goal:
-
-- Review the microhabitat pack for science accuracy, calm readability, and whether the new spaces now feel supported by content rather than empty geometry.
-
-Acceptance:
-
-- the content is science-safe
-- the spaces feel richer
-- the lane can move into one archive payoff pass if clean
-
-### ECO-20260330-scout-82
-
-- Status: `PARKED`
-- Owner: `scout-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Prepare one microhabitat archive and sketchbook payoff`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-critic-92`
-
-Goal:
-
-- Prepare one quiet archive or sketchbook payoff that helps the new microhabitats feel memorable without opening a new UI mode.
-
-Acceptance:
-
-- payoff targets are concrete
-- the surface stays existing and compact
-- the work remains lane-2 scoped
-
-### ECO-20260330-main-118
-
-- Status: `PARKED`
-- Owner: `main-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Add a microhabitat archive and sketchbook payoff`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-scout-82`
-
-Goal:
-
-- Add one quiet archive-facing payoff for the new microhabitats so the content lane leaves behind a stronger sense of collected place memory.
-
-Acceptance:
-
-- the payoff is live
-- it stays inside existing archive or sketchbook surfaces
-- the lane remains compact
-
-### ECO-20260330-critic-93
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P3`
-- Title: `Review the microhabitat archive payoff`
-- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
-- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
-- Depends on: `ECO-20260330-main-118`
-
-Goal:
-
-- Review whether the microhabitat archive payoff makes the content lane feel more memorable without pushing the game toward a bigger archive or gallery shell.
-
-Acceptance:
-
-- the payoff feels compact and worthwhile
-- archive density remains calm
-- the lane can close this follow-on cleanly
-
 ## Blocked
 
 ### ECO-20260328-main-13
@@ -207,6 +81,806 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260331-main-132
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Implement the canopy-and-cavern content pack`
+- Source: `docs/reports/2026-03-31-canopy-and-cavern-content-pack-handoff.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `ECO-20260331-scout-94`
+
+Completion Note:
+
+- Added the two narrow habitat carriers the lane-2 handoff called for: `canopy-moss-bed` now anchors the old-growth upper branch space and `seep-moss-mat` now anchors the under-root seep wall, both as landmark-framed entries in `src/content/biomes/forest.ts` with new ambient sprites in `src/assets/forest-ambient.ts`.
+- Added the paired teaching notes `Forests Above` and `Seep Wall Garden`, extended the forest/note/content-quality tests, and expanded `docs/science-source-ledger.md` with cautious habitat-level sourcing for both new entries. Verified with `npm test -- --run src/test/forest-biome.test.ts src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts`, `npm run build`, the required web-game client pass in `output/lane-2-main-132-client/`, and seeded browser captures plus zero-error console output in `output/lane-2-main-132-browser/`. Promoted `ECO-20260331-critic-105` to `READY`.
+
+### ECO-20260331-critic-105
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Review the canopy-and-cavern content pack`
+- Source: `docs/reports/2026-03-31-canopy-and-cavern-content-pack-review.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `ECO-20260331-main-132`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-canopy-and-cavern-content-pack-review.md`. No blocking lane-2 issue found: the new canopy and seep carriers stay science-safe by remaining landmark-framed and ledger-backed as cautious habitat inferences, the new notes deepen the spaces without widening systems, and the targeted browser captures confirm both vertical compositions still read at `256x160`.
+- Re-checked the focused lane-2 test suite, `npm run build`, `npm run validate:agents`, and the saved browser artifacts in `output/lane-2-main-132-browser/`. Promoted `ECO-20260331-scout-95` to `READY`.
+
+### ECO-20260331-scout-95
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare one compact vertical-space memory payoff`
+- Source: `docs/reports/2026-03-31-vertical-space-memory-payoff-handoff.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `ECO-20260331-critic-105`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-vertical-space-memory-payoff-handoff.md`, narrowing the next lane-2 step to a two-entry close-look expansion for `canopy-moss-bed` and `seep-moss-mat` instead of a new sketchbook or comparison layer.
+- The handoff keeps the payoff fully content-owned, reuses the live close-look seam, and gives `main-133` exact callout and sentence targets plus seeded browser expectations. Promoted `ECO-20260331-main-133` to `READY`.
+
+### ECO-20260331-main-133
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Implement the vertical-space memory payoff`
+- Source: `docs/reports/2026-03-31-vertical-space-memory-payoff-handoff.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `ECO-20260331-scout-95`
+
+Completion Note:
+
+- Added two new close-look cards in `src/engine/close-look.ts` for `canopy-moss-bed` and `seep-moss-mat`, keeping the payoff fully inside the existing visual-first inspect seam with one-line observational copy and compact callouts.
+- Extended `src/test/close-look.test.ts`, re-verified `npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts`, reran `npm run build`, and confirmed the live close-look states through the required client pass in `output/lane-2-main-133-client/` plus seeded browser captures and zero-error console output in `output/lane-2-main-133-browser/`. Promoted `ECO-20260331-critic-106` to `READY`.
+
+### ECO-20260331-critic-106
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Review the vertical-space memory payoff`
+- Source: `docs/reports/2026-03-31-vertical-space-memory-payoff-review.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `ECO-20260331-main-133`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-vertical-space-memory-payoff-review.md`. No blocking issue found: the pass stayed scoped to the two requested close-look cards, both entries open from their intended forest spaces, and the shortened canopy sentence now fits cleanly in fresh browser proof.
+- Re-checked `npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts`, `npm run build`, and fresh seeded browser captures plus zero-error console output in `output/lane-2-critic-106-browser/`, then closed packet `045` for lane 2. No further actionable lane-2 item remains.
+
+### ECO-20260331-scout-97
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the first treeline lee-side ascent proof`
+- Source: `docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `ECO-20260331-critic-107`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-treeline-lee-side-ascent-proof-handoff.md`, narrowing the next lane-3 move to a single `lee-side lift` continuation on the right half of the existing treeline pocket rather than a second broad ascent family. The handoff pins the next geometry to one crest step, one tucked high perch, one tiny return stone, and at most one reused tiny vertical cue.
+- Re-read the live treeline geometry and tests, ran the required web-game client pass in `output/lane-3-scout-97-client/`, and added fresh browser/state artifacts in `output/lane-3-scout-97-browser/` with zero captured console errors. Promoted `ECO-20260331-main-135` to `READY`.
+
+### ECO-20260331-main-135
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the treeline ascent proof`
+- Source: `docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `ECO-20260331-scout-97`
+
+Completion Note:
+
+- Turned the treeline lee pocket into a compact `lee-side lift` by extending `src/content/biomes/treeline.ts` with one crest step, one tucked high perch, one tiny fell-side return, one local `moss-campion` anchor, and one reused `canopy-opening` cue so the pocket now rises toward `lichen-fell` without becoming a harsher second climb family.
+- Verified with focused `treeline-biome` and targeted `runtime-smoke` coverage for the new perch-and-return path, `npm run build`, the required web-game client pass in `output/main-135-client/`, and a live treeline browser artifact plus zero-error console capture in `output/main-135-browser/`. Promoted `ECO-20260331-critic-108` to `READY`.
+
+### ECO-20260331-critic-108
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the treeline ascent proof`
+- Source: `docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `ECO-20260331-main-135`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-treeline-ascent-proof-review.md`. No blocking lane-3 issue found: the new `lee-side lift` gives `Treeline Pass` its own compact vertical payoff, keeps the beat in one calm shelter pocket, and still fits below the live chip-safe area in the post-implementation browser comparison against `output/lane-3-scout-97-browser/lee-pocket-floor.png` and `output/main-135-browser/lee-pocket-lift.png`.
+- Re-checked the focused treeline proof tests, `npm run build`, the required web-game client artifact in `output/main-135-client/`, and the live browser/state/error artifacts in `output/main-135-browser/`. Closed packet `046`; lane 3 has no further active queue item.
+
+### ECO-20260331-main-130
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the High Pass board activation`
+- Source: `docs/reports/2026-03-31-high-pass-board-activation-handoff.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `ECO-20260331-scout-92`
+
+Completion Note:
+
+- Added one filed-season `launchCard` seam to `field-season-board` and taught the routes-page renderer to use it only when the next outing is live beyond the archive. The filed `ROUTES` page now shows `HIGH PASS / NEXT` with one compact season-two summary and one clue line, while the atlas below keeps the logged season-one history instead of repeating the old `DONE` beat stack.
+- Verified with `npx vitest run src/test/field-season-board.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "surfaces the season capstone, then opens the next field season through the expedition seam"`, `npm run build`, the required web-game client pass in `output/lane-1-main-130-client/`, and a seeded browser capture plus zero-error console log in `output/lane-1-main-130-browser/`. Promoted `ECO-20260331-critic-103` to `READY`.
+
+### ECO-20260331-critic-103
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the High Pass board activation`
+- Source: `docs/reports/2026-03-31-high-pass-board-activation-review.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `ECO-20260331-main-130`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-high-pass-board-activation-review.md`. No blocker found: the filed-season routes board now uses one compact `HIGH PASS / NEXT` launch card while the atlas keeps the logged season-one history, so the next outing feels live without growing the station shell.
+- Re-checked `src/test/field-season-board.test.ts` plus the targeted season-two `runtime-smoke` coverage, inspected the seeded browser proof in `output/lane-1-main-130-browser/`, and ran the shared web-game client again in `output/lane-1-critic-103-client/` with no error artifacts. Promoted `ECO-20260331-scout-93` to `READY`.
+
+### ECO-20260331-scout-93
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare one season continuity follow-on`
+- Source: `docs/reports/2026-03-31-season-continuity-follow-on-handoff.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `ECO-20260331-critic-103`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-season-continuity-follow-on-handoff.md` after tracing the filed-season routes page, logged expedition teaser, and seeded `Treeline Pass` map state. The strongest continuity cue is already the map's `Today: High Pass` plus `FROM FOREST TRAIL` pairing; the routes subtitle, archive strip, and expedition teaser are the remaining seams that still read like separate story beats.
+- Narrowed `ECO-20260331-main-131` to one shared continuity-phrasing pass across those existing seams, updated durable lane-1 memory so the map cue remains the ceiling, and promoted `ECO-20260331-main-131` to `READY`.
+
+### ECO-20260331-main-131
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the season continuity pass`
+- Source: `docs/reports/2026-03-31-season-continuity-follow-on-handoff.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `ECO-20260331-scout-93`
+
+Completion Note:
+
+- Added one shared next-season continuity-copy helper in `src/engine/field-season-board.ts` and reused it only on the existing archived routes subtitle, archive strip, and logged `ROOT HOLLOW` teaser. The filed-season station now reads as one carried-forward thread: `High Pass continues from Treeline Pass.`, `Root Hollow now leads to High Pass.`, and `Follow Root Hollow into High Pass.` while the map keeps the existing `Today: High Pass` plus `FROM FOREST TRAIL` cue pair.
+- Verified with `npx vitest run src/test/field-season-board.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "surfaces the season capstone, then opens the next field season through the expedition seam"`, full `npm test`, `npm run build`, the required web-game client pass in `output/lane-1-main-131-client/`, and seeded browser captures in `output/lane-1-main-131-browser/` with zero console errors. Promoted `ECO-20260331-critic-104` to `READY`.
+
+### ECO-20260331-critic-104
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the season continuity pass`
+- Source: `docs/reports/2026-03-31-season-continuity-follow-on-handoff.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `ECO-20260331-main-131`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-season-continuity-review.md`. No blocker found: the routes subtitle, archive strip, logged `ROOT HOLLOW` teaser, and focused `Treeline Pass` map cue now read as one carried-forward chapter thread without widening the station or map shells.
+- Re-checked `src/test/field-season-board.test.ts` and the targeted season-two `runtime-smoke` coverage, inspected the seeded browser proof in `output/lane-1-main-131-browser/`, ran the shared web-game client in `output/lane-1-critic-104-client/`, and closed packet `044` for lane 1. No further actionable lane-1 item remains.
+
+### ECO-20260331-scout-98
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the first process-backed Route v2 conversion`
+- Source: `docs/reports/2026-03-31-forest-cool-edge-process-route-handoff.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-forest-cool-edge-process-route-handoff.md`, narrowing the first process-backed Route v2 conversion to `forest-cool-edge` because the live `moisture-hold` process already overlaps the same `creek-bend` zone and all three current evidence carriers.
+- Updated packet `047` to version `2`, refreshed durable lane-4 memory so the process wave stays on existing Route v2 and replay seams, and promoted `ECO-20260331-main-136` to `READY` with `forest-cool-edge` as the explicit implementation target.
+
+### ECO-20260331-main-136
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the process-backed Route v2 outing`
+- Source: `docs/reports/2026-03-31-forest-cool-edge-process-route-implementation.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `ECO-20260331-scout-98`
+
+Completion Note:
+
+- Implemented the first process-backed Route v2 outing by keeping `forest-cool-edge` on the current `assemble-evidence` seam and adding a route-facing process-focus layer in `src/engine/field-requests.ts`. When the authored `moisture-hold` window is live, the outing now reframes as `Moist Edge` without adding a new route type, timer, or save ledger.
+- Updated `src/engine/field-season-board.ts` so the existing replay note, season wrap, and field notice surfaces use the same process-aware `Moist Edge` wording, and added focused coverage in `src/test/field-requests.test.ts`, `src/test/field-season-board.test.ts`, and `src/test/runtime-smoke.test.ts`. Verified with focused request/board tests, targeted route-replay runtime smoke, and `npm run build`. Promoted `ECO-20260331-critic-109` to `READY`.
+
+### ECO-20260331-critic-109
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the process-backed Route v2 outing`
+- Source: `docs/reports/2026-03-31-forest-cool-edge-process-route-review.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `ECO-20260331-main-136`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-forest-cool-edge-process-route-review.md`. No blocking lane-4 issue found: `forest-cool-edge` now uses the live `moisture-hold` seam truthfully, the outing stays soft outside that window, and the process-aware `Moist Edge` framing stays aligned across the route board, wrap, notice, and active request surfaces.
+- Re-checked the focused lane-4 replay/process verification and promoted `ECO-20260331-scout-99` to `READY`. The only non-blocking watch item is for the next filing-depth step: richer notebook return copy should not depend on the player catching the temporary moisture window.
+
+### ECO-20260331-scout-99
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare one compact filing-depth follow-on`
+- Source: `docs/reports/2026-03-31-filing-depth-follow-on-handoff.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `ECO-20260331-critic-109`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-filing-depth-follow-on-handoff.md` after tracing the live filing seams in `field-requests.ts`, `field-season-board.ts`, and `game.ts`. The current `NOTEBOOK READY` preview and recorded notice both still rely on static `routeV2Note.filedText`, even though `routeV2Progress` already stores the actual gathered `landmarkEntryIds` and `evidenceSlots`.
+- Narrowed `ECO-20260331-main-137` to one shared clue-backed filed-note helper that reuses saved route evidence and biome entry names for the `note-tabs` preview plus the post-file notice, while keeping the existing one-press station loop and avoiding any dependence on the temporary `Moist Edge` process header. Updated packet `047` to version `3`, refreshed durable lane-4 memory, and promoted `ECO-20260331-main-137` to `READY`.
+
+### ECO-20260331-main-137
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the filing-depth follow-on`
+- Source: `docs/reports/2026-03-31-filing-depth-follow-on-implementation.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `ECO-20260331-scout-99`
+
+Completion Note:
+
+- Implemented the filing-depth follow-on in `src/engine/field-requests.ts`, `src/engine/field-season-board.ts`, and `src/engine/game.ts` by adding one shared clue-backed filed-note resolver and reusing it for both the `note-tabs` `NOTEBOOK READY` preview and the recorded notice after filing. Evidence routes now opt into compact `clueBackedTail` copy, while the existing `filedText` remains the safe fallback.
+- Added focused regressions in `src/test/field-requests.test.ts`, `src/test/field-season-board.test.ts`, and `src/test/runtime-smoke.test.ts` covering a variable-slot route, the ordered `ROOT HOLLOW` expedition chapter, and the process-backed `forest-cool-edge` case so the richer filed note stays independent of the temporary `Moist Edge` header. Verified with focused request/board suites, targeted filing and expedition runtime smoke, and `npm run build`. Promoted `ECO-20260331-critic-110` to `READY`.
+
+### ECO-20260331-critic-110
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the filing-depth follow-on`
+- Source: `docs/reports/2026-03-31-filing-depth-follow-on-review.md`
+- Packet: `.agents/packets/047-process-routes-and-filing-depth-phase.json`
+- Depends on: `ECO-20260331-main-137`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-filing-depth-follow-on-review.md`. No blocking lane-4 issue found: the richer notebook return stays one-screen and notebook-first, the shared resolver keeps the `note-tabs` preview and recorded notice aligned, and the filed `forest-cool-edge` note now stays stable without depending on the temporary `Moist Edge` header.
+- Re-checked the focused clue-backed filing coverage and closed packet `047` for lane 4. The only non-blocking watch item is to keep using focused runtime or browser checks if future routes try to file longer common-name lists into the same compact station wrap.
+
+### ECO-20260331-scout-92
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the High Pass board activation handoff`
+- Source: `docs/reports/2026-03-31-high-pass-board-activation-handoff.md`
+- Packet: `.agents/packets/044-high-pass-board-and-continuity-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-high-pass-board-activation-handoff.md` after tracing the current filed-season routes board, `field-season-board` state, and the routes-page renderer. The live `High Pass` outing is already derived into `summary`, `nextDirection`, the atlas note, the journal card, and the world-map footer, but the routes board still shows only the old `DONE` beat stack because the renderer suppresses the summary whenever the atlas strip is visible.
+- Narrowed `ECO-20260331-main-130` to one compact launch-card pass: keep the archive strip and atlas history, but let the board itself pivot to a live `High Pass` card instead of repeating archived beats. Updated project memory with that split of responsibilities and promoted `ECO-20260331-main-130` to `READY`.
+
+### ECO-20260331-scout-96
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the forest giant-tree destination loop handoff`
+- Source: `docs/reports/2026-03-31-vertical-destination-and-treeline-lift-phase.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-forest-giant-tree-destination-loop-handoff.md`, narrowing the next lane-3 forest beat to one compact crown-to-interior loop: keep the current ascent spine, keep `old-growth-crown-rest` as the arrival, and spend the new budget on one deliberate return landing inside the same canopy/trunk silhouette instead of another height spike or wider traversal shell.
+- Promoted `ECO-20260331-main-134` to `READY`, updated `ECO-20260331-critic-107` to use the new handoff as its immediate source, and kept the later treeline ascent proof blocked behind the forest loop review.
+
+### ECO-20260331-main-134
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the giant-tree destination loop`
+- Source: `docs/reports/2026-03-31-forest-giant-tree-destination-loop-handoff.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `ECO-20260331-scout-96`
+
+Completion Note:
+
+- Reworked the old-growth crown/interior layout so `old-growth-crown-rest` now feeds a real `old-growth-crown-window` landing and a closer `old-growth-inner-bark-rest`, turning the top of the giant tree into a compact arrival -> landing -> seam -> rest loop instead of a perch that immediately spills back out of the silhouette.
+- Updated the lane-3 forest proofs to match that calmer loop shape: the new destination-loop smoke now seeds directly into the crown-rest band for this one proof, and the older upper-canopy and bark-window smokes now isolate their named spaces with temporary `forestBiome.startPosition` overrides instead of re-proving the whole ascent chain. Verified with focused lane-3 `forest-biome` and `runtime-smoke` coverage, `npm run build`, the required `develop-web-game` client smoke in `output/main-134-webgame-smoke/`, and a direct browser artifact attempt in `output/main-134-browser/` that confirmed the live shell flow but did not preserve the test-only old-growth spawn override through travel. `npm test -- --run` still reports unrelated `field-season-board` failures (`biomes is not defined`) outside lane 3.
+
+### ECO-20260331-critic-107
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the giant-tree destination loop`
+- Source: `docs/reports/2026-03-31-forest-giant-tree-destination-loop-review.md`
+- Packet: `.agents/packets/046-vertical-destination-and-treeline-lift-phase.json`
+- Depends on: `ECO-20260331-main-134`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-forest-giant-tree-destination-loop-review.md`. No blocking lane-3 issue found: the new crown-rest -> crown-window -> inner-bark seam -> rest language gives the giant tree a real destination loop without widening the traversal shell, and the old-growth geometry still stays compact and recoverable on the current handheld frame.
+- Re-checked the focused lane-3 forest and old-growth smoke coverage, `npm run build`, `npm run validate:agents`, and the saved smoke/browser artifacts. Promoted `ECO-20260331-scout-97` to `READY`, with one non-blocking watch item that future giant-tree ascent changes should restore one real end-to-end browser proof instead of relying only on seeded loop smoke.
+
+### ECO-20260331-main-127
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the deeper cave pocket`
+- Source: `docs/reports/2026-03-31-deeper-cave-pocket-handoff.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `ECO-20260331-scout-89`
+
+Completion Note:
+
+- Reworked the `forest` cave slice so `stone-basin` now drops into one tucked under-basin pocket on the way down, adds one nested `stone-pocket` depth feature plus a tiny `tree-lungwort` anchor, and keeps the same `root-hollow-cave-trunk` plus `stone-basin-return-light` language as the fair recovery spine instead of adding a second shaft or new cue system.
+- Verified with focused `forest-biome` and `runtime-smoke` lane-3 cave coverage, `npm run build`, the required `develop-web-game` client pass in `output/main-127-client-probe/`, and a targeted Playwright cave proof in `output/main-127-browser/under-basin-pocket.png` with matching `state.json` and zero console errors.
+
+### ECO-20260331-critic-100
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the deeper cave pocket`
+- Source: `docs/reports/2026-03-31-deeper-cave-pocket-handoff.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `ECO-20260331-main-127`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-deeper-cave-pocket-review.md`, finding no blocking issues in the new cave pass: the lower chamber now feels tucked under the basin lip, the same `root-hollow-cave-trunk` and `stone-basin-return-light` seams still make recovery readable, and the cave gains wonder without widening into a harsher network.
+- Re-checked the focused lane-3 cave verification (`forest-biome` plus the key `runtime-smoke` routes), `npm run build`, and `npm run validate:agents`, then closed packet `042` for lane 3 with only one non-blocking watch item: protect the basin-shelf-vs-pocket distinction if the cave family grows again later.
+
+### ECO-20260331-scout-91
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare one calm support-slot and notebook-return follow-on`
+- Source: `docs/reports/2026-03-31-note-tabs-notebook-return-handoff.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `ECO-20260331-critic-101`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-note-tabs-notebook-return-handoff.md`, narrowing the follow-on to one third `note-tabs` support choice plus route-authored notebook-ready and filed copy instead of a bigger hint, inventory, or station system.
+- Updated packet `043` to version `3`, refreshed the durable support guidance in project memory, and promoted `ECO-20260331-main-129` to `READY` so lane 4 can implement the compact support and filing pass next.
+
+### ECO-20260331-main-129
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the support-slot and notebook-return follow-on`
+- Source: `docs/reports/2026-03-31-note-tabs-notebook-return-implementation.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `ECO-20260331-scout-91`
+
+Completion Note:
+
+- Added `note-tabs` as the third tiny support choice across `types`, `save`, `game`, and `overlay-render`, keeping support cycling inside the existing row and reusing the current strip instead of adding a new selector or hint shell.
+- Upgraded the Route v2 filing payoff in `field-requests` and `field-season-board`: notebook-ready copy is now route-authored, `note-tabs` previews the filed sentence on the strip, and filed notices now surface the compact authored note result for live Route v2 beats including `ROOT HOLLOW`. Verified with focused `save` and `field-season-board` suites, the targeted notebook/support and expedition `runtime-smoke` checks, and `npm run build`. Promoted `ECO-20260331-critic-102` to `READY`.
+
+### ECO-20260331-critic-102
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the support-slot and notebook-return follow-on`
+- Source: `docs/reports/2026-03-31-note-tabs-notebook-return-review.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `ECO-20260331-main-129`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-note-tabs-notebook-return-review.md`. No blocking lane-4 issue found: the third support stays tiny and role-distinct, the notebook return remains one-press and route-authored, and the next-season `route-marker` handoff still works after the extra `note-tabs` step.
+- Re-checked the focused `save` and `field-season-board` suites, the targeted notebook/support plus expedition `runtime-smoke` paths, and `npm run build`. Lane 4 has no remaining active queue item in packet `043`.
+
+### ECO-20260331-main-126
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the giant-tree destination continuation`
+- Source: `docs/reports/2026-03-31-giant-tree-destination-continuation-handoff.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `ECO-20260331-scout-88`
+
+Completion Note:
+
+- Turned the old-growth climb into a real crown-rest destination in `src/content/biomes/forest.ts` by adding one `old-growth-crown-rest` shelf, one short `old-growth-crown-snag`, a slightly larger `old-growth-canopy-pocket`, and one tiny `tree-lungwort` anchor so the route ends inside the giant tree instead of at the treeline lip.
+- Locked the route with focused `forest-biome` and `runtime-smoke` coverage, then re-verified with `npm test -- --run src/test/forest-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a far-right old-growth pocket with a taller two-stage climb route|adds an optional old-growth giant-tree climb with a sheltered upper-canopy pocket|continues the upper canopy into a tiny bark-window nook and keeps the return snag readable|turns the old-growth top route into a crown-rest destination and keeps an upper return seam catchable"`, `npm run build`, the required web-game client pass in `output/main-126-client-probe/`, and a live Playwright crown-rest capture saved in `output/main-126-browser/crown-rest.png` with zero console errors. Promoted `ECO-20260331-critic-99` to `READY`.
+
+### ECO-20260331-critic-99
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the giant-tree continuation`
+- Source: `docs/reports/2026-03-31-giant-tree-destination-continuation-review.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `ECO-20260331-main-126`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-giant-tree-destination-continuation-review.md`. No blocking lane-3 issue found: the new crown-rest now reads like a protected giant-tree destination instead of another route lip, the return seam stays recoverable, and the browser proof in `output/main-126-browser/crown-rest.png` keeps the handheld-scale read strong.
+- Re-checked the updated `forest` geometry, the focused `forest-biome` plus crown-rest `runtime-smoke` coverage, the required web-game client pass, and the live Playwright crown-rest playback with zero console errors. Promoted `ECO-20260331-scout-89` to `READY` and kept packet `042` pointed at the cave-side follow-on.
+
+### ECO-20260331-scout-89
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the deeper cave pocket follow-on`
+- Source: `docs/reports/2026-03-31-deeper-cave-pocket-handoff.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `ECO-20260331-critic-99`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-deeper-cave-pocket-handoff.md`, narrowing `main-127` to one tucked under-basin chamber inside the current root-hollow footprint: keep `stone-basin` as the interpretive middle, place one hidden lower pocket below the basin sill, and preserve the current cave trunk plus bright return side as the recovery read.
+- Retargeted `ECO-20260331-main-127` and `ECO-20260331-critic-100` to that handoff so the next lane-3 step stays on one secret-but-fair cave pocket instead of reopening canopy growth or a broader tunnel network. Promoted `ECO-20260331-main-127` to `READY`.
+
+### ECO-20260330-main-117
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Implement the first microhabitat content pack`
+- Source: `docs/reports/2026-03-31-microhabitat-content-pack-handoff.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `ECO-20260330-scout-81`
+
+Completion Note:
+
+- Added one old-growth-first forest microhabitat pack in `src/content/biomes/forest.ts` and `src/assets/forest-flora.ts`: `western-hemlock-seedling` now carries the nurse-log regeneration beat, `old-mans-beard` now gives the canopy a hanging lichen layer, and the old-growth ecosystem notes now teach `Old-Wood Nursery` plus the refreshed `Hanging Bark Life` relationship.
+- Extended the supporting science and guardrails in `docs/science-source-ledger.md`, `src/test/forest-biome.test.ts`, `src/test/ecosystem-notes.test.ts`, and `src/test/content-quality.test.ts`. Verified with `npm test -- --run src/test/forest-biome.test.ts src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts` and `npm run build`, then promoted `ECO-20260330-critic-92` to `READY`.
+
+### ECO-20260330-critic-92
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Review the microhabitat content pack`
+- Source: `docs/reports/2026-03-31-microhabitat-content-pack-review.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `ECO-20260330-main-117`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-microhabitat-content-pack-review.md`. No blocking lane-2 issue found: the old-growth-first pack stays science-safe, adds clear regeneration and hanging-canopy teaching, and makes the new forest pocket feel denser without reopening systems or route work.
+- Re-checked the content diff plus the focused `forest-biome`, `ecosystem-notes`, and `content-quality` suites. One shared worktree `runtime-smoke` failure remains on the separate crown-rest traversal test, but it belongs to the still-active lane-3 giant-tree continuation rather than this lane-2 content pass. Promoted `ECO-20260330-scout-82` to `READY`.
+
+### ECO-20260330-scout-82
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare one microhabitat archive and sketchbook payoff`
+- Source: `docs/reports/2026-03-31-microhabitat-archive-payoff-handoff.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `ECO-20260330-critic-92`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-microhabitat-archive-payoff-handoff.md`, narrowing `main-118` to one sketchbook-first memory pass instead of reopening the atlas. The handoff recommends a three-entry forest allowlist: `western-hemlock-seedling`, `old-mans-beard`, and `ensatina`, so the archive payoff reinforces regeneration, hanging canopy, and damp shelter through the existing note strip.
+- Bumped packet `037` to version `5`, kept the atlas/station shell explicitly off-limits for this step, and promoted `ECO-20260330-main-118` to `READY`.
+
+### ECO-20260330-main-118
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Add a microhabitat archive and sketchbook payoff`
+- Source: `docs/reports/2026-03-31-microhabitat-archive-payoff-handoff.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `ECO-20260330-scout-82`
+
+Completion Note:
+
+- Landed the archive payoff entirely through the existing forest sketchbook seam in `src/content/biomes/forest.ts`: `western-hemlock-seedling`, `old-mans-beard`, and `ensatina` now each carry one compact `sketchbookNote` so the new microhabitats read like remembered field notes instead of only journal facts.
+- Added focused coverage in `src/test/sketchbook.test.ts`, verified with `npm test -- --run src/test/sketchbook.test.ts src/test/content-quality.test.ts`, `npm run build`, and one shared web-game client smoke run that refreshed `output/web-game/shot-0.png` plus `output/web-game/state-0.json`. Promoted `ECO-20260330-critic-93` to `READY`.
+
+### ECO-20260330-critic-93
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Review the microhabitat archive payoff`
+- Source: `docs/reports/2026-03-31-microhabitat-archive-payoff-review.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `ECO-20260330-main-118`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-microhabitat-archive-payoff-review.md`. No blocking lane-2 issue found: the payoff stays sketchbook-first, makes the recent forest microhabitat wave more memorable, and does not reopen atlas, station, or broader archive UI.
+- Re-checked the live implementation against the handoff and re-ran `npm test -- --run src/test/sketchbook.test.ts src/test/content-quality.test.ts` plus `npm run build`, all green. The only watch item is to take a dedicated seeded browser capture once the next comparison or close-look pane combinations land. Promoted `ECO-20260331-scout-87` to `READY`.
+
+### ECO-20260331-scout-87
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare a microhabitat comparison and close-look follow-on pack`
+- Source: `docs/reports/2026-03-31-microhabitat-comparison-close-look-handoff.md`
+- Packet: `.agents/packets/041-microhabitat-comparison-and-close-look-phase.json`
+- Depends on: `ECO-20260330-critic-93`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-microhabitat-comparison-close-look-handoff.md`, narrowing `main-125` to one note-backed comparison unlock plus two visual-first close-look additions. The comparison recommendation is to add one tiny tundra `Evergreen Berry Mats` note so `lingonberry` becomes comparison-ready without loosening the existing note-backed rule.
+- Bumped packet `041` to version `2`, pinned the close-look side to `old-mans-beard` plus `woodpecker-cavity`, and promoted `ECO-20260331-main-125` to `READY`.
+
+### ECO-20260331-main-125
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Implement the microhabitat comparison and close-look pass`
+- Source: `docs/reports/2026-03-31-microhabitat-comparison-close-look-handoff.md`
+- Packet: `.agents/packets/041-microhabitat-comparison-and-close-look-phase.json`
+- Depends on: `ECO-20260331-scout-87`
+
+Completion Note:
+
+- Landed the pass through existing lane-2 seams only. `tundra` now has the tiny `Evergreen Berry Mats` ecosystem note so `lingonberry` becomes comparison-ready against treeline's `Heath Berry Mats`, and `src/engine/close-look.ts` now adds the two approved old-growth close-look entries: `old-mans-beard` and `woodpecker-cavity`.
+- Added focused comparison, note, and close-look coverage in `src/test/journal-comparison.test.ts`, `src/test/ecosystem-notes.test.ts`, and `src/test/close-look.test.ts`. Verified with `npm test -- --run src/test/journal-comparison.test.ts src/test/ecosystem-notes.test.ts src/test/close-look.test.ts src/test/content-quality.test.ts`, `npm run build`, the shared web-game client in `output/lane-2-main-125-client/`, and seeded browser captures in `output/lane-2-main-125-browser/lingonberry-comparison.png` plus `output/lane-2-main-125-browser/woodpecker-cavity-close-look.png` with zero browser console errors. Promoted `ECO-20260331-critic-98` to `READY`.
+
+### ECO-20260331-critic-98
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Review the microhabitat comparison and close-look pass`
+- Source: `docs/reports/2026-03-31-microhabitat-comparison-close-look-review.md`
+- Packet: `.agents/packets/041-microhabitat-comparison-and-close-look-phase.json`
+- Depends on: `ECO-20260331-main-125`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-microhabitat-comparison-close-look-review.md`. No blocking lane-2 issue found: `lingonberry` now earns a true tundra-backed comparison card instead of borrowing treeline context, and `old-mans-beard` plus `woodpecker-cavity` keep close-look mode feeling like a compact place-memory reward instead of a broader collection system.
+- Re-checked the focused comparison, ecosystem-note, close-look, and content-quality suites, reran `npm run build`, and did one fresh seeded browser verification at `output/lane-2-critic-98-browser/lingonberry-comparison-review.png` with zero Playwright console errors. Packet `041` is now closed, and lane 2 has no remaining active queue item.
+
+### ECO-20260331-scout-94
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare the canopy-and-cavern content pack`
+- Source: `docs/reports/2026-03-31-canopy-and-cavern-content-pack-handoff.md`
+- Packet: `.agents/packets/045-canopy-and-cavern-content-depth-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-canopy-and-cavern-content-pack-handoff.md`, narrowing `main-132` to one canopy habitat carrier (`canopy-moss-bed`), one seep-surface carrier (`seep-moss-mat`), and two compact ecosystem notes so the newer vertical spaces gain teachable density without reopening traversal runtime or another cave-fauna branch.
+- Bumped packet `045` to version `2`, recorded the durable lane-2 guardrail in project memory, and promoted `ECO-20260331-main-132` to `READY` so the next lane-2 pass can implement the content pack directly.
+
+### ECO-20260330-scout-81
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P3`
+- Title: `Prepare a microhabitat content pack`
+- Source: `docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md`
+- Packet: `.agents/packets/037-microhabitat-archive-richness-follow-on-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-microhabitat-content-pack-handoff.md`, narrowing `main-117` to one old-growth-first microhabitat pass: add `western-hemlock-seedling` as a nurse-log regeneration carrier, add `old-mans-beard` as a hanging-canopy lichen carrier, and spend the note budget on old-wood nursery plus hanging-bark-layer teaching instead of another cave-fauna wave.
+- Updated packet `037` and project memory to record the durable finding that the under-root side is already the denser half. `ECO-20260330-main-117` is now `READY`.
+
+### ECO-20260331-scout-90
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the first post-forest Route v2 expansion pack`
+- Source: `docs/reports/2026-03-31-coastal-transect-route-v2-handoff.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-coastal-transect-route-v2-handoff.md`, which narrows `main-128` to one concrete lane-4 slice: add a new `transect-evidence` Route v2 type, use it on `scrub-edge-pattern`, and keep `forest-cool-edge` as the tighter `assemble-evidence` follow-up so the edge-pattern line gains a real staged gradient walk without widening the station shell.
+- Bumped packet `043` to version `2`, promoted `ECO-20260331-main-128` to `READY`, and left `ECO-20260331-critic-101` blocked behind implementation. The handoff also calls out the save-compat expectation to reuse the current `routeV2Progress.evidenceSlots` seam instead of opening a second transect ledger.
+
+### ECO-20260331-main-128
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the coastal transect Route v2 expansion`
+- Source: `docs/reports/2026-03-31-coastal-transect-route-v2-handoff.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `ECO-20260331-scout-90`
+
+Completion Note:
+
+- Added a true `transect-evidence` Route v2 branch in `src/engine/field-requests.ts`, converted `scrub-edge-pattern` into the staged `back-dune -> windbreak-swale -> forest-edge` coastal outing, and kept `forest-cool-edge` as the tighter `assemble-evidence` follow-on using the existing `routeV2Progress.evidenceSlots` save seam.
+- Tightened the edge-pattern board copy to read like a real coast-to-forest transect, added stage-gating regressions plus a first-missing-stage legacy-progress check, and recorded the implementation details in `docs/reports/2026-03-31-coastal-transect-route-v2-implementation.md`. Verified with `npx vitest run src/test/field-requests.test.ts src/test/field-season-board.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "switches the route board to coastal scrub and can hand the outing guide to route marker"`, and `npm run build`. `ECO-20260331-critic-101` is now `READY`.
+
+### ECO-20260331-critic-101
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the coastal transect Route v2 expansion`
+- Source: `docs/reports/2026-03-31-coastal-transect-route-v2-implementation.md`
+- Packet: `.agents/packets/043-route-v2-expansion-and-support-phase.json`
+- Depends on: `ECO-20260331-main-128`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-coastal-transect-route-v2-review.md`. No blocking issue surfaced: the new `transect-evidence` branch makes `scrub-edge-pattern` feel like a purposeful mini-transect, the station shell stays compact, and the existing save seam still holds older in-progress scrub states through first-missing-stage guidance.
+- Re-checked the focused request, board, and replay-path coverage plus `npm run build`, then promoted `ECO-20260331-scout-91` to `READY` as the next lane-4 step.
+
+### ECO-20260331-scout-85
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the season-two opening and High Pass launch handoff`
+- Source: `docs/reports/2026-03-31-second-season-opening-handoff.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Wrote the concrete handoff in `docs/reports/2026-03-31-second-season-opening-handoff.md` after tracing the live station, expedition, and world-map seams. The season-close archive is already calm, but the only next-season cue still lives one tab away on `SEASON -> EXPEDITION` and never turns into a real launch.
+- Recommended a compact derived opening for `main-123`: keep the logged expedition seam as the visible opener, let that opener hand off into a `Treeline Pass` / `High Pass` world-map focus, and let selected `route-marker` support point to the same node instead of adding a new planner shell or a new saved progression flag. Promoted `ECO-20260331-main-123` to `READY`.
+
+### ECO-20260331-main-123
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the second-season opening pass`
+- Source: `docs/reports/2026-03-31-second-season-opening-handoff.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `ECO-20260331-scout-85`
+
+Completion Note:
+
+- Turned the logged `ROOT HOLLOW` expedition seam into the real next-season opener: once `forest-season-threads` is filed, the field station defaults to `SEASON -> EXPEDITION`, activating the logged expedition opens the world map focused on `Treeline Pass`, and selected `route-marker` support points to that same `High Pass` node instead of going quiet.
+- Verified with `npx vitest run src/test/guided-field-season.test.ts src/test/field-season-board.test.ts src/test/world-map.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "surfaces the season capstone, then opens the next field season through the expedition seam|can hand the outing guide to route marker|switches the route board to coastal scrub and can hand the outing guide to route marker|surfaces the first field-season guidance from starter note to next habitat pointer"`, `npm run build`, the required web-game client pass in `output/lane-1-main-123-client/`, and a seeded browser pass in `output/lane-1-main-123-browser/` with zero console errors. `ECO-20260331-critic-96` is now `READY`.
+
+### ECO-20260331-critic-96
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the second-season opening`
+- Source: `docs/reports/2026-03-31-season-two-opening-and-route-clarity-phase.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `ECO-20260331-main-123`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-second-season-opening-review.md`. No blocking issue surfaced: the station now opens directly onto one calm `NEXT FIELD SEASON` seam, the logged expedition handoff lands on `Treeline Pass`, and `Route Marker` reinforces the same destination without adding a new planner shell.
+- The only follow-on watch item is the archive routes tab, where the atlas note and edge-line board still speak in stale season-close language after the season is already filed. Re-checked `npm run build`, `npm run validate:agents`, the focused lane-1 suites, and seeded browser artifacts in `output/lane-1-main-123-browser/`, then promoted `ECO-20260331-scout-86` to `READY`.
+
+### ECO-20260331-scout-86
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare one active-route discoverability follow-on`
+- Source: `docs/reports/2026-03-31-season-two-opening-and-route-clarity-phase.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `ECO-20260331-critic-96`
+
+Completion Note:
+
+- Wrote `docs/reports/2026-03-31-active-outing-discoverability-handoff.md`, narrowing the next lane-1 pass to one shared active-outing locator reused across the archive routes tab, the journal’s existing bottom-card seam, and the world map’s existing footer label seam.
+- Kept the follow-on compact and progression-first: clean the stale archive routes copy, echo the same target on the focused map node, and restore one notebook pointer when no active field request exists. Promoted `ECO-20260331-main-124` to `READY`.
+
+### ECO-20260331-main-124
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Strengthen active-outing visibility across current surfaces`
+- Source: `docs/reports/2026-03-31-active-outing-discoverability-handoff.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `ECO-20260331-scout-86`
+
+Completion Note:
+
+- Added one shared active-outing locator across `field-season-board` and `game`, then reused it on the archived routes tab, the journal bottom-card seam, the world-map footer label, and `Route Marker` targeting so the same outing stays visible without a new planner layer.
+- Verified with `npx vitest run src/test/field-season-board.test.ts src/test/world-map.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "surfaces the season capstone, then opens the next field season through the expedition seam|surfaces one active field request in the journal and turns Hidden Hollow notebook-ready after the seep-stone confirm|uses the replay note text as the active season-wrap cue when hand lens is live|keeps replay notes travel-facing when route marker is selected"`, `npm run build`, `npm run validate:agents`, the required web-game client pass in `output/lane-1-main-124-client/`, and seeded browser artifacts in `output/lane-1-main-124-browser/` with zero console errors. Promoted `ECO-20260331-critic-97` to `READY`.
+
+### ECO-20260331-critic-97
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the route-discoverability follow-on`
+- Source: `docs/reports/2026-03-31-season-two-opening-and-route-clarity-phase.md`
+- Packet: `.agents/packets/040-season-two-opening-and-route-clarity-phase.json`
+- Depends on: `ECO-20260331-main-124`
+
+Completion Note:
+
+- Review is in `docs/reports/2026-03-31-route-discoverability-review.md`. No blocking lane-1 issue found: the filed-season routes tab now points forward through its existing atlas-note line, the world map echoes `Today: High Pass` on the focused `Treeline Pass` node through the reused footer seam, and the journal now restores one compact route card without adding a new planner surface.
+- Re-checked the lane-1 implementation files, the focused `field-season-board`, `world-map`, and targeted `runtime-smoke` coverage, plus the seeded browser artifacts in `output/lane-1-main-124-browser/` with zero console errors. The only watch item is that the journal bottom-card state is now near the `256x160` vertical ceiling, so future copy growth there still needs seeded browser checks. Packet `040` is now closed for lane 1.
 
 ### ECO-20260331-critic-06
 
@@ -431,6 +1105,22 @@ Completion Note:
 
 - Review is in `docs/reports/2026-03-31-canopy-and-cave-playthrough-readability-review.md`. No blocking issue was found: the forest polish pass spends its budget on a slightly more forgiving shared climb seam and a modest climb-only camera nudge, which is enough to make `stone-basin` recovery cleaner without reopening geometry or HUD growth.
 - Re-checked `src/engine/climb-navigation.ts`, the touched runtime coverage, a seeded live forest cave pass, `output/lane-3-critic-02/cave-offset.png`, and `npm run build`; the final Playwright console check returned zero errors. Lane 3 has no further active pre-playthrough item after this review.
+
+### ECO-20260331-scout-88
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the giant-tree destination continuation`
+- Source: `docs/reports/2026-03-31-giant-tree-and-deep-pocket-phase.md`
+- Packet: `.agents/packets/042-giant-tree-and-deep-pocket-phase.json`
+- Depends on: `none`
+
+Completion Note:
+
+- Added `docs/reports/2026-03-31-giant-tree-destination-continuation-handoff.md`, narrowing `main-126` to one crown-rest destination above and slightly left of the current high old-growth perch. The handoff keeps the existing main-trunk and upper-snag spine, pulls the special place away from the treeline corridor lip, and asks for one compact destination shelf plus one short climbable instead of another generic rightward ledge chain.
+- Re-checked `src/content/biomes/forest.ts`, the existing old-growth `runtime-smoke` path, and a fresh seeded browser pass saved in `output/scout-88-giant-tree/current-top-route.png`; `ECO-20260331-main-126` is now `READY`.
 
 ### ECO-20260330-main-120
 

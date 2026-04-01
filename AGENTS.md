@@ -4,9 +4,9 @@ This project is set up so new agents can plug in without needing prior chat cont
 
 ## Active Working Branch
 
-The active shared working branch is currently `codex/snapshot-20260330`.
+The active shared working branch is currently `main`.
 
-Before editing code or docs, agents should verify the current branch with `git branch --show-current`. If it is not `codex/snapshot-20260330`, switch to that branch before continuing unless the user explicitly assigns a different branch.
+Before editing code or docs, agents should verify the current branch with `git branch --show-current`. If it is not `main`, switch to that branch before continuing unless the user explicitly assigns a different branch.
 
 ## Start Here
 

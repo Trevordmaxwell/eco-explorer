@@ -52,6 +52,26 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'These fluffy fibers help cottongrass seeds ride the wind.',
     spriteScale: 5,
   },
+  'canopy-moss-bed': {
+    callouts: ['soft moss bed', 'held water'],
+    sentence: 'This mossy bed holds water high on an old branch.',
+    spriteScale: 6,
+  },
+  'seep-moss-mat': {
+    callouts: ['wet stone grip', 'clinging moss'],
+    sentence: 'Seep water keeps this moss patch clinging to wet stone.',
+    spriteScale: 6,
+  },
+  'old-mans-beard': {
+    callouts: ['hanging strands', 'branch grip'],
+    sentence: 'Pale strands hang where damp forest air reaches the high branches.',
+    spriteScale: 5,
+  },
+  'woodpecker-cavity': {
+    callouts: ['carved opening', 'bark edge'],
+    sentence: 'A woodpecker cut this opening, and later other animals may shelter inside.',
+    spriteScale: 6,
+  },
 };
 
 export const CLOSE_LOOK_ENTRY_IDS = Object.freeze(Object.keys(CLOSE_LOOK_SEEDS));

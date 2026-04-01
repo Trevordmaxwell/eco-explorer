@@ -1,13 +1,17 @@
 {
   "packet_id": "ECO-PACKET-037",
-  "version": 1,
+  "version": 6,
   "created_at": "2026-03-30",
   "created_by_role": "critic-agent",
-  "status": "READY",
+  "status": "DONE",
   "title": "Microhabitat archive richness follow-on phase",
-  "summary": "Thirty-seventh structured packet for Eco Explorer. This is a future lane-2 follow-on after the current richness wave: deepen old-growth, under-root, and cave-adjacent microhabitats with narrow science-safe content packs, then add one quiet archive or sketchbook payoff inside existing surfaces.",
+  "summary": "Thirty-seventh structured packet for Eco Explorer. This is the active lane-2 microhabitat follow-on: deepen old-growth, under-root, and cave-adjacent microhabitats with narrow science-safe content packs, then add one quiet archive or sketchbook payoff inside existing surfaces.",
   "source_reports": [
-    "docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md"
+    "docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md",
+    "docs/reports/2026-03-31-microhabitat-content-pack-handoff.md",
+    "docs/reports/2026-03-31-microhabitat-content-pack-review.md",
+    "docs/reports/2026-03-31-microhabitat-archive-payoff-handoff.md",
+    "docs/reports/2026-03-31-microhabitat-archive-payoff-review.md"
   ],
   "queue_refs": [
     "ECO-20260330-scout-81",
@@ -33,7 +37,7 @@
       "step": 1,
       "queue_id": "ECO-20260330-scout-81",
       "goal": "Prepare a microhabitat content pack.",
-      "why_now": "Lane 2 should eventually support the new old-growth and cave-adjacent spaces without reopening systems work."
+      "why_now": "Lane 2 should now support the new old-growth and cave-adjacent spaces without reopening systems work."
     },
     {
       "step": 2,
@@ -69,7 +73,9 @@
   "guardrails": [
     "Do not widen route, station, or traversal logic.",
     "Keep the payoff inside existing archive or sketchbook surfaces.",
-    "Prefer a few strong microhabitat anchors over broad taxonomy sprawl."
+    "Prefer a few strong microhabitat anchors over broad taxonomy sprawl.",
+    "For the active content pack, favor old-growth regeneration and hanging-canopy carriers over another cave-fauna or seep-floor wave.",
+    "For the archive follow-on, stay sketchbook-first and do not reopen atlas or station copy unless a note-fit check truly forces it."
   ],
   "file_targets": [
     "src/content",
@@ -86,5 +92,5 @@
     "One compact archive or sketchbook payoff makes them more memorable.",
     "Lane 2 remains content-owned and calm."
   ],
-  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md, and this packet. Treat this as a future lane-2 follow-on: deepen old-growth and cave-adjacent microhabitats with narrow content packs, then add one quiet archive or sketchbook payoff without reopening route or station systems."
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-30-microhabitat-archive-richness-follow-on-phase.md, and this packet. Treat this as the active lane-2 microhabitat phase: deepen old-growth and cave-adjacent microhabitats with narrow content packs, then add one quiet archive or sketchbook payoff without reopening route or station systems."
 }

@@ -85,4 +85,19 @@ describe('guided field season', () => {
       },
     });
   });
+
+  it('turns the filed season into a calm next-field-season state', () => {
+    const save = createNewSaveState('guided-field-season-next-season-seed');
+    save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'next-season-open',
+      nextBiomeId: 'treeline',
+      stationNote: {
+        title: 'NEXT FIELD SEASON',
+        text: 'High Pass opens next from Treeline Pass when you are ready.',
+      },
+      promptNotice: null,
+    });
+  });
 });

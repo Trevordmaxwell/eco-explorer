@@ -270,7 +270,7 @@ describe('journal comparison resolution', () => {
     expect(comparison?.cards.map((card) => card.noteTitle)).toEqual(['Fell Bloom Window', 'Brief Thaw Bloom']);
   });
 
-  it('keeps lingonberry comparison hidden until tundra gains its own local berry note support', () => {
+  it('supports lingonberry once tundra gains its own local berry note support', () => {
     const comparison = resolveJournalComparison(
       biomeRegistry,
       {
@@ -285,7 +285,7 @@ describe('journal comparison resolution', () => {
           biomeIds: ['treeline'],
         },
         'bigelows-sedge': {
-          entryId: 'bigelows-sedge',
+          entryId: 'crowberry',
           discoveredAt: '2026-03-30T00:00:00.000Z',
           biomeIds: ['tundra'],
         },
@@ -294,6 +294,9 @@ describe('journal comparison resolution', () => {
       ['treeline', 'tundra'],
     );
 
-    expect(comparison).toBeNull();
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Heath Berry Mats',
+      'Evergreen Berry Mats',
+    ]);
   });
 });

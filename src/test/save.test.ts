@@ -325,6 +325,13 @@ describe('reset save progress', () => {
       landmarkEntryIds: [],
       evidenceSlots: [],
     });
+
+    const notebookSupport = normalizeSaveState({
+      worldSeed: 'legacy-route-v2-note-tabs-seed',
+      selectedOutingSupportId: 'note-tabs',
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(notebookSupport.selectedOutingSupportId).toBe('note-tabs');
   });
 
   it('migrates legacy Root Hollow gathering progress into the four-leg chapter shape', () => {
@@ -381,13 +388,19 @@ describe('reset save progress', () => {
     });
   });
 
-  it('cycles outing support only when route marker is owned', () => {
+  it('cycles outing support through note tabs and route marker safely', () => {
     const save = createNewSaveState('outing-support-cycle-seed');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
+    expect(save.selectedOutingSupportId).toBe('note-tabs');
 
     expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
     expect(save.selectedOutingSupportId).toBe('hand-lens');
 
     save.purchasedUpgradeIds = ['route-marker'];
+    expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
+    expect(save.selectedOutingSupportId).toBe('note-tabs');
+
     expect(cycleSelectedOutingSupportId(save)).toBe('route-marker');
     expect(save.selectedOutingSupportId).toBe('route-marker');
 
@@ -396,7 +409,7 @@ describe('reset save progress', () => {
 
     save.selectedOutingSupportId = 'route-marker';
     save.purchasedUpgradeIds = [];
-    expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
-    expect(save.selectedOutingSupportId).toBe('hand-lens');
+    expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
+    expect(save.selectedOutingSupportId).toBe('note-tabs');
   });
 });

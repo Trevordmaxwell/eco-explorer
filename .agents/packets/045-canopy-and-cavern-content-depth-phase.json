@@ -1,0 +1,94 @@
+{
+  "packet_id": "ECO-PACKET-045",
+  "version": 5,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Canopy and cavern content depth phase",
+  "summary": "Forty-fifth structured packet for Eco Explorer. This lane-2 wave supports the newer forest vertical spaces with one canopy-and-cavern content pack and then one compact memory payoff through existing journal, close-look, comparison, or sketchbook seams.",
+  "source_reports": [
+    "docs/reports/2026-03-31-canopy-and-cavern-content-depth-phase.md",
+    "docs/reports/2026-03-31-canopy-and-cavern-content-pack-handoff.md",
+    "docs/reports/2026-03-31-canopy-and-cavern-content-pack-review.md",
+    "docs/reports/2026-03-31-vertical-space-memory-payoff-handoff.md",
+    "docs/reports/2026-03-31-vertical-space-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-94",
+    "ECO-20260331-main-132",
+    "ECO-20260331-critic-105",
+    "ECO-20260331-scout-95",
+    "ECO-20260331-main-133",
+    "ECO-20260331-critic-106"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-94",
+      "goal": "Prepare the canopy-and-cavern content pack.",
+      "why_now": "The newer forest vertical spaces are strong enough to deserve more authored natural history."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-132",
+      "goal": "Implement the canopy-and-cavern content pack.",
+      "why_now": "A few strong vertical-space discoveries will do more than a broad content swell."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-105",
+      "goal": "Review the canopy-and-cavern content pack.",
+      "why_now": "The pack needs to stay science-safe, calm, and lane-owned."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-95",
+      "goal": "Prepare one compact memory payoff for the new vertical spaces.",
+      "why_now": "Once the content lands, the best follow-on is one quiet payoff that makes those spaces more memorable."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-133",
+      "goal": "Implement the canopy-and-cavern memory payoff.",
+      "why_now": "The vertical spaces should feel not just full, but worth remembering."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-106",
+      "goal": "Review the vertical-space memory payoff.",
+      "why_now": "The payoff should stay compact and lane-owned."
+    }
+  ],
+  "guardrails": [
+    "Keep the work content-owned.",
+    "Reuse existing journal, comparison, close-look, or sketchbook surfaces.",
+    "Prefer a few strong forest vertical anchors over a wider taxonomy wave.",
+    "Do not reopen route, station, or traversal runtime.",
+    "Favor one canopy habitat carrier plus one seep-surface habitat carrier over another cave-fauna branch.",
+    "Keep the pack to two new entries and two compact ecosystem notes."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/test",
+    "docs/science-source-ledger.md",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The crown-rest, bark-window, and cave-pocket spaces feel more inhabited.",
+    "One compact memory payoff makes those spaces more memorable.",
+    "Lane 2 stays content-owned and calm."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-31-canopy-and-cavern-content-depth-phase.md, docs/reports/2026-03-31-canopy-and-cavern-content-pack-handoff.md, and this packet. Treat this as lane 2's next content wave: use one canopy habitat carrier (`canopy-moss-bed`), one seep-surface habitat carrier (`seep-moss-mat`), and two compact notes to deepen the newer forest vertical spaces without reopening route, station, or traversal runtime."
+}

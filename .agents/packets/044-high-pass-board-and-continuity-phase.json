@@ -1,0 +1,87 @@
+{
+  "packet_id": "ECO-PACKET-044",
+  "version": 1,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "High Pass board and continuity phase",
+  "summary": "Forty-fourth structured packet for Eco Explorer. This lane-1 wave makes the second season feel live by activating a compact High Pass route presence on the existing season board, then tightening continuity between the archived first season and the active second-season handoff.",
+  "source_reports": [
+    "docs/reports/2026-03-31-high-pass-board-and-continuity-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-92",
+    "ECO-20260331-main-130",
+    "ECO-20260331-critic-103",
+    "ECO-20260331-scout-93",
+    "ECO-20260331-main-131",
+    "ECO-20260331-critic-104"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-92",
+      "goal": "Prepare the High Pass board activation handoff.",
+      "why_now": "The next season now opens, but the station still needs a stronger visible follow-through."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-130",
+      "goal": "Implement the High Pass board activation.",
+      "why_now": "The season board should make High Pass feel live instead of merely implied."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-103",
+      "goal": "Review the High Pass board activation.",
+      "why_now": "The board needs to stay calm and singular even as the next season becomes visible."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-93",
+      "goal": "Prepare one continuity follow-on across archived and active season seams.",
+      "why_now": "The archived first season and active second season should feel continuous instead of stitched together."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-131",
+      "goal": "Implement the archived-season and active-season continuity pass.",
+      "why_now": "Continuity across routes, expedition, and map cues will make the field station feel more intentional."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-104",
+      "goal": "Review the season continuity pass.",
+      "why_now": "Season one and season two should now feel like one coherent adventure thread."
+    }
+  ],
+  "guardrails": [
+    "Do not add a new station page.",
+    "Keep one clear active season path.",
+    "Reuse the current routes page, expedition page, and map seams.",
+    "Avoid dashboard-like board growth."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "High Pass feels live on the existing board.",
+    "The archived first season still reads clearly without feeling stale.",
+    "Lane 1 keeps progression warm and compact."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-03-31-high-pass-board-and-continuity-phase.md, and this packet. Treat this as lane 1's next systems wave: make High Pass feel live on the existing board, then tighten continuity between the archived first season and the active second-season handoff without adding a larger planner shell."
+}

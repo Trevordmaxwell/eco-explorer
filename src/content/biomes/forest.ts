@@ -59,6 +59,30 @@ const forestEntries = {
     spriteId: 'tree-lungwort',
     collectible: false,
   },
+  'old-mans-beard': {
+    id: 'old-mans-beard',
+    commonName: "Old-Man's-Beard Lichen",
+    scientificName: 'Alectoria sarmentosa',
+    category: 'lichen',
+    shortFact: "Old-man's-beard hangs from cool forest branches where moist air helps it grow.",
+    journalText:
+      "Old-man's-beard is a stringy lichen that hangs from conifer branches in moist Pacific forests. Its pale strands show that one giant tree can hold life high above the darker forest floor.",
+    sketchbookNote: 'Pale lichen trailing from the giant crown.',
+    spriteId: 'old-mans-beard',
+    collectible: false,
+  },
+  'western-hemlock-seedling': {
+    id: 'western-hemlock-seedling',
+    commonName: 'Western Hemlock Seedling',
+    scientificName: 'Tsuga heterophylla',
+    category: 'plant',
+    shortFact: 'Western hemlock seedlings often start on rotten logs where damp wood holds water.',
+    journalText:
+      'Western hemlock can sprout on rotting logs and stumps in cool Pacific forests. The damp wood acts like a nursery, helping tiny roots start before they reach the soil below.',
+    sketchbookNote: 'Tiny hemlock starting from damp old wood.',
+    spriteId: 'western-hemlock-seedling',
+    collectible: false,
+  },
   'salal-berry': {
     id: 'salal-berry',
     commonName: 'Salal Berry',
@@ -107,6 +131,18 @@ const forestEntries = {
     spriteId: 'seep-stone',
     collectible: false,
   },
+  'seep-moss-mat': {
+    id: 'seep-moss-mat',
+    commonName: 'Seep Moss Mat',
+    category: 'landmark',
+    shortFact: 'Thin seep water can keep moss growing on rough stone even above the lowest wet pocket.',
+    journalText:
+      'This mossy patch clings to a seep wall where slow groundwater keeps rough stone damp. Small seep surfaces like this can hold moss and other tiny life above the wettest basin floor.',
+    sketchbookNote: 'Wet seep moss holding to the hollow wall.',
+    subtitle: 'Water-holding seep moss',
+    spriteId: 'seep-moss-mat',
+    collectible: false,
+  },
   'fallen-giant-log': {
     id: 'fallen-giant-log',
     commonName: 'Fallen Giant Log',
@@ -143,6 +179,18 @@ const forestEntries = {
     spriteId: 'woodpecker-cavity',
     collectible: false,
   },
+  'canopy-moss-bed': {
+    id: 'canopy-moss-bed',
+    commonName: 'Canopy Moss Bed',
+    category: 'landmark',
+    shortFact: 'Thick branch moss can hold water and bits of soil high above the forest floor.',
+    journalText:
+      'This mossy branch bed shows how an old limb can catch water, loose soil, and tiny plant starts. In giant wet forests, some branches become soft little gardens high above the ground.',
+    sketchbookNote: 'Soft branch moss making a little treetop bed.',
+    subtitle: 'Water-holding branch moss',
+    spriteId: 'canopy-moss-bed',
+    collectible: false,
+  },
   ensatina: {
     id: 'ensatina',
     commonName: 'Ensatina Salamander',
@@ -151,6 +199,7 @@ const forestEntries = {
     shortFact: 'Ensatina salamanders hide in damp logs and rocks so their skin stays moist.',
     journalText:
       'An ensatina is a lungless salamander of shady forests. It spends much of its time tucked under logs, bark, or stones where moisture stays trapped.',
+    sketchbookNote: 'Small salamander hiding in cool wet bark.',
     spriteId: 'ensatina',
     collectible: false,
   },
@@ -206,9 +255,9 @@ export const forestBiome: BiomeDefinition = {
       { id: 'trailhead', label: 'Trailhead', start: 0, end: 150, surfaceBaseY: 110, surfaceVariance: 4 },
       { id: 'fern-hollow', label: 'Fern Hollow', start: 150, end: 280, surfaceBaseY: 116, surfaceVariance: 5 },
       { id: 'root-hollow', label: 'Root Hollow', start: 280, end: 344, surfaceBaseY: 150, surfaceVariance: 4 },
-      { id: 'seep-pocket', label: 'Seep Pocket', start: 344, end: 376, surfaceBaseY: 184, surfaceVariance: 3 },
-      { id: 'stone-basin', label: 'Stone Basin', start: 376, end: 400, surfaceBaseY: 224, surfaceVariance: 2 },
-      { id: 'filtered-return', label: 'Filtered Return', start: 400, end: 432, surfaceBaseY: 162, surfaceVariance: 3 },
+      { id: 'seep-pocket', label: 'Seep Pocket', start: 344, end: 360, surfaceBaseY: 184, surfaceVariance: 3 },
+      { id: 'stone-basin', label: 'Stone Basin', start: 360, end: 392, surfaceBaseY: 236, surfaceVariance: 2 },
+      { id: 'filtered-return', label: 'Filtered Return', start: 392, end: 432, surfaceBaseY: 162, surfaceVariance: 3 },
       { id: 'log-run', label: 'Log Run', start: 432, end: 520, surfaceBaseY: 118, surfaceVariance: 4 },
       { id: 'creek-bend', label: 'Creek Bend', start: 520, end: 620, surfaceBaseY: 116, surfaceVariance: 6 },
       { id: 'old-growth-pocket', label: 'Old-Growth Pocket', start: 620, end: 728, surfaceBaseY: 172, surfaceVariance: 6 },
@@ -316,9 +365,9 @@ export const forestBiome: BiomeDefinition = {
       {
         id: 'old-growth-crown-window',
         spriteId: 'log-platform',
-        x: 656,
-        y: 28,
-        w: 26,
+        x: 688,
+        y: 24,
+        w: 28,
         h: 4,
       },
       {
@@ -348,7 +397,7 @@ export const forestBiome: BiomeDefinition = {
       {
         id: 'old-growth-inner-bark-rest',
         spriteId: 'log-platform',
-        x: 706,
+        x: 690,
         y: 58,
         w: 42,
         h: 4,
@@ -359,6 +408,22 @@ export const forestBiome: BiomeDefinition = {
         x: 688,
         y: 36,
         w: 34,
+        h: 4,
+      },
+      {
+        id: 'old-growth-inner-loop-step',
+        spriteId: 'log-platform',
+        x: 700,
+        y: 46,
+        w: 26,
+        h: 4,
+      },
+      {
+        id: 'old-growth-crown-rest',
+        spriteId: 'log-platform',
+        x: 648,
+        y: 14,
+        w: 32,
         h: 4,
       },
       {
@@ -382,10 +447,18 @@ export const forestBiome: BiomeDefinition = {
       {
         id: 'root-hollow-stone-basin',
         style: 'stone-pocket',
-        x: 372,
-        y: 188,
-        w: 44,
-        h: 56,
+        x: 360,
+        y: 186,
+        w: 56,
+        h: 66,
+      },
+      {
+        id: 'root-hollow-under-basin-pocket',
+        style: 'stone-pocket',
+        x: 356,
+        y: 208,
+        w: 32,
+        h: 40,
       },
       {
         id: 'root-hollow-filtered-pocket',
@@ -406,10 +479,10 @@ export const forestBiome: BiomeDefinition = {
       {
         id: 'old-growth-canopy-pocket',
         style: 'canopy-pocket',
-        x: 660,
-        y: 14,
-        w: 136,
-        h: 104,
+        x: 648,
+        y: 6,
+        w: 148,
+        h: 112,
       },
     ],
     authoredClimbables: [
@@ -458,8 +531,18 @@ export const forestBiome: BiomeDefinition = {
         x: 678,
         y: 18,
         w: 8,
-        h: 18,
+        h: 30,
         topExitY: 18,
+      },
+      {
+        id: 'old-growth-crown-snag',
+        spriteId: 'climb-trunk',
+        canopySpriteId: 'giant-canopy',
+        x: 680,
+        y: 10,
+        w: 8,
+        h: 30,
+        topExitY: 4,
       },
       {
         id: 'old-growth-upper-snag',
@@ -504,14 +587,28 @@ export const forestBiome: BiomeDefinition = {
       {
         id: 'root-hollow-basin-ensatina',
         entryId: 'ensatina',
-        x: 384,
-        y: 210,
+        x: 380,
+        y: 220,
       },
       {
         id: 'root-hollow-basin-slug',
         entryId: 'banana-slug',
-        x: 396,
-        y: 212,
+        x: 394,
+        y: 218,
+      },
+      {
+        id: 'root-hollow-pocket-lungwort',
+        entryId: 'tree-lungwort',
+        x: 366,
+        y: 222,
+        castsShadow: false,
+      },
+      {
+        id: 'root-hollow-under-basin-moss',
+        entryId: 'seep-moss-mat',
+        x: 374,
+        y: 194,
+        castsShadow: false,
       },
       {
         id: 'root-hollow-lungwort-mid-ledge',
@@ -541,6 +638,13 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'filtered-return-seep-moss',
+        entryId: 'seep-moss-mat',
+        x: 394,
+        y: 136,
+        castsShadow: false,
+      },
+      {
         id: 'root-hollow-licorice-high-ledge',
         entryId: 'licorice-fern',
         x: 410,
@@ -566,6 +670,12 @@ export const forestBiome: BiomeDefinition = {
         y: 100,
       },
       {
+        id: 'old-growth-bridge-hemlock',
+        entryId: 'western-hemlock-seedling',
+        x: 620,
+        y: 88,
+      },
+      {
         id: 'forest-layer-bridge-lungwort',
         entryId: 'tree-lungwort',
         x: 632,
@@ -579,10 +689,24 @@ export const forestBiome: BiomeDefinition = {
         y: 152,
       },
       {
+        id: 'old-growth-crown-beard',
+        entryId: 'old-mans-beard',
+        x: 672,
+        y: 14,
+        castsShadow: false,
+      },
+      {
         id: 'old-growth-crown-window-lungwort',
         entryId: 'tree-lungwort',
         x: 666,
         y: 24,
+        castsShadow: false,
+      },
+      {
+        id: 'old-growth-crown-window-moss',
+        entryId: 'canopy-moss-bed',
+        x: 680,
+        y: 22,
         castsShadow: false,
       },
       {
@@ -600,6 +724,12 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'old-growth-rise-hemlock',
+        entryId: 'western-hemlock-seedling',
+        x: 736,
+        y: 108,
+      },
+      {
         id: 'old-growth-inner-rest-lungwort',
         entryId: 'tree-lungwort',
         x: 724,
@@ -607,10 +737,31 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'old-growth-inner-rest-moss',
+        entryId: 'canopy-moss-bed',
+        x: 734,
+        y: 44,
+        castsShadow: false,
+      },
+      {
+        id: 'old-growth-high-beard',
+        entryId: 'old-mans-beard',
+        x: 754,
+        y: 46,
+        castsShadow: false,
+      },
+      {
         id: 'old-growth-high-licorice',
         entryId: 'licorice-fern',
         x: 700,
         y: 30,
+        castsShadow: false,
+      },
+      {
+        id: 'old-growth-crown-lungwort',
+        entryId: 'tree-lungwort',
+        x: 660,
+        y: 10,
         castsShadow: false,
       },
       {
@@ -908,6 +1059,17 @@ export const forestBiome: BiomeDefinition = {
       zoneId: 'filtered-return',
     },
     {
+      id: 'seep-wall-garden',
+      title: 'Seep Wall Garden',
+      entryIds: ['seep-moss-mat', 'seep-stone', 'tree-lungwort'],
+      minimumDiscoveries: 2,
+      summary:
+        'Seep water can keep moss and lichen clinging right on rough stone walls.',
+      observationPrompt:
+        'What here seems growing right on wet stone?',
+      zoneId: 'stone-basin',
+    },
+    {
       id: 'forest-seed-travel',
       title: 'Seed Travel',
       entryIds: ['salal-berry', 'fir-cone', 'steller-jay'],
@@ -929,6 +1091,16 @@ export const forestBiome: BiomeDefinition = {
       zoneId: 'creek-bend',
     },
     {
+      id: 'old-wood-nursery',
+      title: 'Old-Wood Nursery',
+      entryIds: ['fallen-giant-log', 'western-hemlock-seedling'],
+      minimumDiscoveries: 2,
+      summary:
+        'Old wood can hold enough water and shade for a new tree to start above the soil.',
+      observationPrompt:
+        'What here looks like old wood growing a new tree?',
+    },
+    {
       id: 'old-wood-link',
       title: 'Old Wood Link',
       entryIds: ['fallen-giant-log', 'seep-stone', 'woodpecker-cavity'],
@@ -941,13 +1113,24 @@ export const forestBiome: BiomeDefinition = {
     },
     {
       id: 'old-growth-bark-life',
-      title: 'Old-Growth Bark Life',
-      entryIds: ['woodpecker-cavity', 'tree-lungwort', 'pileated-woodpecker'],
+      title: 'Hanging Bark Life',
+      entryIds: ['old-mans-beard', 'tree-lungwort', 'woodpecker-cavity'],
       minimumDiscoveries: 2,
       summary:
-        'One giant tree can hold bark life outside and dry shelter holes inside the same trunk.',
+        'One giant tree can hold hanging lichens, bark life, and dry shelter holes in separate layers.',
       observationPrompt:
-        'What here lives on bark, and what shelters inside?',
+        'What here hangs, clings, or shelters on bark?',
+      zoneId: 'old-growth-pocket',
+    },
+    {
+      id: 'forests-above',
+      title: 'Forests Above',
+      entryIds: ['canopy-moss-bed', 'old-mans-beard', 'western-hemlock-seedling'],
+      minimumDiscoveries: 2,
+      summary:
+        'One giant branch can hold enough moss and water for a tiny forest to begin above the ground.',
+      observationPrompt:
+        'What here looks like a little forest above?',
       zoneId: 'old-growth-pocket',
     },
   ],

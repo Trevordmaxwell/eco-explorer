@@ -1,6 +1,8 @@
+import { getActiveHabitatProcessMoments } from './habitat-process';
 import { buildJournalBiomeProgress, getDiscoveredEntryIdsForBiome } from './journal';
 import { getBiomeSurveyProgress, type BiomeSurveyState } from './progression';
 import { recordCompletedFieldRequest, resolveSelectedOutingSupportId } from './save';
+import { buildWorldState } from './world-state';
 import type {
   BiomeDefinition,
   OutingSupportId,
@@ -23,12 +25,23 @@ interface RouteV2NoteDefinition {
   readyTitle: string;
   readyText: string;
   filedText: string;
+  clueBackedTail?: string;
+}
+
+interface RouteV2ProcessFocus {
+  momentId: string;
+  activeTitle?: string;
+  activeSummary: string;
 }
 
 interface EvidenceSlotDefinition {
   id: string;
   label: string;
   entryIds: string[];
+}
+
+interface TransectStageDefinition extends EvidenceSlotDefinition {
+  zoneId: string;
 }
 
 interface EnterZoneFieldRequest extends FieldRequestDefinitionBase {
@@ -67,6 +80,7 @@ interface LandmarkEvidenceFieldRequest extends FieldRequestDefinitionBase {
   zoneId?: string;
   zoneIds?: string[];
   landmarkEntryIds: string[];
+  processFocus?: RouteV2ProcessFocus;
   routeV2Note: RouteV2NoteDefinition;
   completionTriggers: ['inspect'];
 }
@@ -77,17 +91,29 @@ interface AssembleEvidenceFieldRequest extends FieldRequestDefinitionBase {
   zoneIds?: string[];
   evidenceSlots: EvidenceSlotDefinition[];
   slotOrder?: string[];
+  processFocus?: RouteV2ProcessFocus;
   routeV2Note: RouteV2NoteDefinition;
   completionTriggers: ['inspect'];
 }
+
+interface TransectEvidenceFieldRequest extends FieldRequestDefinitionBase {
+  type: 'transect-evidence';
+  zoneIds?: string[];
+  evidenceSlots: TransectStageDefinition[];
+  processFocus?: RouteV2ProcessFocus;
+  routeV2Note: RouteV2NoteDefinition;
+  completionTriggers: ['inspect'];
+}
+
+type EvidenceRouteV2FieldRequest = AssembleEvidenceFieldRequest | TransectEvidenceFieldRequest;
+type RouteV2FieldRequestDefinition = LandmarkEvidenceFieldRequest | EvidenceRouteV2FieldRequest;
 
 export type FieldRequestDefinition =
   | EnterZoneFieldRequest
   | InspectEntriesFieldRequest
   | SurveyBiomeFieldRequest
   | ReachAreaFieldRequest
-  | LandmarkEvidenceFieldRequest
-  | AssembleEvidenceFieldRequest;
+  | RouteV2FieldRequestDefinition;
 
 export interface FieldRequestEvent {
   trigger: FieldRequestTrigger;
@@ -140,7 +166,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Hidden Hollow note.',
-      filedText: 'The Hidden Hollow note is filed.',
+      filedText: 'Seep stone confirms the damp lower hollow under the roots.',
     },
     completionTriggers: ['inspect'],
   },
@@ -172,7 +198,8 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Moisture Holders note.',
-      filedText: 'The Moisture Holders note is filed.',
+      filedText: 'Shelter, damp ground, and slug life show the hollow holding moisture.',
+      clueBackedTail: 'show the hollow holding moisture.',
     },
     completionTriggers: ['inspect'],
   },
@@ -238,7 +265,8 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Stone Shelter note.',
-      filedText: 'The Stone Shelter note is filed.',
+      filedText: 'Stone break, bent cover, and lee life mark the last sheltered treeline pocket.',
+      clueBackedTail: 'mark the last sheltered treeline pocket.',
     },
     completionTriggers: ['inspect'],
   },
@@ -270,7 +298,8 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Short Season note.',
-      filedText: 'The Short Season note is filed.',
+      filedText: 'Bloom, wet tuft, and brief fruit mark the tundra\'s short thaw window.',
+      clueBackedTail: 'mark the tundra\'s short thaw window.',
     },
     completionTriggers: ['inspect'],
   },
@@ -290,29 +319,33 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     title: 'Scrub Pattern',
     summary: 'Walk Coastal Scrub from dune to forest edge and file open, cover, and thicker-edge clues.',
     unlockAfter: ['tundra-survey-slice'],
-    type: 'assemble-evidence',
+    type: 'transect-evidence',
     zoneIds: ['back-dune', 'windbreak-swale', 'forest-edge'],
     evidenceSlots: [
       {
         id: 'open-pioneer',
         label: 'Open pioneer clue',
         entryIds: ['dune-lupine'],
+        zoneId: 'back-dune',
       },
       {
         id: 'holding-cover',
         label: 'Holding cover clue',
         entryIds: ['pacific-wax-myrtle'],
+        zoneId: 'windbreak-swale',
       },
       {
         id: 'thicker-edge',
         label: 'Thicker-edge clue',
         entryIds: ['salmonberry'],
+        zoneId: 'forest-edge',
       },
     ],
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Scrub Pattern note.',
-      filedText: 'The Scrub Pattern note is filed.',
+      filedText: 'Open dune, holding cover, and thicker edge now read as one clear transition.',
+      clueBackedTail: 'now read as one clear transition.',
     },
     completionTriggers: ['inspect'],
   },
@@ -344,7 +377,14 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Cool Edge note.',
-      filedText: 'The Cool Edge note is filed.',
+      filedText: 'Edge carrier, cool floor, and wet shade now read as the cooler forest middle.',
+      clueBackedTail: 'now read as the cooler forest middle.',
+    },
+    processFocus: {
+      momentId: 'moisture-hold',
+      activeTitle: 'Moist Edge',
+      activeSummary:
+        'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
     },
     completionTriggers: ['inspect'],
   },
@@ -376,7 +416,8 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Low Fell note.',
-      filedText: 'The Low Fell note is filed.',
+      filedText: 'Last tree shape, low wood, and fell bloom now read as one exposed edge line.',
+      clueBackedTail: 'now read as one exposed edge line.',
     },
     completionTriggers: ['inspect'],
   },
@@ -414,7 +455,8 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Root Hollow note.',
-      filedText: 'The Root Hollow note is filed.',
+      filedText: 'Seep stone, basin life, root hold, and high run now map the whole hollow return.',
+      clueBackedTail: 'now map the whole hollow return.',
     },
     completionTriggers: ['inspect'],
   },
@@ -431,21 +473,33 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
   },
 ] as const;
 
+export function getFieldRequestDefinition(
+  requestId: string,
+): FieldRequestDefinition | null {
+  return FIELD_REQUEST_DEFINITIONS.find((candidate) => candidate.id === requestId) ?? null;
+}
+
 function isRouteV2Definition(
   definition: FieldRequestDefinition,
-): definition is LandmarkEvidenceFieldRequest | AssembleEvidenceFieldRequest {
-  return definition.type === 'landmark-evidence' || definition.type === 'assemble-evidence';
+): definition is RouteV2FieldRequestDefinition {
+  return (
+    definition.type === 'landmark-evidence'
+    || definition.type === 'assemble-evidence'
+    || definition.type === 'transect-evidence'
+  );
+}
+
+function isEvidenceRouteV2Definition(
+  definition: FieldRequestDefinition,
+): definition is EvidenceRouteV2FieldRequest {
+  return definition.type === 'assemble-evidence' || definition.type === 'transect-evidence';
 }
 
 function matchesBiomeAndOptionalZone(
-  definition: LandmarkEvidenceFieldRequest | AssembleEvidenceFieldRequest,
+  definition: RouteV2FieldRequestDefinition,
   context: FieldRequestContext,
 ): boolean {
-  const zoneIds = definition.zoneIds?.length
-    ? definition.zoneIds
-    : definition.zoneId
-      ? [definition.zoneId]
-      : [];
+  const zoneIds = getRouteV2ZoneIds(definition);
   return context.currentBiomeId === definition.biomeId
     && (!zoneIds.length || (context.currentZoneId !== null && zoneIds.includes(context.currentZoneId)));
 }
@@ -477,7 +531,7 @@ function ensureRouteV2Progress(
 }
 
 function getFilledEvidenceSlotCount(
-  definition: AssembleEvidenceFieldRequest,
+  definition: EvidenceRouteV2FieldRequest,
   save: SaveState,
 ): number {
   return definition.evidenceSlots.filter((slot) =>
@@ -486,38 +540,180 @@ function getFilledEvidenceSlotCount(
 }
 
 function getFilledEvidenceSlotIds(
-  definition: AssembleEvidenceFieldRequest,
+  definition: EvidenceRouteV2FieldRequest,
   save: SaveState,
 ): Set<string> {
   return new Set(getRouteV2Progress(save, definition.id)?.evidenceSlots.map((slot) => slot.slotId) ?? []);
 }
 
+function getOrderedEvidenceSlotIds(
+  definition: EvidenceRouteV2FieldRequest,
+): string[] {
+  if (definition.type === 'assemble-evidence' && definition.slotOrder?.length) {
+    return definition.slotOrder;
+  }
+
+  return definition.evidenceSlots.map((slot) => slot.id);
+}
+
 function getNextEvidenceSlotId(
-  definition: AssembleEvidenceFieldRequest,
+  definition: EvidenceRouteV2FieldRequest,
   save: SaveState,
 ): string | null {
-  if (!definition.slotOrder?.length) {
+  if (definition.type === 'assemble-evidence' && !definition.slotOrder?.length) {
     return null;
   }
 
+  const orderedSlotIds = getOrderedEvidenceSlotIds(definition);
   const filledSlotIds = getFilledEvidenceSlotIds(definition, save);
-  return definition.slotOrder.find((slotId) => !filledSlotIds.has(slotId)) ?? null;
+  return orderedSlotIds.find((slotId) => !filledSlotIds.has(slotId)) ?? null;
+}
+
+function getNextEvidenceSlot(
+  definition: EvidenceRouteV2FieldRequest,
+  save: SaveState,
+): EvidenceSlotDefinition | TransectStageDefinition | null {
+  const nextSlotId = getNextEvidenceSlotId(definition, save);
+  if (!nextSlotId) {
+    return null;
+  }
+
+  return definition.evidenceSlots.find((slot) => slot.id === nextSlotId) ?? null;
+}
+
+function getRequiredEvidenceSlotZoneId(
+  definition: EvidenceRouteV2FieldRequest,
+  slotId: string,
+): string | null {
+  if (definition.type !== 'transect-evidence') {
+    return null;
+  }
+
+  return definition.evidenceSlots.find((slot) => slot.id === slotId)?.zoneId ?? null;
 }
 
 function getRouteV2ZoneIds(
-  definition: LandmarkEvidenceFieldRequest | AssembleEvidenceFieldRequest,
+  definition: RouteV2FieldRequestDefinition,
 ): string[] {
   if (definition.zoneIds?.length) {
     return definition.zoneIds;
+  }
+
+  if (definition.type === 'transect-evidence') {
+    return Array.from(new Set(definition.evidenceSlots.map((slot) => slot.zoneId)));
   }
 
   return definition.zoneId ? [definition.zoneId] : [];
 }
 
 function buildRouteV2ReadySummary(
-  definition: LandmarkEvidenceFieldRequest | AssembleEvidenceFieldRequest,
+  definition: RouteV2FieldRequestDefinition,
 ): string {
   return definition.routeV2Note.readyText;
+}
+
+function findRouteV2EntryName(
+  biomes: Record<string, BiomeDefinition>,
+  biomeId: string,
+  entryId: string,
+): string | null {
+  const localEntry = biomes[biomeId]?.entries[entryId];
+  if (localEntry) {
+    return localEntry.commonName;
+  }
+
+  for (const biome of Object.values(biomes)) {
+    const entry = biome.entries[entryId];
+    if (entry) {
+      return entry.commonName;
+    }
+  }
+
+  return null;
+}
+
+function formatRouteV2EntryList(entryNames: string[]): string {
+  if (entryNames.length <= 1) {
+    return entryNames[0] ?? '';
+  }
+
+  if (entryNames.length === 2) {
+    return `${entryNames[0]} and ${entryNames[1]}`;
+  }
+
+  return `${entryNames.slice(0, -1).join(', ')}, and ${entryNames[entryNames.length - 1]}`;
+}
+
+function getResolvedRouteV2EntryIds(
+  definition: RouteV2FieldRequestDefinition,
+  progress: NonNullable<SaveState['routeV2Progress']>,
+): string[] | null {
+  if (definition.type === 'landmark-evidence') {
+    return progress.landmarkEntryIds.length ? [progress.landmarkEntryIds[0]] : null;
+  }
+
+  const filledBySlotId = new Map(progress.evidenceSlots.map((slot) => [slot.slotId, slot.entryId]));
+  const orderedSlotIds = getOrderedEvidenceSlotIds(definition);
+  const orderedEntryIds = orderedSlotIds
+    .map((slotId) => filledBySlotId.get(slotId) ?? null);
+  if (orderedEntryIds.some((entryId) => !entryId)) {
+    return null;
+  }
+
+  return orderedEntryIds as string[];
+}
+
+export function resolveRouteV2FiledNoteText(
+  biomes: Record<string, BiomeDefinition>,
+  save: SaveState,
+  requestId: string,
+): string | null {
+  const definition = getFieldRequestDefinition(requestId);
+  if (!definition || !isRouteV2Definition(definition)) {
+    return null;
+  }
+
+  const fallbackText = definition.routeV2Note.filedText;
+  const progress = getRouteV2Progress(save, requestId);
+  if (!progress || progress.status !== 'ready-to-synthesize' || !definition.routeV2Note.clueBackedTail) {
+    return fallbackText;
+  }
+
+  const resolvedEntryIds = getResolvedRouteV2EntryIds(definition, progress);
+  if (!resolvedEntryIds?.length) {
+    return fallbackText;
+  }
+
+  const resolvedEntryNames = resolvedEntryIds.map((entryId) =>
+    findRouteV2EntryName(biomes, definition.biomeId, entryId),
+  );
+  if (resolvedEntryNames.some((entryName) => !entryName)) {
+    return fallbackText;
+  }
+
+  return `${formatRouteV2EntryList(resolvedEntryNames as string[])} ${definition.routeV2Note.clueBackedTail}`;
+}
+
+function getActiveRouteV2ProcessFocus(
+  definition: RouteV2FieldRequestDefinition,
+  context: FieldRequestContext,
+): RouteV2ProcessFocus | null {
+  if (!definition.processFocus) {
+    return null;
+  }
+
+  const biome = context.biomes[definition.biomeId];
+  if (!biome) {
+    return null;
+  }
+
+  const worldState = buildWorldState(context.save, definition.biomeId);
+  const visitCount = context.save.biomeVisits[definition.biomeId] ?? 0;
+  return getActiveHabitatProcessMoments(biome, visitCount, worldState).some(
+    (moment) => moment.id === definition.processFocus?.momentId,
+  )
+    ? definition.processFocus
+    : null;
 }
 
 function isUnlocked(definition: FieldRequestDefinition, completedIds: string[]): boolean {
@@ -638,6 +834,7 @@ function isDefinitionComplete(
     }
     case 'landmark-evidence':
     case 'assemble-evidence':
+    case 'transect-evidence':
       return false;
     default:
       return false;
@@ -646,19 +843,21 @@ function isDefinitionComplete(
 
 function buildActiveRouteV2State(
   definition: FieldRequestDefinition,
-  save: SaveState,
+  context: FieldRequestContext,
 ): ActiveFieldRequestRouteV2State | null {
-  const progress = getRouteV2Progress(save, definition.id);
+  const progress = getRouteV2Progress(context.save, definition.id);
   if (!progress && !isRouteV2Definition(definition)) {
     return null;
   }
 
   return {
     status: progress?.status ?? 'gathering',
-    selectedSupportId: resolveSelectedOutingSupportId(save),
+    selectedSupportId: resolveSelectedOutingSupportId(context.save),
     landmarkEntryIds: progress?.landmarkEntryIds ?? [],
     evidenceSlots: progress?.evidenceSlots ?? [],
-    filedText: isRouteV2Definition(definition) ? definition.routeV2Note.filedText : undefined,
+    filedText: isRouteV2Definition(definition)
+      ? resolveRouteV2FiledNoteText(context.biomes, context.save, definition.id) ?? definition.routeV2Note.filedText
+      : undefined,
   };
 }
 
@@ -763,6 +962,22 @@ function formatProgressLabel(
 
       return `${getFilledEvidenceSlotCount(definition, context.save)}/${definition.evidenceSlots.length} clues`;
     }
+    case 'transect-evidence': {
+      const nextSlot = getNextEvidenceSlot(definition, context.save);
+      const nextZoneId = nextSlot?.id ? getRequiredEvidenceSlotZoneId(definition, nextSlot.id) : null;
+      const nextZoneLabel = nextZoneId
+        ? getZoneLabel(context.biomes, definition.biomeId, nextZoneId)
+        : null;
+      if (!inTargetBiome) {
+        return `Go To ${biomeName}`;
+      }
+
+      if (nextZoneId && context.currentZoneId !== nextZoneId) {
+        return `Return To ${nextZoneLabel}`;
+      }
+
+      return `${getFilledEvidenceSlotCount(definition, context.save)}/${definition.evidenceSlots.length} stages`;
+    }
     default:
       return '';
   }
@@ -796,7 +1011,7 @@ export function getHandLensNotebookFit(
   entryId: string,
 ): string | null {
   const definition = getActiveFieldRequestDefinition(context);
-  if (!definition || definition.type !== 'assemble-evidence') {
+  if (!definition || !isEvidenceRouteV2Definition(definition)) {
     return null;
   }
 
@@ -809,6 +1024,11 @@ export function getHandLensNotebookFit(
 
   const filledSlotIds = getFilledEvidenceSlotIds(definition, context.save);
   const nextSlotId = getNextEvidenceSlotId(definition, context.save);
+  const requiredZoneId = nextSlotId ? getRequiredEvidenceSlotZoneId(definition, nextSlotId) : null;
+  if (requiredZoneId && context.currentZoneId !== requiredZoneId) {
+    return null;
+  }
+
   const matchingSlot = definition.evidenceSlots.find(
     (slot) =>
       slot.entryIds.includes(entryId)
@@ -832,19 +1052,23 @@ export function resolveActiveFieldRequest(
     return null;
   }
 
+  const routeV2Ready = getRouteV2Progress(context.save, definition.id)?.status === 'ready-to-synthesize';
+  const activeProcessFocus = isRouteV2Definition(definition)
+    ? getActiveRouteV2ProcessFocus(definition, context)
+    : null;
+
   return {
     id: definition.id,
     biomeId: definition.biomeId,
     biomeName: biome.name,
-    title: definition.title,
-    summary:
-      getRouteV2Progress(context.save, definition.id)?.status === 'ready-to-synthesize'
-        ? isRouteV2Definition(definition)
-          ? buildRouteV2ReadySummary(definition)
-          : 'Return to the field station and file this note.'
-        : definition.summary,
+    title: routeV2Ready ? definition.title : activeProcessFocus?.activeTitle ?? definition.title,
+    summary: routeV2Ready
+      ? isRouteV2Definition(definition)
+        ? buildRouteV2ReadySummary(definition)
+        : 'Return to the field station and file this note.'
+      : activeProcessFocus?.activeSummary ?? definition.summary,
     progressLabel: formatProgressLabel(definition, context),
-    routeV2: buildActiveRouteV2State(definition, context.save),
+    routeV2: buildActiveRouteV2State(definition, context),
   };
 }
 
@@ -888,6 +1112,10 @@ export function advanceFieldRequestDefinition(
       };
     }
 
+    if (!isEvidenceRouteV2Definition(definition)) {
+      return null;
+    }
+
     const progress = getRouteV2Progress(context.save, definition.id);
     if (progress?.status === 'ready-to-synthesize') {
       return null;
@@ -895,6 +1123,11 @@ export function advanceFieldRequestDefinition(
 
     const filledSlotIds = getFilledEvidenceSlotIds(definition, context.save);
     const nextSlotId = getNextEvidenceSlotId(definition, context.save);
+    const requiredZoneId = nextSlotId ? getRequiredEvidenceSlotZoneId(definition, nextSlotId) : null;
+    if (requiredZoneId && context.currentZoneId !== requiredZoneId) {
+      return null;
+    }
+
     const matchingSlot = definition.evidenceSlots.find(
       (slot) =>
         slot.entryIds.includes(event.entryId as string)

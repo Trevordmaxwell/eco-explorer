@@ -1,0 +1,72 @@
+{
+  "packet_id": "ECO-PACKET-041",
+  "version": 3,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Microhabitat comparison and close-look phase",
+  "summary": "Forty-first structured packet for Eco Explorer. This lane-2 follow-on lands after the reactivated microhabitat and archive wave: add one compact comparison-ready microhabitat set plus one or two close-look additions so the new spaces feel more distinct and collectible inside existing surfaces.",
+  "source_reports": [
+    "docs/reports/2026-03-31-microhabitat-comparison-and-close-look-phase.md",
+    "docs/reports/2026-03-31-microhabitat-comparison-close-look-handoff.md",
+    "docs/reports/2026-03-31-microhabitat-comparison-close-look-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-87",
+    "ECO-20260331-main-125",
+    "ECO-20260331-critic-98"
+  ],
+  "depends_on": [
+    "ECO-20260330-critic-93"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-87",
+      "goal": "Prepare one microhabitat comparison and close-look follow-on pack.",
+      "why_now": "After density and archive payoff, the next content gain is stronger contrast and texture inside existing journal and inspect surfaces."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-125",
+      "goal": "Implement the comparison and close-look pack.",
+      "why_now": "A few strong contrasts will make the new spaces teach more than a larger content swell would."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-98",
+      "goal": "Review the microhabitat comparison and close-look pass.",
+      "why_now": "The lane should deepen place memory without drifting into systems or shell work."
+    }
+  ],
+  "guardrails": [
+    "Keep the work content-owned.",
+    "Reuse existing comparison and close-look surfaces.",
+    "Prefer a few strong contrasts over broad content swell.",
+    "Do not reopen route, traversal, or station runtime.",
+    "Unlock lingonberry comparison through one tiny tundra berry-note addition rather than broader comparison plumbing.",
+    "Keep the close-look additions to old-mans-beard plus woodpecker-cavity unless a tighter browser-fit check proves one of them unworkable."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine/journal-comparison.ts",
+    "src/engine/close-look.ts",
+    "src/test",
+    "docs/science-source-ledger.md",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "At least one new microhabitat contrast reads clearly through existing journal or inspect seams.",
+    "One or two close-look additions make the spaces more collectible and distinct.",
+    "Lane 2 stays content-owned and compact."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-03-31-microhabitat-comparison-and-close-look-phase.md, docs/reports/2026-03-31-microhabitat-comparison-close-look-handoff.md, and this packet. Treat this as the lane-2 follow-on after the active microhabitat wave: make lingonberry comparison-ready with one tiny tundra note, then add old-mans-beard plus woodpecker-cavity as the only new close-look additions."
+}

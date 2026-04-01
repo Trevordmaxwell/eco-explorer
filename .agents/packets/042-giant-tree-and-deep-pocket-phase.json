@@ -1,0 +1,88 @@
+{
+  "packet_id": "ECO-PACKET-042",
+  "version": 1,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Giant-tree and deep-pocket phase",
+  "summary": "Forty-second structured packet for Eco Explorer. This lane-3 wave turns the strongest forest vertical family into more destination-like exploration by adding one giant-tree continuation that feels special to climb and one deeper cave pocket that feels secret but recoverable.",
+  "source_reports": [
+    "docs/reports/2026-03-31-giant-tree-and-deep-pocket-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-88",
+    "ECO-20260331-main-126",
+    "ECO-20260331-critic-99",
+    "ECO-20260331-scout-89",
+    "ECO-20260331-main-127",
+    "ECO-20260331-critic-100"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-88",
+      "goal": "Prepare the giant-tree destination continuation.",
+      "why_now": "One climb that feels special will add more wonder than another generic height increase."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-126",
+      "goal": "Implement the giant-tree continuation.",
+      "why_now": "Lane 3 is ready to turn the canopy family from coherent into memorable."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-99",
+      "goal": "Review the giant-tree continuation.",
+      "why_now": "The climb should stay readable and recoverable while still feeling more special."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-89",
+      "goal": "Prepare the deeper cave pocket follow-on.",
+      "why_now": "Once the climb is strong, the cave side should gain one more hidden place without becoming a harsher network."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-127",
+      "goal": "Implement the deeper cave pocket.",
+      "why_now": "A single secret-feeling chamber is the next best way to deepen wonder on the cave side."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-100",
+      "goal": "Review the deeper cave pocket.",
+      "why_now": "The new depth should feel magical and fair, not simply lower or harsher."
+    }
+  ],
+  "guardrails": [
+    "Keep the spaces cozy and recoverable.",
+    "Reuse the current tiny cue language instead of inventing a new one.",
+    "Avoid widening into a large cave network or traversal shell.",
+    "Redwood-like scale cheats are acceptable when they improve wonder and play."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "One giant-tree climb feels like a real destination instead of just another ledge chain.",
+    "One deeper cave pocket feels hidden and recoverable rather than punishing.",
+    "Lane 3 stays wonder-focused without adding combat or a denser traversal HUD."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-03-31-giant-tree-and-deep-pocket-phase.md, and this packet. Treat this as lane 3's next vertical wave: add one giant-tree destination climb and one deeper cave pocket while keeping the spaces cozy, readable, and free of combat or HUD bloat."
+}

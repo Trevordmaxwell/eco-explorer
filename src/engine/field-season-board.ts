@@ -1,4 +1,5 @@
 import { ecoWorldMap } from '../content/world-map';
+import { getFieldRequestDefinition, resolveRouteV2FiledNoteText } from './field-requests';
 import { getActiveHabitatProcessMoments } from './habitat-process';
 import { hasFieldUpgrade } from './field-station';
 import { getWorldMapLocationByBiomeId } from './world-map';
@@ -29,6 +30,13 @@ export interface FieldSeasonBoardBeat {
   status: FieldSeasonBoardBeatStatus;
 }
 
+export interface FieldSeasonBoardLaunchCard {
+  title: string;
+  progressLabel: string;
+  summary: string;
+  detail: string;
+}
+
 export interface FieldSeasonBoardState {
   routeId: 'coastal-shelter-line' | 'treeline-shelter-line' | 'edge-pattern-line';
   routeTitle: string;
@@ -36,6 +44,7 @@ export interface FieldSeasonBoardState {
   summary: string;
   progressLabel: string;
   beats: FieldSeasonBoardBeat[];
+  launchCard: FieldSeasonBoardLaunchCard | null;
   activeBeatId: FieldSeasonBoardBeat['id'] | null;
   nextDirection: string;
   targetBiomeId: 'forest' | 'coastal-scrub' | 'treeline' | 'tundra' | null;
@@ -43,6 +52,7 @@ export interface FieldSeasonBoardState {
   notebookReady: {
     requestId: string;
     text: string;
+    previewText: string | null;
   } | null;
   replayNote: {
     id: string;
@@ -85,12 +95,30 @@ export interface FieldSeasonExpeditionState {
   teaser: FieldSeasonExpeditionTeaser | null;
 }
 
+export interface ActiveOutingLocator {
+  title: string;
+  summary: string;
+  progressLabel: string;
+  targetBiomeId: Exclude<FieldSeasonBoardState['targetBiomeId'], null>;
+  worldMapLabel: string;
+  routeBoardSummary: string;
+  routeBoardNextDirection: string;
+  atlasNote: string;
+}
+
+export interface NextSeasonContinuityCopy {
+  routesSubtitle: string;
+  archiveText: string;
+  expeditionTeaser: string;
+}
+
 function hasCompletedRequest(save: SaveState, requestId: string): boolean {
   return save.completedFieldRequestIds.includes(requestId);
 }
 
 const FOREST_EXPEDITION_CHAPTER_REQUEST_ID = 'forest-expedition-upper-run';
 const FOREST_EXPEDITION_EVIDENCE_TOTAL = 4;
+const NEXT_FIELD_SEASON_TARGET_BIOME_ID = 'treeline' as const;
 
 function getExpeditionChapterProgress(save: SaveState) {
   return save.routeV2Progress?.requestId === FOREST_EXPEDITION_CHAPTER_REQUEST_ID
@@ -104,6 +132,151 @@ function getExpeditionEvidenceCount(save: SaveState): number {
 
 function isExpeditionNotebookReady(save: SaveState): boolean {
   return getExpeditionChapterProgress(save)?.status === 'ready-to-synthesize';
+}
+
+export function resolveNextFieldSeasonTargetBiomeId(
+  save: SaveState,
+): typeof NEXT_FIELD_SEASON_TARGET_BIOME_ID | null {
+  return hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
+    && hasCompletedRequest(save, 'forest-season-threads')
+    ? NEXT_FIELD_SEASON_TARGET_BIOME_ID
+    : null;
+}
+
+export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator | null {
+  if (hasCompletedRequest(save, 'forest-season-threads')) {
+    return {
+      title: 'High Pass',
+      summary: 'Treeline Pass opens next. Follow last tree, low wood, and fell bloom.',
+      progressLabel: 'NEXT',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: High Pass',
+      routeBoardSummary: 'High Pass opens next from Treeline Pass into the next field season.',
+      routeBoardNextDirection:
+        'Next: travel to Treeline Pass and match one last tree shape, one low wood, and one fell-bloom clue.',
+      atlasNote: 'Next: take the High Pass from Treeline Pass.',
+    };
+  }
+
+  if (hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)) {
+    return {
+      title: 'Season Threads',
+      summary: 'Forest Trail has one last notebook pass tying coast, hollow, and canopy together.',
+      progressLabel: 'NEXT',
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Season Threads',
+      routeBoardSummary: 'Root Hollow reconnects the season. Tie the threads together back in Forest Trail.',
+      routeBoardNextDirection: 'Next: return to Forest Trail and log Season Threads.',
+      atlasNote: 'Next: tie coast and hollow in Forest Trail.',
+    };
+  }
+
+  if (!hasCompletedRequest(save, 'treeline-low-fell')) {
+    return null;
+  }
+
+  const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
+  const expeditionNotebookReady = isExpeditionNotebookReady(save);
+
+  if (expeditionNotebookReady) {
+    return {
+      title: 'Root Hollow',
+      summary: 'File the Root Hollow note back at the field station.',
+      progressLabel: 'NOTE',
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Root Hollow',
+      routeBoardSummary: 'Root Hollow is ready to file. Return to the field station and log the chapter.',
+      routeBoardNextDirection: 'Next: return to the field station and file the Root Hollow note.',
+      atlasNote: 'Next: file the Root Hollow note.',
+    };
+  }
+
+  if (expeditionEvidenceCount >= 3) {
+    return {
+      title: 'Root Hollow',
+      summary: 'Forest Trail still has one high-run clue left to finish in Root Hollow.',
+      progressLabel: `${expeditionEvidenceCount}/${FOREST_EXPEDITION_EVIDENCE_TOTAL}`,
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Root Hollow',
+      routeBoardSummary: 'Root Hollow is nearly filed. Carry the high run back into Log Run.',
+      routeBoardNextDirection: 'Next: follow the high return into Log Run.',
+      atlasNote: 'Next: follow the Root Hollow high return.',
+    };
+  }
+
+  if (expeditionEvidenceCount >= 2) {
+    return {
+      title: 'Root Hollow',
+      summary: 'Forest Trail still climbs from the stone pocket toward the root-held return.',
+      progressLabel: `${expeditionEvidenceCount}/${FOREST_EXPEDITION_EVIDENCE_TOTAL}`,
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Root Hollow',
+      routeBoardSummary: 'Root Hollow is underway. Climb from the stone pocket toward the root-held return.',
+      routeBoardNextDirection: 'Next: climb through Root Hollow to the root-held return.',
+      atlasNote: 'Next: climb toward the root-held return.',
+    };
+  }
+
+  if (expeditionEvidenceCount >= 1) {
+    return {
+      title: 'Root Hollow',
+      summary: 'Forest Trail still drops below the climb into the stone pocket.',
+      progressLabel: `${expeditionEvidenceCount}/${FOREST_EXPEDITION_EVIDENCE_TOTAL}`,
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Root Hollow',
+      routeBoardSummary: 'Root Hollow is underway. Drop below the climb and read the stone pocket.',
+      routeBoardNextDirection: 'Next: drop into the stone pocket below the climb.',
+      atlasNote: 'Next: drop into the stone pocket below.',
+    };
+  }
+
+  return {
+    title: 'Root Hollow',
+    summary: 'Forest Trail opens Root Hollow below the old climb.',
+    progressLabel: 'READY',
+    targetBiomeId: 'forest',
+    worldMapLabel: 'Today: Root Hollow',
+    routeBoardSummary: 'Edge line logged. Next: open the Root Hollow expedition.',
+    routeBoardNextDirection: 'Next: open the Root Hollow expedition from the field station.',
+    atlasNote: 'Next: open Root Hollow below the forest.',
+  };
+}
+
+export function resolveNextSeasonContinuityCopy(save: SaveState): NextSeasonContinuityCopy | null {
+  if (!hasCompletedRequest(save, 'forest-season-threads')) {
+    return null;
+  }
+
+  const activeOuting = resolveSeasonOutingLocator(save);
+  if (!activeOuting) {
+    return null;
+  }
+
+  const location = getWorldMapLocationByBiomeId(ecoWorldMap, activeOuting.targetBiomeId);
+
+  return {
+    routesSubtitle: `${activeOuting.title} continues from ${location.label}.`,
+    archiveText: `Root Hollow now leads to ${activeOuting.title}.`,
+    expeditionTeaser: `Follow Root Hollow into ${activeOuting.title}.`,
+  };
+}
+
+function resolveFiledSeasonLaunchCard(save: SaveState): FieldSeasonBoardLaunchCard | null {
+  if (!hasCompletedRequest(save, 'forest-season-threads')) {
+    return null;
+  }
+
+  const locator = resolveSeasonOutingLocator(save);
+  if (!locator) {
+    return null;
+  }
+
+  return {
+    title: locator.title.toUpperCase(),
+    progressLabel: locator.progressLabel,
+    summary: 'Treeline Pass opens the next field season.',
+    detail: 'Match last tree, low wood, and fell bloom.',
+  };
 }
 
 function getForestStudyBeat(save: SaveState, forestSurveyLogged: boolean): Omit<FieldSeasonBoardBeat, 'status'> {
@@ -239,7 +412,7 @@ function getScrubEdgePatternBeat(save: SaveState): Omit<FieldSeasonBoardBeat, 's
     return {
       id: 'scrub-edge-pattern',
       title: 'Scrub Pattern',
-      detail: 'Match one open pioneer, one holding cover, and one thicker-edge clue from dune to forest edge.',
+      detail: 'Walk Back Dune, Windbreak Swale, and Forest Edge in order, filing one clue from each stage.',
     };
   }
 
@@ -315,6 +488,7 @@ function getRouteBeatIdForRequest(
 }
 
 function applyNotebookReadyState(
+  biomes: Record<string, BiomeDefinition>,
   routeState: FieldSeasonBoardState,
   save: SaveState,
 ): FieldSeasonBoardState {
@@ -333,10 +507,20 @@ function applyNotebookReadyState(
     };
   }
 
+  const readyDefinition = getFieldRequestDefinition(save.routeV2Progress.requestId);
+  const readyText =
+    readyDefinition && 'routeV2Note' in readyDefinition
+      ? readyDefinition.routeV2Note.readyText
+      : 'Return to the field station and file this note before the next outing.';
+  const previewText =
+    readyDefinition && 'routeV2Note' in readyDefinition
+      ? resolveRouteV2FiledNoteText(biomes, save, save.routeV2Progress.requestId)
+      : null;
+
   return {
     ...routeState,
-    summary: 'Return to the field station and file this note before the next outing.',
-    nextDirection: 'Next: return to the field station and file the notebook note.',
+    summary: readyText,
+    nextDirection: `Next: ${lowercaseFirstLetter(readyText)}`,
     targetBiomeId: null,
     beats: routeState.beats.map((beat) =>
       beat.id === readyBeatId
@@ -348,7 +532,8 @@ function applyNotebookReadyState(
     ),
     notebookReady: {
       requestId: save.routeV2Progress.requestId,
-      text: 'File the notebook note before the next outing.',
+      text: readyText,
+      previewText,
     },
     replayNote: null,
   };
@@ -495,7 +680,7 @@ function getReplayNote(
           return {
             id: 'edge-moist-edge',
             title: 'Moist Edge',
-            text: 'Cool wet holdovers make the forest middle edge easiest to compare again.',
+            text: 'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
           };
         }
 
@@ -626,6 +811,7 @@ function resolveCoastalFieldSeasonBoardState(save: SaveState): FieldSeasonBoardS
     summary,
     progressLabel: `${completedBeatCount}/3 logged`,
     beats,
+    launchCard: null,
     activeBeatId: getActiveBeatId(beats),
     nextDirection,
     targetBiomeId,
@@ -690,6 +876,7 @@ function resolveInlandFieldSeasonBoardState(save: SaveState): FieldSeasonBoardSt
     summary,
     progressLabel: complete ? 'ROUTE LOGGED' : `${completedBeatCount}/3 logged`,
     beats,
+    launchCard: null,
     activeBeatId: getActiveBeatId(beats),
     nextDirection,
     targetBiomeId,
@@ -732,10 +919,11 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
 
   const completedBeatCount = [scrubBeatDone, forestBeatDone, treelineBeatDone].filter(Boolean).length;
   const complete = treelineBeatDone;
-  let summary = 'Follow the coast-to-forest transition from pioneer scrub into lower fell.';
+  let summary = 'Walk the coast-to-forest transect from pioneer scrub into lower fell.';
   let nextDirection =
-    'Next: travel to Coastal Scrub and match one clue from each stage of the edge pattern.';
+    'Next: travel to Coastal Scrub and walk Back Dune -> Windbreak Swale -> Forest Edge.';
   let targetBiomeId: FieldSeasonBoardState['targetBiomeId'] = 'coastal-scrub';
+  let launchCard: FieldSeasonBoardLaunchCard | null = null;
 
   if (scrubBeatDone && !forestBeatDone) {
     summary = 'Scrub pattern logged. Read the cooler forest side of the transition next.';
@@ -748,7 +936,13 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
       'Next: travel to Treeline Pass and match one last tree shape, one low wood, and one fell-bloom clue.';
     targetBiomeId = 'treeline';
   } else if (complete) {
-    if (seasonThreadsLogged) {
+    const locator = resolveSeasonOutingLocator(save);
+    if (locator) {
+      summary = locator.routeBoardSummary;
+      nextDirection = locator.routeBoardNextDirection;
+      targetBiomeId = locator.targetBiomeId;
+      launchCard = resolveFiledSeasonLaunchCard(save);
+    } else if (seasonThreadsLogged) {
       summary = 'Season threads logged. Return to the field station for a calm season close.';
       nextDirection = 'Next: return to the field station for season close.';
     } else if (expeditionLogged) {
@@ -770,7 +964,6 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
       summary = 'Edge line logged. Next: open the Root Hollow expedition.';
       nextDirection = 'Next: open the Root Hollow expedition from the field station.';
     }
-    targetBiomeId = null;
   }
 
   return {
@@ -780,6 +973,7 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
     summary,
     progressLabel: complete ? 'ROUTE LOGGED' : `${completedBeatCount}/3 logged`,
     beats,
+    launchCard,
     activeBeatId: getActiveBeatId(beats),
     nextDirection,
     targetBiomeId,
@@ -794,13 +988,25 @@ export function resolveFieldSeasonBoardState(
   save: SaveState,
 ): FieldSeasonBoardState {
   if (hasCompletedRequest(save, 'tundra-survey-slice')) {
-    return applyReplayNote(applyNotebookReadyState(resolveEdgePatternFieldSeasonBoardState(save), save), biomes, save);
+    return applyReplayNote(
+      applyNotebookReadyState(biomes, resolveEdgePatternFieldSeasonBoardState(save), save),
+      biomes,
+      save,
+    );
   }
 
   const coastalBeatDone = hasCompletedRequest(save, 'coastal-edge-moisture');
   return coastalBeatDone
-    ? applyReplayNote(applyNotebookReadyState(resolveInlandFieldSeasonBoardState(save), save), biomes, save)
-    : applyReplayNote(applyNotebookReadyState(resolveCoastalFieldSeasonBoardState(save), save), biomes, save);
+    ? applyReplayNote(
+        applyNotebookReadyState(biomes, resolveInlandFieldSeasonBoardState(save), save),
+        biomes,
+        save,
+      )
+    : applyReplayNote(
+        applyNotebookReadyState(biomes, resolveCoastalFieldSeasonBoardState(save), save),
+        biomes,
+        save,
+      );
 }
 
 export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null {
@@ -822,24 +1028,14 @@ export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null 
     return null;
   }
 
+  const activeOuting = resolveSeasonOutingLocator(save);
+
   return {
     title: 'FIELD ATLAS',
     loggedRoutes,
     note:
       hasCompletedRequest(save, 'treeline-low-fell')
-        ? hasCompletedRequest(save, 'forest-season-threads')
-          ? 'Next: file the season at the station.'
-          : hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
-            ? 'Next: tie coast and hollow in Forest Trail.'
-            : isExpeditionNotebookReady(save)
-              ? 'Next: file the Root Hollow note.'
-            : getExpeditionEvidenceCount(save) >= 3
-              ? 'Next: follow the Root Hollow high return.'
-              : getExpeditionEvidenceCount(save) >= 2
-                ? 'Next: climb toward the root-held return.'
-                : getExpeditionEvidenceCount(save) >= 1
-                  ? 'Next: drop into the stone pocket below.'
-                : 'Next: open Root Hollow below the forest.'
+        ? activeOuting?.atlasNote ?? 'Next: open Root Hollow below the forest.'
         : hasCompletedRequest(save, 'tundra-survey-slice')
           ? 'Next: follow the low-fell edge line.'
           : loggedRoutes.length > 1
@@ -853,10 +1049,12 @@ export function resolveFieldSeasonArchiveState(save: SaveState): FieldSeasonArch
     return null;
   }
 
+  const continuityCopy = resolveNextSeasonContinuityCopy(save);
+
   return {
     label: 'SEASON ARCHIVE',
     text: hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
-      ? 'Coast, ridge, and Root Hollow filed.'
+      ? continuityCopy?.archiveText ?? 'Coast, ridge, and Root Hollow filed.'
       : 'Coast and ridge routes filed.',
   };
 }
@@ -888,13 +1086,19 @@ function formatApproachCue(label: string | null): string | null {
 }
 
 function resolveNextSeasonSetupTeaser(save: SaveState): FieldSeasonExpeditionTeaser {
+  const continuityCopy = resolveNextSeasonContinuityCopy(save);
   const nextSeasonApproach =
-    formatApproachCue(getWorldMapLocationByBiomeId(ecoWorldMap, 'treeline').approachLabel ?? null) ??
+    formatApproachCue(
+      getWorldMapLocationByBiomeId(
+        ecoWorldMap,
+        resolveNextFieldSeasonTargetBiomeId(save) ?? NEXT_FIELD_SEASON_TARGET_BIOME_ID,
+      ).approachLabel ?? null,
+    ) ??
     'High Pass';
   return hasCompletedRequest(save, 'forest-season-threads')
     ? {
         label: 'NEXT FIELD SEASON',
-        text: `Take the ${nextSeasonApproach} next.`,
+        text: continuityCopy?.expeditionTeaser ?? `Take the ${nextSeasonApproach} next.`,
       }
     : {
         label: 'NEXT EXPEDITION',
@@ -1001,6 +1205,10 @@ function capitalizeFirstLetter(text: string): string {
   return text.length ? `${text[0].toUpperCase()}${text.slice(1)}` : text;
 }
 
+function lowercaseFirstLetter(text: string): string {
+  return text.length ? `${text[0].toLowerCase()}${text.slice(1)}` : text;
+}
+
 function resolveSupportAwareTodayWrap(
   biomes: Record<string, BiomeDefinition>,
   routeBoard: FieldSeasonBoardState,
@@ -1019,6 +1227,15 @@ function resolveSupportAwareTodayWrap(
       ? {
           label: 'TODAY',
           text,
+        }
+      : null;
+  }
+
+  if (selectedOutingSupportId === 'note-tabs') {
+    return routeBoard.summary
+      ? {
+          label: 'TODAY',
+          text: routeBoard.summary,
         }
       : null;
   }
@@ -1048,7 +1265,10 @@ export function resolveFieldSeasonWrapState(
   if (routeBoard.notebookReady) {
     return {
       label: 'NOTEBOOK READY',
-      text: routeBoard.notebookReady.text,
+      text:
+        selectedOutingSupportId === 'note-tabs' && routeBoard.notebookReady.previewText
+          ? routeBoard.notebookReady.previewText
+          : routeBoard.notebookReady.text,
     };
   }
 
@@ -1099,16 +1319,21 @@ export function resolveFieldStationSubtitle(
   view: FieldStationView,
   seasonPage: FieldStationSeasonPage,
   seasonWrap: FieldSeasonWrapState,
+  archiveSubtitle: string | null = null,
 ): string {
   if (view === 'nursery') {
     return 'Nursery beds and quiet station care.';
+  }
+
+  if (seasonWrap.label === 'SEASON ARCHIVE') {
+    return seasonPage === 'expedition'
+      ? 'High Pass opens the next field season.'
+      : archiveSubtitle ?? 'This season is filed. Another field season can open here later.';
   }
 
   if (seasonPage === 'expedition') {
     return 'Deeper forest chapter beyond the routes.';
   }
 
-  return seasonWrap.label === 'SEASON ARCHIVE'
-    ? 'This season is filed. Another field season can open here later.'
-    : 'Route board and calm field support.';
+  return 'Route board and calm field support.';
 }

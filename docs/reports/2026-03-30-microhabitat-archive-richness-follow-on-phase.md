@@ -2,13 +2,13 @@
 
 ## Summary
 
-This is a future lane-2 follow-on after the current content-richness wave.
+This is the active lane-2 follow-on after the reopened content-richness lane.
 
 The next content-only growth step should deepen the newly emerging microhabitats around old-growth, under-root, and cave-adjacent spaces, then give them one quiet archive or sketchbook payoff inside existing surfaces.
 
 ## Why Now
 
-Lane 3 is making the world taller and deeper. Lane 2 should eventually make those new spaces feel inhabited and memorable without reopening route logic or traversal runtime.
+Lane 3 is making the world taller and deeper. Lane 2 should now make those new spaces feel inhabited and memorable without reopening route logic or traversal runtime.
 
 This phase is about:
 

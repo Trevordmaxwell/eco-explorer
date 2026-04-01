@@ -13,6 +13,10 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
+    expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
+    expect(supportsCloseLook('seep-moss-mat')).toBe(true);
+    expect(supportsCloseLook('old-mans-beard')).toBe(true);
+    expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
   });
@@ -63,5 +67,37 @@ describe('close-look helpers', () => {
       spriteId: 'cottongrass',
     });
     expect(cottongrassPayload?.callouts).toContain('white tuft');
+
+    const canopyMossPayload = buildCloseLookPayload(forestBiome.entries['canopy-moss-bed']);
+    expect(canopyMossPayload).toMatchObject({
+      entryId: 'canopy-moss-bed',
+      title: 'Canopy Moss Bed',
+      spriteId: 'canopy-moss-bed',
+    });
+    expect(canopyMossPayload?.callouts).toContain('soft moss bed');
+
+    const seepMossPayload = buildCloseLookPayload(forestBiome.entries['seep-moss-mat']);
+    expect(seepMossPayload).toMatchObject({
+      entryId: 'seep-moss-mat',
+      title: 'Seep Moss Mat',
+      spriteId: 'seep-moss-mat',
+    });
+    expect(seepMossPayload?.callouts).toContain('wet stone grip');
+
+    const beardPayload = buildCloseLookPayload(forestBiome.entries['old-mans-beard']);
+    expect(beardPayload).toMatchObject({
+      entryId: 'old-mans-beard',
+      title: "Old-Man's-Beard Lichen",
+      spriteId: 'old-mans-beard',
+    });
+    expect(beardPayload?.callouts).toContain('hanging strands');
+
+    const cavityPayload = buildCloseLookPayload(forestBiome.entries['woodpecker-cavity']);
+    expect(cavityPayload).toMatchObject({
+      entryId: 'woodpecker-cavity',
+      title: 'Woodpecker Cavity',
+      spriteId: 'woodpecker-cavity',
+    });
+    expect(cavityPayload?.callouts).toContain('carved opening');
   });
 });

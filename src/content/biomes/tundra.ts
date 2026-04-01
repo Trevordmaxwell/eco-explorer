@@ -391,6 +391,17 @@ export const tundraBiome: BiomeDefinition = {
         'What here marks the wet edge of thaw?',
       zoneId: 'thaw-skirt',
     },
+    {
+      id: 'evergreen-berry-mats',
+      title: 'Evergreen Berry Mats',
+      entryIds: ['lingonberry', 'crowberry'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low evergreen berry mats hug open tundra where wind passes over them.',
+      observationPrompt:
+        'Which berries stay low through cold wind?',
+      zoneId: 'frost-ridge',
+    },
   ],
   phenology: {
     phases: {

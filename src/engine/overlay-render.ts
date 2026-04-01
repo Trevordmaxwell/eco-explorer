@@ -404,6 +404,42 @@ function drawComparisonCard(
   );
 }
 
+function drawFieldRequestCard(
+  context: CanvasRenderingContext2D,
+  palette: BiomeDefinition['palette'],
+  rect: UiRect,
+  fieldRequest: ActiveFieldRequest,
+): void {
+  fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.accent);
+
+  context.font = UI_FONT_MEDIUM;
+  drawUiText(
+    context,
+    fitTextToWidth(context, fieldRequest.title, rect.w - 40),
+    rect.x + 4,
+    rect.y + 3,
+    palette.accent,
+  );
+
+  context.font = UI_FONT_SMALL;
+  drawUiText(
+    context,
+    fitTextToWidth(context, fieldRequest.progressLabel, 36),
+    rightAlignTextX(context, fieldRequest.progressLabel, rect, 4),
+    rect.y + 3,
+    palette.text,
+  );
+
+  drawWrappedTextInRect(
+    context,
+    fieldRequest.summary,
+    makeRect(rect.x + 4, rect.y + 11, rect.w - 8, rect.h - 13),
+    6,
+    palette.text,
+    2,
+  );
+}
+
 function drawMenuRow(
   context: CanvasRenderingContext2D,
   palette: BiomeDefinition['palette'],
@@ -1074,7 +1110,11 @@ export function drawFieldStationOverlay({
       return;
     }
 
-    const boardProgressLabel = routeBoard.complete ? 'LOGGED' : routeBoard.progressLabel;
+    const boardProgressLabel = routeBoard.launchCard
+      ? routeBoard.launchCard.progressLabel
+      : routeBoard.complete
+        ? 'LOGGED'
+        : routeBoard.progressLabel;
     const boardProgressText = fitTextToWidth(context, boardProgressLabel, 44);
     const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, 12);
     const boardRect = makeRect(contentRect.x, stripRect.y + stripRect.h + 2, contentRect.w, atlas ? 30 : 32);
@@ -1103,7 +1143,11 @@ export function drawFieldStationOverlay({
     );
 
     fillPixelPanel(context, boardRect.x, boardRect.y, boardRect.w, boardRect.h, palette.journalPage, palette.accent);
-    const routeTitleText = fitTextToWidth(context, routeBoard.routeTitle, boardRect.w - 56);
+    const routeTitleText = fitTextToWidth(
+      context,
+      routeBoard.launchCard?.title ?? routeBoard.routeTitle,
+      boardRect.w - 56,
+    );
     drawUiText(
       context,
       routeTitleText,
@@ -1118,7 +1162,23 @@ export function drawFieldStationOverlay({
       boardRect.y + 5,
       palette.accent,
     );
-    if (!atlas) {
+    if (routeBoard.launchCard) {
+      drawWrappedTextInRect(
+        context,
+        routeBoard.launchCard.summary,
+        makeRect(boardRect.x + 4, boardRect.y + 14, boardRect.w - 8, 12),
+        6,
+        palette.text,
+        2,
+      );
+      drawUiText(
+        context,
+        fitTextToWidth(context, routeBoard.launchCard.detail, boardRect.w - 8),
+        boardRect.x + 4,
+        boardRect.y + 25,
+        palette.accent,
+      );
+    } else if (!atlas) {
       drawUiText(
         context,
         fitTextToWidth(context, routeBoard.summary, boardRect.w - 8),
@@ -1127,28 +1187,30 @@ export function drawFieldStationOverlay({
         palette.text,
       );
     }
-    routeBoard.beats.forEach((beat, index) => {
-      const prefix =
-        beat.status === 'done'
-          ? 'DONE'
-          : beat.status === 'ready'
-          ? 'FILE'
-          : beat.status === 'active'
-          ? 'NOW'
-          : 'NEXT';
-      const beatY = atlas ? boardRect.y + 13 + index * 6 : boardRect.y + 21 + index * 7;
-      drawUiText(
-        context,
-        fitTextToWidth(context, `${prefix} ${beat.title}`, boardRect.w - 8),
-        boardRect.x + 4,
-        beatY,
-        beat.status === 'active' || beat.status === 'ready' ? palette.accent : palette.text,
-      );
-    });
+    if (!routeBoard.launchCard) {
+      routeBoard.beats.forEach((beat, index) => {
+        const prefix =
+          beat.status === 'done'
+            ? 'DONE'
+            : beat.status === 'ready'
+            ? 'FILE'
+            : beat.status === 'active'
+            ? 'NOW'
+            : 'NEXT';
+        const beatY = atlas ? boardRect.y + 13 + index * 6 : boardRect.y + 21 + index * 7;
+        drawUiText(
+          context,
+          fitTextToWidth(context, `${prefix} ${beat.title}`, boardRect.w - 8),
+          boardRect.x + 4,
+          beatY,
+          beat.status === 'active' || beat.status === 'ready' ? palette.accent : palette.text,
+        );
+      });
+    }
 
     if (atlasRect && atlas) {
       fillPixelPanel(context, atlasRect.x, atlasRect.y, atlasRect.w, atlasRect.h, palette.journalPage, palette.accent);
-      const atlasCountLabel = `${atlas.loggedRoutes.length} route${atlas.loggedRoutes.length === 1 ? '' : 's'} logged`;
+      const atlasDetail = atlas.note ?? `${atlas.loggedRoutes.length} route${atlas.loggedRoutes.length === 1 ? '' : 's'} logged`;
       drawUiText(
         context,
         atlas.title,
@@ -1158,7 +1220,7 @@ export function drawFieldStationOverlay({
       );
       drawUiText(
         context,
-        fitTextToWidth(context, atlasCountLabel, atlasRect.w - 8),
+        fitTextToWidth(context, atlasDetail, atlasRect.w - 8),
         atlasRect.x + 4,
         atlasRect.y + 8,
         palette.text,
@@ -1182,9 +1244,13 @@ export function drawFieldStationOverlay({
     );
     drawUiTextInRect(
       context,
-      selectedOutingSupportId === 'route-marker' ? 'ROUTE MARKER' : 'HAND LENS',
+      selectedOutingSupportId === 'route-marker'
+        ? 'ROUTE MARKER'
+        : selectedOutingSupportId === 'note-tabs'
+          ? 'NOTE TABS'
+          : 'HAND LENS',
       makeRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w - 4, outingSupportRowRect.h),
-      selectedOutingSupportId === 'route-marker' ? palette.accent : palette.text,
+      selectedOutingSupportId === 'hand-lens' ? palette.text : palette.accent,
       { align: 'right' },
     );
     upgradeCardY += 7;
@@ -1578,7 +1644,7 @@ export function drawJournalOverlay({
   const [listRect, detailRect] = splitRectColumns(bodyRect, listWidth, 4);
   const listContentRect = insetRect(listRect, 4);
   const detailContentRect = insetRect(detailRect, 4);
-  const detailLayout = fieldRequest && !isSketchbookOpen ? takeBottom(detailContentRect, 18, 3) : null;
+  const detailLayout = fieldRequest && !isSketchbookOpen ? takeBottom(detailContentRect, 24, 3) : null;
   const detailMainRect = detailLayout?.top ?? detailContentRect;
   const requestRect = detailLayout?.bottom ?? null;
   const selectorState = buildJournalBiomeSelectorState(biomeProgress, selectedBiomeProgress.biomeId);
@@ -1749,24 +1815,7 @@ export function drawJournalOverlay({
       maxLinesForHeight(detailMainRect.h, 7),
     );
     if (requestRect && fieldRequest) {
-      fillPixelPanel(context, requestRect.x, requestRect.y, requestRect.w, requestRect.h, palette.journalPage, palette.accent);
-      const requestLabel = `${fieldRequest.biomeName.toUpperCase()} TASK`;
-      drawUiTextInRect(context, fitTextToWidth(context, requestLabel, requestRect.w - 52), makeRect(requestRect.x + 4, requestRect.y, requestRect.w - 56, 10), palette.accent);
-      drawUiText(
-        context,
-        fitTextToWidth(context, fieldRequest.progressLabel, 44),
-        rightAlignTextX(context, fieldRequest.progressLabel, requestRect, 4),
-        requestRect.y + 3,
-        palette.text,
-      );
-      drawWrappedTextInRect(
-        context,
-        fieldRequest.summary,
-        makeRect(requestRect.x + 4, requestRect.y + 10, requestRect.w - 8, requestRect.h - 4),
-        6,
-        palette.text,
-        2,
-      );
+      drawFieldRequestCard(context, palette, requestRect, fieldRequest);
     }
     return {
       entryTargets,
@@ -2101,24 +2150,7 @@ export function drawJournalOverlay({
   }
 
   if (requestRect && fieldRequest) {
-    fillPixelPanel(context, requestRect.x, requestRect.y, requestRect.w, requestRect.h, palette.journalPage, palette.accent);
-    const requestLabel = `${fieldRequest.biomeName.toUpperCase()} TASK`;
-    drawUiTextInRect(context, fitTextToWidth(context, requestLabel, requestRect.w - 52), makeRect(requestRect.x + 4, requestRect.y, requestRect.w - 56, 10), palette.accent);
-    drawUiText(
-      context,
-      fitTextToWidth(context, fieldRequest.progressLabel, 44),
-      rightAlignTextX(context, fieldRequest.progressLabel, requestRect, 4),
-      requestRect.y + 3,
-      palette.text,
-    );
-    drawWrappedTextInRect(
-      context,
-      fieldRequest.summary,
-      makeRect(requestRect.x + 4, requestRect.y + 10, requestRect.w - 8, requestRect.h - 4),
-      6,
-      palette.text,
-      2,
-    );
+    drawFieldRequestCard(context, palette, requestRect, fieldRequest);
   }
 
   return {

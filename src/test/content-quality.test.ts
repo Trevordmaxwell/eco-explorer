@@ -21,6 +21,8 @@ const FIELD_REQUEST_TITLE_MAX = 18;
 const FIELD_REQUEST_SUMMARY_MAX = 96;
 const SKETCHBOOK_NOTE_MAX = 56;
 const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity'] as const;
+const MICROHABITAT_LEDGER_MARKERS = ['old-mans-beard', 'western-hemlock-seedling'] as const;
+const CANOPY_CAVERN_LEDGER_MARKERS = ['canopy-moss-bed', 'seep-moss-mat'] as const;
 
 function countSentences(text: string): number {
   return text
@@ -129,6 +131,18 @@ describe('content quality guardrails', () => {
 
   it('keeps recent landmark teaching anchors backed by the science source ledger', () => {
     for (const entryId of SCIENCE_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the active microhabitat additions backed by the science source ledger', () => {
+    for (const entryId of MICROHABITAT_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the canopy-and-cavern habitat additions backed by the science source ledger', () => {
+    for (const entryId of CANOPY_CAVERN_LEDGER_MARKERS) {
       expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
     }
   });

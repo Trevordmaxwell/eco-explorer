@@ -8,7 +8,7 @@ Do not keep rolling forward from short-term memory alone.
 
 Before every new queue item, restart the read chain so you re-enter the right role, lane scope, and packet context.
 
-Also verify the current branch before editing. The active shared branch is `codex/snapshot-20260330`; if `git branch --show-current` says otherwise, switch before you start the item unless the user explicitly changed the branch plan.
+Also verify the current branch before editing. The active shared branch is `main`; if `git branch --show-current` says otherwise, switch before you start the item unless the user explicitly changed the branch plan.
 
 ## Read Chain Before Every Item
 
@@ -16,7 +16,7 @@ Also verify the current branch before editing. The active shared branch is `code
 2. `.agents/lane-runner.md`
 3. `.agents/project-memory.md`
 4. `.agents/work-queue.md`
-5. verify `git branch --show-current` is `codex/snapshot-20260330`
+5. verify `git branch --show-current` is `main`
 6. your lane brief in `.agents/lanes/`
 7. the queue item's packet in `.agents/packets/`, if present
 8. the matching role file in `.agents/roles/`

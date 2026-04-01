@@ -222,6 +222,10 @@ function normalizeSelectedOutingSupportId(
   value: PersistedSaveState['selectedOutingSupportId'],
   purchasedUpgradeIds: string[],
 ): OutingSupportId {
+  if (value === 'note-tabs') {
+    return 'note-tabs';
+  }
+
   if (value === 'route-marker' && purchasedUpgradeIds.includes('route-marker')) {
     return 'route-marker';
   }
@@ -437,10 +441,16 @@ export function resolveSelectedOutingSupportId(save: SaveState): OutingSupportId
 
 export function cycleSelectedOutingSupportId(save: SaveState): OutingSupportId {
   const current = resolveSelectedOutingSupportId(save);
-  const next =
-    current === 'hand-lens' && save.purchasedUpgradeIds.includes('route-marker')
-      ? 'route-marker'
-      : 'hand-lens';
+  let next: OutingSupportId;
+
+  if (current === 'hand-lens') {
+    next = 'note-tabs';
+  } else if (current === 'note-tabs') {
+    next = save.purchasedUpgradeIds.includes('route-marker') ? 'route-marker' : 'hand-lens';
+  } else {
+    next = 'hand-lens';
+  }
+
   save.selectedOutingSupportId = next;
   return next;
 }

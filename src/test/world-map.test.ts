@@ -21,6 +21,15 @@ describe('world map travel scaffold', () => {
     expect(moveWorldMapFocus(ecoWorldMap, state, 'down')).toBe('forest');
   });
 
+  it('can open on the current location while focusing a later destination', () => {
+    const state = createWorldMapState(ecoWorldMap, 'forest', 'treeline');
+
+    expect(state.currentLocationId).toBe('forest');
+    expect(state.focusedLocationId).toBe('treeline');
+    expect(state.avatarX).toBe(getWorldMapLocation(ecoWorldMap, 'forest').node.x);
+    expect(state.avatarY).toBe(getWorldMapLocation(ecoWorldMap, 'forest').node.y);
+  });
+
   it('walks the avatar to the next ecotone in the chain', () => {
     const state = createWorldMapState(ecoWorldMap, 'beach');
     expect(beginWorldMapWalk(ecoWorldMap, state, 'coastal-scrub')).toBe(true);

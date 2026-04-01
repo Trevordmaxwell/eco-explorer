@@ -91,9 +91,15 @@ describe('treeline biome generation', () => {
       'lee-pocket-entry-stone',
       'lee-pocket-upper-shelf',
       'lee-pocket-exit-stone',
+      'lee-pocket-crest-step',
+      'lee-pocket-rime-rest',
+      'lee-pocket-fell-return',
     ]);
     expect(leePlatforms[0]?.y).toBeGreaterThan(leePlatforms[1]?.y ?? 0);
     expect(leePlatforms[2]?.y).toBeGreaterThan(leePlatforms[1]?.y ?? 0);
+    expect(leePlatforms[3]?.y).toBeLessThan(leePlatforms[1]?.y ?? 0);
+    expect(leePlatforms[4]?.y).toBeLessThan(leePlatforms[3]?.y ?? 0);
+    expect(leePlatforms[5]?.y).toBeGreaterThan(leePlatforms[4]?.y ?? 0);
   });
 
   it('spawns shelter carriers through the new lee-side traversal band', () => {
@@ -111,6 +117,18 @@ describe('treeline biome generation', () => {
     expect(shelterBand.length).toBeGreaterThanOrEqual(3);
     expect(shelterBand.some((entity) => entity.entryId === 'frost-heave-boulder')).toBe(true);
     expect(shelterBand.some((entity) => entity.entryId === 'hoary-marmot')).toBe(true);
+  });
+
+  it('authors one tiny high-perch cue for the new lee-side lift', () => {
+    expect(treelineBiome.verticalCues).toEqual([
+      {
+        id: 'lee-pocket-rime-light',
+        style: 'canopy-opening',
+        x: 458,
+        y: 80,
+        zoneIds: ['dwarf-shrub', 'lichen-fell'],
+      },
+    ]);
   });
 
   it('adds heath and berry mats across the open alpine half', () => {

@@ -113,4 +113,35 @@ describe('sketchbook helpers', () => {
       note: 'White tufts marking a brief wet thaw band.',
     });
   });
+
+  it('surfaces compact forest microhabitat notes for the archive payoff trio', () => {
+    const save = createNewSaveState('sketchbook-forest-microhabitat-note-seed');
+
+    recordDiscovery(save, forestBiome.entries['western-hemlock-seedling'], 'forest');
+    recordDiscovery(save, forestBiome.entries['old-mans-beard'], 'forest');
+    recordDiscovery(save, forestBiome.entries.ensatina, 'forest');
+
+    placeSketchbookEntry(save, forestBiome, 'top-left', 'western-hemlock-seedling');
+    placeSketchbookEntry(save, forestBiome, 'top-right', 'old-mans-beard');
+    placeSketchbookEntry(save, forestBiome, 'lower-center', 'ensatina');
+
+    const page = buildSketchbookPageView(
+      forestBiome,
+      forestBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'western-hemlock-seedling',
+      note: 'Tiny hemlock starting from damp old wood.',
+    });
+    expect(page.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
+      entryId: 'old-mans-beard',
+      note: 'Pale lichen trailing from the giant crown.',
+    });
+    expect(page.slots.find((slot) => slot.slotId === 'lower-center')).toMatchObject({
+      entryId: 'ensatina',
+      note: 'Small salamander hiding in cool wet bark.',
+    });
+  });
 });

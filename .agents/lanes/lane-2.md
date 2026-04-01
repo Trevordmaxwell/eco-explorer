@@ -37,11 +37,11 @@ Lane 2 should deepen the existing world through content packs and journal-richne
 
 Current emphasis:
 
-- richer coastal, alpine, and sub-ecosystem discoveries
+- richer old-growth, under-root, and cave-adjacent discoveries
 - archive and sketchbook payoff through existing surfaces
-- note-backed comparison and close-look growth
+- note-backed comparison and close-look growth for microhabitats
 - science-ledger and content-quality support for new authored spaces
-- pre-playthrough review-first freeze unless a real blocker is found in active route content
+- content-owned follow-ons that ride behind live route and traversal systems
 
 ## Success Condition
 

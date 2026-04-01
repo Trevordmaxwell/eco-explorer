@@ -258,12 +258,14 @@ export function samplePathPosition(
 export function createWorldMapState(
   definition: WorldMapDefinition,
   currentLocationId = definition.startLocationId,
+  focusedLocationId = currentLocationId,
 ): WorldMapState {
   const current = getWorldMapLocation(definition, currentLocationId);
+  const focused = getWorldMapLocation(definition, focusedLocationId);
 
   return {
     currentLocationId: current.id,
-    focusedLocationId: current.id,
+    focusedLocationId: focused.id,
     avatarX: current.node.x,
     avatarY: current.node.y,
     facing: reverseFacing(current.mapDoor.facing),

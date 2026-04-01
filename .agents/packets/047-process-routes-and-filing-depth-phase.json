@@ -1,0 +1,92 @@
+{
+  "packet_id": "ECO-PACKET-047",
+  "version": 3,
+  "created_at": "2026-03-31",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Process routes and filing depth phase",
+  "summary": "Forty-seventh structured packet for Eco Explorer. This lane-4 wave starts by converting `forest-cool-edge` into the first process-backed Route v2 outing, reusing the live `moisture-hold` seam as soft opportunity, then deepens the notebook filing payoff through clue-backed filed-note text derived from saved route evidence instead of temporary process framing.",
+  "source_reports": [
+    "docs/reports/2026-03-31-process-routes-and-filing-depth-phase.md",
+    "docs/reports/2026-03-31-forest-cool-edge-process-route-handoff.md",
+    "docs/reports/2026-03-31-filing-depth-follow-on-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260331-scout-98",
+    "ECO-20260331-main-136",
+    "ECO-20260331-critic-109",
+    "ECO-20260331-scout-99",
+    "ECO-20260331-main-137",
+    "ECO-20260331-critic-110"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260331-scout-98",
+      "goal": "Prepare the first process-backed Route v2 conversion.",
+      "why_now": "The next gameplay gain is one outing that asks the player to notice ecological process, not just carriers or locations."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260331-main-136",
+      "goal": "Implement `forest-cool-edge` as the first process-backed outing.",
+      "why_now": "It already overlaps the live `moisture-hold` process seam at Creek Bend, so the outing can become more ecological without new save state or a new route type."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260331-critic-109",
+      "goal": "Review the process-backed Route v2 outing.",
+      "why_now": "The outing needs to stay soft, clear, and truthful to the world-state seam."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260331-scout-99",
+      "goal": "Prepare one compact filing-depth follow-on.",
+      "why_now": "Once a stronger outing type lands, the next gain is a slightly richer notebook return."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260331-main-137",
+      "goal": "Implement clue-backed filed-note synthesis for the filing return.",
+      "why_now": "The return filing should feel a little more like synthesis, not only confirmation, and it should stay stable even when the temporary moisture window is gone."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260331-critic-110",
+      "goal": "Review the filing-depth follow-on.",
+      "why_now": "The loop should feel more authored and satisfying without becoming quiz-like or cluttered."
+    }
+  ],
+  "guardrails": [
+    "Use world-state as soft opportunity, not hard punishment.",
+    "Do not add timers, failure states, or a larger station shell.",
+    "Keep the filing step notebook-first and one-screen.",
+    "Avoid broad new route ledgers or inventory systems."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "One live outing uses ecological process or condition as soft gameplay texture.",
+    "`forest-cool-edge` becomes the first process-backed Route v2 beat by reusing `moisture-hold` softly.",
+    "The notebook filing return feels a little richer through clue-backed filed note text without more shell.",
+    "The richer filed note stays independent of temporary process-window framing.",
+    "Lane 4 stays cozy, notebook-first, and game-like."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-03-31-process-routes-and-filing-depth-phase.md, docs/reports/2026-03-31-forest-cool-edge-process-route-handoff.md, docs/reports/2026-03-31-filing-depth-follow-on-handoff.md, and this packet. Treat this as lane 4's next gameplay-loop wave: convert `forest-cool-edge` into the first process-backed Route v2 outing by reusing the live `moisture-hold` seam softly, then deepen the notebook filing payoff through clue-backed filed-note text derived from saved route evidence instead of temporary process framing."
+}
