@@ -8,6 +8,7 @@ const COMPARISON_ENTRY_IDS = new Set([
   'nootka-rose',
   'salmonberry',
   'sword-fern',
+  'bunchberry',
   'arctic-willow',
   'crowberry',
   'mountain-avens',

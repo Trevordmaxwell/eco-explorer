@@ -1,0 +1,65 @@
+{
+  "packet_id": "ECO-PACKET-065",
+  "version": 7,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Atlas and sketchbook richness phase",
+  "summary": "Sixty-fifth structured packet for Eco Explorer. This lane-2 wave deepens atlas-facing memory and sketchbook authorship payoff while keeping the archive shell small and notebook-like.",
+  "source_reports": [
+    "docs/reports/2026-04-02-atlas-and-sketchbook-richness-phase.md",
+    "docs/reports/2026-04-02-atlas-facing-richness-handoff.md",
+    "docs/reports/2026-04-02-atlas-facing-richness-implementation.md",
+    "docs/reports/2026-04-02-atlas-facing-richness-review.md",
+    "docs/reports/2026-04-02-shared-carrier-sketchbook-handoff.md",
+    "docs/reports/2026-04-02-shared-carrier-sketchbook-implementation.md",
+    "docs/reports/2026-04-02-shared-carrier-sketchbook-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-134",
+    "ECO-20260402-main-172",
+    "ECO-20260402-critic-145",
+    "ECO-20260402-scout-135",
+    "ECO-20260402-main-173",
+    "ECO-20260402-critic-146"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-138"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-134", "goal": "Prepare the atlas-facing richness handoff.", "why_now": "The richer world now wants a stronger remembered-world payoff." },
+    { "step": 2, "queue_id": "ECO-20260402-main-172", "goal": "Implement the atlas-facing pass.", "why_now": "A slightly deeper filed-memory seam can make the world feel more personal." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-145", "goal": "Review the atlas-facing pass.", "why_now": "The remembered world should deepen without growing a bigger archive shell." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-135", "goal": "Prepare the sketchbook-richness follow-on.", "why_now": "A small authorship follow-on can make the memory payoff feel warmer." },
+    { "step": 5, "queue_id": "ECO-20260402-main-173", "goal": "Implement the sketchbook-richness follow-on.", "why_now": "The sketchbook is the most personal current seam for this payoff." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-146", "goal": "Review the sketchbook-richness follow-on.", "why_now": "The authorship payoff should stay light and notebook-like." }
+  ],
+  "guardrails": [
+    "Do not add a larger archive page.",
+    "Do not add a freeform sketch editor.",
+    "Reuse the current atlas, note, close-look, and sketchbook seams only."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The remembered world feels deeper and more personal.",
+    "Atlas and sketchbook payoffs stay compact.",
+    "Lane 2 remains content-facing rather than system-heavy."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-04-02-atlas-and-sketchbook-richness-phase.md, and this packet. Treat this as lane 2's later long-push wave after the nursery-linked habitat memory work: deepen atlas-facing memory and sketchbook authorship payoff without opening a bigger archive shell."
+}

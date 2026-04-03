@@ -1,0 +1,63 @@
+{
+  "packet_id": "ECO-PACKET-049",
+  "version": 5,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Alpine microhabitat richness phase",
+  "summary": "Forty-ninth structured packet for Eco Explorer. This lane-2 wave deepens treeline and tundra through one compact alpine microhabitat pack and one small alpine memory payoff using existing content-first surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-02-alpine-microhabitat-richness-phase.md",
+    "docs/reports/2026-04-02-alpine-microhabitat-pack-handoff.md",
+    "docs/reports/2026-04-02-alpine-microhabitat-pack-review.md",
+    "docs/reports/2026-04-02-alpine-memory-payoff-handoff.md",
+    "docs/reports/2026-04-02-alpine-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-102",
+    "ECO-20260402-main-140",
+    "ECO-20260402-critic-113",
+    "ECO-20260402-scout-103",
+    "ECO-20260402-main-141",
+    "ECO-20260402-critic-114"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-102", "goal": "Prepare the alpine microhabitat content pack.", "why_now": "Treeline and tundra now want the same authored density the forest half has been getting." },
+    { "step": 2, "queue_id": "ECO-20260402-main-140", "goal": "Implement the alpine microhabitat pack.", "why_now": "A compact alpine pack can rebalance the biome chain without systems work." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-113", "goal": "Review the alpine content pack.", "why_now": "The pack must stay science-safe and compact." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-103", "goal": "Prepare one compact alpine memory payoff.", "why_now": "Once the content lands, one quiet payoff can make the alpine half more memorable." },
+    { "step": 5, "queue_id": "ECO-20260402-main-141", "goal": "Implement the alpine memory payoff.", "why_now": "The alpine half should feel remembered, not just fuller." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-114", "goal": "Review the alpine memory payoff.", "why_now": "The payoff should stay compact and content-owned." }
+  ],
+  "guardrails": [
+    "Keep the work content-owned.",
+    "Prefer a few strong alpine anchors over a broad species swell.",
+    "Reuse existing note, comparison, close-look, or sketchbook surfaces.",
+    "For the memory payoff, prefer the existing sketchbook seam over new comparison or close-look expansion.",
+    "Do not reopen route or traversal runtime."
+  ],
+  "file_targets": [
+    "src/content",
+    "docs/science-source-ledger.md",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Treeline and tundra feel denser and more distinct.",
+    "The alpine half gains one compact memory payoff.",
+    "Lane 2 stays content-owned."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-04-02-alpine-microhabitat-richness-phase.md, and this packet. Treat this as lane 2's next wave: deepen treeline and tundra through one compact alpine microhabitat pack and one small memory payoff without reopening route or traversal systems."
+}

@@ -17,6 +17,10 @@ const STORAGE_KEY = 'eco-explorer-save-v1';
 const CURRENT_WORLD_STATE_VERSION = 2;
 const ROOT_HOLLOW_EXPEDITION_REQUEST_ID = 'forest-expedition-upper-run';
 const ROOT_HOLLOW_STONE_POCKET_COMPAT_ENTRY_ID = 'banana-slug';
+const LOW_FELL_ROUTE_REQUEST_ID = 'treeline-low-fell';
+const LOW_FELL_FINAL_SLOT_ID = 'low-rest';
+const LOW_FELL_LEGACY_READY_SLOT_IDS = ['last-tree-shape', 'low-wood', 'fell-bloom'] as const;
+const PLACE_TAB_UNLOCK_REQUEST_ID = 'treeline-stone-shelter';
 type PersistedJournalEntryState = Partial<JournalEntryState> & { biomeId?: string };
 type PersistedSaveState = Partial<Omit<SaveState, 'settings' | 'discoveredEntries'>> & {
   discoveredEntries?: Record<string, PersistedJournalEntryState>;
@@ -186,6 +190,20 @@ function normalizeRouteV2Progress(
       : [],
   };
 
+  if (normalizedProgress.requestId === LOW_FELL_ROUTE_REQUEST_ID) {
+    const filledSlotIds = new Set(normalizedProgress.evidenceSlots.map((slot) => slot.slotId));
+    const shouldDowngradeLegacyReadyState =
+      !filledSlotIds.has(LOW_FELL_FINAL_SLOT_ID)
+      && LOW_FELL_LEGACY_READY_SLOT_IDS.every((slotId) => filledSlotIds.has(slotId));
+
+    if (shouldDowngradeLegacyReadyState) {
+      return {
+        ...normalizedProgress,
+        status: 'gathering',
+      };
+    }
+  }
+
   if (normalizedProgress.requestId !== ROOT_HOLLOW_EXPEDITION_REQUEST_ID) {
     return normalizedProgress;
   }
@@ -221,9 +239,14 @@ function normalizeRouteV2Progress(
 function normalizeSelectedOutingSupportId(
   value: PersistedSaveState['selectedOutingSupportId'],
   purchasedUpgradeIds: string[],
+  completedFieldRequestIds: string[],
 ): OutingSupportId {
   if (value === 'note-tabs') {
     return 'note-tabs';
+  }
+
+  if (value === 'place-tab' && completedFieldRequestIds.includes(PLACE_TAB_UNLOCK_REQUEST_ID)) {
+    return 'place-tab';
   }
 
   if (value === 'route-marker' && purchasedUpgradeIds.includes('route-marker')) {
@@ -293,6 +316,9 @@ export function normalizeSaveState(
   const purchasedUpgradeIds = Array.isArray(parsed.purchasedUpgradeIds)
     ? parsed.purchasedUpgradeIds.filter((value): value is string => typeof value === 'string')
     : [];
+  const completedFieldRequestIds = Array.isArray(parsed.completedFieldRequestIds)
+    ? parsed.completedFieldRequestIds.filter((value): value is string => typeof value === 'string')
+    : [];
 
   return {
     worldSeed: parsed.worldSeed ?? createRandomSeed(),
@@ -301,13 +327,12 @@ export function normalizeSaveState(
     biomeVisits: parsed.biomeVisits ?? {},
     discoveredEntries: migrateDiscoveredEntries(parsed.discoveredEntries),
     sketchbookPages: normalizeSketchbookPages(parsed.sketchbookPages),
-    completedFieldRequestIds: Array.isArray(parsed.completedFieldRequestIds)
-      ? parsed.completedFieldRequestIds.filter((value): value is string => typeof value === 'string')
-      : [],
+    completedFieldRequestIds,
     routeV2Progress: normalizeRouteV2Progress(parsed.routeV2Progress),
     selectedOutingSupportId: normalizeSelectedOutingSupportId(
       parsed.selectedOutingSupportId,
       purchasedUpgradeIds,
+      completedFieldRequestIds,
     ),
     fieldCredits:
       typeof parsed.fieldCredits === 'number' && Number.isFinite(parsed.fieldCredits)
@@ -433,20 +458,34 @@ export function recordCompletedFieldRequest(save: SaveState, requestId: string):
   return true;
 }
 
+function hasPlaceTabSupport(save: Pick<SaveState, 'completedFieldRequestIds'>): boolean {
+  return save.completedFieldRequestIds.includes(PLACE_TAB_UNLOCK_REQUEST_ID);
+}
+
 export function resolveSelectedOutingSupportId(save: SaveState): OutingSupportId {
-  return save.selectedOutingSupportId === 'route-marker' && !save.purchasedUpgradeIds.includes('route-marker')
-    ? 'hand-lens'
-    : save.selectedOutingSupportId;
+  if (save.selectedOutingSupportId === 'place-tab' && !hasPlaceTabSupport(save)) {
+    return 'hand-lens';
+  }
+
+  if (save.selectedOutingSupportId === 'route-marker' && !save.purchasedUpgradeIds.includes('route-marker')) {
+    return 'hand-lens';
+  }
+
+  return save.selectedOutingSupportId;
 }
 
 export function cycleSelectedOutingSupportId(save: SaveState): OutingSupportId {
   const current = resolveSelectedOutingSupportId(save);
+  const placeTabUnlocked = hasPlaceTabSupport(save);
+  const routeMarkerUnlocked = save.purchasedUpgradeIds.includes('route-marker');
   let next: OutingSupportId;
 
   if (current === 'hand-lens') {
     next = 'note-tabs';
   } else if (current === 'note-tabs') {
-    next = save.purchasedUpgradeIds.includes('route-marker') ? 'route-marker' : 'hand-lens';
+    next = placeTabUnlocked ? 'place-tab' : routeMarkerUnlocked ? 'route-marker' : 'hand-lens';
+  } else if (current === 'place-tab') {
+    next = routeMarkerUnlocked ? 'route-marker' : 'hand-lens';
   } else {
     next = 'hand-lens';
   }

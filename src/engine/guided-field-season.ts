@@ -1,3 +1,4 @@
+import { resolveNextSeasonApproachLine } from './field-season-board';
 import { hasFieldUpgrade } from './field-station';
 import { buildJournalBiomeProgress } from './journal';
 import { getBiomeSurveyProgress, type BiomeSurveyState } from './progression';
@@ -53,11 +54,14 @@ export function resolveGuidedFieldSeasonState(
   const coastalScrubVisited = (save.biomeVisits['coastal-scrub'] ?? 0) > 0;
 
   if (seasonThreadsLogged) {
+    const nextSeasonApproachLine = resolveNextSeasonApproachLine(save);
     return {
       stage: 'next-season-open',
       stationNote: {
         title: 'NEXT FIELD SEASON',
-        text: 'High Pass opens next from Treeline Pass when you are ready.',
+        text: nextSeasonApproachLine
+          ? `${nextSeasonApproachLine.replace(/\.$/, '')} when you are ready.`
+          : 'High Pass opens next from Treeline Pass when you are ready.',
       },
       promptNotice: null,
       nextBiomeId: 'treeline',

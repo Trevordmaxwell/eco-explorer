@@ -62,7 +62,7 @@ import {
   fileReadyRouteV2FieldRequest,
   getFieldRequestDefinition,
   getHandLensNotebookFit,
-  resolveRouteV2FiledNoteText,
+  resolveRouteV2FiledDisplayText,
   resolveActiveFieldRequest,
   type ActiveFieldRequest,
 } from './field-requests';
@@ -623,6 +623,34 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return `FROM ${getWorldMapLocation(ecoWorldMap, currentLocationId).label.toUpperCase()}`;
   }
 
+  function getRegionalTravelWarmth(
+    locationId: string,
+  ): { mapReturnLabel: string; summaryLabel: string } | null {
+    if (resolveNextFieldSeasonTargetBiomeId(save) !== 'treeline') {
+      return null;
+    }
+
+    if (locationId !== 'forest') {
+      return null;
+    }
+
+    return {
+      mapReturnLabel: 'HIGH PASS MAP',
+      summaryLabel: 'Last woods before High Pass.',
+    };
+  }
+
+  function getWorldMapSummaryLabel(locationId: string): string {
+    return getRegionalTravelWarmth(locationId)?.summaryLabel
+      ?? getWorldMapLocation(ecoWorldMap, locationId).summary;
+  }
+
+  function getMapReturnLabel(locationId: string): string | null {
+    return getRegionalTravelWarmth(locationId)?.mapReturnLabel
+      ?? getWorldMapLocation(ecoWorldMap, locationId).mapReturnLabel
+      ?? null;
+  }
+
   function getWorldMapApproachLabel(locationId: string): string | null {
     return getWorldMapLocation(ecoWorldMap, locationId).approachLabel ?? null;
   }
@@ -634,7 +662,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       persistSave(save);
     }
     selectedFieldStationView = 'season';
-    selectedFieldStationSeasonPage = resolveNextFieldSeasonTargetBiomeId(save) ? 'expedition' : 'routes';
+    selectedFieldStationSeasonPage = 'routes';
     outingSupportSelected = false;
     selectedNurseryCardId = 'bench';
     selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
@@ -909,7 +937,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         kind: 'map-return',
         anchor: location.mapReturnPost,
         targetBiomeId: null,
-        label: getTravelInteractableLabel('map-return', null, location.mapReturnLabel ?? null),
+        label: getTravelInteractableLabel('map-return', null, getMapReturnLabel(location.id)),
       });
     }
 
@@ -1244,12 +1272,18 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     const text = textOverride ?? ('routeV2Note' in definition ? definition.routeV2Note.filedText : definition.title);
-    showFieldNotice('TASK RECORDED', text, FIELD_NOTICE_RECORDED_SECONDS);
+    const title = 'routeV2Note' in definition ? definition.title.toUpperCase() : 'TASK RECORDED';
+    showFieldNotice(title, text, FIELD_NOTICE_RECORDED_SECONDS);
   }
 
   function maybeShowStarterFieldSeasonNotice(): void {
     const guidedFieldSeason = getGuidedFieldSeasonState();
-    if (guidedStarterNoticeShown || guidedFieldSeason.stage !== 'starter' || !guidedFieldSeason.promptNotice) {
+    if (
+      guidedStarterNoticeShown ||
+      guidedFieldSeason.stage !== 'starter' ||
+      !guidedFieldSeason.promptNotice ||
+      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+    ) {
       return;
     }
 
@@ -1259,7 +1293,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function maybeShowStationReturnNotice(): void {
     const guidedFieldSeason = getGuidedFieldSeasonState();
-    if (guidedStationNoticeShown || guidedFieldSeason.stage !== 'station-return' || !guidedFieldSeason.promptNotice) {
+    if (
+      guidedStationNoticeShown ||
+      guidedFieldSeason.stage !== 'station-return' ||
+      !guidedFieldSeason.promptNotice ||
+      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+    ) {
       return;
     }
 
@@ -1274,7 +1313,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedSeasonCapstoneNoticeShown ||
       guidedFieldSeason.stage !== 'season-capstone' ||
       !guidedFieldSeason.promptNotice ||
-      fieldRequestNotice
+      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1289,7 +1328,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function maybeShowNextHabitatNotice(): void {
     const guidedFieldSeason = getGuidedFieldSeasonState();
-    if (guidedNextStopNoticeShown || guidedFieldSeason.stage !== 'next-habitat' || !guidedFieldSeason.promptNotice) {
+    if (
+      guidedNextStopNoticeShown ||
+      guidedFieldSeason.stage !== 'next-habitat' ||
+      !guidedFieldSeason.promptNotice ||
+      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+    ) {
       return;
     }
 
@@ -1308,6 +1352,22 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, FIELD_NOTICE_IMPORTANT_SECONDS);
+  }
+
+  function canShowGuidedFieldSeasonNotice(nextTitle: string): boolean {
+    if (!fieldRequestNotice) {
+      return true;
+    }
+
+    return isGuidedFieldSeasonNoticeTitle(fieldRequestNotice.title)
+      && isGuidedFieldSeasonNoticeTitle(nextTitle);
+  }
+
+  function isGuidedFieldSeasonNoticeTitle(title: string): boolean {
+    return title === 'NOTEBOOK TASK'
+      || title === 'FIELD STATION'
+      || title === 'NEXT STOP'
+      || title === 'SEASON THREADS';
   }
 
   function maybeCompleteActiveFieldRequest(
@@ -1977,6 +2037,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     startFieldPartnerQuiet();
     if (startedFromTitle) {
       maybeShowStarterFieldSeasonNotice();
+      maybeShowRouteReplayNoticeOnBiomeEnter(getContextBiomeId());
     }
   }
 
@@ -2515,6 +2576,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         'Route Marker will guide this outing on the world map.',
         2.6,
       );
+    } else if (nextSupportId === 'place-tab') {
+      showFieldNotice(
+        'OUTING SUPPORT',
+        'Place Tab will keep one place-reading question on the season strip.',
+        2.6,
+      );
     } else if (nextSupportId === 'note-tabs') {
       showFieldNotice(
         'OUTING SUPPORT',
@@ -2582,7 +2649,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       if (selectedFieldStationView === 'season') {
         if (selectedFieldStationSeasonPage === 'routes') {
           const filedRouteNoteText = save.routeV2Progress
-            ? resolveRouteV2FiledNoteText(biomeRegistry, save, save.routeV2Progress.requestId)
+            ? resolveRouteV2FiledDisplayText(biomeRegistry, save, save.routeV2Progress.requestId)
             : null;
           const filedRequestId = fileReadyRouteV2FieldRequest(save);
           if (filedRequestId) {
@@ -2599,7 +2666,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             save.routeV2Progress?.status === 'ready-to-synthesize'
             && save.routeV2Progress.requestId.startsWith('forest-expedition-');
           if (expeditionReadyToFile) {
-            const filedRouteNoteText = resolveRouteV2FiledNoteText(
+            const filedRouteNoteText = resolveRouteV2FiledDisplayText(
               biomeRegistry,
               save,
               save.routeV2Progress!.requestId,
@@ -3118,6 +3185,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         getRouteMarkerLocationId(),
         getWorldMapReplayLabel(worldMapState.focusedLocationId),
         getWorldMapOriginLabel(worldMapState.currentLocationId, worldMapState.focusedLocationId),
+        getWorldMapSummaryLabel(worldMapState.focusedLocationId),
       );
       drawWorldMapHud({
         context,
@@ -3156,6 +3224,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           getRouteMarkerLocationId(),
           getWorldMapReplayLabel(renderState.focusedLocationId),
           getWorldMapOriginLabel(renderState.currentLocationId, renderState.focusedLocationId),
+          getWorldMapSummaryLabel(renderState.focusedLocationId),
         );
         drawWorldMapHud({
           context,
@@ -3593,6 +3662,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
                   : null,
               routeMarkerLocationId: getRouteMarkerLocationId(),
               routeReplayLabel: getWorldMapReplayLabel(worldMapState.focusedLocationId),
+              focusedSummaryLabel: getWorldMapSummaryLabel(worldMapState.focusedLocationId),
               focusedSurveyState:
                 getBiomeSurveyProgress(
                   getJournalBiomeProgressList(),

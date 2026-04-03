@@ -33,6 +33,23 @@ describe('nursery gathering', () => {
     }
   });
 
+  it('keeps habitat-memory copy limited to the authored nursery roster', () => {
+    const definitions = getNurseryProjectDefinitions();
+
+    expect(
+      definitions
+        .filter((definition) => definition.memorySummary)
+        .map((definition) => definition.id),
+    ).toEqual([
+      'sand-verbena-bed',
+      'dune-lupine-bed',
+      'mountain-avens-bed',
+      'beach-strawberry-bed',
+      'salmonberry-bed',
+      'crowberry-bed',
+    ]);
+  });
+
   it('only awards safe gathering after the right route gate and only once per entity', () => {
     const save = createNewSaveState('nursery-gathering-seed');
     const claimed = new Set<string>();
@@ -185,6 +202,30 @@ describe('nursery growth and rewards', () => {
     );
     expect(capstoneView.routeSupportHint).toBe(
       'Salmonberry still marks the cooler forest return tying the season together.',
+    );
+  });
+
+  it('surfaces mature-bed habitat memory without changing the existing route clue seam', () => {
+    const save = createNewSaveState('nursery-habitat-memory-seed');
+    recordDiscovery(save, coastalScrubBiome.entries.salmonberry, 'coastal-scrub');
+    save.completedFieldRequestIds = ['forest-moisture-holders'];
+    save.nurseryClaimedRewardIds = ['nursery:salmonberry-support'];
+    save.nurseryProjects.teachingBed = {
+      projectId: 'salmonberry-bed',
+      stage: 'mature',
+    };
+
+    const view = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
+      null,
+    );
+
+    expect(view.activeProject?.definition.memorySummary).toBe(
+      'Cool wet edge tucked under taller cover.',
+    );
+    expect(view.routeSupportHint).toBe(
+      'Dense berry thickets often mark the cooler, wetter side of a transition.',
     );
   });
 });

@@ -7,6 +7,7 @@ import {
   advanceFieldRequestDefinition,
   fileReadyRouteV2FieldRequest,
   getHandLensNotebookFit,
+  resolveRouteV2FiledDisplayText,
   resolveRouteV2FiledNoteText,
   resolveActiveFieldRequest,
   shouldCompleteActiveFieldRequest,
@@ -329,21 +330,26 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'treeline-stone-shelter',
       progressLabel: '0/3 clues',
+      summary: 'In Treeline Pass, log bent-cover, then stone-break, then lee-life through the last shelter.',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
       },
     });
 
-    expect(getHandLensNotebookFit(context, 'frost-heave-boulder')).toBe('Notebook fit: stone break');
+    expect(getHandLensNotebookFit(context, 'frost-heave-boulder')).toBeNull();
     expect(advanceActiveFieldRequest(context, 'inspect', 'frost-heave-boulder')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'krummholz-spruce')).toBe('Notebook fit: bent cover');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'krummholz-spruce')).toBeNull();
     expect(resolveActiveFieldRequest(context)?.routeV2?.evidenceSlots).toEqual([
-      { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+      { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
     ]);
 
     context.currentZoneId = 'dwarf-shrub';
-    expect(getHandLensNotebookFit(context, 'krummholz-spruce')).toBe('Notebook fit: bent cover');
-    expect(advanceActiveFieldRequest(context, 'inspect', 'krummholz-spruce')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'hoary-marmot')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'hoary-marmot')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'frost-heave-boulder')).toBe('Notebook fit: stone break');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'frost-heave-boulder')).toBeNull();
 
     expect(getHandLensNotebookFit(context, 'hoary-marmot')).toBe('Notebook fit: lee life');
     expect(advanceActiveFieldRequest(context, 'inspect', 'hoary-marmot')).toMatchObject({
@@ -357,8 +363,8 @@ describe('field requests', () => {
       routeV2: {
         status: 'ready-to-synthesize',
         evidenceSlots: [
-          { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
           { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+          { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
           { slotId: 'lee-life', entryId: 'hoary-marmot' },
         ],
       },
@@ -390,6 +396,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'tundra-short-season',
       progressLabel: '0/3 clues',
+      summary: 'In Tundra Reach, log first-bloom, then wet-tuft, then brief-fruit through the thaw window.',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -398,11 +405,13 @@ describe('field requests', () => {
 
     expect(getHandLensNotebookFit(context, 'purple-saxifrage')).toBe('Notebook fit: first bloom');
     expect(advanceActiveFieldRequest(context, 'inspect', 'purple-saxifrage')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'cloudberry')).toBeNull();
 
     context.currentZoneId = 'thaw-skirt';
     expect(getHandLensNotebookFit(context, 'cottongrass')).toBe('Notebook fit: wet tuft');
     expect(advanceActiveFieldRequest(context, 'inspect', 'cottongrass')).toBeNull();
 
+    context.currentZoneId = 'snow-meadow';
     expect(getHandLensNotebookFit(context, 'cloudberry')).toBe('Notebook fit: brief fruit');
     expect(advanceActiveFieldRequest(context, 'inspect', 'cloudberry')).toMatchObject({
       requestId: 'tundra-short-season',
@@ -426,6 +435,37 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'tundra-survey-slice',
     });
+  });
+
+  it('keeps older in-progress short-season saves coherent through first-missing-slot guidance', () => {
+    const tundraContext = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'snow-meadow',
+    );
+    tundraContext.save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'brief-fruit', entryId: 'cloudberry' }],
+    };
+
+    expect(resolveActiveFieldRequest(tundraContext)).toMatchObject({
+      id: 'tundra-short-season',
+      progressLabel: '1/3 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'brief-fruit', entryId: 'cloudberry' }],
+      },
+    });
+    expect(getHandLensNotebookFit(tundraContext, 'cottongrass')).toBeNull();
+    expect(getHandLensNotebookFit(tundraContext, 'purple-saxifrage')).toBe('Notebook fit: first bloom');
   });
 
   it('unlocks the tundra survey request after the short-season task', () => {
@@ -616,7 +656,17 @@ describe('field requests', () => {
     };
     expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
       id: 'treeline-low-fell',
-      progressLabel: '0/3 clues',
+      progressLabel: '0/4 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [],
+      },
+    });
+
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'mountain-avens')).toBeNull();
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-low-fell',
+      progressLabel: '0/4 clues',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -625,10 +675,26 @@ describe('field requests', () => {
 
     treelineContext.currentZoneId = 'krummholz-belt';
     expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'krummholz-spruce')).toBeNull();
+    treelineContext.currentZoneId = 'lichen-fell';
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'mountain-avens')).toBeNull();
     treelineContext.currentZoneId = 'dwarf-shrub';
     expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'dwarf-birch')).toBeNull();
     treelineContext.currentZoneId = 'lichen-fell';
-    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'mountain-avens')).toMatchObject({
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'mountain-avens')).toBeNull();
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-low-fell',
+      progressLabel: '3/4 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+          { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+        ],
+      },
+    });
+    expect(getHandLensNotebookFit(treelineContext, 'arctic-willow')).toBe('Notebook fit: low rest');
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'arctic-willow')).toMatchObject({
       requestId: 'treeline-low-fell',
       status: 'ready-to-synthesize',
       noticeTitle: 'NOTEBOOK READY',
@@ -639,10 +705,13 @@ describe('field requests', () => {
       progressLabel: 'Ready To File',
       routeV2: {
         status: 'ready-to-synthesize',
+        filedText:
+          'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
         evidenceSlots: [
           { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
           { slotId: 'low-wood', entryId: 'dwarf-birch' },
           { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+          { slotId: 'low-rest', entryId: 'arctic-willow' },
         ],
       },
     });
@@ -671,6 +740,29 @@ describe('field requests', () => {
       id: 'forest-cool-edge',
       title: 'Moist Edge',
       summary: 'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
+      progressLabel: '0/3 clues',
+    });
+  });
+
+  it('turns tundra-short-season into a process-backed outing during the thaw-fringe window', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'snow-meadow',
+    );
+    context.save.worldStep = 4;
+    context.save.biomeVisits.tundra = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'tundra-short-season',
+      title: 'Thaw Window',
+      summary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
       progressLabel: '0/3 clues',
     });
   });
@@ -730,6 +822,66 @@ describe('field requests', () => {
     );
   });
 
+  it('orders clue-backed treeline shelter filed note text by the route slot order', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+      ],
+      'dwarf-shrub',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-stone-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'lee-life', entryId: 'hoary-marmot' },
+        { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+        { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'treeline-stone-shelter')).toBe(
+      'Krummholz Spruce, Frost-Heave Boulder, and Hoary Marmot mark the last sheltered treeline pocket.',
+    );
+  });
+
+  it('orders clue-backed low-fell filed note text by the route slot order', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+      ],
+      'lichen-fell',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-low-fell',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'low-rest', entryId: 'arctic-willow' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'treeline-low-fell')).toBe(
+      'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
+    );
+  });
+
   it('keeps clue-backed filed note text stable when forest-cool-edge was reframed as Moist Edge', () => {
     const context = createForestContext(
       [
@@ -770,6 +922,74 @@ describe('field requests', () => {
     );
   });
 
+  it('keeps clue-backed filed note text stable when tundra-short-season is reframed as Thaw Window', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'snow-meadow',
+    );
+    context.save.worldStep = 4;
+    context.save.biomeVisits.tundra = 2;
+    context.save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'cottongrass' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      title: 'Short Season',
+      summary: 'Return to the field station and file the Short Season note.',
+      routeV2: {
+        filedText: 'Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+      },
+    });
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
+      'Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+  });
+
+  it('adds the thaw-window page stamp only on the filed display seam', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'snow-meadow',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'cottongrass' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
+      'Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+    expect(resolveRouteV2FiledDisplayText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
+      'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+  });
+
   it('keeps older in-progress scrub transect saves coherent through first-missing-stage guidance', () => {
     const scrubContext = createCoastalContext(
       [
@@ -806,6 +1026,38 @@ describe('field requests', () => {
       id: 'scrub-edge-pattern',
       progressLabel: 'Return To Back Dune',
     });
+  });
+
+  it('keeps older in-progress treeline shelter saves coherent through first-missing-slot guidance', () => {
+    const treelineContext = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+      ],
+      'dwarf-shrub',
+    );
+    treelineContext.save.routeV2Progress = {
+      requestId: 'treeline-stone-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'stone-break', entryId: 'frost-heave-boulder' }],
+    };
+
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-stone-shelter',
+      progressLabel: '1/3 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'stone-break', entryId: 'frost-heave-boulder' }],
+      },
+    });
+    expect(getHandLensNotebookFit(treelineContext, 'hoary-marmot')).toBeNull();
+
+    treelineContext.currentZoneId = 'krummholz-belt';
+    expect(getHandLensNotebookFit(treelineContext, 'krummholz-spruce')).toBe('Notebook fit: bent cover');
   });
 
   it('unlocks the expedition after the three season routes are logged', () => {

@@ -107,6 +107,7 @@ export function drawWorldMapScene(
   routeMarkerLocationId: string | null = null,
   routeReplayLabel: string | null = null,
   originLabel: string | null = null,
+  focusedSummaryLabel: string | null = null,
 ): void {
   const gradient = context.createLinearGradient(0, 0, 0, definition.height);
   gradient.addColorStop(0, worldMapPalette.skyTop);
@@ -224,5 +225,5 @@ export function drawWorldMapScene(
   }
   context.font = 'bold 7px Verdana, Geneva, sans-serif';
   context.fillStyle = routeReplayLabel ? worldMapPalette.accent : worldMapPalette.text;
-  context.fillText(routeReplayLabel ?? focused.summary, 14, definition.height - 14);
+  context.fillText(routeReplayLabel ?? focusedSummaryLabel ?? focused.summary, 14, definition.height - 14);
 }

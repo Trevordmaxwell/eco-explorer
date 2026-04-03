@@ -13,6 +13,8 @@ dist-ssr
 *.local
 output
 test-results
+.claude/
+EXPEDITION
 
 # Editor directories and files
 .vscode/*

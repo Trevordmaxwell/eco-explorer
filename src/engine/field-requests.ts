@@ -26,6 +26,7 @@ interface RouteV2NoteDefinition {
   readyText: string;
   filedText: string;
   clueBackedTail?: string;
+  displayPrefix?: string;
 }
 
 interface RouteV2ProcessFocus {
@@ -241,20 +242,20 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     id: 'treeline-stone-shelter',
     biomeId: 'treeline',
     title: 'Stone Shelter',
-    summary: 'In Treeline Pass, file stone-break, bent-cover, and lee-life clues where shelter still holds.',
+    summary: 'In Treeline Pass, log bent-cover, then stone-break, then lee-life through the last shelter.',
     unlockAfter: ['coastal-edge-moisture'],
     type: 'assemble-evidence',
     zoneIds: ['krummholz-belt', 'dwarf-shrub'],
     evidenceSlots: [
       {
-        id: 'stone-break',
-        label: 'Stone-break clue',
-        entryIds: ['frost-heave-boulder'],
-      },
-      {
         id: 'bent-cover',
         label: 'Bent-cover clue',
         entryIds: ['krummholz-spruce'],
+      },
+      {
+        id: 'stone-break',
+        label: 'Stone-break clue',
+        entryIds: ['frost-heave-boulder'],
       },
       {
         id: 'lee-life',
@@ -262,10 +263,11 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
         entryIds: ['hoary-marmot'],
       },
     ],
+    slotOrder: ['bent-cover', 'stone-break', 'lee-life'],
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Stone Shelter note.',
-      filedText: 'Stone break, bent cover, and lee life mark the last sheltered treeline pocket.',
+      filedText: 'Bent cover, stone break, and lee life mark the last sheltered treeline pocket.',
       clueBackedTail: 'mark the last sheltered treeline pocket.',
     },
     completionTriggers: ['inspect'],
@@ -274,7 +276,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     id: 'tundra-short-season',
     biomeId: 'tundra',
     title: 'Short Season',
-    summary: 'In Tundra Reach, file first-bloom, wet-tuft, and brief-fruit clues across the thaw edge.',
+    summary: 'In Tundra Reach, log first-bloom, then wet-tuft, then brief-fruit through the thaw window.',
     unlockAfter: ['treeline-stone-shelter'],
     type: 'assemble-evidence',
     zoneIds: ['snow-meadow', 'thaw-skirt'],
@@ -295,11 +297,18 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
         entryIds: ['cloudberry'],
       },
     ],
+    slotOrder: ['first-bloom', 'wet-tuft', 'brief-fruit'],
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Short Season note.',
-      filedText: 'Bloom, wet tuft, and brief fruit mark the tundra\'s short thaw window.',
-      clueBackedTail: 'mark the tundra\'s short thaw window.',
+      filedText: 'First bloom, wet tuft, and brief fruit trace the tundra\'s short thaw window.',
+      clueBackedTail: 'trace the tundra\'s short thaw window.',
+      displayPrefix: 'Thaw Window.',
+    },
+    processFocus: {
+      momentId: 'thaw-fringe',
+      activeTitle: 'Thaw Window',
+      activeSummary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
     },
     completionTriggers: ['inspect'],
   },
@@ -392,7 +401,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     id: 'treeline-low-fell',
     biomeId: 'treeline',
     title: 'Low Fell',
-    summary: 'In Treeline Pass, file last-tree-shape, low-wood, and fell-bloom clues from krummholz into fell.',
+    summary: 'In Treeline Pass, log last-tree-shape, low-wood, fell-bloom, and low-rest into open fell.',
     unlockAfter: ['forest-cool-edge'],
     type: 'assemble-evidence',
     zoneIds: ['krummholz-belt', 'dwarf-shrub', 'lichen-fell'],
@@ -412,12 +421,18 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
         label: 'Fell-bloom clue',
         entryIds: ['mountain-avens'],
       },
+      {
+        id: 'low-rest',
+        label: 'Low-rest clue',
+        entryIds: ['arctic-willow'],
+      },
     ],
+    slotOrder: ['last-tree-shape', 'low-wood', 'fell-bloom', 'low-rest'],
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the Low Fell note.',
-      filedText: 'Last tree shape, low wood, and fell bloom now read as one exposed edge line.',
-      clueBackedTail: 'now read as one exposed edge line.',
+      filedText: 'Last tree shape, low wood, fell bloom, and low rest now trace the full drop from treeline shelter into open fell.',
+      clueBackedTail: 'now trace the full drop from treeline shelter into open fell.',
     },
     completionTriggers: ['inspect'],
   },
@@ -692,6 +707,21 @@ export function resolveRouteV2FiledNoteText(
   }
 
   return `${formatRouteV2EntryList(resolvedEntryNames as string[])} ${definition.routeV2Note.clueBackedTail}`;
+}
+
+export function resolveRouteV2FiledDisplayText(
+  biomes: Record<string, BiomeDefinition>,
+  save: SaveState,
+  requestId: string,
+): string | null {
+  const definition = getFieldRequestDefinition(requestId);
+  if (!definition || !isRouteV2Definition(definition)) {
+    return null;
+  }
+
+  const baseText = resolveRouteV2FiledNoteText(biomes, save, requestId) ?? definition.routeV2Note.filedText;
+  const prefix = definition.routeV2Note.displayPrefix?.trim();
+  return prefix ? `${prefix} ${baseText}` : baseText;
 }
 
 function getActiveRouteV2ProcessFocus(

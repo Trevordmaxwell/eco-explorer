@@ -1,0 +1,59 @@
+{
+  "packet_id": "ECO-PACKET-056",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "High-country approach and board calm phase",
+  "summary": "Fifty-sixth structured packet for Eco Explorer. This lane-1 wave strengthens the sense of approaching the inland high country, then keeps the active board calm and confident through the existing season shell.",
+  "source_reports": [
+    "docs/reports/2026-04-02-high-country-approach-and-board-calm-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-116",
+    "ECO-20260402-main-154",
+    "ECO-20260402-critic-127",
+    "ECO-20260402-scout-117",
+    "ECO-20260402-main-155",
+    "ECO-20260402-critic-128"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-120"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-116", "goal": "Prepare the high-country approach handoff.", "why_now": "The inland chapter wants a stronger sense of approach after the season-two shell settles." },
+    { "step": 2, "queue_id": "ECO-20260402-main-154", "goal": "Implement the high-country approach pass.", "why_now": "Existing travel and station seams can do more to stage the inland region without shell growth." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-127", "goal": "Review the approach pass.", "why_now": "The inland approach should feel warmer and more intentional, not louder." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-117", "goal": "Prepare one compact board-calm follow-on.", "why_now": "Once the inland approach reads better, the next gain is a calmer active-board rhythm." },
+    { "step": 5, "queue_id": "ECO-20260402-main-155", "goal": "Implement the board-calm pass.", "why_now": "A quieter board can keep the player oriented without planner drift." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-128", "goal": "Review the board-calm pass.", "why_now": "The board must stay helpful without getting denser." }
+  ],
+  "guardrails": [
+    "Do not add a new planner page.",
+    "Do not add another persistent HUD strip.",
+    "Reuse the current season, routes, expedition, and world-map seams.",
+    "Prefer wording and tiny state shifts over larger shell growth."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The inland chapter feels more deliberately approached.",
+    "The active board feels calmer and more confident.",
+    "Lane 1 stays compact and shell-light."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-04-02-high-country-approach-and-board-calm-phase.md, and this packet. Treat this as lane 1's next long-push wave after the current season-two shell work: strengthen the high-country approach through existing seams, then add one compact board-calm follow-on without opening a new planner surface."
+}

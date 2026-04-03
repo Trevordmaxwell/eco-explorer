@@ -9,6 +9,7 @@ export const beachGrassEntry = {
   shortFact: 'American dunegrass roots help hold coastal dunes in place when wind blows.',
   journalText:
     'American dunegrass is a native foredune plant on Pacific coasts. Its roots trap sand and help build and hold the dunes that shelter other beach life.',
+  sketchbookNote: 'Tough grass holding the first bright dune ridge.',
   spriteId: 'beach-grass',
   collectible: false,
 } satisfies InspectableEntry;
@@ -38,6 +39,19 @@ export const sandVerbenaEntry = {
   collectible: false,
 } satisfies InspectableEntry;
 
+export const beachPeaEntry = {
+  id: 'beach-pea',
+  commonName: 'Silky Beach Pea',
+  scientificName: 'Lathyrus littoralis',
+  category: 'plant',
+  shortFact: 'Silky beach pea creeps low across dunes and helps open sand start holding more cover.',
+  journalText:
+    'Silky beach pea is a native Pacific dune plant with low stems, tendrils, and purple flowers. It grows with other foredune plants where sand still moves but shelter is starting to build.',
+  sketchbookNote: 'Low vine stitching bright dunes into steadier ground.',
+  spriteId: 'beach-pea',
+  collectible: false,
+} satisfies InspectableEntry;
+
 export const swordFernEntry = {
   id: 'sword-fern',
   commonName: 'Sword Fern',
@@ -50,6 +64,18 @@ export const swordFernEntry = {
   collectible: false,
 } satisfies InspectableEntry;
 
+export const bunchberryEntry = {
+  id: 'bunchberry',
+  commonName: 'Bunchberry',
+  scientificName: 'Cornus unalaschkensis',
+  category: 'plant',
+  shortFact: 'Bunchberry stays low on cool forest and mountain ground where calmer air hugs the soil.',
+  journalText:
+    'Bunchberry is a low dogwood of cool northern and mountain forests. It can grow beneath shady conifers and keep going where the canopy starts to thin, because it stays close to the ground.',
+  spriteId: 'bunchberry',
+  collectible: false,
+} satisfies InspectableEntry;
+
 export const salmonberryEntry = {
   id: 'salmonberry',
   commonName: 'Salmonberry',
@@ -58,6 +84,7 @@ export const salmonberryEntry = {
   shortFact: 'Salmonberry fruits feed birds and mammals along cool, wet coasts.',
   journalText:
     'Salmonberry is a shrub of moist coastal forests and edges. Its bright fruit feeds wildlife, and dense stems help build sheltered thickets.',
+  sketchbookNote: 'Bright berries thickening the cool edge into forest.',
   spriteId: 'salmonberry',
   collectible: true,
 } satisfies InspectableEntry;
@@ -84,6 +111,7 @@ export const arcticWillowEntry = {
   shortFact: 'Arctic willow grows low to the ground so strong wind blows over it.',
   journalText:
     'Arctic willow is one of the tiniest woody plants in the far north. Staying close to the soil helps it keep warmer air around its stems and leaves.',
+  sketchbookNote: 'Low willow resting where open fell softens to tundra.',
   spriteId: 'arctic-willow',
   collectible: false,
 } satisfies InspectableEntry;
@@ -96,6 +124,7 @@ export const crowberryEntry = {
   shortFact: 'Crowberry keeps tiny evergreen leaves so it can start growing quickly after winter.',
   journalText:
     'Crowberry is a low Arctic shrub with dark berries. Its small leaves help the plant hold on to water when cold wind sweeps across the tundra.',
+  sketchbookNote: 'Dark berry mat staying low across cold alpine ground.',
   spriteId: 'crowberry',
   collectible: true,
 } satisfies InspectableEntry;

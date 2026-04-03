@@ -1,0 +1,62 @@
+{
+  "packet_id": "ECO-PACKET-064",
+  "version": 4,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Regional bridge and next expedition phase",
+  "summary": "Sixty-fourth structured packet for Eco Explorer. This lane-1 wave bridges the broader regional journey and the next expedition through existing season and travel seams, then adds one small next-expedition follow-on.",
+  "source_reports": [
+    "docs/reports/2026-04-02-regional-bridge-and-next-expedition-phase.md",
+    "docs/reports/2026-04-02-regional-bridge-handoff.md",
+    "docs/reports/2026-04-02-next-expedition-follow-on-handoff.md",
+    "docs/reports/2026-04-02-next-expedition-follow-on-implementation.md",
+    "docs/reports/2026-04-02-next-expedition-follow-on-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-132",
+    "ECO-20260402-main-170",
+    "ECO-20260402-critic-143",
+    "ECO-20260402-scout-133",
+    "ECO-20260402-main-171",
+    "ECO-20260402-critic-144"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-136"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-132", "goal": "Prepare the regional bridge handoff.", "why_now": "The season shell is ready to connect the broader regional journey to the next chapter." },
+    { "step": 2, "queue_id": "ECO-20260402-main-170", "goal": "Implement the regional bridge pass.", "why_now": "Existing season and travel seams can carry more chapter linkage without shell growth." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-143", "goal": "Review the bridge pass.", "why_now": "The world should feel more linked, not more crowded." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-133", "goal": "Prepare one compact next-expedition follow-on.", "why_now": "A small follow-on can make the next expedition feel present without opening early." },
+    { "step": 5, "queue_id": "ECO-20260402-main-171", "goal": "Implement the next-expedition follow-on.", "why_now": "The station should stay future-facing without becoming noisy." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-144", "goal": "Review the next-expedition follow-on.", "why_now": "The future chapter should feel present but not prematurely active." }
+  ],
+  "guardrails": [
+    "Do not add another station page.",
+    "Do not open a second live expedition card early.",
+    "Reuse existing routes, expedition, journal, and map framing."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The broader regional journey feels more chapter-linked.",
+    "The next expedition feels present without noise.",
+    "Lane 1 stays calm and shell-light."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-04-02-regional-bridge-and-next-expedition-phase.md, and this packet. Treat this as lane 1's later long-push wave after the stop-point work: bridge the broader regional journey and the next expedition through existing seams without opening another planning surface."
+}

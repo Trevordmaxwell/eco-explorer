@@ -1,0 +1,62 @@
+{
+  "packet_id": "ECO-PACKET-051",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Exposure routes and support phase",
+  "summary": "Fifty-first structured packet for Eco Explorer. This lane-4 wave first converts `treeline-low-fell` on `edge-pattern-line` into a stronger ordered exposure chapter, then adds one tiny interpretation support follow-on through an earned `place-tab` support that pins authored place-reading prompts to the existing `TODAY` strip.",
+  "source_reports": [
+    "docs/reports/2026-04-02-exposure-routes-and-support-phase.md",
+    "docs/reports/2026-04-02-inland-exposure-route-v2-handoff.md",
+    "docs/reports/2026-04-02-place-tab-interpretation-support-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-106",
+    "ECO-20260402-main-144",
+    "ECO-20260402-critic-117",
+    "ECO-20260402-scout-107",
+    "ECO-20260402-main-145",
+    "ECO-20260402-critic-118"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-106", "goal": "Prepare the inland exposure Route v2 handoff.", "why_now": "The alpine half now wants the same purposeful outing feel as the forest and coast." },
+    { "step": 2, "queue_id": "ECO-20260402-main-144", "goal": "Implement the ordered `treeline-low-fell` exposure conversion on `edge-pattern-line`.", "why_now": "That capstone already owns the alpine exposure read, but it still behaves more like a loose checklist than an authored outing." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-117", "goal": "Review the inland Route v2 conversion.", "why_now": "The route needs to feel more game-like without becoming harsh or cluttered." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-107", "goal": "Prepare one interpretation-support follow-on.", "why_now": "A tiny interpretation support can make outings feel more chosen rather than merely guided." },
+    { "step": 5, "queue_id": "ECO-20260402-main-145", "goal": "Implement the earned `place-tab` interpretation support on the existing support row.", "why_now": "The next support gain should help reading the place, not just reaching it." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-118", "goal": "Review the support follow-on.", "why_now": "The support should stay tiny and optional." }
+  ],
+  "guardrails": [
+    "Keep the support tiny and optional.",
+    "Do not add a quest log or inventory shell.",
+    "Use existing world-state, support, and filing seams.",
+    "Keep the tone cozy and notebook-first.",
+    "Keep `treeline-low-fell` inside the current `assemble-evidence` Route v2 seam instead of inventing another route type.",
+    "Keep the interpretation support in the existing support row instead of adding a new shop or planner surface."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The `treeline-low-fell` alpine capstone now feels more like a deliberate mini-adventure.",
+    "One more tiny support helps interpretation rather than just travel.",
+    "Lane 4 stays compact and notebook-first."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-02-exposure-routes-and-support-phase.md, docs/reports/2026-04-02-inland-exposure-route-v2-handoff.md, docs/reports/2026-04-02-place-tab-interpretation-support-handoff.md, and this packet. Treat this as lane 4's current wave: `treeline-low-fell` is already converted, so the next step is to add one tiny earned `place-tab` support that keeps interpretation in the existing support row by pinning authored place-reading prompts to the `TODAY` strip on `edge-pattern-line`."
+}

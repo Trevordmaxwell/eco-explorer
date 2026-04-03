@@ -43,7 +43,7 @@ describe('journal progress', () => {
         totalCount: Object.keys(beachBiome.entries).length,
         categoryProgress: [
           { category: 'shell', discoveredCount: 1, totalCount: 3 },
-          { category: 'plant', discoveredCount: 1, totalCount: 3 },
+          { category: 'plant', discoveredCount: 1, totalCount: 4 },
           {
             category: 'animal',
             discoveredCount: 0,
@@ -136,7 +136,7 @@ describe('journal progress', () => {
         totalCount: Object.keys(beachBiome.entries).length,
         categoryProgress: [
           { category: 'shell', discoveredCount: 0, totalCount: 3 },
-          { category: 'plant', discoveredCount: 1, totalCount: 3 },
+          { category: 'plant', discoveredCount: 1, totalCount: 4 },
           {
             category: 'animal',
             discoveredCount: 0,
@@ -196,7 +196,11 @@ describe('journal progress', () => {
           },
           { category: 'lichen', discoveredCount: 0, totalCount: 1 },
           { category: 'animal', discoveredCount: 0, totalCount: 3 },
-          { category: 'landmark', discoveredCount: 0, totalCount: 2 },
+          {
+            category: 'landmark',
+            discoveredCount: 0,
+            totalCount: Object.values(treelineBiome.entries).filter((entry) => entry.category === 'landmark').length,
+          },
         ],
       },
       {
@@ -211,6 +215,11 @@ describe('journal progress', () => {
             totalCount: Object.values(tundraBiome.entries).filter((entry) => entry.category === 'plant').length,
           },
           { category: 'animal', discoveredCount: 0, totalCount: 3 },
+          {
+            category: 'landmark',
+            discoveredCount: 0,
+            totalCount: Object.values(tundraBiome.entries).filter((entry) => entry.category === 'landmark').length,
+          },
         ],
       },
     ]);
@@ -242,7 +251,11 @@ describe('journal progress', () => {
           },
           { category: 'lichen', discoveredCount: 1, totalCount: 1 },
           { category: 'animal', discoveredCount: 0, totalCount: 3 },
-          { category: 'landmark', discoveredCount: 0, totalCount: 2 },
+          {
+            category: 'landmark',
+            discoveredCount: 0,
+            totalCount: Object.values(treelineBiome.entries).filter((entry) => entry.category === 'landmark').length,
+          },
         ],
       },
     ]);

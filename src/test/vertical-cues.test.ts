@@ -16,7 +16,7 @@ describe('resolveVisibleVerticalCues', () => {
     ).map((cue) => cue.id);
 
     expect(caveCueIds).toEqual(['stone-basin-return-light']);
-    expect(canopyCueIds).toEqual(['old-growth-inner-rest-light']);
+    expect(canopyCueIds).toEqual(['old-wood-hinge-light', 'old-growth-inner-rest-light']);
   });
 
   it('hides cues when the zone does not match or the cue is off-screen', () => {

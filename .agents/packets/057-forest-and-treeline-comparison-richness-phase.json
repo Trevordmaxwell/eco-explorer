@@ -1,0 +1,66 @@
+{
+  "packet_id": "ECO-PACKET-057",
+  "version": 6,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Forest and treeline comparison richness phase",
+  "summary": "Fifty-seventh structured packet for Eco Explorer. This lane-2 wave deepens the forest-to-treeline middle through richer comparison-ready content, then adds one quiet payoff through existing memory or journal-facing seams.",
+  "source_reports": [
+    "docs/reports/2026-04-02-forest-and-treeline-comparison-richness-phase.md",
+    "docs/reports/2026-04-02-forest-treeline-comparison-richness-pack-handoff.md",
+    "docs/reports/2026-04-02-forest-treeline-comparison-richness-review.md",
+    "docs/reports/2026-04-02-comparison-memory-payoff-handoff.md",
+    "docs/reports/2026-04-02-comparison-memory-payoff-implementation.md",
+    "docs/reports/2026-04-02-comparison-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-118",
+    "ECO-20260402-main-156",
+    "ECO-20260402-critic-129",
+    "ECO-20260402-scout-119",
+    "ECO-20260402-main-157",
+    "ECO-20260402-critic-130"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-122"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-118", "goal": "Prepare the forest-and-treeline comparison-richness pack.", "why_now": "The middle of the biome chain is the best place to reinforce the ecotone identity through content." },
+    { "step": 2, "queue_id": "ECO-20260402-main-156", "goal": "Implement the comparison-richness pass.", "why_now": "A stronger middle-habitat contrast will make the whole world feel more intentional." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-129", "goal": "Review the comparison-richness pass.", "why_now": "The pass should deepen the middle without content sprawl." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-119", "goal": "Prepare one compact comparison-memory payoff.", "why_now": "Once the content lands, one quiet payoff can make the middle habitats more memorable." },
+    { "step": 5, "queue_id": "ECO-20260402-main-157", "goal": "Implement the comparison-memory payoff.", "why_now": "A small payoff can reinforce the ecotone idea without another shell." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-130", "goal": "Review the comparison-memory payoff.", "why_now": "The payoff should stay compact and content-owned." }
+  ],
+  "guardrails": [
+    "Do not reopen station, route-board, or progression systems.",
+    "Keep the work in content, notes, comparisons, close looks, or sketchbook memory.",
+    "Prefer habitat-role contrast over raw content totals.",
+    "Use one source-backed bridge entry plus local note contrast instead of forcing a broad forest-to-treeline shared set."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine",
+    "src/test",
+    "docs/science-source-ledger.md",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Forest and treeline feel more intentionally contrasted.",
+    "The middle of the biome chain reinforces the ecotone identity.",
+    "Lane 2 stays compact and content-facing."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-04-02-forest-and-treeline-comparison-richness-phase.md, and this packet. Treat this as lane 2's next long-push wave after the alpine and coastal richness passes: deepen the forest-to-treeline middle through comparison-ready content, then add one compact memory payoff without touching station or progression systems."
+}

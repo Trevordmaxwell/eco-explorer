@@ -1,0 +1,65 @@
+{
+  "packet_id": "ECO-PACKET-060",
+  "version": 4,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Season rhythm and stop points phase",
+  "summary": "Sixtieth structured packet for Eco Explorer. This lane-1 wave tightens stop-point rhythm and return-session confidence through the current season shell instead of adding a new recap or planner surface.",
+  "source_reports": [
+    "docs/reports/2026-04-02-season-rhythm-and-stop-points-phase.md",
+    "docs/reports/2026-04-02-stop-point-rhythm-handoff.md",
+    "docs/reports/2026-04-02-stop-point-rhythm-review.md",
+    "docs/reports/2026-04-02-route-resume-handoff.md",
+    "docs/reports/2026-04-02-route-resume-implementation.md",
+    "docs/reports/2026-04-02-route-resume-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-124",
+    "ECO-20260402-main-162",
+    "ECO-20260402-critic-135",
+    "ECO-20260402-scout-125",
+    "ECO-20260402-main-163",
+    "ECO-20260402-critic-136"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-128"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-124", "goal": "Prepare the season-rhythm handoff.", "why_now": "Stop-point confidence is the next high-leverage gain once the season shell settles." },
+    { "step": 2, "queue_id": "ECO-20260402-main-162", "goal": "Implement the stop-point rhythm pass.", "why_now": "The current shell can communicate better pause and resume beats without growing." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-135", "goal": "Review the stop-point rhythm pass.", "why_now": "The season should feel easier to carry without becoming more managerial." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-125", "goal": "Prepare one compact route-resume follow-on.", "why_now": "A small follow-on can make returning after a break even easier." },
+    { "step": 5, "queue_id": "ECO-20260402-main-163", "goal": "Implement the route-resume pass.", "why_now": "A better resume seam is valuable for longer real play sessions." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-136", "goal": "Review the route-resume pass.", "why_now": "The result should stay light and game-first." }
+  ],
+  "guardrails": [
+    "Do not add a separate recap screen.",
+    "Do not add another planner or task log.",
+    "Reuse existing strip, board, wrap, expedition, journal, and map seams.",
+    "Let the top strip carry stop permission while the atlas keeps the direct next-action line.",
+    "For the route-resume follow-on, reuse the existing field-request notice strip on title resume instead of adding another reminder surface."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The season is easier to stop and resume.",
+    "The shell remains compact and calm.",
+    "Lane 1 improves rhythm without system growth."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-04-02-season-rhythm-and-stop-points-phase.md, and this packet. Treat this as lane 1's next long-push follow-on after the board-calm wave: tighten stop-point rhythm and return-session confidence through the current season shell without adding a separate recap or planner surface."
+}

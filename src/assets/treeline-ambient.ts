@@ -88,6 +88,24 @@ export const treelineAmbientSprites: SpriteSource[] = [
     ]],
   },
   {
+    id: 'talus-cushion-pocket',
+    palette: {
+      a: masterPalette.alpineStoneLight,
+      b: masterPalette.alpineStoneMid,
+      c: masterPalette.alpineStoneDark,
+      d: masterPalette.alpineMoss,
+      e: masterPalette.lichenPale,
+    },
+    frames: [[
+      '..............',
+      '...aabbaa.....',
+      '..abcccbba....',
+      '..bcdddccb....',
+      '...bdeedcb....',
+      '....bbccbb....',
+    ]],
+  },
+  {
     id: 'hoary-marmot',
     palette: {
       a: '#9a8672',

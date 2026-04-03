@@ -43,6 +43,11 @@ describe('tundra biome definition', () => {
     expect(spawnEntryIds.has('lingonberry')).toBe(true);
   });
 
+  it('adds the new thaw-channel landmark as a local tundra carrier', () => {
+    expect(tundraBiome.entries['tussock-thaw-channel'].id).toBe('tussock-thaw-channel');
+    expect(tundraBiome.entries['tussock-thaw-channel'].category).toBe('landmark');
+  });
+
   it('splits the Short Season route carriers across snow meadow and thaw skirt', () => {
     const snowMeadowEntryIds = new Set(
       tundraBiome.spawnTables
@@ -85,27 +90,40 @@ describe('tundra biome generation', () => {
     expect(visitFirst).not.toEqual(visitSecond);
   });
 
-  it('adds a lowered thaw-skirt lane with authored upper steps for the traversal proof', () => {
+  it('extends the thaw-skirt proof into a fuller inland relief and snow-edge family', () => {
     const save = createNewSaveState('tundra-proof-seed');
     const instance = generateBiomeInstance(tundraBiome, save, 1);
 
     const terrainAtSnowMeadow = instance.terrainSamples.find((sample) => sample.x === 288);
     const terrainAtThawSkirt = instance.terrainSamples.find((sample) => sample.x === 352);
     const terrainAtFrostRidge = instance.terrainSamples.find((sample) => sample.x === 432);
-    const thawPlatforms = instance.platforms.filter((platform) => platform.id.startsWith('thaw-skirt'));
+    const reliefPlatforms = instance.platforms.filter((platform) =>
+      platform.id.startsWith('thaw-skirt') ||
+      platform.id === 'frost-ridge-drift-rest' ||
+      platform.id === 'meltwater-snow-lip',
+    );
 
     expect(terrainAtSnowMeadow).toBeDefined();
     expect(terrainAtThawSkirt).toBeDefined();
     expect(terrainAtFrostRidge).toBeDefined();
     expect((terrainAtThawSkirt?.y ?? 0) - (terrainAtSnowMeadow?.y ?? 0)).toBeGreaterThanOrEqual(5);
     expect((terrainAtThawSkirt?.y ?? 0) - (terrainAtFrostRidge?.y ?? 0)).toBeGreaterThanOrEqual(6);
-    expect(thawPlatforms.map((platform) => platform.id)).toEqual([
+    expect(reliefPlatforms.map((platform) => platform.id)).toEqual([
       'thaw-skirt-entry-heave',
       'thaw-skirt-upper-shelf',
+      'thaw-skirt-bank-shoulder',
       'thaw-skirt-exit-heave',
+      'frost-ridge-drift-rest',
+      'meltwater-snow-lip',
     ]);
-    expect(thawPlatforms[0]?.y).toBeGreaterThan(thawPlatforms[1]?.y ?? 0);
-    expect(thawPlatforms[2]?.y).toBeGreaterThan(thawPlatforms[1]?.y ?? 0);
+    expect(reliefPlatforms[0]?.y).toBeGreaterThan(reliefPlatforms[1]?.y ?? 0);
+    expect(reliefPlatforms[2]?.y).toBeGreaterThan(reliefPlatforms[1]?.y ?? 0);
+    expect(reliefPlatforms[2]?.x).toBeGreaterThan(reliefPlatforms[1]?.x ?? 0);
+    expect(reliefPlatforms[3]?.y).toBeLessThanOrEqual(reliefPlatforms[2]?.y ?? 0);
+    expect(reliefPlatforms[4]?.x).toBeGreaterThan(reliefPlatforms[3]?.x ?? 0);
+    expect(reliefPlatforms[4]?.y).toBeLessThanOrEqual(reliefPlatforms[3]?.y ?? 0);
+    expect(reliefPlatforms[5]?.x).toBeGreaterThan(reliefPlatforms[4]?.x ?? 0);
+    expect(reliefPlatforms[5]?.y).toBeGreaterThan(reliefPlatforms[4]?.y ?? 0);
   });
 
   it('spawns thaw-edge carriers through the new traversal band', () => {
@@ -124,5 +142,38 @@ describe('tundra biome generation', () => {
     expect(thawBand.some((entity) => entity.entryId === 'woolly-lousewort')).toBe(true);
     expect(thawBand.some((entity) => entity.entryId === 'northern-collared-lemming')).toBe(true);
     expect(thawBand.some((entity) => entity.entryId === 'bigelows-sedge')).toBe(true);
+  });
+
+  it('authors thaw-channel carriers in the thaw skirt and meltwater edge bands', () => {
+    const authoredChannels = tundraBiome.terrainRules.authoredEntities?.filter(
+      (entity) => entity.entryId === 'tussock-thaw-channel',
+    );
+
+    expect(authoredChannels).toEqual([
+      {
+        id: 'thaw-skirt-channel',
+        entryId: 'tussock-thaw-channel',
+        x: 362,
+        y: 104,
+        castsShadow: false,
+      },
+      {
+        id: 'meltwater-channel',
+        entryId: 'tussock-thaw-channel',
+        x: 544,
+        y: 112,
+        castsShadow: false,
+      },
+    ]);
+  });
+
+  it('keeps the new thaw-channel landmark visible in both wet alpine bands', () => {
+    const save = createNewSaveState('tundra-thaw-channel-seed');
+    const instance = generateBiomeInstance(tundraBiome, save, 1);
+    const channels = instance.entities.filter((entity) => entity.entryId === 'tussock-thaw-channel');
+
+    expect(channels).toHaveLength(2);
+    expect(channels.some((entity) => entity.x === 362 && entity.y === 104)).toBe(true);
+    expect(channels.some((entity) => entity.x === 544 && entity.y === 112)).toBe(true);
   });
 });

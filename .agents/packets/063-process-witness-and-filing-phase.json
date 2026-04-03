@@ -1,0 +1,61 @@
+{
+  "packet_id": "ECO-PACKET-063",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Process witness and filing phase",
+  "summary": "Sixty-third structured packet for Eco Explorer. This lane-4 wave first promotes `tundra-short-season` into a full `Thaw Window` process outing through the existing living-world seam, then deepens the notebook return through current filing surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-02-process-witness-and-filing-phase.md",
+    "docs/reports/2026-04-02-thaw-window-process-handoff.md",
+    "docs/reports/2026-04-02-thaw-window-filing-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-130",
+    "ECO-20260402-main-168",
+    "ECO-20260402-critic-141",
+    "ECO-20260402-scout-131",
+    "ECO-20260402-main-169",
+    "ECO-20260402-critic-142"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-134"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-130", "goal": "Prepare the process-witness handoff.", "why_now": "The living-world seam is now mature enough for one more authored process-centered outing." },
+    { "step": 2, "queue_id": "ECO-20260402-main-168", "goal": "Turn `tundra-short-season` into a `Thaw Window` outing.", "why_now": "The board already hints at the thaw-fringe process; carrying that cue into the live outing is the cleanest next lane-4 gain." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-141", "goal": "Review the process-centered route pass.", "why_now": "The outing must stay soft and authored, not timed or punishing." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-131", "goal": "Prepare one compact filing follow-on.", "why_now": "A process-centered outing wants a stronger return page to feel complete." },
+    { "step": 5, "queue_id": "ECO-20260402-main-169", "goal": "Give the filed `Short Season` return a `Thaw Window` page stamp.", "why_now": "The outing now reads clearly in play, so the next gain is to make the current preview and notice seams feel like the same little field page." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-142", "goal": "Review the filing follow-on.", "why_now": "The field-page return should deepen without becoming busy." }
+  ],
+  "guardrails": [
+    "Do not add a new route type unless the current Route v2 seam truly cannot carry the behavior.",
+    "Reuse existing world-state, notebook, and support surfaces.",
+    "Keep the outing soft and observational."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "One process-centered outing feels distinct and worthwhile.",
+    "The notebook return feels more like field synthesis.",
+    "Lane 4 keeps deepening the outing loop without shell growth."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-02-process-witness-and-filing-phase.md, docs/reports/2026-04-02-thaw-window-process-handoff.md, docs/reports/2026-04-02-thaw-window-filing-handoff.md, and this packet. Treat this as lane 4's next long-push follow-on after the high-country Route v2 wave: keep the canonical `Short Season` filed note stable, but add one compact shared `Thaw Window.` display stamp to the current note-preview and filed-notice seams so the return feels more like the same field page the outing just earned."
+}

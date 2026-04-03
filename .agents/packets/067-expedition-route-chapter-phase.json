@@ -1,0 +1,61 @@
+{
+  "packet_id": "ECO-PACKET-067",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Expedition route chapter phase",
+  "summary": "Sixty-seventh structured packet for Eco Explorer. This lane-4 wave pushes one route family fully into expedition-grade chapter territory, then adds one compact return-page follow-on through the live notebook seam.",
+  "source_reports": [
+    "docs/reports/2026-04-02-expedition-route-chapter-phase.md",
+    "docs/reports/2026-04-02-low-fell-chapter-handoff.md",
+    "docs/reports/2026-04-02-note-tabs-chapter-close-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-138",
+    "ECO-20260402-main-176",
+    "ECO-20260402-critic-149",
+    "ECO-20260402-scout-139",
+    "ECO-20260402-main-177",
+    "ECO-20260402-critic-150"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-142"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-138", "goal": "Prepare the expedition-route chapter handoff.", "why_now": "The Route v2 loop is ready for one fuller chapter-grade conversion." },
+    { "step": 2, "queue_id": "ECO-20260402-main-176", "goal": "Turn `treeline-low-fell` into a four-leg edge-line chapter.", "why_now": "The late routes-page capstone already points into `ROOT HOLLOW`, so deepening it is the cleanest way to make an ordinary route family feel expedition-grade." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-149", "goal": "Review the chapter-grade route conversion.", "why_now": "The outing should feel bigger in structure, not harsher in genre." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-139", "goal": "Prepare one note-tabs chapter-close follow-on.", "why_now": "A stronger chapter wants a more satisfying but still compact return-page close." },
+    { "step": 5, "queue_id": "ECO-20260402-main-177", "goal": "Implement the note-tabs chapter-close follow-on.", "why_now": "The notebook seam is the safest place to make the chapter close feel authored without widening the shell." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-150", "goal": "Review the note-tabs chapter-close follow-on.", "why_now": "The close should feel richer without spending the generic stop cue or overgrowing the strip." }
+  ],
+  "guardrails": [
+    "Do not add combat, failure meters, or a bigger quest shell.",
+    "Reuse current Route v2, support, and notebook-return seams.",
+    "Keep the outing calm, authored, and place-specific."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "At least one route family feels expedition-grade.",
+    "The return-page close feels satisfying and compact.",
+    "Lane 4 keeps the cozy naturalist direction intact."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-02-expedition-route-chapter-phase.md, docs/reports/2026-04-02-low-fell-chapter-handoff.md, docs/reports/2026-04-02-note-tabs-chapter-close-handoff.md, and this packet. Treat this as lane 4's later long-push wave after the process-and-filing work: `treeline-low-fell` is already the fuller four-leg chapter, so the next move is one compact note-tabs-only chapter-close line on the completed `edge-pattern-line` return page, keeping the generic stop cue, atlas note, and later Root Hollow or season-close states unchanged."
+}

@@ -20,6 +20,7 @@ describe('treeline biome definition', () => {
 
   it('reuses tundra-facing shared species ids for continuity', () => {
     expect(treelineBiome.entries['arctic-willow'].id).toBe('arctic-willow');
+    expect(treelineBiome.entries.bunchberry.id).toBe('bunchberry');
     expect(treelineBiome.entries.crowberry.id).toBe('crowberry');
     expect(treelineBiome.entries['mountain-avens'].id).toBe('mountain-avens');
     expect(treelineBiome.entries.lingonberry.id).toBe('lingonberry');
@@ -33,6 +34,7 @@ describe('treeline biome definition', () => {
     expect(treelineBiome.entries['moss-campion'].id).toBe('moss-campion');
     expect(treelineBiome.entries['hoary-marmot'].id).toBe('hoary-marmot');
     expect(treelineBiome.entries['white-arctic-mountain-heather'].id).toBe('white-arctic-mountain-heather');
+    expect(treelineBiome.entries['talus-cushion-pocket'].id).toBe('talus-cushion-pocket');
   });
 });
 
@@ -67,13 +69,14 @@ describe('treeline biome generation', () => {
       .map((entity) => entity.entryId);
 
     expect(stableEntryIds).toContain('mountain-hemlock');
+    expect(stableEntryIds).toContain('bunchberry');
     expect(stableEntryIds).toContain('krummholz-spruce');
     expect(stableEntryIds).toContain('reindeer-lichen');
     expect(stableEntryIds).toContain('frost-heave-boulder');
     expect(stableEntryIds).toContain('white-arctic-mountain-heather');
   });
 
-  it('adds a lowered lee-side lane with authored upper stones for the treeline shelter proof', () => {
+  it('adds a tucked backside notch and upper cap for the treeline loop', () => {
     const save = createNewSaveState('treeline-proof-seed');
     const instance = generateBiomeInstance(treelineBiome, save, 1);
 
@@ -93,13 +96,21 @@ describe('treeline biome generation', () => {
       'lee-pocket-exit-stone',
       'lee-pocket-crest-step',
       'lee-pocket-rime-rest',
+      'lee-pocket-back-notch',
+      'lee-pocket-rime-cap',
+      'lee-pocket-crest-brow',
       'lee-pocket-fell-return',
+      'lee-pocket-lee-rest',
     ]);
     expect(leePlatforms[0]?.y).toBeGreaterThan(leePlatforms[1]?.y ?? 0);
     expect(leePlatforms[2]?.y).toBeGreaterThan(leePlatforms[1]?.y ?? 0);
     expect(leePlatforms[3]?.y).toBeLessThan(leePlatforms[1]?.y ?? 0);
     expect(leePlatforms[4]?.y).toBeLessThan(leePlatforms[3]?.y ?? 0);
     expect(leePlatforms[5]?.y).toBeGreaterThan(leePlatforms[4]?.y ?? 0);
+    expect(leePlatforms[6]?.y).toBe(leePlatforms[4]?.y ?? 0);
+    expect(leePlatforms[7]?.y).toBeLessThan(leePlatforms[6]?.y ?? 0);
+    expect(leePlatforms[8]?.y).toBeLessThan(leePlatforms[5]?.y ?? 0);
+    expect(leePlatforms[9]?.y).toBeGreaterThan(leePlatforms[8]?.y ?? 0);
   });
 
   it('spawns shelter carriers through the new lee-side traversal band', () => {
@@ -131,6 +142,61 @@ describe('treeline biome generation', () => {
     ]);
   });
 
+  it('adds authored talus shelter carriers and one tiny crest reward', () => {
+    const authoredBunchberry = treelineBiome.terrainRules.authoredEntities?.filter((entity) => entity.entryId === 'bunchberry');
+    const authoredTalus = treelineBiome.terrainRules.authoredEntities?.filter(
+      (entity) => ['talus-cushion-pocket', 'mountain-avens'].includes(entity.entryId),
+    );
+
+    expect(authoredBunchberry).toEqual([
+      {
+        id: 'thin-canopy-bunchberry',
+        entryId: 'bunchberry',
+        x: 112,
+        y: 100,
+      },
+      {
+        id: 'krummholz-bunchberry',
+        entryId: 'bunchberry',
+        x: 210,
+        y: 102,
+      },
+    ]);
+    expect(authoredTalus).toEqual([
+      {
+        id: 'lee-pocket-rime-talus',
+        entryId: 'talus-cushion-pocket',
+        x: 448,
+        y: 90,
+        castsShadow: false,
+      },
+      {
+        id: 'fell-return-talus',
+        entryId: 'talus-cushion-pocket',
+        x: 500,
+        y: 102,
+        castsShadow: false,
+      },
+      {
+        id: 'lee-pocket-crest-avens',
+        entryId: 'mountain-avens',
+        x: 514,
+        y: 76,
+        castsShadow: false,
+      },
+    ]);
+  });
+
+  it('keeps the new talus carrier visible through the lee-pocket and open fell lane', () => {
+    const save = createNewSaveState('treeline-talus-pocket-seed');
+    const instance = generateBiomeInstance(treelineBiome, save, 1);
+    const talusCarriers = instance.entities.filter((entity) => entity.entryId === 'talus-cushion-pocket');
+
+    expect(talusCarriers).toHaveLength(2);
+    expect(talusCarriers.some((entity) => entity.x === 448 && entity.y === 90)).toBe(true);
+    expect(talusCarriers.some((entity) => entity.x === 500 && entity.y === 102)).toBe(true);
+  });
+
   it('adds heath and berry mats across the open alpine half', () => {
     const save = createNewSaveState('treeline-heath-berry-seed');
     const visits = [1, 2, 3, 4].map((visitCount) => generateBiomeInstance(treelineBiome, save, visitCount));
@@ -145,5 +211,14 @@ describe('treeline biome generation', () => {
 
     expect(alpineEntities.some((entity) => entity.entryId === 'white-arctic-mountain-heather')).toBe(true);
     expect(alpineEntities.some((entity) => entity.entryId === 'lingonberry')).toBe(true);
+  });
+
+  it('keeps bunchberry in the first two treeline bands instead of the open fell', () => {
+    const save = createNewSaveState('treeline-bunchberry-seed');
+    const instance = generateBiomeInstance(treelineBiome, save, 1);
+    const bunchberryEntities = instance.entities.filter((entity) => entity.entryId === 'bunchberry');
+
+    expect(bunchberryEntities.length).toBeGreaterThanOrEqual(2);
+    expect(bunchberryEntities.every((entity) => entity.x < 328)).toBe(true);
   });
 });

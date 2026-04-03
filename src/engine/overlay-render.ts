@@ -1171,13 +1171,15 @@ export function drawFieldStationOverlay({
         palette.text,
         2,
       );
-      drawUiText(
-        context,
-        fitTextToWidth(context, routeBoard.launchCard.detail, boardRect.w - 8),
-        boardRect.x + 4,
-        boardRect.y + 25,
-        palette.accent,
-      );
+      if (routeBoard.launchCard.detail) {
+        drawUiText(
+          context,
+          fitTextToWidth(context, routeBoard.launchCard.detail, boardRect.w - 8),
+          boardRect.x + 4,
+          boardRect.y + 25,
+          palette.accent,
+        );
+      }
     } else if (!atlas) {
       drawUiText(
         context,
@@ -1246,6 +1248,8 @@ export function drawFieldStationOverlay({
       context,
       selectedOutingSupportId === 'route-marker'
         ? 'ROUTE MARKER'
+        : selectedOutingSupportId === 'place-tab'
+          ? 'PLACE TAB'
         : selectedOutingSupportId === 'note-tabs'
           ? 'NOTE TABS'
           : 'HAND LENS',
@@ -1386,7 +1390,13 @@ export function drawFieldStationOverlay({
     );
     drawUiText(
       context,
-      activeProject.state.stage === 'mature' ? 'ENTER clears the bed' : 'The bed grows between route steps.',
+      fitTextToWidth(
+        context,
+        activeProject.state.stage === 'mature'
+          ? activeProject.definition.memorySummary ?? 'ENTER clears the bed'
+          : 'The bed grows between route steps.',
+        bedRect.w - 8,
+      ),
       bedRect.x + 4,
       bedRect.y + bedRect.h - 16,
       palette.text,

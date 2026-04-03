@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { beachBiome, coastalScrubBiome, forestBiome, tundraBiome } from '../content/biomes';
+import { beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
 import {
   buildSketchbookPageView,
@@ -114,6 +114,56 @@ describe('sketchbook helpers', () => {
     });
   });
 
+  it('surfaces the new treeline talus note and shared alpine crowberry bridge in the sketchbook', () => {
+    const save = createNewSaveState('sketchbook-treeline-alpine-memory-seed');
+
+    recordDiscovery(save, treelineBiome.entries['talus-cushion-pocket'], 'treeline');
+    recordDiscovery(save, treelineBiome.entries.crowberry, 'treeline');
+
+    placeSketchbookEntry(save, treelineBiome, 'top-left', 'talus-cushion-pocket');
+    placeSketchbookEntry(save, treelineBiome, 'top-right', 'crowberry');
+
+    const page = buildSketchbookPageView(
+      treelineBiome,
+      treelineBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'talus-cushion-pocket',
+      note: 'Tiny shelter pocket holding on between alpine stones.',
+    });
+    expect(page.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
+      entryId: 'crowberry',
+      note: 'Dark berry mat staying low across cold alpine ground.',
+    });
+  });
+
+  it('surfaces the new tundra thaw-channel note and shared alpine crowberry bridge in the sketchbook', () => {
+    const save = createNewSaveState('sketchbook-tundra-alpine-memory-seed');
+
+    recordDiscovery(save, tundraBiome.entries['tussock-thaw-channel'], 'tundra');
+    recordDiscovery(save, tundraBiome.entries.crowberry, 'tundra');
+
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'tussock-thaw-channel');
+    placeSketchbookEntry(save, tundraBiome, 'top-right', 'crowberry');
+
+    const page = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'tussock-thaw-channel',
+      note: 'Wet low lane lingering between raised tundra tussocks.',
+    });
+    expect(page.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
+      entryId: 'crowberry',
+      note: 'Dark berry mat staying low across cold alpine ground.',
+    });
+  });
+
   it('surfaces compact forest microhabitat notes for the archive payoff trio', () => {
     const save = createNewSaveState('sketchbook-forest-microhabitat-note-seed');
 
@@ -142,6 +192,107 @@ describe('sketchbook helpers', () => {
     expect(page.slots.find((slot) => slot.slotId === 'lower-center')).toMatchObject({
       entryId: 'ensatina',
       note: 'Small salamander hiding in cool wet bark.',
+    });
+  });
+
+  it('surfaces the new front-half sketchbook notes for beach-pea and kinnikinnick', () => {
+    const save = createNewSaveState('sketchbook-front-half-memory-seed');
+
+    recordDiscovery(save, beachBiome.entries['beach-pea'], 'beach');
+    recordDiscovery(save, coastalScrubBiome.entries.kinnikinnick, 'coastal-scrub');
+
+    placeSketchbookEntry(save, beachBiome, 'top-left', 'beach-pea');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-left', 'kinnikinnick');
+
+    const beachPage = buildSketchbookPageView(
+      beachBiome,
+      beachBiome.entries,
+      save,
+    );
+    const scrubPage = buildSketchbookPageView(
+      coastalScrubBiome,
+      coastalScrubBiome.entries,
+      save,
+    );
+
+    expect(beachPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'beach-pea',
+      note: 'Low vine stitching bright dunes into steadier ground.',
+    });
+    expect(scrubPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'kinnikinnick',
+      note: 'Evergreen mat tucked under wind-shaped shore pines.',
+    });
+  });
+
+  it('surfaces the middle-biome memory notes for redwood-sorrel and dwarf-birch', () => {
+    const save = createNewSaveState('sketchbook-middle-memory-seed');
+
+    recordDiscovery(save, forestBiome.entries['redwood-sorrel'], 'forest');
+    recordDiscovery(save, treelineBiome.entries['dwarf-birch'], 'treeline');
+
+    placeSketchbookEntry(save, forestBiome, 'top-left', 'redwood-sorrel');
+    placeSketchbookEntry(save, treelineBiome, 'top-left', 'dwarf-birch');
+
+    const forestPage = buildSketchbookPageView(
+      forestBiome,
+      forestBiome.entries,
+      save,
+    );
+    const treelinePage = buildSketchbookPageView(
+      treelineBiome,
+      treelineBiome.entries,
+      save,
+    );
+
+    expect(forestPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'redwood-sorrel',
+      note: 'Cool clover leaves thickening the dim forest floor.',
+    });
+    expect(treelinePage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'dwarf-birch',
+      note: 'Low birch holding where bright wind reaches last trees.',
+    });
+  });
+
+  it('surfaces shared carrier notes for beach-grass, salmonberry, and arctic-willow', () => {
+    const save = createNewSaveState('sketchbook-shared-carrier-memory-seed');
+
+    recordDiscovery(save, beachBiome.entries['beach-grass'], 'beach');
+    recordDiscovery(save, forestBiome.entries.salmonberry, 'forest');
+    recordDiscovery(save, tundraBiome.entries['arctic-willow'], 'tundra');
+
+    placeSketchbookEntry(save, beachBiome, 'top-left', 'beach-grass');
+    placeSketchbookEntry(save, forestBiome, 'top-left', 'salmonberry');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'arctic-willow');
+
+    const beachPage = buildSketchbookPageView(
+      beachBiome,
+      beachBiome.entries,
+      save,
+    );
+    const forestPage = buildSketchbookPageView(
+      forestBiome,
+      forestBiome.entries,
+      save,
+    );
+    const tundraPage = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(beachPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'beach-grass',
+      note: 'Tough grass holding the first bright dune ridge.',
+    });
+    expect(forestPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'salmonberry',
+      note: 'Bright berries thickening the cool edge into forest.',
+    });
+    expect(tundraPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'arctic-willow',
+      note: 'Low willow resting where open fell softens to tundra.',
     });
   });
 });

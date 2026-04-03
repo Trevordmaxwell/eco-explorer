@@ -1,6 +1,6 @@
 import { forestPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { nootkaRoseEntry, salmonberryEntry, swordFernEntry } from '../shared-entries';
+import { bunchberryEntry, nootkaRoseEntry, salmonberryEntry, swordFernEntry } from '../shared-entries';
 
 const forestEntries = {
   'douglas-fir-sapling': {
@@ -23,6 +23,7 @@ const forestEntries = {
     shortFact: 'Redwood sorrel folds its leaves when sunlight gets too bright.',
     journalText:
       'Redwood sorrel likes cool, shady forests. Its clover-shaped leaves help it catch gentle light without drying out.',
+    sketchbookNote: 'Cool clover leaves thickening the dim forest floor.',
     spriteId: 'redwood-sorrel',
     collectible: false,
   },
@@ -83,6 +84,7 @@ const forestEntries = {
     spriteId: 'western-hemlock-seedling',
     collectible: false,
   },
+  bunchberry: bunchberryEntry,
   'salal-berry': {
     id: 'salal-berry',
     commonName: 'Salal Berry',
@@ -347,11 +349,35 @@ export const forestBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'log-run-high-run-log',
+        spriteId: 'log-platform',
+        x: 444,
+        y: 100,
+        w: 68,
+        h: 4,
+      },
+      {
+        id: 'creek-bend-high-run-log',
+        spriteId: 'log-platform',
+        x: 514,
+        y: 98,
+        w: 62,
+        h: 4,
+      },
+      {
         id: 'old-growth-root-log',
         spriteId: 'log-platform',
         x: 640,
         y: 152,
         w: 28,
+        h: 4,
+      },
+      {
+        id: 'old-growth-trunk-foot-rest',
+        spriteId: 'log-platform',
+        x: 662,
+        y: 144,
+        w: 24,
         h: 4,
       },
       {
@@ -384,6 +410,14 @@ export const forestBiome: BiomeDefinition = {
         x: 614,
         y: 106,
         w: 38,
+        h: 4,
+      },
+      {
+        id: 'old-wood-hinge-rest',
+        spriteId: 'log-platform',
+        x: 632,
+        y: 130,
+        w: 24,
         h: 4,
       },
       {
@@ -475,6 +509,14 @@ export const forestBiome: BiomeDefinition = {
         y: 56,
         w: 68,
         h: 134,
+      },
+      {
+        id: 'old-growth-trunk-foot-pocket',
+        style: 'trunk-interior',
+        x: 662,
+        y: 124,
+        w: 38,
+        h: 58,
       },
       {
         id: 'old-growth-canopy-pocket',
@@ -664,6 +706,12 @@ export const forestBiome: BiomeDefinition = {
         y: 164,
       },
       {
+        id: 'old-growth-bunchberry-floor',
+        entryId: 'bunchberry',
+        x: 650,
+        y: 162,
+      },
+      {
         id: 'forest-layer-bridge-landmark',
         entryId: 'fallen-giant-log',
         x: 606,
@@ -683,10 +731,23 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'old-wood-hinge-lungwort',
+        entryId: 'tree-lungwort',
+        x: 644,
+        y: 126,
+        castsShadow: false,
+      },
+      {
         id: 'old-growth-huckleberry-base',
         entryId: 'red-huckleberry',
         x: 656,
         y: 152,
+      },
+      {
+        id: 'old-growth-trunk-foot-hemlock',
+        entryId: 'western-hemlock-seedling',
+        x: 674,
+        y: 136,
       },
       {
         id: 'old-growth-crown-beard',
@@ -838,6 +899,7 @@ export const forestBiome: BiomeDefinition = {
       entries: [
         { entryId: 'redwood-sorrel', weight: 4 },
         { entryId: 'sword-fern', weight: 2 },
+        { entryId: 'bunchberry', weight: 2 },
         { entryId: 'western-trillium', weight: 1 },
       ],
     },
@@ -851,6 +913,7 @@ export const forestBiome: BiomeDefinition = {
       entries: [
         { entryId: 'redwood-sorrel', weight: 4 },
         { entryId: 'sword-fern', weight: 2 },
+        { entryId: 'bunchberry', weight: 2 },
       ],
     },
     {
@@ -1133,6 +1196,17 @@ export const forestBiome: BiomeDefinition = {
         'What here looks like a little forest above?',
       zoneId: 'old-growth-pocket',
     },
+    {
+      id: 'forest-floor-carpet',
+      title: 'Forest Floor Carpet',
+      entryIds: ['bunchberry', 'redwood-sorrel', 'western-hemlock-seedling'],
+      minimumDiscoveries: 2,
+      summary:
+        'Even near the last big trees, cool shade still stacks low leaves and tiny starts into a full forest floor.',
+      observationPrompt:
+        'What here still looks like a full forest floor?',
+      zoneId: 'old-growth-pocket',
+    },
   ],
   verticalCues: [
     {
@@ -1141,6 +1215,13 @@ export const forestBiome: BiomeDefinition = {
       x: 390,
       y: 92,
       zoneIds: ['seep-pocket', 'stone-basin', 'filtered-return'],
+    },
+    {
+      id: 'old-wood-hinge-light',
+      style: 'recovery-light',
+      x: 654,
+      y: 122,
+      zoneIds: ['old-growth-pocket'],
     },
     {
       id: 'old-growth-inner-rest-light',

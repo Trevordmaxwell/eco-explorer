@@ -1,0 +1,65 @@
+{
+  "packet_id": "ECO-PACKET-061",
+  "version": 7,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Nursery-linked habitat memory phase",
+  "summary": "Sixty-first structured packet for Eco Explorer. This lane-2 wave ties a few remembered habitats more meaningfully into the nursery through current note and memory seams, without turning the nursery into a larger system.",
+  "source_reports": [
+    "docs/reports/2026-04-02-nursery-linked-habitat-memory-phase.md",
+    "docs/reports/2026-04-02-nursery-habitat-memory-handoff.md",
+    "docs/reports/2026-04-02-nursery-habitat-memory-implementation.md",
+    "docs/reports/2026-04-02-nursery-habitat-memory-review.md",
+    "docs/reports/2026-04-02-second-nursery-habitat-memory-handoff.md",
+    "docs/reports/2026-04-02-second-nursery-habitat-memory-implementation.md",
+    "docs/reports/2026-04-02-second-nursery-habitat-memory-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-126",
+    "ECO-20260402-main-164",
+    "ECO-20260402-critic-137",
+    "ECO-20260402-scout-127",
+    "ECO-20260402-main-165",
+    "ECO-20260402-critic-138"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-130"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-126", "goal": "Prepare the nursery-linked habitat memory handoff.", "why_now": "The nursery is best when it quietly echoes discovered places instead of growing bigger systems." },
+    { "step": 2, "queue_id": "ECO-20260402-main-164", "goal": "Implement the habitat memory pass.", "why_now": "A place-linked memory thread can make the nursery feel more emotionally grounded." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-137", "goal": "Review the habitat memory pass.", "why_now": "The nursery must stay secondary and calm." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-127", "goal": "Prepare one compact second habitat-memory follow-on.", "why_now": "One additional thread can reinforce the idea without turning into a broader feature." },
+    { "step": 5, "queue_id": "ECO-20260402-main-165", "goal": "Implement the second habitat-memory follow-on.", "why_now": "A small follow-on can make the nursery support loop feel warmer and more personal." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-138", "goal": "Review the second habitat-memory follow-on.", "why_now": "The result should stay small and non-managerial." }
+  ],
+  "guardrails": [
+    "Do not add more nursery management.",
+    "Do not add another nursery page or grid.",
+    "Reuse current note, sketchbook, close-look, and quiet nursery-support seams."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine/nursery.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The nursery feels more tied to discovered habitats.",
+    "The result stays small and emotionally warm.",
+    "Lane 2 deepens memory without system growth."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-04-02-nursery-linked-habitat-memory-phase.md, and this packet. Treat this as lane 2's next long-push wave after the middle-habitat comparison pass: tie a few remembered habitats more meaningfully into the nursery without expanding the nursery shell or management loop."
+}

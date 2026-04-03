@@ -1,0 +1,59 @@
+{
+  "packet_id": "ECO-PACKET-062",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Tundra relief and snow-edge phase",
+  "summary": "Sixty-second structured packet for Eco Explorer. This lane-3 wave gives tundra a stronger low-relief and snow-edge identity so the inland top end feels more varied without becoming harsh.",
+  "source_reports": [
+    "docs/reports/2026-04-02-tundra-relief-and-snow-edge-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-128",
+    "ECO-20260402-main-166",
+    "ECO-20260402-critic-139",
+    "ECO-20260402-scout-129",
+    "ECO-20260402-main-167",
+    "ECO-20260402-critic-140"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-132"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-128", "goal": "Prepare the tundra relief handoff.", "why_now": "The inland top end is ready for a small but meaningful terrain and shelter identity gain." },
+    { "step": 2, "queue_id": "ECO-20260402-main-166", "goal": "Implement the relief pass.", "why_now": "A compact relief beat can make tundra feel more varied without broadening traversal harshly." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-139", "goal": "Review the relief pass.", "why_now": "The tundra should stay gentle and readable." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-129", "goal": "Prepare one compact snow-edge follow-on.", "why_now": "A second small beat can give the inland top end stronger place memory." },
+    { "step": 5, "queue_id": "ECO-20260402-main-167", "goal": "Implement the snow-edge follow-on.", "why_now": "Snow-edge variety is the next natural extension after the first relief beat." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-140", "goal": "Review the snow-edge follow-on.", "why_now": "The branch should feel richer without harsher traversal." }
+  ],
+  "guardrails": [
+    "Keep the vertical gain modest.",
+    "Avoid making tundra harsh, maze-like, or overly sparse.",
+    "Reuse thaw, snow-edge, and low-growth language instead of inventing another cue layer."
+  ],
+  "file_targets": [
+    "src/content/biomes/tundra.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Tundra has a clearer low-relief identity.",
+    "The inland top end feels more varied and memorable.",
+    "Lane 3 stays calm and readable."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-04-02-tundra-relief-and-snow-edge-phase.md, and this packet. Treat this as lane 3's next long-push follow-on after the treeline crest work: give tundra a stronger relief and snow-edge identity without turning the inland top end into a harsher traversal space."
+}

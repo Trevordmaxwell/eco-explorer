@@ -23,6 +23,9 @@ const SKETCHBOOK_NOTE_MAX = 56;
 const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity'] as const;
 const MICROHABITAT_LEDGER_MARKERS = ['old-mans-beard', 'western-hemlock-seedling'] as const;
 const CANOPY_CAVERN_LEDGER_MARKERS = ['canopy-moss-bed', 'seep-moss-mat'] as const;
+const ALPINE_MICROHABITAT_LEDGER_MARKERS = ['talus-cushion-pocket', 'tussock-thaw-channel'] as const;
+const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'kinnikinnick'] as const;
+const MIDDLE_COMPARISON_LEDGER_MARKERS = ['bunchberry'] as const;
 
 function countSentences(text: string): number {
   return text
@@ -143,6 +146,24 @@ describe('content quality guardrails', () => {
 
   it('keeps the canopy-and-cavern habitat additions backed by the science source ledger', () => {
     for (const entryId of CANOPY_CAVERN_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the alpine microhabitat additions backed by the science source ledger', () => {
+    for (const entryId of ALPINE_MICROHABITAT_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the front-half richness additions backed by the science source ledger', () => {
+    for (const entryId of FRONT_HALF_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the middle comparison bridge backed by the science source ledger', () => {
+    for (const entryId of MIDDLE_COMPARISON_LEDGER_MARKERS) {
       expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
     }
   });

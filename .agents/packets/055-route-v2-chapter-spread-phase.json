@@ -1,0 +1,62 @@
+{
+  "packet_id": "ECO-PACKET-055",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Route v2 chapter spread phase",
+  "summary": "Fifty-fifth structured packet for Eco Explorer. This second lane-4 long-push wave spreads the chapter-like outing feel into another route family and then deepens the notebook-page return without expanding the shell.",
+  "source_reports": [
+    "docs/reports/2026-04-02-route-v2-chapter-spread-phase.md",
+    "docs/reports/2026-04-02-treeline-shelter-route-v2-handoff.md",
+    "docs/reports/2026-04-02-notebook-page-deepening-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-114",
+    "ECO-20260402-main-152",
+    "ECO-20260402-critic-125",
+    "ECO-20260402-scout-115",
+    "ECO-20260402-main-153",
+    "ECO-20260402-critic-126"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-118"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-114", "goal": "Prepare the next chapter-like Route v2 spread handoff.", "why_now": "The stronger outing feel should spread beyond the current standouts." },
+    { "step": 2, "queue_id": "ECO-20260402-main-152", "goal": "Implement the ordered treeline shelter route conversion.", "why_now": "One more chapter-like route family will make the game loop feel less isolated." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-125", "goal": "Review the route conversion.", "why_now": "The new chapter-like route needs to stay clear and compact." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-115", "goal": "Prepare one notebook-page deepening follow-on.", "why_now": "Once another route family is stronger, the next gain is a slightly richer field-page return." },
+    { "step": 5, "queue_id": "ECO-20260402-main-153", "goal": "Implement the route-titled notebook-page deepening pass.", "why_now": "A more authored field-page feel can strengthen the return without shell growth." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-126", "goal": "Review the notebook-page deepening pass.", "why_now": "The return should feel more satisfying without becoming busy." }
+  ],
+  "guardrails": [
+    "Keep the loop compact and one-screen where possible.",
+    "Do not add a larger quest shell or inventory.",
+    "Reuse existing route, filing, and station seams.",
+    "Stay notebook-first and science-forward."
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "More of the route layer feels chapter-like.",
+    "The notebook return feels more like a little field page.",
+    "Lane 4 stays compact and game-like."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-02-route-v2-chapter-spread-phase.md, docs/reports/2026-04-02-treeline-shelter-route-v2-handoff.md, docs/reports/2026-04-02-notebook-page-deepening-handoff.md, and this packet. Treat this as the second lane-4 long-push wave: first convert `treeline-stone-shelter` into an ordered sheltered-treeline chapter on the existing `assemble-evidence` seam, then deepen the notebook-page return by making the `note-tabs` ready strip and filed notice feel like a tiny route-titled field page without opening a bigger quest or inventory shell."
+}

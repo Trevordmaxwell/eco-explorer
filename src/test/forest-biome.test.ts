@@ -23,7 +23,7 @@ describe('forest biome definition', () => {
     }
   });
 
-  it('includes the new wildflower, shrub, amphibian, and woodpecker discoveries in live spawn tables', () => {
+  it('includes the new wildflower, shrub, understory bridge, amphibian, and woodpecker discoveries in live spawn tables', () => {
     const spawnEntryIds = new Set(
       forestBiome.spawnTables.flatMap((table) => table.entries.map((entry) => entry.entryId)),
     );
@@ -34,6 +34,7 @@ describe('forest biome definition', () => {
     expect(spawnEntryIds.has('ensatina')).toBe(true);
     expect(spawnEntryIds.has('nootka-rose')).toBe(true);
     expect(spawnEntryIds.has('red-huckleberry')).toBe(true);
+    expect(spawnEntryIds.has('bunchberry')).toBe(true);
   });
 });
 
@@ -167,6 +168,7 @@ describe('forest biome generation', () => {
       'old-growth-root-log',
       'old-growth-crown-rest',
       'old-growth-crossover-limb',
+      'old-growth-trunk-foot-rest',
       'old-growth-bark-shelf',
       'old-growth-crown-window',
       'old-growth-high-perch',
@@ -177,6 +179,7 @@ describe('forest biome generation', () => {
     expect(oldGrowthDepthFeatures).toEqual([
       { id: 'old-growth-canopy-pocket', style: 'canopy-pocket', y: 6, h: 112 },
       { id: 'old-growth-trunk-interior', style: 'trunk-interior', y: 56, h: 134 },
+      { id: 'old-growth-trunk-foot-pocket', style: 'trunk-interior', y: 124, h: 58 },
     ]);
     expect(oldGrowthClimbables).toEqual([
       { id: 'old-growth-inner-bark-snag', x: 678, w: 8, topExitY: 18 },
@@ -187,7 +190,7 @@ describe('forest biome generation', () => {
     ]);
   });
 
-  it('authors one tiny cave-return cue and one tiny canopy-rest cue for the new vertical spaces', () => {
+  it('authors one tiny cave-return cue, one hinge-return cue, and one canopy-rest cue for the new vertical spaces', () => {
     expect(forestBiome.verticalCues).toEqual([
       {
         id: 'stone-basin-return-light',
@@ -195,6 +198,13 @@ describe('forest biome generation', () => {
         x: 390,
         y: 92,
         zoneIds: ['seep-pocket', 'stone-basin', 'filtered-return'],
+      },
+      {
+        id: 'old-wood-hinge-light',
+        style: 'recovery-light',
+        x: 654,
+        y: 122,
+        zoneIds: ['old-growth-pocket'],
       },
       {
         id: 'old-growth-inner-rest-light',
@@ -206,22 +216,29 @@ describe('forest biome generation', () => {
     ]);
   });
 
-  it('adds one optional old-wood bridge between creek-bend and the old-growth pocket', () => {
+  it('adds one optional old-wood hinge bay between creek-bend and the old-growth pocket', () => {
     const save = createNewSaveState('forest-bridge-seed');
     const instance = generateBiomeInstance(forestBiome, save, 1);
 
     const terrainAtCreekBend = instance.terrainSamples.find((sample) => sample.x === 592);
     const terrainAtBridgeDrop = instance.terrainSamples.find((sample) => sample.x === 624);
-    const bridgePlatforms = instance.platforms
-      .filter((platform) => platform.id.startsWith('forest-layer-bridge'))
+    const crossoverPlatforms = instance.platforms
+      .filter(
+        (platform) =>
+          platform.id.startsWith('forest-layer-bridge') || platform.id === 'old-wood-hinge-rest',
+      )
       .map((platform) => ({
         id: platform.id,
         x: platform.x,
         y: platform.y,
         w: platform.w,
       }));
-    const bridgeEntities = instance.entities
-      .filter((entity) => entity.entityId.startsWith('authored-forest-layer-bridge'))
+    const crossoverEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.startsWith('authored-forest-layer-bridge') ||
+          entity.entityId.startsWith('authored-old-wood-hinge-lungwort'),
+      )
       .map((entity) => ({
         entryId: entity.entryId,
         x: entity.x,
@@ -232,15 +249,19 @@ describe('forest biome generation', () => {
 
     expect(terrainAtCreekBend).toBeDefined();
     expect(terrainAtBridgeDrop).toBeDefined();
-    expect(bridgePlatforms).toEqual([
+    expect(crossoverPlatforms).toEqual([
       { id: 'forest-layer-bridge-log', x: 580, y: 98, w: 36 },
       { id: 'forest-layer-bridge-span', x: 614, y: 106, w: 38 },
+      { id: 'old-wood-hinge-rest', x: 632, y: 130, w: 24 },
     ]);
-    expect(bridgePlatforms[0]?.y).toBeLessThan((terrainAtCreekBend?.y ?? 0) - 8);
-    expect(bridgePlatforms[1]?.y).toBeLessThan((terrainAtBridgeDrop?.y ?? 0) - 30);
-    expect(bridgeEntities).toEqual([
+    expect(crossoverPlatforms[0]?.y).toBeLessThan((terrainAtCreekBend?.y ?? 0) - 8);
+    expect(crossoverPlatforms[1]?.y).toBeLessThan((terrainAtBridgeDrop?.y ?? 0) - 30);
+    expect(crossoverPlatforms[2]?.y).toBeGreaterThan(crossoverPlatforms[1]?.y ?? 0);
+    expect(crossoverPlatforms[2]?.y).toBeLessThan((terrainAtBridgeDrop?.y ?? 0) - 4);
+    expect(crossoverEntities).toEqual([
       { entryId: 'fallen-giant-log', x: 606, y: 100, castsShadow: true },
       { entryId: 'tree-lungwort', x: 632, y: 104, castsShadow: false },
+      { entryId: 'tree-lungwort', x: 644, y: 126, castsShadow: false },
     ]);
     expect(bridgeNote).toMatchObject({
       title: 'Old Wood Link',
@@ -248,6 +269,64 @@ describe('forest biome generation', () => {
       zoneId: 'creek-bend',
       entryIds: ['fallen-giant-log', 'seep-stone', 'woodpecker-cavity'],
     });
+  });
+
+  it('authors a bunchberry patch into the late forest floor near the old-growth approach', () => {
+    const authoredBunchberry = forestBiome.terrainRules.authoredEntities?.filter((entity) => entity.entryId === 'bunchberry');
+
+    expect(authoredBunchberry).toEqual([
+      {
+        id: 'old-growth-bunchberry-floor',
+        entryId: 'bunchberry',
+        x: 650,
+        y: 162,
+      },
+    ]);
+  });
+
+  it('authors one high-run carry from the cave-return side into the bridge family', () => {
+    const save = createNewSaveState('forest-high-run-carry-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+
+    const terrainAtLogRun = instance.terrainSamples.find((sample) => sample.x === 480);
+    const terrainAtCreekBend = instance.terrainSamples.find((sample) => sample.x === 544);
+    const carryPlatforms = instance.platforms
+      .filter((platform) =>
+        [
+          'log-run-high-run-log',
+          'creek-bend-high-run-log',
+          'forest-layer-bridge-log',
+          'forest-layer-bridge-span',
+          'old-growth-crossover-limb',
+        ].includes(platform.id),
+      )
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const logRunTrunk = instance.climbables.find((climbable) => climbable.id === 'log-run-fir-trunk');
+
+    expect(terrainAtLogRun).toBeDefined();
+    expect(terrainAtCreekBend).toBeDefined();
+    expect(carryPlatforms).toEqual([
+      { id: 'log-run-high-run-log', x: 444, y: 100, w: 68 },
+      { id: 'creek-bend-high-run-log', x: 514, y: 98, w: 62 },
+      { id: 'forest-layer-bridge-log', x: 580, y: 98, w: 36 },
+      { id: 'forest-layer-bridge-span', x: 614, y: 106, w: 38 },
+      { id: 'old-growth-crossover-limb', x: 650, y: 106, w: 36 },
+    ]);
+    expect(logRunTrunk).toBeDefined();
+    expect((carryPlatforms[0]?.x ?? 999) - ((logRunTrunk?.x ?? 0) + (logRunTrunk?.w ?? 0))).toBeLessThanOrEqual(
+      0,
+    );
+    expect(carryPlatforms[0]?.y).toBeLessThan((terrainAtLogRun?.y ?? 999) - 10);
+    expect(carryPlatforms[1]?.y).toBeLessThanOrEqual(carryPlatforms[0]?.y ?? 999);
+    expect(carryPlatforms[1]?.y).toBeLessThan((terrainAtCreekBend?.y ?? 999) - 14);
+    expect((carryPlatforms[1]?.x ?? 0) + (carryPlatforms[1]?.w ?? 0)).toBeGreaterThanOrEqual(
+      (carryPlatforms[2]?.x ?? 0) - 8,
+    );
   });
 
   it('spawns moisture life and a landmark inside the deeper seep pocket', () => {
@@ -309,10 +388,12 @@ describe('forest biome generation', () => {
     expect(oldGrowthNiches).toEqual([
       { entryId: 'western-hemlock-seedling', x: 620, y: 88, castsShadow: true },
       { entryId: 'redwood-sorrel', x: 640, y: 164, castsShadow: true },
+      { entryId: 'bunchberry', x: 650, y: 162, castsShadow: true },
       { entryId: 'red-huckleberry', x: 656, y: 152, castsShadow: true },
       { entryId: 'tree-lungwort', x: 660, y: 10, castsShadow: false },
       { entryId: 'tree-lungwort', x: 666, y: 24, castsShadow: false },
       { entryId: 'old-mans-beard', x: 672, y: 14, castsShadow: false },
+      { entryId: 'western-hemlock-seedling', x: 674, y: 136, castsShadow: true },
       { entryId: 'canopy-moss-bed', x: 680, y: 22, castsShadow: false },
       { entryId: 'licorice-fern', x: 694, y: 106, castsShadow: false },
       { entryId: 'licorice-fern', x: 700, y: 30, castsShadow: false },

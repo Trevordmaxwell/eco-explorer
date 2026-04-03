@@ -82,6 +82,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('shelter-line-start');
   });
 
+  it('supports the new beach dry-sand runner note through the shared dune trio', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'beach-pea',
+      ['beach-pea', 'beach-grass'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('low-runner-band');
+  });
+
   it('supports the coastal scrub forest-edge note through the local moisture pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       coastalScrubBiome,
@@ -102,6 +113,17 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('swale-shelter');
+  });
+
+  it('supports the new shore-pine underlayer note once low mats overlap pine cover', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      coastalScrubBiome,
+      'kinnikinnick',
+      ['kinnikinnick', 'shore-pine'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('pine-underlayer');
   });
 
   it('supports the new scrub transition note once sturdier shrub cover shows up', () => {
@@ -188,6 +210,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('forests-above');
   });
 
+  it('supports the new forest floor note once bunchberry joins the old-growth understory pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'bunchberry',
+      ['bunchberry', 'redwood-sorrel'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('forest-floor-carpet');
+  });
+
   it('supports the new seep-wall note once moss and seep carriers overlap', () => {
     const resolved = resolveEcosystemNoteForEntry(
       forestBiome,
@@ -232,6 +265,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('tree-line-drops');
   });
 
+  it('supports the new treeline floor note once bunchberry reaches the broken canopy band', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      treelineBiome,
+      'bunchberry',
+      ['bunchberry', 'mountain-hemlock'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('broken-canopy-floor');
+  });
+
   it('supports the new treeline heath note once berry shrubs and heaths overlap', () => {
     const resolved = resolveEcosystemNoteForEntry(
       treelineBiome,
@@ -252,6 +296,17 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('cold-ground-works');
+  });
+
+  it('supports the new treeline talus-islands note through the shelter-pocket pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      treelineBiome,
+      'talus-cushion-pocket',
+      ['talus-cushion-pocket', 'moss-campion'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('talus-islands');
   });
 
   it('supports the new tundra thaw-bloom note through the ridge flower pair', () => {
@@ -296,5 +351,16 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('evergreen-berry-mats');
+  });
+
+  it('supports the new tundra between-tussocks note through the wet-channel pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      tundraBiome,
+      'tussock-thaw-channel',
+      ['tussock-thaw-channel', 'cottongrass'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('between-tussocks');
   });
 });

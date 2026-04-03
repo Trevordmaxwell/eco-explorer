@@ -216,6 +216,36 @@ describe('journal comparison resolution', () => {
     ]);
   });
 
+  it('supports a forest-to-treeline comparison for bunchberry once both middle notes unlock', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        bunchberry: {
+          entryId: 'bunchberry',
+          discoveredAt: '2026-04-02T00:00:00.000Z',
+          biomeIds: ['forest', 'treeline'],
+        },
+        'redwood-sorrel': {
+          entryId: 'redwood-sorrel',
+          discoveredAt: '2026-04-02T00:00:00.000Z',
+          biomeIds: ['forest'],
+        },
+        'mountain-hemlock': {
+          entryId: 'mountain-hemlock',
+          discoveredAt: '2026-04-02T00:00:00.000Z',
+          biomeIds: ['treeline'],
+        },
+      },
+      'bunchberry',
+      ['forest', 'treeline'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Forest Floor Carpet',
+      'Broken Canopy Floor',
+    ]);
+  });
+
   it('supports alpine comparison cards once the treeline and tundra notes are both unlocked', () => {
     const comparison = resolveJournalComparison(
       biomeRegistry,

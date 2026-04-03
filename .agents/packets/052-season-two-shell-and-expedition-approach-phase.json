@@ -1,0 +1,59 @@
+{
+  "packet_id": "ECO-PACKET-052",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Season-two shell and expedition approach phase",
+  "summary": "Fifty-second structured packet for Eco Explorer. This second lane-1 long-push wave strengthens the season-two shell around the active route and then adds one compact expedition-approach seam for the next big chapter.",
+  "source_reports": [
+    "docs/reports/2026-04-02-season-two-shell-and-expedition-approach-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-108",
+    "ECO-20260402-main-146",
+    "ECO-20260402-critic-119",
+    "ECO-20260402-scout-109",
+    "ECO-20260402-main-147",
+    "ECO-20260402-critic-120"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-112"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-108", "goal": "Prepare the season-two shell follow-on.", "why_now": "Once travel and recap are warmer, the broader season-two shell is the next systems gain." },
+    { "step": 2, "queue_id": "ECO-20260402-main-146", "goal": "Implement the season-two shell pass.", "why_now": "The active route and season shell should feel more settled without a bigger planner." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-119", "goal": "Review the season-two shell pass.", "why_now": "The shell should stay calm and readable." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-109", "goal": "Prepare one expedition-approach handoff.", "why_now": "The next big chapter should start to feel present without opening early." },
+    { "step": 5, "queue_id": "ECO-20260402-main-147", "goal": "Implement the expedition-approach seam.", "why_now": "A tiny approach seam can keep the field station feeling future-facing without dashboard drift." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-120", "goal": "Review the expedition-approach seam.", "why_now": "The next expedition should feel present, not prematurely playable or noisy." }
+  ],
+  "guardrails": [
+    "Do not add a new station page.",
+    "Keep one clear active outing and one soft expedition-approach seam.",
+    "Reuse current station and map surfaces.",
+    "Avoid dashboard drift."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Season two feels more settled around the active route.",
+    "The next expedition starts to feel quietly present.",
+    "Lane 1 stays compact and progression-first."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-04-02-season-two-shell-and-expedition-approach-phase.md, and this packet. Treat this as the second lane-1 long-push wave: strengthen the season-two shell around the active route, then add one compact expedition-approach seam without opening a bigger planner."
+}

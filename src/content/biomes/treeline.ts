@@ -1,6 +1,6 @@
 import { treelinePalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { arcticWillowEntry, crowberryEntry, lingonberryEntry, mountainAvensEntry } from '../shared-entries';
+import { arcticWillowEntry, bunchberryEntry, crowberryEntry, lingonberryEntry, mountainAvensEntry } from '../shared-entries';
 
 const treelineEntries = {
   'mountain-hemlock': {
@@ -22,6 +22,7 @@ const treelineEntries = {
     shortFact: 'Dwarf birch stays low where cold wind is too harsh for tall trees.',
     journalText:
       'Dwarf birch is a tiny woody shrub of cold open ground. Low branches help it avoid the strongest wind above treeline.',
+    sketchbookNote: 'Low birch holding where bright wind reaches last trees.',
     spriteId: 'dwarf-birch',
     collectible: false,
   },
@@ -36,6 +37,7 @@ const treelineEntries = {
     spriteId: 'bog-blueberry',
     collectible: true,
   },
+  bunchberry: bunchberryEntry,
   lingonberry: lingonberryEntry,
   'mountain-avens': mountainAvensEntry,
   'moss-campion': {
@@ -133,6 +135,19 @@ const treelineEntries = {
     spriteId: 'frost-heave-boulder',
     collectible: false,
   },
+  'talus-cushion-pocket': {
+    id: 'talus-cushion-pocket',
+    commonName: 'Talus Cushion Pocket',
+    category: 'landmark',
+    subtitle: 'Rock-sheltered alpine patch',
+    subtitleLabel: 'Habitat role',
+    shortFact: 'Sheltered gaps between alpine rocks can hold tiny cushions of life.',
+    journalText:
+      'A talus cushion pocket is a small sheltered patch between alpine stones. Windbreaks from the rocks help cushion plants and lichens keep a foothold on exposed ground.',
+    sketchbookNote: 'Tiny shelter pocket holding on between alpine stones.',
+    spriteId: 'talus-cushion-pocket',
+    collectible: false,
+  },
 } satisfies BiomeDefinition['entries'];
 
 export const treelineBiome: BiomeDefinition = {
@@ -214,6 +229,30 @@ export const treelineBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'lee-pocket-back-notch',
+        spriteId: 'granite-platform',
+        x: 468,
+        y: 110,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-rime-cap',
+        spriteId: 'granite-platform',
+        x: 488,
+        y: 88,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-crest-brow',
+        spriteId: 'granite-platform',
+        x: 506,
+        y: 80,
+        w: 20,
+        h: 4,
+      },
+      {
         id: 'lee-pocket-exit-stone',
         spriteId: 'granite-platform',
         x: 406,
@@ -224,18 +263,59 @@ export const treelineBiome: BiomeDefinition = {
       {
         id: 'lee-pocket-fell-return',
         spriteId: 'granite-platform',
-        x: 490,
+        x: 516,
         y: 96,
+        w: 22,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-lee-rest',
+        spriteId: 'granite-platform',
+        x: 538,
+        y: 102,
         w: 20,
         h: 4,
       },
     ],
     authoredEntities: [
       {
+        id: 'thin-canopy-bunchberry',
+        entryId: 'bunchberry',
+        x: 112,
+        y: 100,
+      },
+      {
+        id: 'krummholz-bunchberry',
+        entryId: 'bunchberry',
+        x: 210,
+        y: 102,
+      },
+      {
         id: 'lee-pocket-rime-campion',
         entryId: 'moss-campion',
         x: 460,
         y: 84,
+        castsShadow: false,
+      },
+      {
+        id: 'lee-pocket-rime-talus',
+        entryId: 'talus-cushion-pocket',
+        x: 448,
+        y: 90,
+        castsShadow: false,
+      },
+      {
+        id: 'fell-return-talus',
+        entryId: 'talus-cushion-pocket',
+        x: 500,
+        y: 102,
+        castsShadow: false,
+      },
+      {
+        id: 'lee-pocket-crest-avens',
+        entryId: 'mountain-avens',
+        x: 514,
+        y: 76,
         castsShadow: false,
       },
     ],
@@ -248,7 +328,10 @@ export const treelineBiome: BiomeDefinition = {
       minCount: 2,
       maxCount: 3,
       spacing: 32,
-      entries: [{ entryId: 'mountain-hemlock', weight: 1 }],
+      entries: [
+        { entryId: 'mountain-hemlock', weight: 2 },
+        { entryId: 'bunchberry', weight: 1 },
+      ],
     },
     {
       id: 'stable-krummholz-belt',
@@ -260,6 +343,7 @@ export const treelineBiome: BiomeDefinition = {
       entries: [
         { entryId: 'dwarf-birch', weight: 4 },
         { entryId: 'mountain-hemlock', weight: 1 },
+        { entryId: 'bunchberry', weight: 1 },
       ],
     },
     {
@@ -491,6 +575,28 @@ export const treelineBiome: BiomeDefinition = {
         'Freeze-thaw stone and low growth show where cold ground still shapes the fell.',
       observationPrompt:
         'What here still looks shaped by cold ground?',
+    },
+    {
+      id: 'talus-islands',
+      title: 'Talus Islands',
+      entryIds: ['talus-cushion-pocket', 'moss-campion', 'frost-heave-boulder'],
+      minimumDiscoveries: 2,
+      summary:
+        'Among bare alpine stones, tiny sheltered pockets let low life keep a foothold.',
+      observationPrompt:
+        'What here stays alive between bare stones?',
+      zoneId: 'lichen-fell',
+    },
+    {
+      id: 'broken-canopy-floor',
+      title: 'Broken Canopy Floor',
+      entryIds: ['bunchberry', 'mountain-hemlock', 'dwarf-birch'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low floor plants still hold on under the last mountain trees, but shrubs and brighter wind reach the ground.',
+      observationPrompt:
+        'What still feels like forest floor here?',
+      zoneId: 'krummholz-belt',
     },
   ],
   verticalCues: [

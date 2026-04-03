@@ -1,0 +1,67 @@
+{
+  "packet_id": "ECO-PACKET-053",
+  "version": 4,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Coastal and beach richness phase",
+  "summary": "Fifty-third structured packet for Eco Explorer. This second lane-2 long-push wave rebalances the front half of the world through one beach and coastal-scrub richness pack and then one compact front-half memory payoff.",
+  "source_reports": [
+    "docs/reports/2026-04-02-coastal-and-beach-richness-phase.md",
+    "docs/reports/2026-04-02-front-half-richness-pack-handoff.md",
+    "docs/reports/2026-04-02-front-half-richness-pack-review.md",
+    "docs/reports/2026-04-02-front-half-memory-payoff-handoff.md",
+    "docs/reports/2026-04-02-front-half-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-110",
+    "ECO-20260402-main-148",
+    "ECO-20260402-critic-121",
+    "ECO-20260402-scout-111",
+    "ECO-20260402-main-149",
+    "ECO-20260402-critic-122"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-114"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-110", "goal": "Prepare the beach and coastal-scrub richness pack.", "why_now": "The front half now wants a comparable amount of authored delight." },
+    { "step": 2, "queue_id": "ECO-20260402-main-148", "goal": "Implement the front-half richness pack.", "why_now": "A richer opening chain will make the full world feel more balanced." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-121", "goal": "Review the front-half richness pack.", "why_now": "The pack needs to stay science-safe and readable in the first twenty minutes." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-111", "goal": "Prepare one front-half memory payoff.", "why_now": "Once the content lands, one compact payoff can make those early spaces more memorable." },
+    { "step": 5, "queue_id": "ECO-20260402-main-149", "goal": "Implement the front-half memory payoff.", "why_now": "The beach and scrub should feel as worth remembering as the inland spaces." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-122", "goal": "Review the front-half memory payoff.", "why_now": "The payoff should stay compact and calm." }
+  ],
+  "guardrails": [
+    "Keep the work content-owned.",
+    "Avoid reopening corridor or route runtime.",
+    "Prefer a few strong front-half anchors over a broad taxonomy push.",
+    "Keep the payoff inside an existing surface.",
+    "Target the lighter front-half zones first: beach dry-sand and the coastal-scrub shore-pine stand.",
+    "Treat the memory payoff as a sketchbook-first pass instead of broadening comparison or close-look surfaces."
+  ],
+  "file_targets": [
+    "src/content",
+    "docs/science-source-ledger.md",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The opening biomes feel denser and more delightful.",
+    "The front half gains clearer upper-dune and shore-pine underlayer anchors instead of more tide-line or thicket clutter.",
+    "One compact sketchbook-first payoff makes the front half more memorable.",
+    "Lane 2 stays content-owned and calm."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, docs/reports/2026-04-02-coastal-and-beach-richness-phase.md, and this packet. Treat this as the second lane-2 long-push wave: deepen beach and coastal scrub through one compact richness pack and one small memory payoff without reopening route or traversal systems."
+}

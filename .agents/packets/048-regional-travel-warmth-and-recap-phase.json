@@ -1,0 +1,58 @@
+{
+  "packet_id": "ECO-PACKET-048",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Regional travel warmth and recap phase",
+  "summary": "Forty-eighth structured packet for Eco Explorer. This lane-1 wave strengthens inland regional travel warmth through current map and post seams, then adds one tiny return-recap pass inside the existing station and map flow.",
+  "source_reports": [
+    "docs/reports/2026-04-02-regional-travel-warmth-and-recap-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-100",
+    "ECO-20260402-main-138",
+    "ECO-20260402-critic-111",
+    "ECO-20260402-scout-101",
+    "ECO-20260402-main-139",
+    "ECO-20260402-critic-112"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-100", "goal": "Prepare an inland regional-travel warmth handoff.", "why_now": "Travel should feel less generic now that season two is live." },
+    { "step": 2, "queue_id": "ECO-20260402-main-138", "goal": "Implement the travel-warmth pass.", "why_now": "Map movement and posts are the right small seams for stronger regional feel." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-111", "goal": "Review the travel-warmth pass.", "why_now": "The new warmth should stay tiny and readable." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-101", "goal": "Prepare one compact return-recap follow-on.", "why_now": "The outing return loop can still feel a bit more intentionally closed." },
+    { "step": 5, "queue_id": "ECO-20260402-main-139", "goal": "Implement the return-recap pass.", "why_now": "A tiny recap can add closure without another planner layer." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-112", "goal": "Review the return-recap pass.", "why_now": "The recap should feel calm, not dashboard-like." }
+  ],
+  "guardrails": [
+    "Do not add a new station page.",
+    "Do not add a larger travel HUD.",
+    "Reuse the current map footer, posts, routes strip, and expedition seams.",
+    "Keep the recap tiny and optional."
+  ],
+  "file_targets": [
+    "src/engine",
+    "src/content/world-map.ts",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Travel feels more regionally grounded.",
+    "Returning from an outing feels a little more closed and intentional.",
+    "Lane 1 stays compact and progression-first."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, docs/reports/2026-04-02-regional-travel-warmth-and-recap-phase.md, and this packet. Treat this as lane 1's next wave: strengthen inland regional travel warmth through existing map and post seams, then add one tiny return-recap pass without opening a larger planner shell."
+}

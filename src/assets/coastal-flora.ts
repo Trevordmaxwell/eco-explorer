@@ -117,4 +117,27 @@ export const coastalFloraSprites: SpriteSource[] = [
       '........',
     ]],
   },
+  {
+    id: 'kinnikinnick',
+    palette: {
+      a: masterPalette.scrubSageDark,
+      b: masterPalette.scrubSageLight,
+      c: masterPalette.berryCoral,
+      d: '#7a5740',
+    },
+    frames: [[
+      '........',
+      '........',
+      '..aa.a..',
+      '.abbba..',
+      '..abba..',
+      '.abccba.',
+      '..abba..',
+      '.abbba..',
+      '...d....',
+      '..ddd...',
+      '.ddddd..',
+      '........',
+    ]],
+  },
 ];

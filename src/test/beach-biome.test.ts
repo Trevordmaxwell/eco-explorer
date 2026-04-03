@@ -17,6 +17,16 @@ describe('beach biome definition', () => {
     expect(tidepoolShellTable?.entries.some((entry) => entry.entryId === 'sand-dollar-test')).toBe(true);
   });
 
+  it('adds a dry-sand runner layer without crowding the tide line', () => {
+    const dunePlants = beachBiome.spawnTables.find((table) => table.id === 'stable-plants');
+    const drySandPlants = beachBiome.spawnTables.find((table) => table.id === 'stable-shore-plants');
+    const drySandRunners = beachBiome.spawnTables.find((table) => table.id === 'stable-dry-sand-runners');
+
+    expect(dunePlants?.entries.some((entry) => entry.entryId === 'beach-pea')).toBe(true);
+    expect(drySandPlants?.entries.some((entry) => entry.entryId === 'beach-pea')).toBe(true);
+    expect(drySandRunners?.entries).toEqual([{ entryId: 'beach-pea', weight: 1 }]);
+  });
+
   it('adds a front-half lee pocket between dry sand and the tide line', () => {
     expect(beachBiome.terrainRules.zones.map((zone) => zone.id)).toEqual([
       'dune-edge',
@@ -68,5 +78,15 @@ describe('beach biome generation', () => {
       leePocketLife.some((entity) => entity.entryId === 'bull-kelp-wrack') ||
         leePocketLife.some((entity) => entity.entryId === 'pacific-sand-crab'),
     ).toBe(true);
+  });
+
+  it('keeps silky beach pea in the upper beach rather than washing it into the tide line', () => {
+    const save = createNewSaveState('beach-dry-sand-runner-seed');
+    const instance = generateBiomeInstance(beachBiome, save, 1);
+    const beachPeas = instance.entities.filter((entity) => entity.entryId === 'beach-pea');
+
+    expect(beachPeas.length).toBeGreaterThanOrEqual(1);
+    expect(beachPeas.some((entity) => entity.x >= 146 && entity.x < 288)).toBe(true);
+    expect(beachPeas.every((entity) => entity.x < 288)).toBe(true);
   });
 });

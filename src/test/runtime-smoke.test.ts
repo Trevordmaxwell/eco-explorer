@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 
-import { beachBiome, coastalScrubBiome, forestBiome, treelineBiome } from '../content/biomes';
+import { beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
 import { createGame } from '../engine/game';
 import { createNewSaveState, loadOrCreateSave, persistSave, recordDiscovery } from '../engine/save';
 
@@ -754,7 +754,7 @@ describe('runtime smoke loop', () => {
       ],
     });
     expect(state.fieldStation?.seasonWrap).toMatchObject({
-      label: 'NOTEBOOK READY',
+      label: 'HIDDEN HOLLOW',
       text: 'Seep stone confirms the damp lower hollow under the roots.',
     });
 
@@ -763,7 +763,7 @@ describe('runtime smoke loop', () => {
     expect(seededSave.routeV2Progress).toBeNull();
     expect(seededSave.completedFieldRequestIds).toContain('forest-hidden-hollow');
     expect(state.fieldRequestNotice).toMatchObject({
-      title: 'TASK RECORDED',
+      title: 'HIDDEN HOLLOW',
       text: 'Seep stone confirms the damp lower hollow under the roots.',
     });
     expect(state.activeFieldRequest).toMatchObject({
@@ -817,19 +817,150 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.fieldStation?.seasonWrap).toMatchObject({
-      label: 'NOTEBOOK READY',
+      label: 'MOISTURE HOLDERS',
       text: 'Licorice Fern, Seep Stone, and Banana Slug show the hollow holding moisture.',
     });
 
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.fieldRequestNotice).toMatchObject({
-      title: 'TASK RECORDED',
+      title: 'MOISTURE HOLDERS',
       text: 'Licorice Fern, Seep Stone, and Banana Slug show the hollow holding moisture.',
     });
     expect(state.activeFieldRequest).toMatchObject({
       id: 'forest-survey-slice',
       progressLabel: '0/4 clues',
+    });
+  });
+
+  it('keeps Short Season as the title while note tabs files a thaw-window page stamp', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-thaw-window-file-display-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'cottongrass' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('tundra');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+    let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+    expect(state.worldMap?.focusedLocationId).toBe('tundra');
+
+    tapKey(fakeWindow, 'm');
+    state = readState(fakeWindow);
+    const stationMenuActions = state.menu?.availableActions ?? [];
+    for (let index = 0; state.menu?.selectedAction !== 'field-station' && index <= stationMenuActions.length; index += 1) {
+      tapKey(fakeWindow, 'ArrowDown');
+      state = readState(fakeWindow);
+    }
+    expect(state.menu?.selectedAction).toBe('field-station');
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.seasonWrap).toMatchObject({
+      label: 'SHORT SEASON',
+      text: 'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    });
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(seededSave.routeV2Progress).toBeNull();
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'SHORT SEASON',
+      text: 'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'tundra-survey-slice',
+      progressLabel: '0/4 clues',
+    });
+  });
+
+  it('uses the four-leg Low Fell note when note tabs previews and files the edge-line close', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-low-fell-four-leg-file-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+    ];
+    seededSave.routeV2Progress = {
+      requestId: 'treeline-low-fell',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+        { slotId: 'low-rest', entryId: 'arctic-willow' },
+      ],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('treeline');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+    let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+    expect(state.worldMap?.focusedLocationId).toBe('treeline');
+
+    tapKey(fakeWindow, 'm');
+    state = readState(fakeWindow);
+    const stationMenuActions = state.menu?.availableActions ?? [];
+    for (let index = 0; state.menu?.selectedAction !== 'field-station' && index <= stationMenuActions.length; index += 1) {
+      tapKey(fakeWindow, 'ArrowDown');
+      state = readState(fakeWindow);
+    }
+    expect(state.menu?.selectedAction).toBe('field-station');
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.seasonWrap).toMatchObject({
+      label: 'LOW FELL',
+      text: 'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
+    });
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(seededSave.routeV2Progress).toBeNull();
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'LOW FELL',
+      text: 'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'forest-expedition-upper-run',
+      progressLabel: 'Go To Forest Trail',
     });
   });
 
@@ -1192,7 +1323,7 @@ describe('runtime smoke loop', () => {
     expect(state.visibleVerticalCueIds).toEqual([]);
   });
 
-  it('turns the treeline lee pocket into a compact lee-side lift with a tucked high perch', () => {
+  it('turns the treeline lee pocket into a compact crest-and-notch loop', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-treeline-lee-lift-seed');
     persistSave(seededSave);
@@ -1281,20 +1412,224 @@ describe('runtime smoke loop', () => {
       fakeWindow.dispatchEvent({ type: 'keyup', key: 'ArrowRight', preventDefault() {} });
       fakeWindow.advanceTime?.(16);
 
+      foundState = null;
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'ArrowRight', preventDefault() {} });
+      for (let index = 0; index < 60; index += 1) {
+        fakeWindow.advanceTime?.(16);
+        const nextState = readState(fakeWindow);
+        if (
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= 468 &&
+          (nextState.player?.x ?? 999) <= 490 &&
+          (nextState.player?.y ?? 0) >= 99 &&
+          (nextState.player?.y ?? 999) <= 101
+        ) {
+          foundState = nextState;
+          break;
+        }
+      }
+      expect(foundState).not.toBeNull();
+      state = foundState;
+      expect(state.zoneId).toBe('dwarf-shrub');
+      expect(state.visibleVerticalCueIds).toContain('lee-pocket-rime-light');
+
+      fakeWindow.dispatchEvent({ type: 'keyup', key: 'ArrowRight', preventDefault() {} });
+      fakeWindow.advanceTime?.(16);
+
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'ArrowRight', preventDefault() {} });
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'Space', preventDefault() {} });
+      fakeWindow.advanceTime?.(16);
+      fakeWindow.dispatchEvent({ type: 'keyup', key: 'Space', preventDefault() {} });
+
+      foundState = null;
+      for (let index = 0; index < 90; index += 1) {
+        fakeWindow.advanceTime?.(16);
+        const nextState = readState(fakeWindow);
+        if (
+          !nextState.player?.climbing &&
+          (nextState.player?.x ?? 0) >= 506 &&
+          (nextState.player?.x ?? 999) <= 520 &&
+          (nextState.player?.y ?? 999) <= 89
+        ) {
+          foundState = nextState;
+          break;
+        }
+      }
+      expect(foundState).not.toBeNull();
+      state = foundState;
+      expect(state.zoneId).toBe('lichen-fell');
+      expect(
+        state.nearbyInspectables.some(
+          (entity: any) => entity.entryId === 'mountain-avens' && entity.x >= 510 && entity.y <= 80,
+        ),
+      ).toBe(true);
+
+      fakeWindow.dispatchEvent({ type: 'keyup', key: 'ArrowRight', preventDefault() {} });
+      fakeWindow.advanceTime?.(16);
+
       state = advanceWhileHoldingKeyUntil(
         fakeWindow,
         'ArrowRight',
         (nextState) =>
           !nextState.player?.climbing &&
           nextState.zoneId === 'lichen-fell' &&
-          (nextState.player?.x ?? 0) >= 506 &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= 540 &&
+          (nextState.player?.x ?? 999) <= 556 &&
+          (nextState.player?.y ?? 0) >= 100 &&
+          (nextState.player?.y ?? 999) <= 104,
+        160,
+      );
+      expect(state.zoneId).toBe('lichen-fell');
+      expect(state.player?.y).toBeGreaterThanOrEqual(100);
+      expect(state.player?.y).toBeLessThanOrEqual(104);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          nextState.zoneId === 'lichen-fell' &&
+          (nextState.player?.x ?? 0) >= 560 &&
           (nextState.player?.y ?? 999) <= 112,
-        120,
+        160,
       );
       expect(state.zoneId).toBe('lichen-fell');
       expect(state.player?.y).toBeLessThanOrEqual(112);
     } finally {
       treelineBiome.startPosition = originalTreelineStartPosition;
+    }
+  });
+
+  it('turns the tundra thaw-skirt route into one fuller inland relief and snow-edge family', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-tundra-relief-seed');
+    persistSave(seededSave);
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 332, y: 120 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      let state = readState(fakeWindow);
+      expect(state.zoneId).toBe('thaw-skirt');
+      expect(state.player?.x).toBeGreaterThanOrEqual(324);
+      expect(state.player?.x).toBeLessThanOrEqual(340);
+
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'ArrowRight', preventDefault() {} });
+      for (let index = 0; index < 22; index += 1) {
+        fakeWindow.advanceTime?.(16);
+      }
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'Space', preventDefault() {} });
+      fakeWindow.advanceTime?.(16);
+      fakeWindow.dispatchEvent({ type: 'keyup', key: 'Space', preventDefault() {} });
+
+      let foundState: any = null;
+      for (let index = 0; index < 90; index += 1) {
+        fakeWindow.advanceTime?.(16);
+        const nextState = readState(fakeWindow);
+        if (
+          !nextState.player?.climbing &&
+          (nextState.player?.x ?? 0) >= 352 &&
+          (nextState.player?.x ?? 999) <= 430 &&
+          (nextState.player?.y ?? 999) <= 94
+        ) {
+          foundState = nextState;
+          break;
+        }
+      }
+      expect(foundState).not.toBeNull();
+      state = foundState;
+      expect(state.zoneId).toBe('thaw-skirt');
+
+      foundState = null;
+      for (let index = 0; index < 140; index += 1) {
+        fakeWindow.advanceTime?.(16);
+        const nextState = readState(fakeWindow);
+        if (
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= 420 &&
+          (nextState.player?.x ?? 999) <= 444 &&
+          (nextState.player?.y ?? 0) >= 94 &&
+          (nextState.player?.y ?? 999) <= 102
+        ) {
+          foundState = nextState;
+          break;
+        }
+      }
+      expect(foundState).not.toBeNull();
+      state = foundState;
+      expect(state.zoneId).toBe('frost-ridge');
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          nextState.zoneId === 'frost-ridge' &&
+          (nextState.player?.x ?? 0) >= 448 &&
+          (nextState.player?.y ?? 999) <= 102,
+        90,
+      );
+      expect(state.zoneId).toBe('frost-ridge');
+      expect(state.player?.y).toBeLessThanOrEqual(102);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          nextState.zoneId === 'frost-ridge' &&
+          (nextState.player?.x ?? 0) >= 500 &&
+          (nextState.player?.x ?? 999) <= 522 &&
+          (nextState.player?.y ?? 999) <= 100,
+        120,
+      );
+      expect(state.zoneId).toBe('frost-ridge');
+      expect(state.player?.x).toBeGreaterThanOrEqual(500);
+      expect(state.player?.x).toBeLessThanOrEqual(522);
+      expect(state.player?.y).toBeLessThanOrEqual(100);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          nextState.zoneId === 'meltwater-edge' &&
+          (nextState.player?.x ?? 0) >= 538 &&
+          (nextState.player?.x ?? 999) <= 560 &&
+          (nextState.player?.y ?? 999) <= 108,
+        120,
+      );
+      expect(state.zoneId).toBe('meltwater-edge');
+      expect(state.player?.x).toBeGreaterThanOrEqual(538);
+      expect(state.player?.x).toBeLessThanOrEqual(560);
+      expect(state.player?.y).toBeLessThanOrEqual(108);
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'tussock-thaw-channel'),
+      ).toBe(true);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          nextState.zoneId === 'meltwater-edge' &&
+          (nextState.player?.x ?? 0) >= 570 &&
+          (nextState.player?.y ?? 999) <= 114,
+        120,
+      );
+      expect(state.zoneId).toBe('meltwater-edge');
+      expect(state.player?.x).toBeGreaterThanOrEqual(570);
+      expect(state.player?.y).toBeLessThanOrEqual(114);
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
     }
   });
 
@@ -1377,6 +1712,141 @@ describe('runtime smoke loop', () => {
       id: 'old-growth-main-trunk',
       inRange: true,
     });
+  });
+
+  it('turns the cave-return high run into one carry from log-run through the bridge, hinge light, and giant tree', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-forest-high-run-carry-seed');
+    persistSave(seededSave);
+    const originalForestStartPosition = { ...forestBiome.startPosition };
+    forestBiome.startPosition = { x: 452, y: 90 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('forest');
+
+      let state = readState(fakeWindow);
+      expect(state.zoneId).toBe('log-run');
+      expect(state.player?.x).toBeGreaterThanOrEqual(448);
+      expect(state.player?.y).toBeLessThanOrEqual(104);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          nextState.zoneId === 'creek-bend' &&
+          (nextState.player?.x ?? 0) >= 580,
+        240,
+      );
+      expect(state.zoneId).toBe('creek-bend');
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          nextState.zoneId === 'old-growth-pocket' &&
+          (nextState.player?.x ?? 0) >= 640 &&
+          (nextState.player?.x ?? 0) <= 656,
+        180,
+      );
+      expect(state.zoneId).toBe('old-growth-pocket');
+      expect(state.player?.x).toBeGreaterThanOrEqual(640);
+      expect(state.player?.x).toBeLessThanOrEqual(656);
+      expect(state.visibleVerticalCueIds).toContain('old-wood-hinge-light');
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          nextState.zoneId === 'old-growth-pocket' &&
+          (nextState.player?.x ?? 0) >= 688 &&
+          nextState.nearbyClimbable?.id === 'old-growth-main-trunk',
+        280,
+      );
+      expect(state.zoneId).toBe('old-growth-pocket');
+      expect(state.nearbyClimbable).toMatchObject({
+        id: 'old-growth-main-trunk',
+        inRange: true,
+      });
+    } finally {
+      forestBiome.startPosition = originalForestStartPosition;
+    }
+  });
+
+  it('adds one tucked trunk-foot nook at the giant-tree arrival and keeps the trunk rejoin clean', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-old-growth-trunk-foot-nook-seed');
+    persistSave(seededSave);
+    const originalForestStartPosition = { ...forestBiome.startPosition };
+    forestBiome.startPosition = { x: 640, y: 142 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('forest');
+
+      let state = readState(fakeWindow);
+      expect(state.zoneId).toBe('old-growth-pocket');
+      expect(state.player?.x).toBeGreaterThanOrEqual(640);
+      expect(state.player?.x).toBeLessThanOrEqual(648);
+      expect(state.player?.y).toBeLessThanOrEqual(146);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          nextState.zoneId === 'old-growth-pocket' &&
+          (nextState.player?.x ?? 0) >= 656,
+        40,
+      );
+      expect(state.zoneId).toBe('old-growth-pocket');
+
+      fakeWindow.dispatchEvent({ type: 'keydown', key: 'ArrowRight', preventDefault() {} });
+      fakeWindow.dispatchEvent({ type: 'keydown', key: ' ', preventDefault() {} });
+      for (let index = 0; index < 20; index += 1) {
+        fakeWindow.advanceTime?.(16);
+      }
+      fakeWindow.dispatchEvent({ type: 'keyup', key: ' ', preventDefault() {} });
+
+      state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'old-growth-pocket' &&
+          (nextState.player?.x ?? 0) >= 668 &&
+          (nextState.player?.x ?? 999) <= 684 &&
+          (nextState.player?.y ?? 999) <= 140 &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'western-hemlock-seedling'),
+        80,
+      );
+      fakeWindow.dispatchEvent({ type: 'keyup', key: 'ArrowRight', preventDefault() {} });
+      fakeWindow.advanceTime?.(16);
+
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'western-hemlock-seedling'),
+      ).toBe(true);
+      expect(state.player?.y).toBeLessThanOrEqual(140);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          nextState.zoneId === 'old-growth-pocket' &&
+          (nextState.player?.x ?? 0) >= 682 &&
+          nextState.nearbyClimbable?.id === 'old-growth-main-trunk',
+        80,
+      );
+      expect(state.nearbyClimbable).toMatchObject({
+        id: 'old-growth-main-trunk',
+        inRange: true,
+      });
+    } finally {
+      forestBiome.startPosition = originalForestStartPosition;
+    }
   });
 
   it('adds an optional old-growth giant-tree climb with a sheltered upper-canopy pocket', () => {
@@ -1939,7 +2409,7 @@ describe('runtime smoke loop', () => {
       progressLabel: '0/3 signs',
     });
     expect(state.fieldRequestNotice).toMatchObject({
-      title: 'TASK RECORDED',
+      title: 'ROOT HOLLOW',
       text: 'Seep Stone, Banana Slug, Root Curtain, and Douglas-fir Cone now map the whole hollow return.',
     });
     expect(state.fieldStation?.expedition).toMatchObject({
@@ -1947,7 +2417,7 @@ describe('runtime smoke loop', () => {
       statusLabel: 'LOGGED',
       teaser: {
         label: 'NEXT EXPEDITION',
-        text: 'Another special outing can open here later.',
+        text: 'Treeline Pass waits beyond Root Hollow.',
       },
     });
   });
@@ -2057,9 +2527,8 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.routeBoard).toMatchObject({
       routeId: 'treeline-shelter-line',
       routeTitle: 'TREELINE SHELTER LINE',
-      summary: 'Leave canopy cover. Follow shelter and thaw into the inland exposure chapter.',
-      nextDirection:
-        'Next: travel to Treeline Pass and match one stone break, one bent cover, and one lee-life clue.',
+      summary: 'Leave canopy cover. Follow the last sheltered treeline pocket before the thaw edge.',
+      nextDirection: 'Next: travel to Treeline Pass and log bent cover first, then stone break, then lee life.',
       targetBiomeId: 'treeline',
       beats: [
         { id: 'treeline-shelter', status: 'active' },
@@ -2070,7 +2539,7 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.atlas).toEqual({
       title: 'FIELD ATLAS',
       loggedRoutes: ['COASTAL SHELTER LINE logged'],
-      note: 'Next: follow the inland shelter line.',
+      note: 'Coast filed. Inland shelter next.',
     });
     expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
 
@@ -2083,11 +2552,84 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
 
     tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
 
     tapKey(fakeWindow, 'Escape');
     const mapState = readState(fakeWindow);
     expect(mapState.scene).toBe('world-map');
     expect(mapState.worldMap?.routeMarkerLocationId).toBe('treeline');
+  });
+
+  it('switches the route board to tundra and can hand the outing guide to route marker', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-high-country-route-board-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.purchasedUpgradeIds = ['trail-stride', 'field-step', 'route-marker'];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('forest');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    let state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+    expect(state.worldMap?.focusedLocationId).toBe('forest');
+
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'treeline-shelter-line',
+      routeTitle: 'TREELINE SHELTER LINE',
+      summary: 'Sheltered treeline pocket logged. Follow the tundra thaw window out and back.',
+      nextDirection: 'Next: travel to Tundra Reach and log first bloom, then wet tuft, then brief fruit.',
+      targetBiomeId: 'tundra',
+      beats: [
+        { id: 'treeline-shelter', status: 'done' },
+        { id: 'tundra-short-season', status: 'active' },
+        { id: 'tundra-survey', status: 'upcoming' },
+      ],
+    });
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
+
+    tapKey(fakeWindow, 'ArrowUp');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.outingSupportSelected).toBe(true);
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('place-tab');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'TODAY',
+      text: 'What here marks the wet edge of thaw?',
+    });
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
+
+    tapKey(fakeWindow, 'Escape');
+    const mapState = readState(fakeWindow);
+    expect(mapState.scene).toBe('world-map');
+    expect(mapState.worldMap?.routeMarkerLocationId).toBe('tundra');
   });
 
   it('switches the route board to coastal scrub and can hand the outing guide to route marker', () => {
@@ -2137,7 +2679,7 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.atlas).toEqual({
       title: 'FIELD ATLAS',
       loggedRoutes: ['COASTAL SHELTER LINE logged', 'TREELINE SHELTER LINE logged'],
-      note: 'Next: follow the low-fell edge line.',
+      note: 'Coast and ridge filed. Low-fell edge next.',
     });
     expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
 
@@ -2150,11 +2692,71 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
 
     tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('place-tab');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'TODAY',
+      text: 'Where does the scrub start looking calmer?',
+    });
+
+    tapKey(fakeWindow, 'Enter');
 
     tapKey(fakeWindow, 'Escape');
     const mapState = readState(fakeWindow);
     expect(mapState.scene).toBe('world-map');
     expect(mapState.worldMap?.routeMarkerLocationId).toBe('coastal-scrub');
+  });
+
+  it('shows the thaw-window route replay note when re-entering tundra during the active process window', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-thaw-window-route-replay-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('tundra');
+
+    const state = readState(fakeWindow);
+    expect(state.scene).toBe('biome');
+    expect(state.biomeId).toBe('tundra');
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'tundra-short-season',
+      title: 'Thaw Window',
+      summary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
+    });
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'Thaw Window',
+      text: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
+    });
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'treeline-shelter-line',
+      summary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
+      replayNote: {
+        id: 'tundra-thaw-window',
+        title: 'Thaw Window',
+      },
+    });
+    expect(state.fieldStation?.routeBoard?.beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'tundra-short-season', status: 'active', title: 'Thaw Window' }),
+      ]),
+    );
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'TODAY',
+      text: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
+    });
   });
 
   it('shows one route replay note when re-entering the active route biome during a live replay window', () => {
@@ -2211,6 +2813,87 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'TODAY',
       text: 'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
+    });
+  });
+
+  it('shows the route replay notice when resuming from title into a saved forest replay state', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-route-replay-resume-forest-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+    ];
+    seededSave.worldStep = 6;
+    seededSave.biomeVisits.forest = 2;
+    seededSave.lastBiomeId = 'forest';
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    let state = readState(fakeWindow);
+    expect(state.mode).toBe('title');
+    expect(state.biomeId).toBe('forest');
+    expect(state.fieldStation?.routeBoard?.replayNote).toMatchObject({
+      id: 'edge-moist-edge',
+      title: 'Moist Edge',
+    });
+    expect(state.fieldRequestNotice).toBeNull();
+
+    tapKey(fakeWindow, 'Enter');
+
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('playing');
+    expect(state.biomeId).toBe('forest');
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'Moist Edge',
+      text: 'At Creek Bend, read which carrier, floor, and shade still hold moisture on the forest side.',
+    });
+  });
+
+  it('shows the route replay notice when resuming from title into a saved tundra replay state', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-route-replay-resume-tundra-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    seededSave.lastBiomeId = 'tundra';
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    let state = readState(fakeWindow);
+    expect(state.mode).toBe('title');
+    expect(state.biomeId).toBe('tundra');
+    expect(state.fieldStation?.routeBoard?.replayNote).toMatchObject({
+      id: 'tundra-thaw-window',
+      title: 'Thaw Window',
+    });
+    expect(state.fieldRequestNotice).toBeNull();
+
+    tapKey(fakeWindow, 'Enter');
+
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('playing');
+    expect(state.biomeId).toBe('tundra');
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'Thaw Window',
+      text: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
     });
   });
 
@@ -2286,9 +2969,110 @@ describe('runtime smoke loop', () => {
       routeId: 'edge-pattern-line',
       complete: true,
     });
+    expect(state.fieldStation?.atlas).toEqual({
+      title: 'FIELD ATLAS',
+      loggedRoutes: [
+        'COASTAL SHELTER LINE logged',
+        'TREELINE SHELTER LINE logged',
+        'EDGE PATTERN LINE logged',
+      ],
+      note: 'Coast, ridge, edge filed. Root Hollow next.',
+    });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'ROUTE LOGGED',
-      text: 'Open Root Hollow below the forest.',
+      text: 'Good stopping point. Root Hollow waits below.',
+    });
+  });
+
+  it('uses a note-tabs chapter-close line once the edge line is logged', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-note-tabs-edge-line-close-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+    ];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'EDGE LINE LOGGED',
+      text: 'Low Fell closes the edge line. Root Hollow waits below.',
+    });
+  });
+
+  it('uses a calmer stop cue once Root Hollow is ready to file', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-root-hollow-stop-cue-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+    ];
+    seededSave.routeV2Progress = {
+      requestId: 'forest-expedition-upper-run',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+        { slotId: 'high-run', entryId: 'fir-cone' },
+      ],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'Enter');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'edge-pattern-line',
+      complete: true,
+      summary: 'Root Hollow is ready to file. Return to the field station and log the chapter.',
+    });
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'ROUTE LOGGED',
+      text: 'Good stopping point. The note is ready.',
     });
   });
 
@@ -2374,7 +3158,7 @@ describe('runtime smoke loop', () => {
     });
   });
 
-  it('surfaces the season capstone, then opens the next field season through the expedition seam', () => {
+  it('surfaces the season capstone, then opens the next field season on the routes shell', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-season-capstone-seed');
     seededSave.completedFieldRequestIds = [
@@ -2440,7 +3224,7 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'ROUTE LOGGED',
-      text: 'Tie coast and hollow in Forest Trail.',
+      text: 'Good stopping point. Season Threads waits in Forest Trail.',
     });
 
     seededSave.completedFieldRequestIds = [...seededSave.completedFieldRequestIds, 'forest-season-threads'];
@@ -2458,6 +3242,7 @@ describe('runtime smoke loop', () => {
       id: 'route-locator:treeline',
       biomeId: 'treeline',
       title: 'High Pass',
+      summary: 'Treeline Pass carries the season toward High Pass.',
       progressLabel: 'NEXT',
     });
     tapKey(fakeWindow, 'Escape');
@@ -2481,16 +3266,30 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.seasonNote).toMatchObject({
       title: 'NEXT FIELD SEASON',
     });
-    expect(state.fieldStation?.seasonPage).toBe('expedition');
-    expect(state.fieldStation?.subtitle).toBe('High Pass opens the next field season.');
+    expect(state.fieldStation?.seasonPage).toBe('routes');
+    expect(state.fieldStation?.subtitle).toBe('High Pass starts at Treeline Pass.');
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Root Hollow now leads to High Pass.',
     });
+    expect(state.fieldStation?.atlas?.note).toBe('Next: take the High Pass from Treeline Pass.');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: 'treeline',
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'NEXT',
+        summary: 'Treeline Pass carries the season toward High Pass.',
+      },
+    });
+
+    tapKey(fakeWindow, 'ArrowRight');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('expedition');
+    expect(state.fieldStation?.subtitle).toBe('High Pass opens the next field season.');
     expect(state.fieldStation?.expedition).toMatchObject({
       teaser: {
         label: 'NEXT FIELD SEASON',
-        text: 'Follow Root Hollow into High Pass.',
+        text: 'High Pass waits beyond Root Hollow.',
       },
     });
 
@@ -2506,12 +3305,8 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
-    expect(state.fieldStation?.seasonPage).toBe('expedition');
-
-    tapKey(fakeWindow, 'ArrowLeft');
-    state = readState(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
-    expect(state.fieldStation?.subtitle).toBe('High Pass continues from Treeline Pass.');
+    expect(state.fieldStation?.subtitle).toBe('High Pass starts at Treeline Pass.');
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Root Hollow now leads to High Pass.',
@@ -2522,8 +3317,7 @@ describe('runtime smoke loop', () => {
       launchCard: {
         title: 'HIGH PASS',
         progressLabel: 'NEXT',
-        summary: 'Treeline Pass opens the next field season.',
-        detail: 'Match last tree, low wood, and fell bloom.',
+        summary: 'Treeline Pass carries the season toward High Pass.',
       },
     });
 
@@ -2534,6 +3328,10 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('place-tab');
 
     tapKey(fakeWindow, 'Enter');
     tapKey(fakeWindow, 'Escape');
@@ -2548,11 +3346,66 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
     tapKey(fakeWindow, 'ArrowRight');
+    tapKey(fakeWindow, 'ArrowRight');
     state = readState(fakeWindow);
     expect(state.fieldStation?.view).toBe('nursery');
     expect(state.fieldStation?.nursery.routeSupportHint).toBe(
       'Salmonberry still marks the cooler forest return tying the season together.',
     );
+  });
+
+  it('shows the treeline place-tab question once the edge line reaches Low Fell', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-place-tab-low-fell-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+    ];
+    seededSave.purchasedUpgradeIds = ['trail-stride', 'field-step', 'route-marker'];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('forest');
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    let state = readState(fakeWindow);
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'edge-pattern-line',
+      targetBiomeId: 'treeline',
+      beats: [
+        { id: 'scrub-edge-pattern', status: 'done' },
+        { id: 'forest-cool-edge', status: 'done' },
+        { id: 'treeline-low-fell', status: 'active' },
+      ],
+    });
+
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('place-tab');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'TODAY',
+      text: 'Where does tree cover drop into low fell here?',
+    });
   });
 
   it('reports the deterministic day-part cycle through the debug hook as biomes change', () => {
@@ -2971,6 +3824,66 @@ describe('runtime smoke loop', () => {
       label: 'INLAND MAP',
     });
     expect(state.player.x).toBeGreaterThanOrEqual(212);
+  });
+
+  it('warms the forest-side departure cues once High Pass is live', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-high-pass-travel-warmth-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ];
+    seededSave.nurseryClaimedRewardIds = ['nursery:salmonberry-support'];
+    seededSave.purchasedUpgradeIds = ['trail-stride', 'field-step', 'route-marker'];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('forest');
+
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) => nextState.nearbyTravelTarget?.kind === 'map-return',
+      420,
+    );
+    expect(state.nearbyTravelTarget).toEqual({
+      kind: 'map-return',
+      inRange: true,
+      targetBiomeId: null,
+      label: 'HIGH PASS MAP',
+    });
+
+    tapKey(fakeWindow, 'e');
+    state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map', 120);
+    expect(state.worldMap?.currentLocationId).toBe('forest');
+    expect(state.worldMap?.focusedLocationId).toBe('forest');
+    expect(state.worldMap?.routeReplayLabel).toBeNull();
+    expect(state.worldMap?.originLabel).toBeNull();
+    expect(state.worldMap?.focusedSummaryLabel).toBe('Last woods before High Pass.');
+
+    tapKey(fakeWindow, 'ArrowUp');
+    state = readState(fakeWindow);
+    expect(state.worldMap?.focusedLocationId).toBe('treeline');
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: High Pass');
+    expect(state.worldMap?.originLabel).toBe('FROM FOREST TRAIL');
+
+    tapKey(fakeWindow, 'Enter');
+    state = advanceUntil(fakeWindow, (nextState) => nextState.worldMap?.mode === 'walking', 120);
+    expect(state.worldMap?.walkingLabel).toBe('HIGH PASS');
   });
 
   it('keeps the current origin readable on the world map when focus moves away', () => {

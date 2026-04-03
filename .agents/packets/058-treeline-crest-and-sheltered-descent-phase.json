@@ -1,0 +1,60 @@
+{
+  "packet_id": "ECO-PACKET-058",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Treeline crest and sheltered descent phase",
+  "summary": "Fifty-eighth structured packet for Eco Explorer. This lane-3 wave gives treeline a stronger crest and a calmer sheltered-descent identity so its vertical family feels more complete.",
+  "source_reports": [
+    "docs/reports/2026-04-02-treeline-crest-and-sheltered-descent-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-120",
+    "ECO-20260402-main-158",
+    "ECO-20260402-critic-131",
+    "ECO-20260402-scout-121",
+    "ECO-20260402-main-159",
+    "ECO-20260402-critic-132"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-124"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-120", "goal": "Prepare the treeline crest handoff.", "why_now": "Treeline is ready to feel more like a full vertical family rather than just a lift." },
+    { "step": 2, "queue_id": "ECO-20260402-main-158", "goal": "Implement the crest pass.", "why_now": "A stronger crest can make the treeline climb feel more memorable without broadening it." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-131", "goal": "Review the crest pass.", "why_now": "The crest must stay chip-safe, readable, and calm." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-121", "goal": "Prepare the sheltered-descent follow-on.", "why_now": "A memorable return is the next gain after the crest itself." },
+    { "step": 5, "queue_id": "ECO-20260402-main-159", "goal": "Implement the descent pass.", "why_now": "A calmer return can complete the treeline family without new HUD or cue language." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-132", "goal": "Review the descent pass.", "why_now": "The return should feel fair, not harsher." }
+  ],
+  "guardrails": [
+    "Keep the vertical gain modest.",
+    "Do not add a harsher second climb family.",
+    "Reuse current hint, recovery, and shelter language.",
+    "Preserve chip-safe headroom and browser readability."
+  ],
+  "file_targets": [
+    "src/content/biomes/treeline.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Treeline has a fuller start-to-return vertical identity.",
+    "The crest feels memorable but calm.",
+    "The descent stays recoverable and readable."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-04-02-treeline-crest-and-sheltered-descent-phase.md, and this packet. Treat this as lane 3's next long-push wave after the current treeline/tundra vertical work: give treeline a stronger crest and a sheltered descent without adding a harsher climb family or a new cue language."
+}

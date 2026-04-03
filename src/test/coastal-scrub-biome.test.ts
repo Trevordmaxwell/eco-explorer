@@ -21,6 +21,7 @@ describe('coastal scrub biome definition', () => {
 
   it('reuses shared edge species ids for beach and forest continuity', () => {
     expect(coastalScrubBiome.entries['beach-grass'].id).toBe('beach-grass');
+    expect(coastalScrubBiome.entries['beach-pea'].id).toBe('beach-pea');
     expect(coastalScrubBiome.entries['sand-verbena'].id).toBe('sand-verbena');
     expect(coastalScrubBiome.entries['sea-rocket'].id).toBe('sea-rocket');
     expect(coastalScrubBiome.entries['sword-fern'].id).toBe('sword-fern');
@@ -30,6 +31,7 @@ describe('coastal scrub biome definition', () => {
   it('adds the new scrub-density entries without breaking the ecotone mix', () => {
     expect(coastalScrubBiome.entries['coyote-brush'].id).toBe('coyote-brush');
     expect(coastalScrubBiome.entries['beach-strawberry'].id).toBe('beach-strawberry');
+    expect(coastalScrubBiome.entries.kinnikinnick.id).toBe('kinnikinnick');
   });
 });
 
@@ -64,7 +66,9 @@ describe('coastal scrub biome generation', () => {
       .map((entity) => entity.entryId);
 
     expect(stableEntryIds).toContain('dune-lupine');
+    expect(stableEntryIds).toContain('beach-pea');
     expect(stableEntryIds).toContain('shore-pine');
+    expect(stableEntryIds).toContain('kinnikinnick');
     expect(stableEntryIds).toContain('sword-fern');
     expect(stableEntryIds).toContain('nurse-log');
     expect(stableEntryIds).toContain('nootka-rose');
@@ -109,5 +113,19 @@ describe('coastal scrub biome generation', () => {
 
     expect(swaleCover.length).toBeGreaterThanOrEqual(3);
     expect(swaleCover.some((entity) => entity.entryId === 'beach-strawberry')).toBe(true);
+  });
+
+  it('adds a quieter underlayer inside the shore-pine stand', () => {
+    const save = createNewSaveState('coastal-scrub-shore-pine-underlayer-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const shorePineLayer = instance.entities.filter(
+      (entity) =>
+        entity.x >= 392 &&
+        entity.x < 520 &&
+        ['shore-pine', 'kinnikinnick', 'song-sparrow'].includes(entity.entryId),
+    );
+
+    expect(shorePineLayer.some((entity) => entity.entryId === 'shore-pine')).toBe(true);
+    expect(shorePineLayer.some((entity) => entity.entryId === 'kinnikinnick')).toBe(true);
   });
 });

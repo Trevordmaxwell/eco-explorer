@@ -8,6 +8,8 @@ import { tundraBiome } from '../content/biomes/tundra';
 import {
   arcticWillowEntry,
   beachGrassEntry,
+  beachPeaEntry,
+  bunchberryEntry,
   crowberryEntry,
   lingonberryEntry,
   mountainAvensEntry,
@@ -23,6 +25,9 @@ describe('shared entries', () => {
     expect(beachBiome.entries['beach-grass']).toBe(beachGrassEntry);
     expect(coastalScrubBiome.entries['beach-grass']).toBe(beachGrassEntry);
 
+    expect(beachBiome.entries['beach-pea']).toBe(beachPeaEntry);
+    expect(coastalScrubBiome.entries['beach-pea']).toBe(beachPeaEntry);
+
     expect(beachBiome.entries['sand-verbena']).toBe(sandVerbenaEntry);
     expect(coastalScrubBiome.entries['sand-verbena']).toBe(sandVerbenaEntry);
 
@@ -31,6 +36,8 @@ describe('shared entries', () => {
 
     expect(forestBiome.entries['sword-fern']).toBe(swordFernEntry);
     expect(coastalScrubBiome.entries['sword-fern']).toBe(swordFernEntry);
+    expect(forestBiome.entries.bunchberry).toBe(bunchberryEntry);
+    expect(treelineBiome.entries.bunchberry).toBe(bunchberryEntry);
 
     expect(forestBiome.entries.salmonberry).toBe(salmonberryEntry);
     expect(coastalScrubBiome.entries.salmonberry).toBe(salmonberryEntry);

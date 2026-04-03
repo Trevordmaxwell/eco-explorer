@@ -19,7 +19,7 @@ export type NurserySourceMode = 'seed' | 'cutting';
 export type NurseryRewardKind = 'beauty' | 'route-support' | 'utility';
 export type NurseryGrowthStage = 'stocked' | 'rooting' | 'growing' | 'mature';
 export type NurseryExtraId = 'log-pile' | 'pollinator-patch';
-export type OutingSupportId = 'hand-lens' | 'note-tabs' | 'route-marker';
+export type OutingSupportId = 'hand-lens' | 'note-tabs' | 'place-tab' | 'route-marker';
 export type RouteV2ProgressStatus = 'gathering' | 'ready-to-synthesize';
 
 export interface RouteV2EvidenceSlotProgress {
@@ -101,6 +101,7 @@ export interface NurseryProjectDefinition {
   entryId: string;
   title: string;
   summary: string;
+  memorySummary?: string;
   sourceEntryIds: string[];
   sourceModes: NurserySourceMode[];
   routeTags: string[];

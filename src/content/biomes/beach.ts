@@ -1,6 +1,6 @@
 import { beachPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { beachGrassEntry, sandVerbenaEntry, seaRocketEntry } from '../shared-entries';
+import { beachGrassEntry, beachPeaEntry, sandVerbenaEntry, seaRocketEntry } from '../shared-entries';
 
 const beachEntries = {
   'native-littleneck-shell': {
@@ -49,6 +49,7 @@ const beachEntries = {
     collectible: true,
   },
   'beach-grass': beachGrassEntry,
+  'beach-pea': beachPeaEntry,
   'sand-verbena': sandVerbenaEntry,
   'sea-rocket': seaRocketEntry,
   'western-snowy-plover': {
@@ -195,6 +196,7 @@ export const beachBiome: BiomeDefinition = {
       spacing: 26,
       entries: [
         { entryId: 'beach-grass', weight: 5 },
+        { entryId: 'beach-pea', weight: 1 },
         { entryId: 'sand-verbena', weight: 2 },
         { entryId: 'sea-rocket', weight: 1 },
       ],
@@ -208,9 +210,19 @@ export const beachBiome: BiomeDefinition = {
       spacing: 34,
       entries: [
         { entryId: 'sand-verbena', weight: 4 },
+        { entryId: 'beach-pea', weight: 3 },
         { entryId: 'beach-grass', weight: 2 },
         { entryId: 'sea-rocket', weight: 1 },
       ],
+    },
+    {
+      id: 'stable-dry-sand-runners',
+      zoneId: 'dry-sand',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 30,
+      entries: [{ entryId: 'beach-pea', weight: 1 }],
     },
     {
       id: 'stable-landmark',
@@ -300,6 +312,17 @@ export const beachBiome: BiomeDefinition = {
       observationPrompt:
         'Which low flowers still look protected here?',
       zoneId: 'dune-edge',
+    },
+    {
+      id: 'low-runner-band',
+      title: 'Low Runner Band',
+      entryIds: ['beach-grass', 'sand-verbena', 'beach-pea'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low runners and grass help the first drier sand patch hold on to more life.',
+      observationPrompt:
+        'Which stems lie closest to the sand here?',
+      zoneId: 'dry-sand',
     },
     {
       id: 'shore-shelter',

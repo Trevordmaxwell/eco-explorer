@@ -1,0 +1,59 @@
+{
+  "packet_id": "ECO-PACKET-066",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Canopy and cavern crossover phase",
+  "summary": "Sixty-sixth structured packet for Eco Explorer. This lane-3 wave makes the forest's top and bottom families feel more like one coherent destination, then adds one small recovery-or-memory follow-on.",
+  "source_reports": [
+    "docs/reports/2026-04-02-canopy-and-cavern-crossover-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-136",
+    "ECO-20260402-main-174",
+    "ECO-20260402-critic-147",
+    "ECO-20260402-scout-137",
+    "ECO-20260402-main-175",
+    "ECO-20260402-critic-148"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-140"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-136", "goal": "Prepare the crossover handoff.", "why_now": "The forest vertical family is ready to read as one destination instead of separate showcases." },
+    { "step": 2, "queue_id": "ECO-20260402-main-174", "goal": "Implement the crossover pass.", "why_now": "A stronger crossover can deepen the forest outing more than more raw depth would." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-147", "goal": "Review the crossover pass.", "why_now": "The family should cohere without getting harder or noisier." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-137", "goal": "Prepare one compact recovery-or-memory follow-on.", "why_now": "A small follow-on can make the whole family easier to remember and re-enter." },
+    { "step": 5, "queue_id": "ECO-20260402-main-175", "goal": "Implement the recovery-or-memory follow-on.", "why_now": "The vertical family is now strong enough to benefit from a warmer return seam." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-148", "goal": "Review the follow-on.", "why_now": "The outing family should deepen without another shell or cue language." }
+  ],
+  "guardrails": [
+    "Do not add a larger forest traversal rewrite.",
+    "Do not add another cue language.",
+    "Reuse existing canopy, cave, and recovery seams."
+  ],
+  "file_targets": [
+    "src/content/biomes/forest.ts",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "The forest vertical family feels more like one destination outing.",
+    "Recovery or memory payoff stays compact and useful.",
+    "Lane 3 strengthens cohesion instead of raw size."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-04-02-canopy-and-cavern-crossover-phase.md, and this packet. Treat this as lane 3's later long-push wave after the tundra relief work: make the forest canopy and cavern spaces feel more like one coherent destination without a traversal rewrite or a new cue language."
+}

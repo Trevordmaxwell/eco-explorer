@@ -2,6 +2,7 @@ import { coastalScrubPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
 import {
   beachGrassEntry,
+  beachPeaEntry,
   nootkaRoseEntry,
   salmonberryEntry,
   sandVerbenaEntry,
@@ -11,6 +12,7 @@ import {
 
 const coastalScrubEntries = {
   'beach-grass': beachGrassEntry,
+  'beach-pea': beachPeaEntry,
   'sand-verbena': sandVerbenaEntry,
   'sea-rocket': seaRocketEntry,
   'dune-lupine': {
@@ -68,6 +70,18 @@ const coastalScrubEntries = {
       'Beach strawberry is a low coastal plant with runners that creep outward and start new plants. Its fruits feed animals along dunes and scrub edges.',
     spriteId: 'beach-strawberry',
     collectible: true,
+  },
+  kinnikinnick: {
+    id: 'kinnikinnick',
+    commonName: 'Kinnikinnick',
+    scientificName: 'Arctostaphylos uva-ursi',
+    category: 'plant',
+    shortFact: 'Kinnikinnick makes low evergreen mats beneath coastal pines and on sandy ground.',
+    journalText:
+      'Kinnikinnick is a low evergreen shrub that can spread in mats over sandy coastal soil. Beneath shore pines, it helps show ground that stays steadier and more sheltered than the open dune.',
+    sketchbookNote: 'Evergreen mat tucked under wind-shaped shore pines.',
+    spriteId: 'kinnikinnick',
+    collectible: false,
   },
   'nootka-rose': nootkaRoseEntry,
   'salmonberry': salmonberryEntry,
@@ -192,9 +206,19 @@ export const coastalScrubBiome: BiomeDefinition = {
       spacing: 22,
       entries: [
         { entryId: 'beach-grass', weight: 4 },
+        { entryId: 'beach-pea', weight: 2 },
         { entryId: 'sand-verbena', weight: 3 },
         { entryId: 'sea-rocket', weight: 1 },
       ],
+    },
+    {
+      id: 'stable-back-dune-runners',
+      zoneId: 'back-dune',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 28,
+      entries: [{ entryId: 'beach-pea', weight: 1 }],
     },
     {
       id: 'stable-back-dune-lupine',
@@ -229,6 +253,15 @@ export const coastalScrubBiome: BiomeDefinition = {
       entries: [{ entryId: 'shore-pine', weight: 1 }],
     },
     {
+      id: 'stable-shore-pine-underlayer',
+      zoneId: 'shore-pine-stand',
+      refreshPolicy: 'stable',
+      minCount: 2,
+      maxCount: 3,
+      spacing: 22,
+      entries: [{ entryId: 'kinnikinnick', weight: 1 }],
+    },
+    {
       id: 'stable-windbreak-swale',
       zoneId: 'windbreak-swale',
       refreshPolicy: 'stable',
@@ -237,6 +270,7 @@ export const coastalScrubBiome: BiomeDefinition = {
       spacing: 24,
       entries: [
         { entryId: 'dune-lupine', weight: 3 },
+        { entryId: 'beach-pea', weight: 1 },
         { entryId: 'pacific-wax-myrtle', weight: 3 },
         { entryId: 'coyote-brush', weight: 2 },
       ],
@@ -335,6 +369,17 @@ export const coastalScrubBiome: BiomeDefinition = {
   },
   entries: coastalScrubEntries,
   ecosystemNotes: [
+    {
+      id: 'pine-underlayer',
+      title: 'Pine Underlayer',
+      entryIds: ['shore-pine', 'kinnikinnick', 'song-sparrow'],
+      minimumDiscoveries: 2,
+      summary:
+        'Under shore pines, low mats and quiet cover show sand that stays steadier than the open scrub behind.',
+      observationPrompt:
+        'Where does the scrub start feeling quieter?',
+      zoneId: 'shore-pine-stand',
+    },
     {
       id: 'thorny-cover',
       title: 'Thorny Cover',

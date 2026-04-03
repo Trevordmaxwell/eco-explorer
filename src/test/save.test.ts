@@ -332,6 +332,21 @@ describe('reset save progress', () => {
     } as unknown as Parameters<typeof normalizeSaveState>[0]);
 
     expect(notebookSupport.selectedOutingSupportId).toBe('note-tabs');
+
+    const placeTabSupport = normalizeSaveState({
+      worldSeed: 'legacy-route-v2-place-tab-seed',
+      completedFieldRequestIds: ['treeline-stone-shelter'],
+      selectedOutingSupportId: 'place-tab',
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(placeTabSupport.selectedOutingSupportId).toBe('place-tab');
+
+    const lockedPlaceTabSupport = normalizeSaveState({
+      worldSeed: 'legacy-route-v2-place-tab-locked-seed',
+      selectedOutingSupportId: 'place-tab',
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(lockedPlaceTabSupport.selectedOutingSupportId).toBe('hand-lens');
   });
 
   it('migrates legacy Root Hollow gathering progress into the four-leg chapter shape', () => {
@@ -388,7 +403,34 @@ describe('reset save progress', () => {
     });
   });
 
-  it('cycles outing support through note tabs and route marker safely', () => {
+  it('downgrades legacy Low Fell notebook-ready progress until the new low-rest clue is found', () => {
+    const migrated = normalizeSaveState({
+      worldSeed: 'legacy-low-fell-ready-seed',
+      routeV2Progress: {
+        requestId: 'treeline-low-fell',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: [],
+        evidenceSlots: [
+          { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+          { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(migrated.routeV2Progress).toEqual({
+      requestId: 'treeline-low-fell',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+      ],
+    });
+  });
+
+  it('cycles outing support through note tabs, place tab, and route marker safely', () => {
     const save = createNewSaveState('outing-support-cycle-seed');
 
     expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
@@ -397,15 +439,33 @@ describe('reset save progress', () => {
     expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
     expect(save.selectedOutingSupportId).toBe('hand-lens');
 
+    save.completedFieldRequestIds = ['treeline-stone-shelter'];
+    expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
+    expect(save.selectedOutingSupportId).toBe('note-tabs');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('place-tab');
+    expect(save.selectedOutingSupportId).toBe('place-tab');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
+    expect(save.selectedOutingSupportId).toBe('hand-lens');
+
     save.purchasedUpgradeIds = ['route-marker'];
     expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
     expect(save.selectedOutingSupportId).toBe('note-tabs');
+
+    expect(cycleSelectedOutingSupportId(save)).toBe('place-tab');
+    expect(save.selectedOutingSupportId).toBe('place-tab');
 
     expect(cycleSelectedOutingSupportId(save)).toBe('route-marker');
     expect(save.selectedOutingSupportId).toBe('route-marker');
 
     expect(cycleSelectedOutingSupportId(save)).toBe('hand-lens');
     expect(save.selectedOutingSupportId).toBe('hand-lens');
+
+    save.selectedOutingSupportId = 'place-tab';
+    save.completedFieldRequestIds = [];
+    expect(cycleSelectedOutingSupportId(save)).toBe('note-tabs');
+    expect(save.selectedOutingSupportId).toBe('note-tabs');
 
     save.selectedOutingSupportId = 'route-marker';
     save.purchasedUpgradeIds = [];

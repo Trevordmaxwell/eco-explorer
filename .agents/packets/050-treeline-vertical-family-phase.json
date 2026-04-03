@@ -1,0 +1,58 @@
+{
+  "packet_id": "ECO-PACKET-050",
+  "version": 1,
+  "created_at": "2026-04-02",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Treeline vertical family phase",
+  "summary": "Fiftieth structured packet for Eco Explorer. This lane-3 wave strengthens the new treeline ascent into a fuller vertical loop and then gives tundra one compact terrain-relief proof so vertical identity extends beyond forest.",
+  "source_reports": [
+    "docs/reports/2026-04-02-treeline-vertical-family-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-104",
+    "ECO-20260402-main-142",
+    "ECO-20260402-critic-115",
+    "ECO-20260402-scout-105",
+    "ECO-20260402-main-143",
+    "ECO-20260402-critic-116"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-104", "goal": "Prepare the treeline vertical-loop handoff.", "why_now": "Treeline now has the start of a vertical identity that should become more intentional." },
+    { "step": 2, "queue_id": "ECO-20260402-main-142", "goal": "Implement the treeline vertical loop.", "why_now": "A stronger treeline loop will keep lane 3 from over-centering forest." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-115", "goal": "Review the treeline vertical loop.", "why_now": "The loop needs to stay readable and shelter-oriented." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-105", "goal": "Prepare the tundra relief proof.", "why_now": "A small tundra relief beat is the next best way to broaden vertical identity." },
+    { "step": 5, "queue_id": "ECO-20260402-main-143", "goal": "Implement the tundra relief proof.", "why_now": "Even one compact tundra relief beat can make the inland half feel more varied." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-116", "goal": "Review the tundra relief proof.", "why_now": "The proof should stay calm and readable at the current scale." }
+  ],
+  "guardrails": [
+    "Keep the spaces cozy and recoverable.",
+    "Reuse the current tiny cue language.",
+    "Keep tundra's proof compact and terrain-first.",
+    "Avoid a harsher traversal shell or denser HUD."
+  ],
+  "file_targets": [
+    "src/content",
+    "src/engine",
+    "src/test",
+    "docs/reports",
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "progress.md"
+  ],
+  "acceptance_focus": [
+    "Treeline gains a fuller vertical identity.",
+    "Tundra gets a small but real relief beat.",
+    "Lane 3 grows in biome variety without getting harsher."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-3.md, docs/reports/2026-04-02-treeline-vertical-family-phase.md, and this packet. Treat this as lane 3's next wave: strengthen the treeline ascent into a fuller vertical loop, then add one compact tundra relief proof while keeping the spaces cozy and recoverable."
+}

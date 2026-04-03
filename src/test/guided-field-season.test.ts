@@ -95,7 +95,7 @@ describe('guided field season', () => {
       nextBiomeId: 'treeline',
       stationNote: {
         title: 'NEXT FIELD SEASON',
-        text: 'High Pass opens next from Treeline Pass when you are ready.',
+        text: 'High Pass starts at Treeline Pass when you are ready.',
       },
       promptNotice: null,
     });

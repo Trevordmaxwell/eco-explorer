@@ -82,4 +82,22 @@ export const tundraAmbientSprites: SpriteSource[] = [
       ],
     ],
   },
+  {
+    id: 'tussock-thaw-channel',
+    palette: {
+      a: masterPalette.tundraGreen,
+      b: masterPalette.alpineMoss,
+      c: masterPalette.iceDark,
+      d: masterPalette.frostBlue,
+      e: masterPalette.snowMid,
+    },
+    frames: [[
+      '..............',
+      '..aa....aa....',
+      '.abca..acba...',
+      '.abddccddba...',
+      '..bcdddccb....',
+      '...eeeeee.....',
+    ]],
+  },
 ];
