@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 const packetsDir = path.join(rootDir, '.agents', 'packets');
 const queuePath = path.join(rootDir, '.agents', 'work-queue.md');
+const doneArchivePath = path.join(rootDir, '.agents', 'done-archive.md');
 
 const allowedPacketStatuses = new Set(['READY', 'SUPERSEDED', 'DONE']);
 const allowedQueueStatuses = new Set(['READY', 'IN PROGRESS', 'BLOCKED', 'BLOCKED-BY-IMPLEMENTATION', 'PARKED', 'DONE']);
@@ -56,7 +57,10 @@ function pushError(errors, scope, message) {
 
 function getQueueIndex() {
   const queueText = fs.readFileSync(queuePath, 'utf8');
+  const archiveText = fs.existsSync(doneArchivePath) ? fs.readFileSync(doneArchivePath, 'utf8') : '';
   const queueIds = [...queueText.matchAll(/^###\s+(ECO-[A-Za-z0-9-]+)\s*$/gm)].map((match) => match[1]);
+  const archivedQueueIds = [...archiveText.matchAll(/^###\s+(ECO-[A-Za-z0-9-]+)\s*$/gm)].map((match) => match[1]);
+  const allQueueIds = [...queueIds, ...archivedQueueIds];
   const queuePacketRefs = new Map();
   const queueEntries = [];
 
@@ -107,9 +111,9 @@ function getQueueIndex() {
   }
 
   return {
-    queueIds,
-    queueIdSet: new Set(queueIds),
-    duplicateQueueIds: findDuplicates(queueIds),
+    queueIds: allQueueIds,
+    queueIdSet: new Set(allQueueIds),
+    duplicateQueueIds: findDuplicates(allQueueIds),
     queuePacketRefs,
     queueEntries,
   };

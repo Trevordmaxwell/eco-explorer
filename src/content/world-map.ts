@@ -110,7 +110,7 @@ export const ecoWorldMap: WorldMapDefinition = {
           targetBiomeId: 'coastal-scrub',
         },
       ],
-      mapReturnPost: { x: 260, y: 94, facing: 'right', spriteId: 'map-post' },
+      mapReturnPost: { x: 228, y: 94, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-beach-door',
     },
     {
@@ -140,7 +140,7 @@ export const ecoWorldMap: WorldMapDefinition = {
           targetBiomeId: 'forest',
         },
       ],
-      mapReturnPost: { x: 228, y: 94, facing: 'right', spriteId: 'map-post' },
+      mapReturnPost: { x: 172, y: 94, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-coastal-scrub-door',
     },
     {

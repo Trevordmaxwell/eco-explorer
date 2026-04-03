@@ -1,0 +1,45 @@
+{
+  "packet_id": "ECO-PACKET-074",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Beach process moment and living-world phase",
+  "summary": "Beach is the only biome without a habitat process moment. Every other biome has one authored process cue tied to world-state. This wave adds one compact tide-line wrack process during late marine-haze revisits, using the existing process system and renderer seam to complete living-world coverage.",
+  "source_reports": [
+    "docs/reports/2026-04-03-beach-process-moment-handoff.md",
+    "docs/reports/2026-04-03-beach-process-moment-implementation.md",
+    "docs/reports/2026-04-03-beach-process-moment-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-150",
+    "ECO-20260402-main-188",
+    "ECO-20260402-critic-161"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-150", "goal": "Prepare beach process moment handoff.", "why_now": "Beach is the only biome missing a living-world process cue." },
+    { "step": 2, "queue_id": "ECO-20260402-main-188", "goal": "Implement beach process moment.", "why_now": "Completing process coverage makes every biome feel alive on revisit." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-161", "goal": "Review beach process moment.", "why_now": "Process moments drive replay and must be science-safe." }
+  ],
+  "file_targets": ["src/content/biomes/beach.ts", "src/engine/habitat-process.ts", "src/test/habitat-process.test.ts"],
+  "process_scope": {
+    "main_188_moment_id": "wrack-hold",
+    "style": "moisture-hold",
+    "entry_ids": ["bull-kelp-wrack", "beach-hopper", "pacific-sand-crab"],
+    "zone_ids": ["tide-line"],
+    "weather_profiles": ["marine-haze"],
+    "phenology_phases": ["late"],
+    "minimum_visit_count": 2,
+    "renderer_changes": "none"
+  },
+  "guardrails": [
+    "Process moment must be science-accurate and observable by kids.",
+    "Should tie to existing beach world-state (marine-haze weather or dawn/dusk day-part).",
+    "Must follow the existing processMoments structure keyed to biome + zone + weather + phenology.",
+    "Keep it render-first and visual, not text-heavy.",
+    "Do not add a new habitat-process style for this first beach parity pass.",
+    "Do not widen this pass into route-board or notebook rewrites."
+  ]
+}

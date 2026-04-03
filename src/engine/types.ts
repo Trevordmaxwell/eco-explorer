@@ -76,6 +76,7 @@ export interface SaveState {
   nurseryUnlockedExtraIds: NurseryExtraId[];
   nurseryClaimedRewardIds: string[];
   nurseryLastProcessedWorldStep: number;
+  seasonCloseReturnPending: boolean;
   settings: SaveSettings;
   lastBiomeId: string;
 }

@@ -157,10 +157,51 @@ interface FieldRequestContext {
 
 export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
   {
+    id: 'beach-shore-shelter',
+    biomeId: 'beach',
+    title: 'Shore Shelter',
+    summary: 'On Sunny Beach, log dune-grass, then lee-cover, then wrack-line from dune edge to tide line.',
+    type: 'transect-evidence',
+    zoneIds: ['dune-edge', 'lee-pocket', 'tide-line'],
+    evidenceSlots: [
+      {
+        id: 'dune-grass',
+        label: 'Dune-grass clue',
+        entryIds: ['beach-grass'],
+        zoneId: 'dune-edge',
+      },
+      {
+        id: 'lee-cover',
+        label: 'Lee-cover clue',
+        entryIds: ['driftwood-log'],
+        zoneId: 'lee-pocket',
+      },
+      {
+        id: 'wrack-line',
+        label: 'Wrack-line clue',
+        entryIds: ['bull-kelp-wrack'],
+        zoneId: 'tide-line',
+      },
+    ],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the Shore Shelter note.',
+      filedText: 'Beach grass, driftwood, and bull kelp wrack mark how shelter grows from dune edge to tide line.',
+      clueBackedTail: 'mark how shelter grows from dune edge to tide line.',
+    },
+    processFocus: {
+      momentId: 'wrack-hold',
+      activeTitle: 'Wrack Shelter',
+      activeSummary: 'Fresh wrack makes the beach shelter line easier to follow today.',
+    },
+    completionTriggers: ['inspect'],
+  },
+  {
     id: 'forest-hidden-hollow',
     biomeId: 'forest',
     title: 'Hidden Hollow',
     summary: 'Follow the sheltering logs into Root Hollow and confirm the seep stone in the lower pocket.',
+    unlockAfter: ['beach-shore-shelter'],
     type: 'landmark-evidence',
     zoneIds: ['root-hollow', 'seep-pocket'],
     landmarkEntryIds: ['seep-stone'],
@@ -217,13 +258,37 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
   {
     id: 'coastal-shelter-shift',
     biomeId: 'coastal-scrub',
-    title: 'Shelter Shift',
-    summary: 'In Coastal Scrub, inspect two clues that show where the dunes start feeling more sheltered.',
+    title: 'Open To Shelter',
+    summary: 'In Coastal Scrub, read shelter from open bloom to shore pine to edge log.',
     unlockAfter: ['forest-survey-slice'],
-    type: 'inspect-entry-set',
-    zoneId: 'back-dune',
-    entryIds: ['beach-grass', 'sand-verbena', 'dune-lupine'],
-    minimumCount: 2,
+    type: 'transect-evidence',
+    zoneIds: ['back-dune', 'shore-pine-stand', 'forest-edge'],
+    evidenceSlots: [
+      {
+        id: 'open-bloom',
+        label: 'Open-bloom clue',
+        entryIds: ['sand-verbena'],
+        zoneId: 'back-dune',
+      },
+      {
+        id: 'pine-cover',
+        label: 'Pine-cover clue',
+        entryIds: ['shore-pine'],
+        zoneId: 'shore-pine-stand',
+      },
+      {
+        id: 'edge-log',
+        label: 'Edge-log clue',
+        entryIds: ['nurse-log'],
+        zoneId: 'forest-edge',
+      },
+    ],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the Open To Shelter note.',
+      filedText: 'Sand verbena, shore pine, and nurse log show the coast settling into forest-edge shelter.',
+      clueBackedTail: 'show the coast settling into forest-edge shelter.',
+    },
     completionTriggers: ['inspect'],
   },
   {
@@ -776,6 +841,24 @@ function isEffectivelyCompleted(definition: FieldRequestDefinition, completedIds
     || completedIds.some((completedId) => dependsOnRequest(completedId, definition.id));
 }
 
+export function hasResolvedFieldRequest(save: SaveState, requestId: string): boolean {
+  const definition = FIELD_REQUEST_DEFINITIONS.find((candidate) => candidate.id === requestId);
+  if (!definition) {
+    return false;
+  }
+
+  if (isEffectivelyCompleted(definition, save.completedFieldRequestIds)) {
+    return true;
+  }
+
+  const activeRequestId = save.routeV2Progress?.requestId;
+  return Boolean(
+    activeRequestId
+    && activeRequestId !== requestId
+    && dependsOnRequest(activeRequestId, requestId),
+  );
+}
+
 function getBiomeProgressData(
   biomes: Record<string, BiomeDefinition>,
   save: SaveState,
@@ -1017,7 +1100,7 @@ function getActiveFieldRequestDefinition(
   context: FieldRequestContext,
 ): FieldRequestDefinition | null {
   for (const definition of FIELD_REQUEST_DEFINITIONS) {
-    if (isEffectivelyCompleted(definition, context.save.completedFieldRequestIds)) {
+    if (hasResolvedFieldRequest(context.save, definition.id)) {
       continue;
     }
 
@@ -1204,7 +1287,7 @@ export function advanceActiveFieldRequest(
   entryId?: string | null,
 ): FieldRequestAdvanceResult | null {
   for (const definition of FIELD_REQUEST_DEFINITIONS) {
-    if (isEffectivelyCompleted(definition, context.save.completedFieldRequestIds)) {
+    if (hasResolvedFieldRequest(context.save, definition.id)) {
       continue;
     }
 

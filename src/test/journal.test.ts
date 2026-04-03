@@ -43,7 +43,11 @@ describe('journal progress', () => {
         totalCount: Object.keys(beachBiome.entries).length,
         categoryProgress: [
           { category: 'shell', discoveredCount: 1, totalCount: 3 },
-          { category: 'plant', discoveredCount: 1, totalCount: 4 },
+          {
+            category: 'plant',
+            discoveredCount: 1,
+            totalCount: Object.values(beachBiome.entries).filter((entry) => entry.category === 'plant').length,
+          },
           {
             category: 'animal',
             discoveredCount: 0,
@@ -136,7 +140,11 @@ describe('journal progress', () => {
         totalCount: Object.keys(beachBiome.entries).length,
         categoryProgress: [
           { category: 'shell', discoveredCount: 0, totalCount: 3 },
-          { category: 'plant', discoveredCount: 1, totalCount: 4 },
+          {
+            category: 'plant',
+            discoveredCount: 1,
+            totalCount: Object.values(beachBiome.entries).filter((entry) => entry.category === 'plant').length,
+          },
           {
             category: 'animal',
             discoveredCount: 0,
@@ -214,7 +222,44 @@ describe('journal progress', () => {
             discoveredCount: 0,
             totalCount: Object.values(tundraBiome.entries).filter((entry) => entry.category === 'plant').length,
           },
-          { category: 'animal', discoveredCount: 0, totalCount: 3 },
+          { category: 'lichen', discoveredCount: 0, totalCount: 1 },
+          { category: 'animal', discoveredCount: 0, totalCount: 4 },
+          {
+            category: 'landmark',
+            discoveredCount: 0,
+            totalCount: Object.values(tundraBiome.entries).filter((entry) => entry.category === 'landmark').length,
+          },
+        ],
+      },
+    ]);
+  });
+
+  it('gives tundra its own lichen progress row', () => {
+    const progress = buildJournalBiomeProgress(
+      { tundra: tundraBiome },
+      {
+        'reindeer-lichen': {
+          entryId: 'reindeer-lichen',
+          discoveredAt: '2026-03-28T00:00:00.000Z',
+          biomeIds: ['tundra'],
+        },
+      },
+    );
+
+    expect(progress).toEqual([
+      {
+        biomeId: 'tundra',
+        name: 'Tundra Reach',
+        discoveredCount: 1,
+        totalCount: Object.keys(tundraBiome.entries).length,
+        categoryProgress: [
+          {
+            category: 'plant',
+            discoveredCount: 0,
+            totalCount: Object.values(tundraBiome.entries).filter((entry) => entry.category === 'plant').length,
+          },
+          { category: 'lichen', discoveredCount: 1, totalCount: 1 },
+          { category: 'animal', discoveredCount: 0, totalCount: 4 },
           {
             category: 'landmark',
             discoveredCount: 0,

@@ -126,6 +126,66 @@ describe('journal comparison resolution', () => {
     ]);
   });
 
+  it('supports a beach-to-scrub comparison for beach pea once both runner notes are unlocked', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'beach-pea': {
+          entryId: 'beach-pea',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['beach', 'coastal-scrub'],
+        },
+        'sand-verbena': {
+          entryId: 'sand-verbena',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['beach'],
+        },
+        'dune-lupine': {
+          entryId: 'dune-lupine',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+      },
+      'beach-pea',
+      ['beach', 'coastal-scrub'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Low Runner Band',
+      'Runner Hold',
+    ]);
+  });
+
+  it('supports a beach-to-scrub comparison for beach strawberry once both pocket notes are unlocked', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'beach-strawberry': {
+          entryId: 'beach-strawberry',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['beach', 'coastal-scrub'],
+        },
+        'driftwood-log': {
+          entryId: 'driftwood-log',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['beach'],
+        },
+        'song-sparrow': {
+          entryId: 'song-sparrow',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+      },
+      'beach-strawberry',
+      ['beach', 'coastal-scrub'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Lee Pocket Hold',
+      'Swale Shelter',
+    ]);
+  });
+
   it('supports a scrub-to-forest comparison for sword fern once both edge notes are unlocked', () => {
     const comparison = resolveJournalComparison(
       biomeRegistry,

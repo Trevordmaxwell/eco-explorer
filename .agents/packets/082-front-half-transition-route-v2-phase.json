@@ -1,0 +1,86 @@
+{
+  "packet_id": "ECO-PACKET-082",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Front-half transition Route v2 phase",
+  "summary": "After the beach outing lands, the front half should gain one stronger transition beat and one soft replay-aware variant so beach, coastal-scrub, and forest feel like a real chapter instead of disconnected stops. This wave focuses on a compact coast-to-forest comparison outing plus one existing-world-state replay layer.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-4-front-half-route-v2-follow-ons.md",
+    "docs/reports/2026-04-03-front-half-transition-route-v2-handoff.md",
+    "docs/reports/2026-04-03-front-half-replay-process-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-159",
+    "ECO-20260403-main-197",
+    "ECO-20260403-critic-170",
+    "ECO-20260403-scout-160",
+    "ECO-20260403-main-198",
+    "ECO-20260403-critic-171"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-169"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-159",
+      "goal": "Prepare a shore-pine-led front-half transition Route v2 handoff.",
+      "why_now": "The front half still needs one remembered coast-to-forest walk that does not duplicate the later full scrub transect."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-197",
+      "goal": "Implement the shore-pine-led front-half transition outing.",
+      "why_now": "Turning the old back-dune inspect gate into one authored transition walk gives the front half a stronger chapter hinge."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-170",
+      "goal": "Review the shore-pine-led front-half transition outing.",
+      "why_now": "The route should read as comparison and interpretation, not another disguised checklist."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-160",
+      "goal": "Prepare the Wrack Shelter replay-process handoff for the beach opener.",
+      "why_now": "The board already surfaces the beach replay cue, but the active outing still does not inherit the live wrack-hold process."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-198",
+      "goal": "Implement the Wrack Shelter replay focus on beach-shore-shelter.",
+      "why_now": "One gentle beach replay-aware variant makes the front half feel more alive without widening the filing or station shells."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-171",
+      "goal": "Review the Wrack Shelter replay focus.",
+      "why_now": "The beach replay variant should stay subtle, route-first, and notebook-safe."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Prefer existing assemble-evidence or transect seams over inventing a new route type.",
+    "For the replay step, prefer `beach-shore-shelter` plus `wrack-hold` over reopening the newly landed coastal transect.",
+    "Replay or process polish must use existing world-state, process, and note seams.",
+    "Do not add another map HUD, route log, or field-station panel.",
+    "Keep the front-half outing readable at the current station and journal density ceiling."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-03-lane-4-front-half-route-v2-follow-ons.md, docs/reports/2026-04-03-front-half-transition-route-v2-review.md, docs/reports/2026-04-03-front-half-replay-process-handoff.md, and this packet. Treat this as the next lane-4 front-half replay pass: keep `beach-shore-shelter` as the canonical opening Route v2 outing, add `processFocus` for the live `wrack-hold` beach window so the active outing becomes `Wrack Shelter`, keep notebook-ready and filed surfaces stable as `Shore Shelter`, and avoid adding any new replay system or station shell."
+}

@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { beachBiome } from '../content/biomes/beach';
+import { coastalScrubBiome } from '../content/biomes/coastal-scrub';
 import { ecoWorldMap } from '../content/world-map';
 import { createDoorTransitionPlan, sampleDoorTransition } from '../engine/door-transition';
 import {
@@ -90,6 +92,36 @@ describe('world map travel scaffold', () => {
       );
       expect(nearestDoorGap).toBeGreaterThanOrEqual(96);
     }
+  });
+
+  it('keeps the beach map-return post clear of the dune-crest reward family', () => {
+    const beachLocation = getWorldMapLocation(ecoWorldMap, 'beach');
+    const duneCrestView = beachBiome.terrainRules.authoredPlatforms?.find(
+      (platform) => platform.id === 'dune-crest-view',
+    );
+
+    expect(beachLocation.mapReturnPost).toBeDefined();
+    expect(duneCrestView).toBeDefined();
+    if (!beachLocation.mapReturnPost || !duneCrestView) {
+      throw new Error('expected beach map-return post and dune-crest-view to exist');
+    }
+
+    expect(duneCrestView.x - (beachLocation.mapReturnPost.x + 4)).toBeGreaterThan(28);
+  });
+
+  it('keeps the coastal-scrub map-return post clear of the new gather family', () => {
+    const coastalScrubLocation = getWorldMapLocation(ecoWorldMap, 'coastal-scrub');
+    const gatherLog = coastalScrubBiome.terrainRules.authoredPlatforms?.find(
+      (platform) => platform.id === 'windbreak-gather-log',
+    );
+
+    expect(coastalScrubLocation.mapReturnPost).toBeDefined();
+    expect(gatherLog).toBeDefined();
+    if (!coastalScrubLocation.mapReturnPost || !gatherLog) {
+      throw new Error('expected coastal-scrub map-return post and windbreak gather log to exist');
+    }
+
+    expect(gatherLog.x - (coastalScrubLocation.mapReturnPost.x + 4)).toBeGreaterThan(28);
   });
 
   it('authors compact regional labels for map-return posts and walking approaches', () => {

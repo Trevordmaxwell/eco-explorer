@@ -1,0 +1,64 @@
+{
+  "packet_id": "ECO-PACKET-075",
+  "version": 4,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Tundra entry expansion phase",
+  "summary": "Tundra now has its wet thaw-edge cluster, but the exposed half still reads thinner than the other live biomes. This wave adds one cushion flower, one tundra lichen, one alpine bird, and one freeze-thaw landmark so `wind-bluff`, `snow-meadow`, and `frost-ridge` feel as authored as the right half.",
+  "source_reports": [
+    "docs/reports/2026-04-03-tundra-entry-expansion-handoff.md",
+    "docs/reports/2026-04-03-tundra-entry-expansion-implementation.md",
+    "docs/reports/2026-04-03-tundra-entry-pack-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-151",
+    "ECO-20260402-main-189",
+    "ECO-20260402-critic-162"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-151", "goal": "Prepare tundra entry expansion handoff with science-safe candidates.", "why_now": "Tundra is the thinnest biome; it needs more entries to feel complete." },
+    { "step": 2, "queue_id": "ECO-20260402-main-189", "goal": "Implement tundra entry pack.", "why_now": "More entries means more to discover, compare, and teach." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-162", "goal": "Review tundra entry pack.", "why_now": "Science accuracy is a hard gate." }
+  ],
+  "file_targets": [
+    "src/content/shared-entries.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/assets/tundra-ambient.ts",
+    "src/test/biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/journal.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/science-source-ledger.md"
+  ],
+  "entry_scope": {
+    "main_189_entry_ids": [
+      "moss-campion",
+      "reindeer-lichen",
+      "white-tailed-ptarmigan",
+      "frost-heave-hummock"
+    ],
+    "collectible_entry_ids": ["white-tailed-ptarmigan"],
+    "landmark_entry_ids": ["frost-heave-hummock"],
+    "zone_targets": {
+      "wind-bluff": ["moss-campion", "reindeer-lichen", "frost-heave-hummock"],
+      "snow-meadow": ["white-tailed-ptarmigan"],
+      "thaw-skirt": ["white-tailed-ptarmigan"],
+      "frost-ridge": ["moss-campion", "reindeer-lichen", "frost-heave-hummock"],
+      "meltwater-edge": []
+    }
+  },
+  "guardrails": [
+    "All entries must be real alpine/arctic tundra species or habitat features.",
+    "At least one new entry should be a collectible species kids can discover.",
+    "Authored entities must be positioned to teach zonation (snow-meadow, thaw-skirt, frost-ridge).",
+    "Do not change existing entry IDs, zone boundaries, or platform layouts.",
+    "Favor the exposed left half of tundra over adding more wet-edge carriers to meltwater-edge.",
+    "Keep the lichen scientific label genus-level unless an exact species is source-matched during implementation.",
+    "If an alpine plant or lichen is shared with treeline, keep it in `src/content/shared-entries.ts` so both biomes still resolve to one journal entry."
+  ]
+}

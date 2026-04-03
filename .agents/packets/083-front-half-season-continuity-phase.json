@@ -1,0 +1,82 @@
+{
+  "packet_id": "ECO-PACKET-083",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Front-half season continuity phase",
+  "summary": "After beach joins the field-season board and the front-half station language warms up, lane 1 should spend its next pass on continuity. This wave tightens coast-facing season wording across board, journal, and map seams, then adds one compact front-half stop-point or recap seam so the early season feels as intentional as the inland half.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-1-front-half-continuity-follow-on.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-161",
+    "ECO-20260403-main-199",
+    "ECO-20260403-critic-172",
+    "ECO-20260403-scout-162",
+    "ECO-20260403-main-200",
+    "ECO-20260403-critic-173"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-155"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-161",
+      "goal": "Prepare the front-half season continuity handoff.",
+      "why_now": "Beach and scrub can join the season board, but the early-game continuity still needs a stronger shared language."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-199",
+      "goal": "Implement front-half season continuity wording.",
+      "why_now": "The front half should feel like one chapter across board, journal, and map seams."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-172",
+      "goal": "Review front-half season continuity.",
+      "why_now": "Continuity work can drift into recap clutter if not checked."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-162",
+      "goal": "Prepare a front-half stop-point or recap handoff.",
+      "why_now": "Once continuity improves, the early loop also needs a calmer place to pause."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-200",
+      "goal": "Implement a front-half stop-point or recap seam.",
+      "why_now": "The coast-facing loop should feel as complete and pausable as the inland half."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-173",
+      "goal": "Review the front-half stop-point or recap seam.",
+      "why_now": "The routes shell should stay calm rather than growing denser."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-season-board.ts",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Reuse existing board, atlas, journal-card, and map-footer seams.",
+    "Do not add another station page, recap panel, or navigation HUD.",
+    "Prefer one shared phrase family over multiple new labels.",
+    "Keep the early loop routes-first and notebook-toned."
+  ]
+}

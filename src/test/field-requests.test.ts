@@ -32,6 +32,23 @@ function createForestContext(
   };
 }
 
+function createBeachContext(
+  completedFieldRequestIds: string[] = [],
+  currentZoneId: string | null = 'dune-edge',
+) {
+  const save = createNewSaveState('field-request-beach-seed');
+  save.completedFieldRequestIds = completedFieldRequestIds;
+
+  return {
+    biomes: biomeRegistry,
+    save,
+    currentBiomeId: 'beach',
+    currentZoneId,
+    currentPlayerX: null,
+    currentPlayerY: null,
+  };
+}
+
 function createCoastalContext(
   completedFieldRequestIds: string[] = [],
   currentZoneId: string | null = 'back-dune',
@@ -84,14 +101,14 @@ function createTundraContext(
 }
 
 describe('field requests', () => {
-  it('starts with the forest hidden-hollow request active', () => {
-    const activeRequest = resolveActiveFieldRequest(createForestContext());
+  it('starts with the beach shore-shelter request active', () => {
+    const activeRequest = resolveActiveFieldRequest(createBeachContext());
 
     expect(activeRequest).toMatchObject({
-      id: 'forest-hidden-hollow',
-      biomeId: 'forest',
-      title: 'Hidden Hollow',
-      progressLabel: 'Return To Root Hollow',
+      id: 'beach-shore-shelter',
+      biomeId: 'beach',
+      title: 'Shore Shelter',
+      progressLabel: '0/3 stages',
     });
   });
 
@@ -101,13 +118,66 @@ describe('field requests', () => {
     const activeRequest = resolveActiveFieldRequest({
       biomes: biomeRegistry,
       save,
-      currentBiomeId: 'beach',
-      currentZoneId: 'dry-sand',
+      currentBiomeId: 'forest',
+      currentZoneId: 'trailhead',
       currentPlayerX: null,
       currentPlayerY: null,
     });
 
     expect(activeRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: 'Go To Sunny Beach',
+    });
+  });
+
+  it('turns Shore Shelter into an ordered beach transect that waits for filing', () => {
+    const context = createBeachContext();
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: '0/3 stages',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [],
+      },
+    });
+
+    expect(getHandLensNotebookFit(context, 'driftwood-log')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'driftwood-log')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'beach-grass')).toBe('Notebook fit: dune grass');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-grass')).toBeNull();
+    expect(resolveActiveFieldRequest(context)?.routeV2?.evidenceSlots).toEqual([
+      { slotId: 'dune-grass', entryId: 'beach-grass' },
+    ]);
+
+    context.currentZoneId = 'lee-pocket';
+    expect(getHandLensNotebookFit(context, 'bull-kelp-wrack')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'bull-kelp-wrack')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'driftwood-log')).toBe('Notebook fit: lee cover');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'driftwood-log')).toBeNull();
+
+    context.currentZoneId = 'tide-line';
+    expect(getHandLensNotebookFit(context, 'bull-kelp-wrack')).toBe('Notebook fit: wrack line');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'bull-kelp-wrack')).toMatchObject({
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        evidenceSlots: [
+          { slotId: 'dune-grass', entryId: 'beach-grass' },
+          { slotId: 'lee-cover', entryId: 'driftwood-log' },
+          { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+        ],
+      },
+    });
+
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('beach-shore-shelter');
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'forest-hidden-hollow',
       progressLabel: 'Go To Forest Trail',
     });
@@ -124,7 +194,7 @@ describe('field requests', () => {
   });
 
   it('marks Hidden Hollow ready after the seep-stone confirmation and waits for filing', () => {
-    const context = createForestContext([], 'seep-pocket');
+    const context = createForestContext(['beach-shore-shelter'], 'seep-pocket');
 
     const result = advanceActiveFieldRequest(context, 'inspect', 'seep-stone');
     expect(result).toMatchObject({
@@ -224,6 +294,29 @@ describe('field requests', () => {
     expect(getHandLensNotebookFit(context, 'ensatina')).toBeNull();
   });
 
+  it('keeps older in-progress beach transect saves coherent through first-missing-stage guidance', () => {
+    const beachContext = createBeachContext([], 'lee-pocket');
+    beachContext.save.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'lee-cover', entryId: 'driftwood-log' }],
+    };
+
+    expect(resolveActiveFieldRequest(beachContext)).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: 'Return To Dune Edge',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'lee-cover', entryId: 'driftwood-log' }],
+      },
+    });
+    expect(getHandLensNotebookFit(beachContext, 'beach-grass')).toBeNull();
+
+    beachContext.currentZoneId = 'dune-edge';
+    expect(getHandLensNotebookFit(beachContext, 'beach-grass')).toBe('Notebook fit: dune grass');
+  });
+
   it('unlocks the forest survey request after the moisture request is complete', () => {
     const context = createForestContext(
       ['forest-hidden-hollow', 'forest-moisture-holders'],
@@ -255,22 +348,64 @@ describe('field requests', () => {
     });
   });
 
-  it('completes the back-dune shelter request after two local clues are logged', () => {
+  it('turns the coastal shelter request into an ordered transect that waits for filing', () => {
     const context = createCoastalContext(
       ['forest-hidden-hollow', 'forest-moisture-holders', 'forest-survey-slice'],
       'back-dune',
     );
-    recordDiscovery(context.save, biomeRegistry['coastal-scrub'].entries['sand-verbena'], 'coastal-scrub');
-    recordDiscovery(context.save, biomeRegistry['coastal-scrub'].entries['dune-lupine'], 'coastal-scrub');
 
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'coastal-shelter-shift',
-      progressLabel: '2/2 signs',
+      title: 'Open To Shelter',
+      summary: 'In Coastal Scrub, read shelter from open bloom to shore pine to edge log.',
+      progressLabel: '0/3 stages',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [],
+      },
     });
-    expect(shouldCompleteActiveFieldRequest(context, 'inspect')).toBe('coastal-shelter-shift');
+
+    expect(getHandLensNotebookFit(context, 'shore-pine')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'shore-pine')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'sand-verbena')).toBe('Notebook fit: open bloom');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'sand-verbena')).toBeNull();
+    expect(resolveActiveFieldRequest(context)?.routeV2?.evidenceSlots).toEqual([
+      { slotId: 'open-bloom', entryId: 'sand-verbena' },
+    ]);
+
+    context.currentZoneId = 'shore-pine-stand';
+    expect(getHandLensNotebookFit(context, 'nurse-log')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'nurse-log')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'shore-pine')).toBe('Notebook fit: pine cover');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'shore-pine')).toBeNull();
+    expect(resolveActiveFieldRequest(context)?.routeV2?.evidenceSlots).toEqual([
+      { slotId: 'open-bloom', entryId: 'sand-verbena' },
+      { slotId: 'pine-cover', entryId: 'shore-pine' },
+    ]);
+
+    context.currentZoneId = 'forest-edge';
+    expect(getHandLensNotebookFit(context, 'nurse-log')).toBe('Notebook fit: edge log');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'nurse-log')).toMatchObject({
+      requestId: 'coastal-shelter-shift',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'coastal-shelter-shift',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        evidenceSlots: [
+          { slotId: 'open-bloom', entryId: 'sand-verbena' },
+          { slotId: 'pine-cover', entryId: 'shore-pine' },
+          { slotId: 'edge-log', entryId: 'nurse-log' },
+        ],
+      },
+    });
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('coastal-shelter-shift');
   });
 
-  it('unlocks the forest-edge moisture request after the back-dune task', () => {
+  it('unlocks the forest-edge moisture request after the open-to-shelter transect is filed', () => {
     const context = createCoastalContext(
       [
         'forest-hidden-hollow',
@@ -744,6 +879,19 @@ describe('field requests', () => {
     });
   });
 
+  it('turns beach-shore-shelter into a process-backed outing during the wrack-hold window', () => {
+    const context = createBeachContext();
+    context.save.worldStep = 6;
+    context.save.biomeVisits.beach = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'beach-shore-shelter',
+      title: 'Wrack Shelter',
+      summary: 'Fresh wrack makes the beach shelter line easier to follow today.',
+      progressLabel: '0/3 stages',
+    });
+  });
+
   it('turns tundra-short-season into a process-backed outing during the thaw-fringe window', () => {
     const context = createTundraContext(
       [
@@ -919,6 +1067,34 @@ describe('field requests', () => {
     });
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'forest-cool-edge')).toBe(
       'Salmonberry, Redwood Sorrel, and Sword Fern now read as the cooler forest middle.',
+    );
+  });
+
+  it('keeps clue-backed filed note text stable when beach-shore-shelter is reframed as Wrack Shelter', () => {
+    const context = createBeachContext([], 'tide-line');
+    context.save.worldStep = 6;
+    context.save.biomeVisits.beach = 2;
+    context.save.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+        { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+      ],
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      title: 'Shore Shelter',
+      summary: 'Return to the field station and file the Shore Shelter note.',
+      routeV2: {
+        filedText:
+          'American Dunegrass, Driftwood, and Bull Kelp Wrack mark how shelter grows from dune edge to tide line.',
+      },
+    });
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'beach-shore-shelter')).toBe(
+      'American Dunegrass, Driftwood, and Bull Kelp Wrack mark how shelter grows from dune edge to tide line.',
     );
   });
 

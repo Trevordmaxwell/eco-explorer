@@ -1,0 +1,131 @@
+{
+  "packet_id": "ECO-PACKET-085",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Coastal family and waypoint phase",
+  "summary": "After the new bluff, beach, tundra, and forest waypoint passes land, lane 3 should deepen them into clearer mini-families. This wave connects the front-half coast spaces into a more coherent sheltered rise family, then adds one calmer rest or recovery follow-on to the newer waypoint spaces so they feel like habitats instead of isolated traversal tricks.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-3-coastal-family-follow-on.md",
+    "docs/reports/2026-04-03-coastal-family-follow-on-handoff.md",
+    "docs/reports/2026-04-03-coastal-shore-pine-rest-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-165",
+    "ECO-20260403-main-203",
+    "ECO-20260403-critic-176",
+    "ECO-20260403-scout-166",
+    "ECO-20260403-main-204",
+    "ECO-20260403-critic-177"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-167"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-165",
+      "goal": "Prepare a coastal family follow-on handoff.",
+      "why_now": "The front-half spaces will be more interesting, but they still need to read like one little family instead of isolated proofs."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-203",
+      "goal": "Implement the coastal family follow-on.",
+      "why_now": "A connected shelter or rise family would make the early coast more memorable to explore."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-176",
+      "goal": "Review the coastal family follow-on.",
+      "why_now": "The coast should stay broad, cozy, and readable rather than getting fiddly."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-166",
+      "goal": "Prepare a waypoint rest or recovery follow-on.",
+      "why_now": "After the coastal family lands, the newer observation nooks should gain one more calming habitat beat."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-204",
+      "goal": "Implement the waypoint rest or recovery follow-on.",
+      "why_now": "A small rest or recovery seam makes the newer spaces feel like habitats instead of traversal curiosities."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-177",
+      "goal": "Review the waypoint rest or recovery follow-on.",
+      "why_now": "Lane 3 should keep adding wonder, not accumulating route noise."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/vertical-cues.test.ts"
+  ],
+  "main_203_focus": {
+    "focus_biome_id": "coastal-scrub",
+    "target_zone_ids": ["shrub-thicket", "windbreak-swale"],
+    "target_band": { "x_min": 202, "x_max": 242, "y_min": 101, "y_max": 110 },
+    "preserve_platform_ids": [
+      "windbreak-bluff-lee-step",
+      "windbreak-bluff-mid-step",
+      "windbreak-bluff-crest",
+      "windbreak-swale-entry-log",
+      "windbreak-swale-upper-log",
+      "windbreak-swale-exit-log"
+    ],
+    "preferred_entry_ids": ["nootka-rose", "pacific-wax-myrtle", "beach-strawberry", "dune-lupine"],
+    "avoid": [
+      "beach geometry changes",
+      "corridor runtime changes",
+      "new climbables",
+      "new vertical cues",
+      "a second bluff branch"
+    ]
+  },
+  "main_204_focus": {
+    "focus_biome_id": "coastal-scrub",
+    "target_zone_ids": ["windbreak-swale", "shore-pine-stand"],
+    "target_band": { "x_min": 428, "x_max": 476, "y_min": 100, "y_max": 108 },
+    "preserve_platform_ids": [
+      "windbreak-gather-log",
+      "windbreak-gather-lift",
+      "windbreak-bluff-lee-step",
+      "windbreak-bluff-mid-step",
+      "windbreak-bluff-crest",
+      "windbreak-swale-entry-log",
+      "windbreak-swale-upper-log",
+      "windbreak-swale-exit-log"
+    ],
+    "preferred_entry_ids": ["shore-pine", "kinnikinnick", "song-sparrow"],
+    "avoid": [
+      "left map-return post band",
+      "corridor runtime changes",
+      "world-map anchor changes",
+      "forest corridor door changes",
+      "new climbables",
+      "new vertical cues",
+      "another bluff or crest branch"
+    ]
+  },
+  "guardrails": [
+    "Reuse the current platform, climbable, and terrain systems only.",
+    "Keep every new beat recoverable and cozy.",
+    "Favor habitat identity and rest over raw height or depth growth.",
+    "Do not add another cue language or persistent traversal HUD.",
+    "For main-203, keep the pass in coastal-scrub's left windbreak handoff instead of widening beach or corridor runtime.",
+    "For main-204, keep the pass in coastal-scrub's right swale-to-pine release instead of revisiting the repaired left map-post band or widening into forest-edge travel."
+  ]
+}

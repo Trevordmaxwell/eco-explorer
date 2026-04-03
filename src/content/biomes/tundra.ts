@@ -1,10 +1,19 @@
 import { tundraPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { arcticWillowEntry, crowberryEntry, lingonberryEntry, mountainAvensEntry } from '../shared-entries';
+import {
+  arcticWillowEntry,
+  crowberryEntry,
+  lingonberryEntry,
+  mossCampionEntry,
+  mountainAvensEntry,
+  reindeerLichenEntry,
+} from '../shared-entries';
 
 const tundraEntries = {
   'arctic-willow': arcticWillowEntry,
   'mountain-avens': mountainAvensEntry,
+  'moss-campion': mossCampionEntry,
+  'reindeer-lichen': reindeerLichenEntry,
   'purple-saxifrage': {
     id: 'purple-saxifrage',
     commonName: 'Purple Saxifrage',
@@ -99,6 +108,17 @@ const tundraEntries = {
     spriteId: 'snow-bunting',
     collectible: false,
   },
+  'white-tailed-ptarmigan': {
+    id: 'white-tailed-ptarmigan',
+    commonName: 'White-tailed Ptarmigan',
+    scientificName: 'Lagopus leucura',
+    category: 'animal',
+    shortFact: 'White-tailed ptarmigans stay near snowy alpine ground where rock and low plants give cover.',
+    journalText:
+      'White-tailed ptarmigans live high above treeline near snow patches, rocks, and low alpine plants. Their feathered feet help them move across cold ground in every season.',
+    spriteId: 'white-tailed-ptarmigan',
+    collectible: true,
+  },
   'northern-collared-lemming': {
     id: 'northern-collared-lemming',
     commonName: 'Northern Collared Lemming',
@@ -108,6 +128,18 @@ const tundraEntries = {
     journalText:
       'Northern collared lemmings are small tundra rodents that move through low plants and snowy cover. They are an important food source for many Arctic predators.',
     spriteId: 'northern-collared-lemming',
+    collectible: false,
+  },
+  'frost-heave-hummock': {
+    id: 'frost-heave-hummock',
+    commonName: 'Frost-Heave Hummock',
+    category: 'landmark',
+    subtitle: 'Freeze-thaw mound',
+    subtitleLabel: 'Ground clue',
+    shortFact: 'Freeze-thaw ground can push tundra soil into small hummocks.',
+    journalText:
+      'A frost-heave hummock is a small tundra mound shaped by ground that freezes, lifts, and settles again. Cold soil can slowly reshape the land without anyone digging it.',
+    spriteId: 'frost-heave-hummock',
     collectible: false,
   },
 } satisfies BiomeDefinition['entries'];
@@ -207,8 +239,34 @@ export const tundraBiome: BiomeDefinition = {
         w: 22,
         h: 4,
       },
+      {
+        id: 'meltwater-bank-rest',
+        spriteId: 'ice-platform',
+        x: 574,
+        y: 112,
+        w: 26,
+        h: 4,
+      },
     ],
     authoredEntities: [
+      {
+        id: 'wind-bluff-hummock',
+        entryId: 'frost-heave-hummock',
+        x: 82,
+        y: 102,
+      },
+      {
+        id: 'wind-bluff-lichen',
+        entryId: 'reindeer-lichen',
+        x: 110,
+        y: 101,
+      },
+      {
+        id: 'wind-bluff-campion',
+        entryId: 'moss-campion',
+        x: 136,
+        y: 102,
+      },
       {
         id: 'thaw-skirt-channel',
         entryId: 'tussock-thaw-channel',
@@ -223,6 +281,30 @@ export const tundraBiome: BiomeDefinition = {
         y: 112,
         castsShadow: false,
       },
+      {
+        id: 'meltwater-bank-willow',
+        entryId: 'arctic-willow',
+        x: 582,
+        y: 109,
+      },
+      {
+        id: 'meltwater-bank-cottongrass',
+        entryId: 'cottongrass',
+        x: 592,
+        y: 109,
+      },
+      {
+        id: 'frost-ridge-hummock',
+        entryId: 'frost-heave-hummock',
+        x: 468,
+        y: 100,
+      },
+      {
+        id: 'frost-ridge-campion',
+        entryId: 'moss-campion',
+        x: 492,
+        y: 100,
+      },
     ],
   },
   spawnTables: [
@@ -234,6 +316,24 @@ export const tundraBiome: BiomeDefinition = {
       maxCount: 3,
       spacing: 30,
       entries: [{ entryId: 'arctic-willow', weight: 1 }],
+    },
+    {
+      id: 'stable-wind-lichen',
+      zoneId: 'wind-bluff',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'reindeer-lichen', weight: 1 }],
+    },
+    {
+      id: 'stable-wind-cushions',
+      zoneId: 'wind-bluff',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'moss-campion', weight: 1 }],
     },
     {
       id: 'stable-flowers',
@@ -281,7 +381,19 @@ export const tundraBiome: BiomeDefinition = {
       minCount: 1,
       maxCount: 2,
       spacing: 26,
-      entries: [{ entryId: 'mountain-avens', weight: 1 }],
+      entries: [
+        { entryId: 'mountain-avens', weight: 3 },
+        { entryId: 'moss-campion', weight: 2 },
+      ],
+    },
+    {
+      id: 'stable-ridge-lichen',
+      zoneId: 'frost-ridge',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 24,
+      entries: [{ entryId: 'reindeer-lichen', weight: 1 }],
     },
     {
       id: 'stable-thaw-edge',
@@ -326,6 +438,15 @@ export const tundraBiome: BiomeDefinition = {
         { entryId: 'crowberry', weight: 2 },
         { entryId: 'lingonberry', weight: 2 },
       ],
+    },
+    {
+      id: 'snow-edge-birds',
+      zoneId: 'snow-meadow',
+      refreshPolicy: 'visit',
+      minCount: 1,
+      maxCount: 1,
+      spacing: 34,
+      entries: [{ entryId: 'white-tailed-ptarmigan', weight: 1 }],
     },
     {
       id: 'ridge-berries',
@@ -383,6 +504,7 @@ export const tundraBiome: BiomeDefinition = {
       entries: [
         { entryId: 'northern-collared-lemming', weight: 2 },
         { entryId: 'snow-bunting', weight: 1 },
+        { entryId: 'white-tailed-ptarmigan', weight: 1 },
       ],
     },
   ],
@@ -486,6 +608,7 @@ export const tundraBiome: BiomeDefinition = {
         entryAccents: [
           { entryId: 'mountain-avens', style: 'bloom', primaryColor: '#fff3cf', secondaryColor: '#dcc36f' },
           { entryId: 'cloudberry', style: 'berry', primaryColor: '#efab52', secondaryColor: '#ffdeb5' },
+          { entryId: 'moss-campion', style: 'bloom', primaryColor: '#d86e9d', secondaryColor: '#f3bdd2' },
           { entryId: 'woolly-lousewort', style: 'bloom', primaryColor: '#cb84b0', secondaryColor: '#f0c6df' },
         ],
         spawnEmphasis: [{ tableId: 'berry-patches', minCountDelta: 1, maxCountDelta: 1 }],

@@ -216,6 +216,55 @@ describe('forest biome generation', () => {
     ]);
   });
 
+  it('adds one cave-mouth sill and one tucked canopy crook around the live waypoint cues', () => {
+    const save = createNewSaveState('forest-waypoint-shelves-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+    const highLedge = instance.platforms.find((platform) => platform.id === 'root-hollow-high-ledge');
+    const caveMouthSill = instance.platforms.find((platform) => platform.id === 'filtered-return-mouth-sill');
+    const exitLog = instance.platforms.find((platform) => platform.id === 'root-hollow-exit-log');
+    const innerLoopStep = instance.platforms.find((platform) => platform.id === 'old-growth-inner-loop-step');
+    const canopyCrook = instance.platforms.find((platform) => platform.id === 'canopy-inner-rest-crook');
+    const canopyLedge = instance.platforms.find((platform) => platform.id === 'old-growth-canopy-ledge');
+    const waypointEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.includes('filtered-return-mouth-moss') || entity.entityId.includes('canopy-inner-rest-beard'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+        castsShadow: entity.castsShadow ?? true,
+      }));
+
+    expect(caveMouthSill).toMatchObject({
+      id: 'filtered-return-mouth-sill',
+      x: 406,
+      y: 104,
+      w: 18,
+    });
+    expect(caveMouthSill?.x).toBeGreaterThanOrEqual(388);
+    expect(caveMouthSill?.x).toBeLessThanOrEqual(428);
+    expect(caveMouthSill?.y).toBeGreaterThan(highLedge?.y ?? 0);
+    expect(caveMouthSill?.y).toBeLessThan(exitLog?.y ?? 999);
+
+    expect(canopyCrook).toMatchObject({
+      id: 'canopy-inner-rest-crook',
+      x: 722,
+      y: 50,
+      w: 18,
+    });
+    expect(canopyCrook?.x).toBeGreaterThanOrEqual(708);
+    expect(canopyCrook?.x).toBeLessThanOrEqual(746);
+    expect(canopyCrook?.y).toBeGreaterThan(innerLoopStep?.y ?? 0);
+    expect(canopyCrook?.y).toBeLessThan(canopyLedge?.y ?? 999);
+
+    expect(waypointEntities).toEqual([
+      { entryId: 'seep-moss-mat', x: 408, y: 104, castsShadow: false },
+      { entryId: 'old-mans-beard', x: 740, y: 38, castsShadow: false },
+    ]);
+  });
+
   it('adds one optional old-wood hinge bay between creek-bend and the old-growth pocket', () => {
     const save = createNewSaveState('forest-bridge-seed');
     const instance = generateBiomeInstance(forestBiome, save, 1);

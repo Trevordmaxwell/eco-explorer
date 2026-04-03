@@ -70,6 +70,15 @@ const FIELD_PARTNER_PROMPT_CUES: readonly FieldPartnerCueDefinition[] = [
     text: 'The wrack line can feel busy before it looks busy.',
   },
   {
+    id: 'beach-lee-pocket-hold',
+    biomeId: 'beach',
+    zoneIds: ['lee-pocket'],
+    weatherProfiles: ['clear', 'marine-haze'],
+    family: 'shelter',
+    promptIds: ['lee-pocket-hold'],
+    text: 'Driftwood keeps this tucked sand calmer.',
+  },
+  {
     id: 'scrub-back-dune-timing',
     biomeId: 'coastal-scrub',
     zoneIds: ['back-dune'],
@@ -87,6 +96,15 @@ const FIELD_PARTNER_PROMPT_CUES: readonly FieldPartnerCueDefinition[] = [
     promptFamilies: ['neighbors'],
     promptIds: ['thicket-cover'],
     text: 'The thicker stems here turn wind into cover.',
+  },
+  {
+    id: 'scrub-swale-shelter',
+    biomeId: 'coastal-scrub',
+    zoneIds: ['windbreak-swale'],
+    weatherProfiles: ['clear', 'marine-haze'],
+    family: 'shelter',
+    promptIds: ['coastal-swale-shelter', 'swale-shelter'],
+    text: 'This swale turns low cover into shelter.',
   },
   {
     id: 'scrub-edge-shade',

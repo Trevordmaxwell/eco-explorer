@@ -37,16 +37,22 @@ describe('beach to coastal-scrub corridor proof', () => {
     expect(getCorridorExitBiomeId(corridor, 250)).toBe('coastal-scrub');
   });
 
-  it('keeps destination-only scrub plants on the scrub side of the threshold', () => {
+  it('keeps scrub shrubs on the scrub side while transition blooms stay near the threshold', () => {
     const save = createNewSaveState('corridor-entity-seed');
     const corridor = createBeachToScrubCorridorScene(save, 'coastal-scrub');
 
-    const scrubOnlyIds = new Set(['dune-lupine', 'pacific-wax-myrtle', 'coyote-brush']);
+    const scrubOnlyIds = new Set(['pacific-wax-myrtle', 'coyote-brush']);
+    const transitionIds = new Set(['dune-lupine']);
     const sharedIds = new Set(['beach-grass', 'sand-verbena', 'sea-rocket']);
 
     for (const entity of corridor.instance.entities) {
       if (scrubOnlyIds.has(entity.entryId)) {
         expect(entity.x).toBeGreaterThanOrEqual(corridor.thresholdX);
+      }
+
+      if (transitionIds.has(entity.entryId)) {
+        expect(entity.x).toBeGreaterThanOrEqual(corridor.thresholdX);
+        expect(entity.x).toBeLessThan(corridor.instance.width - 32);
       }
 
       if (sharedIds.has(entity.entryId) && entity.entryId !== 'sea-rocket') {

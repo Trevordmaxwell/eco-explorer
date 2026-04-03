@@ -1,0 +1,104 @@
+{
+  "packet_id": "ECO-PACKET-086",
+  "version": 4,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Front-half chapter and filing phase",
+  "summary": "After the beach outing and front-half transition route land, lane 4 should turn those pieces into a stronger early-game chapter. This wave spreads the front-half routes into a clearer coast-to-forest chapter arc, then deepens the filing payoff so returning to the station feels more like finishing a field page than just clearing a task.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-4-front-half-chapter-follow-on.md",
+    "docs/reports/2026-04-03-front-half-route-title-chapter-handoff.md",
+    "docs/reports/2026-04-03-front-half-route-title-chapter-review.md",
+    "docs/reports/2026-04-03-open-to-shelter-filing-depth-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-167",
+    "ECO-20260403-main-205",
+    "ECO-20260403-critic-178",
+    "ECO-20260403-main-211",
+    "ECO-20260403-critic-211",
+    "ECO-20260403-scout-168",
+    "ECO-20260403-main-206",
+    "ECO-20260403-critic-179"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-171"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-167",
+      "goal": "Prepare the front-half route-title chapter spread handoff.",
+      "why_now": "The front-half route names are live now, but the board and guided flow still use generic labels that weaken place memory."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-205",
+      "goal": "Implement the front-half route-title chapter spread.",
+      "why_now": "Reusing the real route titles across the current season surfaces should make the early chapter feel more authored without adding another shell."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-178",
+      "goal": "Review the front-half route-title chapter spread.",
+      "why_now": "The chapter spread should strengthen place memory without slipping into a heavier quest or chapter-index feel."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-main-211",
+      "goal": "Fix the front-half board summary progression.",
+      "why_now": "The route-title spread now advances the active beat title, but the board summary and direction line can still stall on Hidden Hollow after later forest substeps become active."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-critic-211",
+      "goal": "Review the front-half board summary progression fix.",
+      "why_now": "The repair should keep the route-title chapter truthful without adding more shell text or new mechanics."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-scout-168",
+      "goal": "Prepare the Open To Shelter filing-return handoff.",
+      "why_now": "Now that the chapter arc is truthful, the weakest remaining front-half seam is the filed coastal return still sounding like the just-completed transect instead of a page turn into Edge Moisture."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260403-main-206",
+      "goal": "Deepen the Open To Shelter filing return.",
+      "why_now": "A compact logged close plus Edge Moisture handoff can make the front-half filing feel more like finishing a field page without adding another shell."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260403-critic-179",
+      "goal": "Review the Open To Shelter filing return.",
+      "why_now": "The new filing beat should deepen notebook feeling, not add clutter or point back at the already-filed transect."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-season-board.ts",
+    "src/engine/guided-field-season.ts",
+    "src/engine/game.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/guided-field-season.test.ts"
+  ],
+  "guardrails": [
+    "Reuse current Route v2, support, and notebook-return seams.",
+    "Do not add another support row, quest log, or station page.",
+    "Prefer the existing route titles over inventing a new chapter label family.",
+    "Prefer stronger place memory and chapter wording over heavier mechanics.",
+    "Keep the front-half chapter calm, readable, and early-game friendly."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-03-lane-4-front-half-chapter-follow-on.md, docs/reports/2026-04-03-front-half-route-title-chapter-handoff.md, docs/reports/2026-04-03-front-half-route-title-chapter-review.md, docs/reports/2026-04-03-open-to-shelter-filing-depth-handoff.md, and this packet. Treat the next wave as a compact filing-depth pass: once `Open To Shelter` is filed, the routes return should feel like a page turn into `Edge Moisture` rather than pointing back at the already-filed transect, and `note-tabs` may carry one short `OPEN TO SHELTER LOGGED` close in that exact state."
+}

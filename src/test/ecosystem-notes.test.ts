@@ -48,8 +48,8 @@ describe('ecosystem note resolution', () => {
   it('returns none for entries without a matching ecosystem note', () => {
     const resolved = resolveEcosystemNoteForEntry(
       beachBiome,
-      'sanderling',
-      ['sanderling'],
+      'razor-clam-shell',
+      ['razor-clam-shell'],
     );
 
     expect(resolved).toEqual({
@@ -82,15 +82,48 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('shelter-line-start');
   });
 
-  it('supports the new beach dry-sand runner note through the shared dune trio', () => {
+  it('supports the refreshed beach dry-sand runner note through the bloom-and-runner pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       beachBiome,
       'beach-pea',
-      ['beach-pea', 'beach-grass'],
+      ['beach-pea', 'dune-lupine'],
     );
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('low-runner-band');
+  });
+
+  it('supports the new beach lee-pocket shelter note through the tucked runner pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'beach-strawberry',
+      ['driftwood-log', 'beach-strawberry'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('lee-pocket-hold');
+  });
+
+  it('supports the refreshed beach wrack note through the new scavenger pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'beach-hopper',
+      ['bull-kelp-wrack', 'beach-hopper'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('wave-edge-survivors');
+  });
+
+  it('gives sanderling a tide-line food note through the new surf pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'sanderling',
+      ['sanderling', 'pacific-sand-crab'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('surf-food-line');
   });
 
   it('supports the coastal scrub forest-edge note through the local moisture pair', () => {
@@ -135,6 +168,17 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('sturdier-cover');
+  });
+
+  it('gives beach-pea a coastal-scrub note through the back-dune runner trio', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      coastalScrubBiome,
+      'beach-pea',
+      ['beach-pea', 'dune-lupine'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('runner-hold-start');
   });
 
   it('supports the new forest creekside note through the inland berry pair', () => {

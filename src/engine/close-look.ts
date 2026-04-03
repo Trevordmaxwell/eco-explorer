@@ -52,6 +52,21 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'These fluffy fibers help cottongrass seeds ride the wind.',
     spriteScale: 5,
   },
+  'nootka-rose': {
+    callouts: ['thorny stem', 'rose hip'],
+    sentence: 'Thorny stems help this rose turn coastal scrub into safer cover.',
+    spriteScale: 5,
+  },
+  kinnikinnick: {
+    callouts: ['red berries', 'evergreen leaves'],
+    sentence: 'Staying low helps this mat hold sandy ground beneath shore pines.',
+    spriteScale: 5,
+  },
+  'nurse-log': {
+    callouts: ['soft old wood', 'held moisture'],
+    sentence: 'Old wood can hold water and give new plants a gentler start.',
+    spriteScale: 6,
+  },
   'canopy-moss-bed': {
     callouts: ['soft moss bed', 'held water'],
     sentence: 'This mossy bed holds water high on an old branch.',

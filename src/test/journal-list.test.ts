@@ -76,7 +76,7 @@ describe('journal list windowing', () => {
 
     expect(listWindow.visibleRows.map((row) => (row.type === 'entry' ? row.entryId : row.label))).toEqual([
       'razor-clam-shell',
-      'PLANT 3/4',
+      'PLANT 3/6',
       'beach-grass',
     ]);
     expect(listWindow.visibleEntryIds).toContain('beach-grass');

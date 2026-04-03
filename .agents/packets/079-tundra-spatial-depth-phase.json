@@ -1,0 +1,34 @@
+{
+  "packet_id": "ECO-PACKET-079",
+  "version": 2,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Tundra spatial depth phase",
+  "summary": "Tundra's relief family is now readable through the snow lip, but the meltwater side still releases too quickly into open ground. This wave spends the next tundra step on one shallow meltwater-edge hold plus a couple of wet-edge authored carriers so the top end feels like a place instead of a landing strip.",
+  "source_reports": [
+    "docs/reports/2026-04-03-tundra-spatial-depth-handoff.md",
+    "docs/reports/2026-04-03-tundra-spatial-depth-implementation.md",
+    "docs/reports/2026-04-03-tundra-spatial-depth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-155",
+    "ECO-20260402-main-193",
+    "ECO-20260402-critic-166"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-155", "goal": "Prepare tundra spatial depth handoff.", "why_now": "Tundra has the fewest authored entities (2) and needs spatial parity with treeline." },
+    { "step": 2, "queue_id": "ECO-20260402-main-193", "goal": "Implement tundra spatial depth.", "why_now": "More authored entities and platforms make the thaw-skirt feel like a place, not a corridor." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-166", "goal": "Review tundra spatial depth.", "why_now": "Tundra geometry needs readability review." }
+  ],
+  "file_targets": ["src/content/biomes/tundra.ts", "src/test/tundra-biome.test.ts", "src/test/runtime-smoke.test.ts"],
+  "guardrails": [
+    "Use existing ice-platform engine and terrain shape.",
+    "Meltwater depression should feel like a gentle dip, not a pit.",
+    "Authored entities should teach zonation: what grows where in the thaw gradient.",
+    "Platform spacing must stay forgiving — tundra is open, not treacherous.",
+    "Coordinate with lane-2 tundra entry expansion for new entity placements."
+  ]
+}

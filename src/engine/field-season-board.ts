@@ -1,5 +1,9 @@
 import { ecoWorldMap } from '../content/world-map';
-import { getFieldRequestDefinition, resolveRouteV2FiledDisplayText } from './field-requests';
+import {
+  getFieldRequestDefinition,
+  hasResolvedFieldRequest,
+  resolveRouteV2FiledDisplayText,
+} from './field-requests';
 import { getActiveHabitatProcessMoments } from './habitat-process';
 import { hasFieldUpgrade } from './field-station';
 import { getWorldMapLocationByBiomeId } from './world-map';
@@ -47,7 +51,7 @@ export interface FieldSeasonBoardState {
   launchCard: FieldSeasonBoardLaunchCard | null;
   activeBeatId: FieldSeasonBoardBeat['id'] | null;
   nextDirection: string;
-  targetBiomeId: 'forest' | 'coastal-scrub' | 'treeline' | 'tundra' | null;
+  targetBiomeId: 'beach' | 'forest' | 'coastal-scrub' | 'treeline' | 'tundra' | null;
   complete: boolean;
   notebookReady: {
     requestId: string;
@@ -122,7 +126,7 @@ function resolveRegionalBridgeLine(
 }
 
 function hasCompletedRequest(save: SaveState, requestId: string): boolean {
-  return save.completedFieldRequestIds.includes(requestId);
+  return hasResolvedFieldRequest(save, requestId);
 }
 
 const FOREST_EXPEDITION_CHAPTER_REQUEST_ID = 'forest-expedition-upper-run';
@@ -304,18 +308,26 @@ function resolveFiledSeasonLaunchCard(save: SaveState): FieldSeasonBoardLaunchCa
 }
 
 function getForestStudyBeat(save: SaveState, forestSurveyLogged: boolean): Omit<FieldSeasonBoardBeat, 'status'> {
+  if (!hasCompletedRequest(save, 'beach-shore-shelter')) {
+    return {
+      id: 'forest-study',
+      title: 'Shore Shelter',
+      detail: 'Log dune grass, then lee cover, then wrack line from Dune Edge to Tide Line.',
+    };
+  }
+
   if (!hasCompletedRequest(save, 'forest-hidden-hollow')) {
     return {
       id: 'forest-study',
-      title: 'Forest Hollow',
-      detail: 'Find the lower hollow and confirm the seep stone.',
+      title: 'Hidden Hollow',
+      detail: 'Follow shelter inland and confirm the seep stone in the lower hollow.',
     };
   }
 
   if (!hasCompletedRequest(save, 'forest-moisture-holders')) {
     return {
       id: 'forest-study',
-      title: 'Forest Hollow',
+      title: 'Moisture Holders',
       detail: 'Match one shelter, one ground, and one living clue in Root Hollow.',
     };
   }
@@ -355,8 +367,8 @@ function getCoastalComparisonBeat(save: SaveState): Omit<FieldSeasonBoardBeat, '
   if (!hasCompletedRequest(save, 'coastal-shelter-shift')) {
     return {
       id: 'coastal-comparison',
-      title: 'Coastal Shelter',
-      detail: 'Compare how the beach-facing dunes start feeling more sheltered.',
+      title: 'Open To Shelter',
+      detail: 'Walk open bloom, shore pine, and edge log in order through the scrub-to-woods shelter change.',
     };
   }
 
@@ -489,6 +501,7 @@ function getRouteBeatIdForRequest(
   requestId: string,
 ): FieldSeasonBoardBeat['id'] | null {
   switch (requestId) {
+    case 'beach-shore-shelter':
     case 'forest-hidden-hollow':
     case 'forest-moisture-holders':
     case 'forest-survey-slice':
@@ -593,6 +606,26 @@ function getReplayNote(
   switch (routeState.routeId) {
     case 'coastal-shelter-line':
       if (routeState.activeBeatId === 'forest-study') {
+        if (!hasCompletedRequest(save, 'beach-shore-shelter')) {
+          if (activeProcessIds.has('wrack-hold')) {
+            return {
+              id: 'beach-wrack-shelter',
+              title: 'Wrack Shelter',
+              text: 'Fresh wrack makes the beach shelter line easier to follow today.',
+            };
+          }
+
+          if (worldState.dayPart === 'dawn') {
+            return {
+              id: 'beach-early-shelter',
+              title: 'Early Shelter',
+              text: 'Early light makes the dune-to-wrack shelter line easier to read.',
+            };
+          }
+
+          return null;
+        }
+
         if (activeProcessIds.has('moisture-hold')) {
           return {
             id: 'forest-moist-hollow',
@@ -623,7 +656,7 @@ function getReplayNote(
           return {
             id: 'scrub-haze-shift',
             title: 'Haze Shift',
-            text: 'Marine haze softens the dune face, so the shelter shift reads more clearly.',
+            text: 'Marine haze softens the dune face, so the open-to-shelter line reads more clearly.',
           };
         }
       }
@@ -790,9 +823,13 @@ function applyReplayNote(
 }
 
 function resolveCoastalFieldSeasonBoardState(save: SaveState): FieldSeasonBoardState {
+  const beachBeatDone = hasCompletedRequest(save, 'beach-shore-shelter');
+  const hiddenHollowDone = hasCompletedRequest(save, 'forest-hidden-hollow');
+  const moistureHoldersDone = hasCompletedRequest(save, 'forest-moisture-holders');
   const forestSurveyLogged = hasCompletedRequest(save, 'forest-survey-slice');
   const forestBeatDone = forestSurveyLogged;
   const stationBeatDone = hasFieldUpgrade(save, 'trail-stride');
+  const shelterShiftLogged = hasCompletedRequest(save, 'coastal-shelter-shift');
   const coastalBeatDone = hasCompletedRequest(save, 'coastal-edge-moisture');
 
   let activeAssigned = false;
@@ -817,17 +854,36 @@ function resolveCoastalFieldSeasonBoardState(save: SaveState): FieldSeasonBoardS
   });
 
   const completedBeatCount = [forestBeatDone, stationBeatDone, coastalBeatDone].filter(Boolean).length;
-  let summary = 'Beach start. Follow shelter inland.';
-  let nextDirection = 'Next: travel to Forest Trail and find Hidden Hollow.';
-  let targetBiomeId: FieldSeasonBoardState['targetBiomeId'] = 'forest';
+  let summary = 'Shore Shelter starts at Sunny Beach.';
+  let nextDirection =
+    'Next: stay on Sunny Beach and start Shore Shelter with dune grass, then lee cover, then wrack line.';
+  let targetBiomeId: FieldSeasonBoardState['targetBiomeId'] = 'beach';
 
-  if (forestBeatDone && !stationBeatDone) {
-    summary = 'Forest logged. Back to station.';
-    nextDirection = 'Next: return to the field station and pick up Trail Stride.';
+  if (beachBeatDone && !hiddenHollowDone) {
+    summary = 'Shore Shelter logged. Hidden Hollow carries shelter inland.';
+    nextDirection = 'Next: travel inland to Forest Trail and find Hidden Hollow.';
+    targetBiomeId = 'forest';
+  } else if (hiddenHollowDone && !moistureHoldersDone) {
+    summary = 'Hidden Hollow logged. Moisture Holders keeps the shelter line low in Root Hollow.';
+    nextDirection =
+      'Next: stay in Forest Trail and match the shelter, ground, and living clues for Moisture Holders.';
+    targetBiomeId = 'forest';
+  } else if (moistureHoldersDone && !forestBeatDone) {
+    summary = 'Moisture Holders logged. Forest Survey closes the forest study in Forest Trail.';
+    nextDirection = 'Next: stay in Forest Trail and finish Forest Survey before returning to the station.';
+    targetBiomeId = 'forest';
+  } else if (forestBeatDone && !stationBeatDone) {
+    summary = 'Shore Shelter, Hidden Hollow, and Forest Survey logged. Return to station.';
+    nextDirection = 'Next: return to the field station for Trail Stride.';
     targetBiomeId = null;
-  } else if (forestBeatDone && stationBeatDone && !coastalBeatDone) {
-    summary = 'Trail Stride opens scrub comparison.';
-    nextDirection = 'Next: log Shelter Shift, then Edge Moisture in Coastal Scrub.';
+  } else if (forestBeatDone && stationBeatDone && !shelterShiftLogged) {
+    summary = 'Open To Shelter carries the shore line into Coastal Scrub.';
+    nextDirection =
+      'Next: travel to Coastal Scrub and start Open To Shelter with open bloom, then shore pine, then edge log.';
+    targetBiomeId = 'coastal-scrub';
+  } else if (forestBeatDone && stationBeatDone && shelterShiftLogged && !coastalBeatDone) {
+    summary = 'Open To Shelter logged. Edge Moisture checks the cooler forest edge next.';
+    nextDirection = 'Next: return to Coastal Scrub and log the cooler, wetter edge at forest side.';
     targetBiomeId = 'coastal-scrub';
   }
 
@@ -1059,7 +1115,9 @@ export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null 
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
 
   let note: string;
-  if (hasCompletedRequest(save, 'forest-season-threads') || expeditionLogged || expeditionNotebookReady || expeditionEvidenceCount > 0) {
+  if (hasCompletedRequest(save, 'forest-season-threads') && !save.seasonCloseReturnPending) {
+    note = 'Filed season: High Pass from Treeline Pass.';
+  } else if (hasCompletedRequest(save, 'forest-season-threads') || expeditionLogged || expeditionNotebookReady || expeditionEvidenceCount > 0) {
     note = activeOuting?.atlasNote ?? 'Next: open Root Hollow below the forest.';
   } else if (hasCompletedRequest(save, 'treeline-low-fell')) {
     note = 'Coast, ridge, edge filed. Root Hollow next.';
@@ -1238,6 +1296,20 @@ function lowercaseFirstLetter(text: string): string {
   return text.length ? `${text[0].toLowerCase()}${text.slice(1)}` : text;
 }
 
+function isShoreShelterLoggedReturn(routeBoard: FieldSeasonBoardState): boolean {
+  return (
+    routeBoard.routeId === 'coastal-shelter-line'
+    && routeBoard.nextDirection === 'Next: travel inland to Forest Trail and find Hidden Hollow.'
+  );
+}
+
+function isOpenToShelterLoggedReturn(routeBoard: FieldSeasonBoardState): boolean {
+  return (
+    routeBoard.routeId === 'coastal-shelter-line'
+    && routeBoard.nextDirection === 'Next: return to Coastal Scrub and log the cooler, wetter edge at forest side.'
+  );
+}
+
 function getEcosystemNotePrompt(
   biomes: Record<string, BiomeDefinition>,
   biomeId: string,
@@ -1306,6 +1378,26 @@ function resolveSupportAwareTodayWrap(
           text,
         }
       : null;
+  }
+
+  if (
+    selectedOutingSupportId === 'note-tabs'
+    && isOpenToShelterLoggedReturn(routeBoard)
+  ) {
+    return {
+      label: 'OPEN TO SHELTER LOGGED',
+      text: 'Coastal Scrub closes the shelter chapter. Edge Moisture waits at the forest edge.',
+    };
+  }
+
+  if (
+    selectedOutingSupportId === 'note-tabs'
+    && isShoreShelterLoggedReturn(routeBoard)
+  ) {
+    return {
+      label: 'SHORE SHELTER LOGGED',
+      text: 'Sunny Beach closes the shore shelter line. Hidden Hollow waits inland.',
+    };
   }
 
   if (selectedOutingSupportId === 'note-tabs') {

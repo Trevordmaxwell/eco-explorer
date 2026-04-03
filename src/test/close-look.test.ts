@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { beachBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
+import { beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
 import { buildCloseLookPayload, supportsCloseLook } from '../engine/close-look';
 
 describe('close-look helpers', () => {
@@ -13,11 +13,16 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
+    expect(supportsCloseLook('nootka-rose')).toBe(true);
+    expect(supportsCloseLook('kinnikinnick')).toBe(true);
+    expect(supportsCloseLook('nurse-log')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
     expect(supportsCloseLook('old-mans-beard')).toBe(true);
     expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
+    expect(supportsCloseLook('shore-pine')).toBe(false);
+    expect(supportsCloseLook('pacific-wax-myrtle')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
   });
 
@@ -67,6 +72,30 @@ describe('close-look helpers', () => {
       spriteId: 'cottongrass',
     });
     expect(cottongrassPayload?.callouts).toContain('white tuft');
+
+    const rosePayload = buildCloseLookPayload(coastalScrubBiome.entries['nootka-rose']);
+    expect(rosePayload).toMatchObject({
+      entryId: 'nootka-rose',
+      title: 'Nootka Rose',
+      spriteId: 'nootka-rose',
+    });
+    expect(rosePayload?.callouts).toContain('thorny stem');
+
+    const kinnikinnickPayload = buildCloseLookPayload(coastalScrubBiome.entries.kinnikinnick);
+    expect(kinnikinnickPayload).toMatchObject({
+      entryId: 'kinnikinnick',
+      title: 'Kinnikinnick',
+      spriteId: 'kinnikinnick',
+    });
+    expect(kinnikinnickPayload?.callouts).toContain('evergreen leaves');
+
+    const nurseLogPayload = buildCloseLookPayload(coastalScrubBiome.entries['nurse-log']);
+    expect(nurseLogPayload).toMatchObject({
+      entryId: 'nurse-log',
+      title: 'Nurse Log',
+      spriteId: 'nurse-log',
+    });
+    expect(nurseLogPayload?.callouts).toContain('soft old wood');
 
     const canopyMossPayload = buildCloseLookPayload(forestBiome.entries['canopy-moss-bed']);
     expect(canopyMossPayload).toMatchObject({

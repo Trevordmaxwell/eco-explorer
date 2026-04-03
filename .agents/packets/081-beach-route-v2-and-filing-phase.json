@@ -1,0 +1,86 @@
+{
+  "packet_id": "ECO-PACKET-081",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Beach Route v2 and filing phase",
+  "summary": "Now that the field season is ready to include beach, lane 4 should give the front half its first dedicated beach outing. This wave adds one evidence-backed beach Route v2 beat using the live lee-pocket, wrack, and dune spaces, then polishes filing and support language so the return feels as intentional as the forest pilots.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-4-front-half-route-v2-follow-ons.md",
+    "docs/reports/2026-04-03-beach-route-v2-handoff.md",
+    "docs/reports/2026-04-03-beach-filing-support-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-157",
+    "ECO-20260403-main-195",
+    "ECO-20260403-critic-168",
+    "ECO-20260403-scout-158",
+    "ECO-20260403-main-196",
+    "ECO-20260403-critic-169"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-151"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-157",
+      "goal": "Prepare the first beach Route v2 outing handoff.",
+      "why_now": "Beach still lacks a dedicated gameplay-shaped outing even though the spaces and season framing now exist."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-195",
+      "goal": "Implement the Shore Shelter beach Route v2 outing.",
+      "why_now": "A zone-ordered dune-to-wrack walk gives the starting biome a real notebook-first outing without adding another shell."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-168",
+      "goal": "Review the Shore Shelter beach Route v2 outing.",
+      "why_now": "The first beach route should feel like an authored outing, not a hidden checklist."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-158",
+      "goal": "Prepare notebook-ready notice priority and note-tabs beach-close polish.",
+      "why_now": "The beach return already works mechanically, but the final wrack inspect still lets nursery feedback replace the stronger route-ready cue."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-196",
+      "goal": "Implement notebook-ready notice priority and one note-tabs beach close.",
+      "why_now": "Once the route exists, the front-half return should land through the existing notice and season-wrap seams instead of adding another shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-169",
+      "goal": "Review the beach notebook-ready priority and note-tabs close.",
+      "why_now": "The front half should stay calm and legible, not grow another support shell."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/game.ts",
+    "src/engine/field-season-board.ts",
+    "src/content/biomes/beach.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Reuse the existing Route v2 request, filing, and support seams whenever possible.",
+    "Do not add a new station page, notebook page, or route ledger.",
+    "The beach outing should use real observable evidence from the live beach spaces rather than generic inspect counts.",
+    "Beach support or filing polish should deepen existing note-tabs, place-tab, or route-marker behavior rather than add a new support row."
+  ],
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-03-lane-4-front-half-route-v2-follow-ons.md, docs/reports/2026-04-03-beach-route-v2-handoff.md, docs/reports/2026-04-03-beach-filing-support-handoff.md, and this packet. Treat this as lane 4's front-half rebalance wave: the route itself now exists, so the next beach pass should stay narrowly inside the live notebook-return seams by making the route-ready cue outrank the overlapping nursery gather notice on the final wrack inspect and by giving note-tabs one short post-file beach close before Hidden Hollow takes over."
+}

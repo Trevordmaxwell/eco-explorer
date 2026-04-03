@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { beachBiome } from '../content/biomes/beach';
 import { coastalScrubBiome } from '../content/biomes/coastal-scrub';
 import { forestBiome } from '../content/biomes/forest';
 import { treelineBiome } from '../content/biomes/treeline';
@@ -10,6 +11,81 @@ import {
 } from '../engine/habitat-process';
 
 describe('habitat process moments', () => {
+  it('activates the beach wrack-hold moment only on late marine-haze revisits', () => {
+    expect(
+      getActiveHabitatProcessMoments(beachBiome, 1, {
+        worldAge: 6,
+        dayPart: 'day',
+        weather: 'marine-haze',
+        phenologyPhase: 'late',
+      }),
+    ).toEqual([]);
+
+    expect(
+      getActiveHabitatProcessMoments(beachBiome, 2, {
+        worldAge: 6,
+        dayPart: 'day',
+        weather: 'marine-haze',
+        phenologyPhase: 'late',
+      }).map((moment) => moment.id),
+    ).toEqual(['wrack-hold']);
+
+    expect(
+      getActiveHabitatProcessMoments(beachBiome, 2, {
+        worldAge: 6,
+        dayPart: 'day',
+        weather: 'clear',
+        phenologyPhase: 'late',
+      }),
+    ).toEqual([]);
+  });
+
+  it('only applies the wrack-hold moment to the authored wrack carriers in the tide line', () => {
+    const worldState = {
+      worldAge: 6,
+      dayPart: 'day' as const,
+      weather: 'marine-haze' as const,
+      phenologyPhase: 'late' as const,
+    };
+
+    expect(
+      resolveHabitatProcessMomentForEntity(
+        beachBiome,
+        2,
+        worldState,
+        'bull-kelp-wrack',
+        456,
+      )?.id,
+    ).toBe('wrack-hold');
+    expect(
+      resolveHabitatProcessMomentForEntity(
+        beachBiome,
+        2,
+        worldState,
+        'beach-hopper',
+        476,
+      )?.id,
+    ).toBe('wrack-hold');
+    expect(
+      resolveHabitatProcessMomentForEntity(
+        beachBiome,
+        2,
+        worldState,
+        'sand-verbena',
+        236,
+      ),
+    ).toBeNull();
+    expect(
+      resolveHabitatProcessMomentForEntity(
+        beachBiome,
+        2,
+        worldState,
+        'pacific-sand-crab',
+        538,
+      ),
+    ).toBeNull();
+  });
+
   it('keeps coastal sand capture hidden until the habitat has been revisited late enough in the season', () => {
     expect(
       getActiveHabitatProcessMoments(coastalScrubBiome, 1, {

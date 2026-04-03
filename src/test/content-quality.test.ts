@@ -24,8 +24,9 @@ const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity
 const MICROHABITAT_LEDGER_MARKERS = ['old-mans-beard', 'western-hemlock-seedling'] as const;
 const CANOPY_CAVERN_LEDGER_MARKERS = ['canopy-moss-bed', 'seep-moss-mat'] as const;
 const ALPINE_MICROHABITAT_LEDGER_MARKERS = ['talus-cushion-pocket', 'tussock-thaw-channel'] as const;
-const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'kinnikinnick'] as const;
+const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'dune-lupine', 'beach-strawberry', 'beach-hopper', 'kinnikinnick'] as const;
 const MIDDLE_COMPARISON_LEDGER_MARKERS = ['bunchberry'] as const;
+const TUNDRA_PARITY_LEDGER_MARKERS = ['moss-campion', 'reindeer-lichen', 'white-tailed-ptarmigan', 'frost-heave-hummock'] as const;
 
 function countSentences(text: string): number {
   return text
@@ -66,7 +67,7 @@ describe('content quality guardrails', () => {
   });
 
   it('keeps field-request copy within the compact notebook budget', () => {
-    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(13);
+    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(14);
 
     for (const request of FIELD_REQUEST_DEFINITIONS) {
       expect(request.title.length).toBeLessThanOrEqual(FIELD_REQUEST_TITLE_MAX);
@@ -164,6 +165,12 @@ describe('content quality guardrails', () => {
 
   it('keeps the middle comparison bridge backed by the science source ledger', () => {
     for (const entryId of MIDDLE_COMPARISON_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the tundra parity additions backed by the science source ledger', () => {
+    for (const entryId of TUNDRA_PARITY_LEDGER_MARKERS) {
       expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
     }
   });

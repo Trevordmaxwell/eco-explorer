@@ -16,18 +16,21 @@ import {
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 
 describe('field season board', () => {
-  it('starts with the forest hollow beat active and the coastal line queued behind it', () => {
+  it('starts with the beach shore-shelter beat active and the coastal line queued behind it', () => {
     const save = createNewSaveState('field-season-board-starter-seed');
 
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       routeTitle: 'COASTAL SHELTER LINE',
       progressLabel: '0/3 logged',
-      targetBiomeId: 'forest',
+      targetBiomeId: 'beach',
+      summary: 'Shore Shelter starts at Sunny Beach.',
+      nextDirection:
+        'Next: stay on Sunny Beach and start Shore Shelter with dune grass, then lee cover, then wrack line.',
       complete: false,
       beats: [
-        { id: 'forest-study', status: 'active', title: 'Forest Hollow' },
+        { id: 'forest-study', status: 'active', title: 'Shore Shelter' },
         { id: 'station-return', status: 'upcoming', title: 'Station Return' },
-        { id: 'coastal-comparison', status: 'upcoming', title: 'Coastal Shelter' },
+        { id: 'coastal-comparison', status: 'upcoming', title: 'Open To Shelter' },
       ],
     });
   });
@@ -46,10 +49,12 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       progressLabel: '1/3 logged',
       targetBiomeId: null,
+      summary: 'Shore Shelter, Hidden Hollow, and Forest Survey logged. Return to station.',
+      nextDirection: 'Next: return to the field station for Trail Stride.',
       beats: [
         { id: 'forest-study', status: 'done', title: 'Forest Logged' },
         { id: 'station-return', status: 'active', title: 'Station Return' },
-        { id: 'coastal-comparison', status: 'upcoming', title: 'Coastal Shelter' },
+        { id: 'coastal-comparison', status: 'upcoming', title: 'Open To Shelter' },
       ],
     });
 
@@ -57,10 +62,78 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       progressLabel: '2/3 logged',
       targetBiomeId: 'coastal-scrub',
+      summary: 'Open To Shelter carries the shore line into Coastal Scrub.',
+      nextDirection:
+        'Next: travel to Coastal Scrub and start Open To Shelter with open bloom, then shore pine, then edge log.',
       beats: [
         { id: 'forest-study', status: 'done', title: 'Forest Logged' },
         { id: 'station-return', status: 'done', title: 'Trail Stride' },
-        { id: 'coastal-comparison', status: 'active', title: 'Coastal Shelter' },
+        {
+          id: 'coastal-comparison',
+          status: 'active',
+          title: 'Open To Shelter',
+          detail: 'Walk open bloom, shore pine, and edge log in order through the scrub-to-woods shelter change.',
+        },
+      ],
+    });
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'coastal-shelter-shift'];
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      progressLabel: '2/3 logged',
+      targetBiomeId: 'coastal-scrub',
+      summary: 'Open To Shelter logged. Edge Moisture checks the cooler forest edge next.',
+      nextDirection: 'Next: return to Coastal Scrub and log the cooler, wetter edge at forest side.',
+      beats: [
+        { id: 'forest-study', status: 'done', title: 'Forest Logged' },
+        { id: 'station-return', status: 'done', title: 'Trail Stride' },
+        {
+          id: 'coastal-comparison',
+          status: 'active',
+          title: 'Edge Moisture',
+          detail: 'At the forest edge, log the cooler, wetter ground shift.',
+        },
+      ],
+    });
+  });
+
+  it('uses the filed route titles on the front-half board once the beach opener is complete', () => {
+    const save = createNewSaveState('field-season-board-front-half-route-title-seed');
+    save.completedFieldRequestIds = ['beach-shore-shelter'];
+
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      summary: 'Shore Shelter logged. Hidden Hollow carries shelter inland.',
+      nextDirection: 'Next: travel inland to Forest Trail and find Hidden Hollow.',
+      beats: [
+        { id: 'forest-study', status: 'active', title: 'Hidden Hollow' },
+        { id: 'station-return', status: 'upcoming', title: 'Station Return' },
+        { id: 'coastal-comparison', status: 'upcoming', title: 'Open To Shelter' },
+      ],
+    });
+
+    save.completedFieldRequestIds = ['beach-shore-shelter', 'forest-hidden-hollow'];
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      summary: 'Hidden Hollow logged. Moisture Holders keeps the shelter line low in Root Hollow.',
+      nextDirection:
+        'Next: stay in Forest Trail and match the shelter, ground, and living clues for Moisture Holders.',
+      beats: [
+        { id: 'forest-study', status: 'active', title: 'Moisture Holders' },
+        { id: 'station-return', status: 'upcoming', title: 'Station Return' },
+        { id: 'coastal-comparison', status: 'upcoming', title: 'Open To Shelter' },
+      ],
+    });
+
+    save.completedFieldRequestIds = [
+      'beach-shore-shelter',
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+    ];
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      summary: 'Moisture Holders logged. Forest Survey closes the forest study in Forest Trail.',
+      nextDirection: 'Next: stay in Forest Trail and finish Forest Survey before returning to the station.',
+      beats: [
+        { id: 'forest-study', status: 'active', title: 'Forest Survey' },
+        { id: 'station-return', status: 'upcoming', title: 'Station Return' },
+        { id: 'coastal-comparison', status: 'upcoming', title: 'Open To Shelter' },
       ],
     });
   });
@@ -278,21 +351,21 @@ describe('field season board', () => {
     });
   });
 
-  it('surfaces a dawn-hollow replay note on later forest-study revisits', () => {
+  it('surfaces an early-shelter replay note on later beach-start revisits', () => {
     const save = createNewSaveState('field-season-board-dawn-replay-seed');
     save.worldStep = 3;
 
     expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
       routeId: 'coastal-shelter-line',
-      summary: 'Early light makes the sheltered hollow easier to read before the forest brightens.',
+      summary: 'Early light makes the dune-to-wrack shelter line easier to read.',
       replayNote: {
-        id: 'forest-dawn-hollow',
-        title: 'Dawn Hollow',
+        id: 'beach-early-shelter',
+        title: 'Early Shelter',
       },
     });
     expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ id: 'forest-study', status: 'active', title: 'Dawn Hollow' }),
+        expect.objectContaining({ id: 'forest-study', status: 'active', title: 'Early Shelter' }),
       ]),
     );
   });
@@ -409,6 +482,26 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: 'tundra-short-season', status: 'active', title: 'Thaw Window' }),
+      ]),
+    );
+  });
+
+  it('surfaces a wrack-shelter replay note on late beach opener revisits', () => {
+    const save = createNewSaveState('field-season-board-wrack-shelter-seed');
+    save.worldStep = 6;
+    save.biomeVisits.beach = 2;
+
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      routeId: 'coastal-shelter-line',
+      summary: 'Fresh wrack makes the beach shelter line easier to follow today.',
+      replayNote: {
+        id: 'beach-wrack-shelter',
+        title: 'Wrack Shelter',
+      },
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'forest-study', status: 'active', title: 'Wrack Shelter' }),
       ]),
     );
   });
@@ -629,7 +722,7 @@ describe('field season board', () => {
         'TREELINE SHELTER LINE logged',
         'EDGE PATTERN LINE logged',
       ],
-      note: 'Next: take the High Pass from Treeline Pass.',
+      note: 'Filed season: High Pass from Treeline Pass.',
     });
   });
 
@@ -847,13 +940,13 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
         },
         resolveFieldAtlasState(save),
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Find the lower hollow and confirm the seep stone.',
+      text: 'Log dune grass, then lee cover, then wrack line from Dune Edge to Tide Line.',
     });
   });
 
@@ -869,7 +962,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -877,7 +970,7 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Travel to Forest Trail and find Hidden Hollow.',
+      text: 'Stay on Sunny Beach and start Shore Shelter with dune grass, then lee cover, then wrack line.',
     });
   });
 
@@ -892,7 +985,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -900,7 +993,61 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Beach start. Follow shelter inland.',
+      text: 'Shore Shelter starts at Sunny Beach.',
+    });
+  });
+
+  it('uses a note-tabs beach-close line once Shore Shelter is logged', () => {
+    const save = createNewSaveState('field-season-wrap-note-tabs-shore-shelter-close-seed');
+    save.selectedOutingSupportId = 'note-tabs';
+    save.completedFieldRequestIds = ['beach-shore-shelter'];
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIRST FIELD SEASON',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'note-tabs',
+      ),
+    ).toEqual({
+      label: 'SHORE SHELTER LOGGED',
+      text: 'Sunny Beach closes the shore shelter line. Hidden Hollow waits inland.',
+    });
+  });
+
+  it('uses a note-tabs chapter-close line once Open To Shelter is logged', () => {
+    const save = createNewSaveState('field-season-wrap-note-tabs-open-to-shelter-close-seed');
+    save.selectedOutingSupportId = 'note-tabs';
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+    ];
+    save.purchasedUpgradeIds = ['trail-stride'];
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIRST FIELD SEASON',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'note-tabs',
+      ),
+    ).toEqual({
+      label: 'OPEN TO SHELTER LOGGED',
+      text: 'Coastal Scrub closes the shelter chapter. Edge Moisture waits at the forest edge.',
     });
   });
 
@@ -978,7 +1125,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -986,7 +1133,7 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Find the lower hollow and confirm the seep stone.',
+      text: 'Log dune grass, then lee cover, then wrack line from Dune Edge to Tide Line.',
     });
   });
 
@@ -1274,7 +1421,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'RETURN TO STATION',
-          text: 'The season threads are logged. Return to the field station for a calm season close.',
+          text: 'Season Threads logged. Return to the field station for a calm season close.',
         },
         resolveFieldAtlasState(save),
         resolveFieldSeasonArchiveState(save),

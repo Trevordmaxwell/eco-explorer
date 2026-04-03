@@ -1,6 +1,14 @@
 import { treelinePalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { arcticWillowEntry, bunchberryEntry, crowberryEntry, lingonberryEntry, mountainAvensEntry } from '../shared-entries';
+import {
+  arcticWillowEntry,
+  bunchberryEntry,
+  crowberryEntry,
+  lingonberryEntry,
+  mossCampionEntry,
+  mountainAvensEntry,
+  reindeerLichenEntry,
+} from '../shared-entries';
 
 const treelineEntries = {
   'mountain-hemlock': {
@@ -40,17 +48,7 @@ const treelineEntries = {
   bunchberry: bunchberryEntry,
   lingonberry: lingonberryEntry,
   'mountain-avens': mountainAvensEntry,
-  'moss-campion': {
-    id: 'moss-campion',
-    commonName: 'Moss Campion',
-    scientificName: 'Silene acaulis',
-    category: 'plant',
-    shortFact: 'Moss campion grows in tight cushions that hold warmer air near the ground.',
-    journalText:
-      'Moss campion is a tiny alpine wildflower that forms a dense cushion on windy slopes. Its packed shape helps it keep heat close in cold mountain weather.',
-    spriteId: 'moss-campion',
-    collectible: false,
-  },
+  'moss-campion': mossCampionEntry,
   'white-arctic-mountain-heather': {
     id: 'white-arctic-mountain-heather',
     commonName: 'White Arctic Mountain Heather',
@@ -63,17 +61,7 @@ const treelineEntries = {
     spriteId: 'white-arctic-mountain-heather',
     collectible: false,
   },
-  'reindeer-lichen': {
-    id: 'reindeer-lichen',
-    commonName: 'Reindeer Lichen',
-    scientificName: 'Cladonia rangiferina',
-    category: 'lichen',
-    shortFact: 'Reindeer lichen grows slowly on open, well-drained ground near treeline.',
-    journalText:
-      'Reindeer lichen is a pale branching lichen of cold open ground. It grows slowly where soil is thin and wind is strong.',
-    spriteId: 'reindeer-lichen',
-    collectible: false,
-  },
+  'reindeer-lichen': reindeerLichenEntry,
   'arctic-willow': arcticWillowEntry,
   crowberry: crowberryEntry,
   'rock-ptarmigan': {

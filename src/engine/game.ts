@@ -355,6 +355,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   let guidedStarterNoticeShown = false;
   let guidedStationNoticeShown = false;
   let guidedSeasonCapstoneNoticeShown = false;
+  let guidedSeasonCloseReturnNoticeShown = false;
   let guidedNextStopNoticeShown = false;
   let worldMapState = createWorldMapState(
     ecoWorldMap,
@@ -656,9 +657,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function openFieldStation(): void {
+    const acknowledgedSeasonCloseReturn =
+      save.seasonCloseReturnPending
+      && save.completedFieldRequestIds.includes('forest-season-threads');
+    if (acknowledgedSeasonCloseReturn) {
+      save.seasonCloseReturnPending = false;
+    }
     const claimedSources = syncFieldStationLedger(biomeRegistry, save);
     const nurseryChanged = syncNurseryState(save);
-    if (claimedSources.length || nurseryChanged) {
+    if (claimedSources.length || nurseryChanged || acknowledgedSeasonCloseReturn) {
       persistSave(save);
     }
     selectedFieldStationView = 'season';
@@ -693,11 +700,19 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function getDefaultMenuActionId(): MenuActionId {
     const available = getMenuActionIds();
     const guidedFieldSeason = getGuidedFieldSeasonState();
+    const inBiomePlayMenu = menuReturnMode === 'playing' && sceneMode === 'biome';
 
     if (
-      menuReturnMode === 'playing' &&
-      sceneMode === 'biome' &&
-      (guidedFieldSeason.stage === 'starter' || guidedFieldSeason.stage === 'station-return') &&
+      inBiomePlayMenu &&
+      (
+        (
+          guidedFieldSeason.stage === 'starter'
+          && guidedFieldSeason.nextBiomeId !== null
+          && guidedFieldSeason.nextBiomeId !== getContextBiomeId()
+        )
+        || guidedFieldSeason.stage === 'station-return'
+        || guidedFieldSeason.stage === 'season-close-return'
+      ) &&
       available.includes('world-map')
     ) {
       return 'world-map';
@@ -706,10 +721,20 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (
       menuReturnMode === 'playing' &&
       sceneMode === 'world-map' &&
-      guidedFieldSeason.stage === 'station-return' &&
+      (
+        guidedFieldSeason.stage === 'station-return'
+        || guidedFieldSeason.stage === 'season-close-return'
+      ) &&
       available.includes('field-station')
     ) {
       return 'field-station';
+    }
+
+    if (
+      inBiomePlayMenu &&
+      available.includes('world-map')
+    ) {
+      return 'world-map';
     }
 
     if (available.includes('toggle-fullscreen')) {
@@ -1322,8 +1347,24 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
+  function maybeShowSeasonCloseReturnNotice(): void {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (
+      guidedSeasonCloseReturnNoticeShown ||
+      guidedFieldSeason.stage !== 'season-close-return' ||
+      !guidedFieldSeason.promptNotice ||
+      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+    ) {
+      return;
+    }
+
+    guidedSeasonCloseReturnNoticeShown = true;
+    showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
+  }
+
   function maybeShowWorldMapFieldSeasonNotice(): void {
     maybeShowStationReturnNotice();
+    maybeShowSeasonCloseReturnNotice();
   }
 
   function maybeShowNextHabitatNotice(): void {
@@ -1373,10 +1414,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function maybeCompleteActiveFieldRequest(
     trigger: 'zone' | 'inspect' | 'enter-biome',
     entryId?: string | null,
-  ): void {
+  ): boolean {
     const result = advanceActiveFieldRequest(getFieldRequestContext(), trigger, entryId);
     if (!result) {
-      return;
+      return false;
     }
 
     if (result.status === 'ready-to-synthesize') {
@@ -1386,23 +1427,35 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         result.noticeText ?? 'Return to the field station and file this note.',
         FIELD_NOTICE_IMPORTANT_SECONDS,
       );
-      return;
+      return true;
     }
 
     if (!recordCompletedFieldRequest(save, result.requestId)) {
-      return;
+      return false;
     }
 
+    if (result.requestId === 'forest-season-threads') {
+      save.seasonCloseReturnPending = true;
+    }
     persistSave(save);
     if (result.requestId === 'forest-expedition-upper-run') {
       const guidedFieldSeason = getGuidedFieldSeasonState();
       if (guidedFieldSeason.stage === 'season-capstone' && guidedFieldSeason.promptNotice) {
         guidedSeasonCapstoneNoticeShown = true;
         showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, 3.6);
-        return;
+        return false;
+      }
+    }
+    if (result.requestId === 'forest-season-threads') {
+      const guidedFieldSeason = getGuidedFieldSeasonState();
+      if (guidedFieldSeason.stage === 'season-close-return' && guidedFieldSeason.promptNotice) {
+        guidedSeasonCloseReturnNoticeShown = true;
+        showFieldNotice(guidedFieldSeason.promptNotice.title, guidedFieldSeason.promptNotice.text, FIELD_NOTICE_IMPORTANT_SECONDS);
+        return false;
       }
     }
     showFieldRequestNotice(result.requestId);
+    return false;
   }
 
   function getNearbyDiscoveredEntryIdsForPrompt(radius = 56): string[] {
@@ -1925,7 +1978,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     entity.removed = entity.collectible;
     persistSave(save);
     setSelectedJournalEntry(true);
-    maybeCompleteActiveFieldRequest('inspect', entry.id);
+    const notebookReadyNoticeShown = maybeCompleteActiveFieldRequest('inspect', entry.id);
 
     const payload: FactBubblePayload = {
       entryId: entry.id,
@@ -1949,7 +2002,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (isNewEntry) {
       queueFieldPartnerTrigger('discovery', entry.id);
     }
-    if (nurseryGathering) {
+    if (nurseryGathering && !notebookReadyNoticeShown) {
       showFieldNotice('NURSERY SUPPLY', nurseryGathering.note, 1.9);
     }
     return payload;
@@ -2014,10 +2067,14 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function toggleFullscreen(): void {
     if (document.fullscreenElement) {
-      void document.exitFullscreen();
+      if (typeof document.exitFullscreen === 'function') {
+        void document.exitFullscreen();
+      }
       save.settings.fullscreen = false;
     } else {
-      void canvas.requestFullscreen();
+      if (typeof canvas.requestFullscreen === 'function') {
+        void canvas.requestFullscreen();
+      }
       save.settings.fullscreen = true;
     }
     persistSave(save);
@@ -2088,6 +2145,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     guidedStarterNoticeShown = false;
     guidedStationNoticeShown = false;
     guidedSeasonCapstoneNoticeShown = false;
+    guidedSeasonCloseReturnNoticeShown = false;
     guidedNextStopNoticeShown = false;
     enterBiome('beach');
     setSelectedJournalEntry(true);

@@ -225,6 +225,78 @@ describe('sketchbook helpers', () => {
     });
   });
 
+  it('surfaces the new local front-half sketchbook notes for beach and coastal-scrub', () => {
+    const save = createNewSaveState('sketchbook-front-half-local-memory-seed');
+
+    recordDiscovery(save, beachBiome.entries['moon-snail-shell'], 'beach');
+    recordDiscovery(save, beachBiome.entries.sanderling, 'beach');
+    recordDiscovery(save, coastalScrubBiome.entries['pacific-wax-myrtle'], 'coastal-scrub');
+    recordDiscovery(save, coastalScrubBiome.entries['song-sparrow'], 'coastal-scrub');
+
+    placeSketchbookEntry(save, beachBiome, 'top-left', 'moon-snail-shell');
+    placeSketchbookEntry(save, beachBiome, 'top-right', 'sanderling');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-left', 'pacific-wax-myrtle');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-right', 'song-sparrow');
+
+    const beachPage = buildSketchbookPageView(
+      beachBiome,
+      beachBiome.entries,
+      save,
+    );
+    const scrubPage = buildSketchbookPageView(
+      coastalScrubBiome,
+      coastalScrubBiome.entries,
+      save,
+    );
+
+    expect(beachPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'moon-snail-shell',
+      note: 'Round shell clue from calmer sand.',
+    });
+    expect(beachPage.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
+      entryId: 'sanderling',
+      note: 'Quick feet tracing retreating surf.',
+    });
+    expect(scrubPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'pacific-wax-myrtle',
+      note: 'Dark berries thickening calm scrub.',
+    });
+    expect(scrubPage.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
+      entryId: 'song-sparrow',
+      note: 'Small voice tucked low in brush.',
+    });
+  });
+
+  it('surfaces the new front-half sketchbook note strips for sea-rocket and sword-fern', () => {
+    const save = createNewSaveState('sketchbook-front-half-gap-memory-seed');
+
+    recordDiscovery(save, beachBiome.entries['sea-rocket'], 'beach');
+    recordDiscovery(save, coastalScrubBiome.entries['sword-fern'], 'coastal-scrub');
+
+    placeSketchbookEntry(save, beachBiome, 'top-left', 'sea-rocket');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-left', 'sword-fern');
+
+    const beachPage = buildSketchbookPageView(
+      beachBiome,
+      beachBiome.entries,
+      save,
+    );
+    const scrubPage = buildSketchbookPageView(
+      coastalScrubBiome,
+      coastalScrubBiome.entries,
+      save,
+    );
+
+    expect(beachPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'sea-rocket',
+      note: 'Thick leaves braving the raw salt-front edge.',
+    });
+    expect(scrubPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'sword-fern',
+      note: 'Cool fronds marking where shade and moisture begin.',
+    });
+  });
+
   it('surfaces the middle-biome memory notes for redwood-sorrel and dwarf-birch', () => {
     const save = createNewSaveState('sketchbook-middle-memory-seed');
 

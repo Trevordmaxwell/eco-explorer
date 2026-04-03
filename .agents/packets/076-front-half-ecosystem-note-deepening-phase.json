@@ -1,0 +1,46 @@
+{
+  "packet_id": "ECO-PACKET-076",
+  "version": 4,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Front-half ecosystem note deepening phase",
+  "summary": "The front-half note layer now needs a small zone-faithful cleanup more than raw note count. This wave adds one new beach note for `sanderling`, one new coastal-scrub note for `beach-pea`, and revises the most obvious beach and scrub note mismatches so the journal teaches relationships that are actually visible in the named zone.",
+  "source_reports": [
+    "docs/reports/2026-04-03-front-half-ecosystem-note-deepening-handoff.md",
+    "docs/reports/2026-04-03-front-half-ecosystem-note-implementation.md",
+    "docs/reports/2026-04-03-front-half-ecosystem-note-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-152",
+    "ECO-20260402-main-190",
+    "ECO-20260402-critic-163"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-152", "goal": "Prepare front-half ecosystem note deepening handoff.", "why_now": "Ecosystem notes are the main teaching surface; the front half needs more." },
+    { "step": 2, "queue_id": "ECO-20260402-main-190", "goal": "Implement front-half ecosystem notes.", "why_now": "More notes means deeper understanding of beach and coastal ecology." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-163", "goal": "Review front-half ecosystem notes.", "why_now": "Notes must teach real ecology, not repeat fact text." }
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/journal.test.ts"
+  ],
+  "note_scope": {
+    "new_note_ids": ["surf-food-line", "runner-hold-start"],
+    "revised_note_ids": ["shelter-line-start", "thicket-cover"],
+    "preserve_note_ids": ["shore-shelter", "shelter-builds-here", "swale-shelter", "edge-moisture"]
+  },
+  "guardrails": [
+    "Notes must teach observable habitat relationships, not abstract concepts.",
+    "Each note should deepen understanding of entry neighbors, not repeat individual facts.",
+    "Notes should tie to zones where the relationship is actually visible.",
+    "Observation prompts attached to new notes should read like notebook questions.",
+    "Because note resolution returns the first unlocked matching note, new notes should favor entries without a current local note payoff instead of overloading existing anchors.",
+    "Preserve note ids already referenced by live field-partner or field-request seams."
+  ]
+}

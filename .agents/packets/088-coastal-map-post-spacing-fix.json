@@ -1,0 +1,64 @@
+{
+  "packet_id": "ECO-PACKET-088",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Coastal map-post spacing fix",
+  "summary": "The new coastal-scrub left-hand gather now reads under the existing COAST MAP anchor. This narrow fix separates the map-return post from the gather band without reopening coastal geometry, corridor runtime, or the broader waypoint phase.",
+  "source_reports": [
+    "docs/reports/2026-04-03-coastal-family-follow-on-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-critic-176",
+    "ECO-20260403-main-209",
+    "ECO-20260403-critic-210",
+    "ECO-20260403-scout-166"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-176"
+  ],
+  "suggested_owner_sequence": [
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-critic-176",
+      "goal": "Review the coastal family follow-on.",
+      "why_now": "The new gather should read as sheltered habitat, not as map-return UI."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-209",
+      "goal": "Separate the coastal gather from map-return range.",
+      "why_now": "A tiny anchor shift can preserve the new family beat before the lane moves on."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-210",
+      "goal": "Review the coastal map-post spacing fix.",
+      "why_now": "Lane 3 should confirm the gather now reads clearly before preparing the next waypoint follow-on."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-166",
+      "goal": "Prepare a waypoint rest or recovery follow-on.",
+      "why_now": "Once the coast family reads cleanly, the lane can move on to the next calm habitat beat."
+    }
+  ],
+  "file_targets": [
+    "src/content/world-map.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/world-map.test.ts"
+  ],
+  "guardrails": [
+    "Do not change coastal-scrub platform or entity geometry in this fix.",
+    "Do not reopen corridor runtime or beach geometry.",
+    "Keep the map-return post reachable from a clear left-half interior approach.",
+    "The new gather proof should clear nearby map-return UI at the intended sheltered state."
+  ]
+}

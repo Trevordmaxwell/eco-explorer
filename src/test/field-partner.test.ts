@@ -63,6 +63,36 @@ describe('field partner helper', () => {
     });
   });
 
+  it('uses the new lee-pocket cue when tucked beach cover becomes the note-backed lens', () => {
+    const notice = buildFieldPartnerNotice({
+      biomeId: 'beach',
+      zoneId: 'lee-pocket',
+      worldState: {
+        dayPart: 'day',
+        weather: 'marine-haze',
+      },
+      observationPrompt: {
+        id: 'lee-pocket-hold',
+        family: 'neighbors',
+        text: 'Which plants look tucked into calmer sand?',
+        source: 'ecosystem-note',
+        evidenceKey: 'lee-pocket-hold|lee-pocket|day|marine-haze',
+      },
+      trigger: 'discovery',
+    });
+
+    expect(notice).toEqual({
+      cueId: 'beach-lee-pocket-hold',
+      text: 'Driftwood keeps this tucked sand calmer.',
+      family: 'shelter',
+      source: 'ecosystem-note',
+      trigger: 'discovery',
+      evidenceKey: 'lee-pocket-hold|lee-pocket|day|marine-haze',
+      stateKey:
+        'beach|lee-pocket|day|marine-haze|lee-pocket-hold|lee-pocket|day|marine-haze|beach-lee-pocket-hold',
+    });
+  });
+
   it('builds a no-prompt fallback cue only when the world state is strong enough', () => {
     const notice = buildFieldPartnerNotice({
       biomeId: 'forest',
@@ -113,6 +143,36 @@ describe('field partner helper', () => {
       evidenceKey: 'coastal-edge-shade|forest-edge|day|marine-haze|sword-fern,salmonberry',
       stateKey:
         'coastal-scrub|forest-edge|day|marine-haze|coastal-edge-shade|forest-edge|day|marine-haze|sword-fern,salmonberry|scrub-edge-shade',
+    });
+  });
+
+  it('uses the new swale shelter cue when the sheltered middle scrub prompt is active', () => {
+    const notice = buildFieldPartnerNotice({
+      biomeId: 'coastal-scrub',
+      zoneId: 'windbreak-swale',
+      worldState: {
+        dayPart: 'day',
+        weather: 'marine-haze',
+      },
+      observationPrompt: {
+        id: 'coastal-swale-shelter',
+        family: 'shelter',
+        text: 'Which plants make this swale feel calmer now?',
+        source: 'seed',
+        evidenceKey: 'coastal-swale-shelter|windbreak-swale|day|marine-haze|beach-strawberry,pacific-wax-myrtle',
+      },
+      trigger: 'biome-enter',
+    });
+
+    expect(notice).toEqual({
+      cueId: 'scrub-swale-shelter',
+      text: 'This swale turns low cover into shelter.',
+      family: 'shelter',
+      source: 'seed',
+      trigger: 'biome-enter',
+      evidenceKey: 'coastal-swale-shelter|windbreak-swale|day|marine-haze|beach-strawberry,pacific-wax-myrtle',
+      stateKey:
+        'coastal-scrub|windbreak-swale|day|marine-haze|coastal-swale-shelter|windbreak-swale|day|marine-haze|beach-strawberry,pacific-wax-myrtle|scrub-swale-shelter',
     });
   });
 

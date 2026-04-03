@@ -1,0 +1,106 @@
+{
+  "packet_id": "ECO-PACKET-084",
+  "version": 7,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Front-half comparison and memory phase",
+  "summary": "After the front-half parity pass, lane 2 should turn that richer content into better comparison and memory payoff. This wave adds a few stronger beach/scrub/forest comparison candidates and then deepens the atlas or sketchbook memory language for the new front-half material.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-2-front-half-comparison-follow-on.md",
+    "docs/reports/2026-04-03-front-half-comparison-candidates-handoff.md",
+    "docs/reports/2026-04-03-front-half-comparison-implementation.md",
+    "docs/reports/2026-04-03-front-half-comparison-review.md",
+    "docs/reports/2026-04-03-front-half-memory-payoff-handoff.md",
+    "docs/reports/2026-04-03-front-half-memory-payoff-implementation.md",
+    "docs/reports/2026-04-03-front-half-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-163",
+    "ECO-20260403-main-201",
+    "ECO-20260403-critic-174",
+    "ECO-20260403-scout-164",
+    "ECO-20260403-main-202",
+    "ECO-20260403-critic-175"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-163"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-163",
+      "goal": "Prepare front-half comparison candidates.",
+      "why_now": "The front half will be richer enough that difference and habitat-role comparison become more valuable than raw totals."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-201",
+      "goal": "Implement front-half comparison expansion.",
+      "why_now": "Shared carriers across beach, scrub, and coast-edge forest can now teach transitions more clearly."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-174",
+      "goal": "Review front-half comparison expansion.",
+      "why_now": "Comparison content must stay science-safe and notebook-like."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-164",
+      "goal": "Prepare front-half memory payoff handoff.",
+      "why_now": "Once the comparison layer grows, the new content should also feel remembered and archived."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-202",
+      "goal": "Implement front-half atlas or sketchbook memory payoff.",
+      "why_now": "The front-half branch should leave a stronger memory trace in existing archive surfaces."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-175",
+      "goal": "Review front-half memory payoff.",
+      "why_now": "Archive or sketchbook additions need to stay calm and compact."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/engine/journal-comparison.ts",
+    "src/engine/close-look.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/journal.test.ts",
+    "src/test/sketchbook.test.ts"
+  ],
+  "comparison_scope": {
+    "ready_entry_ids": ["beach-pea", "beach-strawberry"],
+    "defer_entry_ids": ["dune-lupine"],
+    "already_live_front_half_entry_ids": ["beach-grass", "sand-verbena", "sword-fern", "nootka-rose", "salmonberry"]
+  },
+  "memory_scope": {
+    "preferred_surface": "sketchbook",
+    "ready_entry_ids": ["sea-rocket", "sword-fern"],
+    "already_supported_front_half_entry_ids": ["beach-grass", "sand-verbena", "beach-pea", "beach-strawberry", "nootka-rose", "salmonberry"]
+  },
+  "guardrails": [
+    "Use existing comparison, close-look, atlas, and sketchbook surfaces.",
+    "Do not add a new archive panel, station shell, or route logic.",
+    "Prefer shared carriers and habitat-role contrast over unrelated trivia.",
+    "Keep front-half memory copy notebook-like and short.",
+    "For the comparison half, keep `main-201` limited to `beach-pea` and `beach-strawberry`; do not widen the allowlist further in the same pass.",
+    "Do not force `dune-lupine` into the comparison pass until the scrub-side note choice is made more stable.",
+    "For the memory half, keep `main-202` as a sketchbook-note pass for `sea-rocket` and `sword-fern`; do not reopen the atlas or station shell."
+  ]
+}

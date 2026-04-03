@@ -1,0 +1,50 @@
+{
+  "packet_id": "ECO-PACKET-087",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Beach crest spacing fix",
+  "summary": "The first beach spatial-extension pass lands well overall, but the new dune crest currently sits inside the beach map-return interaction radius, so the reward beat reads as a travel post instead of a scenic sandy rise. This follow-up separates the crest from the map-return label without disturbing the inland corridor, lee-pocket, or tidepool approach.",
+  "source_reports": [
+    "docs/reports/2026-04-03-beach-spatial-extension-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-main-207",
+    "ECO-20260403-critic-208"
+  ],
+  "depends_on": [
+    "ECO-20260402-critic-165"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-main-207",
+      "goal": "Separate the dune crest from the beach map-return interaction radius.",
+      "why_now": "The current crest reward is visually overridden by the map-return label, so the beach extension does not yet read as three distinct movement beats."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-critic-208",
+      "goal": "Review the crest-spacing fix.",
+      "why_now": "The follow-up should stay narrow and preserve the rest of the beach extension once the travel-prompt conflict is resolved."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/world-map.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/beach-biome.test.ts"
+  ],
+  "guardrails": [
+    "Keep the beach inside the current world size, height, and camera band.",
+    "Do not add a new travel system, cue language, or traversal mechanic.",
+    "Keep the inland corridor door as the first obvious left-side travel anchor.",
+    "Preserve the lee-pocket and tidepool-approach families unless a tiny adjustment is required for readability.",
+    "The dune crest proof state should no longer show an in-range travel target."
+  ]
+}

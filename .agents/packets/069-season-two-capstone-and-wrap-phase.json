@@ -1,0 +1,38 @@
+{
+  "packet_id": "ECO-PACKET-069",
+  "version": 3,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Season-two capstone and wrap phase",
+  "summary": "Now that season-two inland routes are live, the field season needs a capstone moment when all inland beats are logged. This wave adds a season-wrap notice, a compact atlas reflection strip, and post-capstone expedition teaser so completed players feel the season closing rather than just running out of items.",
+  "source_reports": [
+    "docs/reports/2026-04-03-season-two-capstone-handoff.md",
+    "docs/reports/2026-04-03-post-capstone-atlas-reflection-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-142",
+    "ECO-20260402-main-180",
+    "ECO-20260402-critic-153",
+    "ECO-20260402-scout-143",
+    "ECO-20260402-main-181",
+    "ECO-20260402-critic-154"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent", "scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-142", "goal": "Prepare a season-two capstone handoff.", "why_now": "Completing all inland routes currently ends silently; the season needs a closing beat." },
+    { "step": 2, "queue_id": "ECO-20260402-main-180", "goal": "Implement season capstone notice and board state.", "why_now": "Players who finish season two should feel the accomplishment." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-153", "goal": "Review season capstone wrap.", "why_now": "Ensure the capstone is celebratory but not bloated." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-143", "goal": "Prepare post-capstone atlas reflection handoff.", "why_now": "After the capstone, a tiny atlas or station reflection gives the season weight." },
+    { "step": 5, "queue_id": "ECO-20260402-main-181", "goal": "Implement post-capstone atlas reflection.", "why_now": "Completed seasons should leave a visible mark on the atlas or station." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-154", "goal": "Review post-capstone reflection.", "why_now": "Gate before further season expansion." }
+  ],
+  "file_targets": ["src/engine/field-season-board.ts", "src/engine/game.ts", "src/engine/overlay-render.ts"],
+  "guardrails": [
+    "Capstone must use existing notice and board seams, not a new overlay.",
+    "Atlas reflection should be a tiny strip or state change, not a full summary page.",
+    "No credits sequence or ceremony — keep it notebook-toned.",
+    "Expedition teaser must stay vague enough that future content can fill it."
+  ]
+}

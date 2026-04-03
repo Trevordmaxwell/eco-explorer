@@ -9,6 +9,7 @@ export type GuidedFieldSeasonStage =
   | 'forest-study'
   | 'station-return'
   | 'season-capstone'
+  | 'season-close-return'
   | 'next-season-open'
   | 'next-habitat'
   | 'settled';
@@ -43,6 +44,7 @@ export function resolveGuidedFieldSeasonState(
   biomes: Record<string, BiomeDefinition>,
   save: SaveState,
 ): GuidedFieldSeasonState {
+  const beachBeatLogged = hasCompletedRequest(save, 'beach-shore-shelter');
   const forestSurveyState = getForestSurveyState(biomes, save);
   const forestSurveyLogged =
     hasCompletedRequest(save, 'forest-survey-slice') ||
@@ -52,6 +54,22 @@ export function resolveGuidedFieldSeasonState(
   const seasonThreadsLogged = hasCompletedRequest(save, 'forest-season-threads');
   const trailStrideOwned = hasFieldUpgrade(save, 'trail-stride');
   const coastalScrubVisited = (save.biomeVisits['coastal-scrub'] ?? 0) > 0;
+  const coastalLineLogged = hasCompletedRequest(save, 'coastal-edge-moisture');
+
+  if (seasonThreadsLogged && save.seasonCloseReturnPending) {
+    return {
+      stage: 'season-close-return',
+      stationNote: {
+        title: 'RETURN TO STATION',
+        text: 'Season Threads logged. Return to the field station for a calm season close.',
+      },
+      promptNotice: {
+        title: 'FIELD STATION',
+        text: 'Season Threads logged. Field station next.',
+      },
+      nextBiomeId: null,
+    };
+  }
 
   if (seasonThreadsLogged) {
     const nextSeasonApproachLine = resolveNextSeasonApproachLine(save);
@@ -88,7 +106,9 @@ export function resolveGuidedFieldSeasonState(
       stage: 'settled',
       stationNote: {
         title: 'FIELD SEASON OPEN',
-        text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        text: coastalLineLogged
+          ? 'Keep comparing nearby habitats and checking the station between longer routes.'
+          : 'Shore Shelter, Hidden Hollow, and Open To Shelter now read like one coast-to-forest chapter.',
       },
       promptNotice: null,
       nextBiomeId: null,
@@ -100,11 +120,11 @@ export function resolveGuidedFieldSeasonState(
       stage: 'next-habitat',
       stationNote: {
         title: 'NEXT STOP',
-        text: 'Coastal Scrub is the clearest next comparison. Look for how shelter shifts from dunes to shrubs.',
+        text: 'Open To Shelter is next in Coastal Scrub. Walk open bloom to shore pine to edge log.',
       },
       promptNotice: {
         title: 'NEXT STOP',
-        text: 'Coastal Scrub makes the best next comparison after the forest run.',
+        text: 'Open To Shelter next. Follow open bloom to edge log.',
       },
       nextBiomeId: 'coastal-scrub',
     };
@@ -115,11 +135,11 @@ export function resolveGuidedFieldSeasonState(
       stage: 'station-return',
       stationNote: {
         title: 'RETURN TO STATION',
-        text: 'Forest Trail is logged. Use the menu for World map, then stop at the field station for Trail Stride.',
+        text: 'Shore Shelter, Hidden Hollow, and Forest Survey logged. Field station next for Trail Stride.',
       },
       promptNotice: {
         title: 'FIELD STATION',
-        text: 'Menu to World map, then Field station.',
+        text: 'Field station next for Trail Stride.',
       },
       nextBiomeId: null,
     };
@@ -132,14 +152,29 @@ export function resolveGuidedFieldSeasonState(
       stationNote: moistureLogged
         ? {
             title: 'FOREST SURVEY',
-            text: 'Stay with Forest Trail a little longer and log four clues before heading back.',
+            text: 'Forest Survey is next. Stay with Forest Trail a little longer and log four clues before heading back.',
           }
         : {
-            title: 'MOISTURE CLUES',
-            text: 'Root Hollow has the next notebook beat. Compare two damp-ground neighbors before you head back.',
+            title: 'MOISTURE HOLDERS',
+            text: 'Moisture Holders is next in Root Hollow. Compare one shelter, one ground, and one living clue before heading back.',
           },
       promptNotice: null,
       nextBiomeId: null,
+    };
+  }
+
+  if (beachBeatLogged) {
+    return {
+      stage: 'starter',
+      stationNote: {
+        title: 'HIDDEN HOLLOW',
+        text: 'Hidden Hollow is next in Forest Trail. Follow shelter inland and confirm the seep stone.',
+      },
+      promptNotice: {
+        title: 'NOTEBOOK TASK',
+        text: 'World map to Forest Trail. Hidden Hollow is next.',
+      },
+      nextBiomeId: 'forest',
     };
   }
 
@@ -147,12 +182,12 @@ export function resolveGuidedFieldSeasonState(
     stage: 'starter',
     stationNote: {
       title: 'FIRST FIELD SEASON',
-      text: 'Start with one clear notebook route in Forest Trail, then return to the field station after the run.',
+      text: 'Start with Shore Shelter on Sunny Beach, then carry shelter inland through Hidden Hollow before returning to the field station.',
     },
     promptNotice: {
       title: 'NOTEBOOK TASK',
-      text: 'Menu to World map, then Forest Trail.',
+      text: 'Shore Shelter first. Stay on Sunny Beach and log dune grass to wrack line.',
     },
-    nextBiomeId: 'forest',
+    nextBiomeId: 'beach',
   };
 }

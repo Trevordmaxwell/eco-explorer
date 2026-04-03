@@ -9,11 +9,11 @@ import { createNewSaveState, recordDiscovery } from '../engine/save';
 
 const authoredBiomes = [beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome];
 const phaseTwoEntryIdsByBiome: Record<string, string[]> = {
-  beach: ['western-snowy-plover', 'bull-kelp-wrack'],
+  beach: ['western-snowy-plover', 'bull-kelp-wrack', 'dune-lupine', 'beach-strawberry', 'beach-hopper'],
   'coastal-scrub': ['coyote-brush', 'beach-strawberry'],
   forest: ['western-trillium', 'pileated-woodpecker'],
   treeline: ['moss-campion', 'hoary-marmot'],
-  tundra: ['woolly-lousewort', 'northern-collared-lemming'],
+  tundra: ['moss-campion', 'reindeer-lichen', 'white-tailed-ptarmigan'],
 };
 
 describe('authored biome definitions', () => {

@@ -30,7 +30,16 @@ import {
   UI_FONT_SMALL,
 } from './pixel-ui';
 import { TITLE_FLAVOR_LINES, TITLE_SUBTITLE_LINES } from './title-copy';
-import { insetRect, makeRect, maxLinesForHeight, rightAlignTextX, splitRectColumns, takeBottom, type UiRect } from './ui-layout';
+import {
+  insetRect,
+  makeRect,
+  maxLinesForHeight,
+  rightAlignTextX,
+  splitRectColumns,
+  takeBottom,
+  type UiRect,
+  wrapTextLines,
+} from './ui-layout';
 import { drawSprite, type SpriteRegistry } from './sprites';
 import type {
   BiomeDefinition,
@@ -954,17 +963,18 @@ export function drawFieldPartnerNotice({
   notice,
 }: FieldPartnerNoticeOptions): void {
   const rect = makeRect(Math.round((width - 148) / 2), height - 24, 148, 18);
+  const textRect = makeRect(rect.x + 6, rect.y + 4, rect.w - 12, rect.h - 6);
 
   fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.accent);
   context.font = UI_FONT_SMALL;
-  drawWrappedTextInRect(
-    context,
-    notice.text,
-    makeRect(rect.x + 6, rect.y + 4, rect.w - 12, rect.h - 6),
-    6,
-    palette.text,
-    2,
-  );
+  const lines = wrapTextLines(context, notice.text, textRect.w, 2);
+  if (lines.length <= 1) {
+    drawUiTextInRect(context, lines[0] ?? '', textRect, palette.text);
+    return;
+  }
+
+  drawUiText(context, lines[0], textRect.x, rect.y + 9, palette.text);
+  drawUiText(context, lines[1], textRect.x, rect.y + 15, palette.text);
 }
 
 export function drawFieldStationOverlay({

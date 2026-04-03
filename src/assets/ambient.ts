@@ -29,6 +29,32 @@ export const ambientSprites: SpriteSource[] = [
     ],
   },
   {
+    id: 'beach-hopper',
+    palette: {
+      a: masterPalette.woodDark,
+      b: masterPalette.woodLight,
+      c: masterPalette.ink,
+    },
+    frames: [
+      [
+        '........',
+        '...aa...',
+        '..abca..',
+        '.abbbca.',
+        '..a..a..',
+        '.c....c.',
+      ],
+      [
+        '........',
+        '...aa...',
+        '..abca..',
+        '.abbbca.',
+        '.a....a.',
+        '..c..c..',
+      ],
+    ],
+  },
+  {
     id: 'sanderling',
     palette: {
       a: masterPalette.birdCream,

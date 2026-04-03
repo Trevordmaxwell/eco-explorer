@@ -22,6 +22,8 @@ describe('coastal scrub biome definition', () => {
   it('reuses shared edge species ids for beach and forest continuity', () => {
     expect(coastalScrubBiome.entries['beach-grass'].id).toBe('beach-grass');
     expect(coastalScrubBiome.entries['beach-pea'].id).toBe('beach-pea');
+    expect(coastalScrubBiome.entries['dune-lupine'].id).toBe('dune-lupine');
+    expect(coastalScrubBiome.entries['beach-strawberry'].id).toBe('beach-strawberry');
     expect(coastalScrubBiome.entries['sand-verbena'].id).toBe('sand-verbena');
     expect(coastalScrubBiome.entries['sea-rocket'].id).toBe('sea-rocket');
     expect(coastalScrubBiome.entries['sword-fern'].id).toBe('sword-fern');
@@ -30,7 +32,6 @@ describe('coastal scrub biome definition', () => {
 
   it('adds the new scrub-density entries without breaking the ecotone mix', () => {
     expect(coastalScrubBiome.entries['coyote-brush'].id).toBe('coyote-brush');
-    expect(coastalScrubBiome.entries['beach-strawberry'].id).toBe('beach-strawberry');
     expect(coastalScrubBiome.entries.kinnikinnick.id).toBe('kinnikinnick');
   });
 });
@@ -74,29 +75,64 @@ describe('coastal scrub biome generation', () => {
     expect(stableEntryIds).toContain('nootka-rose');
   });
 
-  it('adds a lowered windbreak swale with authored upper logs for the second traversal proof', () => {
+  it('adds a lowered windbreak swale with an optional bluff shoulder above the low route', () => {
     const save = createNewSaveState('coastal-scrub-proof-seed');
     const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
 
     const terrainAtThicket = instance.terrainSamples.find((sample) => sample.x === 240);
     const terrainAtSwale = instance.terrainSamples.find((sample) => sample.x === 320);
     const terrainAtPines = instance.terrainSamples.find((sample) => sample.x === 464);
-    const swalePlatforms = instance.platforms.filter((platform) =>
-      platform.id.startsWith('windbreak-swale'),
+    const windbreakPlatforms = instance.platforms.filter((platform) =>
+      platform.id.startsWith('windbreak-'),
     );
+    const gatherLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-gather-log');
+    const gatherLift = windbreakPlatforms.find((platform) => platform.id === 'windbreak-gather-lift');
+    const leeStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-lee-step');
+    const midStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-mid-step');
+    const crest = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-crest');
+    const entryLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-entry-log');
+    const upperLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-upper-log');
+    const exitLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-exit-log');
+    const gatherEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.includes('windbreak-gather-rose') || entity.entityId.includes('windbreak-gather-lupine'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }));
 
     expect(terrainAtThicket).toBeDefined();
     expect(terrainAtSwale).toBeDefined();
     expect(terrainAtPines).toBeDefined();
     expect((terrainAtSwale?.y ?? 0) - (terrainAtThicket?.y ?? 0)).toBeGreaterThanOrEqual(6);
     expect((terrainAtSwale?.y ?? 0) - (terrainAtPines?.y ?? 0)).toBeGreaterThanOrEqual(8);
-    expect(swalePlatforms.map((platform) => platform.id)).toEqual([
+    expect(windbreakPlatforms.map((platform) => platform.id)).toEqual([
+      'windbreak-gather-log',
+      'windbreak-gather-lift',
+      'windbreak-bluff-lee-step',
       'windbreak-swale-entry-log',
+      'windbreak-bluff-mid-step',
       'windbreak-swale-upper-log',
+      'windbreak-bluff-crest',
       'windbreak-swale-exit-log',
     ]);
-    expect(swalePlatforms[0]?.y).toBeGreaterThan(swalePlatforms[1]?.y ?? 0);
-    expect(swalePlatforms[2]?.y).toBeGreaterThan(swalePlatforms[1]?.y ?? 0);
+    expect(gatherLog?.x).toBeLessThan(leeStep?.x ?? 0);
+    expect(gatherLift?.x).toBeLessThan(leeStep?.x ?? 0);
+    expect(gatherLog?.y).toBeGreaterThan(gatherLift?.y ?? 0);
+    expect(gatherLift?.y).toBeGreaterThanOrEqual(leeStep?.y ?? 0);
+    expect(leeStep?.y).toBeGreaterThan(midStep?.y ?? 0);
+    expect(midStep?.y).toBeGreaterThan(crest?.y ?? 0);
+    expect(entryLog?.y).toBeGreaterThan(upperLog?.y ?? 0);
+    expect(exitLog?.y).toBeGreaterThan(upperLog?.y ?? 0);
+    expect(crest?.y).toBeLessThan(upperLog?.y ?? 0);
+    expect((crest?.x ?? 0) + (crest?.w ?? 0)).toBeGreaterThanOrEqual(upperLog?.x ?? 0);
+    expect(gatherEntities).toEqual([
+      { entryId: 'nootka-rose', x: 214, y: 108 },
+      { entryId: 'dune-lupine', x: 244, y: 108 },
+    ]);
   });
 
   it('spawns sheltered shrub cover through the new swale lane', () => {
@@ -127,5 +163,40 @@ describe('coastal scrub biome generation', () => {
 
     expect(shorePineLayer.some((entity) => entity.entryId === 'shore-pine')).toBe(true);
     expect(shorePineLayer.some((entity) => entity.entryId === 'kinnikinnick')).toBe(true);
+  });
+
+  it('adds one low shore-pine rest seam after the swale release', () => {
+    const save = createNewSaveState('coastal-scrub-shore-pine-rest-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const exitLog = instance.platforms.find((platform) => platform.id === 'windbreak-swale-exit-log');
+    const restLog = instance.platforms.find((platform) => platform.id === 'shore-pine-rest-log');
+    const restEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.includes('shore-pine-rest-mat') ||
+          entity.entityId.includes('shore-pine-rest-sparrow'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
+
+    expect(exitLog).toBeDefined();
+    expect(restLog).toBeDefined();
+    if (!exitLog || !restLog) {
+      throw new Error('expected windbreak-swale-exit-log and shore-pine-rest-log to exist');
+    }
+
+    expect(restLog.x).toBeGreaterThan(exitLog.x + exitLog.w);
+    expect(restLog.x).toBeGreaterThanOrEqual(428);
+    expect(restLog.x + restLog.w).toBeLessThanOrEqual(476);
+    expect(restLog.y).toBeGreaterThanOrEqual(100);
+    expect(restLog.y).toBeLessThanOrEqual(104);
+    expect(restEntities).toEqual([
+      { entryId: 'kinnikinnick', x: 448, y: 108 },
+      { entryId: 'song-sparrow', x: 468, y: 102 },
+    ]);
   });
 });

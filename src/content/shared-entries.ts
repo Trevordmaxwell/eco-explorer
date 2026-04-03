@@ -22,6 +22,7 @@ export const seaRocketEntry = {
   shortFact: 'On Pacific beaches, sea rocket is an introduced plant that still handles salty sand well.',
   journalText:
     'Sea rocket is a tough beach plant with thick leaves, but on Pacific coasts it arrived from another region. Native dune plants like dunegrass and sand verbena do more of the long-term dune building here.',
+  sketchbookNote: 'Thick leaves braving the raw salt-front edge.',
   spriteId: 'sea-rocket',
   collectible: false,
 } satisfies InspectableEntry;
@@ -52,6 +53,32 @@ export const beachPeaEntry = {
   collectible: false,
 } satisfies InspectableEntry;
 
+export const duneLupineEntry = {
+  id: 'dune-lupine',
+  commonName: 'Seashore Lupine',
+  scientificName: 'Lupinus littoralis',
+  category: 'plant',
+  shortFact: 'Seashore lupine can grow in poor sand where wind and salt make life hard.',
+  journalText:
+    'Seashore lupine is one of the native flowers that brightens Pacific dunes. Pioneer plants like this help prepare harsh coastal ground for later shrubs.',
+  sketchbookNote: 'Soft purple bloom where open sand starts to hold.',
+  spriteId: 'dune-lupine',
+  collectible: false,
+} satisfies InspectableEntry;
+
+export const beachStrawberryEntry = {
+  id: 'beach-strawberry',
+  commonName: 'Beach Strawberry',
+  scientificName: 'Fragaria chiloensis',
+  category: 'plant',
+  shortFact: 'Beach strawberry spreads with runners, sending new plants across sandy ground.',
+  journalText:
+    'Beach strawberry is a low coastal plant with runners that creep outward and start new plants. Its fruits feed animals along dunes and scrub edges.',
+  sketchbookNote: 'Low berries threading the calmer sand pocket.',
+  spriteId: 'beach-strawberry',
+  collectible: true,
+} satisfies InspectableEntry;
+
 export const swordFernEntry = {
   id: 'sword-fern',
   commonName: 'Sword Fern',
@@ -60,6 +87,7 @@ export const swordFernEntry = {
   shortFact: 'Sword ferns stay green through cool, damp seasons on the forest floor.',
   journalText:
     'Sword ferns grow in shady places where the soil stays moist. Their long fronds help cover the ground and shelter tiny animals.',
+  sketchbookNote: 'Cool fronds marking where shade and moisture begin.',
   spriteId: 'sword-fern',
   collectible: false,
 } satisfies InspectableEntry;
@@ -139,6 +167,30 @@ export const mountainAvensEntry = {
     'Mountain avens is a low Arctic-alpine plant with bright flowers. Growing in tight mats helps it stay close to warmer ground.',
   sketchbookNote: 'Bright mats hugging cold open ground.',
   spriteId: 'mountain-avens',
+  collectible: false,
+} satisfies InspectableEntry;
+
+export const mossCampionEntry = {
+  id: 'moss-campion',
+  commonName: 'Moss Campion',
+  scientificName: 'Silene acaulis',
+  category: 'plant',
+  shortFact: 'Moss campion grows in tight cushions that hold warmer air near the ground.',
+  journalText:
+    'Moss campion is a tiny alpine wildflower that forms a dense cushion on windy slopes. Its packed shape helps it keep heat close in cold mountain weather.',
+  spriteId: 'moss-campion',
+  collectible: false,
+} satisfies InspectableEntry;
+
+export const reindeerLichenEntry = {
+  id: 'reindeer-lichen',
+  commonName: 'Reindeer Lichen',
+  scientificName: 'Cladonia rangiferina',
+  category: 'lichen',
+  shortFact: 'Reindeer lichen grows slowly on open, well-drained ground in cold places.',
+  journalText:
+    'Reindeer lichen is a pale branching lichen of cold open ground. It grows slowly where soil is thin and wind is strong.',
+  spriteId: 'reindeer-lichen',
   collectible: false,
 } satisfies InspectableEntry;
 

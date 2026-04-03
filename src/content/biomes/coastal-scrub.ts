@@ -1,8 +1,10 @@
 import { coastalScrubPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
 import {
+  beachStrawberryEntry,
   beachGrassEntry,
   beachPeaEntry,
+  duneLupineEntry,
   nootkaRoseEntry,
   salmonberryEntry,
   sandVerbenaEntry,
@@ -15,17 +17,7 @@ const coastalScrubEntries = {
   'beach-pea': beachPeaEntry,
   'sand-verbena': sandVerbenaEntry,
   'sea-rocket': seaRocketEntry,
-  'dune-lupine': {
-    id: 'dune-lupine',
-    commonName: 'Seashore Lupine',
-    scientificName: 'Lupinus littoralis',
-    category: 'plant',
-    shortFact: 'Seashore lupine can grow in poor sand where wind and salt make life hard.',
-    journalText:
-      'Seashore lupine is one of the native flowers that brightens Pacific dunes. Pioneer plants like this help prepare harsh coastal ground for later shrubs.',
-    spriteId: 'dune-lupine',
-    collectible: false,
-  },
+  'dune-lupine': duneLupineEntry,
   'pacific-wax-myrtle': {
     id: 'pacific-wax-myrtle',
     commonName: 'Pacific Wax Myrtle',
@@ -34,6 +26,7 @@ const coastalScrubEntries = {
     shortFact: 'Pacific wax myrtle can grow in poor coastal soil where many shrubs struggle.',
     journalText:
       'Pacific wax myrtle is an evergreen coastal shrub with dark waxy berries. Root nodules help it grow in relatively poor soils as dunes become more sheltered.',
+    sketchbookNote: 'Dark berries thickening calm scrub.',
     spriteId: 'pacific-wax-myrtle',
     collectible: false,
   },
@@ -60,17 +53,7 @@ const coastalScrubEntries = {
     spriteId: 'shore-pine',
     collectible: false,
   },
-  'beach-strawberry': {
-    id: 'beach-strawberry',
-    commonName: 'Beach Strawberry',
-    scientificName: 'Fragaria chiloensis',
-    category: 'plant',
-    shortFact: 'Beach strawberry spreads with runners, sending new plants across sandy ground.',
-    journalText:
-      'Beach strawberry is a low coastal plant with runners that creep outward and start new plants. Its fruits feed animals along dunes and scrub edges.',
-    spriteId: 'beach-strawberry',
-    collectible: true,
-  },
+  'beach-strawberry': beachStrawberryEntry,
   kinnikinnick: {
     id: 'kinnikinnick',
     commonName: 'Kinnikinnick',
@@ -105,6 +88,7 @@ const coastalScrubEntries = {
     shortFact: 'Song sparrows often stay low in shrubs where nests and cover are safer.',
     journalText:
       'Song sparrows are common birds of thickets, marsh edges, and brushy places. Dense shrubs give them perches, nest sites, and places to hide.',
+    sketchbookNote: 'Small voice tucked low in brush.',
     spriteId: 'song-sparrow',
     collectible: false,
   },
@@ -171,6 +155,46 @@ export const coastalScrubBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'windbreak-gather-log',
+        spriteId: 'drift-platform',
+        x: 206,
+        y: 110,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'windbreak-gather-lift',
+        spriteId: 'drift-platform',
+        x: 224,
+        y: 104,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'windbreak-bluff-lee-step',
+        spriteId: 'drift-platform',
+        x: 236,
+        y: 102,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'windbreak-bluff-mid-step',
+        spriteId: 'drift-platform',
+        x: 262,
+        y: 94,
+        w: 22,
+        h: 4,
+      },
+      {
+        id: 'windbreak-bluff-crest',
+        spriteId: 'drift-platform',
+        x: 294,
+        y: 86,
+        w: 28,
+        h: 4,
+      },
+      {
         id: 'windbreak-swale-entry-log',
         spriteId: 'drift-platform',
         x: 258,
@@ -193,6 +217,40 @@ export const coastalScrubBiome: BiomeDefinition = {
         y: 105,
         w: 24,
         h: 4,
+      },
+      {
+        id: 'shore-pine-rest-log',
+        spriteId: 'drift-platform',
+        x: 438,
+        y: 103,
+        w: 26,
+        h: 4,
+      },
+    ],
+    authoredEntities: [
+      {
+        id: 'windbreak-gather-rose',
+        entryId: 'nootka-rose',
+        x: 214,
+        y: 108,
+      },
+      {
+        id: 'windbreak-gather-lupine',
+        entryId: 'dune-lupine',
+        x: 244,
+        y: 108,
+      },
+      {
+        id: 'shore-pine-rest-mat',
+        entryId: 'kinnikinnick',
+        x: 448,
+        y: 108,
+      },
+      {
+        id: 'shore-pine-rest-sparrow',
+        entryId: 'song-sparrow',
+        x: 468,
+        y: 102,
       },
     ],
   },
@@ -437,12 +495,23 @@ export const coastalScrubBiome: BiomeDefinition = {
     {
       id: 'thicket-cover',
       title: 'Thicket Cover',
-      entryIds: ['pacific-wax-myrtle', 'coyote-brush', 'salmonberry', 'deer-mouse'],
+      entryIds: ['pacific-wax-myrtle', 'coyote-brush', 'nootka-rose', 'deer-mouse'],
       summary:
-        'Shrubs and berries make food and hiding places as the scrub gets denser.',
+        'Woody shrubs and thorny stems turn the thicket into quick hiding cover.',
       observationPrompt:
-        'Where could a mouse hide fastest here?',
+        'Which stems would hide a quick mouse?',
       zoneId: 'shrub-thicket',
+    },
+    {
+      id: 'runner-hold-start',
+      title: 'Runner Hold',
+      entryIds: ['beach-pea', 'beach-grass', 'dune-lupine'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low runners stay on where the back dune first starts holding thicker cover.',
+      observationPrompt:
+        'Which low runners stay with thicker cover?',
+      zoneId: 'back-dune',
     },
   ],
   phenology: {

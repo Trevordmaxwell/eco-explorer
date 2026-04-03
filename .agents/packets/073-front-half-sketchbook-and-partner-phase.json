@@ -1,0 +1,59 @@
+{
+  "packet_id": "ECO-PACKET-073",
+  "version": 5,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Front-half sketchbook and partner phase",
+  "summary": "Beach and coastal-scrub still have the lowest sketchbook note coverage and the fewest field partner cues in the live chain. The sketchbook half of this wave should start as one exact four-entry note pack before the packet moves on to the partner-cue expansion.",
+  "source_reports": [
+    "docs/reports/2026-04-03-front-half-sketchbook-note-handoff.md",
+    "docs/reports/2026-04-03-front-half-sketchbook-note-implementation.md",
+    "docs/reports/2026-04-03-front-half-sketchbook-note-review.md",
+    "docs/reports/2026-04-03-front-half-field-partner-handoff.md",
+    "docs/reports/2026-04-03-front-half-field-partner-implementation.md",
+    "docs/reports/2026-04-03-front-half-field-partner-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-148",
+    "ECO-20260402-main-186",
+    "ECO-20260402-critic-159",
+    "ECO-20260402-scout-149",
+    "ECO-20260402-main-187",
+    "ECO-20260402-critic-160"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent", "scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-148", "goal": "Prepare front-half sketchbook note handoff.", "why_now": "Beach and coastal-scrub sketchbook coverage is half of forest's." },
+    { "step": 2, "queue_id": "ECO-20260402-main-186", "goal": "Implement front-half sketchbook notes.", "why_now": "Sketchbook pages feel empty in beach and coastal-scrub." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-159", "goal": "Review front-half sketchbook notes.", "why_now": "Sketchbook notes set tone; they need quality review." },
+    { "step": 4, "queue_id": "ECO-20260402-scout-149", "goal": "Prepare front-half field partner expansion handoff.", "why_now": "Beach has only 3 partner cues — the thinnest of any biome." },
+    { "step": 5, "queue_id": "ECO-20260402-main-187", "goal": "Implement front-half field partner cue expansion.", "why_now": "The field partner barely speaks in beach; it should have weather and zone cues." },
+    { "step": 6, "queue_id": "ECO-20260402-critic-160", "goal": "Review front-half field partner expansion.", "why_now": "Partner cues must feel like notebook margins, not tutorial chatter." }
+  ],
+  "file_targets": ["src/content/biomes/beach.ts", "src/content/biomes/coastal-scrub.ts", "src/engine/field-partner.ts", "src/engine/observation-prompts.ts"],
+  "sketchbook_scope": {
+    "main_186_entry_ids": [
+      "moon-snail-shell",
+      "sanderling",
+      "pacific-wax-myrtle",
+      "song-sparrow"
+    ]
+  },
+  "partner_scope": {
+    "main_187_cue_ids": [
+      "beach-lee-pocket-hold",
+      "scrub-swale-shelter"
+    ],
+    "fallback_changes": "none"
+  },
+  "guardrails": [
+    "Sketchbook notes should be poetic one-liners capturing the feel of the species in place.",
+    "The first sketchbook step should add exactly four notes: two beach entries and two coastal-scrub entries.",
+    "Use local front-half entries for the first note pack instead of reopening shared dune carriers.",
+    "Field partner cues must follow the existing cue bank structure: biome, zone, world-state keyed.",
+    "Partner cues must default to silence, not fill every state.",
+    "No new partner UI surface — stay on the existing transient strip."
+  ]
+}

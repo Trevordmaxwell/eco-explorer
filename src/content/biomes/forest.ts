@@ -341,6 +341,14 @@ export const forestBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'filtered-return-mouth-sill',
+        spriteId: 'rock-platform',
+        x: 406,
+        y: 104,
+        w: 18,
+        h: 4,
+      },
+      {
         id: 'root-hollow-exit-log',
         spriteId: 'log-platform',
         x: 430,
@@ -450,6 +458,14 @@ export const forestBiome: BiomeDefinition = {
         x: 700,
         y: 46,
         w: 26,
+        h: 4,
+      },
+      {
+        id: 'canopy-inner-rest-crook',
+        spriteId: 'log-platform',
+        x: 722,
+        y: 50,
+        w: 18,
         h: 4,
       },
       {
@@ -687,6 +703,13 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'filtered-return-mouth-moss',
+        entryId: 'seep-moss-mat',
+        x: 408,
+        y: 104,
+        castsShadow: false,
+      },
+      {
         id: 'root-hollow-licorice-high-ledge',
         entryId: 'licorice-fern',
         x: 410,
@@ -809,6 +832,13 @@ export const forestBiome: BiomeDefinition = {
         entryId: 'old-mans-beard',
         x: 754,
         y: 46,
+        castsShadow: false,
+      },
+      {
+        id: 'canopy-inner-rest-beard',
+        entryId: 'old-mans-beard',
+        x: 740,
+        y: 38,
         castsShadow: false,
       },
       {

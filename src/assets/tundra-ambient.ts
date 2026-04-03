@@ -57,6 +57,33 @@ export const tundraAmbientSprites: SpriteSource[] = [
     ],
   },
   {
+    id: 'white-tailed-ptarmigan',
+    palette: {
+      a: masterPalette.cloud,
+      b: masterPalette.ptarmiganBrown,
+      c: masterPalette.iceDark,
+      d: masterPalette.ink,
+    },
+    frames: [
+      [
+        '....aa..',
+        '...abda.',
+        '..abbbaa',
+        '..abcc..',
+        '...c.b..',
+        '..d...d.',
+      ],
+      [
+        '....aa..',
+        '...abda.',
+        '..abbbaa',
+        '..abcc..',
+        '..d.c...',
+        '...d...d',
+      ],
+    ],
+  },
+  {
     id: 'northern-collared-lemming',
     palette: {
       a: '#8d7862',
@@ -98,6 +125,23 @@ export const tundraAmbientSprites: SpriteSource[] = [
       '.abddccddba...',
       '..bcdddccb....',
       '...eeeeee.....',
+    ]],
+  },
+  {
+    id: 'frost-heave-hummock',
+    palette: {
+      a: masterPalette.permafrost,
+      b: masterPalette.iceDark,
+      c: masterPalette.tundraGreen,
+      d: masterPalette.snowMid,
+    },
+    frames: [[
+      '..............',
+      '.....aa.......',
+      '...aabbaa.....',
+      '..abbcccbba...',
+      '...bccddcb....',
+      '....dddddd....',
     ]],
   },
 ];

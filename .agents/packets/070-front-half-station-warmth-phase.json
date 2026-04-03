@@ -1,0 +1,39 @@
+{
+  "packet_id": "ECO-PACKET-070",
+  "version": 2,
+  "created_at": "2026-04-02",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Front-half station warmth phase",
+  "summary": "The station experience for beach and coastal-scrub players is thinner than inland. This wave adds one pass of station-side copy and board phrasing that makes the front-half biomes feel as guided and warm as the inland chapter.",
+  "source_reports": [
+    "docs/reports/2026-04-03-front-half-station-warmth-handoff.md",
+    "docs/reports/2026-04-03-front-half-station-warmth-implementation.md",
+    "docs/reports/2026-04-03-front-half-station-warmth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260402-scout-144",
+    "ECO-20260402-main-182",
+    "ECO-20260402-critic-155"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": ["scout-agent", "main-agent", "critic-agent"],
+  "execution_order": [
+    { "step": 1, "queue_id": "ECO-20260402-scout-144", "goal": "Prepare front-half station warmth handoff.", "why_now": "Beach and coastal-scrub feel underserved by the current station copy." },
+    { "step": 2, "queue_id": "ECO-20260402-main-182", "goal": "Implement front-half station warmth.", "why_now": "New players spend their early time in these biomes and should feel the season guiding them." },
+    { "step": 3, "queue_id": "ECO-20260402-critic-155", "goal": "Review front-half station warmth.", "why_now": "Ensure phrasing stays warm without becoming tutorial-heavy." }
+  ],
+  "file_targets": [
+    "src/engine/field-season-board.ts",
+    "src/engine/guided-field-season.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/guided-field-season.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new station pages or surfaces.",
+    "Copy must stay compact and use existing field-notice seams.",
+    "Front-half warmth should complement, not repeat, guided onboarding copy.",
+    "Keep the active `Coastal Shelter` beat title unchanged; spend warmth in the summary plus note plus notice family instead."
+  ]
+}

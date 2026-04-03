@@ -1,6 +1,13 @@
 import { beachPalette } from '../../assets/palette';
 import type { BiomeDefinition } from '../../engine/types';
-import { beachGrassEntry, beachPeaEntry, sandVerbenaEntry, seaRocketEntry } from '../shared-entries';
+import {
+  beachGrassEntry,
+  beachPeaEntry,
+  beachStrawberryEntry,
+  duneLupineEntry,
+  sandVerbenaEntry,
+  seaRocketEntry,
+} from '../shared-entries';
 
 const beachEntries = {
   'native-littleneck-shell': {
@@ -22,6 +29,7 @@ const beachEntries = {
     shortFact: 'Lewis moon snails live in sandy places and have one large rounded whorl.',
     journalText:
       "Lewis' moon snails live on Pacific coasts in sandy places protected from heavy surf. Their big rounded shells belong to one of the largest snails along this coast.",
+    sketchbookNote: 'Round shell clue from calmer sand.',
     spriteId: 'moon-snail-shell',
     collectible: true,
   },
@@ -50,6 +58,8 @@ const beachEntries = {
   },
   'beach-grass': beachGrassEntry,
   'beach-pea': beachPeaEntry,
+  'dune-lupine': duneLupineEntry,
+  'beach-strawberry': beachStrawberryEntry,
   'sand-verbena': sandVerbenaEntry,
   'sea-rocket': seaRocketEntry,
   'western-snowy-plover': {
@@ -60,6 +70,7 @@ const beachEntries = {
     shortFact: 'Western snowy plovers nest right on open sand where beaches stay wide and quiet.',
     journalText:
       'Western snowy plovers are small shorebirds that rest and nest on open sandy beaches. They depend on wide beach habitat where nests are easier to spot and protect.',
+    sketchbookNote: 'Small shore bird reading the open wrack line.',
     spriteId: 'western-snowy-plover',
     collectible: false,
   },
@@ -71,7 +82,20 @@ const beachEntries = {
     shortFact: 'Pacific sand crabs are important food for fishes and shorebirds.',
     journalText:
       'Pacific sand crabs live in the surf zone of sandy beaches. Healthy wet sand and kelp wrack help support them and the birds that feed on them.',
+    sketchbookNote: 'Quick burrower working the wet wrack edge.',
     spriteId: 'pacific-sand-crab',
+    collectible: false,
+  },
+  'beach-hopper': {
+    id: 'beach-hopper',
+    commonName: 'Beach Hopper',
+    scientificName: 'Megalorchestia spp.',
+    category: 'animal',
+    shortFact: 'Beach hoppers hide in wrack and help break washed-up seaweed into smaller pieces.',
+    journalText:
+      'Beach hoppers are small shore crustaceans that tuck into wrack and damp sand. They help turn washed-up kelp into food for other beach animals.',
+    sketchbookNote: 'Tiny wrack scavenger hopping under kelp.',
+    spriteId: 'beach-hopper',
     collectible: false,
   },
   sanderling: {
@@ -82,6 +106,7 @@ const beachEntries = {
     shortFact: 'Sanderlings chase waves to find tiny animals in wet sand.',
     journalText:
       'Sanderlings are small shorebirds that race along the waterline. Their quick legs help them follow the retreating surf to hunt for food.',
+    sketchbookNote: 'Quick feet tracing retreating surf.',
     spriteId: 'sanderling',
     collectible: false,
   },
@@ -161,6 +186,30 @@ export const beachBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'dune-crest-entry-step',
+        spriteId: 'rock-platform',
+        x: 222,
+        y: 102,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'dune-crest-mid-step',
+        spriteId: 'rock-platform',
+        x: 250,
+        y: 96,
+        w: 22,
+        h: 4,
+      },
+      {
+        id: 'dune-crest-view',
+        spriteId: 'rock-platform',
+        x: 280,
+        y: 92,
+        w: 26,
+        h: 4,
+      },
+      {
         id: 'lee-pocket-entry-drift',
         spriteId: 'drift-platform',
         x: 304,
@@ -183,6 +232,80 @@ export const beachBiome: BiomeDefinition = {
         y: 109,
         w: 22,
         h: 4,
+      },
+      {
+        id: 'tidepool-approach-drift',
+        spriteId: 'drift-platform',
+        x: 462,
+        y: 110,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'tidepool-approach-sill',
+        spriteId: 'drift-platform',
+        x: 498,
+        y: 104,
+        w: 26,
+        h: 4,
+      },
+      {
+        id: 'tidepool-overlook',
+        spriteId: 'drift-platform',
+        x: 534,
+        y: 99,
+        w: 28,
+        h: 4,
+      },
+    ],
+    authoredEntities: [
+      {
+        id: 'dry-sand-lupine-clump',
+        entryId: 'dune-lupine',
+        x: 236,
+        y: 98,
+      },
+      {
+        id: 'lee-pocket-lupine-clump',
+        entryId: 'dune-lupine',
+        x: 304,
+        y: 109,
+      },
+      {
+        id: 'lee-pocket-strawberry-patch',
+        entryId: 'beach-strawberry',
+        x: 350,
+        y: 111,
+      },
+      {
+        id: 'lee-pocket-hopper',
+        entryId: 'beach-hopper',
+        x: 366,
+        y: 117,
+      },
+      {
+        id: 'dune-crest-verbena-clump',
+        entryId: 'sand-verbena',
+        x: 284,
+        y: 97,
+      },
+      {
+        id: 'tidepool-approach-wrack',
+        entryId: 'bull-kelp-wrack',
+        x: 486,
+        y: 113,
+      },
+      {
+        id: 'tidepool-approach-crab',
+        entryId: 'pacific-sand-crab',
+        x: 516,
+        y: 112,
+      },
+      {
+        id: 'tidepool-overlook-clue',
+        entryId: 'sand-dollar-test',
+        x: 548,
+        y: 104,
       },
     ],
   },
@@ -225,6 +348,15 @@ export const beachBiome: BiomeDefinition = {
       entries: [{ entryId: 'beach-pea', weight: 1 }],
     },
     {
+      id: 'stable-dry-sand-lupine',
+      zoneId: 'dry-sand',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 34,
+      entries: [{ entryId: 'dune-lupine', weight: 1 }],
+    },
+    {
       id: 'stable-landmark',
       zoneId: 'lee-pocket',
       refreshPolicy: 'stable',
@@ -234,13 +366,25 @@ export const beachBiome: BiomeDefinition = {
       entries: [{ entryId: 'driftwood-log', weight: 1 }],
     },
     {
+      id: 'stable-lee-pocket-runners',
+      zoneId: 'lee-pocket',
+      refreshPolicy: 'stable',
+      minCount: 1,
+      maxCount: 2,
+      spacing: 26,
+      entries: [{ entryId: 'beach-strawberry', weight: 1 }],
+    },
+    {
       id: 'wrack-line',
       zoneId: 'tide-line',
       refreshPolicy: 'visit',
       minCount: 1,
       maxCount: 2,
       spacing: 36,
-      entries: [{ entryId: 'bull-kelp-wrack', weight: 1 }],
+      entries: [
+        { entryId: 'bull-kelp-wrack', weight: 2 },
+        { entryId: 'beach-hopper', weight: 2 },
+      ],
     },
     {
       id: 'shells',
@@ -286,11 +430,12 @@ export const beachBiome: BiomeDefinition = {
       id: 'lee-pocket-life',
       zoneId: 'lee-pocket',
       refreshPolicy: 'visit',
-      minCount: 1,
-      maxCount: 2,
-      spacing: 28,
+      minCount: 2,
+      maxCount: 3,
+      spacing: 24,
       entries: [
         { entryId: 'bull-kelp-wrack', weight: 2 },
+        { entryId: 'beach-hopper', weight: 3 },
         { entryId: 'pacific-sand-crab', weight: 2 },
         { entryId: 'sanderling', weight: 1 },
       ],
@@ -316,13 +461,24 @@ export const beachBiome: BiomeDefinition = {
     {
       id: 'low-runner-band',
       title: 'Low Runner Band',
-      entryIds: ['beach-grass', 'sand-verbena', 'beach-pea'],
+      entryIds: ['beach-pea', 'dune-lupine', 'sand-verbena'],
       minimumDiscoveries: 2,
       summary:
-        'Low runners and grass help the first drier sand patch hold on to more life.',
+        'Low runners and early blooms show where drier sand starts holding a little more cover.',
       observationPrompt:
-        'Which stems lie closest to the sand here?',
+        'Where do the first blooms hold by the runners?',
       zoneId: 'dry-sand',
+    },
+    {
+      id: 'lee-pocket-hold',
+      title: 'Lee Pocket Hold',
+      entryIds: ['driftwood-log', 'dune-lupine', 'beach-strawberry'],
+      minimumDiscoveries: 2,
+      summary:
+        'Driftwood and calmer sand let low runners and blooms keep holding in this tucked pocket.',
+      observationPrompt:
+        'Which plants look tucked into calmer sand?',
+      zoneId: 'lee-pocket',
     },
     {
       id: 'shore-shelter',
@@ -340,10 +496,10 @@ export const beachBiome: BiomeDefinition = {
       entryIds: ['sea-rocket', 'sand-verbena', 'beach-grass'],
       minimumDiscoveries: 2,
       summary:
-        'On the open beach, the lowest plants mark where the first shelter line begins.',
+        'The lowest exposed plants mark where the first shelter line starts on open beach.',
       observationPrompt:
-        'Which plants mark the start of shelter here?',
-      zoneId: 'dry-sand',
+        'Which low plants mark the first shelter line?',
+      zoneId: 'dune-edge',
     },
     {
       id: 'washed-clues',
@@ -358,12 +514,24 @@ export const beachBiome: BiomeDefinition = {
     },
     {
       id: 'wave-edge-survivors',
-      title: 'Wave-Edge Survivors',
-      entryIds: ['native-littleneck-shell', 'pacific-sand-crab', 'western-snowy-plover', 'bull-kelp-wrack'],
+      title: 'Wrack Workers',
+      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'western-snowy-plover'],
+      minimumDiscoveries: 2,
       summary:
-        'At the tide line, wrack and waves shape food for birds and burrowers.',
+        'Wrack feeds tiny scavengers first, and birds read that food line fast.',
       observationPrompt:
-        'Who moves first with a new wave?',
+        'What looks like food before birds arrive?',
+      zoneId: 'tide-line',
+    },
+    {
+      id: 'surf-food-line',
+      title: 'Surf Food Line',
+      entryIds: ['sanderling', 'pacific-sand-crab', 'bull-kelp-wrack'],
+      minimumDiscoveries: 2,
+      summary:
+        'Quick shorebirds follow the moving food line where waves uncover tiny beach animals by wrack.',
+      observationPrompt:
+        'What looks uncovered just before birds run in?',
       zoneId: 'tide-line',
     },
   ],
@@ -439,6 +607,19 @@ export const beachBiome: BiomeDefinition = {
       },
     },
   },
+  processMoments: [
+    {
+      id: 'wrack-hold',
+      style: 'moisture-hold',
+      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'pacific-sand-crab'],
+      zoneIds: ['tide-line'],
+      minimumVisitCount: 2,
+      weatherProfiles: ['marine-haze'],
+      phenologyPhases: ['late'],
+      primaryColor: '#6b7b46',
+      secondaryColor: '#d9cf9d',
+    },
+  ],
   startPosition: {
     x: 28,
     y: 80,

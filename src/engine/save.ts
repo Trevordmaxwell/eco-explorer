@@ -285,6 +285,7 @@ export function createNewSaveState(seed = createRandomSeed()): SaveState {
     nurseryUnlockedExtraIds: [],
     nurseryClaimedRewardIds: [],
     nurseryLastProcessedWorldStep: 1,
+    seasonCloseReturnPending: false,
     settings: createDefaultSettings(),
     lastBiomeId: 'beach',
   };
@@ -353,6 +354,7 @@ export function normalizeSaveState(
       Number.isFinite(parsed.nurseryLastProcessedWorldStep)
         ? Math.max(0, Math.floor(parsed.nurseryLastProcessedWorldStep))
         : worldState.worldStep,
+    seasonCloseReturnPending: parsed.seasonCloseReturnPending === true,
     settings: createDefaultSettings(parsed.settings),
     lastBiomeId: parsed.lastBiomeId ?? 'beach',
   };
@@ -419,6 +421,7 @@ export function resetSaveProgress(save: SaveState): void {
   save.nurseryUnlockedExtraIds = fresh.nurseryUnlockedExtraIds;
   save.nurseryClaimedRewardIds = fresh.nurseryClaimedRewardIds;
   save.nurseryLastProcessedWorldStep = fresh.nurseryLastProcessedWorldStep;
+  save.seasonCloseReturnPending = fresh.seasonCloseReturnPending;
   save.lastBiomeId = fresh.lastBiomeId;
   save.settings = preservedSettings;
 }

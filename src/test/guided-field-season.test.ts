@@ -11,10 +11,32 @@ describe('guided field season', () => {
 
     expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
       stage: 'starter',
-      nextBiomeId: 'forest',
+      nextBiomeId: 'beach',
+      stationNote: {
+        title: 'FIRST FIELD SEASON',
+        text: 'Start with Shore Shelter on Sunny Beach, then carry shelter inland through Hidden Hollow before returning to the field station.',
+      },
       promptNotice: {
         title: 'NOTEBOOK TASK',
-        text: 'Menu to World map, then Forest Trail.',
+        text: 'Shore Shelter first. Stay on Sunny Beach and log dune grass to wrack line.',
+      },
+    });
+  });
+
+  it('points to Hidden Hollow once Shore Shelter is logged', () => {
+    const save = createNewSaveState('guided-field-season-hidden-hollow-seed');
+    save.completedFieldRequestIds = ['beach-shore-shelter'];
+
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'starter',
+      nextBiomeId: 'forest',
+      stationNote: {
+        title: 'HIDDEN HOLLOW',
+        text: 'Hidden Hollow is next in Forest Trail. Follow shelter inland and confirm the seep stone.',
+      },
+      promptNotice: {
+        title: 'NOTEBOOK TASK',
+        text: 'World map to Forest Trail. Hidden Hollow is next.',
       },
     });
   });
@@ -26,7 +48,8 @@ describe('guided field season', () => {
     expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
       stage: 'forest-study',
       stationNote: {
-        title: 'MOISTURE CLUES',
+        title: 'MOISTURE HOLDERS',
+        text: 'Moisture Holders is next in Root Hollow. Compare one shelter, one ground, and one living clue before heading back.',
       },
     });
 
@@ -35,6 +58,7 @@ describe('guided field season', () => {
       stage: 'forest-study',
       stationNote: {
         title: 'FOREST SURVEY',
+        text: 'Forest Survey is next. Stay with Forest Trail a little longer and log four clues before heading back.',
       },
     });
   });
@@ -55,11 +79,11 @@ describe('guided field season', () => {
       stage: 'station-return',
       stationNote: {
         title: 'RETURN TO STATION',
-        text: 'Forest Trail is logged. Use the menu for World map, then stop at the field station for Trail Stride.',
+        text: 'Shore Shelter, Hidden Hollow, and Forest Survey logged. Field station next for Trail Stride.',
       },
       promptNotice: {
         title: 'FIELD STATION',
-        text: 'Menu to World map, then Field station.',
+        text: 'Field station next for Trail Stride.',
       },
     });
   });
@@ -73,6 +97,11 @@ describe('guided field season', () => {
       nextBiomeId: 'coastal-scrub',
       stationNote: {
         title: 'NEXT STOP',
+        text: 'Open To Shelter is next in Coastal Scrub. Walk open bloom to shore pine to edge log.',
+      },
+      promptNotice: {
+        title: 'NEXT STOP',
+        text: 'Open To Shelter next. Follow open bloom to edge log.',
       },
     });
 
@@ -82,6 +111,17 @@ describe('guided field season', () => {
       nextBiomeId: null,
       stationNote: {
         title: 'FIELD SEASON OPEN',
+        text: 'Shore Shelter, Hidden Hollow, and Open To Shelter now read like one coast-to-forest chapter.',
+      },
+    });
+
+    save.completedFieldRequestIds = ['coastal-edge-moisture'];
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'settled',
+      nextBiomeId: null,
+      stationNote: {
+        title: 'FIELD SEASON OPEN',
+        text: 'Keep comparing nearby habitats and checking the station between longer routes.',
       },
     });
   });
@@ -98,6 +138,25 @@ describe('guided field season', () => {
         text: 'High Pass starts at Treeline Pass when you are ready.',
       },
       promptNotice: null,
+    });
+  });
+
+  it('holds one return-to-station close beat after season threads are logged', () => {
+    const save = createNewSaveState('guided-field-season-close-return-seed');
+    save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    save.seasonCloseReturnPending = true;
+
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'season-close-return',
+      nextBiomeId: null,
+      stationNote: {
+        title: 'RETURN TO STATION',
+        text: 'Season Threads logged. Return to the field station for a calm season close.',
+      },
+      promptNotice: {
+        title: 'FIELD STATION',
+        text: 'Season Threads logged. Field station next.',
+      },
     });
   });
 });
