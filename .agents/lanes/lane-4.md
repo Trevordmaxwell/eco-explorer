@@ -41,6 +41,31 @@ Lane 4 currently owns:
 - replay-aware route framing tied to existing world-state
 - chapter-grade outings that feel like authored mini-adventures
 
+## Owned Functions In game.ts
+
+These are the functions in `src/engine/game.ts` that lane 4 primarily owns. Other lanes should leave handoffs rather than editing these directly.
+
+- `getNearbyDiscoveredEntryIdsForPrompt` (~1348–1361)
+- `getObservationPromptForCurrentBiome` / `getFieldGuideObservationPrompt` (~1363–1404)
+- `getJournalObservationPrompt` / `getFieldPartnerObservationPrompt` (~1406–1438)
+- `dismissFieldPartnerNotice` / `startFieldPartnerQuiet` (~1439–1448)
+- `getFieldPartnerTriggerPriority` / `queueFieldPartnerTrigger` / `getFieldPartnerContextKey` (~1449–1484)
+- `canShowFieldPartnerNotice` / `tryShowFieldPartnerNotice` (~1485–1537)
+- `updateBiomeScene` (~2803–2966)
+- `updateWorldMapScene` (~2750–2801)
+- `updateTransitionState` (~2711–2748)
+- `updateMenuState` (~2622–2687)
+- `updateCloseLookState` (~2688–2710)
+- `updateTitleState` / `updateJournalState` (~2167–2351)
+- `inspectEntity` / `getNearestInspectable` / `getEntityAtPoint` (~1851–1943)
+- `isInInspectRange` / `isNearBiomeDoor` / `isNearTravelInteractable` (~1749–1767)
+- `getTravelTargetAtPoint` / `activateTravelTarget` (~1768–1811)
+- `updateCorridorOwnership` / `maybeExitCorridor` (~1812–1850)
+- `openMenu` / `closeMenu` / `clearInspectSurface` / `openCloseLookFromBubble` / `closeCloseLook` (~426–473)
+- `activateMenuAction` / `resetAdventure` (~1999–2117)
+- `loadBiomeScene` / `enterBiome` / `enterCorridor` / `openWorldMapDirect` (~1614–1748)
+- `startWorldMapExitTransition` / `startBiomeEntryTransition` (~2119–2166)
+
 ## Success Condition
 
 Lane 4 should make each outing feel like:

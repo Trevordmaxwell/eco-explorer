@@ -42,6 +42,22 @@ Lane 3 should turn the current cave and climbable proofs into deeper, more magic
 - quiet wayfinding supports instead of a bigger traversal HUD
 - realistic-enough scale cheats when they improve wonder and play
 
+## Owned Functions In game.ts
+
+These are the functions in `src/engine/game.ts` that lane 3 primarily owns. Other lanes should leave handoffs rather than editing these directly.
+
+- `getSupportingPlatform` (~738–758)
+- `getClimbableById` / `getReachableClimbable` / `alignPlayerToClimbable` / `stopClimbing` (~761–790)
+- `getActiveClimbHintClimbable` (~791–802)
+- `getGroundYAt` (~734–737)
+- `getCurrentZoneId` / `getCurrentZoneLabel` (~1161–1176)
+- `getVisibleVerticalCuesForRender` (~1177–1199)
+- `getWorldMapBiomeDoor` / `getCurrentBiomeDoors` (~853–870)
+- `getPreferredMapReturnAnchor` (~871–874)
+- `getTravelInteractableLabel` / `getCurrentTravelInteractables` / `isSameTravelInteractable` (~875–937)
+- `getSceneDoors` / `getDoorInteractPoint` / `getNearestBiomeDoor` / `getNearestTravelInteractable` (~938–1012)
+- `setPlayerFromFootPosition` / `syncBiomeCamera` (~1013–1040)
+
 ## Success Condition
 
 Lane 3 should make the world feel taller, deeper, and more surprising while staying readable, science-forward, and fun at the current screen scale.

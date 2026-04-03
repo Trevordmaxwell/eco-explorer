@@ -43,6 +43,21 @@ Current emphasis:
 - science-ledger and content-quality support for new authored spaces
 - content-owned follow-ons that ride behind live route and traversal systems
 
+## Owned Functions In game.ts
+
+Lane 2 should generally avoid large `game.ts` edits. When it must touch the file, these are the functions closest to its domain. Other lanes own the rest.
+
+- `getJournalBiomeProgressList` / `getBiomeSurveyProgressList` (~1057–1064)
+- `getDiscoveredEntriesList` (~1065–1072)
+- `getJournalEntrySightingBiomeIds` (~1074–1076)
+- `getJournalComparison` (~1078–1086)
+- `getSelectedJournalSurveyState` / `isSelectedJournalSketchbookUnlocked` (~1087–1094)
+- `getJournalSketchbookPage` / `toggleJournalSketchbook` (~1095–1117)
+- `changeSelectedSketchbookSlot` / `placeSelectedJournalEntryInSketchbook` / `clearSelectedJournalSketchbookSlot` (~1118–1160)
+- `setSelectedJournalEntryId` / `getDefaultJournalBiomeId` / `setSelectedJournalBiome` / `changeJournalBiome` (~1538–1575)
+- `changeJournalSelection` (~1944–1954)
+- `serializeObservationPrompt` / `serializeFieldPartnerNotice` / `serializeActiveFieldRequest` (~808–852)
+
 ## Success Condition
 
 Lane 2 should make the world feel denser, more collectible, and more educationally rich without changing the game’s overall progression shape.
