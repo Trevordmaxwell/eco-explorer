@@ -269,8 +269,55 @@ function validateExecutionOrder(packet, packetLabel, queueIdSet, errors) {
   }
 }
 
+const QUEUE_SIZE_WARN_KB = 200;
+const QUEUE_SIZE_ERROR_KB = 500;
+
+function validateQueueHealth(queueEntries, errors, warnings) {
+  const queueSizeBytes = fs.statSync(queuePath).size;
+  const queueSizeKb = queueSizeBytes / 1024;
+
+  if (queueSizeKb > QUEUE_SIZE_ERROR_KB) {
+    pushError(
+      errors,
+      'work-queue',
+      `file is ${queueSizeKb.toFixed(0)}KB (>${QUEUE_SIZE_ERROR_KB}KB). Run "node scripts/archive-done-queue.mjs" to move completed items to the archive.`,
+    );
+  } else if (queueSizeKb > QUEUE_SIZE_WARN_KB) {
+    warnings.push(
+      `work-queue: file is ${queueSizeKb.toFixed(0)}KB (>${QUEUE_SIZE_WARN_KB}KB). Consider running "node scripts/archive-done-queue.mjs" soon.`,
+    );
+  }
+
+  // Check for items with mismatched Lane fields across linked packets
+  const laneCounts = new Map();
+  for (const entry of queueEntries) {
+    const blockText = entry.lines.join('\n');
+    const laneMatch = blockText.match(/^- Lane: `([^`]+)`/m);
+    if (laneMatch && entry.section !== 'Done') {
+      const lane = laneMatch[1];
+      laneCounts.set(lane, (laneCounts.get(lane) || 0) + 1);
+    }
+  }
+
+  // Count active (non-Done) items per section
+  const sectionCounts = new Map();
+  for (const entry of queueEntries) {
+    if (entry.section && entry.section !== 'Done') {
+      sectionCounts.set(entry.section, (sectionCounts.get(entry.section) || 0) + 1);
+    }
+  }
+
+  const readyCount = sectionCounts.get('Ready') || 0;
+  if (readyCount > 40) {
+    warnings.push(
+      `work-queue: ${readyCount} items in Ready section. Consider prioritizing or parking lower-priority items.`,
+    );
+  }
+}
+
 function main() {
   const errors = [];
+  const warnings = [];
   const queueIndex = getQueueIndex();
   const packetFiles = fs
     .readdirSync(packetsDir)
@@ -284,6 +331,7 @@ function main() {
   }
 
   validateQueueEntries(queueIndex.queueEntries, errors);
+  validateQueueHealth(queueIndex.queueEntries, errors, warnings);
 
   for (const [queueId, packetPath] of queueIndex.queuePacketRefs.entries()) {
     validatePathExists(packetPath, `work-queue ${queueId}`, errors);
@@ -390,7 +438,14 @@ function main() {
     return;
   }
 
-  console.log(`Validated ${packetFiles.length} packet files against ${queueIndex.queueIds.length} queue items with no issues.`);
+  if (warnings.length > 0) {
+    console.warn(`Validated with ${warnings.length} warning(s):`);
+    for (const warning of warnings) {
+      console.warn(`⚠ ${warning}`);
+    }
+  }
+
+  console.log(`Validated ${packetFiles.length} packet files against ${queueIndex.queueIds.length} queue items with no errors.`);
 }
 
 main();
