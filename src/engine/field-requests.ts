@@ -35,6 +35,7 @@ interface RouteV2ProcessFocus {
   momentId: string;
   activeTitle?: string;
   activeSummary: string;
+  activeSlotEntryIdsBySlotId?: Record<string, string[]>;
 }
 
 interface FieldRequestWorldStateFocus {
@@ -127,6 +128,7 @@ export type FieldRequestDefinition =
 export interface FieldRequestEvent {
   trigger: FieldRequestTrigger;
   entryId?: string | null;
+  observedZoneId?: string | null;
 }
 
 export interface FieldRequestAdvanceResult {
@@ -201,6 +203,9 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       momentId: 'wrack-hold',
       activeTitle: 'Wrack Shelter',
       activeSummary: 'Fresh wrack makes the beach shelter line easier to follow today.',
+      activeSlotEntryIdsBySlotId: {
+        'wrack-line': ['beach-hopper'],
+      },
     },
     completionTriggers: ['inspect'],
   },
@@ -690,6 +695,24 @@ function getRequiredEvidenceSlotZoneId(
   return definition.evidenceSlots.find((slot) => slot.id === slotId)?.zoneId ?? null;
 }
 
+function getActiveEvidenceSlotEntryIds(
+  definition: EvidenceRouteV2FieldRequest,
+  slotId: string,
+  context: FieldRequestContext,
+): Set<string> {
+  const baseEntryIds = definition.evidenceSlots.find((slot) => slot.id === slotId)?.entryIds ?? [];
+  const activeProcessEntryIds = getActiveRouteV2ProcessFocus(definition, context)
+    ?.activeSlotEntryIdsBySlotId?.[slotId] ?? [];
+  return new Set([...baseEntryIds, ...activeProcessEntryIds]);
+}
+
+function resolveObservedZoneId(
+  context: FieldRequestContext,
+  observedZoneId?: string | null,
+): string | null {
+  return observedZoneId ?? context.currentZoneId;
+}
+
 function getRouteV2ZoneIds(
   definition: RouteV2FieldRequestDefinition,
 ): string[] {
@@ -1159,6 +1182,7 @@ function getActiveFieldRequestDefinition(
 export function getHandLensNotebookFit(
   context: FieldRequestContext,
   entryId: string,
+  observedZoneId?: string | null,
 ): string | null {
   const definition = getActiveFieldRequestDefinition(context);
   if (!definition || !isEvidenceRouteV2Definition(definition)) {
@@ -1175,13 +1199,17 @@ export function getHandLensNotebookFit(
   const filledSlotIds = getFilledEvidenceSlotIds(definition, context.save);
   const nextSlotId = getNextEvidenceSlotId(definition, context.save);
   const requiredZoneId = nextSlotId ? getRequiredEvidenceSlotZoneId(definition, nextSlotId) : null;
-  if (requiredZoneId && context.currentZoneId !== requiredZoneId) {
+  const matchedObservedZoneId = resolveObservedZoneId(context, observedZoneId);
+  if (
+    requiredZoneId &&
+    (context.currentZoneId !== requiredZoneId || matchedObservedZoneId !== requiredZoneId)
+  ) {
     return null;
   }
 
   const matchingSlot = definition.evidenceSlots.find(
     (slot) =>
-      slot.entryIds.includes(entryId)
+      getActiveEvidenceSlotEntryIds(definition, slot.id, context).has(entryId)
       && !filledSlotIds.has(slot.id)
       && (!nextSlotId || slot.id === nextSlotId),
   );
@@ -1277,13 +1305,17 @@ export function advanceFieldRequestDefinition(
     const filledSlotIds = getFilledEvidenceSlotIds(definition, context.save);
     const nextSlotId = getNextEvidenceSlotId(definition, context.save);
     const requiredZoneId = nextSlotId ? getRequiredEvidenceSlotZoneId(definition, nextSlotId) : null;
-    if (requiredZoneId && context.currentZoneId !== requiredZoneId) {
+    const matchedObservedZoneId = resolveObservedZoneId(context, event.observedZoneId);
+    if (
+      requiredZoneId &&
+      (context.currentZoneId !== requiredZoneId || matchedObservedZoneId !== requiredZoneId)
+    ) {
       return null;
     }
 
     const matchingSlot = definition.evidenceSlots.find(
       (slot) =>
-        slot.entryIds.includes(event.entryId as string)
+        getActiveEvidenceSlotEntryIds(definition, slot.id, context).has(event.entryId as string)
         && !filledSlotIds.has(slot.id)
         && (!nextSlotId || slot.id === nextSlotId),
     );
@@ -1325,6 +1357,7 @@ export function advanceActiveFieldRequest(
   context: FieldRequestContext,
   trigger: FieldRequestTrigger,
   entryId?: string | null,
+  observedZoneId?: string | null,
 ): FieldRequestAdvanceResult | null {
   for (const definition of FIELD_REQUEST_DEFINITIONS) {
     if (hasResolvedFieldRequest(context.save, definition.id)) {
@@ -1335,7 +1368,7 @@ export function advanceActiveFieldRequest(
       continue;
     }
 
-    return advanceFieldRequestDefinition(definition, context, { trigger, entryId });
+    return advanceFieldRequestDefinition(definition, context, { trigger, entryId, observedZoneId });
   }
 
   return null;
@@ -1345,8 +1378,9 @@ export function shouldCompleteActiveFieldRequest(
   context: FieldRequestContext,
   trigger: FieldRequestTrigger,
   entryId?: string | null,
+  observedZoneId?: string | null,
 ): string | null {
-  const result = advanceActiveFieldRequest(context, trigger, entryId);
+  const result = advanceActiveFieldRequest(context, trigger, entryId, observedZoneId);
   return result?.status === 'completed' ? result.requestId : null;
 }
 

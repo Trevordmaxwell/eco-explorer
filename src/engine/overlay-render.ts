@@ -132,6 +132,7 @@ interface FieldStationGrowthInput {
   hasLogPile: boolean;
   hasPollinatorPatch: boolean;
   compostRate: number;
+  loggedRouteCount: number;
 }
 
 interface FieldStationGrowthAccentState {
@@ -140,6 +141,10 @@ interface FieldStationGrowthAccentState {
   hasLogPile: boolean;
   hasPollinatorPatch: boolean;
   hasCompostUpgrade: boolean;
+  loggedRouteCount: number;
+  hasLeftRouteAccent: boolean;
+  hasRightRouteAccent: boolean;
+  hasConnectedThreshold: boolean;
   planterWidth: number;
 }
 
@@ -1050,10 +1055,20 @@ export function resolveFieldStationGrowthAccentState({
   hasLogPile,
   hasPollinatorPatch,
   compostRate,
+  loggedRouteCount,
 }: FieldStationGrowthInput): FieldStationGrowthAccentState {
   const stageProgress = teachingBedStage ? getNurseryStageProgress(teachingBedStage) : 0;
   const hasCompostUpgrade = compostRate > 1;
-  const showAccent = stageProgress > 0 || hasLogPile || hasPollinatorPatch || hasCompostUpgrade;
+  const safeLoggedRouteCount = Math.max(0, Math.min(3, loggedRouteCount));
+  const hasLeftRouteAccent = safeLoggedRouteCount >= 1;
+  const hasRightRouteAccent = safeLoggedRouteCount >= 2;
+  const hasConnectedThreshold = safeLoggedRouteCount >= 3;
+  const showAccent =
+    stageProgress > 0
+    || hasLogPile
+    || hasPollinatorPatch
+    || hasCompostUpgrade
+    || safeLoggedRouteCount > 0;
 
   return {
     showAccent,
@@ -1061,6 +1076,10 @@ export function resolveFieldStationGrowthAccentState({
     hasLogPile,
     hasPollinatorPatch,
     hasCompostUpgrade,
+    loggedRouteCount: safeLoggedRouteCount,
+    hasLeftRouteAccent,
+    hasRightRouteAccent,
+    hasConnectedThreshold,
     planterWidth: showAccent ? 10 + stageProgress * 3 + (hasCompostUpgrade ? 3 : 0) : 0,
   };
 }
@@ -1071,6 +1090,7 @@ function drawFieldStationGrowthAccent(
   contentRect: UiRect,
   palette: BiomeDefinition['palette'],
   nursery: NurseryStateView,
+  loggedRouteCount: number,
   arrivalPulse: number,
 ): void {
   const accent = resolveFieldStationGrowthAccentState({
@@ -1078,6 +1098,7 @@ function drawFieldStationGrowthAccent(
     hasLogPile: nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked),
     hasPollinatorPatch: nursery.extras.some((extra) => extra.id === 'pollinator-patch' && extra.unlocked),
     compostRate: nursery.compostRate,
+    loggedRouteCount,
   });
 
   if (!accent.showAccent && arrivalPulse <= 0) {
@@ -1107,6 +1128,38 @@ function drawFieldStationGrowthAccent(
     accent.planterWidth,
     4,
   );
+
+  if (accent.hasLeftRouteAccent) {
+    const leftPatchX = sillRect.x + 12;
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(leftPatchX, sillRect.y + 3, 5, 1);
+    context.fillRect(leftPatchX + 1, sillRect.y + 2, 4, 1);
+    context.fillStyle = palette.journalSelected;
+    context.fillRect(leftPatchX + 1, sillRect.y + 1, 3, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(leftPatchX + 2, sillRect.y + 1, 1, 1);
+  }
+
+  if (accent.hasRightRouteAccent) {
+    const rightPatchX = sillRect.x + sillRect.w - 18;
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(rightPatchX, sillRect.y + 3, 5, 1);
+    context.fillRect(rightPatchX, sillRect.y + 2, 4, 1);
+    context.fillStyle = palette.journalSelected;
+    context.fillRect(rightPatchX + 1, sillRect.y + 1, 3, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(rightPatchX + 2, sillRect.y + 1, 1, 1);
+  }
+
+  if (accent.hasConnectedThreshold) {
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(planterRect.x - 5, sillRect.y + 3, 4, 1);
+    context.fillRect(planterRect.x + planterRect.w + 1, sillRect.y + 3, 4, 1);
+    context.fillStyle = palette.journalSelected;
+    context.fillRect(planterRect.x - 4, sillRect.y + 2, 2, 1);
+    context.fillRect(planterRect.x + planterRect.w + 2, sillRect.y + 2, 2, 1);
+  }
+
   context.fillStyle = accent.hasCompostUpgrade ? palette.cardShadow : palette.journalSelected;
   context.fillRect(planterRect.x, planterRect.y + 2, planterRect.w, 2);
   const sproutCount = Math.max(1, accent.stageProgress);
@@ -1280,7 +1333,15 @@ export function drawFieldStationOverlay({
   context.fillStyle = 'rgba(32, 25, 20, 0.55)';
   context.fillRect(0, 0, width, height);
   fillLeafGreenPanel(context, panelRect.x, panelRect.y, panelRect.w, panelRect.h);
-  drawFieldStationGrowthAccent(context, panelRect, contentRect, palette, nursery, arrivalPulse);
+  drawFieldStationGrowthAccent(
+    context,
+    panelRect,
+    contentRect,
+    palette,
+    nursery,
+    atlas?.loggedRoutes.length ?? 0,
+    arrivalPulse,
+  );
 
   context.font = UI_FONT_MEDIUM;
   drawUiText(context, 'FIELD STATION', contentRect.x, contentRect.y, palette.text);

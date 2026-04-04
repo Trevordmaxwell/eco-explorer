@@ -47,6 +47,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Freeze and thaw can slowly lift this stone from cold ground.',
     spriteScale: 5,
   },
+  'krummholz-spruce': {
+    callouts: ['wind-bent branches', 'needled tips'],
+    sentence: 'Cold wind keeps this spruce low and bent instead of tall.',
+    spriteScale: 5,
+  },
   'talus-cushion-pocket': {
     callouts: ['stone gap', 'cushion hold'],
     sentence: 'Between alpine stones, tiny cushions can hold on in calmer air.',

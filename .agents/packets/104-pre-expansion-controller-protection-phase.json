@@ -1,0 +1,124 @@
+{
+  "packet_id": "ECO-PACKET-104",
+  "version": 7,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Pre-expansion controller protection phase",
+  "summary": "After the docs and home-place wave, lane 1 should keep buying down big-file risk with one focused route-notice split and one focused field-season-board composition split before another major chapter wave lands.",
+  "source_reports": [
+    "docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md",
+    "docs/reports/2026-04-04-route-notice-descriptor-handoff.md",
+    "docs/reports/2026-04-04-route-notice-descriptor-implementation.md",
+    "docs/reports/2026-04-04-route-notice-descriptor-review.md",
+    "docs/reports/2026-04-04-field-season-wrap-split-handoff.md",
+    "docs/reports/2026-04-04-field-season-wrap-split-implementation.md",
+    "docs/reports/2026-04-04-field-season-wrap-split-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-254",
+    "ECO-20260404-main-254",
+    "ECO-20260404-critic-254",
+    "ECO-20260404-scout-255",
+    "ECO-20260404-main-255",
+    "ECO-20260404-critic-255"
+  ],
+  "depends_on": [
+    "ECO-20260404-critic-253"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-254",
+      "goal": "Prepare the next route-notice or feedback-state split handoff.",
+      "why_now": "The biggest coordinators are still large enough to make future chapter work risky."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-254",
+      "goal": "Implement the next route-notice or feedback-state split.",
+      "why_now": "One focused extraction can keep feel work and route logic from piling into game.ts and overlay-render.ts."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-254",
+      "goal": "Review the next route-notice or feedback-state split.",
+      "why_now": "Structural cleanup only helps if it stays behavior-safe."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-255",
+      "goal": "Prepare the field-season-board composition split handoff.",
+      "why_now": "field-season-board.ts is now big enough to deserve its own focused protection pass."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-255",
+      "goal": "Implement the field-season-board composition split.",
+      "why_now": "Board-state composition should keep getting smaller before the next chapter wave."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-255",
+      "goal": "Review the field-season-board composition split.",
+      "why_now": "The shell should stay stable while the risk surface shrinks."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/overlay-copy.test.ts",
+    "src/test/field-season-board.test.ts"
+  ],
+  "guardrails": [
+    "Do not redesign the product during the split.",
+    "Preserve save behavior, route state, and station shell behavior.",
+    "Prefer pure derivation helpers and composition extractors over broad abstraction."
+  ],
+  "main_254_focus": {
+    "target_seam": "route notice, notice variant, or feedback-state derivation",
+    "possible_helper_targets": [
+      "field notice state helper",
+      "route notice copy/variant resolver",
+      "non-text feedback state composer"
+    ],
+    "recommended_shape": [
+      "Extract a pure field-notice descriptor helper for filed-route and notebook-ready notices.",
+      "Keep showFieldNotice(), timer mutation, enqueue ordering, and save writes in game.ts.",
+      "Do not widen the split into the guided maybeShow* notice family yet."
+    ],
+    "keep_in_place": [
+      "timer mutation",
+      "notice enqueue ordering",
+      "actual filing side effects"
+    ]
+  },
+  "main_255_focus": {
+    "target_seam": "field-season-board composition",
+    "possible_helper_targets": [
+      "board summary composer",
+      "atlas strip resolver",
+      "support row or continuity-card derivation"
+    ],
+    "recommended_shape": [
+      "Extract the pure season-wrap and subtitle composition family into a dedicated field-season-wrap helper module.",
+      "Keep route-state, replay-note, atlas, archive, expedition, and next-season locator logic in field-season-board.ts.",
+      "Retarget field-station-state.ts to the new wrap helper directly, using type-only imports to avoid runtime cycles."
+    ],
+    "keep_in_place": [
+      "input handling",
+      "surface switching",
+      "save mutation"
+    ]
+  }
+}

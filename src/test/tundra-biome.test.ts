@@ -155,11 +155,18 @@ describe('tundra biome generation', () => {
     expect(reliefPlatforms[6]?.y).toBeGreaterThanOrEqual(reliefPlatforms[5]?.y ?? 0);
   });
 
-  it('adds one exposed-to-held threshold pocket before the thaw-skirt family', () => {
+  it('adds one compact snow-meadow drift hold before the thaw-skirt family', () => {
     const thresholdPlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
-      ['wind-bluff-heave-shoulder', 'snow-threshold-lee-rest'].includes(platform.id),
+      [
+        'wind-bluff-heave-shoulder',
+        'snow-threshold-lee-rest',
+        'snow-meadow-drift-shoulder',
+        'snow-meadow-drift-rest',
+      ].includes(platform.id),
     );
     const leeRest = thresholdPlatforms?.find((platform) => platform.id === 'snow-threshold-lee-rest');
+    const driftShoulder = thresholdPlatforms?.find((platform) => platform.id === 'snow-meadow-drift-shoulder');
+    const driftRest = thresholdPlatforms?.find((platform) => platform.id === 'snow-meadow-drift-rest');
     const thawEntry = tundraBiome.terrainRules.authoredPlatforms?.find((platform) => platform.id === 'thaw-skirt-entry-heave');
 
     expect(thresholdPlatforms).toEqual([
@@ -179,12 +186,54 @@ describe('tundra biome generation', () => {
         w: 28,
         h: 4,
       },
+      {
+        id: 'snow-meadow-drift-shoulder',
+        spriteId: 'ice-platform',
+        x: 224,
+        y: 110,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'snow-meadow-drift-rest',
+        spriteId: 'ice-platform',
+        x: 252,
+        y: 107,
+        w: 30,
+        h: 4,
+      },
     ]);
     expect(leeRest?.x).toBeGreaterThanOrEqual(120);
     expect(leeRest?.x).toBeLessThanOrEqual(184);
     expect(leeRest?.y).toBeGreaterThanOrEqual(100);
     expect(leeRest?.y).toBeLessThanOrEqual(112);
-    expect((thawEntry?.x ?? 0) - (leeRest?.x ?? 999)).toBeGreaterThanOrEqual(120);
+    expect(driftShoulder?.x).toBeGreaterThan((leeRest?.x ?? 0) + (leeRest?.w ?? 0));
+    expect(driftRest?.x).toBeGreaterThan((driftShoulder?.x ?? 0) + (driftShoulder?.w ?? 0));
+    expect(driftRest?.y).toBeLessThan(driftShoulder?.y ?? 999);
+    expect(driftRest?.x).toBeGreaterThanOrEqual(216);
+    expect((driftRest?.x ?? 0) + (driftRest?.w ?? 0)).toBeLessThanOrEqual(286);
+    expect((thawEntry?.x ?? 0) - ((driftRest?.x ?? 0) + (driftRest?.w ?? 0))).toBeGreaterThanOrEqual(24);
+  });
+
+  it('anchors one local snow-meadow carrier pair around the new drift hold', () => {
+    const driftEntities = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
+      ['snow-meadow-drift-sedge', 'snow-meadow-drift-ptarmigan'].includes(entity.id),
+    );
+
+    expect(driftEntities).toEqual([
+      {
+        id: 'snow-meadow-drift-sedge',
+        entryId: 'bigelows-sedge',
+        x: 258,
+        y: 103,
+      },
+      {
+        id: 'snow-meadow-drift-ptarmigan',
+        entryId: 'white-tailed-ptarmigan',
+        x: 274,
+        y: 103,
+      },
+    ]);
   });
 
   it('spawns thaw-edge carriers through the new traversal band', () => {

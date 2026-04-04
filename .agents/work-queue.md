@@ -202,6 +202,831 @@ Use this section for newly discovered work that is not yet approved or prioritiz
 
 ## Done
 
+### ECO-20260404-scout-257
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the threshold-support handoff`
+- Source: `docs/reports/2026-04-04-coastal-scrub-identity-support-review.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `ECO-20260404-critic-256`
+
+Goal:
+
+- Narrow one treeline and tundra support pass around exposure, threshold, and short-season clues.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-257`
+- keeps the pass compact and note-backed
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-threshold-support-handoff.md`, narrowed the pack to one `krummholz-spruce` close-look plus one `woolly-lousewort` sketchbook note, bumped packet `105` to version `3`, and promoted `main-257` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-257
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement the treeline and tundra threshold support pack`
+- Source: `docs/reports/2026-04-04-threshold-support-implementation.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `ECO-20260404-scout-257`
+
+Goal:
+
+- Reinforce the second act as a memorable exposure-threshold chapter through compact support content.
+
+Acceptance:
+
+- treeline and tundra cues feel more distinct and memorable
+- the screen does not grow denser
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-threshold-support-implementation.md` and kept the support pass inside exactly two notebook-facing additions: one `krummholz-spruce` close-look card and one `woolly-lousewort` sketchbook note.
+- Left comparisons, ecosystem-note ids, route-board copy, station flow, and map behavior untouched so the new second-act support stays compact and lane-2 safe.
+- Verified with `npm test -- --run src/test/close-look.test.ts src/test/sketchbook.test.ts src/test/content-quality.test.ts`, `npm run build`, the required web-game client smoke in `output/lane-2-main-257-client/`, and seeded browser proof in `output/lane-2-main-257-browser/` with empty `console-errors.json`. Promoted `ECO-20260404-critic-257` to `READY`.
+
+### ECO-20260404-critic-257
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the treeline and tundra threshold support pack`
+- Source: `docs/reports/2026-04-04-threshold-support-review.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `ECO-20260404-main-257`
+
+Goal:
+
+- Review whether the second-act support now teaches exposure and threshold more vividly.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 2 ready for the next wave if clean
+
+Completion notes:
+
+- Recorded a clean review in `docs/reports/2026-04-04-threshold-support-review.md`: the new `krummholz-spruce` close-look and `woolly-lousewort` sketchbook strip deepen second-act threshold teaching without widening the notebook beyond two compact local seams.
+- Logged one non-blocking watch item that the `woolly-lousewort` strip is now the practical handheld copy ceiling for later treeline and tundra sketchbook follow-ons unless the notebook layout changes.
+- Rechecked `npm test -- --run src/test/close-look.test.ts src/test/sketchbook.test.ts src/test/content-quality.test.ts`, `npm run build`, and the seeded browser proof in `output/lane-2-main-257-browser/` with empty `console-errors.json`. Lane 2 is now clear for packet `105`.
+
+### ECO-20260404-scout-256
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the coastal scrub identity support handoff`
+- Source: `docs/reports/2026-04-04-coastal-scrub-identity-support-handoff.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one compact content support pass that makes Coastal Scrub feel more like a destination.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-256`
+- stays note-backed, visual-first, and handheld-safe
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-coastal-scrub-identity-support-handoff.md`, narrowing the next lane-2 Coastal Scrub pass to one `dune-lupine` comparison-first identity pack instead of stacking another local close-look, sketchbook line, or new ecosystem-note id into the already-dense front-half notebook surfaces.
+- Bumped packet `105` to version `2`, added a concrete `main_256_focus` block for a tiny comparison-note preference seam (`low-runner-band` on beach, `sturdier-cover` in coastal scrub), and retargeted `ECO-20260404-main-256` plus `ECO-20260404-critic-256` to the new handoff.
+- Promoted `ECO-20260404-main-256` to `READY`.
+
+### ECO-20260404-main-256
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement the coastal scrub identity support pack`
+- Source: `docs/reports/2026-04-04-coastal-scrub-identity-support-implementation.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `ECO-20260404-scout-256`
+
+Goal:
+
+- Deepen Coastal Scrub through support content that makes it feel like a remembered place.
+
+Acceptance:
+
+- the biome gains stronger support identity without more route-board prose
+- the content stays visual-first and handheld-safe
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-coastal-scrub-identity-support-implementation.md` and kept the pass inside one narrow notebook-facing seam: `dune-lupine` now has a stable same-pane comparison pair through one comparison-only preferred-note mapping instead of a broader note-resolver rewrite.
+- Left ecosystem-note ids, close-look, sketchbook, route-board, station, and map behavior untouched, so the identity gain stays comparison-first and lane-2 safe.
+- Verified with `npm test -- --run src/test/journal-comparison.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "dune-lupine|comparison"`, `npm run build`, the required web-game client smoke in `output/lane-2-main-256-client/`, and seeded browser proof in `output/lane-2-main-256-browser/` with empty `console-errors.json`. Promoted `ECO-20260404-critic-256` to `READY`.
+
+### ECO-20260404-critic-256
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the coastal scrub identity support pack`
+- Source: `docs/reports/2026-04-04-coastal-scrub-identity-support-review.md`
+- Packet: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json`
+- Depends on: `ECO-20260404-main-256`
+
+Goal:
+
+- Review whether Coastal Scrub now reads more like a destination than connective tissue.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-257` if clean
+
+Completion notes:
+
+- Recorded a clean review in `docs/reports/2026-04-04-coastal-scrub-identity-support-review.md`: the new `dune-lupine` pair gives Coastal Scrub a clearer beach-to-scrub identity contrast without widening the notebook beyond one tiny comparison seam.
+- Logged one non-blocking watch item that this is the current coastal comparison density ceiling at handheld size, so any later scrub comparison follow-on should use a clearly different teaching contrast or wait for a layout change.
+- Reviewed the focused comparison/runtime tests, `npm run build`, the required client smoke, and the seeded browser proof in `output/lane-2-main-256-browser/`, then promoted `ECO-20260404-scout-257` to `READY`.
+
+### ECO-20260404-critic-252
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the docs, tooling, and naming sync pass`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-review.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `ECO-20260404-main-252`
+
+Goal:
+
+- Review whether the repo story, commands, and live naming now line up cleanly.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-253` if clean
+
+Completion notes:
+
+- Recorded a clean review in `docs/reports/2026-04-04-docs-truth-and-home-place-review.md`: the public command story, station naming, helper-module ownership, and world-map authoring guidance now match the live repo instead of the older prototype-era framing.
+- Logged one non-blocking watch item to keep architecture docs moving in the same wave as future controller or station-shell splits, so repo truth does not lag code again.
+- Rechecked the edited docs against the live source files, bumped packet `103` to version `3` with the full report chain, and promoted `ECO-20260404-scout-253` to `READY`.
+
+### ECO-20260404-scout-253
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the stronger home-place transformation handoff`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-review.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `ECO-20260404-critic-252`
+
+Goal:
+
+- Narrow one more visibly transformative station or nursery payoff using existing seams.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-253`
+- favors visible change over more copy
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-stronger-home-place-transformation-handoff.md`, keeping the next pass on the approved lower-shell seam and tightening it around route-earned side accents plus the existing nursery-driven center planter.
+- Bumped packet `103` to version `4` and promoted `ECO-20260404-main-253` to `READY`.
+
+### ECO-20260404-main-253
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the stronger home-place transformation pass`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-phase.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `ECO-20260404-scout-253`
+
+Goal:
+
+- Make the station or nursery feel more visibly changed by season progress without widening the shell.
+
+Acceptance:
+
+- the home place shows a more earned visible shift
+- the handheld shell stays calm and readable
+
+Completion notes:
+
+- Recorded the implementation in `docs/reports/2026-04-04-stronger-home-place-transformation-implementation.md`, keeping the runtime change inside `src/engine/overlay-render.ts` so the shared station sill now carries route-earned side accents around the existing nursery-driven center planter.
+- Verified with `npx vitest run src/test/overlay-copy.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "opens the world-map field station, claims field credit, and buys trail stride"`, `npm run build`, the required web-game client smoke in `output/lane-1-main-253-client/`, and seeded browser proof in `output/lane-1-main-253-browser/`.
+- Bumped packet `103` to version `5` and promoted `ECO-20260404-critic-253` to `READY`.
+
+### ECO-20260404-critic-253
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the stronger home-place transformation pass`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-phase.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `ECO-20260404-main-253`
+
+Goal:
+
+- Review whether the home place now feels more visibly shaped by the player's season.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-254` if clean
+
+Completion notes:
+
+- Recorded a clean review in `docs/reports/2026-04-04-stronger-home-place-transformation-review.md`, confirming the new lower-sill threshold accents add visible station payoff without widening the shell or spending more nursery copy.
+- Marked the lower sill as the current punctuation ceiling for home-place payoff, bumped packet `103` to version `6`, closed the packet, and promoted `ECO-20260404-scout-254` to `READY`.
+
+### ECO-20260404-scout-254
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the next route-notice or feedback-state split handoff`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-critic-253`
+
+Goal:
+
+- Narrow the next safe extraction from the big route-notice or feedback-state seam.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-254`
+- keeps timers, filing, and save behavior scoped clearly
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-route-notice-descriptor-handoff.md`, narrowing the split to one pure descriptor helper for filed-route and notebook-ready notice copy plus variant selection.
+- Bumped packet `104` to version `2` and promoted `ECO-20260404-main-254` to `READY` while keeping timers, enqueue order, and save mutation explicitly in `game.ts`.
+
+### ECO-20260404-main-254
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the next route-notice or feedback-state split`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-scout-254`
+
+Goal:
+
+- Extract one more high-risk coordinator seam before the next major chapter wave.
+
+Acceptance:
+
+- the targeted seam is smaller and better isolated
+- behavior, saves, and route flow stay unchanged
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-route-notice-descriptor-implementation.md`, extracting pure filed-route and notebook-ready notice descriptor logic into `src/engine/field-notices.ts` while keeping timers, enqueue order, guided notice priority, and save writes in `src/engine/game.ts`.
+- Verified with `npx vitest run src/test/field-notices.test.ts`, the targeted `runtime-smoke` notice slice, `npm run build`, the shared web-game client smoke in `output/lane-1-main-254-client/`, and a Playwright console recheck at `http://127.0.0.1:4177` with 0 errors.
+- Bumped packet `104` to version `3` and promoted `ECO-20260404-critic-254` to `READY`.
+
+### ECO-20260404-critic-254
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the next route-notice or feedback-state split`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-main-254`
+
+Goal:
+
+- Review whether the next controller split reduces risk without leaking behavior.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-255` if clean
+
+Completion notes:
+
+- Recorded a clean review in `docs/reports/2026-04-04-route-notice-descriptor-review.md`, confirming the extracted helper stays pure and the route-only styling distinction still holds for both filed-route and generic recorded notices.
+- Logged one watch item to keep future notice work on the same boundary instead of quietly moving timers or guided priority into `src/engine/field-notices.ts`.
+- Bumped packet `104` to version `4` and promoted `ECO-20260404-scout-255` to `READY`.
+
+### ECO-20260404-scout-255
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the field-season-board composition split handoff`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-critic-254`
+
+Goal:
+
+- Narrow one field-season-board composition seam for extraction.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-255`
+- keeps shell behavior stable while reducing file concentration
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-field-season-wrap-split-handoff.md`, narrowing the next split to the pure `resolveFieldSeasonWrapState(...)` plus `resolveFieldStationSubtitle(...)` family at the bottom of `src/engine/field-season-board.ts`.
+- Bumped packet `104` to version `5` and promoted `ECO-20260404-main-255` to `READY`, with the recommended shape pointing at a dedicated `field-season-wrap` helper and direct import updates in `src/engine/field-station-state.ts`.
+
+### ECO-20260404-main-255
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the field-season-board composition split`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-scout-255`
+
+Goal:
+
+- Extract one board-state composition seam from `field-season-board.ts`.
+
+Acceptance:
+
+- the board file gets smaller in one focused area
+- the routes shell remains behavior-stable
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-field-season-wrap-split-implementation.md`, extracting the pure `resolveFieldSeasonWrapState(...)` plus `resolveFieldStationSubtitle(...)` family into `src/engine/field-season-wrap.ts` while keeping route-state, replay-note, atlas, archive, expedition, and next-season locator logic in `src/engine/field-season-board.ts`.
+- Updated `src/engine/field-station-state.ts` and the direct wrap tests to point at the new helper seam without changing station behavior.
+- Verified with `npx vitest run src/test/field-season-board.test.ts`, the targeted `runtime-smoke` station slice, `npm run build`, the shared web-game client smoke in `output/lane-1-main-255-client/`, and a Playwright console recheck at `http://127.0.0.1:4177` with 0 errors.
+- Bumped packet `104` to version `6` and promoted `ECO-20260404-critic-255` to `READY`.
+
+### ECO-20260404-critic-255
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the field-season-board composition split`
+- Source: `docs/reports/2026-04-04-pre-expansion-controller-protection-phase.md`
+- Packet: `.agents/packets/104-pre-expansion-controller-protection-phase.json`
+- Depends on: `ECO-20260404-main-255`
+
+Goal:
+
+- Review whether the board split preserves shell behavior while reducing risk.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 1 ready for the next wave if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-field-season-wrap-split-review.md` with a clean review: the new `src/engine/field-season-wrap.ts` seam stayed pure, `field-season-board.ts` kept route and progression ownership, and `field-station-state.ts` now points at the narrower helper directly.
+- Logged one non-blocking watch item to keep future wrap growth on explicit composition seams and avoid silently expanding copy-string matching as more cases land.
+- Verified with `npx vitest run src/test/field-season-board.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "field station|seasonWrap|note-tabs|place tab|Route Marker"`, `npm run build`, and `npm run validate:agents`. Packet `104` is now version `7` and `DONE`; lane 1 has no remaining actionable items.
+
+### ECO-20260404-main-260
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement tactile living-world route relevance`
+- Source: `docs/reports/2026-04-04-wrack-opportunity-route-implementation.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-scout-260`
+
+Goal:
+
+- Make one live route feel different in practice because of a living-world window.
+
+Acceptance:
+
+- clue reading or opportunity changes in play
+- the route does not become hard-gated or copy-heavy
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-wrack-opportunity-route-implementation.md` and kept the runtime change route-local: `RouteV2ProcessFocus` may now widen accepted evidence for a named slot during its active process window, and this pass spends that seam only on `beach-shore-shelter` so active `wrack-hold` lets `beach-hopper` satisfy the final `wrack-line` stage beside the existing `bull-kelp-wrack`.
+- Added focused request coverage for the new slot behavior and canonical filing identity, plus a seeded runtime smoke path where `Wrack Shelter` finishes through a tide-line `beach-hopper` and still files back through canonical `Shore Shelter`.
+- Verified with `npx vitest run src/test/field-requests.test.ts -t "beach-hopper|Wrack Shelter|Shore Shelter"`, `npx vitest run src/test/runtime-smoke.test.ts -t "beach start into a notebook-ready Shore Shelter outing and files it at the station|Wrack Shelter finish through beach-hopper|wrack-shelter route replay note"`, and `npm run build`. Promoted `ECO-20260404-critic-260` to `READY`.
+- Attempted `npm run validate:agents` after the queue updates, but it currently fails on an unrelated shared-lane packet issue: `.agents/packets/105-coastal-scrub-identity-and-threshold-support-phase.json` still references missing queue id `ECO-20260404-critic-256`.
+
+### ECO-20260404-critic-260
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review tactile living-world route relevance`
+- Source: `docs/reports/2026-04-04-wrack-opportunity-route-review.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-main-260`
+
+Goal:
+
+- Review whether living-world state now matters to route feel instead of only route wording.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-261` if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-wrack-opportunity-route-review.md` and found one blocking seam leak: the new `wrack-line` allowance still advances by player zone plus `entryId`, so a lee-pocket `beach-hopper` near the zone boundary can incorrectly satisfy the tide-line stage during active `wrack-hold`.
+- Confirmed the leak with a seed probe (`probe-1`, beach visit `2`) that generated `lee-pocket-life-0-beach-hopper-380`, which remains inspectable immediately after the player crosses into `tide-line`.
+- Added `ECO-20260404-main-262` and `ECO-20260404-critic-262` to repair and re-review the zone check, and kept `ECO-20260404-scout-261` blocked on the clean follow-up review instead of promoting it yet.
+
+### ECO-20260404-main-262
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Guard wrack opportunity by inspected zone`
+- Source: `docs/reports/2026-04-04-wrack-opportunity-zone-fix-implementation.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-critic-260`
+
+Goal:
+
+- Keep the live `Wrack Shelter` opportunity soft, but only when the inspected clue actually belongs to `tide-line`.
+
+Acceptance:
+
+- a lee-pocket `beach-hopper` can no longer satisfy `wrack-line` from the boundary
+- valid tide-line `beach-hopper` finishes still work during active `wrack-hold`
+- hand-lens preview and route advancement stay aligned on the same zone rule
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-wrack-opportunity-zone-fix-implementation.md` and kept the fix runtime-local: `game.ts` now threads the inspected entity's zone into both the hand-lens preview and Route v2 inspect completion path, while `field-requests.ts` requires both player zone and observed entity zone to match any zone-specific slot.
+- Added focused regressions for the cross-zone leak itself, including a live `probe-2` runtime seed where a lee-pocket `beach-hopper` at `x=385` stays in range after the player crosses into `tide-line`, confirming the route remains at `2/3 stages`.
+- Verified with `npx vitest run src/test/field-requests.test.ts -t "beach-hopper|Wrack Shelter|Shore Shelter|lee-pocket beach-hopper"`, `npx vitest run src/test/runtime-smoke.test.ts -t "Wrack Shelter finish through beach-hopper|lee-pocket beach-hopper finish Wrack Shelter"`, and `npm run build`. Promoted `ECO-20260404-critic-262` to `READY`.
+
+### ECO-20260404-critic-262
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review the zone-safe wrack opportunity fix`
+- Source: `docs/reports/2026-04-04-wrack-opportunity-zone-fix-review.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-main-262`
+
+Goal:
+
+- Review whether the repair keeps the living-world opportunity soft without letting the wrong zone satisfy the route.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-261` if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-wrack-opportunity-zone-fix-review.md` and found no blocker: the runtime now threads inspected-entity zone through the only live Route v2 preview/advance caller, while the request layer requires both player zone and observed zone for zone-specific slots.
+- Reviewed the paired regression set proving both sides of the seam: the valid tide-line `beach-hopper` finish still works, and the seeded `probe-2` boundary hopper now leaves `Wrack Shelter` at `2/3 stages`.
+- Promoted `ECO-20260404-scout-261` to `READY`.
+
+### ECO-20260404-scout-261
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the support-differentiation follow-on handoff`
+- Source: `docs/reports/2026-04-04-route-marker-guidance-handoff.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-critic-262`
+
+Goal:
+
+- Narrow one helper-row follow-on that either sharpens or trims support choices.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-261`
+- clearly states whether the pass should deepen or simplify
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-route-marker-guidance-handoff.md`, concluding that lane 4 should deepen `route-marker` rather than trim the support row yet because `hand-lens`, `note-tabs`, and `place-tab` now have clearer live jobs while `route-marker` still only adds a pin after the player is already on the map.
+- Narrowed `main-261` to one helper-sized behavior pass in `game.ts`: when `route-marker` is selected, opening the world map from play or closing the field station back to an open world map should focus the active outing target so the existing footer and pin immediately become useful without new map chrome.
+- Retargeted `ECO-20260404-main-261` and `ECO-20260404-critic-261` to the new handoff, promoted `ECO-20260404-main-261` to `READY`, and left the rest of packet `107` unchanged.
+
+### ECO-20260404-main-261
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement route-marker world-map guidance`
+- Source: `docs/reports/2026-04-04-route-marker-guidance-implementation.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-scout-261`
+
+Goal:
+
+- Make `route-marker` materially change map-planning feel by guiding world-map focus to the active outing target.
+
+Acceptance:
+
+- opening or returning to the world map with `route-marker` selected focuses the outing target
+- other outing supports keep their current behavior
+- no new map chrome, loadout sprawl, or support ids appear
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-route-marker-guidance-implementation.md` and kept the pass inside lane-4-owned runtime behavior: `game.ts` now reuses one preferred-focus helper so `route-marker` snaps world-map focus to the active outing target on map entry and when closing the field station back to an open map.
+- Added focused runtime regressions showing both sides of the seam: entering the map from Forest Trail with `route-marker` already selected now lands on `coastal-scrub`, and selecting `route-marker` inside the station now returns to the world map already focused on that outing target while the footer still shows the live `Today: Haze Shift` label.
+- Verified with `npx vitest run src/test/runtime-smoke.test.ts -t "route marker"` and `npm run build`. Promoted `ECO-20260404-critic-261` to `READY`.
+
+### ECO-20260404-critic-261
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review route-marker world-map guidance`
+- Source: `docs/reports/2026-04-04-route-marker-guidance-review.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `ECO-20260404-main-261`
+
+Goal:
+
+- Review whether `route-marker` now creates a felt planning difference without widening the map shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 4 ready for the next wave if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-route-marker-guidance-review.md` and found no blocker: `route-marker` now changes planning feel through map-entry and map-return focus only, while the rest of the helper row and map chrome stay unchanged.
+- Rechecked the focused runtime slice plus the older `Open To Shelter` regression together, confirming the new target-focus behavior lands only when `route-marker` is selected and does not turn the live route footer into a global default for the other supports.
+- Lane 4 has no remaining actionable queue item in packet `107`.
+
+### ECO-20260404-scout-260
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the tactile living-world route handoff`
+- Source: `docs/reports/2026-04-04-wrack-opportunity-route-handoff.md`
+- Packet: `.agents/packets/107-tactile-living-world-and-support-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one route pass where living-world state changes clue reading or opportunity in practice.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-260`
+- uses soft opportunity rather than hard gating
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-wrack-opportunity-route-handoff.md`, narrowing the first tactile living-world pass to one `Wrack Shelter` opportunity seam on `beach-shore-shelter` instead of another broad replay-copy sweep.
+- Chose the beach route because `wrack-hold` already overlaps the authored tide-line route finish through the live `wrack-line` spawn table, process overlay, and late-phenology density seam, making it the cleanest place to turn living-world state into a real soft opportunity.
+- Bumped packet `107` to version `2`, replaced the generic `main_260_focus` block with the concrete wrack-opportunity handoff, retargeted `ECO-20260404-main-260` and `ECO-20260404-critic-260` to the new report, and promoted `ECO-20260404-main-260` to `READY`.
+
+### ECO-20260404-scout-258
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the coastal scrub signature-pocket traversal handoff`
+- Source: `docs/reports/2026-04-04-coastal-scrub-signature-pocket-traversal-handoff.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Ground one memorable Coastal Scrub destination beat that players will remember by feel.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-258`
+- keeps the new pocket readable, recoverable, and distinct from forest destinations
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-coastal-scrub-signature-pocket-traversal-handoff.md`, narrowing the next lane-3 pass to one compact upper-bluff lookout pocket that deepens the existing bluff family instead of reopening the solved left gather, middle swale, or shore-pine rest bands.
+- Bumped packet `106` to version `2`, added a concrete `main_258_focus` band for the upper bluff nook, retargeted `ECO-20260404-main-258` and `ECO-20260404-critic-258` to the new handoff, and promoted `ECO-20260404-main-258` to `READY`.
+
+### ECO-20260404-scout-259
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the high-country threshold destination handoff`
+- Source: `docs/reports/2026-04-04-high-country-threshold-destination-handoff.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `ECO-20260404-critic-258`
+
+Goal:
+
+- Narrow one treeline or tundra threshold destination with strong shelter-versus-exposure identity.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-259`
+- keeps the beat cozy and recoverable
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-high-country-threshold-destination-handoff.md`, narrowing the next lane-3 pass to one compact mid-`snow-meadow` tundra drift hold instead of another treeline ledge or another addition in the crowded left tundra opener.
+- Bumped packet `106` to version `3`, replaced the generic `main_259_focus` with a concrete tundra target band and carrier set, retargeted `ECO-20260404-main-259` and `ECO-20260404-critic-259` to the new handoff, and promoted `ECO-20260404-main-259` to `READY`.
+
+### ECO-20260404-main-259
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the high-country threshold destination`
+- Source: `docs/reports/2026-04-04-high-country-threshold-destination-implementation.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `ECO-20260404-scout-259`
+
+Goal:
+
+- Add one compact high-country destination that players remember by feel.
+
+Acceptance:
+
+- the new destination deepens second-act identity
+- return paths stay clear and forgiving
+
+Completion notes:
+
+- Added one low `snow-meadow` family in `src/content/biomes/tundra.ts`: `snow-meadow-drift-shoulder` plus `snow-meadow-drift-rest`, along with one local `bigelows-sedge` and one `white-tailed-ptarmigan` carrier to make the middle meadow feel held without reopening the crowded opener or the thaw-skirt family.
+- Verified with focused tundra biome/runtime coverage, `npm run build`, the shared web-game client smoke in `output/main-259-client/`, and seeded browser proof in `output/main-259-browser/` with empty console errors, then promoted `ECO-20260404-critic-259` to `READY`.
+
+### ECO-20260404-critic-259
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the high-country threshold destination`
+- Source: `docs/reports/2026-04-04-high-country-threshold-destination-review.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `ECO-20260404-main-259`
+
+Goal:
+
+- Review whether the new high-country beat is memorable without becoming punishing.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 3 ready for the next wave if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-high-country-threshold-destination-review.md`, finding no blocking issue in the new `snow-meadow` drift hold: the added stop now gives tundra one extra remembered threshold rest without reopening the opener or swallowing the existing thaw release.
+- Rechecked the seeded browser proof in `output/main-259-browser/`, confirmed the middle meadow band is at its comfortable handheld-density ceiling but still readable, and left lane 3 clear for the next packeted wave.
+
+### ECO-20260404-main-258
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the coastal scrub signature pocket`
+- Source: `docs/reports/2026-04-04-coastal-scrub-signature-pocket-implementation.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `ECO-20260404-scout-258`
+
+Goal:
+
+- Add one memorable coast-side pocket or lee-space destination that gives Coastal Scrub stronger place memory.
+
+Acceptance:
+
+- the new pocket is readable and recoverable
+- Coastal Scrub feels more destination-like in motion
+
+Completion notes:
+
+- Added `windbreak-bluff-lookout-rest` plus one `pacific-wax-myrtle` and one `song-sparrow` carrier in the approved upper-bluff band, keeping the earlier swale pocket and shore-pine release untouched.
+- Verified with focused coastal biome/runtime tests, `npm run build`, the required shared game-client smoke in `output/main-258-client/`, and targeted seeded browser proof in `output/main-258-browser/` with empty console errors.
+
+### ECO-20260404-critic-258
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the coastal scrub signature pocket`
+- Source: `docs/reports/2026-04-04-coastal-scrub-signature-pocket-review.md`
+- Packet: `.agents/packets/106-signature-pocket-and-threshold-destination-phase.json`
+- Depends on: `ECO-20260404-main-258`
+
+Goal:
+
+- Review whether the new coastal destination gives the biome benchmark place memory.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-259` if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-coastal-scrub-signature-pocket-review.md`, finding no blocking issue in the new upper-bluff lookout: the perch now gives Coastal Scrub a benchmark place without collapsing the lower swale pocket or pine release into the same beat.
+- Rechecked the seeded browser proof in `output/main-258-browser/`, confirmed the band is at the handheld-density ceiling but still readable, and promoted `ECO-20260404-scout-259` to `READY`.
+
+### ECO-20260404-scout-252
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the docs, tooling, and naming sync handoff`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-handoff.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Audit the public docs and exposed command story against the live game, then narrow the sync pass for implementation.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-252`
+- identifies any naming seams around station, nursery, or chapter language
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-docs-truth-and-home-place-handoff.md`, narrowing the docs-truth pass to three concrete surfaces: public command and controls wording in `README.md`, helper-module ownership in `docs/architecture.md`, and live world-map location fields in `docs/content-authoring.md`.
+- Identified the main naming seams as stale `field menu` wording, broader `nursery / teaching garden` wording that now undersells the live `NURSERY` plus `teaching bed` loop, and chapter vocabulary that should stay season-first and route-first.
+- Bumped packet `103` to version `2`, added the concrete implementation targets and naming seams to `main_252_focus`, and promoted `ECO-20260404-main-252` to `READY`.
+
+### ECO-20260404-main-252
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the docs, tooling, and naming sync pass`
+- Source: `docs/reports/2026-04-04-docs-truth-and-home-place-implementation.md`
+- Packet: `.agents/packets/103-docs-truth-and-home-place-phase.json`
+- Depends on: `ECO-20260404-scout-252`
+
+Goal:
+
+- Bring the public docs and command references fully in line with the live game and current naming.
+
+Acceptance:
+
+- public docs match the current shipped systems and commands
+- any small naming seam called out in the handoff is resolved cleanly
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-docs-truth-and-home-place-implementation.md` and updated `README.md`, `docs/architecture.md`, and `docs/content-authoring.md` so the public controls, field-station naming, helper-module ownership, and world-map authoring fields all match the live repo.
+- Kept the pass doc-only: no new commands, no aspirational systems, and no runtime rename churn beyond tightening the public wording to `menu`, `SEASON -> ROUTES`, `SEASON -> EXPEDITION`, `NURSERY`, and the single teaching-bed loop.
+- Rechecked the edited docs against `package.json`, `src/engine/field-request-state.ts`, `src/engine/field-station-state.ts`, and `src/content/world-map.ts`, then ran `npm run validate:agents`. Promoted `ECO-20260404-critic-252` to `READY`.
+
 ### ECO-20260403-critic-231
 
 - Status: `DONE`

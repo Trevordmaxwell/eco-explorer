@@ -1,0 +1,142 @@
+{
+  "packet_id": "ECO-PACKET-103",
+  "version": 6,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Docs truth and home-place phase",
+  "summary": "Lane 1 should keep the public repo story truthful, then spend the next feel pass on a more visibly transformed station or nursery instead of another text seam.",
+  "source_reports": [
+    "docs/reports/2026-04-04-docs-truth-and-home-place-phase.md",
+    "docs/reports/2026-04-04-docs-truth-and-home-place-handoff.md",
+    "docs/reports/2026-04-04-docs-truth-and-home-place-implementation.md",
+    "docs/reports/2026-04-04-docs-truth-and-home-place-review.md",
+    "docs/reports/2026-04-04-stronger-home-place-transformation-handoff.md",
+    "docs/reports/2026-04-04-stronger-home-place-transformation-implementation.md",
+    "docs/reports/2026-04-04-stronger-home-place-transformation-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-252",
+    "ECO-20260404-main-252",
+    "ECO-20260404-critic-252",
+    "ECO-20260404-scout-253",
+    "ECO-20260404-main-253",
+    "ECO-20260404-critic-253"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-252",
+      "goal": "Prepare the docs, tooling, and naming sync handoff.",
+      "why_now": "The public-facing repo should match the real game and commands before another wave lands."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-252",
+      "goal": "Implement the docs, tooling, and naming sync pass.",
+      "why_now": "Repo truth matters for future contributors and future-you."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-252",
+      "goal": "Review the docs, tooling, and naming sync pass.",
+      "why_now": "The repo should not undersell the game or reference commands that are not real."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-253",
+      "goal": "Prepare the stronger home-place transformation handoff.",
+      "why_now": "The station and nursery should now feel more visibly shaped by the player's season."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-253",
+      "goal": "Implement the stronger home-place transformation pass.",
+      "why_now": "Return payoffs should become more visible and earned without widening the shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-253",
+      "goal": "Review the stronger home-place transformation pass.",
+      "why_now": "The home place should feel more changed, not more crowded."
+    }
+  ],
+  "file_targets": [
+    "README.md",
+    "docs/architecture.md",
+    "docs/content-authoring.md",
+    "package.json",
+    "scripts/validate-agent-packets.mjs",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/overlay-copy.test.ts"
+  ],
+  "guardrails": [
+    "Do not add a new station page or dashboard.",
+    "Keep docs truthful to the local repo rather than stale public assumptions.",
+    "Prefer visible payoff over more text in the home-place pass."
+  ],
+  "main_252_focus": {
+    "audit_targets": [
+      "README.md",
+      "docs/architecture.md",
+      "docs/content-authoring.md",
+      "package.json"
+    ],
+    "implementation_targets": [
+      "README.md controls and live-systems wording",
+      "docs/architecture.md helper-module ownership after the field-station-state and field-request-state splits",
+      "docs/content-authoring.md world-map location guidance for mapReturnPost, corridorDoors, and approach labels"
+    ],
+    "naming_seams": [
+      "`field menu` should become plain `menu` in public docs",
+      "`nursery / teaching garden` should become compact nursery plus teaching-bed wording",
+      "season shell wording should prefer `routes`, `expedition`, and `season` over vaguer home-base terms"
+    ],
+    "required_checks": [
+      "live biome and system count reads accurately",
+      "documented commands exist in package.json",
+      "public naming matches current station, nursery, route, and chapter terms",
+      "share or packaging guidance does not imply stale prototype scope"
+    ],
+    "avoid": [
+      "rewriting docs for tone only",
+      "introducing aspirational systems as if they already ship"
+    ]
+  },
+  "main_253_focus": {
+    "preferred_surfaces": [
+      "field-station lower shell",
+      "the existing center planter line",
+      "small station-side ground accents tied to live progress"
+    ],
+    "state_inputs": [
+      "nursery project maturity",
+      "unlocked nursery extras",
+      "field atlas logged route count",
+      "season progress and filed route milestones"
+    ],
+    "recommended_shape": [
+      "keep nursery state driving the center planter",
+      "let filed route progress add one left and one right lower-shell accent on the same sill line",
+      "treat the three-route or filed-season state as the ceiling for a slightly more connected threshold read"
+    ],
+    "avoid": [
+      "new copy rows",
+      "another planner seam",
+      "a second decorative band",
+      "animation-heavy decoration"
+    ]
+  }
+}

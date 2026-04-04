@@ -75,7 +75,7 @@ describe('coastal scrub biome generation', () => {
     expect(stableEntryIds).toContain('nootka-rose');
   });
 
-  it('adds a lowered windbreak swale with an optional bluff shoulder above the low route', () => {
+  it('adds a lowered windbreak swale with an optional bluff lookout above the low route', () => {
     const save = createNewSaveState('coastal-scrub-proof-seed');
     const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
 
@@ -90,6 +90,7 @@ describe('coastal scrub biome generation', () => {
     const leeStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-lee-step');
     const midStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-mid-step');
     const crest = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-crest');
+    const lookoutRest = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-lookout-rest');
     const entryLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-entry-log');
     const upperLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-upper-log');
     const pocketStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-pocket-lee-step');
@@ -105,6 +106,18 @@ describe('coastal scrub biome generation', () => {
         x: entity.x,
         y: entity.y,
       }));
+    const lookoutEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.includes('windbreak-bluff-lookout-myrtle') ||
+          entity.entityId.includes('windbreak-bluff-lookout-sparrow'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
     const pocketEntities = instance.entities
       .filter(
         (entity) =>
@@ -130,6 +143,7 @@ describe('coastal scrub biome generation', () => {
       'windbreak-bluff-mid-step',
       'windbreak-swale-upper-log',
       'windbreak-bluff-crest',
+      'windbreak-bluff-lookout-rest',
       'windbreak-pocket-lee-step',
       'windbreak-pocket-rest-log',
       'windbreak-swale-exit-log',
@@ -144,6 +158,12 @@ describe('coastal scrub biome generation', () => {
     expect(exitLog?.y).toBeGreaterThan(upperLog?.y ?? 0);
     expect(crest?.y).toBeLessThan(upperLog?.y ?? 0);
     expect((crest?.x ?? 0) + (crest?.w ?? 0)).toBeGreaterThanOrEqual(upperLog?.x ?? 0);
+    expect(lookoutRest?.x).toBeGreaterThanOrEqual((crest?.x ?? 0) + (crest?.w ?? 0));
+    expect(lookoutRest?.x).toBeGreaterThanOrEqual(318);
+    expect(lookoutRest?.x).toBeLessThanOrEqual(344);
+    expect(lookoutRest?.y).toBeGreaterThan(crest?.y ?? 0);
+    expect(lookoutRest?.y).toBeLessThan(upperLog?.y ?? 0);
+    expect((lookoutRest?.x ?? 0) + (lookoutRest?.w ?? 0)).toBeLessThanOrEqual(pocketRest?.x ?? 999);
     expect(pocketStep?.x).toBeGreaterThanOrEqual((crest?.x ?? 0) + (crest?.w ?? 0));
     expect(pocketStep?.x).toBeGreaterThanOrEqual(320);
     expect(pocketStep?.x).toBeLessThanOrEqual(340);
@@ -157,6 +177,10 @@ describe('coastal scrub biome generation', () => {
     expect(gatherEntities).toEqual([
       { entryId: 'nootka-rose', x: 214, y: 108 },
       { entryId: 'dune-lupine', x: 244, y: 108 },
+    ]);
+    expect(lookoutEntities).toEqual([
+      { entryId: 'pacific-wax-myrtle', x: 336, y: 94 },
+      { entryId: 'song-sparrow', x: 346, y: 88 },
     ]);
     expect(pocketEntities).toEqual([
       { entryId: 'beach-strawberry', x: 356, y: 120 },

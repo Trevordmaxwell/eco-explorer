@@ -9,10 +9,12 @@ import {
   resolveFieldSeasonBoardState,
   resolveFieldSeasonExpeditionState,
   resolveSeasonOutingLocator,
-  resolveFieldStationSubtitle,
-  resolveFieldSeasonWrapState,
   resolveNurseryCapstoneSupportHint,
 } from '../engine/field-season-board';
+import {
+  resolveFieldStationSubtitle,
+  resolveFieldSeasonWrapState,
+} from '../engine/field-season-wrap';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 
 describe('field season board', () => {

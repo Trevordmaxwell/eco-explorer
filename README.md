@@ -13,7 +13,7 @@ The current build includes:
 - inspect bubbles, a persistent journal, ecosystem notes, comparison pages, and biome survey progress
 - a clipboard-friendly field guide prompt, notebook-style observation prompts, and a lightweight field partner
 - living-world variation through deterministic `day-part`, `weather`, and `phenology`
-- a field station with season route tracking, expedition hooks, upgrades, and a compact nursery / teaching garden
+- a field station with `SEASON -> ROUTES`, `SEASON -> EXPEDITION`, upgrades, and a compact `NURSERY` teaching-bed loop
 - sketchbook and close-look modes for deeper discovery surfaces
 - deterministic save behavior in `localStorage`
 
@@ -41,11 +41,11 @@ Useful commands:
 - `E`: inspect the nearest object or use the current focused interaction
 - Mouse click: inspect a nearby clicked object
 - `J`: open or close the journal
-- `M`: open or close the field menu
+- `M`: open or close the menu
 - `Esc`: close overlays, bubbles, or confirmations
 - `F`: toggle fullscreen
 
-Some station, menu, nursery, and title interactions also use the arrow keys plus `Enter` or `Space`.
+Some station, season-page, nursery, and title interactions also use the arrow keys plus `Enter` or `Space`.
 
 ## Project Layout
 

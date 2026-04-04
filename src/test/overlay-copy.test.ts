@@ -59,11 +59,15 @@ describe('first-session overlay copy', () => {
         hasLogPile: false,
         hasPollinatorPatch: false,
         compostRate: 1,
+        loggedRouteCount: 0,
       }),
     ).toMatchObject({
       showAccent: false,
       stageProgress: 0,
       planterWidth: 0,
+      hasLeftRouteAccent: false,
+      hasRightRouteAccent: false,
+      hasConnectedThreshold: false,
     });
 
     expect(
@@ -72,6 +76,7 @@ describe('first-session overlay copy', () => {
         hasLogPile: true,
         hasPollinatorPatch: true,
         compostRate: 2,
+        loggedRouteCount: 2,
       }),
     ).toMatchObject({
       showAccent: true,
@@ -79,7 +84,28 @@ describe('first-session overlay copy', () => {
       hasLogPile: true,
       hasPollinatorPatch: true,
       hasCompostUpgrade: true,
+      loggedRouteCount: 2,
+      hasLeftRouteAccent: true,
+      hasRightRouteAccent: true,
+      hasConnectedThreshold: false,
       planterWidth: 22,
+    });
+
+    expect(
+      resolveFieldStationGrowthAccentState({
+        teachingBedStage: null,
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+        loggedRouteCount: 3,
+      }),
+    ).toMatchObject({
+      showAccent: true,
+      loggedRouteCount: 3,
+      hasLeftRouteAccent: true,
+      hasRightRouteAccent: true,
+      hasConnectedThreshold: true,
+      planterWidth: 10,
     });
   });
 });

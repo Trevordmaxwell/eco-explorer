@@ -4,13 +4,15 @@ import {
   resolveFieldSeasonArchiveState,
   resolveFieldSeasonBoardState,
   resolveFieldSeasonExpeditionState,
-  resolveFieldStationSubtitle,
-  resolveFieldSeasonWrapState,
   type FieldAtlasState,
   type FieldSeasonBoardState,
   type FieldSeasonExpeditionState,
   type FieldSeasonWrapState,
 } from './field-season-board';
+import {
+  resolveFieldStationSubtitle,
+  resolveFieldSeasonWrapState,
+} from './field-season-wrap';
 import {
   getFieldUpgradeStates,
   getRecentFieldCreditSources,

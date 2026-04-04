@@ -1,0 +1,166 @@
+{
+  "packet_id": "ECO-PACKET-105",
+  "version": 4,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Coastal scrub identity and threshold support phase",
+  "summary": "Lane 2 should make Coastal Scrub feel more like a destination, then reinforce treeline and tundra as memorable exposure-threshold spaces through compact authored support.",
+  "source_reports": [
+    "docs/reports/2026-04-04-coastal-scrub-identity-and-threshold-support-phase.md",
+    "docs/reports/2026-04-04-coastal-scrub-identity-support-handoff.md",
+    "docs/reports/2026-04-04-threshold-support-handoff.md",
+    "docs/reports/2026-04-04-threshold-support-implementation.md",
+    "docs/reports/2026-04-04-threshold-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-256",
+    "ECO-20260404-main-256",
+    "ECO-20260404-critic-256",
+    "ECO-20260404-scout-257",
+    "ECO-20260404-main-257",
+    "ECO-20260404-critic-257"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-256",
+      "goal": "Prepare the coastal scrub identity support handoff.",
+      "why_now": "Coastal Scrub still needs stronger emotional distinctiveness."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-256",
+      "goal": "Implement the coastal scrub identity support pack.",
+      "why_now": "Forest should not remain the only biome with strong remembered support surfaces."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-256",
+      "goal": "Review the coastal scrub identity support pack.",
+      "why_now": "The biome should feel more destination-like without growing verbose."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-257",
+      "goal": "Prepare the threshold-support handoff for treeline and tundra.",
+      "why_now": "The second act should lean harder into exposure, threshold, and short-season texture."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-257",
+      "goal": "Implement the treeline and tundra threshold support pack.",
+      "why_now": "The high country should teach shelter loss and harshness through authored support, not just route text."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-257",
+      "goal": "Review the threshold support pack.",
+      "why_now": "The second act should feel more memorable without piling on prose."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/journal-comparison.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/close-look.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/sketchbook.test.ts"
+  ],
+  "guardrails": [
+    "Do not solve identity by extending route-board copy.",
+    "Prefer note-backed, visual-first, close-look, comparison, and sketchbook support.",
+    "Keep handheld-safe density."
+  ],
+  "main_256_focus": {
+    "priority_biome": "coastal-scrub",
+    "preferred_surface": "same-pane comparison support",
+    "comparison_entry_ids": [
+      "dune-lupine"
+    ],
+    "preferred_note_ids": {
+      "beach": {
+        "dune-lupine": "low-runner-band"
+      },
+      "coastal-scrub": {
+        "dune-lupine": "sturdier-cover"
+      }
+    },
+    "optional_copy_touch": [
+      "sturdier-cover"
+    ],
+    "themes": [
+      "pioneer hold and sand capture",
+      "woody cover overtaking open dune bloom",
+      "scrub as a place, not just an in-between"
+    ],
+    "defer_surfaces": [
+      "new ecosystem note ids",
+      "additional close-look cards",
+      "additional sketchbook notes",
+      "route-board",
+      "station",
+      "world-map"
+    ]
+  },
+  "main_257_focus": {
+    "priority_biomes": [
+      "treeline",
+      "tundra"
+    ],
+    "preferred_surfaces": [
+      "one local treeline close-look card",
+      "one local tundra sketchbook note"
+    ],
+    "treeline_focus": {
+      "entry_id": "krummholz-spruce",
+      "support_surface": "close-look",
+      "backing_note_ids": [
+        "tree-line-drops",
+        "wind-shapes-trees",
+        "stone-shelter"
+      ],
+      "teaching_goal": "show the last tree-shaped shelter bending into open fell",
+      "suggested_callouts": [
+        "wind-bent branches",
+        "needled tips"
+      ],
+      "suggested_sentence": "Cold wind keeps this spruce low and bent instead of tall."
+    },
+    "tundra_focus": {
+      "entry_id": "woolly-lousewort",
+      "support_surface": "sketchbook",
+      "backing_note_ids": [
+        "staying-low",
+        "brief-thaw-bloom"
+      ],
+      "teaching_goal": "give short-season tundra one compact remembered bloom clue",
+      "suggested_note": "Fuzzy bloom catching one brief thaw on open tundra."
+    },
+    "themes": [
+      "exposure vs lee shelter",
+      "short season clues",
+      "threshold vegetation change"
+    ],
+    "avoid": [
+      "new comparison entries",
+      "new ecosystem note ids",
+      "reopening talus-cushion-pocket or frost-heave-hummock",
+      "new shell surfaces",
+      "longer board summaries"
+    ]
+  }
+}

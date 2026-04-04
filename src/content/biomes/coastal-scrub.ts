@@ -197,6 +197,14 @@ export const coastalScrubBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'windbreak-bluff-lookout-rest',
+        spriteId: 'drift-platform',
+        x: 326,
+        y: 90,
+        w: 22,
+        h: 4,
+      },
+      {
         id: 'windbreak-swale-entry-log',
         spriteId: 'drift-platform',
         x: 258,
@@ -269,6 +277,18 @@ export const coastalScrubBiome: BiomeDefinition = {
         entryId: 'beach-strawberry',
         x: 356,
         y: 120,
+      },
+      {
+        id: 'windbreak-bluff-lookout-myrtle',
+        entryId: 'pacific-wax-myrtle',
+        x: 336,
+        y: 94,
+      },
+      {
+        id: 'windbreak-bluff-lookout-sparrow',
+        entryId: 'song-sparrow',
+        x: 346,
+        y: 88,
       },
       {
         id: 'windbreak-pocket-sparrow',

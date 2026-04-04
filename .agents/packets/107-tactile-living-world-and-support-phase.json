@@ -1,0 +1,134 @@
+{
+  "packet_id": "ECO-PACKET-107",
+  "version": 4,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Tactile living-world and support phase",
+  "summary": "Lane 4 should now make living-world state change how an outing feels in practice, then either sharpen or simplify the support row so helper choice is meaningfully different.",
+  "source_reports": [
+    "docs/reports/2026-04-04-tactile-living-world-and-support-phase.md",
+    "docs/reports/2026-04-04-wrack-opportunity-route-handoff.md",
+    "docs/reports/2026-04-04-wrack-opportunity-route-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-260",
+    "ECO-20260404-main-260",
+    "ECO-20260404-critic-260",
+    "ECO-20260404-main-262",
+    "ECO-20260404-critic-262",
+    "ECO-20260404-scout-261",
+    "ECO-20260404-main-261",
+    "ECO-20260404-critic-261"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-260",
+      "goal": "Prepare the tactile living-world route handoff.",
+      "why_now": "Day-part, weather, phenology, and process windows should start mattering to play, not just copy."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-260",
+      "goal": "Implement tactile living-world route relevance.",
+      "why_now": "One route should feel different because clues, emphasis, or opportunity change in the world."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-260",
+      "goal": "Review tactile living-world route relevance.",
+      "why_now": "The new behavior should deepen replay, not create opaque gating."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-main-262",
+      "goal": "Repair the zone-safe wrack opportunity seam.",
+      "why_now": "The living-world route change should only widen the intended tide-line clue, not allow a boundary clue from the prior zone."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-critic-262",
+      "goal": "Review the zone-safe wrack opportunity repair.",
+      "why_now": "The fix should preserve the softer replay feel without reintroducing opaque gating or wrong-zone matches."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-scout-261",
+      "goal": "Prepare the support-differentiation follow-on handoff.",
+      "why_now": "The helper row should either create real differences or stay deliberately tiny."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260404-main-261",
+      "goal": "Implement support differentiation or simplification.",
+      "why_now": "Flavor-only helper choices are the weakest middle ground."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260404-critic-261",
+      "goal": "Review support differentiation or simplification.",
+      "why_now": "The support row should feel sharper without becoming loadout sprawl."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/game.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new inventory, quest log, or shell layer.",
+    "Prefer clue prominence, route emphasis, and in-world feel over hard gating.",
+    "If a helper still does not create a felt difference, simplify instead of expanding."
+  ],
+  "main_260_focus": {
+    "selected_request_id": "beach-shore-shelter",
+    "selected_variant": "wrack-hold-opportunity",
+    "process_moment_id": "wrack-hold",
+    "selected_slot_id": "wrack-line",
+    "copy_goal": "turn Wrack Shelter from a replay-title variant into a soft live-window opportunity by letting one tide-line wrack clue count through the active process seam",
+    "recommended_variant": {
+      "always_valid_entry_ids": [
+        "bull-kelp-wrack"
+      ],
+      "live_window_entry_ids": [
+        "beach-hopper"
+      ]
+    },
+    "guardrails": [
+      "Keep bull-kelp-wrack valid in and out of the live window.",
+      "Only widen the final wrack-line stage; leave dune-grass and lee-cover unchanged.",
+      "Keep notebook-ready and filed states canonically Shore Shelter.",
+      "Do not make pacific-sand-crab a valid route clue in this pass."
+    ]
+  },
+  "main_261_focus": {
+    "selected_support_id": "route-marker",
+    "selected_variant": "world-map-target-focus",
+    "copy_goal": "make route-marker feel like guidance instead of a decorative pin by snapping world-map focus to the active outing target when that support is selected",
+    "implementation_shape": [
+      "When route-marker is selected and an active outing target exists, opening the world map from play should focus that target instead of the current biome.",
+      "When route-marker is selected while the field station overlays an open world map, closing the station should return to the map already focused on the outing target.",
+      "Reuse the existing route pin and Today/footer copy instead of adding new map chrome."
+    ],
+    "guardrails": [
+      "Do not add path overlays, another map chip, or another support row.",
+      "Do not change support unlock order or save shape.",
+      "Keep hand-lens, note-tabs, and place-tab behavior unchanged."
+    ]
+  }
+}

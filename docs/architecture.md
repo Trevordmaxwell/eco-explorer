@@ -150,7 +150,8 @@ These systems are designed to deepen pattern noticing without turning the game i
 
 Exploration is increasingly structured around routes and requests:
 
-- `src/engine/field-requests.ts`: authored request definitions and request state
+- `src/engine/field-requests.ts`: authored request definitions and route-specific copy helpers
+- `src/engine/field-request-state.ts`: derived request context, outing locator, route-marker, and replay-label state
 - `src/engine/guided-field-season.ts`: onboarding and route guidance
 - `src/engine/progression.ts`: survey and completion state helpers
 - `src/engine/field-season-board.ts`: field-station route board, replay notes, and expedition-facing season summaries
@@ -159,7 +160,12 @@ The field station uses these systems to present one current route, logged route 
 
 ### Field station
 
-`src/engine/field-station.ts` owns the station economy and upgrade seam:
+The station is split between:
+
+- `src/engine/field-station.ts`: economy and upgrade rules
+- `src/engine/field-station-state.ts`: composed field-station view state from save data plus current UI selection
+
+The economy / upgrade seam covers:
 
 - field credit sources
 - upgrade visibility and affordability
@@ -168,17 +174,17 @@ The field station uses these systems to present one current route, logged route 
 
 The station currently includes:
 
-- `SEASON` routes page
-- `SEASON` expedition page
+- `SEASON -> ROUTES`
+- `SEASON -> EXPEDITION`
 - `NURSERY` page
 
 ### Nursery
 
-`src/engine/nursery.ts` powers the nursery / teaching-garden loop. It includes:
+`src/engine/nursery.ts` powers the compact nursery teaching-bed loop. It includes:
 
 - compact resources: `litter`, `seed-stock`, `cuttings`, `compost`
 - propagation-safe gathering rules
-- one active `teachingBed` slot in v1
+- one active `teaching bed` slot in v1
 - growth stages: `stocked -> rooting -> growing -> mature`
 - route-support, beauty, and utility rewards
 - habitat extras like `log-pile` and `pollinator-patch`

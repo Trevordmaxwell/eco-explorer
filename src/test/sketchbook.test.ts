@@ -114,6 +114,24 @@ describe('sketchbook helpers', () => {
     });
   });
 
+  it('surfaces the new tundra short-season note for woolly lousewort', () => {
+    const save = createNewSaveState('sketchbook-tundra-woolly-lousewort-seed');
+    const entry = tundraBiome.entries['woolly-lousewort'];
+    recordDiscovery(save, entry, 'tundra');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'woolly-lousewort');
+
+    const page = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'woolly-lousewort',
+      note: 'Fuzzy bloom catching one brief thaw on open tundra.',
+    });
+  });
+
   it('surfaces the new treeline talus note and shared alpine crowberry bridge in the sketchbook', () => {
     const save = createNewSaveState('sketchbook-treeline-alpine-memory-seed');
 

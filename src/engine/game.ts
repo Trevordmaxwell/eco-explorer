@@ -52,9 +52,14 @@ import {
   type FieldPartnerTrigger,
 } from './field-partner';
 import {
+  createNotebookReadyFieldNotice,
+  resolveRecordedFieldRequestNotice,
+  type FieldNoticeDescriptor,
+  type FieldNoticeVariant,
+} from './field-notices';
+import {
   advanceActiveFieldRequest,
   fileReadyRouteV2FieldRequest,
-  getFieldRequestDefinition,
   getHandLensNotebookFit,
   resolveRouteV2FiledDisplayText,
   type ActiveFieldRequest,
@@ -196,13 +201,7 @@ interface TextRenderableWindow extends Window {
 type SceneMode = 'biome' | 'world-map' | 'transition';
 type TransitionKind = 'biome-to-map' | 'map-to-biome';
 type FieldGuideNoticeState = 'copied' | 'failed';
-type FieldRequestNoticeVariant = 'default' | 'notebook-ready' | 'filed-route';
-
-interface FieldRequestNotice {
-  title: string;
-  text: string;
-  variant: FieldRequestNoticeVariant;
-}
+type FieldRequestNotice = FieldNoticeDescriptor;
 
 interface TransitionState {
   kind: TransitionKind;
@@ -529,6 +528,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getFieldRequestState().routeMarkerLocationId;
   }
 
+  function getPreferredWorldMapFocusLocationId(fallbackLocationId: string): string {
+    return getRouteMarkerLocationId() ?? fallbackLocationId;
+  }
+
   function getWorldMapReplayLabel(focusedLocationId: string): string | null {
     return getFieldRequestState(focusedLocationId).routeReplayLabel;
   }
@@ -599,6 +602,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function closeFieldStation(): void {
+    if (sceneMode === 'world-map') {
+      worldMapState.focusedLocationId = getPreferredWorldMapFocusLocationId(
+        worldMapState.focusedLocationId,
+      );
+    }
     fieldStationArrivalPulseTimer = 0;
     overlayMode = 'playing';
     maybeShowNextHabitatNotice();
@@ -1196,7 +1204,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     title: string,
     text: string,
     seconds = FIELD_NOTICE_DEFAULT_SECONDS,
-    variant: FieldRequestNoticeVariant = 'default',
+    variant: FieldNoticeVariant = 'default',
   ): void {
     startFieldPartnerQuiet();
     fieldRequestNotice = {
@@ -1208,16 +1216,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function showFieldRequestNotice(requestId: string, textOverride: string | null = null): void {
-    const definition = getFieldRequestDefinition(requestId);
-    if (!definition) {
+    const notice = resolveRecordedFieldRequestNotice(requestId, textOverride);
+    if (!notice) {
       return;
     }
 
-    const isRouteBackedNotice = 'routeV2Note' in definition;
-    const text = textOverride ?? (isRouteBackedNotice ? definition.routeV2Note.filedText : definition.title);
-    const title = isRouteBackedNotice ? definition.title.toUpperCase() : 'TASK RECORDED';
-    const variant: FieldRequestNoticeVariant = isRouteBackedNotice ? 'filed-route' : 'default';
-    showFieldNotice(title, text, FIELD_NOTICE_RECORDED_SECONDS, variant);
+    showFieldNotice(notice.title, notice.text, FIELD_NOTICE_RECORDED_SECONDS, notice.variant);
   }
 
   function maybeShowStarterFieldSeasonNotice(): void {
@@ -1333,20 +1337,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function maybeCompleteActiveFieldRequest(
     trigger: 'zone' | 'inspect' | 'enter-biome',
     entryId?: string | null,
+    observedZoneId?: string | null,
   ): boolean {
-    const result = advanceActiveFieldRequest(getFieldRequestContext(), trigger, entryId);
+    const result = advanceActiveFieldRequest(getFieldRequestContext(), trigger, entryId, observedZoneId);
     if (!result) {
       return false;
     }
 
     if (result.status === 'ready-to-synthesize') {
+      const notice = createNotebookReadyFieldNotice(result.noticeTitle, result.noticeText);
       persistSave(save);
-      showFieldNotice(
-        result.noticeTitle ?? 'NOTEBOOK READY',
-        result.noticeText ?? 'Return to the field station and file this note.',
-        FIELD_NOTICE_IMPORTANT_SECONDS,
-        'notebook-ready',
-      );
+      showFieldNotice(notice.title, notice.text, FIELD_NOTICE_IMPORTANT_SECONDS, notice.variant);
       return true;
     }
 
@@ -1735,12 +1736,14 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function openWorldMapDirect(targetBiomeId: string | null = null): void {
-    const focusedLocationId =
+    const defaultFocusedLocationId =
       targetBiomeId
         ? getWorldMapLocationByBiomeId(ecoWorldMap, targetBiomeId).id
         : sceneMode === 'world-map'
           ? worldMapState.currentLocationId
           : getWorldMapLocationByBiomeId(ecoWorldMap, getContextBiomeId()).id;
+    const focusedLocationId =
+      targetBiomeId ? defaultFocusedLocationId : getPreferredWorldMapFocusLocationId(defaultFocusedLocationId);
 
     if (sceneMode === 'world-map') {
       worldMapState.focusedLocationId = focusedLocationId;
@@ -1888,17 +1891,18 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     const entry = currentBiomeDefinition.entries[entity.entryId];
+    const entityZoneId = getBiomeZoneForPlayerX(currentBiomeDefinition, entity.x + entity.w / 2)?.id ?? null;
     const detail = getInspectableDetail(entry);
     const isNewEntry = recordDiscovery(save, entry, getContextBiomeId());
     const nurseryGathering = tryClaimNurseryGathering(save, entry, entity.entityId, claimedNurseryEntityIds);
     const handLensNotebookFit =
       resolveSelectedOutingSupportId(save) === 'hand-lens'
-        ? getHandLensNotebookFit(getFieldRequestContext(), entry.id)
+        ? getHandLensNotebookFit(getFieldRequestContext(), entry.id, entityZoneId)
         : null;
     entity.removed = entity.collectible;
     persistSave(save);
     setSelectedJournalEntry(true);
-    const notebookReadyNoticeShown = maybeCompleteActiveFieldRequest('inspect', entry.id);
+    const notebookReadyNoticeShown = maybeCompleteActiveFieldRequest('inspect', entry.id, entityZoneId);
 
     const payload: FactBubblePayload = {
       entryId: entry.id,

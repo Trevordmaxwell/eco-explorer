@@ -1,0 +1,167 @@
+{
+  "packet_id": "ECO-PACKET-106",
+  "version": 3,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Signature pocket and threshold destination phase",
+  "summary": "Lane 3 should spend the next traversal wave on one unforgettable Coastal Scrub pocket and one more memorable high-country threshold destination, keeping authored places ahead of meta-structure.",
+  "source_reports": [
+    "docs/reports/2026-04-04-signature-pocket-and-threshold-destination-phase.md",
+    "docs/reports/2026-04-04-coastal-scrub-signature-pocket-traversal-handoff.md",
+    "docs/reports/2026-04-04-high-country-threshold-destination-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-258",
+    "ECO-20260404-main-258",
+    "ECO-20260404-critic-258",
+    "ECO-20260404-scout-259",
+    "ECO-20260404-main-259",
+    "ECO-20260404-critic-259"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-258",
+      "goal": "Prepare the coastal scrub signature-pocket traversal handoff.",
+      "why_now": "Coastal Scrub needs one strong physical place players remember by feel."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-258",
+      "goal": "Implement the coastal scrub signature pocket.",
+      "why_now": "A memorable coast-side pocket will keep the front half from feeling like transit."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-258",
+      "goal": "Review the coastal scrub signature pocket.",
+      "why_now": "The new space should feel authored and recoverable, not maze-like."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-259",
+      "goal": "Prepare the high-country threshold destination handoff.",
+      "why_now": "Treeline or tundra should gain one more unforgettable shelter or exposure beat."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-259",
+      "goal": "Implement the high-country threshold destination.",
+      "why_now": "The second act should stay memorable in the space itself, not just in route names."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-259",
+      "goal": "Review the high-country threshold destination.",
+      "why_now": "The new beat should increase feel and identity without harshness."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not add punishing traversal or a larger maze.",
+    "Keep the new place inside current route and recovery seams.",
+    "Prefer one strong pocket over wider map growth."
+  ],
+  "main_258_focus": {
+    "priority_biome": "coastal-scrub",
+    "destination_goal": "one unforgettable lee pocket, bluff hollow, or windbreak destination that makes the biome feel like a place unto itself",
+    "required_traits": [
+      "recoverable",
+      "readable on first run",
+      "distinct from the forest cave or giant-tree family"
+    ],
+    "target_zone_ids": ["windbreak-swale"],
+    "target_band": {
+      "x_min": 286,
+      "x_max": 344,
+      "y_min": 82,
+      "y_max": 96
+    },
+    "preserve_platform_ids": [
+      "windbreak-gather-log",
+      "windbreak-gather-lift",
+      "windbreak-bluff-lee-step",
+      "windbreak-bluff-mid-step",
+      "windbreak-bluff-crest",
+      "windbreak-swale-entry-log",
+      "windbreak-swale-upper-log",
+      "windbreak-pocket-lee-step",
+      "windbreak-pocket-rest-log",
+      "windbreak-swale-exit-log",
+      "shore-pine-rest-log"
+    ],
+    "preferred_entry_ids": ["pacific-wax-myrtle", "coyote-brush", "song-sparrow", "deer-mouse"],
+    "avoid": [
+      "left map-return post band",
+      "middle swale pocket revisit",
+      "shore-pine-stand rest band",
+      "forest corridor door band",
+      "new climbables",
+      "new vertical cues",
+      "another full height tier",
+      "route or journal surface edits"
+    ]
+  },
+  "main_259_focus": {
+    "priority_biome": "tundra",
+    "destination_goal": "one compact mid-snow-meadow drift hold that turns the long meadow between the opener and thaw-skirt into a remembered threshold place",
+    "required_traits": [
+      "cozy not punishing",
+      "one strong destination silhouette",
+      "clear return path"
+    ],
+    "target_zone_ids": [
+      "snow-meadow"
+    ],
+    "target_band": {
+      "x_min": 216,
+      "x_max": 286,
+      "y_min": 102,
+      "y_max": 110
+    },
+    "preserve_platform_ids": [
+      "wind-bluff-heave-shoulder",
+      "snow-threshold-lee-rest",
+      "thaw-skirt-entry-heave",
+      "thaw-skirt-upper-shelf",
+      "thaw-skirt-bank-shoulder",
+      "thaw-skirt-exit-heave",
+      "frost-ridge-drift-rest",
+      "meltwater-snow-lip",
+      "meltwater-bank-rest"
+    ],
+    "preferred_entry_ids": [
+      "bigelows-sedge",
+      "white-tailed-ptarmigan",
+      "purple-saxifrage",
+      "northern-collared-lemming"
+    ],
+    "avoid": [
+      "wind-bluff opener band",
+      "snow-threshold opener pocket",
+      "thaw-skirt relief family",
+      "treeline geometry edits",
+      "new climbables",
+      "new vertical cues",
+      "route or journal surface edits",
+      "another large multi-step branch"
+    ]
+  }
+}

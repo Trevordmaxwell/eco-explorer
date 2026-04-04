@@ -12,6 +12,7 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('purple-saxifrage')).toBe(true);
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
+    expect(supportsCloseLook('krummholz-spruce')).toBe(true);
     expect(supportsCloseLook('talus-cushion-pocket')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
     expect(supportsCloseLook('nootka-rose')).toBe(true);
@@ -66,6 +67,14 @@ describe('close-look helpers', () => {
       spriteId: 'frost-heave-boulder',
     });
     expect(boulderPayload?.callouts).toContain('cold-worked ground');
+
+    const krummholzPayload = buildCloseLookPayload(treelineBiome.entries['krummholz-spruce']);
+    expect(krummholzPayload).toMatchObject({
+      entryId: 'krummholz-spruce',
+      title: 'Krummholz Spruce',
+      spriteId: 'krummholz-spruce',
+    });
+    expect(krummholzPayload?.callouts).toContain('wind-bent branches');
 
     const talusPayload = buildCloseLookPayload(treelineBiome.entries['talus-cushion-pocket']);
     expect(talusPayload).toMatchObject({

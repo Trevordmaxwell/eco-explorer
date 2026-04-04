@@ -156,6 +156,68 @@ describe('journal comparison resolution', () => {
     ]);
   });
 
+  it('supports dune lupine once the preferred beach and scrub notes are both unlocked', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'dune-lupine': {
+          entryId: 'dune-lupine',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['beach', 'coastal-scrub'],
+        },
+        'sand-verbena': {
+          entryId: 'sand-verbena',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['beach'],
+        },
+        'pacific-wax-myrtle': {
+          entryId: 'pacific-wax-myrtle',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+        'coyote-brush': {
+          entryId: 'coyote-brush',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+      },
+      'dune-lupine',
+      ['beach', 'coastal-scrub'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Low Runner Band',
+      'Sturdier Cover',
+    ]);
+  });
+
+  it('keeps dune lupine hidden until the preferred scrub note unlocks, even if another scrub note is available', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'dune-lupine': {
+          entryId: 'dune-lupine',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['beach', 'coastal-scrub'],
+        },
+        'sand-verbena': {
+          entryId: 'sand-verbena',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['beach'],
+        },
+        'beach-pea': {
+          entryId: 'beach-pea',
+          discoveredAt: '2026-04-04T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+      },
+      'dune-lupine',
+      ['beach', 'coastal-scrub'],
+    );
+
+    expect(comparison).toBeNull();
+  });
+
   it('supports a beach-to-scrub comparison for beach strawberry once both pocket notes are unlocked', () => {
     const comparison = resolveJournalComparison(
       biomeRegistry,

@@ -132,17 +132,25 @@ Guidance:
    - `biomeId`
    - `label`
    - `summary`
+   - `mapReturnLabel`
+   - `approachLabel`
+   - `previewColor`
    - `node`
    - `mapDoor`
    - `biomeDoor`
+   - optional `corridorDoors`
+   - optional `mapReturnPost`
    - `spriteId`
 3. Add or extend `connections` so the new location is reachable.
 4. If the location points to a new biome, scaffold the biome first and keep the door anchors consistent with the biome's intended entry or exit side.
+5. If the biome supports corridor-first travel or interior map returns, add a `mapReturnPost` so same-biome map cancel can land back on an authored interior anchor instead of only the edge door.
 
 ## Doorway transition guidance
 
 - Treat the biome door and map door as separate anchors.
+- Treat corridor doors and map-return posts as separate authored anchors from the main biome door.
 - Use the biome door for in-level placement and the map door for overworld placement.
+- Use `mapReturnPost` when the map should reopen from an interior post instead of the biome edge.
 - Keep doorway travel readable: exit biome, reveal map, walk route, enter destination door, reveal destination biome.
 - Prefer authored transition beats over hard-cut teleports when moving between ecosystems.
 

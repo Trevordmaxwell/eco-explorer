@@ -45,6 +45,7 @@ const tundraEntries = {
     shortFact: 'Woolly lousewort keeps fuzzy stems that help with cold, windy tundra weather.',
     journalText:
       'Woolly lousewort grows on open tundra where wind and cold can be harsh. Its fuzzy stem helps trap a little warmer air close to the plant.',
+    sketchbookNote: 'Fuzzy bloom catching one brief thaw on open tundra.',
     spriteId: 'woolly-lousewort',
     collectible: false,
   },
@@ -209,6 +210,22 @@ export const tundraBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'snow-meadow-drift-shoulder',
+        spriteId: 'ice-platform',
+        x: 224,
+        y: 110,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'snow-meadow-drift-rest',
+        spriteId: 'ice-platform',
+        x: 252,
+        y: 107,
+        w: 30,
+        h: 4,
+      },
+      {
         id: 'thaw-skirt-entry-heave',
         spriteId: 'ice-platform',
         x: 314,
@@ -295,6 +312,18 @@ export const tundraBiome: BiomeDefinition = {
         entryId: 'reindeer-lichen',
         x: 172,
         y: 105,
+      },
+      {
+        id: 'snow-meadow-drift-sedge',
+        entryId: 'bigelows-sedge',
+        x: 258,
+        y: 103,
+      },
+      {
+        id: 'snow-meadow-drift-ptarmigan',
+        entryId: 'white-tailed-ptarmigan',
+        x: 274,
+        y: 103,
       },
       {
         id: 'thaw-skirt-channel',

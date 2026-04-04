@@ -386,6 +386,77 @@ describe('field requests', () => {
     expect(getHandLensNotebookFit(beachContext, 'beach-grass')).toBe('Notebook fit: dune grass');
   });
 
+  it('only lets beach-hopper fit the wrack-line stage during the active wrack-hold window', () => {
+    const context = createBeachContext([], 'tide-line');
+    context.save.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+
+    expect(getHandLensNotebookFit(context, 'beach-hopper')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-hopper')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'bull-kelp-wrack')).toBe('Notebook fit: wrack line');
+
+    context.save.worldStep = 6;
+    context.save.biomeVisits.beach = 2;
+
+    expect(getHandLensNotebookFit(context, 'beach-hopper')).toBe('Notebook fit: wrack line');
+    expect(getHandLensNotebookFit(context, 'bull-kelp-wrack')).toBe('Notebook fit: wrack line');
+  });
+
+  it('does not let a lee-pocket beach-hopper satisfy wrack-line from the tide-line boundary', () => {
+    const context = createBeachContext([], 'tide-line');
+    context.save.worldStep = 6;
+    context.save.biomeVisits.beach = 2;
+    context.save.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+
+    expect(getHandLensNotebookFit(context, 'beach-hopper', 'lee-pocket')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-hopper', 'lee-pocket')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'beach-hopper', 'tide-line')).toBe('Notebook fit: wrack line');
+  });
+
+  it('keeps Shore Shelter canonical when beach-hopper finishes the live wrack-hold outing', () => {
+    const context = createBeachContext([], 'tide-line');
+    context.save.worldStep = 6;
+    context.save.biomeVisits.beach = 2;
+    context.save.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-hopper')).toMatchObject({
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'beach-shore-shelter',
+      title: 'Shore Shelter',
+      summary: 'Return to the field station and file the Shore Shelter note.',
+      routeV2: {
+        filedText: 'American Dunegrass, Driftwood, and Beach Hopper mark how shelter grows from dune edge to tide line.',
+      },
+    });
+  });
+
   it('unlocks the forest survey request after the moisture request is complete', () => {
     const context = createForestContext(
       ['forest-hidden-hollow', 'forest-moisture-holders'],
