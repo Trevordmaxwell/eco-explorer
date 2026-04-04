@@ -1,0 +1,112 @@
+{
+  "packet_id": "ECO-PACKET-095",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Living-world play relevance phase",
+  "summary": "Lane 4 should now make living-world systems matter to play instead of reading as flavor only. This wave adds one route-aware world-state opportunity pass, then either deepens or trims the support-choice layer so it creates a felt difference in outings.",
+  "source_reports": [
+    "docs/reports/2026-04-03-living-world-play-relevance-phase.md",
+    "docs/reports/2026-04-03-route-aware-world-state-handoff.md",
+    "docs/reports/2026-04-03-support-choice-meaning-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-224",
+    "ECO-20260403-main-224",
+    "ECO-20260403-critic-224",
+    "ECO-20260403-scout-225",
+    "ECO-20260403-main-225",
+    "ECO-20260403-critic-225"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-217"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-224",
+      "goal": "Prepare the route-aware world-state handoff.",
+      "why_now": "Living-world state is ready to become soft gameplay, not just flavor."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-224",
+      "goal": "Implement route-aware world-state relevance.",
+      "why_now": "One route should materially feel different because of weather, phenology, or process timing."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-224",
+      "goal": "Review route-aware world-state relevance.",
+      "why_now": "The new behavior should deepen replay and ecology, not add opaque gating."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-225",
+      "goal": "Prepare the support-choice meaning handoff.",
+      "why_now": "Support choices should either matter to play or stay deliberately tiny."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-225",
+      "goal": "Implement support-choice meaning or simplification.",
+      "why_now": "The worst outcome is a loadout row that sounds flavorful but feels the same."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-225",
+      "goal": "Review support-choice meaning or simplification.",
+      "why_now": "The support layer should create real difference without becoming inventory sprawl."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/game.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new shell, quest log, or inventory layer.",
+    "Prefer soft opportunity, clue emphasis, and replay value over hard gating.",
+    "If a support cannot create a felt difference, simplify instead of adding more support UI."
+  ],
+  "main_224_focus": {
+    "selected_request_id": "tundra-survey-slice",
+    "selected_variant": "bright-survey-peak-phenology",
+    "copy_goal": "turn the existing peak-phenology replay cue into a coherent active outing, not just a board-only note",
+    "recommended_variant": {
+      "phenologyPhase": "peak",
+      "activeTitle": "Bright Survey",
+      "activeSummary": "This is a good outing to finish the inland line while the short-season ground is clearest."
+    },
+    "guardrails": [
+      "Keep completion logic and inland route order unchanged.",
+      "Do not widen into support-row differentiation in this pass.",
+      "Keep the variant active-only instead of changing a filed identity."
+    ]
+  },
+  "main_225_focus": {
+    "selected_support_id": "place-tab",
+    "selected_route_id": "tundra-survey-slice",
+    "selected_route_beat_id": "tundra-survey",
+    "selected_prompt_note_id": "short-summer-rush",
+    "selected_prompt_text": "What hints at a very short summer?",
+    "copy_goal": "keep place-tab distinct on the live tundra survey capstone instead of falling back to the same detail text as hand-lens",
+    "guardrails": [
+      "Reuse the existing tundra ecosystem-note prompt instead of authoring a new support system.",
+      "Keep hand-lens, note-tabs, and route-marker behavior unchanged.",
+      "Make the distinction apply to both generic Tundra Survey and peak Bright Survey."
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import { buildWorldState } from './world-state';
 import type {
   BiomeDefinition,
   OutingSupportId,
+  PhenologyPhase,
   RouteV2EvidenceSlotProgress,
   RouteV2ProgressStatus,
   SaveState,
@@ -19,6 +20,7 @@ interface FieldRequestDefinitionBase {
   title: string;
   summary: string;
   unlockAfter?: string[];
+  worldStateFocus?: FieldRequestWorldStateFocus;
 }
 
 interface RouteV2NoteDefinition {
@@ -31,6 +33,12 @@ interface RouteV2NoteDefinition {
 
 interface RouteV2ProcessFocus {
   momentId: string;
+  activeTitle?: string;
+  activeSummary: string;
+}
+
+interface FieldRequestWorldStateFocus {
+  phenologyPhase?: PhenologyPhase;
   activeTitle?: string;
   activeSummary: string;
 }
@@ -146,7 +154,7 @@ export interface ActiveFieldRequest {
   routeV2: ActiveFieldRequestRouteV2State | null;
 }
 
-interface FieldRequestContext {
+export interface FieldRequestContext {
   biomes: Record<string, BiomeDefinition>;
   save: SaveState;
   currentBiomeId: string;
@@ -383,6 +391,11 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     title: 'Tundra Survey',
     summary: 'Bring Tundra Reach up to surveyed by logging four clues across Snow Meadow and Frost Ridge.',
     unlockAfter: ['tundra-short-season'],
+    worldStateFocus: {
+      phenologyPhase: 'peak',
+      activeTitle: 'Bright Survey',
+      activeSummary: 'This is a good outing to finish the inland line while the short-season ground is clearest.',
+    },
     type: 'survey-biome',
     requiredState: 'surveyed',
     completionTriggers: ['inspect', 'enter-biome'],
@@ -420,6 +433,11 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       readyText: 'Return to the field station and file the Scrub Pattern note.',
       filedText: 'Open dune, holding cover, and thicker edge now read as one clear transition.',
       clueBackedTail: 'now read as one clear transition.',
+    },
+    processFocus: {
+      momentId: 'sand-capture',
+      activeTitle: 'Held Sand',
+      activeSummary: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
     },
     completionTriggers: ['inspect'],
   },
@@ -811,6 +829,25 @@ function getActiveRouteV2ProcessFocus(
     : null;
 }
 
+function getActiveFieldRequestWorldStateFocus(
+  definition: FieldRequestDefinition,
+  context: FieldRequestContext,
+): FieldRequestWorldStateFocus | null {
+  if (!definition.worldStateFocus) {
+    return null;
+  }
+
+  const worldState = buildWorldState(context.save, definition.biomeId);
+  if (
+    definition.worldStateFocus.phenologyPhase
+    && worldState.phenologyPhase !== definition.worldStateFocus.phenologyPhase
+  ) {
+    return null;
+  }
+
+  return definition.worldStateFocus;
+}
+
 function isUnlocked(definition: FieldRequestDefinition, completedIds: string[]): boolean {
   return (definition.unlockAfter ?? []).every((requestId) => completedIds.includes(requestId));
 }
@@ -1169,17 +1206,20 @@ export function resolveActiveFieldRequest(
   const activeProcessFocus = isRouteV2Definition(definition)
     ? getActiveRouteV2ProcessFocus(definition, context)
     : null;
+  const activeWorldStateFocus = getActiveFieldRequestWorldStateFocus(definition, context);
 
   return {
     id: definition.id,
     biomeId: definition.biomeId,
     biomeName: biome.name,
-    title: routeV2Ready ? definition.title : activeProcessFocus?.activeTitle ?? definition.title,
+    title: routeV2Ready
+      ? definition.title
+      : activeProcessFocus?.activeTitle ?? activeWorldStateFocus?.activeTitle ?? definition.title,
     summary: routeV2Ready
       ? isRouteV2Definition(definition)
         ? buildRouteV2ReadySummary(definition)
         : 'Return to the field station and file this note.'
-      : activeProcessFocus?.activeSummary ?? definition.summary,
+      : activeProcessFocus?.activeSummary ?? activeWorldStateFocus?.activeSummary ?? definition.summary,
     progressLabel: formatProgressLabel(definition, context),
     routeV2: buildActiveRouteV2State(definition, context),
   };

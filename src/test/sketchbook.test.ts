@@ -164,6 +164,24 @@ describe('sketchbook helpers', () => {
     });
   });
 
+  it('surfaces the new tundra frost-heave-hummock note in the sketchbook', () => {
+    const save = createNewSaveState('sketchbook-tundra-hummock-memory-seed');
+
+    recordDiscovery(save, tundraBiome.entries['frost-heave-hummock'], 'tundra');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'frost-heave-hummock');
+
+    const page = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'frost-heave-hummock',
+      note: 'Raised hummock showing freeze-thaw at work.',
+    });
+  });
+
   it('surfaces the shared moss-campion note across treeline and tundra sketchbook pages', () => {
     const save = createNewSaveState('sketchbook-second-act-shared-memory-seed');
 
@@ -312,6 +330,72 @@ describe('sketchbook helpers', () => {
     expect(scrubPage.slots.find((slot) => slot.slotId === 'top-right')).toMatchObject({
       entryId: 'song-sparrow',
       note: 'Small voice tucked low in brush.',
+    });
+  });
+
+  it('surfaces the new coyote-brush sketchbook note in coastal-scrub pages', () => {
+    const save = createNewSaveState('sketchbook-coyote-brush-memory-seed');
+
+    recordDiscovery(save, coastalScrubBiome.entries['coyote-brush'], 'coastal-scrub');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-left', 'coyote-brush');
+
+    const page = buildSketchbookPageView(
+      coastalScrubBiome,
+      coastalScrubBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'coyote-brush',
+      note: 'Tough brush marking where open sand turns scrub.',
+    });
+  });
+
+  it('surfaces the new deer-mouse sketchbook note in coastal-scrub pages', () => {
+    const save = createNewSaveState('sketchbook-deer-mouse-memory-seed');
+
+    recordDiscovery(save, coastalScrubBiome.entries['deer-mouse'], 'coastal-scrub');
+    placeSketchbookEntry(save, coastalScrubBiome, 'top-left', 'deer-mouse');
+
+    const page = buildSketchbookPageView(
+      coastalScrubBiome,
+      coastalScrubBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'deer-mouse',
+      note: 'Quick runner using low scrub for cover.',
+    });
+  });
+
+  it('surfaces the shared reindeer-lichen note across treeline and tundra sketchbook pages', () => {
+    const save = createNewSaveState('sketchbook-reindeer-lichen-memory-seed');
+
+    recordDiscovery(save, treelineBiome.entries['reindeer-lichen'], 'treeline');
+    recordDiscovery(save, tundraBiome.entries['reindeer-lichen'], 'tundra');
+
+    placeSketchbookEntry(save, treelineBiome, 'top-left', 'reindeer-lichen');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'reindeer-lichen');
+
+    const treelinePage = buildSketchbookPageView(
+      treelineBiome,
+      treelineBiome.entries,
+      save,
+    );
+    const tundraPage = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(treelinePage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'reindeer-lichen',
+      note: 'Pale branches holding on across cold open ground.',
+    });
+    expect(tundraPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'reindeer-lichen',
+      note: 'Pale branches holding on across cold open ground.',
     });
   });
 

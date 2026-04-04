@@ -155,6 +155,38 @@ describe('tundra biome generation', () => {
     expect(reliefPlatforms[6]?.y).toBeGreaterThanOrEqual(reliefPlatforms[5]?.y ?? 0);
   });
 
+  it('adds one exposed-to-held threshold pocket before the thaw-skirt family', () => {
+    const thresholdPlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['wind-bluff-heave-shoulder', 'snow-threshold-lee-rest'].includes(platform.id),
+    );
+    const leeRest = thresholdPlatforms?.find((platform) => platform.id === 'snow-threshold-lee-rest');
+    const thawEntry = tundraBiome.terrainRules.authoredPlatforms?.find((platform) => platform.id === 'thaw-skirt-entry-heave');
+
+    expect(thresholdPlatforms).toEqual([
+      {
+        id: 'wind-bluff-heave-shoulder',
+        spriteId: 'ice-platform',
+        x: 128,
+        y: 108,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'snow-threshold-lee-rest',
+        spriteId: 'ice-platform',
+        x: 150,
+        y: 111,
+        w: 28,
+        h: 4,
+      },
+    ]);
+    expect(leeRest?.x).toBeGreaterThanOrEqual(120);
+    expect(leeRest?.x).toBeLessThanOrEqual(184);
+    expect(leeRest?.y).toBeGreaterThanOrEqual(100);
+    expect(leeRest?.y).toBeLessThanOrEqual(112);
+    expect((thawEntry?.x ?? 0) - (leeRest?.x ?? 999)).toBeGreaterThanOrEqual(120);
+  });
+
   it('spawns thaw-edge carriers through the new traversal band', () => {
     const save = createNewSaveState('tundra-thaw-skirt-seed');
     const instance = generateBiomeInstance(tundraBiome, save, 1);
@@ -299,6 +331,27 @@ describe('tundra biome generation', () => {
         entryId: 'moss-campion',
         x: 492,
         y: 100,
+      },
+    ]);
+  });
+
+  it('anchors a tiny local carrier pair around the new threshold hold', () => {
+    const thresholdAnchors = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
+      ['snow-threshold-hummock', 'snow-threshold-lichen'].includes(entity.id),
+    );
+
+    expect(thresholdAnchors).toEqual([
+      {
+        id: 'snow-threshold-hummock',
+        entryId: 'frost-heave-hummock',
+        x: 156,
+        y: 105,
+      },
+      {
+        id: 'snow-threshold-lichen',
+        entryId: 'reindeer-lichen',
+        x: 172,
+        y: 105,
       },
     ]);
   });

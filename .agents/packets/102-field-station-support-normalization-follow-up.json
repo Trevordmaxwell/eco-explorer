@@ -1,0 +1,46 @@
+{
+  "packet_id": "ECO-PACKET-102",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Field-station support normalization follow-up",
+  "summary": "The first field-station state split is structurally sound, but the extracted helper dropped the old outing-support normalization. This follow-up restores the prior save-safe behavior before the next controller split wave continues.",
+  "source_reports": [
+    "docs/reports/2026-04-03-field-station-state-split-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-main-251",
+    "ECO-20260403-critic-251"
+  ],
+  "depends_on": [
+    "ECO-20260403-main-226"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-main-251",
+      "goal": "Restore outing-support normalization in the new field-station state helper.",
+      "why_now": "The split should not regress older or partially unlocked saves before the next controller handoff."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-critic-251",
+      "goal": "Review the field-station support-normalization fix.",
+      "why_now": "The controller split wave should close cleanly before lane 1 advances to the second extraction handoff."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-station-state.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Keep the helper pure and behavior-preserving.",
+    "Do not reopen the broader controller split during this follow-up.",
+    "Add one regression that proves locked outing supports still fall back safely."
+  ]
+}

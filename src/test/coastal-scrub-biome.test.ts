@@ -92,6 +92,8 @@ describe('coastal scrub biome generation', () => {
     const crest = windbreakPlatforms.find((platform) => platform.id === 'windbreak-bluff-crest');
     const entryLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-entry-log');
     const upperLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-upper-log');
+    const pocketStep = windbreakPlatforms.find((platform) => platform.id === 'windbreak-pocket-lee-step');
+    const pocketRest = windbreakPlatforms.find((platform) => platform.id === 'windbreak-pocket-rest-log');
     const exitLog = windbreakPlatforms.find((platform) => platform.id === 'windbreak-swale-exit-log');
     const gatherEntities = instance.entities
       .filter(
@@ -103,6 +105,17 @@ describe('coastal scrub biome generation', () => {
         x: entity.x,
         y: entity.y,
       }));
+    const pocketEntities = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.includes('windbreak-pocket-runner') || entity.entityId.includes('windbreak-pocket-sparrow'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
 
     expect(terrainAtThicket).toBeDefined();
     expect(terrainAtSwale).toBeDefined();
@@ -117,6 +130,8 @@ describe('coastal scrub biome generation', () => {
       'windbreak-bluff-mid-step',
       'windbreak-swale-upper-log',
       'windbreak-bluff-crest',
+      'windbreak-pocket-lee-step',
+      'windbreak-pocket-rest-log',
       'windbreak-swale-exit-log',
     ]);
     expect(gatherLog?.x).toBeLessThan(leeStep?.x ?? 0);
@@ -129,9 +144,23 @@ describe('coastal scrub biome generation', () => {
     expect(exitLog?.y).toBeGreaterThan(upperLog?.y ?? 0);
     expect(crest?.y).toBeLessThan(upperLog?.y ?? 0);
     expect((crest?.x ?? 0) + (crest?.w ?? 0)).toBeGreaterThanOrEqual(upperLog?.x ?? 0);
+    expect(pocketStep?.x).toBeGreaterThanOrEqual((crest?.x ?? 0) + (crest?.w ?? 0));
+    expect(pocketStep?.x).toBeGreaterThanOrEqual(320);
+    expect(pocketStep?.x).toBeLessThanOrEqual(340);
+    expect(pocketStep?.y).toBeGreaterThan(pocketRest?.y ?? 0);
+    expect(pocketRest?.y).toBeGreaterThan(upperLog?.y ?? 0);
+    expect(pocketRest?.x).toBeGreaterThan(pocketStep?.x ?? 0);
+    expect(pocketRest?.x).toBeGreaterThanOrEqual(340);
+    expect(pocketRest?.x).toBeLessThanOrEqual(356);
+    expect((pocketRest?.x ?? 0) + (pocketRest?.w ?? 0)).toBeLessThan(exitLog?.x ?? 999);
+    expect((pocketRest?.y ?? 0) + (pocketRest?.h ?? 0)).toBeLessThan(terrainAtSwale?.y ?? 999);
     expect(gatherEntities).toEqual([
       { entryId: 'nootka-rose', x: 214, y: 108 },
       { entryId: 'dune-lupine', x: 244, y: 108 },
+    ]);
+    expect(pocketEntities).toEqual([
+      { entryId: 'beach-strawberry', x: 356, y: 120 },
+      { entryId: 'song-sparrow', x: 366, y: 114 },
     ]);
   });
 

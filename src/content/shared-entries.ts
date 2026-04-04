@@ -191,6 +191,7 @@ export const reindeerLichenEntry = {
   shortFact: 'Reindeer lichen grows slowly on open, well-drained ground in cold places.',
   journalText:
     'Reindeer lichen is a pale branching lichen of cold open ground. It grows slowly where soil is thin and wind is strong.',
+  sketchbookNote: 'Pale branches holding on across cold open ground.',
   spriteId: 'reindeer-lichen',
   collectible: false,
 } satisfies InspectableEntry;

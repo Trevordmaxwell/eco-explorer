@@ -1,0 +1,84 @@
+{
+  "packet_id": "ECO-PACKET-092",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Home-place and feedback phase",
+  "summary": "After the latest season and second-act framing work, lane 1 should make return payoff feel more tangible. This wave adds one visible station-or-nursery evolution pass, then one compact non-text feedback pass for departure, arrival, or route completion.",
+  "source_reports": [
+    "docs/reports/2026-04-03-home-place-and-feedback-phase.md",
+    "docs/reports/2026-04-03-visible-home-place-evolution-handoff.md",
+    "docs/reports/2026-04-03-non-text-feedback-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-218",
+    "ECO-20260403-main-228",
+    "ECO-20260403-critic-228",
+    "ECO-20260403-scout-219",
+    "ECO-20260403-main-219",
+    "ECO-20260403-critic-219"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-173"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-218",
+      "goal": "Prepare the visible home-place evolution handoff.",
+      "why_now": "The station and nursery logic is ahead of its emotional and visual payoff."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-228",
+      "goal": "Implement visible home-place evolution.",
+      "why_now": "The station should look more shaped by the player's learning and returns."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-228",
+      "goal": "Review visible home-place evolution.",
+      "why_now": "The station should feel warmer and more earned, not busier."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-219",
+      "goal": "Prepare the non-text feedback handoff.",
+      "why_now": "Future feel gains should come from motion and punctuation more than more copy."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-219",
+      "goal": "Implement non-text departure, arrival, or route-complete feedback.",
+      "why_now": "The game needs stronger tactile payoff inside existing seams."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-219",
+      "goal": "Review non-text feedback.",
+      "why_now": "The new feedback should improve feel without crowding the tiny screen."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not add another station page or larger shell.",
+    "Prefer visual or motion payoff over new copy.",
+    "Keep the station and nursery warm, compact, and readable at 256x160.",
+    "Use existing seams and surfaces wherever possible.",
+    "Spend the home-place pass inside the current nursery cards instead of adding another text row.",
+    "For the non-text feedback pass, prefer the existing route-complete field-notice seam over a broader departure or arrival transition rewrite."
+  ]
+}

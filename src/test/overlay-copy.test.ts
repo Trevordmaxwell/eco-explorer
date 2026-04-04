@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   getMenuOverlayHelperText,
   getMenuOverlayIntroText,
+  resolveFieldStationGrowthAccentState,
   TITLE_ACTION_ROWS,
   TITLE_START_HINT,
 } from '../engine/overlay-render';
@@ -49,5 +50,36 @@ describe('first-session overlay copy', () => {
         showFieldGuideAction: false,
       }),
     ).toContain('Trail Stride');
+  });
+
+  it('derives a calm field-station growth accent from nursery progress instead of new copy', () => {
+    expect(
+      resolveFieldStationGrowthAccentState({
+        teachingBedStage: null,
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+      }),
+    ).toMatchObject({
+      showAccent: false,
+      stageProgress: 0,
+      planterWidth: 0,
+    });
+
+    expect(
+      resolveFieldStationGrowthAccentState({
+        teachingBedStage: 'growing',
+        hasLogPile: true,
+        hasPollinatorPatch: true,
+        compostRate: 2,
+      }),
+    ).toMatchObject({
+      showAccent: true,
+      stageProgress: 3,
+      hasLogPile: true,
+      hasPollinatorPatch: true,
+      hasCompostUpgrade: true,
+      planterWidth: 22,
+    });
   });
 });

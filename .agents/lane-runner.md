@@ -68,3 +68,15 @@ After every item:
 - run tests and `npm run build` when runtime code changes
 
 Then restart the read chain before choosing the next item.
+
+## Optional Lane-Clear Push
+
+If you finish the last actionable item in your lane, you may commit and push to `main`, but only if:
+
+- `git branch --show-current` is `main`
+- your lane truly has no remaining actionable queue item
+- `git status --short` contains only the files you intentionally changed for that lane, or the tree is clean
+- there are no unrelated dirty files from another live lane in the same workspace
+- you already ran the required verification for the touched files
+
+If any of those checks fail, stop at queue/report updates and leave the push for the coordinator or for a cleaner later turn.

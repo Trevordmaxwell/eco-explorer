@@ -1,0 +1,115 @@
+{
+  "packet_id": "ECO-PACKET-100",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Route consequence and replay phase",
+  "summary": "After the first route-aware living-world pass, lane 4 should keep turning world state and support choices into felt route differences. This phase expands replay consequence, then sharpens support meaning or simplification across another outing.",
+  "source_reports": [
+    "docs/reports/2026-04-03-route-consequence-and-replay-phase.md",
+    "docs/reports/2026-04-03-held-sand-replay-consequence-handoff.md",
+    "docs/reports/2026-04-03-held-sand-note-tabs-support-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-248",
+    "ECO-20260403-main-248",
+    "ECO-20260403-critic-248",
+    "ECO-20260403-scout-249",
+    "ECO-20260403-main-249",
+    "ECO-20260403-critic-249"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-225"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-248",
+      "goal": "Prepare the replay-consequence handoff.",
+      "why_now": "One more route should materially feel different because of living-world state."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-248",
+      "goal": "Implement replay consequence.",
+      "why_now": "Replay value should come from ecology and route feel, not just more text."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-248",
+      "goal": "Review replay consequence.",
+      "why_now": "The new route difference should stay legible and soft, not opaque."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-249",
+      "goal": "Prepare the support consequence handoff.",
+      "why_now": "Support choices still need one more pass to prove they matter by feel."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-249",
+      "goal": "Implement support consequence or simplification.",
+      "why_now": "The support row should feel meaningfully different or intentionally lighter."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-249",
+      "goal": "Review support consequence or simplification.",
+      "why_now": "The support layer should stay useful without sliding into inventory sprawl."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/game.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new shell, quest log, or inventory layer.",
+    "Prefer soft opportunity and felt route differences.",
+    "If a support still does not matter by feel, simplify it instead of adding more support UI."
+  ],
+  "main_248_focus": {
+    "selected_request_id": "scrub-edge-pattern",
+    "selected_variant": "held-sand-process",
+    "process_moment_id": "sand-capture",
+    "copy_goal": "turn the existing Held Sand replay cue into a full active outing instead of leaving it board-only flavor",
+    "recommended_variant": {
+      "activeTitle": "Held Sand",
+      "activeSummary": "In Coastal Scrub, read where open pioneer and holding cover start trapping sand before the thicker edge takes over."
+    },
+    "guardrails": [
+      "Keep notebook-ready and filed states canonically Scrub Pattern.",
+      "Keep evidence-slot ids and route order unchanged.",
+      "Leave Haze Edge and Pioneer Clue as board-only follow-ons for now."
+    ]
+  },
+  "main_249_focus": {
+    "selected_request_id": "scrub-edge-pattern",
+    "selected_variant": "held-sand-note-tabs",
+    "support_id": "note-tabs",
+    "replay_note_id": "edge-held-sand",
+    "copy_goal": "keep note-tabs notebook-first during the Held Sand replay window instead of collapsing onto the same replay sentence as hand-lens",
+    "recommended_wrap": {
+      "label": "SCRUB PATTERN",
+      "text": "Walk the coast-to-forest transect from pioneer scrub into lower fell."
+    },
+    "guardrails": [
+      "Keep hand-lens live and process-specific on Held Sand.",
+      "Keep notebook-ready and filed states canonically Scrub Pattern.",
+      "Do not widen this pass into Bright Survey, Wrack Shelter, or a generic replay-support framework."
+    ]
+  }
+}

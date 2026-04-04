@@ -1,0 +1,153 @@
+{
+  "packet_id": "ECO-PACKET-096",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Pre-chapter controller split phase",
+  "summary": "Before the next major chapter expansion, lane 1 should reduce coordinator risk. This wave plans and executes a targeted split of high-concentration season and station logic out of the largest files while keeping behavior stable.",
+  "source_reports": [
+    "docs/reports/2026-04-03-pre-chapter-controller-split-phase.md",
+    "docs/reports/2026-04-03-field-station-state-split-handoff.md",
+    "docs/reports/2026-04-03-second-controller-split-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-226",
+    "ECO-20260403-main-226",
+    "ECO-20260403-critic-226",
+    "ECO-20260403-scout-227",
+    "ECO-20260403-main-227",
+    "ECO-20260403-critic-227"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-219"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-226",
+      "goal": "Prepare the first controller split handoff.",
+      "why_now": "The coordinator files are large enough that the next chapter wave will get riskier without targeted extraction."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-226",
+      "goal": "Extract the first season or station controller seam.",
+      "why_now": "One focused split can reduce future change cost without redesigning the product."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-226",
+      "goal": "Review the first controller split.",
+      "why_now": "Refactor work needs strong protection against subtle state regressions."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-227",
+      "goal": "Prepare the second controller split handoff.",
+      "why_now": "Once the first extraction lands, the next highest-risk seam should be isolated while context is fresh."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-227",
+      "goal": "Extract the second controller seam.",
+      "why_now": "A second targeted split can keep season-three-scale growth from turning into surgery."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-227",
+      "goal": "Review the second controller split.",
+      "why_now": "The game is now important enough that structural protection is worth explicit queue space."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-station-state.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-requests.test.ts"
+  ],
+  "guardrails": [
+    "Do not redesign product behavior during the split.",
+    "Preserve saves, route state, and UI behavior.",
+    "Prefer targeted domain extraction over broad rewrites."
+  ],
+  "main_226_focus": {
+    "target_seam": "field-station state assembly",
+    "helper_file": "src/engine/field-station-state.ts",
+    "keep_in_game_ts": [
+      "syncNurseryState(save) side-effect boundary",
+      "openFieldStation",
+      "closeFieldStation",
+      "changeFieldStationSelection",
+      "getFieldStationSurface",
+      "setFieldStationSurface",
+      "changeFieldStationSurface",
+      "activateNurseryCard",
+      "activateExpeditionCard",
+      "toggleOutingSupport",
+      "updateFieldStationState"
+    ],
+    "move_after_sync_boundary": [
+      "guided season composition",
+      "route board, expedition, atlas, archive, and continuity composition",
+      "season wrap derivation",
+      "field-station subtitle derivation",
+      "returned selected upgrade and nursery project normalization"
+    ],
+    "defer_clusters": [
+      "route-notice and guided-notice family",
+      "interactive station input handling"
+    ],
+    "verification": [
+      "npx vitest run src/test/field-season-board.test.ts",
+      "npx vitest run src/test/runtime-smoke.test.ts -t \"opens the world-map field station, claims field credit, and buys trail stride|opens the nursery tab and starts one teaching-bed project from the field station|surfaces the season capstone, then opens the next field season on the routes shell\"",
+      "npm run build"
+    ]
+  },
+  "main_227_focus": {
+    "target_seam": "field-request and outing state resolution",
+    "helper_file": "src/engine/field-request-state.ts",
+    "keep_in_game_ts": [
+      "showFieldNotice",
+      "showFieldRequestNotice",
+      "maybeShowStarterFieldSeasonNotice",
+      "maybeShowStationReturnNotice",
+      "maybeShowSeasonCapstoneNoticeOnBiomeEnter",
+      "maybeShowSeasonCloseReturnNotice",
+      "maybeShowWorldMapFieldSeasonNotice",
+      "maybeShowNextHabitatNotice",
+      "maybeShowRouteReplayNoticeOnBiomeEnter",
+      "maybeCompleteActiveFieldRequest"
+    ],
+    "move_pure_derivation": [
+      "field-request context assembly",
+      "active field-request resolution",
+      "notebook hint derivation",
+      "season outing locator fallback",
+      "journal field-request fallback",
+      "route-marker location resolution",
+      "world-map replay-label resolution"
+    ],
+    "defer_clusters": [
+      "field notice timer mutation",
+      "guided notice gating",
+      "field-station input and filing actions"
+    ],
+    "verification": [
+      "npx vitest run src/test/field-requests.test.ts",
+      "npx vitest run src/test/runtime-smoke.test.ts -t \"surfaces one active field request in the journal and turns Hidden Hollow notebook-ready after the seep-stone confirm|buys route marker after the movement pair and lets the support row activate it on the world map|shows the thaw-window route replay note when re-entering tundra during the active process window\"",
+      "npm run build"
+    ]
+  }
+}

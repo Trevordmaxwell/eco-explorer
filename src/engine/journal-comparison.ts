@@ -16,6 +16,7 @@ const COMPARISON_ENTRY_IDS = new Set([
   'mountain-avens',
   'lingonberry',
   'moss-campion',
+  'reindeer-lichen',
 ]);
 
 export interface JournalComparisonCard {

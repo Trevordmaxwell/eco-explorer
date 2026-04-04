@@ -12,10 +12,12 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('purple-saxifrage')).toBe(true);
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
+    expect(supportsCloseLook('talus-cushion-pocket')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
     expect(supportsCloseLook('nootka-rose')).toBe(true);
     expect(supportsCloseLook('kinnikinnick')).toBe(true);
     expect(supportsCloseLook('nurse-log')).toBe(true);
+    expect(supportsCloseLook('pacific-wax-myrtle')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
     expect(supportsCloseLook('tree-lungwort')).toBe(true);
@@ -23,7 +25,6 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
     expect(supportsCloseLook('shore-pine')).toBe(false);
-    expect(supportsCloseLook('pacific-wax-myrtle')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
   });
 
@@ -66,6 +67,14 @@ describe('close-look helpers', () => {
     });
     expect(boulderPayload?.callouts).toContain('cold-worked ground');
 
+    const talusPayload = buildCloseLookPayload(treelineBiome.entries['talus-cushion-pocket']);
+    expect(talusPayload).toMatchObject({
+      entryId: 'talus-cushion-pocket',
+      title: 'Talus Cushion Pocket',
+      spriteId: 'talus-cushion-pocket',
+    });
+    expect(talusPayload?.callouts).toContain('stone gap');
+
     const cottongrassPayload = buildCloseLookPayload(tundraBiome.entries.cottongrass);
     expect(cottongrassPayload).toMatchObject({
       entryId: 'cottongrass',
@@ -97,6 +106,14 @@ describe('close-look helpers', () => {
       spriteId: 'nurse-log',
     });
     expect(nurseLogPayload?.callouts).toContain('soft old wood');
+
+    const waxMyrtlePayload = buildCloseLookPayload(coastalScrubBiome.entries['pacific-wax-myrtle']);
+    expect(waxMyrtlePayload).toMatchObject({
+      entryId: 'pacific-wax-myrtle',
+      title: 'Pacific Wax Myrtle',
+      spriteId: 'pacific-wax-myrtle',
+    });
+    expect(waxMyrtlePayload?.callouts).toContain('waxy berries');
 
     const canopyMossPayload = buildCloseLookPayload(forestBiome.entries['canopy-moss-bed']);
     expect(canopyMossPayload).toMatchObject({

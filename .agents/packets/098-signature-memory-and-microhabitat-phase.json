@@ -1,0 +1,146 @@
+{
+  "packet_id": "ECO-PACKET-098",
+  "version": 7,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Signature memory and microhabitat phase",
+  "summary": "After the first signature-support wave, lane 2 should deepen place memory and microhabitat teaching. This phase adds a stronger memory echo for signature pockets, then one compact process- or threshold-backed support pass through existing notebook-facing surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-03-signature-memory-and-microhabitat-phase.md",
+    "docs/reports/2026-04-03-signature-memory-handoff.md",
+    "docs/reports/2026-04-03-signature-memory-implementation.md",
+    "docs/reports/2026-04-03-signature-memory-review.md",
+    "docs/reports/2026-04-03-microhabitat-support-handoff.md",
+    "docs/reports/2026-04-03-microhabitat-support-implementation.md",
+    "docs/reports/2026-04-03-microhabitat-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-236",
+    "ECO-20260403-main-236",
+    "ECO-20260403-critic-236",
+    "ECO-20260403-scout-237",
+    "ECO-20260403-main-237",
+    "ECO-20260403-critic-237"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-221"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-236",
+      "goal": "Prepare the signature memory handoff.",
+      "why_now": "Memorable places should leave stronger notebook traces."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-236",
+      "goal": "Implement signature memory payoff.",
+      "why_now": "A stronger memory echo will make signature pockets feel more personal and distinct."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-236",
+      "goal": "Review signature memory payoff.",
+      "why_now": "Memory layers need to stay calm and handheld-safe."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-237",
+      "goal": "Prepare the microhabitat support handoff.",
+      "why_now": "The next content gain should teach process, threshold, or shelter differences more clearly."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-237",
+      "goal": "Implement microhabitat support content.",
+      "why_now": "The new signature pockets should also carry richer ecological relationship teaching."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-237",
+      "goal": "Review microhabitat support content.",
+      "why_now": "The added depth should stay science-safe and avoid quantity drift."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/shared-entries.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/journal-comparison.ts",
+    "src/test/close-look.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/sketchbook.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "guardrails": [
+    "Use only existing notebook-facing surfaces.",
+    "No station, route-board, or map logic.",
+    "Prefer place memory and ecological relationship over raw count growth."
+  ],
+  "microhabitat_scope": {
+    "preferred_surface": "journal-comparison",
+    "entry_ids": [
+      "reindeer-lichen"
+    ],
+    "comparison_biomes": [
+      "treeline",
+      "tundra"
+    ],
+    "primary_files": [
+      "src/engine/journal-comparison.ts",
+      "src/test/journal-comparison.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "optional_note_tuning_files": [
+      "src/content/biomes/treeline.ts",
+      "src/content/biomes/tundra.ts"
+    ],
+    "defer": [
+      "new ecosystem note ids",
+      "new sketchbook lines",
+      "new close-look cards",
+      "coastal-scrub shelter copy expansion"
+    ]
+  },
+  "memory_scope": {
+    "preferred_surface": "sketchbook",
+    "local_entry_ids": [
+      "deer-mouse"
+    ],
+    "shared_entry_ids": [
+      "reindeer-lichen"
+    ],
+    "suggested_notes": {
+      "deer-mouse": "Quick runner using low scrub for cover.",
+      "reindeer-lichen": "Pale branches holding on across cold open ground."
+    },
+    "defer_entry_ids": [
+      "pacific-wax-myrtle",
+      "coyote-brush",
+      "talus-cushion-pocket",
+      "frost-heave-hummock",
+      "song-sparrow",
+      "white-tailed-ptarmigan"
+    ],
+    "defer_surfaces": [
+      "ecosystem-note",
+      "journal-comparison",
+      "close-look",
+      "station",
+      "atlas-shell"
+    ]
+  }
+}

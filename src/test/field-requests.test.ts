@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest';
 
 import { biomeRegistry } from '../content/biomes';
 import { forestBiome } from '../content/biomes/forest';
+import { ecoWorldMap } from '../content/world-map';
+import { resolveFieldRequestState } from '../engine/field-request-state';
 import {
   advanceActiveFieldRequest,
   advanceFieldRequestDefinition,
@@ -101,6 +103,73 @@ function createTundraContext(
 }
 
 describe('field requests', () => {
+  it('builds the notebook hint from the active field request only when the play overlay can show it', () => {
+    const save = createNewSaveState('field-request-state-hint-seed');
+    save.completedFieldRequestIds = ['beach-shore-shelter'];
+
+    const visibleHintState = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'trailhead',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: false,
+    });
+    expect(visibleHintState.activeFieldRequest).toMatchObject({
+      id: 'forest-hidden-hollow',
+      title: 'Hidden Hollow',
+    });
+    expect(visibleHintState.fieldRequestHint).toEqual({
+      label: 'NOTEBOOK J',
+      title: 'Hidden Hollow',
+    });
+
+    const suppressedHintState = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'trailhead',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: true,
+    });
+    expect(suppressedHintState.fieldRequestHint).toBeNull();
+  });
+
+  it('falls back to the season outing locator for journal and replay state when no active request remains', () => {
+    const save = createNewSaveState('field-request-state-season-seed');
+    save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+
+    const state = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'trailhead',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(state.activeFieldRequest).toBeNull();
+    expect(state.activeOuting).toMatchObject({
+      title: 'High Pass',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: High Pass',
+    });
+    expect(state.journalFieldRequest).toMatchObject({
+      id: 'route-locator:treeline',
+      biomeId: 'treeline',
+      title: 'High Pass',
+      progressLabel: 'NEXT',
+    });
+    expect(state.routeReplayLabel).toBe('Today: High Pass');
+  });
+
   it('starts with the beach shore-shelter request active', () => {
     const activeRequest = resolveActiveFieldRequest(createBeachContext());
 
@@ -627,6 +696,58 @@ describe('field requests', () => {
     expect(shouldCompleteActiveFieldRequest(context, 'enter-biome')).toBe('tundra-survey-slice');
   });
 
+  it('turns tundra-survey-slice into Bright Survey during peak phenology', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+      ],
+      'frost-ridge',
+    );
+    for (const entryId of ['purple-saxifrage', 'cottongrass', 'woolly-lousewort', 'cloudberry']) {
+      recordDiscovery(context.save, biomeRegistry.tundra.entries[entryId], 'tundra');
+    }
+    context.save.worldStep = 4;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'tundra-survey-slice',
+      title: 'Bright Survey',
+      summary: 'This is a good outing to finish the inland line while the short-season ground is clearest.',
+      progressLabel: 'SURVEYED',
+    });
+  });
+
+  it('keeps tundra-survey-slice generic outside the peak Bright Survey window', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+      ],
+      'frost-ridge',
+    );
+    for (const entryId of ['purple-saxifrage', 'cottongrass', 'woolly-lousewort', 'cloudberry']) {
+      recordDiscovery(context.save, biomeRegistry.tundra.entries[entryId], 'tundra');
+    }
+    context.save.worldStep = 6;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'tundra-survey-slice',
+      title: 'Tundra Survey',
+      summary: 'Bring Tundra Reach up to surveyed by logging four clues across Snow Meadow and Frost Ridge.',
+      progressLabel: 'SURVEYED',
+    });
+  });
+
   it('moves into the scrub-pattern request after the inland line is logged', () => {
     const activeRequest = resolveActiveFieldRequest(
       createCoastalContext(
@@ -892,6 +1013,31 @@ describe('field requests', () => {
     });
   });
 
+  it('turns scrub-edge-pattern into a process-backed outing during the sand-capture window', () => {
+    const context = createCoastalContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+      ],
+      'back-dune',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits['coastal-scrub'] = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'scrub-edge-pattern',
+      title: 'Held Sand',
+      summary: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
+      progressLabel: '0/3 stages',
+    });
+  });
+
   it('turns tundra-short-season into a process-backed outing during the thaw-fringe window', () => {
     const context = createTundraContext(
       [
@@ -1132,6 +1278,45 @@ describe('field requests', () => {
     });
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
       'Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+  });
+
+  it('keeps clue-backed filed note text stable when scrub-edge-pattern is reframed as Held Sand', () => {
+    const context = createCoastalContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+      ],
+      'forest-edge',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits['coastal-scrub'] = 2;
+    context.save.routeV2Progress = {
+      requestId: 'scrub-edge-pattern',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+        { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'thicker-edge', entryId: 'salmonberry' },
+      ],
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      title: 'Scrub Pattern',
+      summary: 'Return to the field station and file the Scrub Pattern note.',
+      routeV2: {
+        filedText: 'Seashore Lupine, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
+      },
+    });
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'scrub-edge-pattern')).toBe(
+      'Seashore Lupine, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
     );
   });
 

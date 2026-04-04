@@ -127,6 +127,22 @@ export interface JournalSketchSlotHitTarget {
   h: number;
 }
 
+interface FieldStationGrowthInput {
+  teachingBedStage: string | null;
+  hasLogPile: boolean;
+  hasPollinatorPatch: boolean;
+  compostRate: number;
+}
+
+interface FieldStationGrowthAccentState {
+  showAccent: boolean;
+  stageProgress: number;
+  hasLogPile: boolean;
+  hasPollinatorPatch: boolean;
+  hasCompostUpgrade: boolean;
+  planterWidth: number;
+}
+
 export interface BubbleActionHitTarget {
   id: 'open-close-look';
   x: number;
@@ -256,6 +272,7 @@ interface FieldStationOverlayOptions extends OverlaySurfaceOptions {
   seasonWrap: FieldSeasonWrapState;
   selectedNurseryCardId: NurseryCardId;
   nursery: NurseryStateView;
+  arrivalPulse: number;
 }
 
 interface FieldGuideNoticeOptions extends OverlaySurfaceOptions {
@@ -263,8 +280,10 @@ interface FieldGuideNoticeOptions extends OverlaySurfaceOptions {
 }
 
 interface FieldRequestNoticeOptions extends OverlaySurfaceOptions {
+  frameCount: number;
   title: string;
   text: string;
+  variant: 'default' | 'notebook-ready' | 'filed-route';
 }
 
 interface FieldRequestHintOptions extends OverlaySurfaceOptions {
@@ -918,14 +937,48 @@ export function drawFieldRequestNotice({
   context,
   width,
   height,
+  frameCount,
   title,
   text,
+  variant,
 }: FieldRequestNoticeOptions): void {
   const rect = makeRect(Math.round((width - 154) / 2), height - 36, 154, 32);
+  const pulseOn = Math.floor(frameCount / 8) % 2 === 0;
 
   fillLeafGreenPanel(context, rect.x, rect.y, rect.w, rect.h);
   context.font = UI_FONT_SMALL;
-  drawUiTextInRect(context, fitTextToWidth(context, title.toUpperCase(), rect.w - 8), makeRect(rect.x + 4, rect.y + 2, rect.w - 8, 8), '#395f56', { align: 'center' });
+
+  if (variant !== 'default') {
+    const badgeRect = makeRect(rect.x + rect.w - 18, rect.y + 5, 10, 10);
+    fillPixelPanel(context, badgeRect.x, badgeRect.y, badgeRect.w, badgeRect.h, '#fff7de', '#395f56');
+    context.fillStyle = '#395f56';
+    if (variant === 'notebook-ready') {
+      context.fillRect(badgeRect.x + 3, badgeRect.y + 2, 4, 1);
+      context.fillRect(badgeRect.x + 3, badgeRect.y + 4, 3, 1);
+      context.fillRect(badgeRect.x + 3, badgeRect.y + 6, 4, 1);
+      if (pulseOn) {
+        context.fillRect(badgeRect.x + 7, badgeRect.y + 2, 1, 1);
+        context.fillRect(badgeRect.x + 8, badgeRect.y + 3, 1, 1);
+      }
+    } else {
+      context.fillRect(badgeRect.x + 2, badgeRect.y + 3, 4, 3);
+      context.fillRect(badgeRect.x + 4, badgeRect.y + 1, 4, 3);
+      if (pulseOn) {
+        context.fillRect(badgeRect.x + 2, badgeRect.y + 7, 5, 1);
+      }
+    }
+
+    context.fillStyle = pulseOn ? '#395f56' : '#8aa295';
+    context.fillRect(rect.x + 10, rect.y + rect.h - 6, rect.w - 20, 1);
+  }
+
+  drawUiTextInRect(
+    context,
+    fitTextToWidth(context, title.toUpperCase(), rect.w - (variant === 'default' ? 8 : 26)),
+    makeRect(rect.x + 4, rect.y + 2, rect.w - (variant === 'default' ? 8 : 26), 8),
+    '#395f56',
+    { align: 'center' },
+  );
   drawUiTextInRect(context, fitTextToWidth(context, text, rect.w - 8), makeRect(rect.x + 4, rect.y + 10, rect.w - 8, 8), '#395f56', { align: 'center' });
   drawUiTextInRect(context, 'DETAILS IN JOURNAL (J)', makeRect(rect.x + 4, rect.y + 19, rect.w - 8, 8), '#395f56', { align: 'center' });
 }
@@ -977,6 +1030,221 @@ export function drawFieldPartnerNotice({
   drawUiText(context, lines[1], textRect.x, rect.y + 15, palette.text);
 }
 
+function getNurseryStageProgress(stage: string): number {
+  switch (stage) {
+    case 'stocked':
+      return 1;
+    case 'rooting':
+      return 2;
+    case 'growing':
+      return 3;
+    case 'mature':
+      return 4;
+    default:
+      return 0;
+  }
+}
+
+export function resolveFieldStationGrowthAccentState({
+  teachingBedStage,
+  hasLogPile,
+  hasPollinatorPatch,
+  compostRate,
+}: FieldStationGrowthInput): FieldStationGrowthAccentState {
+  const stageProgress = teachingBedStage ? getNurseryStageProgress(teachingBedStage) : 0;
+  const hasCompostUpgrade = compostRate > 1;
+  const showAccent = stageProgress > 0 || hasLogPile || hasPollinatorPatch || hasCompostUpgrade;
+
+  return {
+    showAccent,
+    stageProgress,
+    hasLogPile,
+    hasPollinatorPatch,
+    hasCompostUpgrade,
+    planterWidth: showAccent ? 10 + stageProgress * 3 + (hasCompostUpgrade ? 3 : 0) : 0,
+  };
+}
+
+function drawFieldStationGrowthAccent(
+  context: CanvasRenderingContext2D,
+  panelRect: UiRect,
+  contentRect: UiRect,
+  palette: BiomeDefinition['palette'],
+  nursery: NurseryStateView,
+  arrivalPulse: number,
+): void {
+  const accent = resolveFieldStationGrowthAccentState({
+    teachingBedStage: nursery.activeProject?.state.stage ?? null,
+    hasLogPile: nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked),
+    hasPollinatorPatch: nursery.extras.some((extra) => extra.id === 'pollinator-patch' && extra.unlocked),
+    compostRate: nursery.compostRate,
+  });
+
+  if (!accent.showAccent && arrivalPulse <= 0) {
+    return;
+  }
+
+  const sillRect = makeRect(contentRect.x + 8, panelRect.y + panelRect.h - 8, contentRect.w - 16, 4);
+  if (accent.showAccent) {
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(sillRect.x, sillRect.y + sillRect.h - 1, sillRect.w, 1);
+    context.fillStyle = palette.journalSelected;
+    context.fillRect(sillRect.x, sillRect.y + 1, sillRect.w, 2);
+  }
+
+  if (accent.hasLogPile) {
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(sillRect.x + 2, sillRect.y + 2, 7, 1);
+    context.fillRect(sillRect.x + 3, sillRect.y + 1, 5, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(sillRect.x + 4, sillRect.y + 2, 1, 1);
+    context.fillRect(sillRect.x + 6, sillRect.y + 1, 1, 1);
+  }
+
+  const planterRect = makeRect(
+    sillRect.x + Math.floor((sillRect.w - accent.planterWidth) / 2),
+    sillRect.y,
+    accent.planterWidth,
+    4,
+  );
+  context.fillStyle = accent.hasCompostUpgrade ? palette.cardShadow : palette.journalSelected;
+  context.fillRect(planterRect.x, planterRect.y + 2, planterRect.w, 2);
+  const sproutCount = Math.max(1, accent.stageProgress);
+  const sproutSpacing = Math.max(2, Math.floor((planterRect.w - 4) / Math.max(1, sproutCount)));
+  for (let index = 0; index < sproutCount; index += 1) {
+    const sproutX = Math.min(planterRect.x + 2 + index * sproutSpacing, planterRect.x + planterRect.w - 3);
+    context.fillStyle = palette.accent;
+    context.fillRect(sproutX, planterRect.y + 1, 1, 1);
+    context.fillRect(sproutX + 1, planterRect.y, 1, 1);
+    if (accent.stageProgress >= 3) {
+      context.fillStyle = palette.text;
+      context.fillRect(sproutX, planterRect.y, 1, 1);
+    }
+  }
+
+  if (accent.hasPollinatorPatch) {
+    const bloomX = sillRect.x + sillRect.w - 9;
+    context.fillStyle = palette.accent;
+    context.fillRect(bloomX + 1, sillRect.y, 2, 2);
+    context.fillRect(bloomX + 4, sillRect.y + 2, 2, 1);
+    context.fillRect(bloomX + 2, sillRect.y + 3, 2, 1);
+    context.fillStyle = palette.text;
+    context.fillRect(bloomX + 3, sillRect.y + 1, 1, 1);
+  }
+
+  if (arrivalPulse > 0) {
+    const pulseWidth = Math.max(8, Math.floor((sillRect.w - 18) * arrivalPulse));
+    const pulseX = sillRect.x + Math.floor((sillRect.w - pulseWidth) / 2);
+    context.fillStyle = palette.accent;
+    context.fillRect(pulseX, sillRect.y + 1, pulseWidth, 1);
+    context.fillStyle = palette.text;
+    context.fillRect(pulseX + 1, sillRect.y, Math.max(2, pulseWidth - 2), 1);
+  }
+}
+
+function drawNurseryCompostAccent(
+  context: CanvasRenderingContext2D,
+  rect: UiRect,
+  palette: BiomeDefinition['palette'],
+  compostRate: number,
+): number {
+  if (compostRate <= 1) {
+    return 0;
+  }
+
+  const accentRect = makeRect(rect.x + 4, rect.y + 6, 14, 7);
+  fillPixelPanel(
+    context,
+    accentRect.x,
+    accentRect.y,
+    accentRect.w,
+    accentRect.h,
+    palette.journalSelected,
+    palette.accent,
+  );
+
+  context.fillStyle = palette.cardShadow;
+  context.fillRect(accentRect.x + 2, accentRect.y + 4, 10, 1);
+  context.fillRect(accentRect.x + 4, accentRect.y + 2, 2, 2);
+  context.fillRect(accentRect.x + 7, accentRect.y + 1, 2, 3);
+  context.fillRect(accentRect.x + 10, accentRect.y + 3, 1, 2);
+
+  return accentRect.w + 4;
+}
+
+function drawNurseryHomePlaceStrip(
+  context: CanvasRenderingContext2D,
+  rect: UiRect,
+  palette: BiomeDefinition['palette'],
+  stageProgress: number,
+  hasLogPile: boolean,
+  hasPollinatorPatch: boolean,
+): void {
+  fillPixelPanel(
+    context,
+    rect.x,
+    rect.y,
+    rect.w,
+    rect.h,
+    palette.journalSelected,
+    palette.cardShadow,
+  );
+
+  if (hasLogPile) {
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(rect.x + 3, rect.y + 4, 6, 1);
+    context.fillRect(rect.x + 3, rect.y + 2, 4, 1);
+    context.fillRect(rect.x + 5, rect.y + 1, 3, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(rect.x + 4, rect.y + 4, 1, 1);
+    context.fillRect(rect.x + 6, rect.y + 2, 1, 1);
+  }
+
+  const pipSize = 2;
+  const pipGap = 2;
+  const pipCount = 4;
+  const totalPipWidth = pipCount * pipSize + (pipCount - 1) * pipGap;
+  const pipStartX = rect.x + Math.floor((rect.w - totalPipWidth) / 2);
+  for (let index = 0; index < pipCount; index += 1) {
+    context.fillStyle = index < stageProgress ? palette.accent : palette.cardShadow;
+    context.fillRect(pipStartX + index * (pipSize + pipGap), rect.y + 3, pipSize, pipSize);
+  }
+
+  if (hasPollinatorPatch) {
+    const bloomX = rect.x + rect.w - 11;
+    context.fillStyle = palette.accent;
+    context.fillRect(bloomX + 1, rect.y + 1, 2, 2);
+    context.fillRect(bloomX + 4, rect.y + 3, 2, 2);
+    context.fillRect(bloomX + 2, rect.y + 5, 2, 1);
+    context.fillStyle = palette.text;
+    context.fillRect(bloomX + 3, rect.y + 3, 1, 1);
+  }
+}
+
+function drawNurseryCardHeader(
+  context: CanvasRenderingContext2D,
+  rect: UiRect,
+  palette: BiomeDefinition['palette'],
+  title: string,
+  selected: boolean,
+): number {
+  const headerRect = makeRect(rect.x + 4, rect.y + 3, rect.w - 8, 6);
+  context.fillStyle = selected ? palette.journalSelected : palette.journalPage;
+  context.fillRect(headerRect.x, headerRect.y, headerRect.w, headerRect.h);
+  context.fillStyle = selected ? palette.accent : palette.cardShadow;
+  context.fillRect(headerRect.x, headerRect.y + headerRect.h, headerRect.w, 1);
+
+  drawUiText(
+    context,
+    fitTextToWidth(context, title, headerRect.w - 2),
+    headerRect.x + 1,
+    rect.y + 7,
+    selected ? palette.accent : palette.text,
+  );
+
+  return headerRect.y + headerRect.h + 7;
+}
+
 export function drawFieldStationOverlay({
   context,
   width,
@@ -996,6 +1264,7 @@ export function drawFieldStationOverlay({
   seasonWrap,
   selectedNurseryCardId,
   nursery,
+  arrivalPulse,
 }: FieldStationOverlayOptions): void {
   const panelWidth = Math.min(width - 24, 204);
   const panelRect = makeRect(Math.floor((width - panelWidth) / 2), 8, panelWidth, height - 16);
@@ -1011,6 +1280,7 @@ export function drawFieldStationOverlay({
   context.fillStyle = 'rgba(32, 25, 20, 0.55)';
   context.fillRect(0, 0, width, height);
   fillLeafGreenPanel(context, panelRect.x, panelRect.y, panelRect.w, panelRect.h);
+  drawFieldStationGrowthAccent(context, panelRect, contentRect, palette, nursery, arrivalPulse);
 
   context.font = UI_FONT_MEDIUM;
   drawUiText(context, 'FIELD STATION', contentRect.x, contentRect.y, palette.text);
@@ -1298,8 +1568,8 @@ export function drawFieldStationOverlay({
     return;
   }
 
-  const benchRect = makeRect(contentRect.x, bodyTop, contentRect.w, 28);
-  const compostRect = makeRect(contentRect.x, benchRect.y + benchRect.h + 4, contentRect.w, 18);
+  const benchRect = makeRect(contentRect.x, bodyTop, contentRect.w, 30);
+  const compostRect = makeRect(contentRect.x, benchRect.y + benchRect.h + 4, contentRect.w, 20);
   const bedRect = makeRect(
     contentRect.x,
     compostRect.y + compostRect.h + 4,
@@ -1308,13 +1578,20 @@ export function drawFieldStationOverlay({
   );
   const selectedProject = nursery.selectedProject;
   const activeProject = nursery.activeProject;
-  const extrasLabel = nursery.extras.filter((extra) => extra.unlocked).map((extra) => extra.title).join(' / ');
+  const hasLogPile = nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked);
+  const hasPollinatorPatch = nursery.extras.some(
+    (extra) => extra.id === 'pollinator-patch' && extra.unlocked,
+  );
 
   const cards = [
     { id: 'bench' as const, rect: benchRect, title: 'PROPAGATION BENCH' },
     { id: 'compost' as const, rect: compostRect, title: 'COMPOST HEAP' },
     { id: 'bed' as const, rect: bedRect, title: 'TEACHING BED' },
   ];
+
+  let benchBodyTop = benchRect.y + 14;
+  let compostBodyTop = compostRect.y + 14;
+  let bedBodyTop = bedRect.y + 14;
 
   for (const card of cards) {
     const selected = selectedNurseryCardId === card.id;
@@ -1327,14 +1604,21 @@ export function drawFieldStationOverlay({
       selected ? palette.journalPage : palette.journalSelected,
       selected ? palette.accent : palette.cardShadow,
     );
-    drawUiTextInRect(context, card.title, makeRect(card.rect.x + 4, card.rect.y, card.rect.w - 8, 10), selected ? palette.accent : palette.text);
+    const bodyTop = drawNurseryCardHeader(context, card.rect, palette, card.title, selected);
+    if (card.id === 'bench') {
+      benchBodyTop = bodyTop;
+    } else if (card.id === 'compost') {
+      compostBodyTop = bodyTop;
+    } else {
+      bedBodyTop = bodyTop;
+    }
   }
 
   if (!selectedProject) {
     drawWrappedTextInRect(
       context,
       'Log more route clues to open the first nursery project.',
-      makeRect(benchRect.x + 4, benchRect.y + 11, benchRect.w - 8, benchRect.h - 10),
+      makeRect(benchRect.x + 4, benchBodyTop, benchRect.w - 8, benchRect.h - (benchBodyTop - benchRect.y) - 3),
       6,
       palette.text,
       2,
@@ -1346,58 +1630,74 @@ export function drawFieldStationOverlay({
       context,
       fitTextToWidth(context, selectedProject.definition.title, benchRect.w - 8),
       benchRect.x + 4,
-      benchRect.y + 10,
+      benchBodyTop,
       palette.text,
     );
     drawUiText(
       context,
       `Have ${nursery.resources[sourceMode === 'cuttings' ? 'cuttings' : 'seed-stock']} ${sourceMode}`,
       benchRect.x + 4,
-      benchRect.y + 17,
+      benchBodyTop + 6,
       palette.text,
     );
     drawUiText(
       context,
       fitTextToWidth(context, `ENTER cycles • Start cost ${starterCost}`, benchRect.w - 8),
       benchRect.x + 4,
-      benchRect.y + 24,
+      benchBodyTop + 12,
       selectedProject.affordable ? palette.accent : palette.text,
     );
   }
 
+  const compostAccentOffset = drawNurseryCompostAccent(context, compostRect, palette, nursery.compostRate);
   drawUiText(
     context,
     `Litter ${nursery.resources.litter} -> Compost ${nursery.resources.compost}`,
-    compostRect.x + 4,
-    compostRect.y + 10,
+    compostRect.x + 4 + compostAccentOffset,
+    compostBodyTop,
     palette.text,
   );
   drawUiText(
     context,
     fitTextToWidth(context, `Auto ${nursery.compostRate}/step`, compostRect.w - 8),
     rightAlignTextX(context, `Auto ${nursery.compostRate}/step`, compostRect, 4),
-    compostRect.y + 10,
+    compostBodyTop,
     palette.accent,
   );
 
   if (activeProject) {
+    const stageProgress = getNurseryStageProgress(activeProject.state.stage);
+    const hasHomePlaceStrip = stageProgress > 0 || hasLogPile || hasPollinatorPatch;
+    const homePlaceStripRect = hasHomePlaceStrip
+      ? makeRect(bedRect.x + 4, bedRect.y + bedRect.h - 9, bedRect.w - 8, 7)
+      : null;
+    const bedContentTop = bedBodyTop + 3;
     drawUiText(
       context,
       fitTextToWidth(context, `${activeProject.definition.title} • ${activeProject.state.stage.toUpperCase()}`, bedRect.w - 8),
       bedRect.x + 4,
-      bedRect.y + 10,
+      bedContentTop,
       palette.text,
     );
-    drawWrappedTextInRect(
-      context,
-      activeProject.state.stage === 'mature'
-        ? activeProject.definition.rewardSummary
-        : `Compost and route steps will carry this bed toward ${activeProject.definition.rewardTitle}.`,
-      makeRect(bedRect.x + 4, bedRect.y + 17, bedRect.w - 8, 16),
-      6,
-      activeProject.state.stage === 'mature' ? palette.accent : palette.text,
-      2,
-    );
+    if (activeProject.state.stage === 'mature') {
+      drawUiText(
+        context,
+        fitTextToWidth(context, activeProject.definition.rewardSummary, bedRect.w - 8),
+        bedRect.x + 4,
+        bedContentTop + 5,
+        palette.accent,
+      );
+    } else {
+      drawWrappedTextInRect(
+        context,
+        `Compost and route steps will carry this bed toward ${activeProject.definition.rewardTitle}.`,
+        makeRect(bedRect.x + 4, bedContentTop + 8, bedRect.w - 8, 12),
+        6,
+        palette.text,
+        2,
+      );
+    }
+    const memoryY = homePlaceStripRect ? homePlaceStripRect.y - 2 : bedRect.y + bedRect.h - 11;
     drawUiText(
       context,
       fitTextToWidth(
@@ -1408,23 +1708,35 @@ export function drawFieldStationOverlay({
         bedRect.w - 8,
       ),
       bedRect.x + 4,
-      bedRect.y + bedRect.h - 16,
+      memoryY,
       palette.text,
     );
+    if (homePlaceStripRect) {
+      drawNurseryHomePlaceStrip(
+        context,
+        homePlaceStripRect,
+        palette,
+        stageProgress,
+        hasLogPile,
+        hasPollinatorPatch,
+      );
+    }
   } else if (selectedProject) {
+    const bedContentTop = bedBodyTop + 3;
     drawWrappedTextInRect(
       context,
       selectedProject.affordable
         ? `Ready to start ${selectedProject.definition.title}. ENTER plants the bed.`
         : selectedProject.definition.unlockSummary ?? 'Bring back a few more field materials before planting.',
-      makeRect(bedRect.x + 4, bedRect.y + 10, bedRect.w - 8, 18),
+      makeRect(bedRect.x + 4, bedContentTop, bedRect.w - 8, 18),
       6,
       palette.text,
       2,
     );
   }
 
-  if (nursery.routeSupportHint) {
+  const showRouteSupportHint = Boolean(nursery.routeSupportHint) && !(activeProject && activeProject.state.stage === 'mature');
+  if (showRouteSupportHint && nursery.routeSupportHint) {
     drawWrappedTextInRect(
       context,
       `Route clue: ${nursery.routeSupportHint}`,
@@ -1432,25 +1744,6 @@ export function drawFieldStationOverlay({
       6,
       palette.accent,
       2,
-    );
-  } else if (nursery.utilityNote) {
-    drawWrappedTextInRect(
-      context,
-      nursery.utilityNote,
-      makeRect(bedRect.x + 4, bedRect.y + bedRect.h - 28, bedRect.w - 8, 12),
-      6,
-      palette.accent,
-      2,
-    );
-  }
-
-  if (extrasLabel) {
-    drawUiText(
-      context,
-      fitTextToWidth(context, `Extras: ${extrasLabel}`, bedRect.w - 8),
-      bedRect.x + 4,
-      bedRect.y + bedRect.h - 9,
-      palette.text,
     );
   }
 }

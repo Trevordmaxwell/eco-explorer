@@ -1,0 +1,109 @@
+{
+  "packet_id": "ECO-PACKET-097",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Station transformation and arrival phase",
+  "summary": "After the home-place and feedback wave plus the first controller split, lane 1 should keep pushing tangible payoff. This phase deepens visible station transformation, then adds one more compact arrival-or-departure feel pass using existing seams.",
+  "source_reports": [
+    "docs/reports/2026-04-03-station-transformation-and-arrival-phase.md",
+    "docs/reports/2026-04-03-station-transformation-handoff.md",
+    "docs/reports/2026-04-03-station-arrival-feel-handoff.md",
+    "docs/reports/2026-04-03-station-arrival-feel-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-230",
+    "ECO-20260403-main-230",
+    "ECO-20260403-critic-230",
+    "ECO-20260403-scout-231",
+    "ECO-20260403-main-231",
+    "ECO-20260403-critic-231"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-227"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-230",
+      "goal": "Prepare the station transformation handoff.",
+      "why_now": "The home place should keep becoming more visibly shaped by the player's season."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-230",
+      "goal": "Implement station transformation.",
+      "why_now": "A stronger visible evolution will make returns feel more earned."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-230",
+      "goal": "Review station transformation.",
+      "why_now": "The station should feel warmer, not denser."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-231",
+      "goal": "Prepare the arrival or departure feel handoff.",
+      "why_now": "One more compact non-text pass can make the world feel more responsive."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-231",
+      "goal": "Implement arrival or departure feel.",
+      "why_now": "Travel and returns should have more sensory punctuation without more text."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-231",
+      "goal": "Review arrival or departure feel.",
+      "why_now": "The new feedback should improve feel without crowding the shell."
+    }
+  ],
+  "main_230_focus": {
+    "summary": "Keep the station-transformation pass in the shared field-station shell instead of adding more nursery copy.",
+    "preferred_surface": "Use the field-station header, tab gutter, and lower panel edge as one tiny home-place accent band that shows on both SEASON and NURSERY.",
+    "state_inputs": [
+      "nursery.activeProject.state.stage",
+      "nursery.extras.log-pile",
+      "nursery.extras.pollinator-patch",
+      "nursery.compostRate"
+    ],
+    "avoid": [
+      "new subtitle lines",
+      "another nursery footer row",
+      "new page or shell structure",
+      "animation-heavy work"
+    ]
+  },
+  "main_231_focus": {
+    "summary": "Keep the feel pass on field-station arrival by animating the approved lower-shell accent instead of adding another static decoration or touching the world map.",
+    "runtime_boundary": "Set and tick a short arrival pulse in game.ts when the field station opens, then feed that value into overlay rendering.",
+    "preferred_surface": "Reuse the lower-shell sill / planter accent as the only animated surface.",
+    "avoid": [
+      "world-map marker pulses",
+      "new copy or notice strips",
+      "a second shell decoration band",
+      "saved arrival-state fields"
+    ]
+  },
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new station page or dashboard.",
+    "Prefer visible state, motion, and punctuation over more copy.",
+    "Keep all changes compact at 256x160."
+  ]
+}

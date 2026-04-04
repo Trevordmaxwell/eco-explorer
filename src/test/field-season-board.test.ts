@@ -491,6 +491,34 @@ describe('field season board', () => {
     );
   });
 
+  it('surfaces a Bright Survey replay note on peak tundra survey revisits', () => {
+    const save = createNewSaveState('field-season-board-bright-survey-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+    ];
+    save.worldStep = 4;
+
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      routeId: 'treeline-shelter-line',
+      summary: 'This is a good outing to finish the inland line while the short-season ground is clearest.',
+      replayNote: {
+        id: 'tundra-bright-survey',
+        title: 'Bright Survey',
+      },
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'tundra-survey', status: 'active', title: 'Bright Survey' }),
+      ]),
+    );
+  });
+
   it('surfaces a wrack-shelter replay note on late beach opener revisits', () => {
     const save = createNewSaveState('field-season-board-wrack-shelter-seed');
     save.worldStep = 6;
@@ -507,6 +535,36 @@ describe('field season board', () => {
     expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ id: 'forest-study', status: 'active', title: 'Wrack Shelter' }),
+      ]),
+    );
+  });
+
+  it('surfaces a held-sand replay note on late scrub-pattern revisits', () => {
+    const save = createNewSaveState('field-season-board-held-sand-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+    ];
+    save.worldStep = 6;
+    save.biomeVisits['coastal-scrub'] = 2;
+
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save)).toMatchObject({
+      routeId: 'edge-pattern-line',
+      summary: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
+      replayNote: {
+        id: 'edge-held-sand',
+        title: 'Held Sand',
+      },
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, save).beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'scrub-edge-pattern', status: 'active', title: 'Held Sand' }),
       ]),
     );
   });
@@ -1197,6 +1255,54 @@ describe('field season board', () => {
     });
   });
 
+  it('keeps place tab distinct on the tundra survey beat while hand lens stays detail-facing', () => {
+    const save = createNewSaveState('field-season-wrap-place-tab-tundra-survey-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+    ];
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'place-tab',
+      ),
+    ).toEqual({
+      label: 'TODAY',
+      text: 'What hints at a very short summer?',
+    });
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'hand-lens',
+      ),
+    ).toEqual({
+      label: 'TODAY',
+      text: 'Bring Tundra Reach up to surveyed so the inland line ends as fieldwork, not only one stop.',
+    });
+  });
+
   it('falls back to the active beat detail when place tab is selected outside the edge line', () => {
     const save = createNewSaveState('field-season-wrap-place-tab-fallback-seed');
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
@@ -1286,6 +1392,57 @@ describe('field season board', () => {
     ).toEqual({
       label: 'TODAY',
       text: 'Moist Edge is clear. Next: Forest Trail.',
+    });
+  });
+
+  it('keeps note tabs notebook-first during the Held Sand replay window while hand lens stays live', () => {
+    const save = createNewSaveState('field-season-wrap-held-sand-note-tabs-seed');
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+    ];
+    save.worldStep = 6;
+    save.biomeVisits['coastal-scrub'] = 2;
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'note-tabs',
+      ),
+    ).toEqual({
+      label: 'SCRUB PATTERN',
+      text: 'Walk the coast-to-forest transect from pioneer scrub into lower fell.',
+    });
+
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'hand-lens',
+      ),
+    ).toEqual({
+      label: 'TODAY',
+      text: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
     });
   });
 

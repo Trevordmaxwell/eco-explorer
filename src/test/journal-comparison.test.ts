@@ -419,4 +419,34 @@ describe('journal comparison resolution', () => {
       'Wind-Cut Cushions',
     ]);
   });
+
+  it('supports reindeer lichen once treeline and tundra both unlock exposed-ground note context', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'reindeer-lichen': {
+          entryId: 'reindeer-lichen',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['treeline', 'tundra'],
+        },
+        'arctic-willow': {
+          entryId: 'arctic-willow',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['treeline'],
+        },
+        'moss-campion': {
+          entryId: 'moss-campion',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['tundra'],
+        },
+      },
+      'reindeer-lichen',
+      ['treeline', 'tundra'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Low Ground Wins',
+      'Wind-Cut Cushions',
+    ]);
+  });
 });

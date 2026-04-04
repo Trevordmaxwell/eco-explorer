@@ -1321,6 +1321,21 @@ function isInlandLineLoggedReturn(routeBoard: FieldSeasonBoardState): boolean {
   );
 }
 
+function resolveNoteTabsReplayWrap(routeBoard: FieldSeasonBoardState): FieldSeasonWrapState | null {
+  if (
+    routeBoard.routeId === 'edge-pattern-line'
+    && routeBoard.activeBeatId === 'scrub-edge-pattern'
+    && routeBoard.replayNote?.id === 'edge-held-sand'
+  ) {
+    return {
+      label: 'SCRUB PATTERN',
+      text: 'Walk the coast-to-forest transect from pioneer scrub into lower fell.',
+    };
+  }
+
+  return null;
+}
+
 function getEcosystemNotePrompt(
   biomes: Record<string, BiomeDefinition>,
   biomeId: string,
@@ -1338,6 +1353,8 @@ function resolvePlaceTabPrompt(
     switch (routeBoard.activeBeatId) {
       case 'tundra-short-season':
         return getEcosystemNotePrompt(biomes, 'tundra', 'thaw-edge');
+      case 'tundra-survey':
+        return getEcosystemNotePrompt(biomes, 'tundra', 'short-summer-rush');
       default:
         break;
     }
@@ -1389,6 +1406,13 @@ function resolveSupportAwareTodayWrap(
           text,
         }
       : null;
+  }
+
+  if (selectedOutingSupportId === 'note-tabs') {
+    const replayWrap = resolveNoteTabsReplayWrap(routeBoard);
+    if (replayWrap) {
+      return replayWrap;
+    }
   }
 
   if (

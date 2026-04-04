@@ -1,0 +1,86 @@
+{
+  "packet_id": "ECO-PACKET-099",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Destination chain continuation phase",
+  "summary": "After the first signature-pocket wave, lane 3 should continue building a chain of unforgettable places. This phase adds one coast-side continuation and one high-country relief or threshold continuation using the current traversal language.",
+  "source_reports": [
+    "docs/reports/2026-04-03-destination-chain-continuation-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-242",
+    "ECO-20260403-main-242",
+    "ECO-20260403-critic-242",
+    "ECO-20260403-scout-243",
+    "ECO-20260403-main-243",
+    "ECO-20260403-critic-243"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-223"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-242",
+      "goal": "Prepare the coast-side destination continuation handoff.",
+      "why_now": "The front half should gain another memorable place by feel, not just width."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-242",
+      "goal": "Implement the coast-side destination continuation.",
+      "why_now": "A second memorable coast beat will keep the front half from feeling too connective."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-242",
+      "goal": "Review the coast-side destination continuation.",
+      "why_now": "The new place should feel special without route noise or travel confusion."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-243",
+      "goal": "Prepare the high-country relief continuation handoff.",
+      "why_now": "The second act should gain another memorable threshold or relief place."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-243",
+      "goal": "Implement the high-country relief continuation.",
+      "why_now": "One more high-country destination beat will strengthen exposure by feel."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-243",
+      "goal": "Review the high-country relief continuation.",
+      "why_now": "The new beat should stay cozy, readable, and recoverable."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/game.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/beach-biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/tundra-biome.test.ts"
+  ],
+  "guardrails": [
+    "Reuse current traversal systems only.",
+    "No traversal HUD growth or harsher punishment.",
+    "Favor memorable place identity over longer route length."
+  ]
+}

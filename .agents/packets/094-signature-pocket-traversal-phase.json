@@ -1,0 +1,153 @@
+{
+  "packet_id": "ECO-PACKET-094",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Signature pocket traversal phase",
+  "summary": "Lane 3 should now deepen spatial identity instead of adding width. This wave gives Coastal Scrub one stronger signature pocket, then adds one high-country threshold pocket so the world has more places players remember by feel.",
+  "source_reports": [
+    "docs/reports/2026-04-03-signature-pocket-traversal-phase.md",
+    "docs/reports/2026-04-03-coastal-scrub-signature-pocket-handoff.md",
+    "docs/reports/2026-04-03-high-country-threshold-pocket-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-222",
+    "ECO-20260403-main-222",
+    "ECO-20260403-critic-222",
+    "ECO-20260403-scout-223",
+    "ECO-20260403-main-223",
+    "ECO-20260403-critic-223"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-215"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-222",
+      "goal": "Prepare the Coastal Scrub signature pocket handoff.",
+      "why_now": "Coastal Scrub is the biome most in need of a memorable spatial identity."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-222",
+      "goal": "Implement a Coastal Scrub signature pocket.",
+      "why_now": "One strong microhabitat beat will do more than more connective width."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-222",
+      "goal": "Review the Coastal Scrub signature pocket.",
+      "why_now": "The new place should feel special without route noise or travel confusion."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-223",
+      "goal": "Prepare the high-country threshold pocket handoff.",
+      "why_now": "Treeline and Tundra should feel more like exposure and threshold spaces."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-223",
+      "goal": "Implement a high-country threshold pocket.",
+      "why_now": "One memorable exposure pocket can make the second act feel more tactile."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-223",
+      "goal": "Review the high-country threshold pocket.",
+      "why_now": "The new beat should stay cozy, readable, and recoverable."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/game.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "main_222_focus": {
+    "focus_biome_id": "coastal-scrub",
+    "target_zone_ids": ["windbreak-swale"],
+    "target_band": {
+      "x_min": 316,
+      "x_max": 366,
+      "y_min": 108,
+      "y_max": 118
+    },
+    "preserve_platform_ids": [
+      "windbreak-gather-log",
+      "windbreak-gather-lift",
+      "windbreak-bluff-lee-step",
+      "windbreak-bluff-mid-step",
+      "windbreak-bluff-crest",
+      "windbreak-swale-entry-log",
+      "windbreak-swale-upper-log",
+      "windbreak-swale-exit-log",
+      "shore-pine-rest-log"
+    ],
+    "preferred_entry_ids": ["beach-strawberry", "pacific-wax-myrtle", "song-sparrow", "deer-mouse"],
+    "avoid": [
+      "left map-return post band",
+      "shore-pine-stand rest band",
+      "forest-edge corridor door",
+      "corridor runtime changes",
+      "world-map anchor changes",
+      "new climbables",
+      "new vertical cues",
+      "a second bluff or crest branch"
+    ]
+  },
+  "guardrails": [
+    "Reuse current traversal systems only.",
+    "No traversal HUD growth or harsher punishment.",
+    "Favor unforgettable place feel over wider geometry sprawl.",
+    "For main-222, spend the pass in the middle windbreak-swale pocket rather than revisiting the repaired left entry band or stacking another strong beat into shore-pine-stand."
+  ],
+  "main_223_focus": {
+    "focus_biome_id": "tundra",
+    "target_zone_ids": ["wind-bluff", "snow-meadow"],
+    "target_band": {
+      "x_min": 120,
+      "x_max": 184,
+      "y_min": 100,
+      "y_max": 109
+    },
+    "preserve_platform_ids": [
+      "thaw-skirt-entry-heave",
+      "thaw-skirt-upper-shelf",
+      "thaw-skirt-bank-shoulder",
+      "thaw-skirt-exit-heave",
+      "frost-ridge-drift-rest",
+      "meltwater-snow-lip",
+      "meltwater-bank-rest"
+    ],
+    "preferred_entry_ids": [
+      "frost-heave-hummock",
+      "reindeer-lichen",
+      "moss-campion",
+      "white-tailed-ptarmigan"
+    ],
+    "avoid": [
+      "treeline lee-pocket revisit",
+      "meltwater-edge wet-pocket revisit",
+      "thaw-skirt contour rewrite",
+      "new climbables",
+      "new vertical cues",
+      "close-look or sketchbook surface edits",
+      "world-map or corridor changes"
+    ]
+  }
+}

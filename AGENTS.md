@@ -161,6 +161,20 @@ Verification expectations:
 - run relevant tests and `npm run build` when you change runtime code
 - mention what you verified in the completion note or handoff
 
+## Lane-Clear Git Rule
+
+Lane runners may commit and push directly to `main` after clearing their lane, but only when it is actually safe.
+
+Safe means:
+
+- the runner is on `main`
+- the runner's lane has no remaining actionable queue item after its last update
+- `git status --short` shows only that lane's intended work or a clean tree
+- there are no unrelated dirty files from another active lane in the same working tree
+- the runner has completed the expected verification for the touched files
+
+If unrelated dirty work is present, do not commit or push. Leave the queue and reports updated, then hand off instead of scooping another lane's work into the same commit.
+
 ## Current Product Direction
 
 The current direction is:

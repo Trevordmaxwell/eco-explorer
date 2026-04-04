@@ -1,0 +1,46 @@
+{
+  "packet_id": "ECO-PACKET-101",
+  "version": 1,
+  "created_at": "2026-04-03",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Notice variant scope follow-up",
+  "summary": "The route-complete feedback pass needs one narrow follow-up so the new filed-route badge stays limited to route-backed notebook notices. Generic recorded completions like Forest Survey should keep the default notice styling.",
+  "source_reports": [
+    "docs/reports/2026-04-03-non-text-feedback-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-main-250",
+    "ECO-20260403-critic-250"
+  ],
+  "depends_on": [
+    "ECO-20260403-main-219"
+  ],
+  "suggested_owner_sequence": [
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-main-250",
+      "goal": "Narrow the filed-route notice variant back to route-backed completions only.",
+      "why_now": "The current helper leaks the route badge onto generic recorded notices such as Forest Survey."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-critic-250",
+      "goal": "Review the route-only notice scope fix.",
+      "why_now": "The feedback phase should close cleanly before lane 1 moves on to the controller split wave."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Keep the new badge and pulse art unchanged for real route-complete moments.",
+    "Do not widen the notice copy or add another helper surface.",
+    "Add one regression proof for a non-route completion such as Forest Survey staying on the default notice variant."
+  ]
+}

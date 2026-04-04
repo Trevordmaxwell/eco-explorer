@@ -38,6 +38,7 @@ const coastalScrubEntries = {
     shortFact: 'Coyote brush is one of the shrubs that shows Pacific coastal scrub has begun.',
     journalText:
       'Coyote brush is a tough native shrub that can cover windy Pacific coastal scrub. Dense branches help mark the shift from open dune plants to brushier habitat.',
+    sketchbookNote: 'Tough brush marking where open sand turns scrub.',
     spriteId: 'coyote-brush',
     collectible: false,
   },
@@ -77,6 +78,7 @@ const coastalScrubEntries = {
     shortFact: 'Deer mice eat many kinds of seeds and hide under plants or logs.',
     journalText:
       'A deer mouse is a small nighttime mammal that uses shrubs, grasses, and fallen wood for cover. It helps link plants and predators in many habitats.',
+    sketchbookNote: 'Quick runner using low scrub for cover.',
     spriteId: 'deer-mouse',
     collectible: false,
   },
@@ -211,6 +213,22 @@ export const coastalScrubBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'windbreak-pocket-lee-step',
+        spriteId: 'drift-platform',
+        x: 332,
+        y: 119,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'windbreak-pocket-rest-log',
+        spriteId: 'drift-platform',
+        x: 350,
+        y: 115,
+        w: 24,
+        h: 4,
+      },
+      {
         id: 'windbreak-swale-exit-log',
         spriteId: 'drift-platform',
         x: 398,
@@ -245,6 +263,18 @@ export const coastalScrubBiome: BiomeDefinition = {
         entryId: 'kinnikinnick',
         x: 448,
         y: 108,
+      },
+      {
+        id: 'windbreak-pocket-runner',
+        entryId: 'beach-strawberry',
+        x: 356,
+        y: 120,
+      },
+      {
+        id: 'windbreak-pocket-sparrow',
+        entryId: 'song-sparrow',
+        x: 366,
+        y: 114,
       },
       {
         id: 'shore-pine-rest-sparrow',

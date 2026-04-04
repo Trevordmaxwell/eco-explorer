@@ -1,0 +1,168 @@
+{
+  "packet_id": "ECO-PACKET-093",
+  "version": 7,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Signature pocket support phase",
+  "summary": "Lane 2 should now strengthen the identity of memorable places. This wave gives Coastal Scrub a stronger notebook-facing signature, then deepens exposure and threshold support for Treeline and Tundra through comparison, note, and close-look surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-03-signature-pocket-support-phase.md",
+    "docs/reports/2026-04-03-coastal-scrub-signature-support-handoff.md",
+    "docs/reports/2026-04-03-coastal-scrub-signature-support-implementation.md",
+    "docs/reports/2026-04-03-coastal-scrub-signature-support-review.md",
+    "docs/reports/2026-04-03-exposure-threshold-support-handoff.md",
+    "docs/reports/2026-04-03-exposure-threshold-support-implementation.md",
+    "docs/reports/2026-04-03-exposure-threshold-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-220",
+    "ECO-20260403-main-220",
+    "ECO-20260403-critic-220",
+    "ECO-20260403-scout-221",
+    "ECO-20260403-main-221",
+    "ECO-20260403-critic-221"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-213"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-220",
+      "goal": "Prepare the Coastal Scrub signature support handoff.",
+      "why_now": "Coastal Scrub still needs a stronger destination identity."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-220",
+      "goal": "Implement Coastal Scrub signature support content.",
+      "why_now": "The biome should read as more than connective tissue."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-220",
+      "goal": "Review Coastal Scrub signature support.",
+      "why_now": "The new support should deepen identity without bloating text surfaces."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-221",
+      "goal": "Prepare the exposure-threshold support handoff.",
+      "why_now": "Treeline and Tundra should feel more distinct through exposure and seasonal threshold texture."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-221",
+      "goal": "Implement exposure-threshold support content.",
+      "why_now": "The high-country branch should teach exposure by feel, not just flavor text."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-221",
+      "goal": "Review exposure-threshold support.",
+      "why_now": "High-country content needs to stay compact, science-safe, and place-led."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/journal-comparison.ts",
+    "src/test/close-look.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/sketchbook.test.ts"
+  ],
+  "guardrails": [
+    "Do not add route-board, station, or world-map logic.",
+    "Prefer place memory and ecological relationship over raw count growth.",
+    "Keep every addition notebook-toned and handheld-safe."
+  ],
+  "main_220_focus": {
+    "zone_family": [
+      "shrub-thicket",
+      "windbreak-swale"
+    ],
+    "close_look_entry_ids": [
+      "pacific-wax-myrtle"
+    ],
+    "sketchbook_entry_ids": [
+      "coyote-brush"
+    ],
+    "suggested_copy": {
+      "pacific-wax-myrtle": {
+        "callouts": [
+          "waxy berries",
+          "leaf cluster"
+        ],
+        "sentence": "Dark berries help mark where coastal scrub starts holding steadier cover."
+      },
+      "coyote-brush": {
+        "sketchbookNote": "Tough brush marking where open sand turns scrub."
+      }
+    },
+    "defer_entry_ids": [
+      "shore-pine",
+      "kinnikinnick",
+      "nurse-log",
+      "nootka-rose",
+      "salmonberry",
+      "sword-fern"
+    ],
+    "defer_surfaces": [
+      "comparison",
+      "new-ecosystem-note",
+      "route-board",
+      "station",
+      "world-map"
+    ]
+  },
+  "main_221_focus": {
+    "close_look_entry_ids": [
+      "talus-cushion-pocket"
+    ],
+    "sketchbook_entry_ids": [
+      "frost-heave-hummock"
+    ],
+    "suggested_copy": {
+      "talus-cushion-pocket": {
+        "callouts": [
+          "stone gap",
+          "cushion hold"
+        ],
+        "sentence": "Between alpine stones, tiny cushions can hold on in calmer air."
+      },
+      "frost-heave-hummock": {
+        "sketchbookNote": "Raised hummock showing freeze-thaw at work."
+      }
+    },
+    "defer_entry_ids": [
+      "arctic-willow",
+      "crowberry",
+      "lingonberry",
+      "mountain-avens",
+      "moss-campion",
+      "reindeer-lichen",
+      "cottongrass",
+      "frost-heave-boulder"
+    ],
+    "defer_surfaces": [
+      "comparison",
+      "new-ecosystem-note",
+      "route-board",
+      "station",
+      "world-map"
+    ]
+  }
+}

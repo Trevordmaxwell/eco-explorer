@@ -47,6 +47,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Freeze and thaw can slowly lift this stone from cold ground.',
     spriteScale: 5,
   },
+  'talus-cushion-pocket': {
+    callouts: ['stone gap', 'cushion hold'],
+    sentence: 'Between alpine stones, tiny cushions can hold on in calmer air.',
+    spriteScale: 6,
+  },
   cottongrass: {
     callouts: ['white tuft', 'wet stem base'],
     sentence: 'These fluffy fibers help cottongrass seeds ride the wind.',
@@ -66,6 +71,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     callouts: ['soft old wood', 'held moisture'],
     sentence: 'Old wood can hold water and give new plants a gentler start.',
     spriteScale: 6,
+  },
+  'pacific-wax-myrtle': {
+    callouts: ['waxy berries', 'leaf cluster'],
+    sentence: 'Dark berries help mark where coastal scrub starts holding steadier cover.',
+    spriteScale: 5,
   },
   'canopy-moss-bed': {
     callouts: ['soft moss bed', 'held water'],

@@ -139,6 +139,7 @@ const tundraEntries = {
     shortFact: 'Freeze-thaw ground can push tundra soil into small hummocks.',
     journalText:
       'A frost-heave hummock is a small tundra mound shaped by ground that freezes, lifts, and settles again. Cold soil can slowly reshape the land without anyone digging it.',
+    sketchbookNote: 'Raised hummock showing freeze-thaw at work.',
     spriteId: 'frost-heave-hummock',
     collectible: false,
   },
@@ -191,6 +192,22 @@ export const tundraBiome: BiomeDefinition = {
       },
     ],
     authoredPlatforms: [
+      {
+        id: 'wind-bluff-heave-shoulder',
+        spriteId: 'ice-platform',
+        x: 128,
+        y: 108,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'snow-threshold-lee-rest',
+        spriteId: 'ice-platform',
+        x: 150,
+        y: 111,
+        w: 28,
+        h: 4,
+      },
       {
         id: 'thaw-skirt-entry-heave',
         spriteId: 'ice-platform',
@@ -266,6 +283,18 @@ export const tundraBiome: BiomeDefinition = {
         entryId: 'moss-campion',
         x: 136,
         y: 102,
+      },
+      {
+        id: 'snow-threshold-hummock',
+        entryId: 'frost-heave-hummock',
+        x: 156,
+        y: 105,
+      },
+      {
+        id: 'snow-threshold-lichen',
+        entryId: 'reindeer-lichen',
+        x: 172,
+        y: 105,
       },
       {
         id: 'thaw-skirt-channel',
