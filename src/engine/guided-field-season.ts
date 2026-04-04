@@ -55,6 +55,9 @@ export function resolveGuidedFieldSeasonState(
   const trailStrideOwned = hasFieldUpgrade(save, 'trail-stride');
   const coastalScrubVisited = (save.biomeVisits['coastal-scrub'] ?? 0) > 0;
   const coastalLineLogged = hasCompletedRequest(save, 'coastal-edge-moisture');
+  const treelineBeatLogged = hasCompletedRequest(save, 'treeline-stone-shelter');
+  const tundraBeatLogged = hasCompletedRequest(save, 'tundra-short-season');
+  const tundraSurveyLogged = hasCompletedRequest(save, 'tundra-survey-slice');
 
   if (seasonThreadsLogged && save.seasonCloseReturnPending) {
     return {
@@ -98,6 +101,51 @@ export function resolveGuidedFieldSeasonState(
         text: 'Back in Forest Trail, log the clues that tie this season together.',
       },
       nextBiomeId: 'forest',
+    };
+  }
+
+  if (coastalLineLogged && !treelineBeatLogged) {
+    return {
+      stage: 'settled',
+      stationNote: {
+        title: 'STONE SHELTER',
+        text: 'Stone Shelter is next at Treeline Pass. Read bent cover, stone break, and lee life before the thaw edge.',
+      },
+      promptNotice: {
+        title: 'STONE SHELTER',
+        text: 'Treeline Pass next. Read Stone Shelter from bent cover to lee life.',
+      },
+      nextBiomeId: 'treeline',
+    };
+  }
+
+  if (treelineBeatLogged && !tundraBeatLogged) {
+    return {
+      stage: 'settled',
+      stationNote: {
+        title: 'THAW WINDOW',
+        text: 'Thaw Window is next in Tundra Reach. Follow first bloom, wet tuft, and brief fruit through the brief thaw.',
+      },
+      promptNotice: {
+        title: 'THAW WINDOW',
+        text: 'Tundra Reach next. Follow Thaw Window from first bloom to brief fruit.',
+      },
+      nextBiomeId: 'tundra',
+    };
+  }
+
+  if (tundraBeatLogged && !tundraSurveyLogged) {
+    return {
+      stage: 'settled',
+      stationNote: {
+        title: 'TUNDRA SURVEY',
+        text: 'Tundra Survey closes the inland chapter. Stay in Tundra Reach and finish the broader fieldwork before turning downslope.',
+      },
+      promptNotice: {
+        title: 'TUNDRA SURVEY',
+        text: 'Stay in Tundra Reach. Finish Tundra Survey before the route turns back downslope.',
+      },
+      nextBiomeId: 'tundra',
     };
   }
 

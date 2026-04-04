@@ -898,6 +898,16 @@ describe('runtime smoke loop', () => {
       title: 'Open To Shelter',
       progressLabel: '0/3 stages',
     });
+    tapKey(fakeWindow, 'j');
+    state = readState(fakeWindow);
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: 'coastal-shelter-shift',
+      title: 'Open To Shelter',
+      summary: 'Trace coast-to-forest shelter from bloom to pine to edge log.',
+    });
+    tapKey(fakeWindow, 'Escape');
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('playing');
 
     let sandVerbena = state.nearbyInspectables.find((entity: any) => entity.entryId === 'sand-verbena');
     if (!sandVerbena) {
@@ -1018,6 +1028,7 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
     expect(state.worldMap?.focusedLocationId).toBe('coastal-scrub');
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: Open To Shelter');
 
     tapKey(fakeWindow, 'm');
     state = readState(fakeWindow);
@@ -1582,7 +1593,7 @@ describe('runtime smoke loop', () => {
     ).toBe(true);
   });
 
-  it('lets the player descend through the seep pocket into a tucked lower basin pocket and recover through the brighter return', () => {
+  it('lets the player settle into a tucked under-basin rest and recover through the brighter return', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-seep-pocket-seed');
     persistSave(seededSave);
@@ -1613,12 +1624,17 @@ describe('runtime smoke loop', () => {
       'ArrowRight',
       (nextState) =>
         nextState.zoneId === 'stone-basin' &&
-        nextState.player?.x >= 366 &&
-        nextState.player?.y >= 208,
+        (nextState.player?.x ?? 0) >= 360 &&
+        (nextState.player?.x ?? 0) <= 372 &&
+        (nextState.player?.y ?? 999) >= 206 &&
+        (nextState.player?.y ?? 0) <= 210,
       320,
     );
     expect(state.zoneId).toBe('stone-basin');
-    expect(state.player?.y).toBeGreaterThanOrEqual(208);
+    expect(state.player?.x).toBeGreaterThanOrEqual(360);
+    expect(state.player?.x).toBeLessThanOrEqual(372);
+    expect(state.player?.y).toBeGreaterThanOrEqual(206);
+    expect(state.player?.y).toBeLessThanOrEqual(210);
     expect(state.visibleVerticalCueIds).toContain('stone-basin-return-light');
     expect(
       state.nearbyInspectables.some((entity: any) =>
@@ -2573,6 +2589,60 @@ describe('runtime smoke loop', () => {
     }
   });
 
+  it('adds a branch-nursery pocket above the old-growth return and keeps the snag catchable', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-old-growth-branch-nursery-seed');
+    persistSave(seededSave);
+    const originalForestStartPosition = { ...forestBiome.startPosition };
+    forestBiome.startPosition = { x: 652, y: 4 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('forest');
+
+      let state = readState(fakeWindow);
+      expect(state.zoneId).toBe('old-growth-pocket');
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          (nextState.player?.x ?? 0) >= 726 &&
+          (nextState.player?.x ?? 999) <= 737 &&
+          (nextState.player?.y ?? 0) >= 24 &&
+          (nextState.player?.y ?? 999) <= 26,
+        140,
+      );
+      expect(
+        state.nearbyInspectables.some((entity: any) =>
+          ['western-hemlock-seedling', 'canopy-moss-bed', 'old-mans-beard'].includes(entity.entryId),
+        ),
+      ).toBe(true);
+
+      state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowLeft',
+        (nextState) =>
+          !nextState.player?.climbing &&
+          (nextState.player?.x ?? 999) <= 679 &&
+          (nextState.player?.y ?? 0) >= 26 &&
+          (nextState.player?.y ?? 999) <= 44 &&
+          nextState.nearbyClimbable?.id === 'old-growth-inner-bark-snag',
+        100,
+      );
+      expect(state.nearbyClimbable).toMatchObject({
+        id: 'old-growth-inner-bark-snag',
+        inRange: true,
+      });
+    } finally {
+      forestBiome.startPosition = originalForestStartPosition;
+    }
+  });
+
   it('continues the upper canopy into a tiny bark-window nook and keeps the return snag readable', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-old-growth-bark-window-seed');
@@ -3078,6 +3148,7 @@ describe('runtime smoke loop', () => {
     state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
 
     tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'field-station');
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.mode).toBe('field-station');
@@ -3212,15 +3283,20 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.seasonNote).toMatchObject({
+      title: 'STONE SHELTER',
+      text: 'Stone Shelter is next at Treeline Pass. Read bent cover, stone break, and lee life before the thaw edge.',
+    });
     expect(state.fieldStation?.routeBoard).toMatchObject({
       routeId: 'treeline-shelter-line',
       routeTitle: 'TREELINE SHELTER LINE',
-      summary: 'Leave canopy cover. Follow the last sheltered treeline pocket before the thaw edge.',
-      nextDirection: 'Next: travel to Treeline Pass and log bent cover first, then stone break, then lee life.',
+      summary: 'Stone Shelter starts at Treeline Pass.',
+      nextDirection:
+        'Next: travel to Treeline Pass and read Stone Shelter through bent cover, stone break, and lee life.',
       targetBiomeId: 'treeline',
       beats: [
-        { id: 'treeline-shelter', status: 'active' },
-        { id: 'tundra-short-season', status: 'upcoming' },
+        { id: 'treeline-shelter', status: 'active', title: 'Stone Shelter' },
+        { id: 'tundra-short-season', status: 'upcoming', title: 'Thaw Window' },
         { id: 'tundra-survey', status: 'upcoming' },
       ],
     });
@@ -3228,6 +3304,10 @@ describe('runtime smoke loop', () => {
       title: 'FIELD ATLAS',
       loggedRoutes: ['COASTAL SHELTER LINE logged'],
       note: 'Coast filed. Inland shelter next.',
+    });
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'ROUTE LOGGED',
+      text: 'Good stopping point. Coast line filed.',
     });
     expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
 
@@ -3279,15 +3359,20 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.seasonNote).toMatchObject({
+      title: 'THAW WINDOW',
+      text: 'Thaw Window is next in Tundra Reach. Follow first bloom, wet tuft, and brief fruit through the brief thaw.',
+    });
     expect(state.fieldStation?.routeBoard).toMatchObject({
       routeId: 'treeline-shelter-line',
       routeTitle: 'TREELINE SHELTER LINE',
-      summary: 'Sheltered treeline pocket logged. Follow the tundra thaw window out and back.',
-      nextDirection: 'Next: travel to Tundra Reach and log first bloom, then wet tuft, then brief fruit.',
+      summary: 'Stone Shelter logged. Thaw Window opens in Tundra Reach.',
+      nextDirection:
+        'Next: travel to Tundra Reach and follow Thaw Window from first bloom to brief fruit.',
       targetBiomeId: 'tundra',
       beats: [
-        { id: 'treeline-shelter', status: 'done' },
-        { id: 'tundra-short-season', status: 'active' },
+        { id: 'treeline-shelter', status: 'done', title: 'Stone Shelter Logged' },
+        { id: 'tundra-short-season', status: 'active', title: 'Thaw Window' },
         { id: 'tundra-survey', status: 'upcoming' },
       ],
     });
@@ -3300,6 +3385,10 @@ describe('runtime smoke loop', () => {
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'TODAY',
+      text: 'Stone Shelter logged. Thaw Window opens in Tundra Reach.',
+    });
 
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);

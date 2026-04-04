@@ -1,18 +1,26 @@
 {
   "packet_id": "ECO-PACKET-083",
-  "version": 1,
+  "version": 5,
   "created_at": "2026-04-03",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Front-half season continuity phase",
   "summary": "After beach joins the field-season board and the front-half station language warms up, lane 1 should spend its next pass on continuity. This wave tightens coast-facing season wording across board, journal, and map seams, then adds one compact front-half stop-point or recap seam so the early season feels as intentional as the inland half.",
   "source_reports": [
-    "docs/reports/2026-04-03-lane-1-front-half-continuity-follow-on.md"
+    "docs/reports/2026-04-03-lane-1-front-half-continuity-follow-on.md",
+    "docs/reports/2026-04-03-front-half-season-continuity-handoff.md",
+    "docs/reports/2026-04-03-front-half-season-continuity-implementation.md",
+    "docs/reports/2026-04-03-front-half-season-continuity-review.md",
+    "docs/reports/2026-04-03-front-half-stop-point-handoff.md",
+    "docs/reports/2026-04-03-front-half-stop-point-implementation.md",
+    "docs/reports/2026-04-03-front-half-stop-point-review.md"
   ],
   "queue_refs": [
     "ECO-20260403-scout-161",
     "ECO-20260403-main-199",
     "ECO-20260403-critic-172",
+    "ECO-20260403-main-218",
+    "ECO-20260403-critic-218",
     "ECO-20260403-scout-162",
     "ECO-20260403-main-200",
     "ECO-20260403-critic-173"
@@ -49,18 +57,30 @@
     },
     {
       "step": 4,
+      "queue_id": "ECO-20260403-main-218",
+      "goal": "Trim the front-half continuity copy back to handheld-safe fit.",
+      "why_now": "The new continuity direction is right, but the live journal card and atlas strip now clip before the full thought lands."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-critic-218",
+      "goal": "Review the handheld-fit continuity repair.",
+      "why_now": "The repair should stay as a narrow fit correction rather than reopening the whole continuity wave."
+    },
+    {
+      "step": 6,
       "queue_id": "ECO-20260403-scout-162",
       "goal": "Prepare a front-half stop-point or recap handoff.",
       "why_now": "Once continuity improves, the early loop also needs a calmer place to pause."
     },
     {
-      "step": 5,
+      "step": 7,
       "queue_id": "ECO-20260403-main-200",
       "goal": "Implement a front-half stop-point or recap seam.",
       "why_now": "The coast-facing loop should feel as complete and pausable as the inland half."
     },
     {
-      "step": 6,
+      "step": 8,
       "queue_id": "ECO-20260403-critic-173",
       "goal": "Review the front-half stop-point or recap seam.",
       "why_now": "The routes shell should stay calm rather than growing denser."
@@ -68,8 +88,6 @@
   ],
   "file_targets": [
     "src/engine/field-season-board.ts",
-    "src/engine/game.ts",
-    "src/engine/overlay-render.ts",
     "src/test/field-season-board.test.ts",
     "src/test/runtime-smoke.test.ts"
   ],
@@ -77,6 +95,7 @@
     "Reuse existing board, atlas, journal-card, and map-footer seams.",
     "Do not add another station page, recap panel, or navigation HUD.",
     "Prefer one shared phrase family over multiple new labels.",
-    "Keep the early loop routes-first and notebook-toned."
+    "Keep the early loop routes-first and notebook-toned.",
+    "Use the routes-page top strip as the recap seam while the board and atlas keep owning the inland handoff."
   ]
 }

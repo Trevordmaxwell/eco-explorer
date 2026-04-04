@@ -164,6 +164,54 @@ describe('sketchbook helpers', () => {
     });
   });
 
+  it('surfaces the shared moss-campion note across treeline and tundra sketchbook pages', () => {
+    const save = createNewSaveState('sketchbook-second-act-shared-memory-seed');
+
+    recordDiscovery(save, treelineBiome.entries['moss-campion'], 'treeline');
+    recordDiscovery(save, tundraBiome.entries['moss-campion'], 'tundra');
+
+    placeSketchbookEntry(save, treelineBiome, 'top-left', 'moss-campion');
+    placeSketchbookEntry(save, tundraBiome, 'top-left', 'moss-campion');
+
+    const treelinePage = buildSketchbookPageView(
+      treelineBiome,
+      treelineBiome.entries,
+      save,
+    );
+    const tundraPage = buildSketchbookPageView(
+      tundraBiome,
+      tundraBiome.entries,
+      save,
+    );
+
+    expect(treelinePage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'moss-campion',
+      note: 'Dense cushion bloom on cold ground.',
+    });
+    expect(tundraPage.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'moss-campion',
+      note: 'Dense cushion bloom on cold ground.',
+    });
+  });
+
+  it('surfaces the new tree-lungwort sketchbook note in forest pages', () => {
+    const save = createNewSaveState('sketchbook-tree-lungwort-memory-seed');
+
+    recordDiscovery(save, forestBiome.entries['tree-lungwort'], 'forest');
+    placeSketchbookEntry(save, forestBiome, 'top-left', 'tree-lungwort');
+
+    const page = buildSketchbookPageView(
+      forestBiome,
+      forestBiome.entries,
+      save,
+    );
+
+    expect(page.slots.find((slot) => slot.slotId === 'top-left')).toMatchObject({
+      entryId: 'tree-lungwort',
+      note: 'Leafy lichen on cool damp bark.',
+    });
+  });
+
   it('surfaces compact forest microhabitat notes for the archive payoff trio', () => {
     const save = createNewSaveState('sketchbook-forest-microhabitat-note-seed');
 

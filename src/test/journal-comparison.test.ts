@@ -389,4 +389,34 @@ describe('journal comparison resolution', () => {
       'Evergreen Berry Mats',
     ]);
   });
+
+  it('supports moss-campion once treeline and tundra both unlock exposed alpine mat notes', () => {
+    const comparison = resolveJournalComparison(
+      biomeRegistry,
+      {
+        'moss-campion': {
+          entryId: 'moss-campion',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['treeline', 'tundra'],
+        },
+        'mountain-avens': {
+          entryId: 'mountain-avens',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['treeline'],
+        },
+        'reindeer-lichen': {
+          entryId: 'reindeer-lichen',
+          discoveredAt: '2026-04-03T00:00:00.000Z',
+          biomeIds: ['tundra'],
+        },
+      },
+      'moss-campion',
+      ['treeline', 'tundra'],
+    );
+
+    expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
+      'Fell Bloom Window',
+      'Wind-Cut Cushions',
+    ]);
+  });
 });

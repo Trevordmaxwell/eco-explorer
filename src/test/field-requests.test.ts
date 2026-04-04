@@ -357,7 +357,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'coastal-shelter-shift',
       title: 'Open To Shelter',
-      summary: 'In Coastal Scrub, read shelter from open bloom to shore pine to edge log.',
+      summary: 'Trace coast-to-forest shelter from bloom to pine to edge log.',
       progressLabel: '0/3 stages',
       routeV2: {
         status: 'gathering',

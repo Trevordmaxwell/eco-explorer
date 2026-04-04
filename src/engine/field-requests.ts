@@ -259,7 +259,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     id: 'coastal-shelter-shift',
     biomeId: 'coastal-scrub',
     title: 'Open To Shelter',
-    summary: 'In Coastal Scrub, read shelter from open bloom to shore pine to edge log.',
+    summary: 'Trace coast-to-forest shelter from bloom to pine to edge log.',
     unlockAfter: ['forest-survey-slice'],
     type: 'transect-evidence',
     zoneIds: ['back-dune', 'shore-pine-stand', 'forest-edge'],

@@ -76,6 +76,7 @@ describe('forest biome generation', () => {
     const midLedge = rootPlatforms.find((platform) => platform.id === 'root-hollow-mid-ledge');
     const caveSill = rootPlatforms.find((platform) => platform.id === 'root-hollow-cave-sill');
     const basinSill = rootPlatforms.find((platform) => platform.id === 'root-hollow-basin-sill');
+    const underBasinRest = rootPlatforms.find((platform) => platform.id === 'root-hollow-under-basin-rest');
     const highLedge = rootPlatforms.find((platform) => platform.id === 'root-hollow-high-ledge');
     const depthFeatures = instance.depthFeatures.map((feature) => ({
       id: feature.id,
@@ -108,6 +109,7 @@ describe('forest biome generation', () => {
       'root-hollow-entry-log',
       'root-hollow-mid-ledge',
       'root-hollow-cave-sill',
+      'root-hollow-under-basin-rest',
       'root-hollow-return-nook',
       'root-hollow-basin-sill',
       'root-hollow-high-ledge',
@@ -129,6 +131,15 @@ describe('forest biome generation', () => {
     expect(caveSill?.y).toBeLessThan(terrainAtSeepPocket?.y ?? 0);
     expect(basinSill?.y).toBeGreaterThan(caveSill?.y ?? 0);
     expect(basinSill?.y).toBeLessThan(terrainAtStoneBasin?.y ?? 0);
+    expect(underBasinRest).toMatchObject({
+      id: 'root-hollow-under-basin-rest',
+      x: 358,
+      y: 218,
+      w: 20,
+    });
+    expect(underBasinRest?.y).toBeGreaterThan(basinSill?.y ?? 0);
+    expect(underBasinRest?.y).toBeGreaterThan(terrainAtStoneBasin?.y ?? 0);
+    expect(underBasinRest?.y).toBeLessThan(terrainAtUnderBasin?.y ?? 999);
     expect(highLedge?.y).toBeLessThan(midLedge?.y ?? 0);
   });
 
@@ -174,6 +185,7 @@ describe('forest biome generation', () => {
       'old-growth-high-perch',
       'old-growth-inner-bark-rest',
       'old-growth-inner-loop-step',
+      'old-growth-branch-nursery',
       'old-growth-canopy-ledge',
     ]);
     expect(oldGrowthDepthFeatures).toEqual([
@@ -262,6 +274,45 @@ describe('forest biome generation', () => {
     expect(waypointEntities).toEqual([
       { entryId: 'seep-moss-mat', x: 408, y: 104, castsShadow: false },
       { entryId: 'old-mans-beard', x: 740, y: 38, castsShadow: false },
+    ]);
+  });
+
+  it('adds one inward branch-nursery pocket in the old-growth canopy band', () => {
+    const save = createNewSaveState('forest-branch-nursery-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+    const crownWindow = instance.platforms.find((platform) => platform.id === 'old-growth-crown-window');
+    const branchNursery = instance.platforms.find((platform) => platform.id === 'old-growth-branch-nursery');
+    const canopyCrook = instance.platforms.find((platform) => platform.id === 'canopy-inner-rest-crook');
+    const nurserySupport = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId === 'authored-old-growth-branch-hemlock-western-hemlock-seedling' ||
+          entity.entityId === 'authored-old-growth-inner-rest-moss-canopy-moss-bed',
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }));
+
+    expect(branchNursery).toMatchObject({
+      id: 'old-growth-branch-nursery',
+      x: 712,
+      y: 34,
+      w: 30,
+    });
+    expect(branchNursery?.x).toBeGreaterThanOrEqual(692);
+    expect(branchNursery?.x).toBeLessThanOrEqual(742);
+    expect(branchNursery?.y).toBeGreaterThanOrEqual(24);
+    expect(branchNursery?.y).toBeLessThanOrEqual(50);
+    expect(branchNursery?.x).toBeGreaterThan(crownWindow?.x ?? 0);
+    expect(branchNursery?.x).toBeLessThan(canopyCrook?.x ?? 999);
+    expect(branchNursery?.y).toBeGreaterThan(crownWindow?.y ?? 0);
+    expect(branchNursery?.y).toBeLessThan(canopyCrook?.y ?? 999);
+
+    expect(nurserySupport).toEqual([
+      { entryId: 'western-hemlock-seedling', x: 726, y: 24 },
+      { entryId: 'canopy-moss-bed', x: 734, y: 44 },
     ]);
   });
 
@@ -408,7 +459,7 @@ describe('forest biome generation', () => {
       { entryId: 'licorice-fern', x: 324, y: 118, castsShadow: false },
       { entryId: 'tree-lungwort', x: 350, y: 148, castsShadow: false },
       { entryId: 'seep-stone', x: 356, y: 172, castsShadow: true },
-      { entryId: 'tree-lungwort', x: 366, y: 222, castsShadow: false },
+      { entryId: 'tree-lungwort', x: 366, y: 210, castsShadow: false },
       { entryId: 'seep-moss-mat', x: 374, y: 194, castsShadow: false },
       { entryId: 'tree-lungwort', x: 380, y: 88, castsShadow: false },
       { entryId: 'ensatina', x: 380, y: 220, castsShadow: true },
@@ -448,6 +499,7 @@ describe('forest biome generation', () => {
       { entryId: 'licorice-fern', x: 700, y: 30, castsShadow: false },
       { entryId: 'woodpecker-cavity', x: 702, y: 132, castsShadow: false },
       { entryId: 'tree-lungwort', x: 724, y: 54, castsShadow: false },
+      { entryId: 'western-hemlock-seedling', x: 726, y: 24, castsShadow: true },
       { entryId: 'canopy-moss-bed', x: 734, y: 44, castsShadow: false },
       { entryId: 'western-hemlock-seedling', x: 736, y: 108, castsShadow: true },
       { entryId: 'tree-lungwort', x: 748, y: 74, castsShadow: false },

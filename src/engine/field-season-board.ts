@@ -399,7 +399,7 @@ function getTreelineShelterBeat(save: SaveState): Omit<FieldSeasonBoardBeat, 'st
   if (!hasCompletedRequest(save, 'treeline-stone-shelter')) {
     return {
       id: 'treeline-shelter',
-      title: 'Treeline Shelter',
+      title: 'Stone Shelter',
       detail:
         'Start in Krummholz Belt with bent cover, then read stone break and lee life in the lee pocket.',
     };
@@ -407,7 +407,7 @@ function getTreelineShelterBeat(save: SaveState): Omit<FieldSeasonBoardBeat, 'st
 
   return {
     id: 'treeline-shelter',
-    title: 'Treeline Shelter Logged',
+    title: 'Stone Shelter Logged',
     detail: 'Bent cover, stone break, and lee life now read as one last sheltered treeline pocket.',
   };
 }
@@ -416,14 +416,14 @@ function getTundraShortSeasonBeat(save: SaveState): Omit<FieldSeasonBoardBeat, '
   if (!hasCompletedRequest(save, 'tundra-short-season')) {
     return {
       id: 'tundra-short-season',
-      title: 'Short Season',
+      title: 'Thaw Window',
       detail: 'Start in Snow Meadow with first bloom, drop to Thaw Skirt for wet tuft, then carry brief fruit back upslope.',
     };
   }
 
   return {
     id: 'tundra-short-season',
-    title: 'Short Season Logged',
+    title: 'Thaw Window Logged',
     detail: 'First bloom, wet tuft, and brief fruit now read as one short thaw-window run.',
   };
 }
@@ -877,7 +877,7 @@ function resolveCoastalFieldSeasonBoardState(save: SaveState): FieldSeasonBoardS
     nextDirection = 'Next: return to the field station for Trail Stride.';
     targetBiomeId = null;
   } else if (forestBeatDone && stationBeatDone && !shelterShiftLogged) {
-    summary = 'Open To Shelter carries the shore line into Coastal Scrub.';
+    summary = 'Open To Shelter carries the coast-to-forest shelter line through Coastal Scrub.';
     nextDirection =
       'Next: travel to Coastal Scrub and start Open To Shelter with open bloom, then shore pine, then edge log.';
     targetBiomeId = 'coastal-scrub';
@@ -932,17 +932,20 @@ function resolveInlandFieldSeasonBoardState(save: SaveState): FieldSeasonBoardSt
 
   const completedBeatCount = [treelineBeatDone, tundraBeatDone, surveyBeatDone].filter(Boolean).length;
   const complete = surveyBeatDone;
-  let summary = 'Leave canopy cover. Follow the last sheltered treeline pocket before the thaw edge.';
-  let nextDirection = 'Next: travel to Treeline Pass and log bent cover first, then stone break, then lee life.';
+  let summary = 'Stone Shelter starts at Treeline Pass.';
+  let nextDirection =
+    'Next: travel to Treeline Pass and read Stone Shelter through bent cover, stone break, and lee life.';
   let targetBiomeId: FieldSeasonBoardState['targetBiomeId'] = 'treeline';
 
   if (treelineBeatDone && !tundraBeatDone) {
-    summary = 'Sheltered treeline pocket logged. Follow the tundra thaw window out and back.';
-    nextDirection = 'Next: travel to Tundra Reach and log first bloom, then wet tuft, then brief fruit.';
+    summary = 'Stone Shelter logged. Thaw Window opens in Tundra Reach.';
+    nextDirection =
+      'Next: travel to Tundra Reach and follow Thaw Window from first bloom to brief fruit.';
     targetBiomeId = 'tundra';
   } else if (treelineBeatDone && tundraBeatDone && !surveyBeatDone) {
-    summary = 'Thaw-window run logged. Finish with a tundra survey.';
-    nextDirection = 'Next: bring Tundra Reach up to surveyed to log the inland line.';
+    summary = 'Thaw Window logged. Tundra Survey closes the inland chapter in Tundra Reach.';
+    nextDirection =
+      'Next: stay in Tundra Reach and finish Tundra Survey before the route turns back downslope.';
     targetBiomeId = 'tundra';
   } else if (complete) {
     summary = 'Inland line logged. Next: deepen the alpine branch.';
@@ -1310,6 +1313,14 @@ function isOpenToShelterLoggedReturn(routeBoard: FieldSeasonBoardState): boolean
   );
 }
 
+function isInlandLineLoggedReturn(routeBoard: FieldSeasonBoardState): boolean {
+  return (
+    routeBoard.routeId === 'edge-pattern-line'
+    && routeBoard.activeBeatId === 'scrub-edge-pattern'
+    && routeBoard.progressLabel === '0/3 logged'
+  );
+}
+
 function getEcosystemNotePrompt(
   biomes: Record<string, BiomeDefinition>,
   biomeId: string,
@@ -1400,6 +1411,16 @@ function resolveSupportAwareTodayWrap(
     };
   }
 
+  if (
+    selectedOutingSupportId === 'note-tabs'
+    && isInlandLineLoggedReturn(routeBoard)
+  ) {
+    return {
+      label: 'INLAND LINE LOGGED',
+      text: 'Tundra Survey closes the inland line. Scrub Pattern waits in Coastal Scrub.',
+    };
+  }
+
   if (selectedOutingSupportId === 'note-tabs') {
     return routeBoard.summary
       ? {
@@ -1453,6 +1474,19 @@ function resolveCompleteRouteStopPointText(
   return null;
 }
 
+function resolveFrontHalfStopPointText(routeBoard: FieldSeasonBoardState): string | null {
+  if (
+    routeBoard.routeId === 'treeline-shelter-line'
+    && routeBoard.beats[0]?.status === 'active'
+    && routeBoard.beats[1]?.status === 'upcoming'
+    && routeBoard.beats[2]?.status === 'upcoming'
+  ) {
+    return 'Good stopping point. Coast line filed.';
+  }
+
+  return null;
+}
+
 function resolveNoteTabsChapterCloseWrap(
   routeBoard: FieldSeasonBoardState,
   selectedOutingSupportId: OutingSupportId,
@@ -1478,7 +1512,7 @@ export function resolveFieldSeasonWrapState(
   biomes: Record<string, BiomeDefinition>,
   routeBoard: FieldSeasonBoardState,
   seasonNote: { title: string; text: string },
-  _atlas: FieldAtlasState | null,
+  atlas: FieldAtlasState | null,
   archive: FieldSeasonArchiveState | null = null,
   selectedOutingSupportId: OutingSupportId = 'hand-lens',
 ): FieldSeasonWrapState {
@@ -1533,6 +1567,14 @@ export function resolveFieldSeasonWrapState(
     return {
       label: seasonNote.title,
       text: seasonNote.text,
+    };
+  }
+
+  const frontHalfStopPointText = resolveFrontHalfStopPointText(routeBoard);
+  if (frontHalfStopPointText && atlas) {
+    return {
+      label: 'ROUTE LOGGED',
+      text: frontHalfStopPointText,
     };
   }
 

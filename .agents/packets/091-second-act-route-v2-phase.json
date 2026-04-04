@@ -1,0 +1,110 @@
+{
+  "packet_id": "ECO-PACKET-091",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Second-act Route v2 phase",
+  "summary": "After the front-half chapter and filing wave closed cleanly, lane 4 should strengthen the inland branch as a distinct second act. This wave clarifies the treeline-to-tundra route chapter, then adds one compact second-act filing or support payoff using existing seams.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-4-second-act-route-v2-phase.md",
+    "docs/reports/2026-04-03-second-act-route-v2-chapter-handoff.md",
+    "docs/reports/2026-04-03-second-act-note-tabs-close-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-216",
+    "ECO-20260403-main-216",
+    "ECO-20260403-critic-216",
+    "ECO-20260403-scout-217",
+    "ECO-20260403-main-217",
+    "ECO-20260403-critic-217"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-179"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-216",
+      "goal": "Prepare the second-act Route v2 chapter handoff.",
+      "why_now": "The early beach-to-forest chapter is now clearer than the inland branch."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-216",
+      "goal": "Implement second-act Route v2 chapter framing.",
+      "why_now": "Treeline and tundra should feel like a true second act, not a checklist extension."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-216",
+      "goal": "Review second-act Route v2 chapter framing.",
+      "why_now": "The inland branch needs stronger place memory without becoming heavier or chattier."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-217",
+      "goal": "Prepare the second-act filing or support handoff.",
+      "why_now": "Once the route chapter reads more clearly, the return payoff should deepen completion feeling."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-217",
+      "goal": "Implement second-act filing or support payoff.",
+      "why_now": "A small notebook or support-row payoff can make the second act feel more authored without widening the shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-217",
+      "goal": "Review second-act filing or support payoff.",
+      "why_now": "The new payoff should deepen the outing loop without adding clutter."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/guided-field-season.ts",
+    "src/engine/game.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/guided-field-season.test.ts"
+  ],
+  "focus_route_ids": [
+    "treeline-shelter-line",
+    "edge-pattern-line"
+  ],
+  "focus_request_ids": [
+    "treeline-stone-shelter",
+    "treeline-low-fell",
+    "tundra-short-season"
+  ],
+  "guardrails": [
+    "Reuse current Route v2, note-tabs, support row, and guided-season seams.",
+    "Do not add a new station page, quest log, or heavier support bar.",
+    "Prefer clearer chapter framing and return payoff over extra mechanics.",
+    "Keep the tone notebook-first and place-led."
+  ],
+  "main_217_focus": {
+    "selected_seam": "note-tabs-inland-close",
+    "target_state": "first edge-pattern-line routes state immediately after tundra-survey-slice logs",
+    "copy_goal": "give the inland chapter one compact logged close before Scrub Pattern takes over the strip",
+    "recommended_wrap": {
+      "label": "INLAND LINE LOGGED",
+      "text": "Tundra Survey closes the inland line. Scrub Pattern waits in Coastal Scrub."
+    },
+    "guardrails": [
+      "Leave the route board itself pointed at Scrub Pattern.",
+      "Do not rename the canonical filed Short Season note path.",
+      "Do not widen into nursery wording or a broader guided-season rewrite in this pass."
+    ]
+  },
+  "handoff_prompt": "Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-4.md, docs/reports/2026-04-03-lane-4-second-act-route-v2-phase.md, docs/reports/2026-04-03-second-act-route-v2-chapter-review.md, docs/reports/2026-04-03-second-act-note-tabs-close-handoff.md, and this packet. Treat the next wave as a compact payoff pass, not another chapter-spread rewrite: add one note-tabs-only inland logged close on the first edge-pattern-line state after tundra-survey-slice so the inland chapter gets a notebook-style page turn before Scrub Pattern takes over, while leaving nursery wording, route-marker behavior, and the stable filed Short Season identity alone."
+}

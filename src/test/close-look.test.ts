@@ -18,6 +18,7 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('nurse-log')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
+    expect(supportsCloseLook('tree-lungwort')).toBe(true);
     expect(supportsCloseLook('old-mans-beard')).toBe(true);
     expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
@@ -112,6 +113,14 @@ describe('close-look helpers', () => {
       spriteId: 'seep-moss-mat',
     });
     expect(seepMossPayload?.callouts).toContain('wet stone grip');
+
+    const treeLungwortPayload = buildCloseLookPayload(forestBiome.entries['tree-lungwort']);
+    expect(treeLungwortPayload).toMatchObject({
+      entryId: 'tree-lungwort',
+      title: 'Tree Lungwort',
+      spriteId: 'tree-lungwort',
+    });
+    expect(treeLungwortPayload?.callouts).toContain('leafy lobes');
 
     const beardPayload = buildCloseLookPayload(forestBiome.entries['old-mans-beard']);
     expect(beardPayload).toMatchObject({

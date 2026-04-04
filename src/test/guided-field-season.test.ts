@@ -88,7 +88,7 @@ describe('guided field season', () => {
     });
   });
 
-  it('points to coastal scrub after trail stride is owned and settles after the next visit', () => {
+  it('points through the coastal opener and inland second-act chapter ladder', () => {
     const save = createNewSaveState('guided-field-season-next-stop-seed');
     save.purchasedUpgradeIds = ['trail-stride'];
 
@@ -118,10 +118,42 @@ describe('guided field season', () => {
     save.completedFieldRequestIds = ['coastal-edge-moisture'];
     expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
       stage: 'settled',
-      nextBiomeId: null,
+      nextBiomeId: 'treeline',
       stationNote: {
-        title: 'FIELD SEASON OPEN',
-        text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        title: 'STONE SHELTER',
+        text: 'Stone Shelter is next at Treeline Pass. Read bent cover, stone break, and lee life before the thaw edge.',
+      },
+      promptNotice: {
+        title: 'STONE SHELTER',
+        text: 'Treeline Pass next. Read Stone Shelter from bent cover to lee life.',
+      },
+    });
+
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'treeline-stone-shelter'];
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'settled',
+      nextBiomeId: 'tundra',
+      stationNote: {
+        title: 'THAW WINDOW',
+        text: 'Thaw Window is next in Tundra Reach. Follow first bloom, wet tuft, and brief fruit through the brief thaw.',
+      },
+      promptNotice: {
+        title: 'THAW WINDOW',
+        text: 'Tundra Reach next. Follow Thaw Window from first bloom to brief fruit.',
+      },
+    });
+
+    save.completedFieldRequestIds = ['coastal-edge-moisture', 'treeline-stone-shelter', 'tundra-short-season'];
+    expect(resolveGuidedFieldSeasonState(biomeRegistry, save)).toMatchObject({
+      stage: 'settled',
+      nextBiomeId: 'tundra',
+      stationNote: {
+        title: 'TUNDRA SURVEY',
+        text: 'Tundra Survey closes the inland chapter. Stay in Tundra Reach and finish the broader fieldwork before turning downslope.',
+      },
+      promptNotice: {
+        title: 'TUNDRA SURVEY',
+        text: 'Stay in Tundra Reach. Finish Tundra Survey before the route turns back downslope.',
       },
     });
   });

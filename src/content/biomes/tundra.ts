@@ -578,6 +578,17 @@ export const tundraBiome: BiomeDefinition = {
       zoneId: 'frost-ridge',
     },
     {
+      id: 'wind-cut-cushions',
+      title: 'Wind-Cut Cushions',
+      entryIds: ['moss-campion', 'reindeer-lichen', 'frost-heave-hummock'],
+      minimumDiscoveries: 2,
+      summary:
+        'Tiny cushion flowers and pale lichens stay low where cold wind skims across the bluff.',
+      observationPrompt:
+        'What here stays alive on the most exposed ground?',
+      zoneId: 'wind-bluff',
+    },
+    {
       id: 'between-tussocks',
       title: 'Between Tussocks',
       entryIds: ['tussock-thaw-channel', 'bigelows-sedge', 'cottongrass'],

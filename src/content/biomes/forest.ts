@@ -57,6 +57,7 @@ const forestEntries = {
     shortFact: 'Tree lungwort grows on damp trunks and mossy rocks, where it helps feed forest nutrient cycles.',
     journalText:
       'Tree lungwort is a leafy lichen of cool, humid forests. Because cyanobacteria live inside it, tree lungwort can help move nitrogen into the forest food web.',
+    sketchbookNote: 'Leafy lichen on cool damp bark.',
     spriteId: 'tree-lungwort',
     collectible: false,
   },
@@ -325,6 +326,14 @@ export const forestBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'root-hollow-under-basin-rest',
+        spriteId: 'rock-platform',
+        x: 358,
+        y: 218,
+        w: 20,
+        h: 4,
+      },
+      {
         id: 'root-hollow-return-nook',
         spriteId: 'rock-platform',
         x: 368,
@@ -450,6 +459,14 @@ export const forestBiome: BiomeDefinition = {
         x: 688,
         y: 36,
         w: 34,
+        h: 4,
+      },
+      {
+        id: 'old-growth-branch-nursery',
+        spriteId: 'log-platform',
+        x: 712,
+        y: 34,
+        w: 30,
         h: 4,
       },
       {
@@ -658,7 +675,7 @@ export const forestBiome: BiomeDefinition = {
         id: 'root-hollow-pocket-lungwort',
         entryId: 'tree-lungwort',
         x: 366,
-        y: 222,
+        y: 210,
         castsShadow: false,
       },
       {
@@ -847,6 +864,12 @@ export const forestBiome: BiomeDefinition = {
         x: 700,
         y: 30,
         castsShadow: false,
+      },
+      {
+        id: 'old-growth-branch-hemlock',
+        entryId: 'western-hemlock-seedling',
+        x: 726,
+        y: 24,
       },
       {
         id: 'old-growth-crown-lungwort',

@@ -1,0 +1,149 @@
+{
+  "packet_id": "ECO-PACKET-089",
+  "version": 7,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Second-act support phase",
+  "summary": "After the front-half comparison and memory work closed cleanly, lane 2 should support the stronger second act. This wave adds a compact high-country comparison and close-look pack, then deepens memory payoff for those same second-act anchors through existing notebook-facing surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-2-second-act-support-phase.md",
+    "docs/reports/2026-04-03-second-act-comparison-close-look-handoff.md",
+    "docs/reports/2026-04-03-second-act-comparison-close-look-implementation.md",
+    "docs/reports/2026-04-03-second-act-comparison-close-look-review.md",
+    "docs/reports/2026-04-03-second-act-memory-payoff-handoff.md",
+    "docs/reports/2026-04-03-second-act-memory-payoff-implementation.md",
+    "docs/reports/2026-04-03-second-act-memory-payoff-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-212",
+    "ECO-20260403-main-212",
+    "ECO-20260403-critic-212",
+    "ECO-20260403-scout-213",
+    "ECO-20260403-main-213",
+    "ECO-20260403-critic-213"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-175"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-212",
+      "goal": "Prepare the second-act comparison and close-look handoff.",
+      "why_now": "The inland branch now needs stronger authored teaching anchors rather than more front-half breadth."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-212",
+      "goal": "Implement second-act comparison and close-look support.",
+      "why_now": "Treeline, tundra, and the forest vertical family can now carry more distinct microhabitat teaching."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-212",
+      "goal": "Review second-act comparison and close-look support.",
+      "why_now": "These surfaces need to stay compact and science-safe."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-213",
+      "goal": "Prepare the second-act memory payoff handoff.",
+      "why_now": "The new second-act anchors should also leave a better notebook memory trace."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-213",
+      "goal": "Implement second-act memory payoff.",
+      "why_now": "The inland and vertical spaces should feel remembered without opening another archive shell."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-213",
+      "goal": "Review second-act memory payoff.",
+      "why_now": "Sketchbook or note growth must stay calm and handheld-safe."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/journal-comparison.ts",
+    "src/test/close-look.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/sketchbook.test.ts"
+  ],
+  "support_scope": {
+    "comparison_entry_ids": [
+      "moss-campion"
+    ],
+    "comparison_support_note": {
+      "treeline_existing_note_id": "fell-bloom-window",
+      "tundra_new_note_id": "wind-cut-cushions",
+      "tundra_support_entry_ids": [
+        "moss-campion",
+        "reindeer-lichen",
+        "frost-heave-hummock"
+      ]
+    },
+    "close_look_entry_ids": [
+      "tree-lungwort"
+    ],
+    "defer_entry_ids": [
+      "reindeer-lichen",
+      "seep-stone",
+      "seep-moss-mat"
+    ]
+  },
+  "memory_scope": {
+    "surface": "sketchbook",
+    "entry_ids": [
+      "moss-campion",
+      "tree-lungwort"
+    ],
+    "shared_entry_ids": [
+      "moss-campion"
+    ],
+    "forest_entry_ids": [
+      "tree-lungwort"
+    ],
+    "suggested_notes": {
+      "moss-campion": "Dense cushion bloom on cold ground.",
+      "tree-lungwort": "Leafy lichen on cool damp bark."
+    },
+    "defer_surfaces": [
+      "ecosystem-note",
+      "journal-comparison",
+      "close-look",
+      "station",
+      "atlas-shell"
+    ]
+  },
+  "candidate_entry_ids": [
+    "moss-campion",
+    "reindeer-lichen",
+    "tree-lungwort",
+    "seep-moss-mat",
+    "seep-stone"
+  ],
+  "guardrails": [
+    "Reuse only existing comparison, close-look, sketchbook, and ecosystem-note surfaces.",
+    "Do not add station, route-board, or world-map logic.",
+    "Keep the pack narrow and second-act focused.",
+    "Prefer habitat-role contrast and remembered places over raw totals.",
+    "Keep `main-212` limited to `moss-campion` comparison support plus `tree-lungwort` close-look support; do not widen the allowlists further in the same pass.",
+    "Use `reindeer-lichen` only as supporting tundra note context if needed, not as a second new comparison or close-look target.",
+    "Keep `seep-stone` and `seep-moss-mat` out of this wave; they already own other second-act support seams."
+  ]
+}

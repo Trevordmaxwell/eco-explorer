@@ -3,7 +3,7 @@
   "version": 2,
   "created_at": "2026-04-02",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Forest sub-canopy waypoint phase",
   "summary": "The forest vertical family now has enough route shape; the next gain should turn two existing cue anchors into quiet places. This wave adds one cave-mouth observation point around `stone-basin-return-light` and one canopy rest nook around `old-growth-inner-rest-light`, using the live forest roster and current recovery seams instead of more height or depth.",
   "source_reports": [

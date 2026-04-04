@@ -386,6 +386,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('thaw-edge');
   });
 
+  it('supports the new tundra exposed-ground note through the campion and lichen pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      tundraBiome,
+      'moss-campion',
+      ['moss-campion', 'reindeer-lichen'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('wind-cut-cushions');
+  });
+
   it('supports the new tundra berry-mat note through the lingonberry and crowberry pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       tundraBiome,

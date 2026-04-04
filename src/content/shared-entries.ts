@@ -178,6 +178,7 @@ export const mossCampionEntry = {
   shortFact: 'Moss campion grows in tight cushions that hold warmer air near the ground.',
   journalText:
     'Moss campion is a tiny alpine wildflower that forms a dense cushion on windy slopes. Its packed shape helps it keep heat close in cold mountain weather.',
+  sketchbookNote: 'Dense cushion bloom on cold ground.',
   spriteId: 'moss-campion',
   collectible: false,
 } satisfies InspectableEntry;

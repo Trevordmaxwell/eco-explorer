@@ -1,0 +1,168 @@
+{
+  "packet_id": "ECO-PACKET-090",
+  "version": 3,
+  "created_at": "2026-04-03",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Vertical destination family phase",
+  "summary": "The upper old-growth family now has a real remembered destination. The next lane-3 gain should answer it from below with one tucked under-basin place inside the existing cave family, not another depth spike or cue layer.",
+  "source_reports": [
+    "docs/reports/2026-04-03-lane-3-vertical-destination-family-phase.md",
+    "docs/reports/2026-04-03-forest-vertical-destination-handoff.md",
+    "docs/reports/2026-04-03-deeper-cave-pocket-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260403-scout-214",
+    "ECO-20260403-main-214",
+    "ECO-20260403-critic-214",
+    "ECO-20260403-scout-215",
+    "ECO-20260403-main-215",
+    "ECO-20260403-critic-215"
+  ],
+  "depends_on": [
+    "ECO-20260403-critic-210"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260403-scout-214",
+      "goal": "Prepare the forest vertical-destination handoff.",
+      "why_now": "The next lane-3 gain is one place the player remembers, not another tiny spatial repair."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260403-main-214",
+      "goal": "Implement a forest vertical destination family.",
+      "why_now": "A stronger upper-canopy or giant-tree destination can turn the current proof points into a real chapter-space."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260403-critic-214",
+      "goal": "Review the forest vertical destination family.",
+      "why_now": "The destination should add wonder and memory without getting harsher or noisier."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260403-scout-215",
+      "goal": "Prepare the deeper cave pocket handoff.",
+      "why_now": "Once the upper destination is stronger, the cave side should answer it with one calmer remembered place below the basin lip."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260403-main-215",
+      "goal": "Implement a deeper cave pocket follow-on.",
+      "why_now": "A second tied destination will make the forest vertical family feel like one real place rather than separate tricks."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260403-critic-215",
+      "goal": "Review the deeper cave pocket follow-on.",
+      "why_now": "The cave beat should stay cozy, recoverable, and readable."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/forest.ts",
+    "src/engine/game.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/vertical-cues.test.ts"
+  ],
+  "main_214_focus": {
+    "focus_biome_id": "forest",
+    "target_zone_ids": ["old-growth-pocket"],
+    "target_band": { "x_min": 692, "x_max": 742, "y_min": 24, "y_max": 50 },
+    "preserve_platform_ids": [
+      "old-growth-crown-rest",
+      "old-growth-crown-window",
+      "old-growth-high-perch",
+      "old-growth-inner-bark-rest",
+      "old-growth-inner-loop-step",
+      "canopy-inner-rest-crook",
+      "old-growth-canopy-ledge"
+    ],
+    "preserve_climbable_ids": [
+      "old-growth-main-trunk",
+      "old-growth-crown-snag",
+      "old-growth-inner-bark-snag",
+      "old-growth-canopy-rung",
+      "old-growth-upper-snag"
+    ],
+    "preferred_entry_ids": [
+      "canopy-moss-bed",
+      "western-hemlock-seedling",
+      "old-mans-beard",
+      "tree-lungwort"
+    ],
+    "avoid": [
+      "new route height above old-growth-crown-rest",
+      "bridge or trunk-foot changes",
+      "another outward ledge toward old-growth-canopy-ledge",
+      "a second ascent spine",
+      "new vertical cues",
+      "journal or station changes"
+    ]
+  },
+  "main_215_focus": {
+    "focus_biome_id": "forest",
+    "target_zone_ids": [
+      "stone-basin"
+    ],
+    "target_band": {
+      "x_min": 356,
+      "x_max": 394,
+      "y_min": 194,
+      "y_max": 232
+    },
+    "preserve_platform_ids": [
+      "root-hollow-cave-sill",
+      "root-hollow-basin-sill",
+      "root-hollow-return-nook",
+      "root-hollow-high-ledge",
+      "filtered-return-mouth-sill"
+    ],
+    "preserve_depth_feature_ids": [
+      "root-hollow-stone-basin",
+      "root-hollow-under-basin-pocket",
+      "root-hollow-filtered-pocket"
+    ],
+    "preserve_climbable_ids": [
+      "root-hollow-fir-trunk",
+      "root-hollow-cave-trunk"
+    ],
+    "preferred_entry_ids": [
+      "tree-lungwort",
+      "seep-moss-mat",
+      "ensatina",
+      "banana-slug"
+    ],
+    "avoid": [
+      "floor or worldHeight deepening below the current under-basin pocket",
+      "new chamber or right-side tunnel under log-run",
+      "second climb spine or second upper-return nook",
+      "new vertical cues or HUD work",
+      "new species pack, journal shell, or station drift"
+    ]
+  },
+  "focus_zones": [
+    "old-growth-crown-window",
+    "old-growth-inner-rest",
+    "stone-basin",
+    "filtered-return"
+  ],
+  "guardrails": [
+    "Reuse the current terrain, platform, climbable, and cue systems.",
+    "Do not add a traversal HUD or harsher punishment language.",
+    "Favor remembered habitat pockets over raw height or depth.",
+    "Keep every new beat recoverable and kid-readable.",
+    "For main-214, strengthen the inward old-growth canopy pocket around crown-window and inner-rest instead of adding more height or another outward top route.",
+    "For main-215, strengthen the under-basin chamber as one tucked resting place below stone-basin instead of adding a new right-side tunnel, deeper floor, or second climb spine."
+  ]
+}

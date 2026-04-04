@@ -77,6 +77,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Seep water keeps this moss patch clinging to wet stone.',
     spriteScale: 6,
   },
+  'tree-lungwort': {
+    callouts: ['leafy lobes', 'bark grip'],
+    sentence: 'This leafy lichen clings to cool, damp bark where humid forest air holds.',
+    spriteScale: 5,
+  },
   'old-mans-beard': {
     callouts: ['hanging strands', 'branch grip'],
     sentence: 'Pale strands hang where damp forest air reaches the high branches.',
