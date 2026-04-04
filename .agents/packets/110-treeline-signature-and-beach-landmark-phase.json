@@ -1,0 +1,79 @@
+{
+  "packet_id": "ECO-PACKET-110",
+  "version": 1,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Treeline signature and beach landmark phase",
+  "summary": "Lane 3 should give Treeline a stronger signature threshold place and Beach one more authored landmark or lee-space beat so the five-biome chain carries memorable destinations end to end.",
+  "source_reports": [
+    "docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-267",
+    "ECO-20260404-main-267",
+    "ECO-20260404-critic-267",
+    "ECO-20260404-scout-268",
+    "ECO-20260404-main-268",
+    "ECO-20260404-critic-268"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-267",
+      "goal": "Prepare the treeline signature destination handoff.",
+      "why_now": "Treeline should stand out by feel as much as Forest and Tundra do."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-267",
+      "goal": "Implement the treeline signature destination.",
+      "why_now": "The threshold chapter deserves one stronger remembered place."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-267",
+      "goal": "Review the treeline signature destination.",
+      "why_now": "The new beat should deepen identity without making traversal harsher."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-268",
+      "goal": "Prepare the beach landmark or lee-space handoff.",
+      "why_now": "Beach is a good onboarding biome and can carry one more unforgettable place."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-268",
+      "goal": "Implement the beach landmark or lee-space beat.",
+      "why_now": "A stronger beach landmark helps the whole world feel more place-based."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-268",
+      "goal": "Review the beach landmark or lee-space beat.",
+      "why_now": "The onboarding biome should stay readable and calm."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/beach.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts"
+  ],
+  "guardrails": [
+    "Do not create punishing traversal or maze structure.",
+    "Keep routes cozy, recoverable, and visually legible.",
+    "Make new destinations distinct from existing forest, scrub, and tundra signatures."
+  ]
+}

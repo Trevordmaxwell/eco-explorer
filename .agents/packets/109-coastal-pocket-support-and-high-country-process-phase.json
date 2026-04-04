@@ -1,0 +1,83 @@
+{
+  "packet_id": "ECO-PACKET-109",
+  "version": 1,
+  "created_at": "2026-04-04",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Coastal pocket support and high-country process phase",
+  "summary": "Lane 2 should deepen the new Coastal Scrub bluff pocket with content payoff, then give the high-country threshold rest one compact process-backed support seam.",
+  "source_reports": [
+    "docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md"
+  ],
+  "queue_refs": [
+    "ECO-20260404-scout-265",
+    "ECO-20260404-main-265",
+    "ECO-20260404-critic-265",
+    "ECO-20260404-scout-266",
+    "ECO-20260404-main-266",
+    "ECO-20260404-critic-266"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260404-scout-265",
+      "goal": "Prepare the coastal bluff pocket support handoff.",
+      "why_now": "The new bluff pocket should get authored payoff while it is still fresh."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260404-main-265",
+      "goal": "Implement the coastal bluff pocket support pack.",
+      "why_now": "A remembered place gets stronger when support surfaces reinforce it."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260404-critic-265",
+      "goal": "Review the coastal bluff pocket support pack.",
+      "why_now": "The pocket should deepen without widening the notebook."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260404-scout-266",
+      "goal": "Prepare the high-country process support handoff.",
+      "why_now": "The new tundra or treeline threshold rest should teach a living process, not just a static place."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260404-main-266",
+      "goal": "Implement the high-country process support pack.",
+      "why_now": "A compact process seam can make the second act feel more alive without more board text."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260404-critic-266",
+      "goal": "Review the high-country process support pack.",
+      "why_now": "The support should stay visual-first and handheld-safe."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/journal-comparison.ts",
+    "src/test/close-look.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/sketchbook.test.ts",
+    "src/test/tundra-biome.test.ts"
+  ],
+  "guardrails": [
+    "Keep support modular and content-owned.",
+    "Prefer close-look, sketchbook, or compact comparison support over longer prose.",
+    "Do not widen route-board or station copy."
+  ]
+}

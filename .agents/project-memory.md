@@ -395,8 +395,9 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - Public-facing docs and tooling notes must stay synced with the live repo state and exposed npm scripts so the project does not undersell or misdescribe the current game.
 - Coastal Scrub remains the highest-priority biome for emotional distinctiveness until it has a signature pocket and support identity players remember as clearly as the forest destinations.
 - Future station and nursery payoff should become more visibly transformative through calm environmental change instead of more copy or a larger home-base shell.
+- The lower field-station sill is now the current payoff ceiling for that seam; future station evolution should shift to a different compact seam instead of widening the sill family further.
 - Before another major chapter expansion, targeted extractions should keep reducing concentration inside `game.ts`, `overlay-render.ts`, and `field-season-board.ts`.
-- The helper row should either create a felt difference in outings or stay intentionally small; flavor-only support growth is a lower-value middle ground.
+- The helper row should either create a felt difference in outings or stay intentionally small; `route-marker` now owns the map-planning difference, so future helper differentiation should focus on in-field feel rather than more map or station chrome.
 
 ## Update Notes
 
