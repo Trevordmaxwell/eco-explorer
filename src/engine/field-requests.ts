@@ -443,6 +443,9 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       momentId: 'sand-capture',
       activeTitle: 'Held Sand',
       activeSummary: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
+      activeSlotEntryIdsBySlotId: {
+        'open-pioneer': ['beach-grass'],
+      },
     },
     completionTriggers: ['inspect'],
   },

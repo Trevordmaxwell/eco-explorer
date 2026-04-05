@@ -1109,6 +1109,37 @@ describe('field requests', () => {
     });
   });
 
+  it('only lets beach-grass fit the open-pioneer stage during the active Held Sand window', () => {
+    const context = createCoastalContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+      ],
+      'back-dune',
+    );
+
+    expect(getHandLensNotebookFit(context, 'beach-grass')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-grass')).toBeNull();
+    expect(context.save.routeV2Progress).toBeNull();
+    expect(getHandLensNotebookFit(context, 'dune-lupine')).toBe('Notebook fit: open pioneer');
+
+    context.save.worldStep = 6;
+    context.save.biomeVisits['coastal-scrub'] = 2;
+
+    expect(getHandLensNotebookFit(context, 'beach-grass')).toBe('Notebook fit: open pioneer');
+    expect(getHandLensNotebookFit(context, 'dune-lupine')).toBe('Notebook fit: open pioneer');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-grass')).toBeNull();
+    expect(resolveActiveFieldRequest(context)?.routeV2?.evidenceSlots).toEqual([
+      { slotId: 'open-pioneer', entryId: 'beach-grass' },
+    ]);
+  });
+
   it('turns tundra-short-season into a process-backed outing during the thaw-fringe window', () => {
     const context = createTundraContext(
       [
@@ -1373,7 +1404,7 @@ describe('field requests', () => {
       status: 'ready-to-synthesize',
       landmarkEntryIds: [],
       evidenceSlots: [
-        { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+        { slotId: 'open-pioneer', entryId: 'beach-grass' },
         { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
         { slotId: 'thicker-edge', entryId: 'salmonberry' },
       ],
@@ -1383,11 +1414,11 @@ describe('field requests', () => {
       title: 'Scrub Pattern',
       summary: 'Return to the field station and file the Scrub Pattern note.',
       routeV2: {
-        filedText: 'Seashore Lupine, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
+        filedText: 'American Dunegrass, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
       },
     });
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'scrub-edge-pattern')).toBe(
-      'Seashore Lupine, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
+      'American Dunegrass, Pacific Wax Myrtle, and Salmonberry now read as one clear transition.',
     );
   });
 

@@ -42,86 +42,6 @@ This is the shared queue for all agents working in this repo.
 
 ## Ready
 
-### ECO-20260404-scout-263
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Prepare the non-sill home-place payoff handoff`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `none`
-
-Goal:
-
-- Narrow one visible station or nursery payoff seam that does not spend more of the current sill family.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-263`
-- keeps the home-place pass calm, compact, and non-text-heavy
-
-### ECO-20260404-scout-265
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Prepare the coastal bluff pocket support handoff`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `none`
-
-Goal:
-
-- Narrow one support pack that deepens the new Coastal Scrub bluff pocket.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-265`
-- stays visual-first and handheld-safe
-
-### ECO-20260404-scout-267
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Prepare the treeline signature destination handoff`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `none`
-
-Goal:
-
-- Ground one treeline destination beat that becomes the biome's clearest remembered threshold place.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-267`
-- keeps the new space recoverable and distinct from tundra and forest signatures
-
-### ECO-20260404-scout-269
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Prepare the non-route-marker helper differentiation handoff`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `none`
-
-Goal:
-
-- Narrow one in-field helper differentiation pass that is not route-marker.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-269`
-- clearly targets field feel rather than more shell text
-
 ## Parked
 
 ### ECO-20260327-scout-01
@@ -140,406 +60,6 @@ Note:
 - The scout agent already delivered more valuable near-term work through the world-travel scaffold and packet `002`.
 
 ## Blocked
-
-### ECO-20260404-main-263
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Implement the non-sill home-place payoff pass`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `ECO-20260404-scout-263`
-
-Goal:
-
-- Add one visible station or nursery payoff on a new seam without widening the shell.
-
-Acceptance:
-
-- the home place feels more changed without using more of the sill
-- no new row, subtitle, or planner layer appears
-
-### ECO-20260404-critic-263
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Review the non-sill home-place payoff pass`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `ECO-20260404-main-263`
-
-Goal:
-
-- Review whether the new home-place payoff feels earned without crowding the shell.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- promotes `ECO-20260404-scout-264` if clean
-
-### ECO-20260404-scout-264
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Prepare the overlay-render protection handoff`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `ECO-20260404-critic-263`
-
-Goal:
-
-- Narrow one pure render or station-board composition seam for extraction from `overlay-render.ts`.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-264`
-- keeps timers and input logic out of scope
-
-### ECO-20260404-main-264
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Implement the overlay-render protection split`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `ECO-20260404-scout-264`
-
-Goal:
-
-- Extract one pure station or board render seam from `overlay-render.ts`.
-
-Acceptance:
-
-- the render file gets safer to extend
-- visuals and behavior remain stable
-
-### ECO-20260404-critic-264
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-1`
-- Priority: `P2`
-- Title: `Review the overlay-render protection split`
-- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
-- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
-- Depends on: `ECO-20260404-main-264`
-
-Goal:
-
-- Review whether the render split reduces risk while keeping the shell visually stable.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- leaves lane 1 ready for the next wave if clean
-
-### ECO-20260404-main-265
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Implement the coastal bluff pocket support pack`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `ECO-20260404-scout-265`
-
-Goal:
-
-- Deepen the new bluff pocket through one compact authored support pack.
-
-Acceptance:
-
-- the pocket has stronger place memory beyond geometry
-- the support stays visual-first and handheld-safe
-
-### ECO-20260404-critic-265
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Review the coastal bluff pocket support pack`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `ECO-20260404-main-265`
-
-Goal:
-
-- Review whether the bluff pocket now has stronger content payoff without widening the notebook.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- promotes `ECO-20260404-scout-266` if clean
-
-### ECO-20260404-scout-266
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Prepare the high-country process support handoff`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `ECO-20260404-critic-265`
-
-Goal:
-
-- Narrow one compact living-process support pass for the new high-country threshold rest.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-266`
-- keeps the second-act pass modular and non-text-heavy
-
-### ECO-20260404-main-266
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Implement the high-country process support pack`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `ECO-20260404-scout-266`
-
-Goal:
-
-- Add one compact process-backed support seam to the new high-country destination family.
-
-Acceptance:
-
-- the second act feels more alive without more board or station copy
-- the support stays handheld-safe
-
-### ECO-20260404-critic-266
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P2`
-- Title: `Review the high-country process support pack`
-- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
-- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
-- Depends on: `ECO-20260404-main-266`
-
-Goal:
-
-- Review whether the new support makes the high country feel more alive without getting wordy.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- leaves lane 2 ready for the next wave if clean
-
-### ECO-20260404-main-267
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Implement the treeline signature destination`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `ECO-20260404-scout-267`
-
-Goal:
-
-- Add one stronger remembered treeline threshold place.
-
-Acceptance:
-
-- treeline gains a clearer signature destination
-- traversal remains cozy and recoverable
-
-### ECO-20260404-critic-267
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Review the treeline signature destination`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `ECO-20260404-main-267`
-
-Goal:
-
-- Review whether treeline now carries a stronger remembered place by feel.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- promotes `ECO-20260404-scout-268` if clean
-
-### ECO-20260404-scout-268
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Prepare the beach landmark or lee-space handoff`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `ECO-20260404-critic-267`
-
-Goal:
-
-- Narrow one compact beach landmark or sheltered place that strengthens onboarding spatial memory.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-268`
-- keeps the beat calm and easy to read on first run
-
-### ECO-20260404-main-268
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Implement the beach landmark or lee-space beat`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `ECO-20260404-scout-268`
-
-Goal:
-
-- Add one compact beach destination beat that strengthens onboarding place memory.
-
-Acceptance:
-
-- beach gains a stronger landmark or lee-space
-- the opener remains readable and calm
-
-### ECO-20260404-critic-268
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Review the beach landmark or lee-space beat`
-- Source: `docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md`
-- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
-- Depends on: `ECO-20260404-main-268`
-
-Goal:
-
-- Review whether the beach beat improves place memory without harming onboarding readability.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- leaves lane 3 ready for the next wave if clean
-
-### ECO-20260404-main-269
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Implement the non-route-marker helper differentiation pass`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `ECO-20260404-scout-269`
-
-Goal:
-
-- Make one non-route-marker helper feel materially different in the field.
-
-Acceptance:
-
-- the helper changes how a live outing feels
-- no new support-row sprawl appears
-
-### ECO-20260404-critic-269
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Review the non-route-marker helper differentiation pass`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `ECO-20260404-main-269`
-
-Goal:
-
-- Review whether the helper now creates a real in-field difference.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- promotes `ECO-20260404-scout-270` if clean
-
-### ECO-20260404-scout-270
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Prepare the second tactile route-opportunity handoff`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `ECO-20260404-critic-269`
-
-Goal:
-
-- Narrow one more living-world opportunity seam on a different route family.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260404-main-270`
-- keeps the seam route-local and tactile
-
-### ECO-20260404-main-270
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Implement the second tactile route-opportunity seam`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `ECO-20260404-scout-270`
-
-Goal:
-
-- Add one more living-world opportunity seam on a route outside the beach wrack proof.
-
-Acceptance:
-
-- a second route family gains real opportunity variation in play
-- route identity stays clear
-
-### ECO-20260404-critic-270
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `Review the second tactile route-opportunity seam`
-- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
-- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
-- Depends on: `ECO-20260404-main-270`
-
-Goal:
-
-- Review whether the second tactile seam deepens replay without confusing route identity.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- leaves lane 4 ready for the next wave if clean
 
 ### ECO-20260403-scout-242
 
@@ -681,6 +201,627 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260404-scout-268
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the beach landmark or lee-space handoff`
+- Source: `docs/reports/2026-04-04-beach-opening-lee-space-handoff.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `ECO-20260404-critic-267`
+
+Goal:
+
+- Narrow one compact beach landmark or sheltered place that strengthens onboarding spatial memory.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-268`
+- keeps the beat calm and easy to read on first run
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-beach-opening-lee-space-handoff.md`, narrowing packet `110`'s beach half to one start-side `dune-edge -> dry-sand` lee shoulder that gives Sunny Beach a remembered opening before the current crest, lee-pocket, and tidepool sequence.
+- Bumped packet `110` to version `3`, added a `main_268_focus` block with the exact target band, preserved beach platform family, and explicit no-driftwood / no-route-logic guardrails, then promoted `ECO-20260404-main-268` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-268
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the beach landmark or lee-space beat`
+- Source: `docs/reports/2026-04-04-beach-opening-lee-space-implementation.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `ECO-20260404-scout-268`
+
+Goal:
+
+- Add one compact beach destination beat that strengthens onboarding place memory.
+
+Acceptance:
+
+- beach gains a stronger landmark or lee-space
+- the opener remains readable and calm
+
+Completion note:
+
+- Added `dune-shoulder-entry-lip`, `dune-shoulder-rest`, and a matching `beach-grass` / `beach-pea` / `sand-verbena` carrier trio in `src/content/biomes/beach.ts`, giving Sunny Beach one compact start-side lee shoulder before the existing crest, lee-pocket, and tidepool sequence.
+- Updated `src/test/beach-biome.test.ts` and `src/test/runtime-smoke.test.ts` to lock the new shoulder family and confirm the player can reach the calmer opener band before continuing into the current crest flow.
+- Verification: `npm test -- --run src/test/beach-biome.test.ts src/test/runtime-smoke.test.ts -t "adds an opening dune shoulder, dune crest, and sheltered tidepool approach without disturbing the lee pocket|anchors authored beach clues at the opening shoulder, dune crest, and tidepool approach|lets the player reach the new opening dune shoulder before the crest|lets the player climb the new dune crest without colliding with the inland beach door|lets the player follow the new beach lee pocket and reach its shelter carriers|lets the player follow the new tidepool approach and recover back into the shoreline flow"`, `npm run build`, shared web-game client smoke in `output/main-268-client/`, seeded browser proof in `output/main-268-browser/`, and promoted `ECO-20260404-critic-268` to `READY`.
+
+### ECO-20260404-critic-268
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the beach landmark or lee-space beat`
+- Source: `docs/reports/2026-04-04-beach-opening-lee-space-review.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `ECO-20260404-main-268`
+
+Goal:
+
+- Review whether the beach beat improves place memory without harming onboarding readability.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 3 ready for the next wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-beach-opening-lee-space-review.md`, finding no blocker in the new start-side shoulder beat.
+- Rechecked the focused beach slice and the seeded browser proof, and logged one non-blocking watch item to keep the `x 120-190` opener band from getting denser in future lane-3 passes.
+- Verification: focused beach biome/runtime slice plus review of `output/main-268-browser/beach-opening-shoulder.png`, `state.json`, and `errors.json`
+
+### ECO-20260404-scout-267
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the treeline signature destination handoff`
+- Source: `docs/reports/2026-04-04-treeline-signature-destination-handoff.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Ground one treeline destination beat that becomes the biome's clearest remembered threshold place.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-267`
+- keeps the new space recoverable and distinct from tundra and forest signatures
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-treeline-signature-destination-handoff.md`, narrowing the next lane-3 pass to one compact `krummholz-belt` last-tree shelter stop before the existing lee-pocket family instead of stacking more height into the already-rich rime perch.
+- Bumped packet `110` to version `2`, added a concrete `main_267_focus` target band and carrier set for treeline, retargeted `ECO-20260404-main-267` and `ECO-20260404-critic-267` to the new handoff, and promoted `ECO-20260404-main-267` to `READY`.
+
+### ECO-20260404-scout-265
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the coastal bluff pocket support handoff`
+- Source: `docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one support pack that deepens the new Coastal Scrub bluff pocket.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-265`
+- stays visual-first and handheld-safe
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-coastal-bluff-pocket-support-handoff.md`, narrowing the next pass to one `song-sparrow` close-look card instead of reopening denser Coastal Scrub note or comparison surfaces.
+- Bumped packet `109` to version `2`, added `main_265_focus`, retargeted `ECO-20260404-main-265` and `ECO-20260404-critic-265` to the new handoff, and promoted `ECO-20260404-main-265` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-265
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement the coastal bluff pocket support pack`
+- Source: `docs/reports/2026-04-04-coastal-bluff-pocket-support-implementation.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `ECO-20260404-scout-265`
+
+Goal:
+
+- Deepen the new bluff pocket through one compact authored support pack.
+
+Acceptance:
+
+- the pocket has stronger place memory beyond geometry
+- the support stays visual-first and handheld-safe
+
+Completion notes:
+
+- Added one new `song-sparrow` close-look card in `src/engine/close-look.ts`, keeping the bluff-pocket follow-on inside one visual zoom surface instead of reopening note or comparison density.
+- Extended focused close-look coverage in `src/test/close-look.test.ts`, promoted `ECO-20260404-critic-265` to `READY`, and retargeted the review step to `docs/reports/2026-04-04-coastal-bluff-pocket-support-implementation.md`.
+- Verification: `npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts`; `npm test -- --run src/test/runtime-smoke.test.ts -t "opens a close-look card from a supported inspect bubble and closes back to play"`; `npm run build`; web-game client smoke in `output/lane-2-main-265-client/`; seeded browser proof in `output/lane-2-main-265-browser/`
+
+### ECO-20260404-critic-265
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the coastal bluff pocket support pack`
+- Source: `docs/reports/2026-04-04-coastal-bluff-pocket-support-review.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `ECO-20260404-main-265`
+
+Goal:
+
+- Review whether the bluff pocket now has stronger content payoff without widening the notebook.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-266` if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-coastal-bluff-pocket-support-review.md`, finding no blocker in the new `song-sparrow` close-look seam.
+- Rechecked the seeded browser proof, confirmed the card fits cleanly on the handheld frame, and promoted `ECO-20260404-scout-266` to `READY`.
+- Verification: review of `output/lane-2-main-265-browser/song-sparrow-close-look.png`, `song-sparrow-close-look-state.json`, and `console-errors.json`
+
+### ECO-20260404-scout-266
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the high-country process support handoff`
+- Source: `docs/reports/2026-04-04-high-country-process-support-handoff.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `ECO-20260404-critic-265`
+
+Goal:
+
+- Narrow one compact living-process support pass for the new high-country threshold rest.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-266`
+- keeps the second-act pass modular and non-text-heavy
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-high-country-process-support-handoff.md`, narrowing the follow-on to one tundra `bigelows-sedge` close-look card tied to the new `snow-meadow` drift-rest band instead of reopening comparison, sketchbook, or geometry density.
+- Bumped packet `109` to version `3`, added `main_266_focus`, retargeted `ECO-20260404-main-266` and `ECO-20260404-critic-266` to the new handoff, and promoted `ECO-20260404-main-266` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-266
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement the high-country process support pack`
+- Source: `docs/reports/2026-04-04-high-country-process-support-implementation.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `ECO-20260404-scout-266`
+
+Goal:
+
+- Add one compact process-backed support seam to the new high-country destination family.
+
+Acceptance:
+
+- the second act feels more alive without more board or station copy
+- the support stays handheld-safe
+
+Completion notes:
+
+- Added one new `bigelows-sedge` close-look card in `src/engine/close-look.ts`, keeping the tundra drift-rest follow-on inside one visual zoom surface instead of reopening notebook note or comparison density.
+- Extended focused close-look coverage in `src/test/close-look.test.ts`, promoted `ECO-20260404-critic-266` to `READY`, and retargeted the review step to `docs/reports/2026-04-04-high-country-process-support-implementation.md`.
+- Verification: `npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts`; `npm run build`; shared web-game client smoke in `output/lane-2-main-266-client/`; seeded browser proof in `output/lane-2-main-266-browser/`
+
+### ECO-20260404-critic-266
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the high-country process support pack`
+- Source: `docs/reports/2026-04-04-high-country-process-support-review.md`
+- Packet: `.agents/packets/109-coastal-pocket-support-and-high-country-process-phase.json`
+- Depends on: `ECO-20260404-main-266`
+
+Goal:
+
+- Review whether the new support makes the high country feel more alive without getting wordy.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 2 ready for the next wave if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-04-high-country-process-support-review.md`, finding no blocker in the new `bigelows-sedge` close-look seam.
+- Confirmed the card fits cleanly on the handheld frame, marked packet `109` `DONE`, and left lane 2 clear again instead of queuing a denser same-band follow-on.
+- Verification: review of `src/engine/close-look.ts`; `src/test/close-look.test.ts`; `output/lane-2-main-266-browser/bigelows-sedge-close-look.png`; `bigelows-sedge-close-look-state.json`; `console-errors.json`; `npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts`
+
+### ECO-20260404-scout-269
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the non-route-marker helper differentiation handoff`
+- Source: `docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one in-field helper differentiation pass that is not route-marker.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-269`
+- clearly targets field feel rather than more shell text
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-hand-lens-targeting-handoff.md`, narrowing the helper differentiation pass to `hand-lens` inspect targeting instead of more strip-only copy.
+- Bumped packet `111` to version `2`, added a `main_269_focus` block around notebook-fit clue targeting, retargeted lane-4 `main-269` / `critic-269`, and promoted `ECO-20260404-main-269` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-scout-270
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the second tactile route-opportunity handoff`
+- Source: `docs/reports/2026-04-04-hand-lens-targeting-review.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `ECO-20260404-critic-269`
+
+Goal:
+
+- Narrow one more living-world opportunity seam on a different route family.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-270`
+- keeps the seam route-local and tactile
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-held-sand-open-pioneer-handoff.md`, narrowing the second tactile opportunity pass to `scrub-edge-pattern` during active `Held Sand`.
+- Bumped packet `111` to version `4`, added a `main_270_focus` block around `beach-grass` satisfying the `open-pioneer` stage during `sand-capture`, retargeted lane-4 `main-270` / `critic-270`, and promoted `ECO-20260404-main-270` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-269
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement the non-route-marker helper differentiation pass`
+- Source: `docs/reports/2026-04-04-hand-lens-targeting-handoff.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `ECO-20260404-scout-269`
+
+Goal:
+
+- Make one non-route-marker helper feel materially different in the field.
+
+Acceptance:
+
+- the helper changes how a live outing feels
+- no new support-row sprawl appears
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-hand-lens-targeting-implementation.md`, implementing the helper pass in `src/engine/game.ts` by letting `hand-lens` prefer the nearest in-range notebook-fit clue while leaving other supports on the normal nearest inspectable.
+- Added focused tide-line runtime coverage in `src/test/runtime-smoke.test.ts`, proving that `hand-lens` now grabs `bull-kelp-wrack` over a nearer decoy on the last `Shore Shelter` stage while `note-tabs` does not.
+- Verification: `npx vitest run src/test/runtime-smoke.test.ts -t "hand lens prefer|normal nearest tide-line"`; `npx vitest run src/test/runtime-smoke.test.ts -t "Wrack Shelter|hand lens prefer|normal nearest tide-line"`; `npm run build`
+
+### ECO-20260404-main-270
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement the second tactile route-opportunity seam`
+- Source: `docs/reports/2026-04-04-held-sand-open-pioneer-handoff.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `ECO-20260404-scout-270`
+
+Goal:
+
+- Add one more living-world opportunity seam on a route outside the beach wrack proof.
+
+Acceptance:
+
+- a second route family gains real opportunity variation in play
+- route identity stays clear
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-held-sand-open-pioneer-implementation.md`, implementing the second tactile route-opportunity seam by letting active `Held Sand` treat `beach-grass` as a valid `open-pioneer` clue on `scrub-edge-pattern`.
+- Added focused field-request and runtime coverage proving the new back-dune clue only works during the replay window and that canonical `Scrub Pattern` identity still holds once the route is ready to file.
+- Verification: `npx vitest run src/test/field-requests.test.ts -t "Held Sand|beach-grass fit|scrub-edge-pattern is reframed"`; `npx vitest run src/test/runtime-smoke.test.ts -t "Held Sand live after beach-grass|stable scrub pattern line during the Held Sand replay window"`; `npx vitest run src/test/field-requests.test.ts src/test/runtime-smoke.test.ts -t "Held Sand|beach-grass|scrub pattern line during the Held Sand replay window"`; `npm run build`
+
+### ECO-20260404-critic-270
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review the second tactile route-opportunity seam`
+- Source: `docs/reports/2026-04-04-held-sand-open-pioneer-implementation.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `ECO-20260404-main-270`
+
+Goal:
+
+- Review whether the second tactile seam deepens replay without confusing route identity.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 4 ready for the next wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-held-sand-open-pioneer-review.md`, finding no blocker in the new same-zone `Held Sand` opening opportunity.
+- Bumped packet `111` to version `5`, recorded the durable same-stage process-carrier rule in project memory, and cleared lane 4 with no remaining active queue item.
+- Verification: `npx vitest run src/test/field-requests.test.ts -t "Held Sand|beach-grass fit|scrub-edge-pattern is reframed"`; `npx vitest run src/test/runtime-smoke.test.ts -t "Held Sand live after beach-grass|stable scrub pattern line during the Held Sand replay window"`; `npx vitest run src/test/field-requests.test.ts src/test/runtime-smoke.test.ts -t "Held Sand|beach-grass|scrub pattern line during the Held Sand replay window"`; `npm run build`; `npm run validate:agents`
+
+### ECO-20260404-critic-269
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review the non-route-marker helper differentiation pass`
+- Source: `docs/reports/2026-04-04-hand-lens-targeting-implementation.md`
+- Packet: `.agents/packets/111-helper-differentiation-and-second-route-opportunity-phase.json`
+- Depends on: `ECO-20260404-main-269`
+
+Goal:
+
+- Review whether the helper now creates a real in-field difference.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-270` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-hand-lens-targeting-review.md`, finding no blocker in the new `hand-lens` targeting seam.
+- Promoted `ECO-20260404-scout-270` to `READY`, bumped packet `111` to version `3`, and recorded the durable rule that helper differentiation should favor in-field clue targeting over more strip-only copy.
+- Verification: `npx vitest run src/test/runtime-smoke.test.ts -t "hand lens prefer|normal nearest tide-line"`; `npx vitest run src/test/runtime-smoke.test.ts -t "Wrack Shelter|hand lens prefer|normal nearest tide-line"`; `npm run build`; `npm run validate:agents`
+
+### ECO-20260404-main-267
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the treeline signature destination`
+- Source: `docs/reports/2026-04-04-treeline-signature-destination-implementation.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `ECO-20260404-scout-267`
+
+Goal:
+
+- Add one stronger remembered treeline threshold place.
+
+Acceptance:
+
+- treeline gains a clearer signature destination
+- traversal remains cozy and recoverable
+
+Completion notes:
+
+- Added one compact `krummholz-belt` last-tree shelter family in `src/content/biomes/treeline.ts` through `last-tree-approach-stone`, `last-tree-shelter-rest`, a shifted `krummholz-bunchberry`, and one deterministic `last-tree-spruce`, while leaving the existing higher lee-pocket family intact.
+- Verified with focused treeline biome/runtime coverage, `npm run build`, the shared web-game client smoke in `output/main-267-client/`, and seeded browser proof in `output/main-267-browser/` with empty console errors.
+
+### ECO-20260404-critic-267
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the treeline signature destination`
+- Source: `docs/reports/2026-04-04-treeline-signature-destination-review.md`
+- Packet: `.agents/packets/110-treeline-signature-and-beach-landmark-phase.json`
+- Depends on: `ECO-20260404-main-267`
+
+Goal:
+
+- Review whether treeline now carries a stronger remembered place by feel.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-268` if clean
+
+Completion notes:
+
+- Wrote `docs/reports/2026-04-04-treeline-signature-destination-review.md`, finding no blocking issue in the new `krummholz-belt` shelter: the added stop now gives Treeline Pass a clearer last-tree threshold place without turning the lee-pocket continuation into a denser climb.
+- Rechecked the seeded browser proof in `output/main-267-browser/`, confirmed the right half of `krummholz-belt` is at its comfortable handheld-density ceiling but still readable, and promoted `ECO-20260404-scout-268` to `READY`.
+
+### ECO-20260404-scout-263
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the non-sill home-place payoff handoff`
+- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one visible station or nursery payoff seam that does not spend more of the current sill family.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-263`
+- keeps the home-place pass calm, compact, and non-text-heavy
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-non-sill-home-place-payoff-handoff.md`, narrowing the next pass to the field-station backdrop side gutters rather than the saturated sill or the bed-local nursery strip.
+- Bumped packet `108` to version `2`, grounding `main-263` around one pure backdrop-accent state helper plus one draw helper in `src/engine/overlay-render.ts`, and promoted `ECO-20260404-main-263` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-263
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the non-sill home-place payoff pass`
+- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `ECO-20260404-scout-263`
+
+Goal:
+
+- Add one visible station or nursery payoff on a new seam without widening the shell.
+
+Acceptance:
+
+- the home place feels more changed without using more of the sill
+- no new row, subtitle, or planner layer appears
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-non-sill-home-place-payoff-implementation.md`, keeping the change inside `src/engine/overlay-render.ts`: the station now uses side-gutter backdrop braces as the new home-place payoff seam, while the existing lower sill stays unchanged.
+- Added the pure `resolveFieldStationBackdropAccentState(...)` helper, exposed the new state through `render_game_to_text()` for deterministic verification, and updated the focused overlay/runtime tests instead of widening station copy or progression logic.
+- Verified with `npx vitest run src/test/overlay-copy.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "opens the world-map field station, claims field credit, and buys trail stride|opens the nursery tab and starts one teaching-bed project from the field station|adds a season expedition page that becomes ready after the three live routes are logged"`, `npm run build`, the shared client smoke in `output/lane-1-main-263-client/`, seeded browser proof in `output/lane-1-main-263-browser/`, and a Playwright console check with 0 errors. Packet `108` is now version `3`, and `ECO-20260404-critic-263` is promoted to `READY`.
+
+### ECO-20260404-critic-263
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the non-sill home-place payoff pass`
+- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `ECO-20260404-main-263`
+
+Goal:
+
+- Review whether the new home-place payoff feels earned without crowding the shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- promotes `ECO-20260404-scout-264` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-non-sill-home-place-payoff-review.md`, finding no blocker in the new side-gutter brace seam: the payoff now lives off the saturated sill while staying inside the station shell and existing progression inputs.
+- Confirmed the new `backdropAccent` test hook is still a small render-observability seam rather than a new gameplay layer, bumped packet `108` to version `4`, and promoted `ECO-20260404-scout-264` to `READY`.
+- Verification: inspected the focused helper/runtime coverage and seeded browser proof in `output/lane-1-main-263-browser/`
+
+### ECO-20260404-scout-264
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the overlay-render protection handoff`
+- Source: `docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `ECO-20260404-critic-263`
+
+Goal:
+
+- Narrow one pure render or station-board composition seam for extraction from `overlay-render.ts`.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260404-main-264`
+- keeps timers and input logic out of scope
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-overlay-render-protection-handoff.md`, narrowing the next split to the `SEASON -> ROUTES` page body inside `drawFieldStationOverlay(...)` rather than the shorter expedition page or the already-protected notice family.
+- Bumped packet `108` to version `5`, added a concrete `main_264_focus` target around the season-wrap strip, route board, atlas strip, and support rows, retargeted `main-264` / `critic-264`, and promoted `ECO-20260404-main-264` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260404-main-264
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement the overlay-render protection split`
+- Source: `docs/reports/2026-04-04-overlay-render-protection-handoff.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `ECO-20260404-scout-264`
+
+Goal:
+
+- Extract one pure station or board render seam from `overlay-render.ts`.
+
+Acceptance:
+
+- the render file gets safer to extend
+- visuals and behavior remain stable
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-overlay-render-protection-implementation.md`, extracting the inline `SEASON -> ROUTES` station page body into the new sibling renderer `src/engine/field-station-routes-page.ts` while leaving shell framing, page switching, expedition rendering, nursery rendering, and accent passes in `src/engine/overlay-render.ts`.
+- Kept the split pure and render-only: rect math, copy budgets, gameplay state, save mutation, input handling, and the existing runtime text seam all stayed unchanged. Packet `108` is now version `6`, and `ECO-20260404-critic-264` is promoted to `READY`.
+- Verified with `npx vitest run src/test/overlay-copy.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "opens the world-map field station, claims field credit, and buys trail stride|adds a season expedition page that becomes ready after the three live routes are logged"`, `npm run build`, the shared client smoke in `output/lane-1-main-264-client/`, and a live browser console check at `http://127.0.0.1:4177` with 0 errors.
+
+### ECO-20260404-critic-264
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the overlay-render protection split`
+- Source: `docs/reports/2026-04-04-overlay-render-protection-implementation.md`
+- Packet: `.agents/packets/108-home-place-seam-shift-and-overlay-protection-phase.json`
+- Depends on: `ECO-20260404-main-264`
+
+Goal:
+
+- Review whether the render split reduces risk while keeping the shell visually stable.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- leaves lane 1 ready for the next wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-04-overlay-render-protection-review.md`, finding no blocker in the new sibling routes-page seam: `field-station-routes-page.ts` stays render-only while `overlay-render.ts` keeps shell ownership and branch selection.
+- Marked packet `108` version `7` as `DONE` and recorded the new routes-page render seam in project memory. Lane 1 now has no remaining actionable queue items.
+- Verification: rechecked the extracted renderer, the parent call site, and `npm run validate:agents`
 
 ### ECO-20260328-main-10
 

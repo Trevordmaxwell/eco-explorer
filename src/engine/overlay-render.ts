@@ -12,6 +12,7 @@ import type { JournalComparison } from './journal-comparison';
 import type { JournalBiomeProgress } from './journal';
 import type { NurseryCardId, NurseryStateView } from './nursery';
 import type { SketchbookPageView } from './sketchbook';
+import { drawFieldStationRoutesPage } from './field-station-routes-page';
 import { buildJournalListRows, buildJournalListWindow } from './journal-list';
 import { formatBiomeSurveyStateLabel, type BiomeSurveyState } from './progression';
 import {
@@ -146,6 +147,18 @@ interface FieldStationGrowthAccentState {
   hasRightRouteAccent: boolean;
   hasConnectedThreshold: boolean;
   planterWidth: number;
+}
+
+export interface FieldStationBackdropAccentState {
+  showAccent: boolean;
+  stageProgress: number;
+  loggedRouteCount: number;
+  hasLeftBrace: boolean;
+  hasRightBrace: boolean;
+  hasCenterTie: boolean;
+  hasLogPile: boolean;
+  hasPollinatorPatch: boolean;
+  hasCompostUpgrade: boolean;
 }
 
 export interface BubbleActionHitTarget {
@@ -1084,6 +1097,141 @@ export function resolveFieldStationGrowthAccentState({
   };
 }
 
+export function resolveFieldStationBackdropAccentState({
+  teachingBedStage,
+  hasLogPile,
+  hasPollinatorPatch,
+  compostRate,
+  loggedRouteCount,
+}: FieldStationGrowthInput): FieldStationBackdropAccentState {
+  const stageProgress = teachingBedStage ? getNurseryStageProgress(teachingBedStage) : 0;
+  const hasCompostUpgrade = compostRate > 1;
+  const safeLoggedRouteCount = Math.max(0, Math.min(3, loggedRouteCount));
+  const hasLeftBrace = safeLoggedRouteCount >= 1 || stageProgress >= 1 || hasLogPile;
+  const hasRightBrace = safeLoggedRouteCount >= 2 || stageProgress >= 3 || hasPollinatorPatch;
+  const hasCenterTie = safeLoggedRouteCount >= 3 || stageProgress >= 4 || hasCompostUpgrade;
+
+  return {
+    showAccent: hasLeftBrace || hasRightBrace || hasCenterTie,
+    stageProgress,
+    loggedRouteCount: safeLoggedRouteCount,
+    hasLeftBrace,
+    hasRightBrace,
+    hasCenterTie,
+    hasLogPile,
+    hasPollinatorPatch,
+    hasCompostUpgrade,
+  };
+}
+
+function drawFieldStationBackdropAccent(
+  context: CanvasRenderingContext2D,
+  panelRect: UiRect,
+  palette: BiomeDefinition['palette'],
+  nursery: NurseryStateView,
+  loggedRouteCount: number,
+): void {
+  const accent = resolveFieldStationBackdropAccentState({
+    teachingBedStage: nursery.activeProject?.state.stage ?? null,
+    hasLogPile: nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked),
+    hasPollinatorPatch: nursery.extras.some((extra) => extra.id === 'pollinator-patch' && extra.unlocked),
+    compostRate: nursery.compostRate,
+    loggedRouteCount,
+  });
+
+  if (!accent.showAccent) {
+    return;
+  }
+
+  const braceTop = panelRect.y + 18;
+  const braceBottom = panelRect.y + panelRect.h - 24;
+  const braceHeight = Math.max(20, braceBottom - braceTop);
+  const leftBraceX = panelRect.x + 5;
+  const rightBraceX = panelRect.x + panelRect.w - 9;
+
+  const drawBrace = (x: number, facing: 'left' | 'right'): void => {
+    const crossbarX = facing === 'left' ? x : x - 1;
+
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(x + 1, braceTop, 2, braceHeight);
+    context.fillRect(crossbarX, braceTop + 3, 4, 1);
+    context.fillRect(crossbarX, braceBottom - 4, 4, 1);
+
+    context.fillStyle = palette.journalSelected;
+    context.fillRect(x + 1, braceTop + 1, 1, braceHeight - 2);
+    context.fillRect(crossbarX + 1, braceTop + 2, 2, 1);
+    context.fillRect(crossbarX + 1, braceBottom - 5, 2, 1);
+  };
+
+  if (accent.hasLeftBrace) {
+    drawBrace(leftBraceX, 'left');
+  }
+
+  if (accent.hasRightBrace) {
+    drawBrace(rightBraceX, 'right');
+  }
+
+  if (accent.hasCenterTie) {
+    const tieY = braceTop + Math.floor(braceHeight / 2);
+    context.fillStyle = palette.cardShadow;
+    if (accent.hasLeftBrace) {
+      context.fillRect(leftBraceX + 3, tieY, 3, 1);
+    }
+    if (accent.hasRightBrace) {
+      context.fillRect(rightBraceX - 2, tieY, 3, 1);
+    }
+    context.fillStyle = palette.journalSelected;
+    if (accent.hasLeftBrace) {
+      context.fillRect(leftBraceX + 3, tieY - 1, 2, 1);
+    }
+    if (accent.hasRightBrace) {
+      context.fillRect(rightBraceX - 1, tieY - 1, 2, 1);
+    }
+  }
+
+  if (accent.stageProgress > 0) {
+    const growthPipCount = Math.min(4, accent.stageProgress);
+    for (let index = 0; index < growthPipCount; index += 1) {
+      const pipOnRight = accent.hasRightBrace && index % 2 === 1;
+      const pipX = pipOnRight ? rightBraceX + 1 : leftBraceX + 2;
+      const pipY = braceBottom - 8 - index * 4;
+      context.fillStyle = palette.accent;
+      context.fillRect(pipX, pipY, 1, 1);
+      if (accent.stageProgress >= 3) {
+        context.fillStyle = palette.text;
+        context.fillRect(pipX + (pipOnRight ? -1 : 1), pipY - 1, 1, 1);
+      }
+    }
+  }
+
+  if (accent.hasLogPile && accent.hasLeftBrace) {
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(leftBraceX, braceBottom - 10, 4, 1);
+    context.fillRect(leftBraceX + 1, braceBottom - 12, 2, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(leftBraceX + 2, braceBottom - 11, 1, 1);
+  }
+
+  if (accent.hasPollinatorPatch && accent.hasRightBrace) {
+    const bloomY = braceTop + 7;
+    context.fillStyle = palette.accent;
+    context.fillRect(rightBraceX, bloomY, 2, 2);
+    context.fillRect(rightBraceX + 2, bloomY + 2, 2, 1);
+    context.fillStyle = palette.text;
+    context.fillRect(rightBraceX + 1, bloomY + 1, 1, 1);
+  }
+
+  if (accent.hasCompostUpgrade && accent.hasLeftBrace && accent.hasRightBrace) {
+    const bandY = braceBottom - 14;
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(leftBraceX + 3, bandY, 2, 1);
+    context.fillRect(rightBraceX - 1, bandY, 2, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(leftBraceX + 4, bandY - 1, 1, 1);
+    context.fillRect(rightBraceX, bandY - 1, 1, 1);
+  }
+}
+
 function drawFieldStationGrowthAccent(
   context: CanvasRenderingContext2D,
   panelRect: UiRect,
@@ -1333,6 +1481,13 @@ export function drawFieldStationOverlay({
   context.fillStyle = 'rgba(32, 25, 20, 0.55)';
   context.fillRect(0, 0, width, height);
   fillLeafGreenPanel(context, panelRect.x, panelRect.y, panelRect.w, panelRect.h);
+  drawFieldStationBackdropAccent(
+    context,
+    panelRect,
+    palette,
+    nursery,
+    atlas?.loggedRoutes.length ?? 0,
+  );
   drawFieldStationGrowthAccent(
     context,
     panelRect,
@@ -1451,179 +1606,18 @@ export function drawFieldStationOverlay({
       return;
     }
 
-    const boardProgressLabel = routeBoard.launchCard
-      ? routeBoard.launchCard.progressLabel
-      : routeBoard.complete
-        ? 'LOGGED'
-        : routeBoard.progressLabel;
-    const boardProgressText = fitTextToWidth(context, boardProgressLabel, 44);
-    const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, 12);
-    const boardRect = makeRect(contentRect.x, stripRect.y + stripRect.h + 2, contentRect.w, atlas ? 30 : 32);
-    const atlasRect = atlas ? makeRect(contentRect.x, boardRect.y + boardRect.h + 2, contentRect.w, 14) : null;
-    const upgradesRect = makeRect(
-      contentRect.x,
-      (atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + 2,
-      contentRect.w,
-      Math.max(18, contentRect.y + contentRect.h - ((atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + 2)),
-    );
-
-    fillPixelPanel(context, stripRect.x, stripRect.y, stripRect.w, stripRect.h, palette.journalPage, palette.accent);
-    drawUiText(
+    drawFieldStationRoutesPage({
       context,
-      fitTextToWidth(context, seasonWrap.label, stripRect.w - 8),
-      stripRect.x + 4,
-      stripRect.y + 1,
-      palette.accent,
-    );
-    drawUiText(
-      context,
-      fitTextToWidth(context, seasonWrap.text, stripRect.w - 8),
-      stripRect.x + 4,
-      stripRect.y + 6,
-      palette.text,
-    );
-
-    fillPixelPanel(context, boardRect.x, boardRect.y, boardRect.w, boardRect.h, palette.journalPage, palette.accent);
-    const routeTitleText = fitTextToWidth(
-      context,
-      routeBoard.launchCard?.title ?? routeBoard.routeTitle,
-      boardRect.w - 56,
-    );
-    drawUiText(
-      context,
-      routeTitleText,
-      boardRect.x + 4,
-      boardRect.y + 7,
-      palette.text,
-    );
-    drawUiText(
-      context,
-      boardProgressText,
-      rightAlignTextX(context, boardProgressText, boardRect, 4),
-      boardRect.y + 5,
-      palette.accent,
-    );
-    if (routeBoard.launchCard) {
-      drawWrappedTextInRect(
-        context,
-        routeBoard.launchCard.summary,
-        makeRect(boardRect.x + 4, boardRect.y + 14, boardRect.w - 8, 12),
-        6,
-        palette.text,
-        2,
-      );
-      if (routeBoard.launchCard.detail) {
-        drawUiText(
-          context,
-          fitTextToWidth(context, routeBoard.launchCard.detail, boardRect.w - 8),
-          boardRect.x + 4,
-          boardRect.y + 25,
-          palette.accent,
-        );
-      }
-    } else if (!atlas) {
-      drawUiText(
-        context,
-        fitTextToWidth(context, routeBoard.summary, boardRect.w - 8),
-        boardRect.x + 4,
-        boardRect.y + 13,
-        palette.text,
-      );
-    }
-    if (!routeBoard.launchCard) {
-      routeBoard.beats.forEach((beat, index) => {
-        const prefix =
-          beat.status === 'done'
-            ? 'DONE'
-            : beat.status === 'ready'
-            ? 'FILE'
-            : beat.status === 'active'
-            ? 'NOW'
-            : 'NEXT';
-        const beatY = atlas ? boardRect.y + 13 + index * 6 : boardRect.y + 21 + index * 7;
-        drawUiText(
-          context,
-          fitTextToWidth(context, `${prefix} ${beat.title}`, boardRect.w - 8),
-          boardRect.x + 4,
-          beatY,
-          beat.status === 'active' || beat.status === 'ready' ? palette.accent : palette.text,
-        );
-      });
-    }
-
-    if (atlasRect && atlas) {
-      fillPixelPanel(context, atlasRect.x, atlasRect.y, atlasRect.w, atlasRect.h, palette.journalPage, palette.accent);
-      const atlasDetail = atlas.note ?? `${atlas.loggedRoutes.length} route${atlas.loggedRoutes.length === 1 ? '' : 's'} logged`;
-      drawUiText(
-        context,
-        atlas.title,
-        atlasRect.x + 4,
-        atlasRect.y + 2,
-        palette.accent,
-      );
-      drawUiText(
-        context,
-        fitTextToWidth(context, atlasDetail, atlasRect.w - 8),
-        atlasRect.x + 4,
-        atlasRect.y + 8,
-        palette.text,
-      );
-    }
-
-    drawUiText(context, 'SUPPORT', upgradesRect.x, upgradesRect.y, palette.accent);
-    let upgradeCardY = upgradesRect.y + 6;
-    const outingSupportRowRect = makeRect(upgradesRect.x, upgradeCardY, upgradesRect.w, 6);
-    if (outingSupportSelected) {
-      context.fillStyle = palette.journalSelected;
-      context.fillRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w, outingSupportRowRect.h);
-      context.fillStyle = palette.accent;
-      context.fillRect(outingSupportRowRect.x + 2, outingSupportRowRect.y + 1, 2, outingSupportRowRect.h - 2);
-    }
-    drawUiTextInRect(
-      context,
-      'OUTING SUPPORT',
-      makeRect(outingSupportRowRect.x + 8, outingSupportRowRect.y, outingSupportRowRect.w - 72, outingSupportRowRect.h),
-      palette.text,
-    );
-    drawUiTextInRect(
-      context,
-      selectedOutingSupportId === 'route-marker'
-        ? 'ROUTE MARKER'
-        : selectedOutingSupportId === 'place-tab'
-          ? 'PLACE TAB'
-        : selectedOutingSupportId === 'note-tabs'
-          ? 'NOTE TABS'
-          : 'HAND LENS',
-      makeRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w - 4, outingSupportRowRect.h),
-      selectedOutingSupportId === 'hand-lens' ? palette.text : palette.accent,
-      { align: 'right' },
-    );
-    upgradeCardY += 7;
-    upgrades.forEach((upgrade) => {
-      const selected = upgrade.id === selectedUpgradeId;
-      const rowHeight = 6;
-      const rowRect = makeRect(upgradesRect.x, upgradeCardY, upgradesRect.w, rowHeight);
-      if (selected) {
-        context.fillStyle = palette.journalSelected;
-        context.fillRect(rowRect.x, rowRect.y, rowRect.w, rowRect.h);
-        context.fillStyle = palette.accent;
-        context.fillRect(rowRect.x + 2, rowRect.y + 1, 2, rowRect.h - 2);
-      }
-      const status = upgrade.owned ? 'OWNED' : `${upgrade.cost}C`;
-      drawUiTextInRect(
-        context,
-        fitTextToWidth(context, upgrade.title, rowRect.w - 52),
-        makeRect(rowRect.x + 8, rowRect.y, rowRect.w - 52, rowRect.h),
-        palette.text,
-      );
-      drawUiTextInRect(
-        context,
-        status,
-        makeRect(rowRect.x, rowRect.y, rowRect.w - 4, rowRect.h),
-        upgrade.owned ? palette.accent : palette.text,
-        { align: 'right' },
-      );
-      upgradeCardY += rowHeight + 1;
+      palette,
+      contentRect,
+      seasonBodyTop,
+      seasonWrap,
+      routeBoard,
+      atlas,
+      upgrades,
+      selectedUpgradeId,
+      selectedOutingSupportId,
+      outingSupportSelected,
     });
 
     return;

@@ -1,13 +1,19 @@
 {
   "packet_id": "ECO-PACKET-111",
-  "version": 1,
+  "version": 5,
   "created_at": "2026-04-04",
   "created_by_role": "director",
   "status": "READY",
   "title": "Helper differentiation and second route opportunity phase",
   "summary": "Lane 4 should give one non-route-marker helper a real in-field difference, then add a second tactile living-world opportunity seam on another route family.",
   "source_reports": [
-    "docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md"
+    "docs/reports/2026-04-04-helper-differentiation-and-second-route-opportunity-phase.md",
+    "docs/reports/2026-04-04-hand-lens-targeting-handoff.md",
+    "docs/reports/2026-04-04-hand-lens-targeting-implementation.md",
+    "docs/reports/2026-04-04-hand-lens-targeting-review.md",
+    "docs/reports/2026-04-04-held-sand-open-pioneer-handoff.md",
+    "docs/reports/2026-04-04-held-sand-open-pioneer-implementation.md",
+    "docs/reports/2026-04-04-held-sand-open-pioneer-review.md"
   ],
   "queue_refs": [
     "ECO-20260404-scout-269",
@@ -76,5 +82,58 @@
     "No new support slots, inventory, or crafting layer.",
     "Prefer clue visibility, targeting, or route emphasis over longer copy.",
     "If a helper still cannot be made distinct, simplify instead of expanding."
-  ]
+  ],
+  "main_269_focus": {
+    "selected_support_id": "hand-lens",
+    "selected_variant": "in-range-route-clue-targeting",
+    "selected_request_id": "beach-shore-shelter",
+    "selected_stage_id": "wrack-line",
+    "copy_goal": "make hand-lens feel different in the field by preferring a notebook-fit clue over a nearby non-route decoy when both are inspectable",
+    "recommended_live_proof": {
+      "biome_id": "beach",
+      "required_progress": [
+        "dune-grass",
+        "lee-cover"
+      ],
+      "target_entry_id": "bull-kelp-wrack",
+      "nearby_decoy_entry_id": "pacific-sand-crab"
+    },
+    "implementation_shape": [
+      "Collect the current in-range inspectables instead of only the nearest one.",
+      "When hand-lens is selected, prefer the nearest in-range inspectable whose entry resolves through getHandLensNotebookFit(...).",
+      "Reuse that preferred target for both the field inspect marker and the keyboard inspect action.",
+      "If no notebook-fit clue is in range, fall back to the current nearest-entity behavior."
+    ],
+    "guardrails": [
+      "Only affect hand-lens.",
+      "Do not change click-to-inspect behavior for explicit entity clicks.",
+      "Do not widen inspect range or alter accepted route evidence ids.",
+      "Keep the pass helper-sized and reversible."
+    ]
+  },
+  "main_270_focus": {
+    "selected_request_id": "scrub-edge-pattern",
+    "selected_variant": "held-sand-open-pioneer-opportunity",
+    "selected_stage_id": "open-pioneer",
+    "active_process_moment_id": "sand-capture",
+    "copy_goal": "make Held Sand change a real route opportunity by letting the back-dune pioneer stage resolve on a second truthful live clue during the replay window",
+    "recommended_live_proof": {
+      "biome_id": "coastal-scrub",
+      "required_progress": [],
+      "target_entry_id": "beach-grass",
+      "baseline_entry_id": "dune-lupine",
+      "zone_id": "back-dune"
+    },
+    "implementation_shape": [
+      "Extend scrub-edge-pattern processFocus.activeSlotEntryIdsBySlotId so Held Sand adds beach-grass to open-pioneer.",
+      "Rely on the existing route-progress and hand-lens resolver path instead of adding a new special-case advancement helper.",
+      "Keep notebook-ready and filed Scrub Pattern identity stable outside the active route step."
+    ],
+    "guardrails": [
+      "Only affect scrub-edge-pattern during the active Held Sand replay window.",
+      "Keep the change on the opening back-dune stage only.",
+      "Do not widen the replay system beyond activeSlotEntryIdsBySlotId.",
+      "Do not rewrite station-side copy unless a focused test proves it is needed."
+    ]
+  }
 }

@@ -1069,6 +1069,105 @@ describe('runtime smoke loop', () => {
     expect(state.fieldRequestNotice).toBeNull();
   });
 
+  it('lets hand lens prefer the wrack clue over a nearer tide-line decoy on the last Shore Shelter stage', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-hand-lens-wrack-targeting-seed');
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'tide-line'
+        && (nextState.player?.x ?? 0) >= 502
+        && (nextState.player?.x ?? 999) <= 506
+        && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bull-kelp-wrack' && entity.x === 486)
+        && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'pacific-sand-crab' && entity.x === 516),
+      760,
+    );
+
+    tapKey(fakeWindow, 'e');
+    state = readState(fakeWindow);
+    expect(state.openBubble).toMatchObject({
+      entryId: 'bull-kelp-wrack',
+    });
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+        { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+      ],
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: 'Ready To File',
+    });
+  });
+
+  it('keeps non-hand-lens supports on the normal nearest tide-line inspectable in the same wrack setup', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-note-tabs-wrack-decoy-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'tide-line'
+        && (nextState.player?.x ?? 0) >= 502
+        && (nextState.player?.x ?? 999) <= 506
+        && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bull-kelp-wrack' && entity.x === 486)
+        && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'pacific-sand-crab' && entity.x === 516),
+      760,
+    );
+
+    tapKey(fakeWindow, 'e');
+    state = readState(fakeWindow);
+    expect(state.openBubble?.entryId).not.toBe('bull-kelp-wrack');
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      progressLabel: '2/3 stages',
+    });
+  });
+
   it('turns the coastal front-half transition into a notebook-ready Open To Shelter outing and files it at the station', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-open-to-shelter-seed');
@@ -1584,6 +1683,47 @@ describe('runtime smoke loop', () => {
         ['driftwood-log', 'bull-kelp-wrack', 'pacific-sand-crab'].includes(entity.entryId),
       ),
     ).toBe(true);
+  });
+
+  it('lets the player reach the new opening dune shoulder before the crest', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-dune-shoulder-seed');
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+
+    advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        (nextState.player?.x ?? 0) >= 138 &&
+        (nextState.player?.x ?? 999) <= 182 &&
+        nextState.nearbyDoor?.inRange === false &&
+        (nextState.nearbyTravelTarget ?? null) === null &&
+        nextState.nearbyInspectables.some((entity: any) =>
+          ['beach-grass', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
+        ),
+      320,
+    );
+
+    const shoulderState = readState(fakeWindow);
+
+    expect(['dune-edge', 'dry-sand']).toContain(shoulderState.zoneId);
+    expect(shoulderState.nearbyDoor?.inRange).toBe(false);
+    expect(shoulderState.nearbyTravelTarget ?? null).toBeNull();
+    expect(
+      shoulderState.nearbyInspectables.some((entity: any) =>
+        ['beach-grass', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
+      ),
+    ).toBe(true);
+
+    holdKey(fakeWindow, 'ArrowRight', 70);
+    const recoveredState = readState(fakeWindow);
+    expect(recoveredState.zoneId).toBe('dry-sand');
+    expect(recoveredState.player?.x).toBeGreaterThan(shoulderState.player?.x ?? 0);
   });
 
   it('lets the player climb the new dune crest without colliding with the inland beach door', () => {
@@ -2290,6 +2430,60 @@ describe('runtime smoke loop', () => {
     } finally {
       treelineBiome.startPosition = originalTreelineStartPosition;
     }
+  });
+
+  it('turns the treeline threshold into a last-tree shelter followed by the existing lee pocket', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-treeline-last-tree-shelter-seed');
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('treeline');
+
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'krummholz-belt' &&
+        Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+        (nextState.player?.x ?? 0) >= 224 &&
+        (nextState.player?.x ?? 999) <= 250 &&
+        (nextState.player?.y ?? 0) >= 98 &&
+        (nextState.player?.y ?? 999) <= 106 &&
+        nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'krummholz-spruce'),
+      420,
+    );
+
+    expect(state.zoneId).toBe('krummholz-belt');
+    expect(state.player?.x).toBeGreaterThanOrEqual(224);
+    expect(state.player?.x).toBeLessThanOrEqual(250);
+    expect(state.player?.y).toBeGreaterThanOrEqual(98);
+    expect(state.player?.y).toBeLessThanOrEqual(106);
+    expect(
+      state.nearbyInspectables.some((entity: any) => entity.entryId === 'krummholz-spruce'),
+    ).toBe(true);
+    expect(
+      state.nearbyInspectables.some((entity: any) => entity.entryId === 'bunchberry'),
+    ).toBe(true);
+
+    state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'dwarf-shrub' &&
+        !nextState.player?.climbing &&
+        (nextState.player?.x ?? 0) >= 398 &&
+        (nextState.player?.x ?? 999) <= 430 &&
+        (nextState.player?.y ?? 999) <= 104,
+      320,
+    );
+
+    expect(state.zoneId).toBe('dwarf-shrub');
+    expect(state.player?.x).toBeGreaterThanOrEqual(398);
+    expect(state.player?.x).toBeLessThanOrEqual(430);
   });
 
   it('turns the tundra thaw-skirt route into one fuller inland relief and snow-edge family', () => {
@@ -3125,6 +3319,13 @@ describe('runtime smoke loop', () => {
       credits: 5,
       purchasedUpgradeIds: [],
       selectedUpgradeId: 'trail-stride',
+      backdropAccent: {
+        showAccent: false,
+        stageProgress: 0,
+        hasLeftBrace: false,
+        hasRightBrace: false,
+        hasCenterTie: false,
+      },
     });
     state = advanceUntil(fakeWindow, (nextState) => (nextState.fieldStation?.arrivalPulse ?? 0) === 0, 10);
     expect(state.fieldStation?.arrivalPulse).toBe(0);
@@ -3218,6 +3419,13 @@ describe('runtime smoke loop', () => {
       stage: 'stocked',
     });
     expect(state.fieldStation?.nursery.resources.cuttings).toBe(0);
+    expect(state.fieldStation?.backdropAccent).toMatchObject({
+      showAccent: true,
+      stageProgress: 1,
+      hasLeftBrace: true,
+      hasRightBrace: false,
+      hasCenterTie: false,
+    });
   });
 
   it('adds a season expedition page that becomes ready after the three live routes are logged', () => {
@@ -3246,6 +3454,13 @@ describe('runtime smoke loop', () => {
     expect(state.mode).toBe('field-station');
     expect(state.fieldStation?.view).toBe('season');
     expect(state.fieldStation?.seasonPage).toBe('routes');
+    expect(state.fieldStation?.backdropAccent).toMatchObject({
+      showAccent: true,
+      stageProgress: 0,
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+    });
 
     tapKey(fakeWindow, 'ArrowRight');
     state = readState(fakeWindow);
@@ -4108,6 +4323,56 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SCRUB PATTERN',
       text: 'Walk the coast-to-forest transect from pioneer scrub into lower fell.',
+    });
+    expect(state.fieldStation?.routeBoard?.beats).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'scrub-edge-pattern', status: 'active', title: 'Held Sand' }),
+      ]),
+    );
+  });
+
+  it('keeps Held Sand live after beach-grass fills the opening back-dune stage', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-held-sand-open-pioneer-seed');
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+    ];
+    seededSave.worldStep = 6;
+    seededSave.biomeVisits['coastal-scrub'] = 2;
+    seededSave.routeV2Progress = {
+      requestId: 'scrub-edge-pattern',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'open-pioneer', entryId: 'beach-grass' }],
+    };
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('coastal-scrub');
+
+    let state = readState(fakeWindow);
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'scrub-edge-pattern',
+      title: 'Held Sand',
+      progressLabel: 'Return To Windbreak Swale',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'open-pioneer', entryId: 'beach-grass' }],
+      },
+    });
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'Held Sand',
+      text: 'Trapped sand shows where the pioneer side is giving way to steadier scrub cover.',
     });
     expect(state.fieldStation?.routeBoard?.beats).toEqual(
       expect.arrayContaining([

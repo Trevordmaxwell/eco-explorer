@@ -113,6 +113,55 @@ describe('treeline biome generation', () => {
     expect(leePlatforms[9]?.y).toBeGreaterThan(leePlatforms[8]?.y ?? 0);
   });
 
+  it('adds one compact last-tree shelter before the lee-pocket family', () => {
+    const thresholdPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['last-tree-approach-stone', 'last-tree-shelter-rest', 'lee-pocket-entry-stone', 'lee-pocket-upper-shelf'].includes(platform.id),
+    );
+    const approachStone = thresholdPlatforms?.find((platform) => platform.id === 'last-tree-approach-stone');
+    const shelterRest = thresholdPlatforms?.find((platform) => platform.id === 'last-tree-shelter-rest');
+    const leeEntry = thresholdPlatforms?.find((platform) => platform.id === 'lee-pocket-entry-stone');
+
+    expect(thresholdPlatforms).toEqual([
+      {
+        id: 'last-tree-approach-stone',
+        spriteId: 'granite-platform',
+        x: 196,
+        y: 110,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'last-tree-shelter-rest',
+        spriteId: 'granite-platform',
+        x: 224,
+        y: 106,
+        w: 26,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-entry-stone',
+        spriteId: 'granite-platform',
+        x: 258,
+        y: 112,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-upper-shelf',
+        spriteId: 'granite-platform',
+        x: 294,
+        y: 110,
+        w: 122,
+        h: 4,
+      },
+    ]);
+    expect(approachStone?.x).toBeGreaterThanOrEqual(186);
+    expect(shelterRest?.x).toBeGreaterThan((approachStone?.x ?? 0) + (approachStone?.w ?? 0));
+    expect(shelterRest?.y).toBeLessThan(approachStone?.y ?? 999);
+    expect((shelterRest?.x ?? 0) + (shelterRest?.w ?? 0)).toBeLessThanOrEqual(250);
+    expect(leeEntry?.x).toBeGreaterThan((shelterRest?.x ?? 0) + (shelterRest?.w ?? 0));
+  });
+
   it('spawns shelter carriers through the new lee-side traversal band', () => {
     const save = createNewSaveState('treeline-shelter-band-seed');
     const instance = generateBiomeInstance(treelineBiome, save, 1);
@@ -142,23 +191,25 @@ describe('treeline biome generation', () => {
     ]);
   });
 
-  it('adds authored talus shelter carriers and one tiny crest reward', () => {
-    const authoredBunchberry = treelineBiome.terrainRules.authoredEntities?.filter((entity) => entity.entryId === 'bunchberry');
+  it('adds one last-tree carrier pair and keeps the talus shelter carriers', () => {
+    const authoredThresholdCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
+      ['krummholz-bunchberry', 'last-tree-spruce'].includes(entity.id),
+    );
     const authoredTalus = treelineBiome.terrainRules.authoredEntities?.filter(
       (entity) => ['talus-cushion-pocket', 'mountain-avens'].includes(entity.entryId),
     );
 
-    expect(authoredBunchberry).toEqual([
-      {
-        id: 'thin-canopy-bunchberry',
-        entryId: 'bunchberry',
-        x: 112,
-        y: 100,
-      },
+    expect(authoredThresholdCarriers).toEqual([
       {
         id: 'krummholz-bunchberry',
         entryId: 'bunchberry',
-        x: 210,
+        x: 220,
+        y: 102,
+      },
+      {
+        id: 'last-tree-spruce',
+        entryId: 'krummholz-spruce',
+        x: 240,
         y: 102,
       },
     ]);

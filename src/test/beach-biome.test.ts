@@ -101,17 +101,20 @@ describe('beach biome generation', () => {
     expect(authoredEntityIds).toContain('beach-hopper');
   });
 
-  it('adds a dune crest and sheltered tidepool approach without disturbing the lee pocket', () => {
+  it('adds an opening dune shoulder, dune crest, and sheltered tidepool approach without disturbing the lee pocket', () => {
     const save = createNewSaveState('beach-spatial-extension-seed');
     const instance = generateBiomeInstance(beachBiome, save, 1);
 
     const beachPlatforms = instance.platforms.filter(
       (platform) =>
+        platform.id.startsWith('dune-shoulder') ||
         platform.id.startsWith('dune-crest') ||
         platform.id.startsWith('lee-pocket') ||
         platform.id.startsWith('tidepool-approach') ||
         platform.id === 'tidepool-overlook',
     );
+    const shoulderLip = beachPlatforms.find((platform) => platform.id === 'dune-shoulder-entry-lip');
+    const shoulderRest = beachPlatforms.find((platform) => platform.id === 'dune-shoulder-rest');
     const entryStep = beachPlatforms.find((platform) => platform.id === 'dune-crest-entry-step');
     const midStep = beachPlatforms.find((platform) => platform.id === 'dune-crest-mid-step');
     const crestView = beachPlatforms.find((platform) => platform.id === 'dune-crest-view');
@@ -121,6 +124,8 @@ describe('beach biome generation', () => {
     const overlook = beachPlatforms.find((platform) => platform.id === 'tidepool-overlook');
 
     expect(beachPlatforms.map((platform) => platform.id)).toEqual([
+      'dune-shoulder-entry-lip',
+      'dune-shoulder-rest',
       'dune-crest-entry-step',
       'dune-crest-mid-step',
       'dune-crest-view',
@@ -131,6 +136,8 @@ describe('beach biome generation', () => {
       'tidepool-approach-sill',
       'tidepool-overlook',
     ]);
+    expect(shoulderLip?.y).toBeGreaterThan(shoulderRest?.y ?? 0);
+    expect(shoulderRest?.x).toBeLessThan(entryStep?.x ?? 0);
     expect(entryStep?.y).toBeGreaterThan(midStep?.y ?? 0);
     expect(midStep?.y).toBeGreaterThan(crestView?.y ?? 0);
     expect(crestView?.x).toBeLessThan(leeSpan?.x ?? 0);
@@ -138,13 +145,17 @@ describe('beach biome generation', () => {
     expect(approachSill?.y).toBeGreaterThan(overlook?.y ?? 0);
   });
 
-  it('anchors authored beach clues at the dune crest and tidepool approach', () => {
+  it('anchors authored beach clues at the opening shoulder, dune crest, and tidepool approach', () => {
     const save = createNewSaveState('beach-spatial-authored-life-seed');
     const instance = generateBiomeInstance(beachBiome, save, 1);
     const authoredEntities = instance.entities.filter((entity) => entity.entityId.startsWith('authored-'));
+    const shoulderEntities = authoredEntities.filter((entity) => entity.x >= 124 && entity.x <= 182);
     const crestEntities = authoredEntities.filter((entity) => entity.x >= 248 && entity.x <= 284);
     const tidepoolApproachEntities = authoredEntities.filter((entity) => entity.x >= 480 && entity.x <= 556);
 
+    expect(shoulderEntities.some((entity) => entity.entryId === 'beach-grass')).toBe(true);
+    expect(shoulderEntities.some((entity) => entity.entryId === 'beach-pea')).toBe(true);
+    expect(shoulderEntities.some((entity) => entity.entryId === 'sand-verbena')).toBe(true);
     expect(crestEntities.some((entity) => entity.entryId === 'sand-verbena')).toBe(true);
     expect(tidepoolApproachEntities.some((entity) => entity.entryId === 'bull-kelp-wrack')).toBe(true);
     expect(tidepoolApproachEntities.some((entity) => entity.entryId === 'pacific-sand-crab')).toBe(true);

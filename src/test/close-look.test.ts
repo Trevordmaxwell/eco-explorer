@@ -15,10 +15,12 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('krummholz-spruce')).toBe(true);
     expect(supportsCloseLook('talus-cushion-pocket')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
+    expect(supportsCloseLook('bigelows-sedge')).toBe(true);
     expect(supportsCloseLook('nootka-rose')).toBe(true);
     expect(supportsCloseLook('kinnikinnick')).toBe(true);
     expect(supportsCloseLook('nurse-log')).toBe(true);
     expect(supportsCloseLook('pacific-wax-myrtle')).toBe(true);
+    expect(supportsCloseLook('song-sparrow')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
     expect(supportsCloseLook('tree-lungwort')).toBe(true);
@@ -92,6 +94,16 @@ describe('close-look helpers', () => {
     });
     expect(cottongrassPayload?.callouts).toContain('white tuft');
 
+    const bigelowsSedgePayload = buildCloseLookPayload(tundraBiome.entries['bigelows-sedge']);
+    expect(bigelowsSedgePayload).toMatchObject({
+      entryId: 'bigelows-sedge',
+      title: "Bigelow's Sedge",
+      spriteId: 'bigelows-sedge',
+      sentence: 'Raised sedge clumps lift new leaves above cold wet ground.',
+      spriteScale: 5,
+    });
+    expect(bigelowsSedgePayload?.callouts).toContain('raised tussock');
+
     const rosePayload = buildCloseLookPayload(coastalScrubBiome.entries['nootka-rose']);
     expect(rosePayload).toMatchObject({
       entryId: 'nootka-rose',
@@ -123,6 +135,14 @@ describe('close-look helpers', () => {
       spriteId: 'pacific-wax-myrtle',
     });
     expect(waxMyrtlePayload?.callouts).toContain('waxy berries');
+
+    const songSparrowPayload = buildCloseLookPayload(coastalScrubBiome.entries['song-sparrow']);
+    expect(songSparrowPayload).toMatchObject({
+      entryId: 'song-sparrow',
+      title: 'Song Sparrow',
+      spriteId: 'song-sparrow',
+    });
+    expect(songSparrowPayload?.callouts).toContain('streaked chest');
 
     const canopyMossPayload = buildCloseLookPayload(forestBiome.entries['canopy-moss-bed']);
     expect(canopyMossPayload).toMatchObject({

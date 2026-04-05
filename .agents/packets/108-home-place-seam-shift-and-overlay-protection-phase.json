@@ -1,13 +1,19 @@
 {
   "packet_id": "ECO-PACKET-108",
-  "version": 1,
+  "version": 7,
   "created_at": "2026-04-04",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Home-place seam shift and overlay protection phase",
   "summary": "Lane 1 should move visible station payoff off the now-saturated sill seam, then extract one pure station or board render seam from overlay-render.ts before another larger wave lands.",
   "source_reports": [
-    "docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md"
+    "docs/reports/2026-04-04-home-place-seam-shift-and-overlay-protection-phase.md",
+    "docs/reports/2026-04-04-non-sill-home-place-payoff-handoff.md",
+    "docs/reports/2026-04-04-non-sill-home-place-payoff-implementation.md",
+    "docs/reports/2026-04-04-non-sill-home-place-payoff-review.md",
+    "docs/reports/2026-04-04-overlay-render-protection-handoff.md",
+    "docs/reports/2026-04-04-overlay-render-protection-implementation.md",
+    "docs/reports/2026-04-04-overlay-render-protection-review.md"
   ],
   "queue_refs": [
     "ECO-20260404-scout-263",
@@ -66,6 +72,7 @@
   ],
   "file_targets": [
     "src/engine/overlay-render.ts",
+    "src/engine/field-station-routes-page.ts",
     "src/engine/game.ts",
     "src/test/overlay-copy.test.ts",
     "src/test/runtime-smoke.test.ts"
@@ -81,22 +88,40 @@
       "planter-adjacent edge detail",
       "compact threshold markers that are not the sill"
     ],
+    "recommended_shape": [
+      "Use the field-station side gutters between panelRect and contentRect as the new payoff seam.",
+      "Add one pure backdrop-accent state helper and one draw helper in overlay-render.ts, then call them before the existing sill accent pass.",
+      "Let logged-route progress unlock left brace, right brace, then one tiny center tie, while nursery maturity or extras only enrich that same brace family instead of creating a second motif."
+    ],
     "avoid": [
       "new text",
+      "reusing the lower sill family",
+      "bed-interior payoff that only reads on the nursery page",
       "map changes",
       "animation-heavy decoration"
     ]
   },
   "main_264_focus": {
+    "preferred_target": "field-station season routes page body inside drawFieldStationOverlay",
     "candidate_seams": [
       "field-station render helpers",
       "route-strip and atlas strip composition",
       "notice card visual composition"
     ],
+    "recommended_shape": [
+      "Extract the SEASON -> ROUTES page body around the season-wrap strip, route board, atlas strip, and support rows into one pure helper.",
+      "Keep drawFieldStationOverlay responsible for shell framing, page-tab switching, expedition rendering, nursery rendering, and accent passes.",
+      "Pass only already-derived render state into the new helper and preserve the current rect math and copy budgets on the first split."
+    ],
     "keep_in_place": [
       "runtime timers",
       "input handling",
       "save mutation"
+    ],
+    "avoid": [
+      "changing the expedition page at the same time",
+      "reopening the field-notice family",
+      "adding another render-to-text seam unless the extraction truly needs it"
     ]
   }
 }

@@ -62,6 +62,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'These fluffy fibers help cottongrass seeds ride the wind.',
     spriteScale: 5,
   },
+  'bigelows-sedge': {
+    callouts: ['raised tussock', 'stiff leaf tuft'],
+    sentence: 'Raised sedge clumps lift new leaves above cold wet ground.',
+    spriteScale: 5,
+  },
   'nootka-rose': {
     callouts: ['thorny stem', 'rose hip'],
     sentence: 'Thorny stems help this rose turn coastal scrub into safer cover.',
@@ -81,6 +86,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     callouts: ['waxy berries', 'leaf cluster'],
     sentence: 'Dark berries help mark where coastal scrub starts holding steadier cover.',
     spriteScale: 5,
+  },
+  'song-sparrow': {
+    callouts: ['streaked chest', 'small beak'],
+    sentence: 'This sparrow stays close to scrub so it can sing and slip back into cover fast.',
+    spriteScale: 6,
   },
   'canopy-moss-bed': {
     callouts: ['soft moss bed', 'held water'],

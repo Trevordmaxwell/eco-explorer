@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  resolveFieldStationBackdropAccentState,
   getMenuOverlayHelperText,
   getMenuOverlayIntroText,
   resolveFieldStationGrowthAccentState,
@@ -106,6 +107,61 @@ describe('first-session overlay copy', () => {
       hasRightRouteAccent: true,
       hasConnectedThreshold: true,
       planterWidth: 10,
+    });
+  });
+
+  it('derives a non-sill backdrop accent from the same calm home-place inputs', () => {
+    expect(
+      resolveFieldStationBackdropAccentState({
+        teachingBedStage: null,
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+        loggedRouteCount: 0,
+      }),
+    ).toMatchObject({
+      showAccent: false,
+      stageProgress: 0,
+      hasLeftBrace: false,
+      hasRightBrace: false,
+      hasCenterTie: false,
+    });
+
+    expect(
+      resolveFieldStationBackdropAccentState({
+        teachingBedStage: 'stocked',
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+        loggedRouteCount: 0,
+      }),
+    ).toMatchObject({
+      showAccent: true,
+      stageProgress: 1,
+      loggedRouteCount: 0,
+      hasLeftBrace: true,
+      hasRightBrace: false,
+      hasCenterTie: false,
+    });
+
+    expect(
+      resolveFieldStationBackdropAccentState({
+        teachingBedStage: 'mature',
+        hasLogPile: true,
+        hasPollinatorPatch: true,
+        compostRate: 2,
+        loggedRouteCount: 3,
+      }),
+    ).toMatchObject({
+      showAccent: true,
+      stageProgress: 4,
+      loggedRouteCount: 3,
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLogPile: true,
+      hasPollinatorPatch: true,
+      hasCompostUpgrade: true,
     });
   });
 });

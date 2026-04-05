@@ -1,13 +1,15 @@
 {
   "packet_id": "ECO-PACKET-110",
-  "version": 1,
+  "version": 3,
   "created_at": "2026-04-04",
   "created_by_role": "director",
   "status": "READY",
   "title": "Treeline signature and beach landmark phase",
   "summary": "Lane 3 should give Treeline a stronger signature threshold place and Beach one more authored landmark or lee-space beat so the five-biome chain carries memorable destinations end to end.",
   "source_reports": [
-    "docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md"
+    "docs/reports/2026-04-04-treeline-signature-and-beach-landmark-phase.md",
+    "docs/reports/2026-04-04-treeline-signature-destination-handoff.md",
+    "docs/reports/2026-04-04-beach-opening-lee-space-handoff.md"
   ],
   "queue_refs": [
     "ECO-20260404-scout-267",
@@ -75,5 +77,95 @@
     "Do not create punishing traversal or maze structure.",
     "Keep routes cozy, recoverable, and visually legible.",
     "Make new destinations distinct from existing forest, scrub, and tundra signatures."
-  ]
+  ],
+  "main_267_focus": {
+    "priority_biome": "treeline",
+    "destination_goal": "one compact last-tree shelter stop that makes the krummholz threshold feel like treeline's clearest remembered place",
+    "required_traits": [
+      "cozy not punishing",
+      "shelter-versus-exposure identity",
+      "distinct from the higher lee-pocket perch"
+    ],
+    "target_zone_ids": [
+      "krummholz-belt"
+    ],
+    "target_band": {
+      "x_min": 186,
+      "x_max": 250,
+      "y_min": 102,
+      "y_max": 110
+    },
+    "preserve_platform_ids": [
+      "lee-pocket-entry-stone",
+      "lee-pocket-upper-shelf",
+      "lee-pocket-crest-step",
+      "lee-pocket-rime-rest",
+      "lee-pocket-back-notch",
+      "lee-pocket-rime-cap",
+      "lee-pocket-crest-brow",
+      "lee-pocket-exit-stone",
+      "lee-pocket-fell-return",
+      "lee-pocket-lee-rest"
+    ],
+    "preferred_entry_ids": [
+      "krummholz-spruce",
+      "bunchberry",
+      "dwarf-birch",
+      "mountain-hemlock"
+    ],
+    "avoid": [
+      "thin-canopy opener band",
+      "rime-rest height expansion",
+      "lichen-fell extension",
+      "new climbables",
+      "new vertical cues",
+      "route or journal surface edits",
+      "another multi-step branch"
+    ]
+  },
+  "main_268_focus": {
+    "priority_biome": "beach",
+    "destination_goal": "one compact opening lee-space that gives Sunny Beach a remembered start-side shelter before the existing dune-crest, lee-pocket, and tidepool sequence",
+    "required_traits": [
+      "calm first-run onboarding",
+      "distinct from the middle lee-pocket shelter",
+      "clear before the higher dune crest"
+    ],
+    "target_zone_ids": [
+      "dune-edge",
+      "dry-sand"
+    ],
+    "target_band": {
+      "x_min": 108,
+      "x_max": 188,
+      "y_min": 100,
+      "y_max": 108
+    },
+    "preserve_platform_ids": [
+      "dune-crest-entry-step",
+      "dune-crest-mid-step",
+      "dune-crest-view",
+      "lee-pocket-entry-drift",
+      "lee-pocket-drift-span",
+      "lee-pocket-exit-drift",
+      "tidepool-approach-drift",
+      "tidepool-approach-sill",
+      "tidepool-overlook"
+    ],
+    "preferred_entry_ids": [
+      "beach-grass",
+      "beach-pea",
+      "sand-verbena",
+      "sea-rocket"
+    ],
+    "avoid": [
+      "corridor door or map-return logic changes",
+      "driftwood-log near the opener",
+      "tide-line or tidepool content",
+      "new climbables",
+      "new vertical cues",
+      "route or journal surface edits",
+      "another multi-step branch"
+    ]
+  }
 }

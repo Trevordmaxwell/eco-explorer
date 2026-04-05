@@ -1,13 +1,17 @@
 {
   "packet_id": "ECO-PACKET-109",
-  "version": 1,
+  "version": 4,
   "created_at": "2026-04-04",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Coastal pocket support and high-country process phase",
   "summary": "Lane 2 should deepen the new Coastal Scrub bluff pocket with content payoff, then give the high-country threshold rest one compact process-backed support seam.",
   "source_reports": [
-    "docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md"
+    "docs/reports/2026-04-04-coastal-pocket-support-and-high-country-process-phase.md",
+    "docs/reports/2026-04-04-coastal-bluff-pocket-support-handoff.md",
+    "docs/reports/2026-04-04-high-country-process-support-handoff.md",
+    "docs/reports/2026-04-04-high-country-process-support-implementation.md",
+    "docs/reports/2026-04-04-high-country-process-support-review.md"
   ],
   "queue_refs": [
     "ECO-20260404-scout-265",
@@ -79,5 +83,54 @@
     "Keep support modular and content-owned.",
     "Prefer close-look, sketchbook, or compact comparison support over longer prose.",
     "Do not widen route-board or station copy."
-  ]
+  ],
+  "main_265_focus": {
+    "priority_biome": "coastal-scrub",
+    "preferred_surface": "one local close-look card",
+    "entry_id": "song-sparrow",
+    "backing_entities": [
+      "windbreak-bluff-lookout-sparrow"
+    ],
+    "teaching_goal": "make the new upper bluff pocket feel like a lee-held perch above the swale instead of only a geometry stop",
+    "suggested_callouts": [
+      "streaked chest",
+      "small beak"
+    ],
+    "suggested_sentence": "This sparrow stays close to scrub so it can sing and slip back into cover fast.",
+    "suggested_sprite_scale": 6,
+    "avoid": [
+      "new ecosystem note ids",
+      "additional comparison support",
+      "additional sketchbook notes",
+      "new authored bluff carriers",
+      "route-board",
+      "station",
+      "world-map"
+    ]
+  },
+  "main_266_focus": {
+    "priority_biome": "tundra",
+    "preferred_surface": "one local close-look card",
+    "entry_id": "bigelows-sedge",
+    "backing_entities": [
+      "snow-meadow-drift-sedge"
+    ],
+    "teaching_goal": "make the new snow-meadow drift rest feel like springy tundra ground shaped by living clumps instead of just another flat snow platform",
+    "suggested_callouts": [
+      "raised tussock",
+      "stiff leaf tuft"
+    ],
+    "suggested_sentence": "Raised sedge clumps lift new leaves above cold wet ground.",
+    "suggested_sprite_scale": 5,
+    "avoid": [
+      "new ecosystem note ids",
+      "additional comparison support",
+      "additional sketchbook notes",
+      "new authored tundra carriers",
+      "lane-3 geometry changes",
+      "route-board",
+      "station",
+      "world-map"
+    ]
+  }
 }

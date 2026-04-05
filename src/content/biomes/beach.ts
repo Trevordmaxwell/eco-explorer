@@ -186,6 +186,22 @@ export const beachBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'dune-shoulder-entry-lip',
+        spriteId: 'rock-platform',
+        x: 126,
+        y: 106,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'dune-shoulder-rest',
+        spriteId: 'rock-platform',
+        x: 152,
+        y: 101,
+        w: 28,
+        h: 4,
+      },
+      {
         id: 'dune-crest-entry-step',
         spriteId: 'rock-platform',
         x: 222,
@@ -259,6 +275,24 @@ export const beachBiome: BiomeDefinition = {
       },
     ],
     authoredEntities: [
+      {
+        id: 'dune-shoulder-grass',
+        entryId: 'beach-grass',
+        x: 132,
+        y: 95,
+      },
+      {
+        id: 'dune-shoulder-pea',
+        entryId: 'beach-pea',
+        x: 160,
+        y: 95,
+      },
+      {
+        id: 'dune-shoulder-verbena',
+        entryId: 'sand-verbena',
+        x: 178,
+        y: 96,
+      },
       {
         id: 'dry-sand-lupine-clump',
         entryId: 'dune-lupine',

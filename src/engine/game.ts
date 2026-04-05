@@ -101,6 +101,7 @@ import {
   drawCloseLookOverlay,
   drawBubbleOverlay,
   drawHabitatChip,
+  resolveFieldStationBackdropAccentState,
   drawFieldPartnerNotice,
   drawFieldGuideNotice,
   drawFieldRequestHintChip,
@@ -1935,6 +1936,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function getNearestInspectable(): BiomeEntity | null {
     let nearest: BiomeEntity | null = null;
     let nearestDistance = Number.POSITIVE_INFINITY;
+    let nearestNotebookFit: BiomeEntity | null = null;
+    let nearestNotebookFitDistance = Number.POSITIVE_INFINITY;
+    const handLensContext =
+      resolveSelectedOutingSupportId(save) === 'hand-lens'
+        ? getFieldRequestContext()
+        : null;
 
     for (const entity of currentBiome.entities) {
       if (entity.removed) {
@@ -1952,9 +1959,22 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         nearest = entity;
         nearestDistance = distance;
       }
+
+      if (!handLensContext || distance > INSPECT_RANGE) {
+        continue;
+      }
+
+      const entityZoneId = getBiomeZoneForPlayerX(currentBiomeDefinition, entity.x + entity.w / 2)?.id ?? null;
+      if (
+        getHandLensNotebookFit(handLensContext, entity.entryId, entityZoneId)
+        && distance < nearestNotebookFitDistance
+      ) {
+        nearestNotebookFit = entity;
+        nearestNotebookFitDistance = distance;
+      }
     }
 
-    return nearest;
+    return nearestNotebookFit ?? nearest;
   }
 
   function getEntityAtPoint(worldX: number, worldY: number): BiomeEntity | null {
@@ -3791,6 +3811,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         atlas: fieldStationState.atlas,
         routeBoard: fieldStationState.routeBoard,
         expedition: fieldStationState.expedition,
+        backdropAccent: resolveFieldStationBackdropAccentState({
+          teachingBedStage: fieldStationState.nursery.activeProject?.state.stage ?? null,
+          hasLogPile: fieldStationState.nursery.extras.some(
+            (extra) => extra.id === 'log-pile' && extra.unlocked,
+          ),
+          hasPollinatorPatch: fieldStationState.nursery.extras.some(
+            (extra) => extra.id === 'pollinator-patch' && extra.unlocked,
+          ),
+          compostRate: fieldStationState.nursery.compostRate,
+          loggedRouteCount: fieldStationState.atlas?.loggedRoutes.length ?? 0,
+        }),
         nursery: {
           resources: fieldStationState.nursery.resources,
           selectedProject: fieldStationState.nursery.selectedProject

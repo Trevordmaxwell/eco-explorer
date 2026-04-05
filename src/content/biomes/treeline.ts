@@ -185,6 +185,22 @@ export const treelineBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'last-tree-approach-stone',
+        spriteId: 'granite-platform',
+        x: 196,
+        y: 110,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'last-tree-shelter-rest',
+        spriteId: 'granite-platform',
+        x: 224,
+        y: 106,
+        w: 26,
+        h: 4,
+      },
+      {
         id: 'lee-pocket-entry-stone',
         spriteId: 'granite-platform',
         x: 258,
@@ -275,7 +291,13 @@ export const treelineBiome: BiomeDefinition = {
       {
         id: 'krummholz-bunchberry',
         entryId: 'bunchberry',
-        x: 210,
+        x: 220,
+        y: 102,
+      },
+      {
+        id: 'last-tree-spruce',
+        entryId: 'krummholz-spruce',
+        x: 240,
         y: 102,
       },
       {
