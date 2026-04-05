@@ -8,6 +8,7 @@ import { treelineBiome } from '../content/biomes/treeline';
 import { tundraBiome } from '../content/biomes/tundra';
 import { CLOSE_LOOK_ENTRY_IDS } from '../engine/close-look';
 import { FIELD_REQUEST_DEFINITIONS } from '../engine/field-requests';
+import { getNurseryProjectDefinitions } from '../engine/nursery';
 import { OBSERVATION_PROMPT_SEEDS } from '../engine/observation-prompts';
 
 const authoredBiomes = [beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome];
@@ -20,6 +21,11 @@ const OBSERVATION_PROMPT_MAX = 60;
 const FIELD_REQUEST_TITLE_MAX = 18;
 const FIELD_REQUEST_SUMMARY_MAX = 96;
 const SKETCHBOOK_NOTE_MAX = 56;
+const NURSERY_SUMMARY_MAX = 56;
+const NURSERY_STAGE_SUMMARY_MAX = 56;
+const NURSERY_MEMORY_SUMMARY_MAX = 56;
+const NURSERY_REWARD_SUMMARY_MAX = 72;
+const NURSERY_UNLOCK_SUMMARY_MAX = 72;
 const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity'] as const;
 const MICROHABITAT_LEDGER_MARKERS = ['old-mans-beard', 'western-hemlock-seedling'] as const;
 const CANOPY_CAVERN_LEDGER_MARKERS = ['canopy-moss-bed', 'seep-moss-mat'] as const;
@@ -85,6 +91,32 @@ describe('content quality guardrails', () => {
 
         expect(entry.sketchbookNote.length).toBeLessThanOrEqual(SKETCHBOOK_NOTE_MAX);
         expect(countSentences(entry.sketchbookNote)).toBe(1);
+      }
+    }
+  });
+
+  it('keeps nursery project copy within the teaching-bed budget', () => {
+    for (const definition of getNurseryProjectDefinitions()) {
+      expect(definition.summary.length).toBeLessThanOrEqual(NURSERY_SUMMARY_MAX);
+      expect(countSentences(definition.summary)).toBe(1);
+
+      for (const stage of definition.growthStages) {
+        const stageSummary = definition.stageSummaryByStage[stage];
+        expect(stageSummary.length).toBeLessThanOrEqual(NURSERY_STAGE_SUMMARY_MAX);
+        expect(countSentences(stageSummary)).toBe(1);
+      }
+
+      expect(definition.rewardSummary.length).toBeLessThanOrEqual(NURSERY_REWARD_SUMMARY_MAX);
+      expect(countSentences(definition.rewardSummary)).toBe(1);
+
+      if (definition.memorySummary) {
+        expect(definition.memorySummary.length).toBeLessThanOrEqual(NURSERY_MEMORY_SUMMARY_MAX);
+        expect(countSentences(definition.memorySummary)).toBe(1);
+      }
+
+      if (definition.unlockSummary) {
+        expect(definition.unlockSummary.length).toBeLessThanOrEqual(NURSERY_UNLOCK_SUMMARY_MAX);
+        expect(countSentences(definition.unlockSummary)).toBe(1);
       }
     }
   });

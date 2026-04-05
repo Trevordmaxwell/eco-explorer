@@ -59,6 +59,57 @@ Note:
 - This recommendation pass is superseded by the newer critic-driven packet `003`.
 - The scout agent already delivered more valuable near-term work through the world-travel scaffold and packet `002`.
 
+### ECO-20260405-main-272
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement one nursery layout follow-on`
+- Source: `docs/reports/2026-04-05-nursery-layout-follow-on-scout.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `ECO-20260405-scout-272`
+
+Goal:
+
+- Clean up the one remaining crowded nursery state without widening the shell or adding more text.
+
+Acceptance:
+
+- the targeted nursery state becomes overlap-free
+- tests and browser proof cover the exact follow-on case
+- the page still feels as calm as the routes shell
+
+Note:
+
+- Parked after `ECO-20260405-scout-272` found no distinct lane-1 layout-only failure left to hand off.
+- Reopen only if later nursery edits reintroduce a structural `256x160` overlap that lane 2's copy-role tuning cannot solve.
+
+### ECO-20260405-critic-272
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the nursery layout follow-on`
+- Source: `docs/reports/2026-04-05-nursery-layout-follow-on-scout.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `ECO-20260405-main-272`
+
+Goal:
+
+- Review whether the nursery page now matches the routes page for shell discipline and handheld readability.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the targeted state is clean at `256x160`
+- leaves lane 1 ready for the next home-loop wave if clean
+
+Note:
+
+- Parked because the scout found no distinct lane-1 layout follow-on worth implementing after the clean renderer split review.
+
 ## Blocked
 
 ### ECO-20260403-scout-242
@@ -201,6 +252,657 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260405-critic-278
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review the reward-surfacing follow-on`
+- Source: `docs/reports/2026-04-05-nursery-utility-surfacing-review.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `ECO-20260405-main-278`
+
+Goal:
+
+- Review whether the home-loop payoff is easier to feel without turning the station into a busier shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the payoff is clearer and the nursery card is calmer
+- leaves lane 4 ready for the next route-feel wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-utility-surfacing-review.md`, finding no blocker in the compost-notice reward seam: the payoff moved onto one calm existing action and left the teaching-bed card focused on plant and reflection beats.
+- Marked packet `115` version `7` as `DONE` and recorded the compost-notice utility rule in project memory so future nursery utility follow-ons keep landing outside the crowded bed.
+- Verification: reviewed the focused diff plus `npx vitest run src/test/runtime-smoke.test.ts -t "prefers the authored crowberry utility line in the compost notice once unlocked|opens the nursery tab and starts one teaching-bed project from the field station|shows a mature teaching bed in the nursery and lets Enter clear it"`, `npm run build`, `npm run validate:agents`
+
+### ECO-20260405-main-278
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement one compact reward-surfacing seam outside the crowded nursery card`
+- Source: `docs/reports/2026-04-05-nursery-utility-surfacing-implementation.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `ECO-20260405-scout-278`
+
+Goal:
+
+- Move one home-loop reward or utility cue into a clearer, calmer seam so the nursery card can stay focused.
+
+Acceptance:
+
+- one payoff becomes easier to notice outside the crowded card
+- no new dashboard or inventory surface appears
+- the station remains calm and compact
+
+Completion note:
+
+- Updated `src/engine/game.ts` so the existing `COMPOST HEAP` notice now prefers the authored `utilityNote` when crowberry utility is unlocked, while the generic compost-rate line remains the fallback when no utility reward exists.
+- Extended `src/test/runtime-smoke.test.ts` with a live nursery proof for the unlocked crowberry payoff and tightened the authored-platform helper typing in that shared smoke file so the focused verification and build run clean again.
+- Verification: `npx vitest run src/test/runtime-smoke.test.ts -t "opens the nursery tab and starts one teaching-bed project from the field station|shows a mature teaching bed in the nursery and lets Enter clear it|prefers the authored crowberry utility line in the compost notice once unlocked"`, `npm run build`
+
+### ECO-20260405-critic-273
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review the nursery copy-budget pass`
+- Source: `docs/reports/2026-04-05-nursery-copy-budget-review.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-main-273`
+
+Goal:
+
+- Review whether the nursery now teaches clearly without crowding the handheld frame.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- checks stocked and mature language against the new copy caps
+- promotes `ECO-20260405-scout-274` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-copy-budget-review.md`, finding one blocking live-renderer mismatch: the dedicated nursery page still uses the older ready CTA sentence and mature reward-copy body instead of the newly authored `summary`, `stageSummaryByStage.mature`, and `memorySummary` beats.
+- Bumped packet `113` to version `3`, inserted `ECO-20260405-main-279` plus `ECO-20260405-critic-279` ahead of the naming-cleanup wave, and kept `ECO-20260405-scout-274` blocked until the live nursery page reflects the authored copy-role split.
+- Verification: reviewed `src/engine/nursery.ts` and `src/engine/field-station-nursery-page.ts`; `npm test -- --run src/test/nursery.test.ts src/test/content-quality.test.ts`; rechecked `output/lane-2-main-273-browser/`
+
+### ECO-20260405-main-279
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Wire the authored copy-role split into the live nursery page`
+- Source: `docs/reports/2026-04-05-live-nursery-copy-role-implementation.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-critic-273`
+
+Goal:
+
+- Make the dedicated nursery page actually use the new ready and mature authored beat model instead of older fallback copy.
+
+Acceptance:
+
+- affordable ready selected beds use `summary` in the teaching-bed body instead of the old generic CTA sentence
+- selected mature beds use `stageSummaryByStage.mature` in the body and `memorySummary` in the footer when present
+- a focused renderer or runtime check proves the live nursery page matches the authored copy-role split
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-live-nursery-copy-role-implementation.md`, correcting the live nursery page helper so ready selected beds now use `summary`, active beds use the authored stage beat, and mature selected beds now pair `stageSummaryByStage.mature` with `memorySummary` instead of the older reward-copy body.
+- Extended `src/test/field-station-nursery-page.test.ts` with explicit ready and mature copy assertions on the dedicated renderer seam, keeping the narrower `src/test/nursery.test.ts` and `src/test/content-quality.test.ts` coverage intact.
+
+### ECO-20260405-critic-279
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review the live nursery-page copy-role correction`
+- Source: `docs/reports/2026-04-05-live-nursery-copy-role-review.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-main-279`
+
+Goal:
+
+- Review whether the dedicated nursery page now reflects the authored copy-role split for ready and mature bed states.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- checks the live ready and mature selected-bed states against the authored beat model
+- promotes `ECO-20260405-scout-274` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-live-nursery-copy-role-review.md`, finding no blocker in the live nursery renderer once the ready and mature selected-bed paths were rechecked against the authored beat model.
+- Promoted `ECO-20260405-scout-274` to `READY` so lane 2 can narrow the remaining wording cleanup to one compact naming or reward-copy seam.
+- Verification: reviewed `src/engine/field-station-nursery-page.ts`; `npm test -- --run src/test/field-station-nursery-page.test.ts src/test/runtime-smoke.test.ts -t "opens the nursery tab and starts one teaching-bed project from the field station|shows a mature teaching bed in the nursery and lets Enter clear it"`; `npm run build`
+
+### ECO-20260405-scout-274
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare one nursery naming or reward-copy cleanup handoff`
+- Source: `docs/reports/2026-04-05-nursery-naming-cleanup-handoff.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-critic-279`
+
+Goal:
+
+- Narrow the remaining home-loop wording cleanup to one compact naming or reward-copy seam.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-274`
+- names one wording mismatch or older label family to clean up
+- avoids broadening the station or route-board copy
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-naming-cleanup-handoff.md`, narrowing the next lane-2 pass to two clearly stale unlock-summary labels in `src/engine/nursery.ts`: `Coastal Shelter` should become `Open To Shelter`, and `Treeline Shelter` should become `Stone Shelter`.
+- Left the `Short Season` / `Thaw Window` dual-title contract explicitly out of scope for this tiny pass, since `Short Season` still remains the stable filed-note identity elsewhere in the live game.
+- Promoted `ECO-20260405-main-274` to `READY` and updated packet `113` to version `5` with the narrower `main_274_focus` seam.
+
+### ECO-20260405-main-274
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement one compact nursery naming or reward-copy cleanup`
+- Source: `docs/reports/2026-04-05-nursery-naming-cleanup-implementation.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-scout-274`
+
+Goal:
+
+- Clean up one remaining nursery naming or reward-copy seam so the calmer home loop stays coherent.
+
+Acceptance:
+
+- the targeted naming or reward-copy mismatch is resolved
+- the pass stays within the authored copy budgets
+- the nursery card remains compact and readable
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-naming-cleanup-implementation.md`, updating the two clearly stale unlock-summary labels in `src/engine/nursery.ts` so the nursery now points at `Open To Shelter` and `Stone Shelter` instead of the retired `Coastal Shelter` and `Treeline Shelter` names.
+- Added focused ready-bed assertions in `src/test/field-station-nursery-page.test.ts` and left the deliberate `Short Season` / `Thaw Window` dual-title contract untouched.
+- Promoted `ECO-20260405-critic-274` to `READY`.
+- Verification: `npm test -- --run src/test/nursery.test.ts src/test/field-station-nursery-page.test.ts`; `npm run build`
+
+### ECO-20260405-critic-274
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the nursery naming or reward-copy cleanup`
+- Source: `docs/reports/2026-04-05-nursery-naming-cleanup-review.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-main-274`
+
+Goal:
+
+- Review whether the nursery language now feels intentional, calm, and consistent with the newer chapter-facing shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the targeted language seam is cleaner and still science-safe
+- leaves lane 2 ready for the next support pass if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-naming-cleanup-review.md`, finding no blocker in the tiny unlock-summary cleanup: the nursery now uses the live `Open To Shelter` and `Stone Shelter` names while the deliberate `Short Season` exception remains stable.
+- Closed packet `113` as `DONE`; lane 2 has no remaining actionable item in the queue after this review.
+- Verification: reviewed `src/engine/nursery.ts` and `src/test/field-station-nursery-page.test.ts`; `npm test -- --run src/test/nursery.test.ts src/test/field-station-nursery-page.test.ts`; `npm run build`
+- Verification: `npm test -- --run src/test/field-station-nursery-page.test.ts src/test/nursery.test.ts src/test/content-quality.test.ts`; `npm run build`; web-game smoke in `output/lane-2-main-279-client/`; `npm run validate:agents`
+
+### ECO-20260405-scout-278
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the reward-surfacing follow-on handoff`
+- Source: `docs/reports/2026-04-05-nursery-utility-surfacing-handoff.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `ECO-20260405-critic-277`
+
+Goal:
+
+- Narrow the next home-loop payoff pass to one compact seam outside the most crowded nursery card.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-278`
+- identifies one better reward or utility surfacing seam
+- avoids adding another station row or panel
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-utility-surfacing-handoff.md`, narrowing the follow-on to the existing `COMPOST HEAP` notice path instead of the bench or another persistent row.
+- Bumped packet `115` to version `5`, added `main_278_focus` around the crowberry utility payoff, retargeted `ECO-20260405-main-278` to the new handoff, and promoted it to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-critic-277
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the nursery beat-separation pass`
+- Source: `docs/reports/2026-04-05-nursery-beat-separation-review.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `ECO-20260405-main-277`
+
+Goal:
+
+- Review whether the home loop now reads as cleaner and more satisfying instead of merely thinner.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- checks that the player reads one dominant beat at a time
+- promotes `ECO-20260405-scout-278` if clean
+
+Completion note:
+
+- Reviewed the live nursery renderer seam and confirmed the selected active `TEACHING BED` now owns the moment while route-support guidance still returns on the calmer non-bed cards.
+- Found no blocker after the renderer-split correction landed on `src/engine/field-station-nursery-page.ts`, recorded the clean review in `docs/reports/2026-04-05-nursery-beat-separation-review.md`, and promoted `ECO-20260405-scout-278` to `READY`.
+- Verification: reviewed the focused code diff plus `npx vitest run src/test/nursery.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "teaching-bed project|mature teaching bed"`, `npm run build`
+
+### ECO-20260405-main-277
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement one beat-separation pass for nursery interaction state`
+- Source: `docs/reports/2026-04-05-nursery-beat-separation-implementation.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `ECO-20260405-scout-277`
+
+Goal:
+
+- Make one nursery interaction state read as a sequence of clearer beats instead of a crowded single-card explanation.
+
+Acceptance:
+
+- plant state, ecological reflection, and reward no longer all compete in the same moment
+- the home loop feels cleaner without adding a new dashboard seam
+- the pass stays inside the existing station shell
+
+Completion note:
+
+- Added a selection-aware nursery focus seam in `src/engine/nursery.ts`, then threaded it through `src/engine/field-station-state.ts`, `src/engine/game.ts`, and `src/engine/overlay-render.ts` so an active selected `TEACHING BED` suppresses the route-support strip instead of stacking two beats at once.
+- Covered the new state in `src/test/nursery.test.ts` and extended the live nursery runtime smoke in `src/test/runtime-smoke.test.ts` so bed focus now flips from `none` to `selected-active` and back as the player moves through the cards.
+- Verification: `npx vitest run src/test/nursery.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "opens the nursery tab and starts one teaching-bed project from the field station"`, `npm run build`
+
+### ECO-20260405-scout-277
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the nursery beat-separation handoff`
+- Source: `docs/reports/2026-04-05-nursery-beat-separation-handoff.md`
+- Packet: `.agents/packets/115-home-loop-beat-separation-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Shape one cleaner home-loop interaction so the player reads one nursery idea at a time instead of a stacked card.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-277`
+- identifies which beats should be separated first
+- stays inside the existing station and nursery shell
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-beat-separation-handoff.md`, narrowing the first lane-4 home-loop pass to the active selected `TEACHING BED` state instead of the broader nursery shell.
+- Bumped packet `115` to version `2`, corrected the likely file targets to the live nursery seam, and added `main_277_focus` so the next pass suppresses route-facing payoff while the bed itself is the selected beat.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-scout-271
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare the nursery legibility audit and renderer-split handoff`
+- Source: `docs/reports/2026-04-05-nursery-legibility-and-renderer-phase.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow the nursery cleanup to the exact handheld-overlap states and the cleanest dedicated renderer seam.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-271`
+- identifies the highest-risk stocked through mature layouts at `256x160`
+- names a renderer split that does not widen the station shell
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-legibility-and-renderer-handoff.md`, narrowing the next pass to the inline nursery page body inside `drawFieldStationOverlay(...)` and recommending a sibling helper such as `src/engine/field-station-nursery-page.ts`.
+- Grounded the handoff in the current bed-card rect math: active-growth states with a route clue are the worst overlap family, mature payoff states are the next-highest risk, and bench/compost are not the limiting shell.
+- Bumped packet `112` to version `2`, added a concrete `main_271_focus` block for the nursery renderer split plus the highest-risk layout families, and promoted `ECO-20260405-main-271` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-main-271
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement a dedicated nursery-page renderer plus overlap-proof state layouts`
+- Source: `docs/reports/2026-04-05-nursery-legibility-and-renderer-implementation.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `ECO-20260405-scout-271`
+
+Goal:
+
+- Make the nursery page fit cleanly at `256x160` while extracting a dedicated renderer seam away from `overlay-render.ts`.
+
+Acceptance:
+
+- nursery stocked through mature states render without overlap in seeded checks
+- a dedicated nursery-page renderer owns the page body
+- the station shell stays compact and unchanged in scope
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-legibility-and-renderer-implementation.md`, extracting the inline nursery page body into `src/engine/field-station-nursery-page.ts` while leaving `src/engine/overlay-render.ts` in charge of the station shell, top tabs, page switching, and accent passes.
+- Rebalanced dense nursery states structurally instead of hiding the issue behind font changes: active-growth and mature teaching-bed states now use a slightly taller bed card plus explicit lower-band splits for route clues, reward or clear text, and the home-place strip.
+- Added focused layout coverage in `src/test/field-station-nursery-page.test.ts`, refreshed the shared client smoke in `output/lane-1-main-271-client/`, captured fresh handheld proofs in `output/lane-1-main-271-browser/`, and promoted `ECO-20260405-critic-271` to `READY`.
+- `npx vitest run src/test/runtime-smoke.test.ts -t "opens the nursery tab and starts one teaching-bed project from the field station|shows a mature teaching bed in the nursery and lets Enter clear it|adds a season expedition page that becomes ready after the three live routes are logged"` plus `npm run build` are currently blocked by unrelated shared-tree issues inside `src/test/runtime-smoke.test.ts`.
+
+### ECO-20260405-critic-271
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review nursery legibility and the renderer split`
+- Source: `docs/reports/2026-04-05-nursery-legibility-and-renderer-review.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `ECO-20260405-main-271`
+
+Goal:
+
+- Review whether the nursery page is now clearly readable and whether the new renderer seam protects future home-loop growth.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- checks handheld readability across multiple nursery states
+- promotes `ECO-20260405-scout-272` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-legibility-and-renderer-review.md` and found no blocker in the nursery split: `src/engine/field-station-nursery-page.ts` is the right render-only boundary, and both active-growth and mature handheld proofs now fit cleanly at `256x160`.
+- Confirmed the station still reads as one compact shell rather than a new planner layer, and that the remaining pressure is authored copy budget rather than structural overlap.
+- Promoted `ECO-20260405-scout-272` to `READY` so the next lane-1 pass can decide whether any truly layout-only follow-on remains distinct from lane 2's copy-role work.
+
+### ECO-20260405-scout-272
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare one nursery layout follow-on handoff`
+- Source: `docs/reports/2026-04-05-nursery-layout-follow-on-scout.md`
+- Packet: `.agents/packets/112-nursery-legibility-and-renderer-phase.json`
+- Depends on: `ECO-20260405-critic-271`
+
+Goal:
+
+- Narrow any remaining nursery crowding to one compact follow-on state or layout seam.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-272`
+- names one remaining crowded state only
+- preserves the station shell and copy-budget guardrails
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-layout-follow-on-scout.md` and found no distinct lane-1 layout-only follow-on worth handing off after the clean renderer split review.
+- Marked packet `112` `DONE`, because the structural overlap problem is solved and the remaining nursery pressure is already owned by lane 2's live copy-role pass in packet `113`.
+- Parked `ECO-20260405-main-272` and `ECO-20260405-critic-272`; reopen them only if later nursery edits reintroduce a proven `256x160` layout break.
+
+### ECO-20260405-scout-276
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the vertical regression-guardrail handoff`
+- Source: `docs/reports/2026-04-05-vertical-regression-guardrail-handoff.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `ECO-20260405-critic-275`
+
+Goal:
+
+- Turn the most fragile part of the current vertical family into a better-protected regression seam for future waves.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-276`
+- names one exact regression risk and how to guard it
+- stays inside current benchmark spaces only
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-vertical-regression-guardrail-handoff.md`, narrowing the next lane-3 pass to one deterministic treeline return-band guardrail derived from the authored `lee-pocket-fell-return` and `lee-pocket-lee-rest` family rather than another geometry change.
+- Bumped packet `114` to version `3`, added a `main_276_focus` block for the exact regression risk and preferred smoke-helper shape, and promoted `ECO-20260405-main-276` to `READY`.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-main-276
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement one vertical regression-guardrail pass`
+- Source: `docs/reports/2026-04-05-vertical-regression-guardrail-implementation.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `ECO-20260405-scout-276`
+
+Goal:
+
+- Add one small protection seam so later vertical expansion is less likely to break the newest benchmark spaces.
+
+Acceptance:
+
+- a concrete regression case is now protected by tests or runtime guard logic
+- no new geometry family is added
+- the pass keeps lane 3 in cooldown rather than expansion mode
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-vertical-regression-guardrail-implementation.md` and tightened the treeline loop smoke proof around the authored `lee-pocket-fell-return -> lee-pocket-lee-rest` hand-back instead of the older broad right-hand settle box.
+- Kept the pass test-only: `src/test/runtime-smoke.test.ts` now derives one `treelineShelteredReturnBand` from the authored return platforms and proves the route stabilizes there before continuing into open `lichen-fell`, without changing treeline geometry.
+- Verification: `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a tucked backside notch and upper cap for the treeline loop|turns the treeline lee pocket into a compact crest-and-notch loop|turns the treeline threshold into a last-tree shelter followed by the existing lee pocket"`
+
+### ECO-20260405-critic-276
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the vertical regression-guardrail pass`
+- Source: `docs/reports/2026-04-05-vertical-regression-guardrail-review.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `ECO-20260405-main-276`
+
+Goal:
+
+- Review whether the guardrail pass makes the current vertical family safer without spending more handheld density.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the protected case is real and future-facing
+- leaves lane 3 ready for a later destination wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-vertical-regression-guardrail-review.md`, finding no blocking issue in the treeline guardrail pass and confirming the new sheltered-return band protects the authored `fell-return -> lee-rest` family without reopening geometry growth.
+- Resolved the earlier treeline browser watch item too: with the shared build issue now cleared, a fresh live Playwright pass from the normal treeline start reached `krummholz-belt` and then the lee-pocket approach with the expected cue family visible and no console errors.
+- Verification: `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a tucked backside notch and upper cap for the treeline loop|turns the treeline lee pocket into a compact crest-and-notch loop|turns the treeline threshold into a last-tree shelter followed by the existing lee pocket"`; `npm run build`; live Playwright browser proof on `http://127.0.0.1:4173/`
+
+### ECO-20260405-critic-275
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the vertical cooldown cleanup`
+- Source: `docs/reports/2026-04-05-vertical-cooldown-cleanup-review.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `ECO-20260405-main-275`
+
+Goal:
+
+- Review whether the cleanup protects readability and recoverability without reopening destination growth.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the pass stays small and behavior-preserving
+- promotes `ECO-20260405-scout-276` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-vertical-cooldown-cleanup-review.md`, finding no blocking lane-3 issue in the treeline return softening and confirming the pass stayed geometry-only and inside the intended `lee-pocket` family.
+- Kept one non-blocking watch item: rerun the real stepped browser proof for this treeline seam once the unrelated shared-tree nursery runtime/build error is cleared.
+- Verification: reviewed the treeline geometry/test changes and reran `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a tucked backside notch and upper cap for the treeline loop|turns the treeline lee pocket into a compact crest-and-notch loop|turns the treeline threshold into a last-tree shelter followed by the existing lee pocket"`; promoted `ECO-20260405-scout-276` to `READY`.
+
+### ECO-20260405-main-275
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement one small readability or recovery cleanup in a current vertical benchmark space`
+- Source: `docs/reports/2026-04-05-vertical-cooldown-cleanup-implementation.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `ECO-20260405-scout-275`
+
+Goal:
+
+- Protect one current benchmark space with a small readability or recovery cleanup instead of adding another destination.
+
+Acceptance:
+
+- the chosen beach or treeline space becomes easier to read or recover through
+- no new landmark family or route branch is introduced
+- the change is covered by focused tests or seeded proof
+
+Completion note:
+
+- Softened the treeline `lee-pocket` return by widening `lee-pocket-fell-return` toward the incoming brow side in `src/content/biomes/treeline.ts`, keeping the same platform family and avoiding any new landing, cue, or branch.
+- Updated `src/test/treeline-biome.test.ts` to lock the widened return geometry against the existing `crest-brow` and `lee-rest`, while the focused `runtime-smoke` treeline loop path still passes after the geometry easing.
+- Verification: `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a tucked backside notch and upper cap for the treeline loop|turns the treeline lee pocket into a compact crest-and-notch loop|turns the treeline threshold into a last-tree shelter followed by the existing lee pocket"`; `npm run build` is currently blocked by unrelated shared-tree nursery errors in `src/engine/nursery.ts`, and fresh stepped browser proof is blocked by the same unrelated runtime issue.
+
+### ECO-20260405-scout-275
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the vertical cooldown cleanup handoff`
+- Source: `docs/reports/2026-04-05-vertical-cooldown-cleanup-handoff.md`
+- Packet: `.agents/packets/114-vertical-cooldown-and-regression-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Choose one small readability or recovery cleanup in the current beach or treeline benchmark spaces instead of opening another destination pass.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-275`
+- keeps the wave scoped to cleanup, not new geography
+- names one current benchmark space and the exact recoverability problem to protect
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-vertical-cooldown-cleanup-handoff.md`, narrowing the cooldown pass to the treeline `lee-pocket-crest-brow -> lee-pocket-fell-return -> lee-pocket-lee-rest` return seam instead of reopening the now-saturated beach opener or last-tree shelter bands.
+- Bumped packet `114` to version `2`, added a `main_275_focus` block with the exact treeline target band and no-new-platform-id guardrails, and promoted `ECO-20260405-main-275` to `READY`.
+- Verification: reviewed the current treeline and beach geometry/tests plus seeded browser artifacts in `output/main-268-browser/`, `output/main-267-browser/`, `output/lane-3-scout-104-browser/`, and `output/main-159-browser/`; `npm run validate:agents`
+
+### ECO-20260405-main-273
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement authored per-state nursery copy caps and reflection splits`
+- Source: `docs/reports/2026-04-05-nursery-copy-budget-implementation.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `ECO-20260405-scout-273`
+
+Goal:
+
+- Rewrite nursery state copy so each state teaches one idea at a time instead of stacking plant, reflection, and reward language together.
+
+Acceptance:
+
+- each nursery state has a clear copy cap and one dominant beat
+- ecological reflection and reward language no longer collide on the same card
+- the pass stays science-safe and compact
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-copy-budget-implementation.md`, landing the approved state-beat model so inactive selected beds use `summary`, active beds use new per-stage body copy, and mature beds keep the quieter footer seam instead of reusing reward language as the bed body.
+- Reauthored all six nursery projects in `src/engine/nursery.ts`, added `stageSummaryByStage` in `src/engine/types.ts`, updated the teaching-bed render path in `src/engine/overlay-render.ts`, and extended `src/test/nursery.test.ts` plus `src/test/content-quality.test.ts` to protect authored stage coverage and copy-budget ceilings.
+- Verification: `npm test -- --run src/test/nursery.test.ts src/test/content-quality.test.ts`; `npm run build`; web-game client smoke in `output/lane-2-main-273-client/`; seeded browser proof in `output/lane-2-main-273-browser/`; `npm run validate:agents`
+
+### ECO-20260405-scout-273
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare the nursery copy-budget and state-beat handoff`
+- Source: `docs/reports/2026-04-05-nursery-copy-budget-handoff.md`
+- Packet: `.agents/packets/113-nursery-reflection-and-copy-budget-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Break the nursery copy problem into authored state beats so layout work is not fighting stacked language.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-273`
+- caps what each nursery state is allowed to say
+- separates plant state, ecological reflection, and reward language into distinct authored beats
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-nursery-copy-budget-handoff.md`, narrowing the nursery fix to one authored state-beat model: `summary` for inactive selection, a new per-stage bed body field for active states, `memorySummary` for the mature footer only, and `rewardSummary` for route-support or utility consequences only.
+- Bumped packet `113` to version `2`, added a concrete `main_273_focus` block with copy-role splits, state caps, and authoring budgets, retargeted `ECO-20260405-main-273` and `ECO-20260405-critic-273` to the new handoff, and promoted `ECO-20260405-main-273` to `READY`.
+- Verification: `npm run validate:agents`
 
 ### ECO-20260404-scout-268
 

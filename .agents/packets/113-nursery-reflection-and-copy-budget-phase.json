@@ -1,0 +1,157 @@
+{
+  "packet_id": "ECO-PACKET-113",
+  "version": 7,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Nursery reflection and copy-budget phase",
+  "summary": "Lane 2 should hard-cap nursery copy by state and keep plant state, ecological reflection, and reward language as separate authored beats instead of one stacked card.",
+  "source_reports": [
+    "docs/reports/2026-04-05-nursery-reflection-and-copy-budget-phase.md",
+    "docs/reports/2026-04-05-nursery-copy-budget-handoff.md",
+    "docs/reports/2026-04-05-nursery-copy-budget-review.md",
+    "docs/reports/2026-04-05-live-nursery-copy-role-implementation.md",
+    "docs/reports/2026-04-05-live-nursery-copy-role-review.md",
+    "docs/reports/2026-04-05-nursery-naming-cleanup-handoff.md",
+    "docs/reports/2026-04-05-nursery-naming-cleanup-implementation.md",
+    "docs/reports/2026-04-05-nursery-naming-cleanup-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-273",
+    "ECO-20260405-main-273",
+    "ECO-20260405-critic-273",
+    "ECO-20260405-main-279",
+    "ECO-20260405-critic-279",
+    "ECO-20260405-scout-274",
+    "ECO-20260405-main-274",
+    "ECO-20260405-critic-274"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-273",
+      "goal": "Prepare the nursery copy-budget and state-beat handoff.",
+      "why_now": "Renderer cleanup alone will not fix a page that is trying to say too much."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-273",
+      "goal": "Implement authored per-state nursery copy caps and reflection splits.",
+      "why_now": "The nursery should teach one idea at a time."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-273",
+      "goal": "Review the nursery copy-budget pass.",
+      "why_now": "The home loop should stay science-forward without crowding the card."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260405-main-279",
+      "goal": "Wire the authored copy-role split into the live nursery page helper.",
+      "why_now": "The page players actually see still bypasses the new ready and mature authored beats."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260405-critic-279",
+      "goal": "Review the live nursery-page copy-role correction.",
+      "why_now": "The phase should not move on to naming cleanup until the live renderer matches the new beat model."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260405-scout-274",
+      "goal": "Prepare one nursery naming or reward-copy cleanup handoff.",
+      "why_now": "Older reward and label language should not leak back into the now cleaner nursery page."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260405-main-274",
+      "goal": "Implement one compact nursery naming or reward-copy cleanup.",
+      "why_now": "A small language cleanup can make the home loop feel more intentional."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260405-critic-274",
+      "goal": "Review the nursery naming or reward-copy cleanup.",
+      "why_now": "The cleaner home loop should stay readable and coherent."
+    }
+  ],
+  "file_targets": [
+    "src/engine/types.ts",
+    "src/engine/nursery.ts",
+    "src/engine/field-station-nursery-page.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/nursery.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "main_273_focus": {
+    "primary_seams": [
+      "src/engine/types.ts",
+      "src/engine/nursery.ts",
+      "src/engine/overlay-render.ts"
+    ],
+    "copy_roles": {
+      "summary": "Inactive selection overview only.",
+      "unlockSummary": "Locked or not-yet-ready bed line only.",
+      "stageSummaryByStage": "Active teaching-bed body copy for stocked, rooting, growing, and mature.",
+      "memorySummary": "Optional mature footer only.",
+      "rewardSummary": "Route-support or utility consequence only; do not reuse it as mature bed body copy."
+    },
+    "state_caps": [
+      "Locked selection: one unlockSummary sentence only.",
+      "Ready selection: one summary sentence only.",
+      "Stocked/rooting/growing: one active body sentence only.",
+      "Mature: one active body sentence plus one optional memory footer sentence only."
+    ],
+    "authoring_budgets": {
+      "summary_max": 56,
+      "stage_summary_max": 56,
+      "memory_summary_max": 56,
+      "reward_summary_max": 72,
+      "unlock_summary_max": 72
+    },
+    "verification": [
+      "Focused nursery tests",
+      "Copy-budget coverage",
+      "Build",
+      "Seeded nursery browser proof covering inactive, active-growing, and active-mature states"
+    ]
+  },
+  "main_279_focus": {
+    "primary_seam": "src/engine/field-station-nursery-page.ts",
+    "ready_state_rule": "Affordable ready selected beds should show `summary` in the bed body; not-yet-ready states may use `unlockSummary` or a compact supply fallback only.",
+    "mature_state_rule": "Selected mature beds should show `stageSummaryByStage.mature` in the body and `memorySummary` in the footer when present, with `ENTER clears the bed.` only as the no-memory fallback.",
+    "guardrails": [
+      "Do not widen the nursery shell or add another text row.",
+      "Do not move start-cost or planting CTA back into the teaching-bed body.",
+      "Add one focused render-level or runtime assertion so the live nursery page cannot drift away from authored copy roles again."
+    ]
+  },
+  "main_274_focus": {
+    "primary_seam": "src/engine/nursery.ts",
+    "target_family": "Unlock summaries that still use fully retired route-facing labels.",
+    "exact_updates": [
+      "sand-verbena-bed.unlockSummary: `Coastal Shelter` -> `Open To Shelter`",
+      "mountain-avens-bed.unlockSummary: `Treeline Shelter` -> `Stone Shelter`"
+    ],
+    "guardrails": [
+      "Do not rename crowberry's `Short Season` unlock summary in this pass; the filed-note identity is still intentionally stable there.",
+      "Do not retune rewardTitle or rewardSummary in this pass.",
+      "Prefer a focused nursery or ready-bed assertion over broader station-page churn."
+    ]
+  },
+  "guardrails": [
+    "Do not widen route-board or station copy.",
+    "Prefer one compact sentence per beat over stacked explanation.",
+    "Do not add new nursery facts just to fill space."
+  ]
+}

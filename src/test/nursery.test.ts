@@ -6,6 +6,7 @@ import { treelineBiome } from '../content/biomes/treeline';
 import {
   getNurseryProjectDefinitions,
   getSelectedNurseryProjectId,
+  resolveNurseryTeachingBedFocusMode,
   resolveNurseryStateView,
   startNurseryProject,
   syncNurseryState,
@@ -30,6 +31,7 @@ describe('nursery gathering', () => {
       expect(definition.growthStages).toEqual(['stocked', 'rooting', 'growing', 'mature']);
       expect(definition.routeTags.length).toBeGreaterThanOrEqual(1);
       expect(definition.sourceModes.length).toBe(1);
+      expect(Object.keys(definition.stageSummaryByStage)).toEqual(definition.growthStages);
     }
   });
 
@@ -48,6 +50,16 @@ describe('nursery gathering', () => {
       'salmonberry-bed',
       'crowberry-bed',
     ]);
+  });
+
+  it('authors a distinct stage beat for each nursery growth state', () => {
+    const definitions = getNurseryProjectDefinitions();
+
+    for (const definition of definitions) {
+      for (const stage of definition.growthStages) {
+        expect(definition.stageSummaryByStage[stage]).toBeTruthy();
+      }
+    }
   });
 
   it('only awards safe gathering after the right route gate and only once per entity', () => {
@@ -96,6 +108,13 @@ describe('nursery gathering', () => {
 });
 
 describe('nursery growth and rewards', () => {
+  it('marks the selected active bed as the dominant nursery beat', () => {
+    expect(resolveNurseryTeachingBedFocusMode('bench', null)).toBe('none');
+    expect(resolveNurseryTeachingBedFocusMode('bench', 'stocked')).toBe('none');
+    expect(resolveNurseryTeachingBedFocusMode('bed', 'stocked')).toBe('selected-active');
+    expect(resolveNurseryTeachingBedFocusMode('bed', 'mature')).toBe('selected-mature');
+  });
+
   it('advances projects between world steps, auto-composts litter, and unlocks the utility reward', () => {
     const save = createNewSaveState('nursery-growth-seed');
     recordDiscovery(save, treelineBiome.entries.crowberry, 'treeline');
@@ -139,14 +158,50 @@ describe('nursery growth and rewards', () => {
 
     syncNurseryState(save);
 
-    const view = resolveNurseryStateView(save, { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' }, null);
+    const view = resolveNurseryStateView(
+      save,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      null,
+      'bench',
+    );
     expect(view.routeSupportHint).toBe(
       'Low yellow blooms usually hold where the dune still feels open and dry.',
     );
+    expect(view.showRouteSupportHint).toBe(true);
     expect(view.extras.filter((extra) => extra.unlocked).map((extra) => extra.id)).toEqual([
       'log-pile',
       'pollinator-patch',
     ]);
+  });
+
+  it('suppresses the route-support strip while the selected bed owns the home-loop beat', () => {
+    const save = createNewSaveState('nursery-bed-focus-seed');
+    save.nurseryClaimedRewardIds = ['nursery:sand-verbena-support'];
+    save.nurseryProjects.teachingBed = {
+      projectId: 'sand-verbena-bed',
+      stage: 'stocked',
+    };
+
+    const benchView = resolveNurseryStateView(
+      save,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      null,
+      'bench',
+    );
+    expect(benchView.teachingBedFocusMode).toBe('none');
+    expect(benchView.showRouteSupportHint).toBe(true);
+
+    const bedView = resolveNurseryStateView(
+      save,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      null,
+      'bed',
+    );
+    expect(bedView.teachingBedFocusMode).toBe('selected-active');
+    expect(bedView.routeSupportHint).toBe(
+      'Low yellow blooms usually hold where the dune still feels open and dry.',
+    );
+    expect(bedView.showRouteSupportHint).toBe(false);
   });
 
   it('uses the active edge-route beat to pick the nursery support hint', () => {
@@ -163,6 +218,7 @@ describe('nursery growth and rewards', () => {
       save,
       { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
       null,
+      'bench',
     );
     expect(forestBeatView.routeSupportHint).toBe(
       'Dense berry thickets often mark the cooler, wetter side of a transition.',
@@ -172,6 +228,7 @@ describe('nursery growth and rewards', () => {
       save,
       { routeId: 'edge-pattern-line', activeBeatId: 'treeline-low-fell' },
       null,
+      'bench',
     );
     expect(treelineBeatView.routeSupportHint).toBe(
       'Brief bright bloom often holds where the ground stays open but low.',
@@ -189,6 +246,7 @@ describe('nursery growth and rewards', () => {
       save,
       { routeId: 'edge-pattern-line', activeBeatId: null },
       null,
+      'bench',
     );
     expect(expeditionReadyView.routeSupportHint).toBe(
       'Salmonberry still marks the cooler forest return near Root Hollow.',
@@ -199,6 +257,7 @@ describe('nursery growth and rewards', () => {
       save,
       { routeId: 'edge-pattern-line', activeBeatId: null },
       null,
+      'bench',
     );
     expect(capstoneView.routeSupportHint).toBe(
       'Salmonberry still marks the cooler forest return tying the season together.',
@@ -219,6 +278,7 @@ describe('nursery growth and rewards', () => {
       save,
       { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
       null,
+      'bench',
     );
 
     expect(view.activeProject?.definition.memorySummary).toBe(

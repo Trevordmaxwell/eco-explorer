@@ -1,0 +1,119 @@
+{
+  "packet_id": "ECO-PACKET-112",
+  "version": 3,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Nursery legibility and renderer phase",
+  "summary": "Lane 1 should make the nursery page overlap-proof at 256x160 and extract a dedicated nursery-page renderer so the home loop reads as cleanly as the routes page.",
+  "source_reports": [
+    "docs/reports/2026-04-05-nursery-legibility-and-renderer-phase.md",
+    "docs/reports/2026-04-05-nursery-legibility-and-renderer-handoff.md",
+    "docs/reports/2026-04-05-nursery-legibility-and-renderer-implementation.md",
+    "docs/reports/2026-04-05-nursery-legibility-and-renderer-review.md",
+    "docs/reports/2026-04-05-nursery-layout-follow-on-scout.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-271",
+    "ECO-20260405-main-271",
+    "ECO-20260405-critic-271",
+    "ECO-20260405-scout-272",
+    "ECO-20260405-main-272",
+    "ECO-20260405-critic-272"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-271",
+      "goal": "Prepare the nursery legibility audit and renderer-split handoff.",
+      "why_now": "The home loop is now the weakest handheld surface."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-271",
+      "goal": "Implement a dedicated nursery-page renderer plus overlap-proof state layouts.",
+      "why_now": "The nursery should read as cleanly as the routes page."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-271",
+      "goal": "Review nursery legibility and the renderer split.",
+      "why_now": "Renderer cleanup only matters if the handheld page becomes clearly readable."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260405-scout-272",
+      "goal": "Prepare one nursery layout follow-on handoff.",
+      "why_now": "One state may still need a more compact follow-on once the renderer split lands."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260405-main-272",
+      "goal": "Implement one nursery layout follow-on.",
+      "why_now": "The nursery should reach a reliable zero-overlap baseline before another content wave."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260405-critic-272",
+      "goal": "Review the nursery layout follow-on.",
+      "why_now": "The nursery page should now match the routes page for shell discipline."
+    }
+  ],
+  "file_targets": [
+    "src/engine/overlay-render.ts",
+    "src/engine/field-station-nursery-page.ts",
+    "src/test/overlay-copy.test.ts",
+    "src/test/field-station-nursery-page.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not add another station page or dashboard seam.",
+    "Do not solve overlap through runtime truncation alone.",
+    "Keep the nursery page compact, state-based, and shell-safe."
+  ],
+  "main_271_focus": {
+    "preferred_target": "field-station nursery page body inside drawFieldStationOverlay",
+    "recommended_shape": [
+      "Extract the whole nursery branch into a sibling helper such as src/engine/field-station-nursery-page.ts while leaving overlay-render.ts in charge of shell framing, tabs, view switching, and accent passes.",
+      "Replace the fixed bench / compost / bed stack with explicit nursery layout families for locked, ready-to-plant, active-growth, and mature states.",
+      "Let the new nursery helper own state-aware bed sub-rects so the title, body copy, route clue, memory line, and footer strip do not compete for the same vertical band."
+    ],
+    "highest_risk_states": [
+      "stocked, rooting, or growing teaching-bed states when nursery.routeSupportHint is present",
+      "mature teaching-bed states with rewardSummary plus memorySummary plus the home-place footer strip",
+      "selectedProject states with no active bed, which should share the new layout system even if they are not the worst current overlap"
+    ],
+    "keep_in_place": [
+      "field-station shell framing",
+      "top tabs and season-page switching",
+      "backdrop and lower-sill accent passes",
+      "gameplay and save logic"
+    ],
+    "avoid": [
+      "font shrinking as the primary fix",
+      "runtime copy truncation as the primary fix",
+      "adding another station row or recap panel",
+      "broad nursery-copy rewrites that belong to lane 2"
+    ]
+  },
+  "scout_272_resolution": {
+    "decision": "no distinct lane-1 layout follow-on is warranted after the clean renderer split review",
+    "reason": [
+      "the active-growth and mature handheld proofs are now overlap-free at 256x160",
+      "the remaining live nursery pressure is copy-role alignment already owned by packet 113 in lane 2"
+    ],
+    "reopen_only_if": [
+      "later nursery edits reintroduce a structural overlap at 256x160",
+      "lane 2's copy-role correction still leaves one clearly layout-only failure"
+    ]
+  }
+}

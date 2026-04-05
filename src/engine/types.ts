@@ -102,6 +102,7 @@ export interface NurseryProjectDefinition {
   entryId: string;
   title: string;
   summary: string;
+  stageSummaryByStage: Record<NurseryGrowthStage, string>;
   memorySummary?: string;
   sourceEntryIds: string[];
   sourceModes: NurserySourceMode[];

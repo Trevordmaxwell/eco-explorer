@@ -10,6 +10,7 @@ import type {
 import { resolveNurseryCapstoneSupportHint, type FieldSeasonBoardState } from './field-season-board';
 
 export type NurseryCardId = 'bench' | 'compost' | 'bed';
+export type NurseryTeachingBedFocusMode = 'none' | 'selected-active' | 'selected-mature';
 
 interface NurseryExtraDefinition {
   id: NurseryExtraId;
@@ -45,12 +46,33 @@ export interface NurseryStateView {
   } | null;
   extras: NurseryExtraState[];
   routeSupportHint: string | null;
+  showRouteSupportHint: boolean;
+  teachingBedFocusMode: NurseryTeachingBedFocusMode;
   utilityNote: string | null;
   compostRate: number;
 }
 
 export interface NurseryGatheringResult {
   note: string;
+}
+
+export function resolveNurseryTeachingBedFocusMode(
+  selectedCardId: NurseryCardId,
+  activeProjectStage: NurseryGrowthStage | null,
+): NurseryTeachingBedFocusMode {
+  if (selectedCardId !== 'bed' || activeProjectStage === null) {
+    return 'none';
+  }
+
+  return activeProjectStage === 'mature' ? 'selected-mature' : 'selected-active';
+}
+
+export function shouldShowNurseryRouteSupportHint(
+  routeSupportHint: string | null,
+  activeProjectStage: NurseryGrowthStage | null,
+  teachingBedFocusMode: NurseryTeachingBedFocusMode,
+): boolean {
+  return Boolean(routeSupportHint) && activeProjectStage !== 'mature' && teachingBedFocusMode === 'none';
 }
 
 const NURSERY_RESOURCE_LABELS: Record<NurseryResourceKind, string> = {
@@ -78,7 +100,13 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     id: 'sand-verbena-bed',
     entryId: 'sand-verbena',
     title: 'Sand Verbena',
-    summary: 'A low coastal bloom that helps read the sunnier dune side.',
+    summary: 'Low coastal bloom for the sunnier dune side.',
+    stageSummaryByStage: {
+      stocked: 'Fresh cuttings settle into bright dune sand.',
+      rooting: 'New roots start holding in the driest dune patch.',
+      growing: 'The bed reads like open dune still facing salt wind.',
+      mature: 'The bed now holds a clear open-dune bloom.',
+    },
     memorySummary: 'Bright dune still open to salt wind.',
     sourceEntryIds: ['sand-verbena'],
     sourceModes: ['cutting'],
@@ -90,13 +118,19 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     growthStages: ['stocked', 'rooting', 'growing', 'mature'],
     starterCost: { cuttings: 1 },
     unlockAfterRequestId: 'coastal-shelter-shift',
-    unlockSummary: 'Log Coastal Shelter before taking cuttings for this bed.',
+    unlockSummary: 'Log Open To Shelter before taking cuttings for this bed.',
   },
   {
     id: 'dune-lupine-bed',
     entryId: 'dune-lupine',
     title: 'Dune Lupine',
-    summary: 'A dune pioneer that helps show where brushier shelter begins.',
+    summary: 'Dune pioneer that marks brushier shelter starting.',
+    stageSummaryByStage: {
+      stocked: 'Young stems settle where the dune starts to soften.',
+      rooting: 'Roots start catching where sand gives way to cover.',
+      growing: 'The bed starts reading like scrub behind bright dune.',
+      mature: 'The bed now marks the first steadier scrub cover.',
+    },
     memorySummary: 'Brushy shelter starting behind bright dune.',
     sourceEntryIds: ['dune-lupine'],
     sourceModes: ['cutting'],
@@ -114,7 +148,13 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     id: 'mountain-avens-bed',
     entryId: 'mountain-avens',
     title: 'Mountain Avens',
-    summary: 'A low alpine bloom that echoes exposed ground along the inland line.',
+    summary: 'Low alpine bloom for open inland fell ground.',
+    stageSummaryByStage: {
+      stocked: 'New cuttings settle into low open fell ground.',
+      rooting: 'Fine roots hold where the ground stays low and open.',
+      growing: 'The bed starts reading like color on exposed fell.',
+      mature: 'The bed now carries a clear bright fell bloom.',
+    },
     memorySummary: 'Bright low bloom on open fell ground.',
     sourceEntryIds: ['mountain-avens'],
     sourceModes: ['cutting'],
@@ -126,13 +166,19 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     growthStages: ['stocked', 'rooting', 'growing', 'mature'],
     starterCost: { cuttings: 1 },
     unlockAfterRequestId: 'treeline-stone-shelter',
-    unlockSummary: 'Log Treeline Shelter before carrying mountain avens into the nursery.',
+    unlockSummary: 'Log Stone Shelter before carrying mountain avens into the nursery.',
   },
   {
     id: 'beach-strawberry-bed',
     entryId: 'beach-strawberry',
     title: 'Beach Strawberry',
-    summary: 'A runner-forming edge plant that adds a softer edible note to the station.',
+    summary: 'Runner-forming edge plant for softer windy scrub.',
+    stageSummaryByStage: {
+      stocked: 'Fresh runners settle along the softer scrub edge.',
+      rooting: "New roots knit into the bed's wind-brushed edge.",
+      growing: 'The bed starts reading like a lived-in runner patch.',
+      mature: 'The bed now spreads a soft runner edge.',
+    },
     memorySummary: 'Soft runner edge along windy scrub.',
     sourceEntryIds: ['beach-strawberry'],
     sourceModes: ['seed'],
@@ -144,13 +190,19 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     growthStages: ['stocked', 'rooting', 'growing', 'mature'],
     starterCost: { 'seed-stock': 1 },
     unlockAfterRequestId: 'coastal-shelter-shift',
-    unlockSummary: 'Bring one coastal route clue home before starting a strawberry runner patch.',
+    unlockSummary: 'Bring one coastal clue home before starting a strawberry runner patch.',
   },
   {
     id: 'salmonberry-bed',
     entryId: 'salmonberry',
     title: 'Salmonberry',
-    summary: 'A wet-edge shrub that helps future transition routes feel richer.',
+    summary: 'Wet-edge shrub for the cooler forest-side transition.',
+    stageSummaryByStage: {
+      stocked: 'Young stems settle into the cooler wet edge.',
+      rooting: "Roots start holding under the bed's taller cover.",
+      growing: 'The bed starts reading like the cooler forest return.',
+      mature: 'The bed now carries a calm wet-edge thicket.',
+    },
     memorySummary: 'Cool wet edge tucked under taller cover.',
     sourceEntryIds: ['salmonberry'],
     sourceModes: ['seed'],
@@ -168,7 +220,13 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     id: 'crowberry-bed',
     entryId: 'crowberry',
     title: 'Crowberry',
-    summary: 'A small evergreen mat that makes the compost heap work a little better.',
+    summary: 'Low evergreen mat for calm short-season ground.',
+    stageSummaryByStage: {
+      stocked: "Low sprigs settle onto the nursery's cool ground.",
+      rooting: "New roots spread through the bed's cold held patch.",
+      growing: 'The bed starts reading like low ground in short days.',
+      mature: 'The bed now holds a quiet cold-ground mat.',
+    },
     memorySummary: 'Low cold ground through short days.',
     sourceEntryIds: ['crowberry'],
     sourceModes: ['seed'],
@@ -176,7 +234,7 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
     rewardKind: 'utility',
     rewardId: 'nursery:crowberry-utility',
     rewardTitle: 'Cool Heap Cover',
-    rewardSummary: 'Crowberry shade helps the heap hold together and finish a little more compost.',
+    rewardSummary: 'Crowberry shade helps the heap finish a little more compost.',
     growthStages: ['stocked', 'rooting', 'growing', 'mature'],
     starterCost: { 'seed-stock': 1 },
     unlockAfterRequestId: 'tundra-short-season',
@@ -405,6 +463,7 @@ export function resolveNurseryStateView(
   save: SaveState,
   routeBoard: Pick<FieldSeasonBoardState, 'routeId' | 'activeBeatId'>,
   selectedProjectId: string | null,
+  selectedCardId: NurseryCardId,
 ): NurseryStateView {
   const projects: NurseryProjectCatalogItem[] = NURSERY_PROJECT_DEFINITIONS.map((definition) => ({
     definition,
@@ -449,6 +508,14 @@ export function resolveNurseryStateView(
     edgePatternRewardId && rewardIds.has(edgePatternRewardId)
       ? NURSERY_PROJECT_DEFINITIONS.find((project) => project.rewardId === edgePatternRewardId)?.rewardSummary ?? null
       : null;
+  const routeSupportHint =
+    edgePatternRouteSupport
+    ?? routeSupportProject?.definition.rewardSummary
+    ?? resolveNurseryCapstoneSupportHint(save);
+  const teachingBedFocusMode = resolveNurseryTeachingBedFocusMode(
+    selectedCardId,
+    activeProjectState?.stage ?? null,
+  );
   const utilityNote = rewardIds.has('nursery:crowberry-utility')
     ? 'Cool Heap Cover: the heap can finish 2 litter each route step now.'
     : null;
@@ -473,10 +540,13 @@ export function resolveNurseryStateView(
       ...definition,
       unlocked: save.nurseryUnlockedExtraIds.includes(definition.id),
     })),
-    routeSupportHint:
-      edgePatternRouteSupport
-      ?? routeSupportProject?.definition.rewardSummary
-      ?? resolveNurseryCapstoneSupportHint(save),
+    routeSupportHint,
+    showRouteSupportHint: shouldShowNurseryRouteSupportHint(
+      routeSupportHint,
+      activeProjectState?.stage ?? null,
+      teachingBedFocusMode,
+    ),
+    teachingBedFocusMode,
     utilityNote,
     compostRate: getUtilityCompostRate(save),
   };

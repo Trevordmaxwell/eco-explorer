@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from 'vitest';
 import { beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome } from '../content/biomes';
 import { createGame } from '../engine/game';
 import { createNewSaveState, loadOrCreateSave, persistSave, recordDiscovery } from '../engine/save';
+import type { BiomeDefinition, Platform } from '../engine/types';
 
 class FakeEventTarget {
   private listeners = new Map<string, Set<(event: any) => void>>();
@@ -253,6 +254,40 @@ function advanceUntil(
   }
 
   throw new Error('Timed out waiting for runtime state.');
+}
+
+const TEST_PLAYER_HEIGHT = 10;
+
+function getRequiredAuthoredPlatform(biome: BiomeDefinition, platformId: string): Platform {
+  const platform = biome.terrainRules.authoredPlatforms?.find((candidate) => candidate.id === platformId);
+  if (!platform) {
+    throw new Error(`Expected authored platform ${platformId} to exist.`);
+  }
+  return platform;
+}
+
+const treelineShelteredReturnBand = (() => {
+  const fellReturn = getRequiredAuthoredPlatform(treelineBiome, 'lee-pocket-fell-return');
+  const leeRest = getRequiredAuthoredPlatform(treelineBiome, 'lee-pocket-lee-rest');
+
+  return {
+    minX: fellReturn.x,
+    maxX: leeRest.x + leeRest.w,
+    minY: fellReturn.y - TEST_PLAYER_HEIGHT,
+    maxY: leeRest.y - TEST_PLAYER_HEIGHT + 2,
+  };
+})();
+
+function isStableTreelineShelteredReturnState(state: any): boolean {
+  return (
+    !state.player?.climbing &&
+    state.zoneId === 'lichen-fell' &&
+    Math.abs(state.player?.vy ?? 999) <= 1 &&
+    (state.player?.x ?? 0) >= treelineShelteredReturnBand.minX &&
+    (state.player?.x ?? 999) <= treelineShelteredReturnBand.maxX &&
+    (state.player?.y ?? 0) >= treelineShelteredReturnBand.minY &&
+    (state.player?.y ?? 999) <= treelineShelteredReturnBand.maxY
+  );
 }
 
 afterEach(() => {
@@ -2401,19 +2436,14 @@ describe('runtime smoke loop', () => {
       state = advanceWhileHoldingKeyUntil(
         fakeWindow,
         'ArrowRight',
-        (nextState) =>
-          !nextState.player?.climbing &&
-          nextState.zoneId === 'lichen-fell' &&
-          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
-          (nextState.player?.x ?? 0) >= 540 &&
-          (nextState.player?.x ?? 999) <= 556 &&
-          (nextState.player?.y ?? 0) >= 100 &&
-          (nextState.player?.y ?? 999) <= 104,
-        160,
+        isStableTreelineShelteredReturnState,
+        220,
       );
       expect(state.zoneId).toBe('lichen-fell');
-      expect(state.player?.y).toBeGreaterThanOrEqual(100);
-      expect(state.player?.y).toBeLessThanOrEqual(104);
+      expect(state.player?.x).toBeGreaterThanOrEqual(treelineShelteredReturnBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(treelineShelteredReturnBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(treelineShelteredReturnBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(treelineShelteredReturnBand.maxY);
 
       state = advanceWhileHoldingKeyUntil(
         fakeWindow,
@@ -2421,7 +2451,7 @@ describe('runtime smoke loop', () => {
         (nextState) =>
           !nextState.player?.climbing &&
           nextState.zoneId === 'lichen-fell' &&
-          (nextState.player?.x ?? 0) >= 560 &&
+          (nextState.player?.x ?? 0) >= treelineShelteredReturnBand.maxX + 2 &&
           (nextState.player?.y ?? 999) <= 112,
         160,
       );
@@ -3406,11 +3436,13 @@ describe('runtime smoke loop', () => {
       affordable: true,
     });
     expect(state.fieldStation?.selectedNurseryCardId).toBe('bench');
+    expect(state.fieldStation?.nursery.teachingBedFocusMode).toBe('none');
 
     tapKey(fakeWindow, 'ArrowDown');
     tapKey(fakeWindow, 'ArrowDown');
     state = readState(fakeWindow);
     expect(state.fieldStation?.selectedNurseryCardId).toBe('bed');
+    expect(state.fieldStation?.nursery.teachingBedFocusMode).toBe('none');
 
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
@@ -3418,6 +3450,7 @@ describe('runtime smoke loop', () => {
       id: 'sand-verbena-bed',
       stage: 'stocked',
     });
+    expect(state.fieldStation?.nursery.teachingBedFocusMode).toBe('selected-active');
     expect(state.fieldStation?.nursery.resources.cuttings).toBe(0);
     expect(state.fieldStation?.backdropAccent).toMatchObject({
       showAccent: true,
@@ -3425,6 +3458,94 @@ describe('runtime smoke loop', () => {
       hasLeftBrace: true,
       hasRightBrace: false,
       hasCenterTie: false,
+    });
+
+    tapKey(fakeWindow, 'ArrowUp');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.selectedNurseryCardId).toBe('compost');
+    expect(state.fieldStation?.nursery.teachingBedFocusMode).toBe('none');
+  });
+
+  it('shows a mature teaching bed in the nursery and lets Enter clear it', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-nursery-mature-seed');
+    seededSave.nurseryProjects.teachingBed = {
+      projectId: 'sand-verbena-bed',
+      stage: 'mature',
+    };
+    seededSave.nurseryClaimedRewardIds = [
+      'nursery:sand-verbena-support',
+      'nursery:dune-lupine-support',
+    ];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'world-map');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'field-station');
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'ArrowRight');
+    tapKey(fakeWindow, 'ArrowRight');
+    tapKey(fakeWindow, 'ArrowDown');
+    tapKey(fakeWindow, 'ArrowDown');
+
+    let state = readState(fakeWindow);
+    expect(state.fieldStation?.view).toBe('nursery');
+    expect(state.fieldStation?.selectedNurseryCardId).toBe('bed');
+    expect(state.fieldStation?.nursery.activeProject).toMatchObject({
+      id: 'sand-verbena-bed',
+      stage: 'mature',
+    });
+    expect(state.fieldStation?.nursery.teachingBedFocusMode).toBe('selected-mature');
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.nursery.activeProject).toBeNull();
+    expect(seededSave.nurseryProjects.teachingBed).toBeNull();
+  });
+
+  it('prefers the authored crowberry utility line in the compost notice once unlocked', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-nursery-utility-notice-seed');
+    seededSave.nurseryClaimedRewardIds = ['nursery:crowberry-utility'];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'world-map');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'field-station');
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'ArrowRight');
+    tapKey(fakeWindow, 'ArrowRight');
+    tapKey(fakeWindow, 'ArrowDown');
+
+    let state = readState(fakeWindow);
+    expect(state.fieldStation?.view).toBe('nursery');
+    expect(state.fieldStation?.selectedNurseryCardId).toBe('compost');
+    expect(state.fieldStation?.nursery.utilityNote).toBe(
+      'Cool Heap Cover: the heap can finish 2 litter each route step now.',
+    );
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'COMPOST HEAP',
+      text: 'Cool Heap Cover: the heap can finish 2 litter each route step now.',
+      variant: 'default',
     });
   });
 

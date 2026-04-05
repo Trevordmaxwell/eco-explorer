@@ -2484,7 +2484,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function activateNurseryCard(): void {
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
-    const nurseryState = resolveNurseryStateView(save, routeBoard, selectedNurseryProjectId);
+    const nurseryState = resolveNurseryStateView(
+      save,
+      routeBoard,
+      selectedNurseryProjectId,
+      selectedNurseryCardId,
+    );
 
     if (selectedNurseryCardId === 'bench') {
       const nextProjectId = getNextNurseryProjectId(save, selectedNurseryProjectId, 1);
@@ -2501,7 +2506,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (selectedNurseryCardId === 'compost') {
       showFieldNotice(
         'COMPOST HEAP',
-        `The heap can finish ${nurseryState.compostRate} litter each route step.`,
+        nurseryState.utilityNote ?? `The heap can finish ${nurseryState.compostRate} litter each route step.`,
         2.4,
       );
       audio.playUiCue('confirm');
@@ -3841,7 +3846,9 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
                 rewardClaimed: fieldStationState.nursery.activeProject.rewardClaimed,
               }
             : null,
+          teachingBedFocusMode: fieldStationState.nursery.teachingBedFocusMode,
           routeSupportHint: fieldStationState.nursery.routeSupportHint,
+          showRouteSupportHint: fieldStationState.nursery.showRouteSupportHint,
           utilityNote: fieldStationState.nursery.utilityNote,
           compostRate: fieldStationState.nursery.compostRate,
           extras: fieldStationState.nursery.extras.map((extra) => ({

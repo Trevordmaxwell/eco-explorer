@@ -84,6 +84,9 @@ describe('treeline biome generation', () => {
     const terrainAtLeePocket = instance.terrainSamples.find((sample) => sample.x === 400);
     const terrainAtFell = instance.terrainSamples.find((sample) => sample.x === 544);
     const leePlatforms = instance.platforms.filter((platform) => platform.id.startsWith('lee-pocket'));
+    const crestBrow = leePlatforms.find((platform) => platform.id === 'lee-pocket-crest-brow');
+    const fellReturn = leePlatforms.find((platform) => platform.id === 'lee-pocket-fell-return');
+    const leeRest = leePlatforms.find((platform) => platform.id === 'lee-pocket-lee-rest');
 
     expect(terrainAtKrummholz).toBeDefined();
     expect(terrainAtLeePocket).toBeDefined();
@@ -111,6 +114,11 @@ describe('treeline biome generation', () => {
     expect(leePlatforms[7]?.y).toBeLessThan(leePlatforms[6]?.y ?? 0);
     expect(leePlatforms[8]?.y).toBeLessThan(leePlatforms[5]?.y ?? 0);
     expect(leePlatforms[9]?.y).toBeGreaterThan(leePlatforms[8]?.y ?? 0);
+    expect(crestBrow).toMatchObject({ x: 506, y: 80, w: 20, h: 4 });
+    expect(fellReturn).toMatchObject({ x: 510, y: 96, w: 28, h: 4 });
+    expect(leeRest).toMatchObject({ x: 538, y: 102, w: 20, h: 4 });
+    expect((fellReturn?.x ?? 0) + (fellReturn?.w ?? 0)).toBe(leeRest?.x ?? 0);
+    expect((fellReturn?.x ?? 999)).toBeLessThan((crestBrow?.x ?? 0) + (crestBrow?.w ?? 0));
   });
 
   it('adds one compact last-tree shelter before the lee-pocket family', () => {

@@ -115,6 +115,11 @@ export function resolveFieldStationState(
     routeBoard,
     expedition,
     selectedNurseryCardId: selections.selectedNurseryCardId,
-    nursery: resolveNurseryStateView(save, routeBoard, selectedProjectId),
+    nursery: resolveNurseryStateView(
+      save,
+      routeBoard,
+      selectedProjectId,
+      selections.selectedNurseryCardId,
+    ),
   };
 }

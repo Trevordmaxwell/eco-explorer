@@ -1,0 +1,128 @@
+{
+  "packet_id": "ECO-PACKET-114",
+  "version": 3,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Vertical cooldown and regression phase",
+  "summary": "Lane 3 should pause destination growth for one wave and spend it on readability cleanup plus regression protection across the new benchmark spaces.",
+  "source_reports": [
+    "docs/reports/2026-04-05-vertical-cooldown-and-regression-phase.md",
+    "docs/reports/2026-04-05-vertical-cooldown-cleanup-handoff.md",
+    "docs/reports/2026-04-05-vertical-regression-guardrail-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-275",
+    "ECO-20260405-main-275",
+    "ECO-20260405-critic-275",
+    "ECO-20260405-scout-276",
+    "ECO-20260405-main-276",
+    "ECO-20260405-critic-276"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-275",
+      "goal": "Prepare the vertical cooldown cleanup handoff.",
+      "why_now": "The newest beach and treeline spaces are near their comfortable density ceiling."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-275",
+      "goal": "Implement one small readability or recovery cleanup in a current vertical benchmark space.",
+      "why_now": "The best vertical move right now is protection, not more landmark growth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-275",
+      "goal": "Review the vertical cooldown cleanup.",
+      "why_now": "The cleanup should protect feel without silently broadening scope."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260405-scout-276",
+      "goal": "Prepare the vertical regression-guardrail handoff.",
+      "why_now": "Current benchmark spaces should become safer to extend later."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260405-main-276",
+      "goal": "Implement one vertical regression-guardrail pass.",
+      "why_now": "Guardrails are higher value than another destination right now."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260405-critic-276",
+      "goal": "Review the vertical regression-guardrail pass.",
+      "why_now": "The current traversal family should be safer and clearer after this wave."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/treeline.ts",
+    "src/engine/game.ts",
+    "src/test/beach-biome.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "main_275_focus": {
+    "priority_biome": "treeline",
+    "target_family": "lee-pocket return into lichen-fell",
+    "target_platform_ids": [
+      "lee-pocket-crest-brow",
+      "lee-pocket-fell-return",
+      "lee-pocket-lee-rest"
+    ],
+    "target_band": {
+      "x_min": 506,
+      "x_max": 558,
+      "y_min": 80,
+      "y_max": 104
+    },
+    "problem": "The current hand-back from the crest brow into open fell still depends on a tight first catch point. Slightly late or shallow descents can skip the intended sheltered return feel even though the ideal proof path works.",
+    "preferred_shape": [
+      "Prefer widening lee-pocket-fell-return slightly toward the incoming brow side.",
+      "If needed, use only a tiny companion nudge to lee-pocket-lee-rest."
+    ],
+    "avoid": [
+      "new platform ids",
+      "new carriers or landmarks",
+      "moving the last-tree shelter family",
+      "adding more height"
+    ],
+    "verification_note": "Keep one real-start seeded browser proof from the normal treeline start instead of relying only on the temporary start override."
+  },
+  "main_276_focus": {
+    "priority_biome": "treeline",
+    "target_family": "sheltered return band under lee-pocket-crest-brow",
+    "target_platform_ids": [
+      "lee-pocket-fell-return",
+      "lee-pocket-lee-rest"
+    ],
+    "problem": "The current runtime smoke only proves a broad right-hand stabilization band. A future treeline geometry pass could bypass the intended sheltered hand-back while still satisfying that generic settle window.",
+    "preferred_shape": [
+      "Add a treeline-specific smoke helper that derives the sheltered return band from the authored return platforms.",
+      "Use that helper in one dedicated loop assertion before the route opens fully into lichen-fell."
+    ],
+    "avoid": [
+      "new geometry unless the proof exposes a real mismatch",
+      "browser-only guardrails",
+      "a general traversal framework"
+    ],
+    "verification_note": "Prefer deterministic runtime coverage over fresh browser stepping while the unrelated nursery runtime error is still breaking render_game_to_text during stepped browser checks."
+  },
+  "guardrails": [
+    "Do not add another destination or route family in this wave.",
+    "Prefer spacing, recoverability, and regression protection over new content.",
+    "Keep changes small and behavior-preserving."
+  ]
+}

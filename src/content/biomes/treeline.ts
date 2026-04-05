@@ -267,9 +267,9 @@ export const treelineBiome: BiomeDefinition = {
       {
         id: 'lee-pocket-fell-return',
         spriteId: 'granite-platform',
-        x: 516,
+        x: 510,
         y: 96,
-        w: 22,
+        w: 28,
         h: 4,
       },
       {

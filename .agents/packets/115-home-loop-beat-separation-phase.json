@@ -1,0 +1,125 @@
+{
+  "packet_id": "ECO-PACKET-115",
+  "version": 7,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Home-loop beat separation phase",
+  "summary": "Lane 4 should separate nursery and home-loop payoffs into cleaner beats so plant state, ecological reflection, and utility or reward are not all fighting for the same card.",
+  "source_reports": [
+    "docs/reports/2026-04-05-home-loop-beat-separation-phase.md",
+    "docs/reports/2026-04-05-nursery-beat-separation-handoff.md",
+    "docs/reports/2026-04-05-nursery-beat-separation-implementation.md",
+    "docs/reports/2026-04-05-nursery-beat-separation-review.md",
+    "docs/reports/2026-04-05-nursery-utility-surfacing-handoff.md",
+    "docs/reports/2026-04-05-nursery-utility-surfacing-implementation.md",
+    "docs/reports/2026-04-05-nursery-utility-surfacing-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-277",
+    "ECO-20260405-main-277",
+    "ECO-20260405-critic-277",
+    "ECO-20260405-scout-278",
+    "ECO-20260405-main-278",
+    "ECO-20260405-critic-278"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-277",
+      "goal": "Prepare the nursery beat-separation handoff.",
+      "why_now": "The home loop is trying to surface too many ideas in one place."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-277",
+      "goal": "Implement one beat-separation pass for nursery interaction state.",
+      "why_now": "The player should read one idea at a time when returning home."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-277",
+      "goal": "Review the nursery beat-separation pass.",
+      "why_now": "The home loop should feel cleaner, not thinner."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260405-scout-278",
+      "goal": "Prepare the reward-surfacing follow-on handoff.",
+      "why_now": "Utility or reward should not be buried inside the most crowded card."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260405-main-278",
+      "goal": "Implement one compact reward-surfacing seam outside the crowded nursery card.",
+      "why_now": "The home-loop payoff should become easier to see and feel."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260405-critic-278",
+      "goal": "Review the reward-surfacing follow-on.",
+      "why_now": "The home loop should feel more satisfying without growing a new dashboard."
+    }
+  ],
+  "file_targets": [
+    "src/engine/nursery.ts",
+    "src/engine/game.ts",
+    "src/engine/field-station-nursery-page.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/nursery.test.ts",
+    "src/test/field-station-nursery-page.test.ts"
+  ],
+  "guardrails": [
+    "No new dashboard, inventory, or larger home-base shell.",
+    "Avoid putting every beat back into a single text card.",
+    "Keep the station and nursery calm, compact, and readable."
+  ],
+  "main_277_focus": {
+    "selected_state": "active-teaching-bed-selected",
+    "copy_goal": "make the bed card read as one dominant home-loop beat at a time by letting selected bed focus suppress route-facing payoff",
+    "recommended_live_proof": {
+      "entry_point": "field-station -> nursery",
+      "selected_card_id": "bed",
+      "required_setup": [
+        "one active teaching-bed project"
+      ],
+      "comparison_state": "selected card stays bench or compost"
+    },
+    "implementation_shape": [
+      "Add one tiny pure helper that decides whether the selected active bed should suppress route-support payoff.",
+      "While the bed is selected and active, keep the bed-local stage beat and suppress the route-support strip.",
+      "When the active bed is mature and selected, prefer memorySummary over rewardSummary on the bed card.",
+      "Leave no-active-bed and non-bed selection states unchanged so scout/main 278 can choose the cleaner reward seam next."
+    ],
+    "guardrails": [
+      "Do not add a new surface for the reward in this pass.",
+      "Do not rewrite authored rewardSummary strings.",
+      "Do not widen the nursery page or lane-1 renderer split."
+    ]
+  },
+  "main_278_focus": {
+    "selected_surface": "compost-notice",
+    "selected_reward_kind": "utility",
+    "selected_reward_id": "nursery:crowberry-utility",
+    "copy_goal": "surface one clear home-loop payoff outside the bed by letting the compost notice prefer the authored utility line once crowberry utility is unlocked",
+    "implementation_shape": [
+      "Reuse the existing selected-compost Enter action in game.ts instead of adding a new row or panel.",
+      "When nurseryState.utilityNote exists, use that authored line as the compost notice body.",
+      "When the utility reward is not unlocked, keep the current generic compost-rate notice unchanged."
+    ],
+    "guardrails": [
+      "Only affect the compost notice path.",
+      "Do not move route-support guidance onto the bench in this pass.",
+      "Do not widen the nursery layout or add another persistent text seam."
+    ]
+  }
+}
