@@ -228,9 +228,9 @@ export const tundraBiome: BiomeDefinition = {
       {
         id: 'thaw-skirt-entry-heave',
         spriteId: 'ice-platform',
-        x: 314,
+        x: 306,
         y: 104,
-        w: 24,
+        w: 32,
         h: 4,
       },
       {
@@ -326,11 +326,23 @@ export const tundraBiome: BiomeDefinition = {
         y: 103,
       },
       {
+        id: 'thaw-skirt-entry-willow',
+        entryId: 'arctic-willow',
+        x: 332,
+        y: 101,
+      },
+      {
         id: 'thaw-skirt-channel',
         entryId: 'tussock-thaw-channel',
         x: 362,
         y: 104,
         castsShadow: false,
+      },
+      {
+        id: 'thaw-skirt-upper-sedge',
+        entryId: 'bigelows-sedge',
+        x: 386,
+        y: 96,
       },
       {
         id: 'meltwater-channel',

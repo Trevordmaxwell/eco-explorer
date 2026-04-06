@@ -1,0 +1,78 @@
+{
+  "packet_id": "ECO-PACKET-118",
+  "version": 2,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Light-band route approach phase",
+  "summary": "Lane 3 should support the next tactile route wave with one tiny Tundra or Coastal Scrub approach/readability seam instead of another destination push.",
+  "source_reports": [
+    "docs/reports/2026-04-05-light-band-route-approach-phase.md",
+    "docs/reports/2026-04-05-light-band-route-approach-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-286",
+    "ECO-20260405-main-286",
+    "ECO-20260405-critic-286"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-286",
+      "goal": "Prepare the light-band route-approach handoff.",
+      "why_now": "A tiny spatial read can make the next route-feel proof more tactile without more density."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-286",
+      "goal": "Implement one light-band route-approach pass.",
+      "why_now": "The next lane-3 move should support route feel, not open another landmark family."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-286",
+      "goal": "Review the light-band route-approach pass.",
+      "why_now": "The change should make approach feel better without looking like a new destination wave."
+    }
+  ],
+  "file_targets": [
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/tundra.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new signature pocket, lookout family, or major height spike.",
+    "Do not reopen the beach opener or treeline return family.",
+    "Keep the pass recoverable and low-density."
+  ],
+  "main_286_focus": {
+    "priority_biome": "tundra",
+    "fallback_biome": "coastal-scrub",
+    "priority_route_id": "tundra-short-season",
+    "target_family": "snow-meadow drift hold into thaw-skirt entry",
+    "target_platform_ids": [
+      "snow-meadow-drift-rest",
+      "thaw-skirt-entry-heave"
+    ],
+    "preferred_shape": [
+      "one tiny approach or spacing pass inside the existing tundra route band",
+      "something the player feels in motion before they read about it",
+      "prefer slightly shortening the empty handoff from the drift hold into the first thaw-skirt step"
+    ],
+    "avoid": [
+      "new landmark silhouettes",
+      "new route branches",
+      "stacking geometry into the existing bluff lookout band",
+      "changing route-board or notebook copy for this pass"
+    ],
+    "verification_note": "Prefer deterministic tundra geometry/runtime coverage first; a fresh real-start Tundra browser pass is optional follow-on proof if the shared browser lane is clear."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "packet_id": "ECO-PACKET-117",
+  "version": 4,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Light-band route support phase",
+  "summary": "Lane 2 should support the next tactile route wave with one compact carrier/content pack in Tundra or Coastal Scrub, without adding more notebook density.",
+  "source_reports": [
+    "docs/reports/2026-04-05-light-band-route-support-phase.md",
+    "docs/reports/2026-04-05-thaw-window-support-carrier-handoff.md",
+    "docs/reports/2026-04-05-thaw-window-support-carrier-implementation.md",
+    "docs/reports/2026-04-05-thaw-window-support-carrier-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-283",
+    "ECO-20260405-main-283",
+    "ECO-20260405-critic-283"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-283",
+      "goal": "Prepare the light-band route-support carrier handoff.",
+      "why_now": "The next route-feel proof needs a little authored support, not another dense note pass."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-283",
+      "goal": "Implement one compact route-support carrier pack.",
+      "why_now": "A tiny same-band support pack can make the next tactile route proof feel richer without crowding the notebook."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-283",
+      "goal": "Review the light-band route-support carrier pack.",
+      "why_now": "The content should deepen route feel without reopening notebook density problems."
+    }
+  ],
+  "file_targets": [
+    "src/content",
+    "src/test/content-quality.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not add a new comparison page, close-look family, or sketchbook strip in this pass.",
+    "Avoid the beach opener and the right half of krummholz-belt.",
+    "Prefer same-band route carriers over broader note growth."
+  ],
+  "main_283_focus": {
+    "priority_biome": "tundra",
+    "fallback_biome": "coastal-scrub",
+    "preferred_route": "tundra-short-season",
+    "preferred_band": "thaw-skirt",
+    "carrier_family": [
+      "arctic-willow",
+      "bigelows-sedge",
+      "tussock-thaw-channel"
+    ],
+    "preferred_shape": [
+      "one compact same-band authored support cluster beside the existing thaw-window clue path",
+      "favor authored placements first and only use a tiny existing spawn-table nudge if the band still reads thin"
+    ],
+    "avoid": [
+      "new close-look cards",
+      "new comparison stacks",
+      "another front-half density spike",
+      "new ecosystem notes for this pass"
+    ],
+    "verification": [
+      "focused tundra biome coverage for the thaw-skirt band",
+      "build",
+      "seeded handheld browser proof for the thaw-skirt route band"
+    ]
+  }
+}

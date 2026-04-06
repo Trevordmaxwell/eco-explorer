@@ -212,7 +212,16 @@ describe('tundra biome generation', () => {
     expect(driftRest?.y).toBeLessThan(driftShoulder?.y ?? 999);
     expect(driftRest?.x).toBeGreaterThanOrEqual(216);
     expect((driftRest?.x ?? 0) + (driftRest?.w ?? 0)).toBeLessThanOrEqual(286);
-    expect((thawEntry?.x ?? 0) - ((driftRest?.x ?? 0) + (driftRest?.w ?? 0))).toBeGreaterThanOrEqual(24);
+    expect(thawEntry).toEqual({
+      id: 'thaw-skirt-entry-heave',
+      spriteId: 'ice-platform',
+      x: 306,
+      y: 104,
+      w: 32,
+      h: 4,
+    });
+    expect((thawEntry?.x ?? 0) - ((driftRest?.x ?? 0) + (driftRest?.w ?? 0))).toBe(24);
+    expect((thawEntry?.x ?? 0) + (thawEntry?.w ?? 0)).toBeGreaterThanOrEqual(338);
   });
 
   it('anchors one local snow-meadow carrier pair around the new drift hold', () => {
@@ -249,14 +258,17 @@ describe('tundra biome generation', () => {
     );
 
     expect(thawBand.length).toBeGreaterThanOrEqual(3);
+    expect(thawBand.some((entity) => entity.entryId === 'arctic-willow')).toBe(true);
     expect(thawBand.some((entity) => entity.entryId === 'woolly-lousewort')).toBe(true);
     expect(thawBand.some((entity) => entity.entryId === 'northern-collared-lemming')).toBe(true);
     expect(thawBand.some((entity) => entity.entryId === 'bigelows-sedge')).toBe(true);
   });
 
-  it('authors thaw-channel carriers in the thaw skirt and meltwater edge bands', () => {
+  it('authors one compact thaw-window support cluster in the thaw skirt and meltwater edge bands', () => {
     const authoredChannels = tundraBiome.terrainRules.authoredEntities?.filter(
       (entity) =>
+        entity.id === 'thaw-skirt-entry-willow' ||
+        entity.id === 'thaw-skirt-upper-sedge' ||
         entity.entryId === 'tussock-thaw-channel' ||
         entity.id === 'meltwater-bank-willow' ||
         entity.id === 'meltwater-bank-cottongrass',
@@ -264,11 +276,23 @@ describe('tundra biome generation', () => {
 
     expect(authoredChannels).toEqual([
       {
+        id: 'thaw-skirt-entry-willow',
+        entryId: 'arctic-willow',
+        x: 332,
+        y: 101,
+      },
+      {
         id: 'thaw-skirt-channel',
         entryId: 'tussock-thaw-channel',
         x: 362,
         y: 104,
         castsShadow: false,
+      },
+      {
+        id: 'thaw-skirt-upper-sedge',
+        entryId: 'bigelows-sedge',
+        x: 386,
+        y: 96,
       },
       {
         id: 'meltwater-channel',

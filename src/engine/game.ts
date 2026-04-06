@@ -43,7 +43,12 @@ import {
   type NurseryCardId,
 } from './nursery';
 import { resolveFieldStationState } from './field-station-state';
-import { resolveFieldRequestState } from './field-request-state';
+import {
+  getHandLensNotebookFitForEntry,
+  getOutingSupportNoticeText,
+  prefersHandLensActiveEntry,
+  resolveFieldRequestController,
+} from './field-request-controller';
 import { getActiveHabitatProcessMoments } from './habitat-process';
 import {
   buildFieldPartnerNotice,
@@ -60,7 +65,6 @@ import {
 import {
   advanceActiveFieldRequest,
   fileReadyRouteV2FieldRequest,
-  getHandLensNotebookFit,
   resolveRouteV2FiledDisplayText,
   type ActiveFieldRequest,
 } from './field-requests';
@@ -131,7 +135,6 @@ import {
   persistSave,
   recordDiscovery,
   recordCompletedFieldRequest,
-  resolveSelectedOutingSupportId,
   resetSaveProgress,
 } from './save';
 import { createSpriteRegistry } from './sprites';
@@ -507,8 +510,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return resolveFieldStationState(biomeRegistry, save, getFieldStationSelections());
   }
 
-  function getFieldRequestState(focusedWorldMapLocationId: string | null = null) {
-    return resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+  function getFieldRequestController(focusedWorldMapLocationId: string | null = null) {
+    return resolveFieldRequestController(biomeRegistry, ecoWorldMap, save, {
       sceneMode,
       overlayMode,
       sceneBiomeId: getContextBiomeId(),
@@ -522,11 +525,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function getJournalFieldRequest(): ActiveFieldRequest | null {
-    return getFieldRequestState().journalFieldRequest;
+    return getFieldRequestController().journalFieldRequest;
   }
 
   function getRouteMarkerLocationId(): string | null {
-    return getFieldRequestState().routeMarkerLocationId;
+    return getFieldRequestController().routeMarkerLocationId;
   }
 
   function getPreferredWorldMapFocusLocationId(fallbackLocationId: string): string {
@@ -534,7 +537,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function getWorldMapReplayLabel(focusedLocationId: string): string | null {
-    return getFieldRequestState(focusedLocationId).routeReplayLabel;
+    return getFieldRequestController(focusedLocationId).routeReplayLabel;
   }
 
   function getWorldMapOriginLabel(
@@ -1190,15 +1193,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function getFieldRequestContext() {
-    return getFieldRequestState().context;
+    return getFieldRequestController().context;
   }
 
   function getActiveFieldRequest(): ActiveFieldRequest | null {
-    return getFieldRequestState().activeFieldRequest;
+    return getFieldRequestController().activeFieldRequest;
   }
 
   function getFieldRequestHint() {
-    return getFieldRequestState().fieldRequestHint;
+    return getFieldRequestController().fieldRequestHint;
   }
 
   function showFieldNotice(
@@ -1896,10 +1899,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const detail = getInspectableDetail(entry);
     const isNewEntry = recordDiscovery(save, entry, getContextBiomeId());
     const nurseryGathering = tryClaimNurseryGathering(save, entry, entity.entityId, claimedNurseryEntityIds);
-    const handLensNotebookFit =
-      resolveSelectedOutingSupportId(save) === 'hand-lens'
-        ? getHandLensNotebookFit(getFieldRequestContext(), entry.id, entityZoneId)
-        : null;
+    const handLensNotebookFit = getHandLensNotebookFitForEntry(
+      getFieldRequestController(),
+      entry.id,
+      entityZoneId,
+    );
     entity.removed = entity.collectible;
     persistSave(save);
     setSelectedJournalEntry(true);
@@ -1938,10 +1942,9 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     let nearestDistance = Number.POSITIVE_INFINITY;
     let nearestNotebookFit: BiomeEntity | null = null;
     let nearestNotebookFitDistance = Number.POSITIVE_INFINITY;
-    const handLensContext =
-      resolveSelectedOutingSupportId(save) === 'hand-lens'
-        ? getFieldRequestContext()
-        : null;
+    let nearestPreferredNotebookFit: BiomeEntity | null = null;
+    let nearestPreferredNotebookFitDistance = Number.POSITIVE_INFINITY;
+    const fieldRequestController = getFieldRequestController();
 
     for (const entity of currentBiome.entities) {
       if (entity.removed) {
@@ -1960,21 +1963,36 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         nearestDistance = distance;
       }
 
-      if (!handLensContext || distance > INSPECT_RANGE) {
+      if (!fieldRequestController.handLensContext || distance > INSPECT_RANGE) {
         continue;
       }
 
       const entityZoneId = getBiomeZoneForPlayerX(currentBiomeDefinition, entity.x + entity.w / 2)?.id ?? null;
+      const handLensNotebookFit = getHandLensNotebookFitForEntry(
+        fieldRequestController,
+        entity.entryId,
+        entityZoneId,
+      );
+      if (!handLensNotebookFit) {
+        continue;
+      }
+
       if (
-        getHandLensNotebookFit(handLensContext, entity.entryId, entityZoneId)
-        && distance < nearestNotebookFitDistance
+        prefersHandLensActiveEntry(fieldRequestController, entity.entryId, entityZoneId)
+        && distance < nearestPreferredNotebookFitDistance
       ) {
+        nearestPreferredNotebookFit = entity;
+        nearestPreferredNotebookFitDistance = distance;
+        continue;
+      }
+
+      if (distance < nearestNotebookFitDistance) {
         nearestNotebookFit = entity;
         nearestNotebookFitDistance = distance;
       }
     }
 
-    return nearestNotebookFit ?? nearest;
+    return nearestPreferredNotebookFit ?? nearestNotebookFit ?? nearest;
   }
 
   function getEntityAtPoint(worldX: number, worldY: number): BiomeEntity | null {
@@ -2577,31 +2595,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const nextSupportId = cycleSelectedOutingSupportId(save);
     persistSave(save);
 
-    if (nextSupportId === 'route-marker') {
-      showFieldNotice(
-        'OUTING SUPPORT',
-        'Route Marker will guide this outing on the world map.',
-        2.6,
-      );
-    } else if (nextSupportId === 'place-tab') {
-      showFieldNotice(
-        'OUTING SUPPORT',
-        'Place Tab will keep one place-reading question on the season strip.',
-        2.6,
-      );
-    } else if (nextSupportId === 'note-tabs') {
-      showFieldNotice(
-        'OUTING SUPPORT',
-        'Note Tabs will keep the notebook aim on the season strip.',
-        2.6,
-      );
-    } else {
-      showFieldNotice(
-        'OUTING SUPPORT',
-        'Hand Lens will tag notebook-fit clues in inspect bubbles.',
-        2.6,
-      );
-    }
+    showFieldNotice('OUTING SUPPORT', getOutingSupportNoticeText(nextSupportId), 2.6);
 
     audio.playUiCue('confirm');
   }
@@ -3704,6 +3698,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             }
           : null,
       nearbyInspectables: nearby,
+      nearestInspectableEntityId:
+        sceneMode === 'biome' && overlayMode === 'playing' && !bubble
+          ? getNearestInspectable()?.entityId ?? null
+          : null,
       nearbyDoor:
         sceneMode === 'biome' && !activeCorridor
           ? {

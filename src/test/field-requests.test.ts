@@ -1163,6 +1163,38 @@ describe('field requests', () => {
     });
   });
 
+  it('only lets woolly-lousewort fit the first-bloom slot during the active thaw-window state', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'thaw-skirt',
+    );
+
+    expect(getHandLensNotebookFit(context, 'woolly-lousewort')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'woolly-lousewort')).toBeNull();
+
+    context.save.worldStep = 4;
+    context.save.biomeVisits.tundra = 2;
+
+    expect(getHandLensNotebookFit(context, 'woolly-lousewort')).toBe('Notebook fit: first bloom');
+    expect(getHandLensNotebookFit(context, 'purple-saxifrage')).toBe('Notebook fit: first bloom');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'woolly-lousewort')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'tundra-short-season',
+      title: 'Thaw Window',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'first-bloom', entryId: 'woolly-lousewort' }],
+      },
+    });
+  });
+
   it('builds clue-backed filed note text from gathered route evidence', () => {
     const context = createForestContext(['forest-hidden-hollow'], 'root-hollow');
     context.save.routeV2Progress = {

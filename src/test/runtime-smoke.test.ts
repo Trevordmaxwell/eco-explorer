@@ -2694,7 +2694,7 @@ describe('runtime smoke loop', () => {
     expect(state.nearbyInspectables.some((entity: any) => ['reindeer-lichen', 'moss-campion'].includes(entity.entryId))).toBe(true);
   });
 
-  it('adds one compact snow-meadow drift hold before the thaw-skirt family', () => {
+  it('adds one compact snow-meadow drift hold before a shorter thaw-skirt approach catch', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-tundra-threshold-pocket-seed');
     persistSave(seededSave);
@@ -2761,12 +2761,20 @@ describe('runtime smoke loop', () => {
     state = advanceWhileHoldingKeyUntil(
       fakeWindow,
       'ArrowRight',
-      (nextState) => nextState.zoneId === 'thaw-skirt' && (nextState.player?.x ?? 0) >= 308,
+      (nextState) =>
+        nextState.zoneId === 'thaw-skirt' &&
+        (nextState.player?.x ?? 0) >= 302 &&
+        (nextState.player?.x ?? 999) <= 336 &&
+        (nextState.player?.y ?? 0) >= 92 &&
+        (nextState.player?.y ?? 999) <= 106,
       220,
     );
 
     expect(state.zoneId).toBe('thaw-skirt');
-    expect(state.player?.x).toBeGreaterThanOrEqual(308);
+    expect(state.player?.x).toBeGreaterThanOrEqual(302);
+    expect(state.player?.x).toBeLessThanOrEqual(336);
+    expect(state.player?.y).toBeGreaterThanOrEqual(92);
+    expect(state.player?.y).toBeLessThanOrEqual(106);
   });
 
   it('threads the cave-return route past a fallen old-wood bridge before old-growth', () => {
@@ -4230,6 +4238,116 @@ describe('runtime smoke loop', () => {
     });
   });
 
+  it('lets hand lens prefer woolly lousewort as the thaw-window bloom clue on the live thaw-skirt shelf', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-hand-lens-thaw-window-bloom-seed');
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    persistSave(seededSave);
+
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 349, y: 120 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      const state = advanceUntil(fakeWindow, (nextState) => {
+        if (nextState.zoneId !== 'thaw-skirt') {
+          return false;
+        }
+
+        return (
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'woolly-lousewort')
+          && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')
+        );
+      });
+
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')).toBe(true);
+
+      tapKey(fakeWindow, 'e');
+      const afterInspectState = readState(fakeWindow);
+      expect(afterInspectState.openBubble).toMatchObject({
+        entryId: 'woolly-lousewort',
+      });
+      expect(seededSave.routeV2Progress).toMatchObject({
+        requestId: 'tundra-short-season',
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'first-bloom', entryId: 'woolly-lousewort' }],
+      });
+      expect(afterInspectState.activeFieldRequest).toMatchObject({
+        id: 'tundra-short-season',
+        title: 'Thaw Window',
+        progressLabel: '1/3 clues',
+      });
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
+    }
+  });
+
+  it('keeps non-hand-lens supports on the nearer thaw-skirt inspectable in the same thaw-window bloom setup', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-note-tabs-thaw-window-bloom-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    persistSave(seededSave);
+
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 349, y: 120 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      advanceUntil(fakeWindow, (nextState) => {
+        if (nextState.zoneId !== 'thaw-skirt') {
+          return false;
+        }
+
+        return (
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'woolly-lousewort')
+          && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')
+        );
+      });
+
+      tapKey(fakeWindow, 'e');
+      const state = readState(fakeWindow);
+      expect(state.openBubble?.entryId).not.toBe('woolly-lousewort');
+      expect(seededSave.routeV2Progress?.evidenceSlots?.[0]?.entryId).not.toBe('woolly-lousewort');
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'tundra-short-season',
+        title: 'Thaw Window',
+        progressLabel: '0/3 clues',
+      });
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
+    }
+  });
+
   it('shows the Bright Survey route replay note when re-entering tundra during peak phenology', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-bright-survey-route-replay-seed');
@@ -4450,6 +4568,186 @@ describe('runtime smoke loop', () => {
         expect.objectContaining({ id: 'scrub-edge-pattern', status: 'active', title: 'Held Sand' }),
       ]),
     );
+  });
+
+  const heldSandShelfCompletions = [
+    'forest-hidden-hollow',
+    'forest-moisture-holders',
+    'forest-survey-slice',
+    'coastal-shelter-shift',
+    'coastal-edge-moisture',
+    'treeline-stone-shelter',
+    'tundra-short-season',
+    'tundra-survey-slice',
+  ];
+
+  function createHeldSandShelfSave(worldSeed: string, supportId: 'hand-lens' | 'note-tabs') {
+    const save = createNewSaveState(worldSeed);
+    save.selectedOutingSupportId = supportId;
+    save.completedFieldRequestIds = heldSandShelfCompletions.slice();
+    save.worldStep = 6;
+    save.biomeVisits['coastal-scrub'] = 2;
+    return save;
+  }
+
+  function findHeldSandShelfStartX(): number {
+    const originalStartPosition = { ...coastalScrubBiome.startPosition };
+    const candidateStartXs = [56, 60, 64, 68, 72, 76, 80, 84, 88, 92];
+
+    try {
+      for (const x of candidateStartXs) {
+        coastalScrubBiome.startPosition = { x, y: originalStartPosition.y };
+
+        const handLensResult = (() => {
+          try {
+            const { window: fakeWindow, document } = installFakeDom();
+            const seededSave = createHeldSandShelfSave('runtime-held-sand-shelf-layout', 'hand-lens');
+            const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+            const game = createGame(canvas, seededSave);
+
+            tapKey(fakeWindow, 'Enter');
+            game.enterBiome('coastal-scrub');
+
+            const state = advanceUntil(fakeWindow, (nextState) => !nextState.fieldRequestNotice && !nextState.nearbyTravelTarget);
+            const nearest = state.nearbyInspectables.find(
+              (entity: any) => entity.entityId === state.nearestInspectableEntityId,
+            );
+            return {
+              nearestEntryId: nearest?.entryId ?? null,
+              hasBeachGrass: state.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass'),
+              hasNonFit: state.nearbyInspectables.some((entity: any) =>
+                ['beach-strawberry', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
+              ),
+            };
+          } catch {
+            return null;
+          }
+        })();
+
+        const noteTabsResult = (() => {
+          try {
+            const { window: fakeWindow, document } = installFakeDom();
+            const seededSave = createHeldSandShelfSave('runtime-held-sand-shelf-layout', 'note-tabs');
+            const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+            const game = createGame(canvas, seededSave);
+
+            tapKey(fakeWindow, 'Enter');
+            game.enterBiome('coastal-scrub');
+
+            const state = advanceUntil(fakeWindow, (nextState) => !nextState.fieldRequestNotice && !nextState.nearbyTravelTarget);
+            const nearest = state.nearbyInspectables.find(
+              (entity: any) => entity.entityId === state.nearestInspectableEntityId,
+            );
+            return {
+              nearestEntryId: nearest?.entryId ?? null,
+              hasBeachGrass: state.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass'),
+            };
+          } catch {
+            return null;
+          }
+        })();
+
+        if (
+          handLensResult?.nearestEntryId === 'beach-grass'
+          && handLensResult.hasBeachGrass
+          && handLensResult.hasNonFit
+          && noteTabsResult?.hasBeachGrass
+          && noteTabsResult.nearestEntryId !== 'beach-grass'
+        ) {
+          return x;
+        }
+      }
+    } finally {
+      coastalScrubBiome.startPosition = originalStartPosition;
+    }
+
+    throw new Error('Expected a deterministic Held Sand back-dune shelf for support comparison.');
+  }
+
+  it('lets hand lens prefer beach grass as the Held Sand clue on the live back-dune shelf', () => {
+    const originalStartPosition = { ...coastalScrubBiome.startPosition };
+    const startX = findHeldSandShelfStartX();
+    coastalScrubBiome.startPosition = { x: startX, y: originalStartPosition.y };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHeldSandShelfSave('runtime-held-sand-shelf-layout', 'hand-lens');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('coastal-scrub');
+
+      const state = advanceUntil(fakeWindow, (nextState) => !nextState.fieldRequestNotice && !nextState.nearbyTravelTarget);
+      const nearest = state.nearbyInspectables.find(
+        (entity: any) => entity.entityId === state.nearestInspectableEntityId,
+      );
+
+      expect(nearest).toMatchObject({ entryId: 'beach-grass' });
+      expect(
+        state.nearbyInspectables.some((entity: any) =>
+          ['beach-strawberry', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
+        ),
+      ).toBe(true);
+
+      tapKey(fakeWindow, 'e');
+      const afterInspectState = readState(fakeWindow);
+      expect(afterInspectState.openBubble).toMatchObject({
+        entryId: 'beach-grass',
+      });
+      expect(seededSave.routeV2Progress).toMatchObject({
+        requestId: 'scrub-edge-pattern',
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'open-pioneer', entryId: 'beach-grass' }],
+      });
+      expect(afterInspectState.activeFieldRequest).toMatchObject({
+        id: 'scrub-edge-pattern',
+        title: 'Held Sand',
+        progressLabel: 'Return To Windbreak Swale',
+      });
+    } finally {
+      coastalScrubBiome.startPosition = originalStartPosition;
+    }
+  });
+
+  it('keeps non-hand-lens supports on the nearer back-dune inspectable in the same Held Sand shelf setup', () => {
+    const originalStartPosition = { ...coastalScrubBiome.startPosition };
+    const startX = findHeldSandShelfStartX();
+    coastalScrubBiome.startPosition = { x: startX, y: originalStartPosition.y };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHeldSandShelfSave('runtime-held-sand-shelf-layout', 'note-tabs');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('coastal-scrub');
+
+      const beforeInspectState = advanceUntil(fakeWindow, (nextState) => !nextState.fieldRequestNotice && !nextState.nearbyTravelTarget);
+      const nearest = beforeInspectState.nearbyInspectables.find(
+        (entity: any) => entity.entityId === beforeInspectState.nearestInspectableEntityId,
+      );
+
+      expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass')).toBe(true);
+      expect(nearest?.entryId).not.toBe('beach-grass');
+
+      tapKey(fakeWindow, 'e');
+      const state = readState(fakeWindow);
+      expect(state.openBubble?.entryId).not.toBe('beach-grass');
+      expect(seededSave.routeV2Progress?.evidenceSlots?.[0]?.entryId).not.toBe('beach-grass');
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'scrub-edge-pattern',
+        title: 'Held Sand',
+        progressLabel: '0/3 stages',
+      });
+    } finally {
+      coastalScrubBiome.startPosition = originalStartPosition;
+    }
   });
 
   it('keeps Held Sand live after beach-grass fills the opening back-dune stage', () => {

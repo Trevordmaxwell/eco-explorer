@@ -253,6 +253,302 @@ Use this section for newly discovered work that is not yet approved or prioritiz
 
 ## Done
 
+### ECO-20260405-main-291
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Tighten the thaw-window hand-lens difference into a player-felt live proof`
+- Source: `docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-implementation.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-critic-289`
+
+Goal:
+
+- Keep the same `Thaw Window` route and `woolly-lousewort` alternate carrier, but make the live support choice meaningfully change which thaw-window clue the player is naturally pulled toward.
+
+Acceptance:
+
+- `hand-lens` materially changes live clue targeting inside the active thaw-skirt window
+- the behavior stays scoped to the current next slot and active live process
+- runtime-smoke proves the `hand-lens` versus non-`hand-lens` difference without adding a new HUD or notebook branch
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-implementation.md`, tightening the existing hand-lens targeting seam so active process-only alternates can win within the current next slot without turning into a broader notebook-fit heuristic.
+- The focused controller, route-fit, and runtime comparison tests now prove `hand-lens` prefers `woolly-lousewort` during active `Thaw Window`, while the non-`hand-lens` comparison support still does not auto-snap to that clue.
+- Bumped packet `119` to version `5` and verified with `npx vitest run src/test/field-request-controller.test.ts src/test/field-requests.test.ts -t "thaw-window|woolly-lousewort|hand lens|Notebook fit"`, `npx vitest run src/test/runtime-smoke.test.ts -t "woolly lousewort|thaw-window bloom|thaw-window route replay note"`, and `npm run build`
+
+### ECO-20260405-critic-291
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the thaw-window hand-lens follow-on`
+- Source: `docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-review.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-main-291`
+
+Goal:
+
+- Review whether the tightened thaw-window follow-on now makes the first living-world proof genuinely felt in play.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the support-shaped difference is now live, not only broader route permissiveness
+- promotes `ECO-20260405-scout-290` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-review.md`, finding no blocker in the follow-on: `hand-lens` now changes the actual inspected clue during active `Thaw Window`, while non-`hand-lens` supports still keep the normal nearer-inspectable behavior.
+- Promoted `ECO-20260405-scout-290` to `READY`, bumped packet `119` to version `6`, and updated project memory so the durable rule matches the now-live slot-local process-backed hand-lens preference.
+- Verification: reviewed `src/engine/field-requests.ts`, `src/engine/field-request-controller.ts`, `src/engine/game.ts`, `src/test/field-request-controller.test.ts`, `src/test/field-requests.test.ts`, and `src/test/runtime-smoke.test.ts`; `npx vitest run src/test/field-request-controller.test.ts src/test/field-requests.test.ts -t "thaw-window|woolly-lousewort|hand lens|Notebook fit"`; `npx vitest run src/test/runtime-smoke.test.ts -t "woolly lousewort|thaw-window bloom|thaw-window route replay note"`
+
+### ECO-20260405-scout-290
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Prepare the second living-world route-differentiation handoff`
+- Source: `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-handoff.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-critic-291`
+
+Goal:
+
+- Narrow the next lane-4 route-feel move to either a second lighter-weight biome proof or a cleanup that simplifies a support still not pulling its weight.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-290`
+- chooses between a second proof and a simplification follow-on
+- avoids another text-surface answer
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-handoff.md`, narrowing the next pass to one Coastal Scrub reuse proof: active `Held Sand` already has the right `beach-grass` alternate, and a live back-dune shelf already exists where that carrier can compete against nearer non-fit inspectables.
+- Promoted `ECO-20260405-main-290` to `READY`, retargeted `ECO-20260405-critic-290` to the same handoff, and bumped packet `119` to version `7` with a concrete `main_290_focus` around the existing Held Sand back-dune proof instead of another new route rule.
+- Verification: reviewed the live Held Sand route/support/runtime seams plus an ad hoc coastal-scrub probe confirming the back-dune comparison shelf, then ran `npm run validate:agents`
+
+### ECO-20260405-main-290
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Implement the second living-world route-differentiation proof or simplification`
+- Source: `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-implementation.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-scout-290`
+
+Goal:
+
+- Extend the route-feel direction to one second light band or simplify one weak support seam exposed by the first proof.
+
+Acceptance:
+
+- the second pass either broadens or sharpens route differentiation in a player-felt way
+- no new HUD, route board, or support slot appears
+- the implementation keeps the route system calm and compact
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-implementation.md`, proving the now-live slot-local hand-lens preference seam reuses cleanly on Coastal Scrub's `Held Sand` route without adding another route rule.
+- Added a Held Sand controller regression in `src/test/field-request-controller.test.ts`, a deterministic back-dune runtime proof in `src/test/runtime-smoke.test.ts`, and one tiny debug-state field in `src/engine/game.ts` so the smoke harness can observe the real `e` target chosen by the live keyboard path.
+- Promoted `ECO-20260405-critic-290` to `READY`, bumped packet `119` to version `8`, and verified with `npx vitest run src/test/field-request-controller.test.ts -t "Held Sand|process-only alternates|active process-only"`, `npx vitest run src/test/runtime-smoke.test.ts -t "Held Sand clue on the live back-dune shelf|same Held Sand shelf setup|Held Sand replay window|held-sand route replay note"`, `npx vitest run src/test/field-request-controller.test.ts src/test/runtime-smoke.test.ts -t "Held Sand|back-dune shelf|held-sand route replay note|same Held Sand shelf setup|process-only alternates"`, and `npm run build`
+
+### ECO-20260405-critic-290
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `Review the second living-world route-differentiation proof or simplification`
+- Source: `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-review.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-main-290`
+
+Goal:
+
+- Review whether the second living-world route-differentiation proof still feels clean, tactile, and worth reusing after a second live band.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the second proof is still player-felt rather than only controller-deep
+- leaves lane 4 ready for the next route-feel wave if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-review.md`, finding no blocking issues in the second living-world proof.
+- Confirmed the Held Sand pass is still player-felt in the live keyboard path, that the tiny `nearestInspectableEntityId` debug export stays appropriately test-scoped, and that the deterministic back-dune shelf harness is narrow enough for this route-local proof.
+- Closed packet `119` at version `9`, leaving lane 4 with no remaining active queue item after re-running the focused controller and runtime Held Sand checks plus `npm run validate:agents`.
+
+### ECO-20260405-critic-280
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Review the route-differentiation helper seam`
+- Source: `docs/reports/2026-04-05-route-differentiation-controller-phase.md`
+- Packet: `.agents/packets/116-route-differentiation-controller-phase.json`
+- Depends on: `ECO-20260405-main-280`
+
+Goal:
+
+- Review whether the helper split lowers coordination risk without changing route-feel behavior or widening docs scope.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the extracted seam is appropriately small and behavior-preserving
+- leaves lane 1 ready for the next route-feel support wave if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-05-route-differentiation-controller-review.md`, finding no blocker in the controller split: route-state reads, hand-lens notebook-fit gating, and outing-support notice copy now share one compact helper seam outside `game.ts`.
+- Marked packet `116` as `DONE`; the only watch item is to keep future route-feel follow-ons in this helper seam instead of regrowing a second wrapper cluster in the coordinator.
+- Verification: reviewed `src/engine/field-request-controller.ts`, `src/engine/game.ts`, `src/test/field-request-controller.test.ts`, and the recorded main-pass verification set; `npm run validate:agents`
+
+### ECO-20260405-main-280
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Implement one route-differentiation helper seam and the review-drop packaging note`
+- Source: `docs/reports/2026-04-05-route-differentiation-controller-phase.md`
+- Packet: `.agents/packets/116-route-differentiation-controller-phase.json`
+- Depends on: `ECO-20260405-scout-280`
+
+Goal:
+
+- Extract one small helper seam around live route differentiation and add one explicit review-drop packaging note so future external archives stay portable.
+
+Acceptance:
+
+- one pure or mostly-pure helper reduces route-differentiation pressure inside `game.ts`
+- current live support and route behavior stay unchanged
+- repo docs tell future reviewers to omit `node_modules` in shared archives
+
+Completion notes:
+
+- Added `src/engine/field-request-controller.ts` so route-state reads, hand-lens notebook-fit gating, and outing-support notice copy no longer have to grow inside `game.ts`.
+- Updated `README.md` with the short external-review packaging note to omit `node_modules/`, and added `src/test/field-request-controller.test.ts` to lock the new helper seam.
+- Verification: `npm test -- --run src/test/field-request-controller.test.ts src/test/field-requests.test.ts`; `npm test -- --run src/test/field-request-controller.test.ts src/test/field-requests.test.ts src/test/runtime-smoke.test.ts -t "opens the world map on the outing target when route marker is already selected|buys route marker after the movement pair and lets the support row activate it on the world map|switches the route board to treeline and can hand the outing guide to route marker|switches the route board to tundra and can hand the outing guide to route marker|switches the route board to coastal scrub and can hand the outing guide to route marker"`; `npm run build`
+
+### ECO-20260405-scout-289
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the first living-world route-differentiation handoff`
+- Source: `docs/reports/2026-04-05-living-world-route-differentiation-handoff.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Choose the first strong tactile route-feel proof in a lighter-weight biome band, defaulting to Tundra unless Coastal Scrub is clearly cleaner.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-289`
+- identifies how support choice plus world-state should change in-world clue finding, reading, or approach
+- keeps the station shell and route identity unchanged
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-living-world-route-differentiation-handoff.md`, narrowing the first proof to `tundra-short-season` during `Thaw Window` by letting `woolly-lousewort` act as a same-band alternate `first-bloom` carrier only in the active thaw-fringe window.
+- Bumped packet `119` to version `2`, added a concrete `main_289_focus` around that hand-lens-friendly thaw-window bloom carrier, and kept the fallback second-wave note aimed at `Held Sand` only if the first proof still leaves a support feeling thin.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-main-289
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the first living-world route-differentiation proof`
+- Source: `docs/reports/2026-04-05-living-world-route-differentiation-implementation.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-scout-289`
+
+Goal:
+
+- Make one existing outing materially more tactile in play by letting support choice plus living-world state change how the player finds, reads, or approaches a clue inside the chosen lighter-weight biome band.
+
+Acceptance:
+
+- the chosen route feels meaningfully different in live play, not only in strip text
+- route identity and station shell stay stable
+- runtime-smoke plus one browser seed protect the new behavior
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-living-world-route-differentiation-implementation.md`, making `woolly-lousewort` a live-only `first-bloom` carrier for `tundra-short-season` during `thaw-fringe` while keeping the route titled `Thaw Window` in play and `Short Season` when filed.
+- Focused coverage now proves the alternate carrier in `src/test/field-requests.test.ts`, the live route can record it from the thaw-skirt shelf in `src/test/runtime-smoke.test.ts`, and the non-`hand-lens` keyboard path still does not auto-snap to that alternate carrier.
+- Bumped packet `119` to version `3` and verified with `npx vitest run src/test/field-requests.test.ts -t "woolly-lousewort|tundra-short-season|Thaw Window"`, `npx vitest run src/test/runtime-smoke.test.ts -t "woolly lousewort|thaw-window bloom|thaw-window route replay note"`, `npm run build`, seeded browser proof in `output/lane-4-main-289-browser/tundra-thaw-window.png`, clean browser console in `output/lane-4-main-289-browser/console-errors.json`, and a live Playwright state check confirming `thaw-skirt` plus nearby `woolly-lousewort` during active `thaw-fringe`.
+
+### ECO-20260405-critic-289
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the first living-world route-differentiation proof`
+- Source: `docs/reports/2026-04-05-living-world-route-differentiation-review.md`
+- Packet: `.agents/packets/119-living-world-route-differentiation-phase.json`
+- Depends on: `ECO-20260405-main-289`
+
+Goal:
+
+- Review whether the first tactile route-feel proof materially improves play without growing more UI or route complexity.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the change is felt in the world, not just described
+- promotes `ECO-20260405-scout-290` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-living-world-route-differentiation-review.md`, finding one blocker: the route now accepts `woolly-lousewort`, but the live proof still does not make `hand-lens` materially change how the player finds the thaw-window clue.
+- Inserted the narrow follow-on pair `ECO-20260405-main-291` / `ECO-20260405-critic-291` ahead of the second-wave scout so packet `119` can finish the first player-felt proof before it expands.
+- Verification: reviewed `src/engine/field-requests.ts`, `src/test/field-requests.test.ts`, `src/test/runtime-smoke.test.ts`, `docs/reports/2026-04-05-living-world-route-differentiation-implementation.md`, and the seeded browser artifact in `output/lane-4-main-289-browser/tundra-thaw-window.png`
+
+### ECO-20260405-scout-280
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P2`
+- Title: `Prepare the route-differentiation controller split handoff`
+- Source: `docs/reports/2026-04-05-route-differentiation-controller-phase.md`
+- Packet: `.agents/packets/116-route-differentiation-controller-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one exact helper seam so the next tactile route-feel pass does not pile more logic back into `game.ts`.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-280`
+- identifies one exact seam across the live route-differentiation path
+- names one short review-drop truth update if needed
+
+Completion notes:
+
+- Wrote the concrete seam handoff in `docs/reports/2026-04-05-route-differentiation-controller-handoff.md`, narrowing the split to the field-request wrapper cluster and inline hand-lens notebook-fit checks in `game.ts`.
+- Clarified packet `116` with the recommended hotspots and the short `README.md` packaging note target for the later main pass.
+
 ### ECO-20260405-critic-278
 
 - Status: `DONE`
@@ -469,6 +765,88 @@ Completion note:
 - Closed packet `113` as `DONE`; lane 2 has no remaining actionable item in the queue after this review.
 - Verification: reviewed `src/engine/nursery.ts` and `src/test/field-station-nursery-page.test.ts`; `npm test -- --run src/test/nursery.test.ts src/test/field-station-nursery-page.test.ts`; `npm run build`
 - Verification: `npm test -- --run src/test/field-station-nursery-page.test.ts src/test/nursery.test.ts src/test/content-quality.test.ts`; `npm run build`; web-game smoke in `output/lane-2-main-279-client/`; `npm run validate:agents`
+
+### ECO-20260405-scout-283
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Prepare the light-band route-support carrier handoff`
+- Source: `docs/reports/2026-04-05-thaw-window-support-carrier-handoff.md`
+- Packet: `.agents/packets/117-light-band-route-support-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one compact Tundra or Coastal Scrub support-content pack for the next tactile route-feel proof.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-283`
+- picks one lighter-weight route band and its exact carrier family
+- avoids more notebook or close-look density
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-thaw-window-support-carrier-handoff.md`, narrowing the next lane-2 pass to Tundra's `thaw-skirt` band on `tundra-short-season` instead of reopening the denser Coastal Scrub branch.
+- Chose one same-band support family around the live `Thaw Window` route: `arctic-willow`, `bigelows-sedge`, and `tussock-thaw-channel`, with no new notebook, close-look, or sketchbook surface.
+- Promoted `ECO-20260405-main-283` to `READY` and updated packet `117` to version `2` with the exact route, band, and carrier-family focus.
+
+### ECO-20260405-main-283
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Implement one compact route-support carrier pack`
+- Source: `docs/reports/2026-04-05-thaw-window-support-carrier-implementation.md`
+- Packet: `.agents/packets/117-light-band-route-support-phase.json`
+- Depends on: `ECO-20260405-scout-283`
+
+Goal:
+
+- Add one small authored carrier pack in a lighter-weight route band so the next tactile route-feel proof has a stronger in-world clue family.
+
+Acceptance:
+
+- the chosen route band gains one compact support-content pack
+- no new comparison, close-look, or sketchbook surfaces are added
+- the pass stays inside Tundra or Coastal Scrub and avoids current density ceilings
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-thaw-window-support-carrier-implementation.md`, spending the pass on Tundra's `thaw-skirt` band with one authored support cluster built from `arctic-willow`, `bigelows-sedge`, and the existing `tussock-thaw-channel`.
+- Kept `Short Season` / `Thaw Window` route behavior unchanged and extended `src/test/tundra-biome.test.ts` so the thaw band now proves the richer same-band carrier family.
+- Promoted `ECO-20260405-critic-283` to `READY`.
+- Verification: `npm test -- --run src/test/tundra-biome.test.ts`; `npm test -- --run src/test/runtime-smoke.test.ts -t "turns the tundra thaw-skirt route into one fuller inland relief and snow-edge family|adds one compact snow-meadow drift hold before a shorter thaw-skirt approach catch"`; `npm run build` is still blocked by an unrelated existing TypeScript syntax error in `src/test/field-request-controller.test.ts`
+
+### ECO-20260405-critic-283
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `Review the light-band route-support carrier pack`
+- Source: `docs/reports/2026-04-05-thaw-window-support-carrier-review.md`
+- Packet: `.agents/packets/117-light-band-route-support-phase.json`
+- Depends on: `ECO-20260405-main-283`
+
+Goal:
+
+- Review whether the support-content pack deepens route feel without reopening notebook density or crowding the biome band.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the chosen band still reads calmly at handheld scale
+- leaves lane 2 ready for a later follow-on if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-thaw-window-support-carrier-review.md`, finding no blocker in the thaw-skirt support pack: the new authored carriers deepen Tundra's live `Thaw Window` band without adding another text surface or destabilizing route identity.
+- Closed packet `117` as `DONE`; lane 2 has no remaining actionable queue item after this review.
+- Verification: reviewed `src/content/biomes/tundra.ts`, `src/test/tundra-biome.test.ts`, and the focused implementation verification; `npm run validate:agents`
 
 ### ECO-20260405-scout-278
 
@@ -768,6 +1146,87 @@ Completion note:
 - Added `docs/reports/2026-04-05-vertical-regression-guardrail-review.md`, finding no blocking issue in the treeline guardrail pass and confirming the new sheltered-return band protects the authored `fell-return -> lee-rest` family without reopening geometry growth.
 - Resolved the earlier treeline browser watch item too: with the shared build issue now cleared, a fresh live Playwright pass from the normal treeline start reached `krummholz-belt` and then the lee-pocket approach with the expected cue family visible and no console errors.
 - Verification: `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds a tucked backside notch and upper cap for the treeline loop|turns the treeline lee pocket into a compact crest-and-notch loop|turns the treeline threshold into a last-tree shelter followed by the existing lee pocket"`; `npm run build`; live Playwright browser proof on `http://127.0.0.1:4173/`
+
+### ECO-20260405-scout-286
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the light-band route-approach handoff`
+- Source: `docs/reports/2026-04-05-light-band-route-approach-handoff.md`
+- Packet: `.agents/packets/118-light-band-route-approach-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow one tiny spatial or approach seam in Tundra or Coastal Scrub that can make an existing route feel more tactile without becoming a new destination.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260405-main-286`
+- identifies one route band with room for a small approach/readability pass
+- stays away from the already-dense beach opener and treeline family
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-light-band-route-approach-handoff.md`, narrowing the next lane-3 support move to Tundra's `Short Season / Thaw Window` route instead of the denser Coastal Scrub bluff-swale cluster.
+- Bumped packet `118` to version `2`, added `main_286_focus` for the exact `snow-meadow-drift-rest -> thaw-skirt-entry-heave` handoff seam, and retargeted `ECO-20260405-main-286` to the new handoff.
+- Verification: `npm run validate:agents`
+
+### ECO-20260405-main-286
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement one light-band route-approach pass`
+- Source: `docs/reports/2026-04-05-light-band-route-approach-implementation.md`
+- Packet: `.agents/packets/118-light-band-route-approach-phase.json`
+- Depends on: `ECO-20260405-scout-286`
+
+Goal:
+
+- Add one tiny spatial or approach seam that makes an existing Tundra or Coastal Scrub route feel more tactile without becoming a new destination wave.
+
+Acceptance:
+
+- the chosen route band gets a clearer micro-approach or recoverable spatial read
+- no new signature pocket or landmark family appears
+- the pass stays low-density and cozy
+
+Completion note:
+
+- Pulled `thaw-skirt-entry-heave` left and widened it so the `snow-meadow-drift-rest -> thaw-skirt` handoff catches earlier without adding a new pocket or branch.
+- Tightened the authored-geometry and runtime-smoke proofs around the shorter thaw-skirt approach seam.
+- Verification: `npm test -- --run src/test/tundra-biome.test.ts src/test/runtime-smoke.test.ts -t "adds one compact snow-meadow drift hold before a shorter thaw-skirt approach catch|adds one compact snow-meadow drift hold before the thaw-skirt family|turns the tundra thaw-skirt route into one fuller inland relief and snow-edge family"`; `npm run build`
+
+### ECO-20260405-critic-286
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the light-band route-approach pass`
+- Source: `docs/reports/2026-04-05-light-band-route-approach-review.md`
+- Packet: `.agents/packets/118-light-band-route-approach-phase.json`
+- Depends on: `ECO-20260405-main-286`
+
+Goal:
+
+- Review whether the new approach seam improves route feel without reading like another destination push.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the pass stays below the current density ceiling
+- leaves lane 3 ready for a later destination-family reactivation if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-05-light-band-route-approach-review.md`, finding no blocking issue in the tighter Tundra drift-hold to thaw-entry seam.
+- Confirmed the pass stays geometry-first and below the current density ceiling, with one standing watch item to avoid spending more geometry in this exact strip.
+- Verification: reviewed the targeted tundra tests, `npm run build`, and `npm run validate:agents`
 
 ### ECO-20260405-critic-275
 

@@ -1,0 +1,162 @@
+{
+  "packet_id": "ECO-PACKET-119",
+  "version": 9,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Living-world route differentiation phase",
+  "summary": "Lane 4 should make one existing outing materially more tactile in play by letting support choice plus living-world state change how the player finds, reads, or approaches a clue in a lighter-weight biome band.",
+  "source_reports": [
+    "docs/reports/2026-04-05-living-world-route-differentiation-phase.md",
+    "docs/reports/2026-04-05-living-world-route-differentiation-handoff.md",
+    "docs/reports/2026-04-05-living-world-route-differentiation-implementation.md",
+    "docs/reports/2026-04-05-living-world-route-differentiation-review.md",
+    "docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-implementation.md",
+    "docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-review.md",
+    "docs/reports/2026-04-05-held-sand-hand-lens-second-proof-handoff.md",
+    "docs/reports/2026-04-05-held-sand-hand-lens-second-proof-implementation.md",
+    "docs/reports/2026-04-05-held-sand-hand-lens-second-proof-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-289",
+    "ECO-20260405-main-289",
+    "ECO-20260405-critic-289",
+    "ECO-20260405-main-291",
+    "ECO-20260405-critic-291",
+    "ECO-20260405-scout-290",
+    "ECO-20260405-main-290",
+    "ECO-20260405-critic-290"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-289",
+      "goal": "Prepare the first living-world route-differentiation handoff.",
+      "why_now": "The strongest next win is a route that feels different in play, not just in text."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-289",
+      "goal": "Implement the first living-world route-differentiation proof.",
+      "why_now": "One strong tactile proof in a lighter-weight biome band will validate the next direction."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-289",
+      "goal": "Review the first living-world route-differentiation proof.",
+      "why_now": "The first proof should feel materially better without growing another system."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260405-main-291",
+      "goal": "Make the first living-world route proof player-felt in live hand-lens play.",
+      "why_now": "The first proof is directionally right, but it still needs a stronger support-shaped live difference before the packet can move on."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260405-critic-291",
+      "goal": "Review the tightened hand-lens live-difference follow-on.",
+      "why_now": "The packet should only continue once the first proof is genuinely felt in play."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260405-scout-290",
+      "goal": "Prepare the second living-world route-differentiation handoff.",
+      "why_now": "After one proof lands cleanly, the next step should either extend it to a second light band or simplify a weak support."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260405-main-290",
+      "goal": "Implement the second living-world route-differentiation proof or simplification.",
+      "why_now": "A second route or a sharper support seam will prove the direction is reusable."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260405-critic-290",
+      "goal": "Review the second living-world route-differentiation proof or simplification.",
+      "why_now": "The lane should only expand the pattern if it still reads cleanly and tactily."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "No new station page, helper row, or route HUD.",
+    "Do not answer this pass with more notebook density.",
+    "Keep route identity stable while the live moment changes."
+  ],
+  "main_289_focus": {
+    "priority_route_id": "tundra-short-season",
+    "priority_live_variant": "Thaw Window",
+    "priority_biome": "tundra",
+    "desired_feel": "During the live Thaw Window state, support choice plus world-state should change which in-world carrier or approach matters enough that the player plays the route differently, not just reads a different strip.",
+    "selected_slot": "first-bloom",
+    "selected_alternate_carrier": "woolly-lousewort",
+    "selected_zone_band": [
+      "snow-meadow",
+      "thaw-skirt"
+    ],
+    "preferred_shape": [
+      "reuse the existing process-backed route seam",
+      "prefer same-stage, same-band differentiation over a new route branch",
+      "prefer truthful alternate carriers that the existing hand-lens targeting can naturally prioritize over more copy"
+    ],
+    "avoid": [
+      "new route types",
+      "more filing complexity",
+      "new planner or helper chrome"
+    ]
+  },
+  "main_290_focus": {
+    "priority_route_id": "scrub-edge-pattern",
+    "priority_live_variant": "Held Sand",
+    "priority_biome": "coastal-scrub",
+    "goal": "Prove the slot-local hand-lens preference seam reuses cleanly on Held Sand by preferring the live beach-grass alternate over nearer non-fit back-dune inspectables, while non-hand-lens supports do not.",
+    "selected_slot": "open-pioneer",
+    "selected_alternate_carrier": "beach-grass",
+    "selected_zone_band": [
+      "back-dune"
+    ],
+    "preferred_shape": [
+      "reuse the already-authored Held Sand alternate carrier instead of adding a new one",
+      "prove the behavior with one hand-lens versus non-hand-lens live back-dune comparison",
+      "only touch route logic if the current generic preference fails the end-to-end coastal proof"
+    ],
+    "probe_note": "A late coastal-scrub revisit already yields a back-dune shelf where beach-grass is in range while nearer non-fit entries such as beach-strawberry, beach-pea, or sand-verbena are also nearby.",
+    "avoid": [
+      "new route branches",
+      "new replay-support framework",
+      "broader coastal geometry or content-density edits",
+      "another strip-only wording pass"
+    ]
+  },
+  "main_291_focus": {
+    "priority_route_id": "tundra-short-season",
+    "priority_live_variant": "Thaw Window",
+    "priority_biome": "tundra",
+    "goal": "Keep the same alternate `woolly-lousewort` carrier, but make hand-lens produce a player-felt live-difference instead of only a broader acceptance rule.",
+    "preferred_shape": [
+      "tighten the existing hand-lens targeting seam instead of adding a new support or planner surface",
+      "scope the preference to the current next slot and active process window only",
+      "prove the behavior with one runtime comparison where hand-lens changes the inspected clue and a non-hand-lens support does not"
+    ],
+    "avoid": [
+      "new route branches",
+      "geometry-heavy fixes in tundra content",
+      "broad notebook-fit heuristics outside the active route slot"
+    ]
+  }
+}

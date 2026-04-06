@@ -387,6 +387,9 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       momentId: 'thaw-fringe',
       activeTitle: 'Thaw Window',
       activeSummary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
+      activeSlotEntryIdsBySlotId: {
+        'first-bloom': ['woolly-lousewort'],
+      },
     },
     completionTriggers: ['inspect'],
   },
@@ -1218,6 +1221,43 @@ export function getHandLensNotebookFit(
   );
 
   return matchingSlot ? `Notebook fit: ${matchingSlot.id.replace(/-/g, ' ')}` : null;
+}
+
+export function prefersHandLensActiveRouteEntry(
+  context: FieldRequestContext,
+  entryId: string,
+  observedZoneId?: string | null,
+): boolean {
+  const definition = getActiveFieldRequestDefinition(context);
+  if (!definition || !isEvidenceRouteV2Definition(definition)) {
+    return false;
+  }
+
+  if (
+    !matchesBiomeAndOptionalZone(definition, context) ||
+    getRouteV2Progress(context.save, definition.id)?.status === 'ready-to-synthesize'
+  ) {
+    return false;
+  }
+
+  const nextSlotId = getNextEvidenceSlotId(definition, context.save);
+  if (!nextSlotId) {
+    return false;
+  }
+
+  const requiredZoneId = getRequiredEvidenceSlotZoneId(definition, nextSlotId);
+  const matchedObservedZoneId = resolveObservedZoneId(context, observedZoneId);
+  if (
+    requiredZoneId &&
+    (context.currentZoneId !== requiredZoneId || matchedObservedZoneId !== requiredZoneId)
+  ) {
+    return false;
+  }
+
+  const activeProcessEntryIds = getActiveRouteV2ProcessFocus(definition, context)
+    ?.activeSlotEntryIdsBySlotId?.[nextSlotId] ?? [];
+
+  return activeProcessEntryIds.includes(entryId);
 }
 
 export function resolveActiveFieldRequest(

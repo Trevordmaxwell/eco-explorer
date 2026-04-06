@@ -78,6 +78,8 @@ If you edit queue or packet files, run:
 npm run validate:agents
 ```
 
+When you share an external review or playable repo archive, omit `node_modules/` so reviewers can install cleanly on their own machine.
+
 ## Current Product Direction
 
 The current product direction is to make Eco Explorer feel like a richer game without losing its science-forward, cozy tone. The active priorities are:

@@ -1,0 +1,76 @@
+{
+  "packet_id": "ECO-PACKET-116",
+  "version": 3,
+  "created_at": "2026-04-05",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Route differentiation controller phase",
+  "summary": "Lane 1 should protect the next tactile route wave by extracting one small living-world route-differentiation seam away from game.ts and syncing review-drop packaging truth.",
+  "source_reports": [
+    "docs/reports/2026-04-05-route-differentiation-controller-phase.md",
+    "docs/reports/2026-04-05-route-differentiation-controller-handoff.md",
+    "docs/reports/2026-04-05-route-differentiation-controller-implementation.md",
+    "docs/reports/2026-04-05-route-differentiation-controller-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260405-scout-280",
+    "ECO-20260405-main-280",
+    "ECO-20260405-critic-280"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260405-scout-280",
+      "goal": "Prepare the route-differentiation controller split handoff.",
+      "why_now": "The next route-feel win should not become another game.ts pileup."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260405-main-280",
+      "goal": "Implement one route-differentiation helper seam and the review-drop packaging note.",
+      "why_now": "The current gameplay scaffolding is strong enough to protect with a small extraction before another tactile wave lands."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260405-critic-280",
+      "goal": "Review the route-differentiation helper seam.",
+      "why_now": "The pass only matters if it lowers coordination risk without changing live behavior."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "README.md",
+    "docs/architecture.md"
+  ],
+  "guardrails": [
+    "Do not add a new support slot, planner shell, or route HUD.",
+    "Prefer a pure or mostly-pure helper seam over another broad state object.",
+    "Keep the review-drop note short and practical."
+  ],
+  "main_280_focus": {
+    "preferred_seam": "one living-world route-differentiation helper that sits between the current support-specific targeting logic and the route-facing live-variant logic",
+    "candidate_files": [
+      "src/engine/game.ts",
+      "src/engine/field-requests.ts"
+    ],
+    "recommended_hotspots": [
+      "game.ts field-request wrapper cluster",
+      "game.ts hand-lens notebook-fit checks in inspectEntity and getNearestInspectable"
+    ],
+    "docs_target": "README.md",
+    "docs_note": "Add one short reviewer-facing note to omit node_modules from external review or playable archive drops.",
+    "must_preserve": [
+      "live support behavior",
+      "current route identities",
+      "existing runtime-smoke coverage shape"
+    ]
+  }
+}
