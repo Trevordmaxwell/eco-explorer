@@ -1,0 +1,89 @@
+{
+  "packet_id": "ECO-PACKET-123",
+  "version": 4,
+  "created_at": "2026-04-06",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Support-readable route-feel phase",
+  "summary": "Lane 4 should make the new support-shaped route win easier to feel at a glance by pairing one tiny player-facing cue with the protected inspect-target seam, using only Thaw Window and Held Sand as proof routes.",
+  "source_reports": [
+    "docs/reports/2026-04-06-support-readable-route-feel-phase.md",
+    "docs/reports/2026-04-06-support-readable-route-feel-handoff.md",
+    "docs/reports/2026-04-06-support-readable-route-feel-implementation.md",
+    "docs/reports/2026-04-06-support-readable-route-feel-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260406-scout-298",
+    "ECO-20260406-main-298",
+    "ECO-20260406-critic-298"
+  ],
+  "depends_on": [
+    "ECO-20260406-critic-292"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260406-scout-298",
+      "goal": "Prepare the support-readable route-feel handoff.",
+      "why_now": "The gameplay win exists already; the next move is to make it legible and durable."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260406-main-298",
+      "goal": "Implement the cue plus seam-backed route-feel pass.",
+      "why_now": "One coherent wave is better than another stack of route-specific tweaks."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260406-critic-298",
+      "goal": "Review whether support choice is now easier to feel in motion.",
+      "why_now": "The pass only matters if it stays tiny, readable, and maintainable."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not add a new support HUD, planner shell, or notebook surface.",
+    "Touch only Thaw Window and Held Sand for the live proof routes.",
+    "If the cue needs more than one line or one tiny icon state, it is too big."
+  ],
+  "proof_routes": [
+    {
+      "route_id": "tundra-short-season",
+      "live_variant": "Thaw Window",
+      "support": "hand-lens",
+      "carrier": "woolly-lousewort"
+    },
+    {
+      "route_id": "scrub-edge-pattern",
+      "live_variant": "Held Sand",
+      "support": "hand-lens",
+      "carrier": "beach-grass"
+    }
+  ],
+  "main_298_focus": {
+    "preferred_seam": "existing top-right NOTEBOOK J field-request hint chip",
+    "activation_rule": "show the support-readable state only when hand-lens is actively changing the live nearest inspect target for the current route slot",
+    "proof_plan": [
+      "Thaw Window hand-lens shelf shows the cue when woolly-lousewort is the live preferred target",
+      "Held Sand hand-lens shelf shows the cue when beach-grass is the live preferred target",
+      "the same shelves stay on the plain existing hint state for note-tabs"
+    ],
+    "avoid": [
+      "purchase-time support strip reuse",
+      "bubble-only explanations",
+      "new planner or helper rows",
+      "touching routes beyond Thaw Window and Held Sand"
+    ]
+  }
+}

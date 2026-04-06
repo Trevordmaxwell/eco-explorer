@@ -44,9 +44,10 @@ import {
 } from './nursery';
 import { resolveFieldStationState } from './field-station-state';
 import {
-  getHandLensNotebookFitForEntry,
+  getFieldRequestHintState,
+  getInspectBubbleResourceNote,
   getOutingSupportNoticeText,
-  prefersHandLensActiveEntry,
+  resolveInspectTargetSelection,
   resolveFieldRequestController,
 } from './field-request-controller';
 import { getActiveHabitatProcessMoments } from './habitat-process';
@@ -1196,12 +1197,29 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getFieldRequestController().context;
   }
 
+  function getInspectTargetSelection() {
+    if (sceneMode !== 'biome' || overlayMode !== 'playing' || bubble) {
+      return null;
+    }
+
+    return resolveInspectTargetSelection(
+      getFieldRequestController(),
+      currentBiome.entities,
+      {
+        x: player.x + PLAYER_WIDTH / 2,
+        y: player.y + PLAYER_HEIGHT / 2,
+      },
+      INSPECT_RANGE,
+      (entity) => getBiomeZoneForPlayerX(currentBiomeDefinition, entity.x + entity.w / 2)?.id ?? null,
+    );
+  }
+
   function getActiveFieldRequest(): ActiveFieldRequest | null {
     return getFieldRequestController().activeFieldRequest;
   }
 
-  function getFieldRequestHint() {
-    return getFieldRequestController().fieldRequestHint;
+  function getFieldRequestHint(inspectTargetSelection = getInspectTargetSelection()) {
+    return getFieldRequestHintState(getFieldRequestController(), inspectTargetSelection);
   }
 
   function showFieldNotice(
@@ -1899,10 +1917,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const detail = getInspectableDetail(entry);
     const isNewEntry = recordDiscovery(save, entry, getContextBiomeId());
     const nurseryGathering = tryClaimNurseryGathering(save, entry, entity.entityId, claimedNurseryEntityIds);
-    const handLensNotebookFit = getHandLensNotebookFitForEntry(
+    const resourceNote = getInspectBubbleResourceNote(
       getFieldRequestController(),
       entry.id,
       entityZoneId,
+      nurseryGathering?.note ?? null,
     );
     entity.removed = entity.collectible;
     persistSave(save);
@@ -1920,7 +1939,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       collectible: entry.collectible,
       isNewEntry,
       closeLookAvailable: Boolean(buildCloseLookPayload(entry)),
-      resourceNote: handLensNotebookFit ?? nurseryGathering?.note,
+      resourceNote: resourceNote ?? undefined,
       x: entity.x + entity.w / 2,
       y: entity.y,
     };
@@ -1938,61 +1957,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function getNearestInspectable(): BiomeEntity | null {
-    let nearest: BiomeEntity | null = null;
-    let nearestDistance = Number.POSITIVE_INFINITY;
-    let nearestNotebookFit: BiomeEntity | null = null;
-    let nearestNotebookFitDistance = Number.POSITIVE_INFINITY;
-    let nearestPreferredNotebookFit: BiomeEntity | null = null;
-    let nearestPreferredNotebookFitDistance = Number.POSITIVE_INFINITY;
-    const fieldRequestController = getFieldRequestController();
-
-    for (const entity of currentBiome.entities) {
-      if (entity.removed) {
-        continue;
-      }
-
-      const distance = distanceBetween(
-        player.x + PLAYER_WIDTH / 2,
-        player.y + PLAYER_HEIGHT / 2,
-        entity.x + entity.w / 2,
-        entity.y + entity.h / 2,
-      );
-
-      if (distance <= INSPECT_RANGE && distance < nearestDistance) {
-        nearest = entity;
-        nearestDistance = distance;
-      }
-
-      if (!fieldRequestController.handLensContext || distance > INSPECT_RANGE) {
-        continue;
-      }
-
-      const entityZoneId = getBiomeZoneForPlayerX(currentBiomeDefinition, entity.x + entity.w / 2)?.id ?? null;
-      const handLensNotebookFit = getHandLensNotebookFitForEntry(
-        fieldRequestController,
-        entity.entryId,
-        entityZoneId,
-      );
-      if (!handLensNotebookFit) {
-        continue;
-      }
-
-      if (
-        prefersHandLensActiveEntry(fieldRequestController, entity.entryId, entityZoneId)
-        && distance < nearestPreferredNotebookFitDistance
-      ) {
-        nearestPreferredNotebookFit = entity;
-        nearestPreferredNotebookFitDistance = distance;
-        continue;
-      }
-
-      if (distance < nearestNotebookFitDistance) {
-        nearestNotebookFit = entity;
-        nearestNotebookFitDistance = distance;
-      }
-    }
-
-    return nearestPreferredNotebookFit ?? nearestNotebookFit ?? nearest;
+    return getInspectTargetSelection()?.nearestInspectable ?? null;
   }
 
   function getEntityAtPoint(worldX: number, worldY: number): BiomeEntity | null {
@@ -3173,6 +3138,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     const worldState = getWorldState();
     const transitionSnapshot = getTransitionSnapshot();
+    const inspectTargetSelection = getInspectTargetSelection();
 
     if (sceneMode === 'world-map') {
       const focusedSurveyState =
@@ -3304,11 +3270,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       drawFade(context, transitionSnapshot.fadeAlpha);
     } else {
       const nearestEntityId =
-        save.settings.showInspectHints &&
-        overlayMode === 'playing' &&
-        !bubble
-          ? getNearestInspectable()?.entityId ?? null
-          : null;
+        save.settings.showInspectHints ? inspectTargetSelection?.nearestInspectableEntityId ?? null : null;
       const highlightedDoor =
         overlayMode === 'playing' &&
         sceneMode === 'biome' &&
@@ -3368,7 +3330,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       label: getCurrentZoneLabel(),
       isVisible: overlayMode === 'playing' && sceneMode === 'biome',
     });
-    const fieldRequestHint = getFieldRequestHint();
+    const fieldRequestHint = getFieldRequestHint(inspectTargetSelection);
     drawFieldRequestHintChip({
       context,
       width: WIDTH,
@@ -3376,6 +3338,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       palette: currentBiomeDefinition.palette,
       title: fieldRequestHint?.title ?? null,
       isVisible: fieldRequestHint !== null,
+      variant: fieldRequestHint?.variant ?? 'default',
     });
 
     if (fieldGuideNotice && overlayMode === 'playing' && sceneMode === 'biome') {
@@ -3577,7 +3540,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const worldState = getWorldState(worldStateBiomeId);
     const observationPrompt = getFieldGuideObservationPrompt();
     const activeFieldRequest = getActiveFieldRequest();
-    const fieldRequestHint = getFieldRequestHint();
+    const inspectTargetSelection = getInspectTargetSelection();
+    const fieldRequestHint = getFieldRequestHint(inspectTargetSelection);
     const journalFieldRequest = getJournalFieldRequest();
     const guidedFieldSeason = getGuidedFieldSeasonState();
     const fieldStationState = getFieldStationState();
@@ -3698,10 +3662,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             }
           : null,
       nearbyInspectables: nearby,
-      nearestInspectableEntityId:
-        sceneMode === 'biome' && overlayMode === 'playing' && !bubble
-          ? getNearestInspectable()?.entityId ?? null
-          : null,
+      nearestInspectableEntityId: inspectTargetSelection?.nearestInspectableEntityId ?? null,
       nearbyDoor:
         sceneMode === 'biome' && !activeCorridor
           ? {
@@ -3745,6 +3706,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             scientificName: bubble.detailLabel === 'Scientific name' ? bubble.detailText : undefined,
             isNewEntry: bubble.isNewEntry,
             closeLookAvailable: bubble.closeLookAvailable,
+            resourceNote: bubble.resourceNote,
           }
         : null,
       closeLook: closeLook

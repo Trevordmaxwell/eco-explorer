@@ -4275,12 +4275,31 @@ describe('runtime smoke loop', () => {
         );
       });
 
+      expect(state.zoneId).toBe('thaw-skirt');
+      expect(state.fieldRequestNotice?.title).toBe('Thaw Window');
+      expect(state.nearbyTravelTarget).toBeNull();
+      expect(state.player?.x).toBeGreaterThanOrEqual(332);
+      expect(state.player?.x).toBeLessThanOrEqual(380);
+      expect(state.player?.y).toBeGreaterThanOrEqual(88);
+      expect(state.player?.y).toBeLessThanOrEqual(110);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'woolly-lousewort')).toBe(true);
       expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')).toBe(true);
+      expect(
+        state.nearbyInspectables.some((entity: any) =>
+          ['purple-saxifrage', 'cottongrass', 'bigelows-sedge'].includes(entity.entryId),
+        ),
+      ).toBe(true);
+      expect(state.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Thaw Window',
+        variant: 'support-biased',
+      });
 
       tapKey(fakeWindow, 'e');
       const afterInspectState = readState(fakeWindow);
       expect(afterInspectState.openBubble).toMatchObject({
         entryId: 'woolly-lousewort',
+        resourceNote: 'LENS CLUE: first bloom',
       });
       expect(seededSave.routeV2Progress).toMatchObject({
         requestId: 'tundra-short-season',
@@ -4323,7 +4342,7 @@ describe('runtime smoke loop', () => {
       tapKey(fakeWindow, 'Enter');
       game.enterBiome('tundra');
 
-      advanceUntil(fakeWindow, (nextState) => {
+      const beforeInspectState = advanceUntil(fakeWindow, (nextState) => {
         if (nextState.zoneId !== 'thaw-skirt') {
           return false;
         }
@@ -4332,6 +4351,28 @@ describe('runtime smoke loop', () => {
           nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'woolly-lousewort')
           && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')
         );
+      });
+
+      expect(beforeInspectState.zoneId).toBe('thaw-skirt');
+      expect(beforeInspectState.fieldRequestNotice?.title).toBe('Thaw Window');
+      expect(beforeInspectState.nearbyTravelTarget).toBeNull();
+      expect(beforeInspectState.player?.x).toBeGreaterThanOrEqual(332);
+      expect(beforeInspectState.player?.x).toBeLessThanOrEqual(380);
+      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(88);
+      expect(beforeInspectState.player?.y).toBeLessThanOrEqual(108);
+      expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'woolly-lousewort')).toBe(true);
+      expect(
+        beforeInspectState.nearbyInspectables.some((entity: any) =>
+          ['purple-saxifrage', 'cottongrass', 'bigelows-sedge'].includes(entity.entryId),
+        ),
+      ).toBe(true);
+
+      fakeWindow.advanceTime?.(5200);
+      const hintedState = readState(fakeWindow);
+      expect(hintedState.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Thaw Window',
+        variant: 'default',
       });
 
       tapKey(fakeWindow, 'e');
@@ -4685,17 +4726,28 @@ describe('runtime smoke loop', () => {
         (entity: any) => entity.entityId === state.nearestInspectableEntityId,
       );
 
+      expect(state.zoneId).toBe('back-dune');
+      expect(state.player?.x).toBeGreaterThanOrEqual(40);
+      expect(state.player?.x).toBeLessThanOrEqual(126);
+      expect(state.player?.y).toBeGreaterThanOrEqual(92);
+      expect(state.player?.y).toBeLessThanOrEqual(112);
       expect(nearest).toMatchObject({ entryId: 'beach-grass' });
       expect(
         state.nearbyInspectables.some((entity: any) =>
           ['beach-strawberry', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
         ),
       ).toBe(true);
+      expect(state.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Held Sand',
+        variant: 'support-biased',
+      });
 
       tapKey(fakeWindow, 'e');
       const afterInspectState = readState(fakeWindow);
       expect(afterInspectState.openBubble).toMatchObject({
         entryId: 'beach-grass',
+        resourceNote: 'LENS CLUE: open pioneer',
       });
       expect(seededSave.routeV2Progress).toMatchObject({
         requestId: 'scrub-edge-pattern',
@@ -4733,8 +4785,23 @@ describe('runtime smoke loop', () => {
         (entity: any) => entity.entityId === beforeInspectState.nearestInspectableEntityId,
       );
 
+      expect(beforeInspectState.zoneId).toBe('back-dune');
+      expect(beforeInspectState.player?.x).toBeGreaterThanOrEqual(40);
+      expect(beforeInspectState.player?.x).toBeLessThanOrEqual(126);
+      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(92);
+      expect(beforeInspectState.player?.y).toBeLessThanOrEqual(112);
       expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass')).toBe(true);
+      expect(
+        beforeInspectState.nearbyInspectables.some((entity: any) =>
+          ['beach-strawberry', 'beach-pea', 'sand-verbena'].includes(entity.entryId),
+        ),
+      ).toBe(true);
       expect(nearest?.entryId).not.toBe('beach-grass');
+      expect(beforeInspectState.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Held Sand',
+        variant: 'default',
+      });
 
       tapKey(fakeWindow, 'e');
       const state = readState(fakeWindow);

@@ -308,6 +308,7 @@ interface FieldRequestNoticeOptions extends OverlaySurfaceOptions {
 interface FieldRequestHintOptions extends OverlaySurfaceOptions {
   title: string | null;
   isVisible: boolean;
+  variant: 'default' | 'support-biased';
 }
 
 interface FieldPartnerNoticeOptions extends OverlaySurfaceOptions {
@@ -1008,6 +1009,7 @@ export function drawFieldRequestHintChip({
   palette,
   title,
   isVisible,
+  variant,
 }: FieldRequestHintOptions): void {
   if (!isVisible || !title) {
     return;
@@ -1018,6 +1020,15 @@ export function drawFieldRequestHintChip({
   drawUiTextInRect(context, 'NOTEBOOK J', makeRect(rect.x + 4, rect.y + 2, rect.w - 8, 8), palette.accent, {
     align: 'center',
   });
+  if (variant === 'support-biased') {
+    const badgeX = rect.x + rect.w - 12;
+    const badgeY = rect.y + 3;
+    context.fillStyle = palette.accent;
+    context.fillRect(badgeX + 1, badgeY + 1, 3, 3);
+    context.fillRect(badgeX + 3, badgeY + 3, 1, 1);
+    context.fillRect(badgeX + 4, badgeY + 4, 2, 1);
+    context.fillRect(badgeX + 5, badgeY + 5, 1, 1);
+  }
   drawUiTextInRect(
     context,
     fitTextToWidth(context, title.toUpperCase(), rect.w - 8),

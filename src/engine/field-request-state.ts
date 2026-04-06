@@ -34,6 +34,7 @@ export interface FieldRequestRuntimeSnapshot {
 export interface FieldRequestHintState {
   label: 'NOTEBOOK J';
   title: string;
+  variant: 'default' | 'support-biased';
 }
 
 export interface ActiveOutingState {
@@ -180,6 +181,7 @@ export function resolveFieldRequestState(
         ? {
             label: 'NOTEBOOK J',
             title: activeFieldRequest.title,
+            variant: 'default',
           }
         : null,
     routeMarkerLocationId: resolveRouteMarkerLocationId(worldMap, save, activeOuting),

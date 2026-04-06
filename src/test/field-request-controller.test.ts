@@ -3,9 +3,12 @@ import { describe, expect, it } from 'vitest';
 import { biomeRegistry } from '../content/biomes';
 import { ecoWorldMap } from '../content/world-map';
 import {
+  getFieldRequestHintState,
+  getInspectBubbleResourceNote,
   getHandLensNotebookFitForEntry,
   getOutingSupportNoticeText,
   prefersHandLensActiveEntry,
+  resolveInspectTargetSelection,
   resolveFieldRequestController,
 } from '../engine/field-request-controller';
 import { createNewSaveState } from '../engine/save';
@@ -168,5 +171,184 @@ describe('field request controller', () => {
     });
 
     expect(prefersHandLensActiveEntry(noteTabsController, 'beach-grass', 'back-dune')).toBe(false);
+  });
+
+  it('formats one stronger inspect-bubble cue only for the active hand-lens winner', () => {
+    const handLensSave = createNewSaveState('field-request-controller-resource-note');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    handLensSave.worldStep = 4;
+    handLensSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 333,
+      scenePlayerY: 100,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getInspectBubbleResourceNote(controller, 'purple-saxifrage', 'thaw-skirt')).toBe(
+      'Notebook fit: first bloom',
+    );
+    expect(getInspectBubbleResourceNote(controller, 'woolly-lousewort', 'thaw-skirt')).toBe(
+      'LENS CLUE: first bloom',
+    );
+  });
+
+  it('falls back to non-support notes when no hand-lens notebook fit exists', () => {
+    const routeMarkerSave = createNewSaveState('field-request-controller-resource-note-fallback');
+    routeMarkerSave.selectedOutingSupportId = 'route-marker';
+    routeMarkerSave.purchasedUpgradeIds.push('route-marker');
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, routeMarkerSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'beach',
+      lastBiomeId: 'beach',
+      sceneZoneId: 'dune-edge',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getInspectBubbleResourceNote(controller, 'beach-grass', 'dune-edge', 'Nursery supply')).toBe(
+      'Nursery supply',
+    );
+    expect(getInspectBubbleResourceNote(controller, 'beach-grass', 'dune-edge')).toBeNull();
+  });
+
+  it('resolves one inspect-target selection result that prefers the active hand-lens route entry', () => {
+    const handLensSave = createNewSaveState('field-request-controller-target-selection');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    handLensSave.worldStep = 4;
+    handLensSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 349,
+      scenePlayerY: 120,
+      hasFieldRequestNotice: false,
+    });
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-sedge',
+          entryId: 'bigelows-sedge',
+          x: 344,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lousewort',
+          entryId: 'woolly-lousewort',
+          x: 360,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 354, y: 125 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-lousewort');
+    expect(selection.nearestInspectable?.entryId).toBe('woolly-lousewort');
+    expect(selection.supportBiasActive).toBe(true);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Thaw Window',
+      variant: 'support-biased',
+    });
+  });
+
+  it('falls back to the physically nearest inspectable when support is not hand lens', () => {
+    const noteTabsSave = createNewSaveState('field-request-controller-target-selection-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    noteTabsSave.worldStep = 4;
+    noteTabsSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 349,
+      scenePlayerY: 120,
+      hasFieldRequestNotice: false,
+    });
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-sedge',
+          entryId: 'bigelows-sedge',
+          x: 344,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lousewort',
+          entryId: 'woolly-lousewort',
+          x: 360,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 354, y: 125 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('near-sedge');
+    expect(selection.nearestInspectable?.entryId).toBe('bigelows-sedge');
+    expect(selection.supportBiasActive).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Thaw Window',
+      variant: 'default',
+    });
   });
 });

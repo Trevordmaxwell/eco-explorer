@@ -23,6 +23,22 @@ export interface FieldRequestControllerState {
   handLensContext: FieldRequestContext | null;
 }
 
+export interface InspectTargetCandidate {
+  entityId: string;
+  entryId: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  removed: boolean;
+}
+
+export interface InspectTargetSelection<TCandidate extends InspectTargetCandidate> {
+  nearestInspectable: TCandidate | null;
+  nearestInspectableEntityId: string | null;
+  supportBiasActive: boolean;
+}
+
 export function resolveFieldRequestController(
   biomes: Record<string, BiomeDefinition>,
   worldMap: WorldMapDefinition,
@@ -55,6 +71,49 @@ export function getHandLensNotebookFitForEntry(
   return getHandLensNotebookFit(controller.handLensContext, entryId, observedZoneId);
 }
 
+function formatActiveHandLensClue(notebookFit: string): string {
+  return notebookFit.startsWith('Notebook fit: ')
+    ? `LENS CLUE: ${notebookFit.slice('Notebook fit: '.length)}`
+    : notebookFit;
+}
+
+export function getInspectBubbleResourceNote(
+  controller: FieldRequestControllerState,
+  entryId: string,
+  observedZoneId: string | null,
+  fallbackNote: string | null = null,
+): string | null {
+  const notebookFit = getHandLensNotebookFitForEntry(controller, entryId, observedZoneId);
+  if (!notebookFit) {
+    return fallbackNote;
+  }
+
+  return prefersHandLensActiveEntry(controller, entryId, observedZoneId)
+    ? formatActiveHandLensClue(notebookFit)
+    : notebookFit;
+}
+
+export function getFieldRequestHintState<TCandidate extends InspectTargetCandidate>(
+  controller: FieldRequestControllerState,
+  inspectTargetSelection: InspectTargetSelection<TCandidate> | null,
+): FieldRequestHintState | null {
+  if (inspectTargetSelection?.supportBiasActive) {
+    return controller.fieldRequestHint
+      ? { ...controller.fieldRequestHint, variant: 'support-biased' }
+      : (
+      controller.activeFieldRequest
+        ? {
+            label: 'NOTEBOOK J',
+            title: controller.activeFieldRequest.title,
+            variant: 'support-biased',
+          }
+        : null
+    );
+  }
+
+  return controller.fieldRequestHint;
+}
+
 export function prefersHandLensActiveEntry(
   controller: FieldRequestControllerState,
   entryId: string,
@@ -65,6 +124,72 @@ export function prefersHandLensActiveEntry(
   }
 
   return prefersHandLensActiveRouteEntry(controller.handLensContext, entryId, observedZoneId);
+}
+
+export function resolveInspectTargetSelection<TCandidate extends InspectTargetCandidate>(
+  controller: FieldRequestControllerState,
+  entities: TCandidate[],
+  playerCenter: { x: number; y: number },
+  inspectRange: number,
+  getObservedZoneId: (entity: TCandidate) => string | null,
+): InspectTargetSelection<TCandidate> {
+  let nearest: TCandidate | null = null;
+  let nearestDistance = Number.POSITIVE_INFINITY;
+  let nearestNotebookFit: TCandidate | null = null;
+  let nearestNotebookFitDistance = Number.POSITIVE_INFINITY;
+  let nearestPreferredNotebookFit: TCandidate | null = null;
+  let nearestPreferredNotebookFitDistance = Number.POSITIVE_INFINITY;
+
+  for (const entity of entities) {
+    if (entity.removed) {
+      continue;
+    }
+
+    const distance = Math.hypot(
+      playerCenter.x - (entity.x + entity.w / 2),
+      playerCenter.y - (entity.y + entity.h / 2),
+    );
+
+    if (distance <= inspectRange && distance < nearestDistance) {
+      nearest = entity;
+      nearestDistance = distance;
+    }
+
+    if (!controller.handLensContext || distance > inspectRange) {
+      continue;
+    }
+
+    const observedZoneId = getObservedZoneId(entity);
+    const handLensNotebookFit = getHandLensNotebookFitForEntry(controller, entity.entryId, observedZoneId);
+    if (!handLensNotebookFit) {
+      continue;
+    }
+
+    if (
+      prefersHandLensActiveEntry(controller, entity.entryId, observedZoneId)
+      && distance < nearestPreferredNotebookFitDistance
+    ) {
+      nearestPreferredNotebookFit = entity;
+      nearestPreferredNotebookFitDistance = distance;
+      continue;
+    }
+
+    if (distance < nearestNotebookFitDistance) {
+      nearestNotebookFit = entity;
+      nearestNotebookFitDistance = distance;
+    }
+  }
+
+  const nearestInspectable = nearestPreferredNotebookFit ?? nearestNotebookFit ?? nearest;
+  return {
+    nearestInspectable,
+    nearestInspectableEntityId: nearestInspectable?.entityId ?? null,
+    supportBiasActive: Boolean(
+      nearestPreferredNotebookFit &&
+      nearestInspectable &&
+      nearestPreferredNotebookFit.entityId === nearestInspectable.entityId
+    ),
+  };
 }
 
 export function getOutingSupportNoticeText(selectedSupportId: OutingSupportId): string {

@@ -253,6 +253,213 @@ Use this section for newly discovered work that is not yet approved or prioritiz
 
 ## Done
 
+### ECO-20260406-critic-298
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the support-readable route-feel pass`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-review.md`
+- Packet: `.agents/packets/123-support-readable-route-feel-phase.json`
+- Depends on: `ECO-20260406-main-298`
+
+Goal:
+
+- Review whether support choice is now easier to feel in motion and whether the route-feel seam is more maintainable.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the cue stays tiny and helpful
+- leaves the next route-feel wave ready only if the pass is both player-readable and structurally cleaner
+
+Completion Notes:
+
+- Clean review. The cue stays inside the existing top-right `NOTEBOOK J` chip, the implementation reuses the inspect-target seam cleanly, and the focused controller/runtime proof covers both `Thaw Window` and `Held Sand`.
+- Logged one non-blocking watch item: split `supportBiasActive` later if a future pass needs to distinguish a true nearest-target override from the broader active preferred-clue state.
+- Packet `123` is now version `4` and `DONE`; lane 4 has no remaining actionable queue item after re-running the focused vitest slice and `npm run validate:agents`.
+
+### ECO-20260406-main-298
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Surface support-biased clue finding in play`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-implementation.md`
+- Packet: `.agents/packets/123-support-readable-route-feel-phase.json`
+- Depends on: `ECO-20260406-scout-298`, `ECO-20260406-critic-292`
+
+Goal:
+
+- Make the new support-shaped route differentiation easier to feel at a glance by pairing one tiny live cue with the protected inspect-target seam.
+
+Acceptance:
+
+- active support-biased clue finding is readable in play without opening a new HUD
+- `Thaw Window` and `Held Sand` remain the only proof routes touched in this wave
+- focused tests plus one seeded browser/state proof cover the cue and route behavior together
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-support-readable-route-feel-implementation.md`, keeping the pass inside the existing `NOTEBOOK J` chip rather than widening any board, strip, or bubble surface.
+- `field-request-state.ts`, `field-request-controller.ts`, `overlay-render.ts`, and `game.ts` now share one tiny `support-biased` hint-chip variant driven by the extracted inspect-target selection seam, while `Thaw Window` and `Held Sand` remain the only live proof routes.
+- Promoted `ECO-20260406-critic-298` to `READY`, bumped packet `123` to version `3`, and verified with `npx vitest run src/test/field-request-controller.test.ts`, `npx vitest run src/test/runtime-smoke.test.ts -t "woolly lousewort|Held Sand clue|thaw-window bloom|beach grass as the Held Sand clue|nearer thaw-skirt inspectable|nearer back-dune inspectable"`, and `npm run build`.
+
+### ECO-20260406-critic-292
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review the inspect-target helper extraction`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-phase.md`
+- Packet: `.agents/packets/120-inspect-target-controller-protection-phase.json`
+- Depends on: `ECO-20260406-main-292`
+
+Goal:
+
+- Review whether the new seam lowers coordination risk without changing support-feel behavior.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the helper owns the right logic without becoming another giant wrapper
+- promotes `ECO-20260406-main-298` if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-inspect-target-helper-review.md`, finding no blocker in the extracted seam: support-biased target selection plus the paired debug projection now share one compact helper in `field-request-controller.ts`.
+- Marked packet `120` as `DONE` and promoted `ECO-20260406-main-298` to `READY` per the queue gate.
+- Verification: reviewed the focused implementation diff and the recorded main-pass verification set; `npm run validate:agents`
+
+### ECO-20260406-scout-294
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare the compact support-cue copy and icon handoff`
+- Source: `docs/reports/2026-04-06-support-cue-copy-handoff.md`
+- Packet: `.agents/packets/121-support-cue-copy-and-visibility-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Prepare one tiny player-facing cue that makes active support-biased clue finding readable at a glance without widening the station shell, route HUD, or notebook card density.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260406-main-294`
+- keeps the cue inside an existing handheld-safe seam
+- defines strict copy and visual budget guardrails for `256x160`
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-support-cue-copy-handoff.md`, narrowing the first support-readable cue to the inspect bubble's existing accent line instead of the route strip, season board, or notebook shell.
+- Bumped packet `121` to version `2` with a concrete `main-294` focus: use a stronger one-line label only when `hand-lens` is selected and the inspected entry is the active support-preferred clue, while generic notebook-fit bubbles stay on the calmer existing path.
+
+### ECO-20260406-main-294
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Add one tiny support-biased clue cue`
+- Source: `docs/reports/2026-04-06-support-cue-copy-implementation.md`
+- Packet: `.agents/packets/121-support-cue-copy-and-visibility-phase.json`
+- Depends on: `ECO-20260406-scout-294`
+
+Goal:
+
+- Add one tiny existing-seam cue that makes active support-biased clue finding more readable at a glance during live route play.
+
+Acceptance:
+
+- the cue fits comfortably at `256x160`
+- it clarifies when active support is biasing clue finding without turning into a new HUD
+- copy and visuals stay calmer than a route card or notebook surface
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-support-cue-copy-implementation.md`, shipping the first support-readable cue in the inspect bubble's existing accent line instead of widening any route, board, or notebook seam.
+- `src/engine/field-request-controller.ts` now formats the bubble note through `getInspectBubbleResourceNote(...)`, promoting active hand-lens winners to `LENS CLUE: <slot>` while leaving ordinary notebook fits on their calmer existing copy path.
+- Verified with `npm test -- --run src/test/field-request-controller.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "woolly lousewort|Held Sand clue|thaw-window bloom|beach grass as the Held Sand clue"`, and `npm run build`.
+
+### ECO-20260406-critic-294
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review the support-biased clue cue`
+- Source: `docs/reports/2026-04-06-support-cue-copy-review.md`
+- Packet: `.agents/packets/121-support-cue-copy-and-visibility-phase.json`
+- Depends on: `ECO-20260406-main-294`
+
+Goal:
+
+- Review whether the new cue makes the support win easier to feel without crowding the handheld shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the cue is readable and light
+- leaves lane 2 clear if no follow-on is needed
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-support-cue-copy-review.md`, finding no blocker in the cue: it stays inside the inspect bubble's existing accent line, limits the stronger label to active hand-lens winners, and keeps the proof scoped to `Thaw Window` plus `Held Sand`.
+- Closed packet `121` as `DONE`; lane 2 has no further actionable queue item after this review.
+
+### ECO-20260406-main-292
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Extract inspect-target support logic into a dedicated helper seam`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-phase.md`
+- Packet: `.agents/packets/120-inspect-target-controller-protection-phase.json`
+- Depends on: `ECO-20260406-scout-292`
+
+Goal:
+
+- Move support-biased inspect-target selection and its small debug export farther out of `game.ts` so future route-feel work extends a stable seam instead of the coordinator.
+
+Acceptance:
+
+- the chosen helper or controller owns the support-biased target-selection rules
+- live `Thaw Window` and `Held Sand` behavior stays unchanged
+- focused tests cover the extracted seam and `game.ts` shrinks in responsibility
+
+### ECO-20260406-scout-292
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare the inspect-target helper extraction handoff`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-phase.md`
+- Packet: `.agents/packets/120-inspect-target-controller-protection-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Prepare one small controller split that moves support-biased inspect targeting and debug export farther out of `game.ts` without changing live route behavior.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260406-main-292`
+- names the exact helper or controller boundary to extract
+- keeps scope away from new HUD, new support systems, or broader coordinator surgery
+
+Completion notes:
+
+- Added `docs/reports/2026-04-06-inspect-target-helper-handoff.md`, narrowing the split to `getNearestInspectable()` plus the matching render/debug `nearestEntityId` and `nearestInspectableEntityId` projection seam.
+- Bumped packet `120` to version `2` with the exact recommended hotspots so the main pass can extract one small inspect-target helper instead of widening route or overlay scope.
+
 ### ECO-20260405-main-291
 
 - Status: `DONE`
@@ -279,6 +486,87 @@ Completion note:
 - Added `docs/reports/2026-04-05-thaw-window-hand-lens-follow-on-implementation.md`, tightening the existing hand-lens targeting seam so active process-only alternates can win within the current next slot without turning into a broader notebook-fit heuristic.
 - The focused controller, route-fit, and runtime comparison tests now prove `hand-lens` prefers `woolly-lousewort` during active `Thaw Window`, while the non-`hand-lens` comparison support still does not auto-snap to that clue.
 - Bumped packet `119` to version `5` and verified with `npx vitest run src/test/field-request-controller.test.ts src/test/field-requests.test.ts -t "thaw-window|woolly-lousewort|hand lens|Notebook fit"`, `npx vitest run src/test/runtime-smoke.test.ts -t "woolly lousewort|thaw-window bloom|thaw-window route replay note"`, and `npm run build`
+
+### ECO-20260406-scout-296
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the light-band readability regression handoff`
+- Source: `docs/reports/2026-04-06-light-band-regression-protection-handoff.md`
+- Packet: `.agents/packets/122-light-band-regression-protection-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Prepare one tiny regression-protection pass that keeps the thaw-skirt and back-dune proof bands readable while the new support cue lands.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260406-main-296`
+- avoids new geometry or landmark growth
+- focuses on recoverability, visibility, or proof coverage only
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-light-band-regression-protection-handoff.md`, narrowing the lane-3 cooldown wave to runtime-smoke protection of the live `Thaw Window` thaw-skirt shelf and `Held Sand` back-dune shelf instead of more geometry.
+- Bumped packet `122` to version `2`, adding a runtime-only `main_296_focus` that protects same-band readability, nearby alternatives, and recoverability before inspect.
+- Verification: `npm run validate:agents` was attempted, but the queue still carries unrelated lane-4 status drift and packet `123` parse issues.
+
+### ECO-20260406-main-296
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Protect the light-band proofs from readability regressions`
+- Source: `docs/reports/2026-04-06-light-band-regression-protection-implementation.md`
+- Packet: `.agents/packets/122-light-band-regression-protection-phase.json`
+- Depends on: `ECO-20260406-scout-296`
+
+Goal:
+
+- Keep the thaw-skirt and back-dune proof bands readable and recoverable while the support-readable cue lands elsewhere.
+
+Acceptance:
+
+- any touched proof bands stay cozy and easy to recover through
+- no new geometry or authored density is added
+- focused runtime or browser proof protects the unchanged route-feel spaces
+
+Completion note:
+
+- Tightened the existing `Thaw Window` and `Held Sand` runtime-smoke proofs so they now lock same-band shelf position, visible nearby alternatives, and local recoverability before inspect.
+- Kept the pass runtime-only with no biome geometry or authored density changes.
+- Verification: `npm test -- --run src/test/runtime-smoke.test.ts -t "lets hand lens prefer woolly lousewort as the thaw-window bloom clue on the live thaw-skirt shelf|keeps non-hand-lens supports on the nearer thaw-skirt inspectable in the same thaw-window bloom setup|lets hand lens prefer beach grass as the Held Sand clue on the live back-dune shelf|keeps non-hand-lens supports on the nearer back-dune inspectable in the same Held Sand shelf setup"`; `npm run build`
+
+### ECO-20260406-critic-296
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the light-band regression protection pass`
+- Source: `docs/reports/2026-04-06-light-band-regression-protection-review.md`
+- Packet: `.agents/packets/122-light-band-regression-protection-phase.json`
+- Depends on: `ECO-20260406-main-296`
+
+Goal:
+
+- Review whether the proof bands stayed calm and readable while the broader route-feel work advanced.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms no fresh density or geometry creep appeared
+- leaves lane 3 clear again if clean
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-light-band-regression-protection-review.md`, finding no blocker in the runtime-only cooldown pass.
+- Confirmed the proof shelves stay local, readable, and support-comparison-safe without reopening authored geometry.
+- Verification: reviewed the updated runtime-smoke coverage, `npm run build`, and `npm run validate:agents`
 
 ### ECO-20260405-critic-291
 
@@ -387,6 +675,33 @@ Completion note:
 - Added `docs/reports/2026-04-05-held-sand-hand-lens-second-proof-review.md`, finding no blocking issues in the second living-world proof.
 - Confirmed the Held Sand pass is still player-felt in the live keyboard path, that the tiny `nearestInspectableEntityId` debug export stays appropriately test-scoped, and that the deterministic back-dune shelf harness is narrow enough for this route-local proof.
 - Closed packet `119` at version `9`, leaving lane 4 with no remaining active queue item after re-running the focused controller and runtime Held Sand checks plus `npm run validate:agents`.
+
+### ECO-20260406-scout-298
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the support-readable route-feel handoff`
+- Source: `docs/reports/2026-04-06-support-readable-route-feel-handoff.md`
+- Packet: `.agents/packets/123-support-readable-route-feel-phase.json`
+- Depends on: `none`
+
+Goal:
+
+- Prepare one coherent pass that surfaces active support-biased inspect behavior to the player and keeps future route-feel work off the main coordinator.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260406-main-298`
+- locks the first cue seam and first route proofs to protect
+- keeps the pass as one readable wave rather than three unrelated tweaks
+
+Completion note:
+
+- Added `docs/reports/2026-04-06-support-readable-route-feel-handoff.md`, narrowing the pass to the existing top-right `NOTEBOOK J` field-request hint chip instead of the purchase strip, bubble-only copy, or a new HUD seam.
+- Bumped packet `123` to version `2`, added a concrete `main_298_focus`, and retargeted `ECO-20260406-main-298` to the new handoff so the implementation can stay route-local and pair cleanly with lane 1's extracted inspect-target seam once `ECO-20260406-critic-292` lands.
+- Verification: reviewed the live field-request hint, controller, and debug-state seams plus packet alignment, then ran `npm run validate:agents`, which now fails only on unrelated lane-3 packet `122` / queue-section issues (`ECO-20260406-scout-296`, `ECO-20260406-main-296`).
 
 ### ECO-20260405-critic-280
 

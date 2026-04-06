@@ -124,6 +124,7 @@ describe('field requests', () => {
     expect(visibleHintState.fieldRequestHint).toEqual({
       label: 'NOTEBOOK J',
       title: 'Hidden Hollow',
+      variant: 'default',
     });
 
     const suppressedHintState = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {

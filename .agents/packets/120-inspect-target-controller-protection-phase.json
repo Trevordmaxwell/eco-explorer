@@ -1,0 +1,75 @@
+{
+  "packet_id": "ECO-PACKET-120",
+  "version": 3,
+  "created_at": "2026-04-06",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Inspect-target controller protection phase",
+  "summary": "Lane 1 should protect the new route-feel win by extracting support-biased inspect-target selection and its small debug export farther out of game.ts before the next tactile pass grows.",
+  "source_reports": [
+    "docs/reports/2026-04-06-support-readable-route-feel-phase.md",
+    "docs/reports/2026-04-06-inspect-target-helper-handoff.md",
+    "docs/reports/2026-04-06-inspect-target-helper-implementation.md",
+    "docs/reports/2026-04-06-inspect-target-helper-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260406-scout-292",
+    "ECO-20260406-main-292",
+    "ECO-20260406-critic-292"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260406-scout-292",
+      "goal": "Prepare the inspect-target helper extraction handoff.",
+      "why_now": "The route-feel win is real, but the coordinator is still too large to safely absorb another support pass."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260406-main-292",
+      "goal": "Extract the support-biased inspect-target seam into a dedicated helper or controller.",
+      "why_now": "Future route-feel work should extend a stable seam, not grow another wrapper cluster inside game.ts."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260406-critic-292",
+      "goal": "Review the helper extraction for responsibility and safety.",
+      "why_now": "The split only matters if it reduces coordinator risk without changing live behavior."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/field-requests.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Do not introduce a new support system or planner shell.",
+    "Keep the seam small, testable, and route-focused.",
+    "Preserve the existing Thaw Window and Held Sand live behavior exactly."
+  ],
+  "focus": {
+    "preferred_shape": [
+      "move support-biased nearest-inspectable selection into field-request-controller or a tiny sibling helper",
+      "keep the debug export close to that same seam",
+      "leave broader route progress, filing, and overlay behavior where it already lives"
+    ],
+    "recommended_hotspots": [
+      "game.ts getNearestInspectable()",
+      "game.ts nearestEntityId render branch",
+      "game.ts render_game_to_text nearestInspectableEntityId export"
+    ],
+    "avoid": [
+      "a second wrapper cluster inside game.ts",
+      "new generic world-state frameworks",
+      "touching unrelated biome or station logic"
+    ]
+  }
+}

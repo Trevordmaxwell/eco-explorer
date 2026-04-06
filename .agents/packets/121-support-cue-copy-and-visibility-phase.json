@@ -1,0 +1,83 @@
+{
+  "packet_id": "ECO-PACKET-121",
+  "version": 4,
+  "created_at": "2026-04-06",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Support cue copy and visibility phase",
+  "summary": "Lane 2 should prepare and implement one tiny handheld-safe cue that helps players notice when active support is biasing live clue finding.",
+  "source_reports": [
+    "docs/reports/2026-04-06-support-readable-route-feel-phase.md",
+    "docs/reports/2026-04-06-support-cue-copy-handoff.md",
+    "docs/reports/2026-04-06-support-cue-copy-implementation.md",
+    "docs/reports/2026-04-06-support-cue-copy-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260406-scout-294",
+    "ECO-20260406-main-294",
+    "ECO-20260406-critic-294"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260406-scout-294",
+      "goal": "Prepare the compact support-cue copy and icon handoff.",
+      "why_now": "The route now plays differently, but that difference is still easier to prove than to feel at a glance."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260406-main-294",
+      "goal": "Implement one tiny cue in an existing seam.",
+      "why_now": "A small cue can surface the support win without growing a new HUD."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260406-critic-294",
+      "goal": "Review the cue for fit and restraint.",
+      "why_now": "The cue only helps if it stays calmer than the rest of the route shell."
+    }
+  ],
+  "file_targets": [
+    "src/engine/field-request-controller.ts",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "guardrails": [
+    "Use an existing seam instead of inventing a new HUD lane.",
+    "Keep copy shorter than a route strip or notebook card.",
+    "Prefer one icon or one two-word cue over explanatory prose."
+  ],
+  "focus": {
+    "candidate_seams": [
+      "existing support notice strip",
+      "one tiny transient inspect-facing cue",
+      "an already-live route strip label with a stronger support-shaped state"
+    ],
+    "avoid": [
+      "new notebook sections",
+      "a permanent helper row",
+      "route-card copy growth"
+    ]
+  },
+  "main_294_focus": {
+    "seam": "inspect bubble accent line (`resourceNote`)",
+    "recommended_label": "LENS CLUE: <slot>",
+    "gating": [
+      "only when `hand-lens` is selected",
+      "only when `prefersHandLensActiveEntry(...)` is true for the inspected entry",
+      "leave generic notebook-fit bubbles on the calmer existing label path"
+    ],
+    "proof_targets": [
+      "tundra-short-season / Thaw Window",
+      "scrub-edge-pattern / Held Sand"
+    ]
+  }
+}
