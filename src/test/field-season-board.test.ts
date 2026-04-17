@@ -974,16 +974,13 @@ describe('field season board', () => {
 
     expect(resolveFieldSeasonExpeditionState(save)).toEqual({
       id: 'root-hollow-expedition',
-      title: 'ROOT HOLLOW',
+      title: 'HIGH PASS',
       status: 'logged',
-      statusLabel: 'LOGGED',
-      summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
-      startText: 'Forest Trail to Root Hollow',
-      note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
-      teaser: {
-        label: 'NEXT FIELD SEASON',
-        text: 'High Pass waits beyond Root Hollow.',
-      },
+      statusLabel: 'NEXT',
+      summary: 'Treeline Pass carries the season toward High Pass.',
+      startText: 'Treeline Pass to High Pass',
+      note: 'Start from Treeline Pass when you want the next field season.',
+      teaser: null,
     });
   });
 

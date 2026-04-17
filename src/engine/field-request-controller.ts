@@ -36,7 +36,14 @@ export interface InspectTargetCandidate {
 export interface InspectTargetSelection<TCandidate extends InspectTargetCandidate> {
   nearestInspectable: TCandidate | null;
   nearestInspectableEntityId: string | null;
-  supportBiasActive: boolean;
+  supportRetargetsInspect: boolean;
+  supportPrefersActiveClue: boolean;
+}
+
+export interface InspectTargetProjection<TCandidate extends InspectTargetCandidate> {
+  inspectTargetSelection: InspectTargetSelection<TCandidate> | null;
+  fieldRequestHint: FieldRequestHintState | null;
+  nearestInspectableEntityId: string | null;
 }
 
 export function resolveFieldRequestController(
@@ -97,7 +104,10 @@ export function getFieldRequestHintState<TCandidate extends InspectTargetCandida
   controller: FieldRequestControllerState,
   inspectTargetSelection: InspectTargetSelection<TCandidate> | null,
 ): FieldRequestHintState | null {
-  if (inspectTargetSelection?.supportBiasActive) {
+  if (
+    inspectTargetSelection?.supportRetargetsInspect ||
+    inspectTargetSelection?.supportPrefersActiveClue
+  ) {
     return controller.fieldRequestHint
       ? { ...controller.fieldRequestHint, variant: 'support-biased' }
       : (
@@ -184,11 +194,38 @@ export function resolveInspectTargetSelection<TCandidate extends InspectTargetCa
   return {
     nearestInspectable,
     nearestInspectableEntityId: nearestInspectable?.entityId ?? null,
-    supportBiasActive: Boolean(
+    supportRetargetsInspect: Boolean(
+      nearest &&
+      nearestInspectable &&
+      nearest.entityId !== nearestInspectable.entityId
+    ),
+    supportPrefersActiveClue: Boolean(
       nearestPreferredNotebookFit &&
       nearestInspectable &&
       nearestPreferredNotebookFit.entityId === nearestInspectable.entityId
     ),
+  };
+}
+
+export function resolveInspectTargetProjection<TCandidate extends InspectTargetCandidate>(
+  controller: FieldRequestControllerState,
+  entities: TCandidate[],
+  playerCenter: { x: number; y: number },
+  inspectRange: number,
+  getObservedZoneId: (entity: TCandidate) => string | null,
+): InspectTargetProjection<TCandidate> {
+  const inspectTargetSelection = resolveInspectTargetSelection(
+    controller,
+    entities,
+    playerCenter,
+    inspectRange,
+    getObservedZoneId,
+  );
+
+  return {
+    inspectTargetSelection,
+    fieldRequestHint: getFieldRequestHintState(controller, inspectTargetSelection),
+    nearestInspectableEntityId: inspectTargetSelection.nearestInspectableEntityId,
   };
 }
 

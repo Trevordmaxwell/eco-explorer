@@ -148,6 +148,27 @@ describe('observation prompt resolution', () => {
     });
   });
 
+  it('uses the tide-line wrack-chain seed when wrack workers and small beach animals are both present', () => {
+    const prompt = resolveObservationPrompt({
+      biome: beachBiome,
+      zoneId: 'tide-line',
+      nearbyDiscoveredEntryIds: ['bull-kelp-wrack', 'beach-hopper', 'pacific-sand-crab'],
+      worldState: {
+        worldAge: 4,
+        dayPart: 'day',
+        weather: 'marine-haze',
+        phenologyPhase: 'late',
+      },
+    });
+
+    expect(prompt).toMatchObject({
+      id: 'beach-tide-line-cover',
+      family: 'neighbors',
+      source: 'seed',
+      text: 'What in this wrack gets eaten before birds rush in?',
+    });
+  });
+
   it('uses the new treeline shelter seed when stone cover and lee-side life are both present', () => {
     const prompt = resolveObservationPrompt({
       biome: treelineBiome,

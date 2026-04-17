@@ -170,6 +170,98 @@ describe('treeline biome generation', () => {
     expect(leeEntry?.x).toBeGreaterThan((shelterRest?.x ?? 0) + (shelterRest?.w ?? 0));
   });
 
+  it('adds one compact Stone Shelter basin under the lee shelf', () => {
+    const stoneShelterPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['lee-pocket-entry-stone', 'stone-shelter-basin-rest', 'stone-shelter-break-step', 'lee-pocket-upper-shelf'].includes(
+        platform.id,
+      ),
+    );
+    const leeEntry = stoneShelterPlatforms?.find((platform) => platform.id === 'lee-pocket-entry-stone');
+    const basinRest = stoneShelterPlatforms?.find((platform) => platform.id === 'stone-shelter-basin-rest');
+    const breakStep = stoneShelterPlatforms?.find((platform) => platform.id === 'stone-shelter-break-step');
+    const upperShelf = stoneShelterPlatforms?.find((platform) => platform.id === 'lee-pocket-upper-shelf');
+
+    expect(stoneShelterPlatforms).toEqual([
+      {
+        id: 'lee-pocket-entry-stone',
+        spriteId: 'granite-platform',
+        x: 258,
+        y: 112,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'stone-shelter-basin-rest',
+        spriteId: 'granite-platform',
+        x: 320,
+        y: 118,
+        w: 28,
+        h: 4,
+      },
+      {
+        id: 'stone-shelter-break-step',
+        spriteId: 'granite-platform',
+        x: 352,
+        y: 114,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-upper-shelf',
+        spriteId: 'granite-platform',
+        x: 294,
+        y: 110,
+        w: 122,
+        h: 4,
+      },
+    ]);
+    expect((basinRest?.x ?? 0)).toBeGreaterThan((leeEntry?.x ?? 0) + (leeEntry?.w ?? 0));
+    expect((basinRest?.x ?? 0) + (basinRest?.w ?? 0)).toBeLessThanOrEqual(breakStep?.x ?? 0);
+    expect((breakStep?.y ?? 0)).toBeLessThan(basinRest?.y ?? 999);
+    expect((breakStep?.y ?? 999)).toBeGreaterThan(upperShelf?.y ?? 0);
+    expect((breakStep?.x ?? 0) + (breakStep?.w ?? 0)).toBeLessThanOrEqual((upperShelf?.x ?? 0) + (upperShelf?.w ?? 0));
+  });
+
+  it('adds one compact open-fell island before the tundra handoff', () => {
+    const openFellPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['lee-pocket-lee-rest', 'fell-island-step', 'fell-island-rest'].includes(platform.id),
+    );
+    const leeRest = openFellPlatforms?.find((platform) => platform.id === 'lee-pocket-lee-rest');
+    const fellStep = openFellPlatforms?.find((platform) => platform.id === 'fell-island-step');
+    const fellRest = openFellPlatforms?.find((platform) => platform.id === 'fell-island-rest');
+
+    expect(openFellPlatforms).toEqual([
+      {
+        id: 'lee-pocket-lee-rest',
+        spriteId: 'granite-platform',
+        x: 538,
+        y: 102,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'fell-island-step',
+        spriteId: 'granite-platform',
+        x: 550,
+        y: 104,
+        w: 12,
+        h: 4,
+      },
+      {
+        id: 'fell-island-rest',
+        spriteId: 'granite-platform',
+        x: 566,
+        y: 100,
+        w: 16,
+        h: 4,
+      },
+    ]);
+    expect((leeRest?.x ?? 0) + (leeRest?.w ?? 0)).toBeGreaterThan(fellStep?.x ?? 999);
+    expect((fellRest?.x ?? 0) - ((fellStep?.x ?? 0) + (fellStep?.w ?? 0))).toBeLessThanOrEqual(4);
+    expect(fellRest?.y).toBeLessThan(fellStep?.y ?? 0);
+    expect((fellRest?.x ?? 0) + (fellRest?.w ?? 0)).toBeLessThan(584);
+  });
+
   it('spawns shelter carriers through the new lee-side traversal band', () => {
     const save = createNewSaveState('treeline-shelter-band-seed');
     const instance = generateBiomeInstance(treelineBiome, save, 1);
@@ -199,12 +291,15 @@ describe('treeline biome generation', () => {
     ]);
   });
 
-  it('adds one last-tree carrier pair and keeps the talus shelter carriers', () => {
+  it('adds one last-tree carrier pair and keeps the open-fell talus carriers authored', () => {
     const authoredThresholdCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
       ['krummholz-bunchberry', 'last-tree-spruce'].includes(entity.id),
     );
+    const authoredStoneShelterCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
+      ['stone-shelter-boulder', 'stone-shelter-marmot'].includes(entity.id),
+    );
     const authoredTalus = treelineBiome.terrainRules.authoredEntities?.filter(
-      (entity) => ['talus-cushion-pocket', 'mountain-avens'].includes(entity.entryId),
+      (entity) => ['talus-cushion-pocket', 'mountain-avens', 'moss-campion'].includes(entity.entryId),
     );
 
     expect(authoredThresholdCarriers).toEqual([
@@ -221,7 +316,28 @@ describe('treeline biome generation', () => {
         y: 102,
       },
     ]);
+    expect(authoredStoneShelterCarriers).toEqual([
+      {
+        id: 'stone-shelter-boulder',
+        entryId: 'frost-heave-boulder',
+        x: 334,
+        y: 114,
+      },
+      {
+        id: 'stone-shelter-marmot',
+        entryId: 'hoary-marmot',
+        x: 356,
+        y: 108,
+      },
+    ]);
     expect(authoredTalus).toEqual([
+      {
+        id: 'lee-pocket-rime-campion',
+        entryId: 'moss-campion',
+        x: 460,
+        y: 84,
+        castsShadow: false,
+      },
       {
         id: 'lee-pocket-rime-talus',
         entryId: 'talus-cushion-pocket',
@@ -243,17 +359,39 @@ describe('treeline biome generation', () => {
         y: 76,
         castsShadow: false,
       },
+      {
+        id: 'fell-island-avens',
+        entryId: 'mountain-avens',
+        x: 556,
+        y: 100,
+        castsShadow: false,
+      },
+      {
+        id: 'fell-island-talus',
+        entryId: 'talus-cushion-pocket',
+        x: 572,
+        y: 102,
+        castsShadow: false,
+      },
+      {
+        id: 'fell-island-campion',
+        entryId: 'moss-campion',
+        x: 578,
+        y: 96,
+        castsShadow: false,
+      },
     ]);
   });
 
-  it('keeps the new talus carrier visible through the lee-pocket and open fell lane', () => {
+  it('keeps the new talus carrier visible through the lee-pocket and open-fell lane', () => {
     const save = createNewSaveState('treeline-talus-pocket-seed');
     const instance = generateBiomeInstance(treelineBiome, save, 1);
     const talusCarriers = instance.entities.filter((entity) => entity.entryId === 'talus-cushion-pocket');
 
-    expect(talusCarriers).toHaveLength(2);
+    expect(talusCarriers).toHaveLength(3);
     expect(talusCarriers.some((entity) => entity.x === 448 && entity.y === 90)).toBe(true);
     expect(talusCarriers.some((entity) => entity.x === 500 && entity.y === 102)).toBe(true);
+    expect(talusCarriers.some((entity) => entity.x === 572 && entity.y === 102)).toBe(true);
   });
 
   it('adds heath and berry mats across the open alpine half', () => {

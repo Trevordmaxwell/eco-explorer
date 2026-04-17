@@ -1,0 +1,169 @@
+{
+  "packet_id": "ECO-PACKET-124",
+  "version": 9,
+  "created_at": "2026-04-16",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Sprint 1 front-half memorability and merge safety",
+  "summary": "Sprint 1 should make the front half more memorable while improving clean-machine safety and lowering merge risk before another wider content wave lands.",
+  "source_reports": [
+    "docs/reports/2026-04-16-sprint-plan-queue-translation.md",
+    "docs/reports/2026-04-16-merge-safety-and-seam-split-handoff.md",
+    "docs/reports/2026-04-16-merge-safety-and-seam-split-implementation.md",
+    "docs/reports/2026-04-16-merge-safety-and-seam-split-review.md",
+    "docs/reports/2026-04-16-coastal-scrub-identity-pack-handoff.md",
+    "docs/reports/2026-04-16-coastal-scrub-identity-pack-implementation.md",
+    "docs/reports/2026-04-16-coastal-scrub-identity-pack-review.md",
+    "docs/reports/2026-04-16-coast-side-signature-pocket-handoff.md",
+    "docs/reports/2026-04-16-route-feel-extension-handoff.md",
+    "docs/reports/2026-04-16-route-feel-extension-implementation.md",
+    "docs/reports/2026-04-16-route-feel-extension-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260416-scout-299",
+    "ECO-20260416-main-299",
+    "ECO-20260416-critic-299",
+    "ECO-20260416-scout-300",
+    "ECO-20260416-main-300",
+    "ECO-20260416-critic-300",
+    "ECO-20260416-scout-301",
+    "ECO-20260416-main-301",
+    "ECO-20260416-critic-301",
+    "ECO-20260416-scout-302",
+    "ECO-20260416-main-302",
+    "ECO-20260416-critic-302"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260416-scout-299",
+      "goal": "Prepare Sprint 1 lane-1 merge-safety and seam-split work.",
+      "why_now": "The next broad wave should land on clean machines and a slightly safer coordinator shape."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260416-scout-300",
+      "goal": "Prepare Sprint 1 lane-2 Coastal Scrub identity support work.",
+      "why_now": "Coastal Scrub still needs a stronger remembered feel than the other live biomes."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260416-scout-301",
+      "goal": "Prepare Sprint 1 lane-3 coast-side signature pocket work.",
+      "why_now": "The front half should gain one memorable, recoverable place without new traversal language."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260416-scout-302",
+      "goal": "Prepare Sprint 1 lane-4 route-feel extension work.",
+      "why_now": "Support-readable route feel should spread carefully to one front-half and one forest outing next."
+    }
+  ],
+  "file_targets": [
+    "README.md",
+    "src/engine/game.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/overlay-render.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts"
+  ],
+  "guardrails": [
+    "Keep handheld text density under the current ceiling.",
+    "Do not answer Sprint 1 with a bigger planner or quest shell.",
+    "Reuse current traversal language in front-half place work."
+  ],
+  "main_299_focus": {
+    "preferred_seam": "move the remaining inspect-hint projection layer out of game.ts now that supportBiasActive and nearestInspectableEntityId already live in field-request-controller.ts",
+    "candidate_files": [
+      "src/engine/game.ts",
+      "src/engine/field-request-controller.ts",
+      "src/test/field-request-controller.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "README.md"
+    ],
+    "recommended_hotspots": [
+      "game.ts getInspectTargetSelection()",
+      "game.ts getFieldRequestHint(...)",
+      "game.ts render() inspectTargetSelection read",
+      "game.ts renderGameToText() fieldRequestHint and nearestInspectableEntityId projection"
+    ],
+    "docs_target": "README.md",
+    "docs_note": "Add one short fresh-machine verification note that names build, test, and agent validation after npm install.",
+    "must_preserve": [
+      "support-biased hand-lens targeting behavior",
+      "current field-request hint copy and variants",
+      "existing handheld shell density"
+    ]
+  },
+  "main_300_focus": {
+    "shape": "complete the existing bluff -> swale -> forest-edge memory trio through close-look cards",
+    "anchors": [
+      "keep existing bluff anchor: pacific-wax-myrtle",
+      "add swale card: beach-strawberry",
+      "add forest-edge card: salmonberry"
+    ],
+    "avoid": [
+      "new ecosystem-note ids",
+      "new comparison entries",
+      "route-board or field-partner copy",
+      "new coastal geometry"
+    ]
+  },
+  "main_301_focus": {
+    "target_scene": "beach-coastal-corridor",
+    "target_band": "scrub-owned back-dune half just right of the threshold",
+    "recommended_shape": [
+      "one tiny back-dune hold lip only if needed",
+      "one compact back-dune hold rest as the remembered shelf"
+    ],
+    "preferred_carriers": [
+      "dune-lupine",
+      "beach-grass",
+      "pacific-wax-myrtle"
+    ],
+    "avoid": [
+      "reopening the Beach opener",
+      "reopening the Coastal Scrub bluff/swale or shore-pine bands",
+      "moving corridor ownership or travel logic",
+      "adding a new traversal family"
+    ],
+    "file_targets": [
+      "src/engine/corridor.ts",
+      "src/test/corridor.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ]
+  },
+  "main_302_focus": {
+    "routes": [
+      {
+        "request_id": "beach-shore-shelter",
+        "active_title": "Shore Shelter",
+        "state": "ordinary final wrack-line stage on the tide-line shelf",
+        "proof": "hand-lens already retargets inspect from a nearer pacific-sand-crab to bull-kelp-wrack; the chip should become support-readable there without claiming an active-clue alternate"
+      },
+      {
+        "request_id": "forest-moisture-holders",
+        "active_title": "Moisture Holders",
+        "state": "ordinary Root Hollow shelter setup with a nearer non-route decoy still in inspect range",
+        "proof": "use one deterministic root-hollow shelf where hand-lens retargets inspect from a nearer decoy to a live shelter clue such as sword-fern while note-tabs stays on the normal nearest inspectable"
+      }
+    ],
+    "seam_guidance": {
+      "required_split": "Do not overload supportBiasActive. Expose a broader retarget signal for the chip and keep the narrower active-clue meaning separate if later UI still needs it.",
+      "preferred_chip_meaning": "hand-lens is changing what E will inspect right now",
+      "bubble_rule": "Keep the stronger LENS CLUE bubble text on the narrower active-clue path unless the implementation finds a clear reason to widen it too."
+    },
+    "avoid": [
+      "new route titles",
+      "new HUD or planner seams",
+      "support-strip copy growth",
+      "touching more than the two named route proofs"
+    ]
+  }
+}

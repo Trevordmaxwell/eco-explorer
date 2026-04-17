@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   resolveFieldStationBackdropAccentState,
+  resolveFieldStationBackdropPulseState,
   getMenuOverlayHelperText,
   getMenuOverlayIntroText,
   resolveFieldStationGrowthAccentState,
@@ -162,6 +163,28 @@ describe('first-session overlay copy', () => {
       hasLogPile: true,
       hasPollinatorPatch: true,
       hasCompostUpgrade: true,
+    });
+  });
+
+  it('lets earned return pulses reuse the existing backdrop brace family without new copy', () => {
+    const noAccent = resolveFieldStationBackdropAccentState({
+      teachingBedStage: null,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+      compostRate: 1,
+      loggedRouteCount: 0,
+    });
+
+    expect(resolveFieldStationBackdropPulseState(noAccent, 'default', 1)).toMatchObject({
+      renderLeftBrace: false,
+      renderRightBrace: false,
+      renderCenterTie: false,
+    });
+
+    expect(resolveFieldStationBackdropPulseState(noAccent, 'homecoming', 1)).toMatchObject({
+      renderLeftBrace: true,
+      renderRightBrace: true,
+      renderCenterTie: true,
     });
   });
 });

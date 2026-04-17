@@ -1,0 +1,199 @@
+{
+  "packet_id": "ECO-PACKET-126",
+  "version": 9,
+  "created_at": "2026-04-16",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Sprint 3 open the next chapter safely",
+  "summary": "Sprint 3 should open one real next chapter using the current expedition and Route v2 model while landing another protective architectural split before the chapter broadens the codebase again.",
+  "source_reports": [
+    "docs/reports/2026-04-16-sprint-plan-queue-translation.md",
+    "docs/reports/2026-04-16-next-chapter-shell-and-expedition-render-split-handoff.md",
+    "docs/reports/2026-04-16-high-pass-science-pack-handoff.md",
+    "docs/reports/2026-04-16-high-pass-science-pack-implementation.md",
+    "docs/reports/2026-04-16-high-pass-science-pack-review.md",
+    "docs/reports/2026-04-16-high-pass-chapter-space-handoff.md",
+    "docs/reports/2026-04-16-high-pass-route-v2-handoff.md",
+    "docs/reports/2026-04-16-high-pass-route-v2-implementation.md",
+    "docs/reports/2026-04-16-high-pass-route-v2-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260416-scout-307",
+    "ECO-20260416-main-307",
+    "ECO-20260416-critic-307",
+    "ECO-20260416-scout-308",
+    "ECO-20260416-main-308",
+    "ECO-20260416-critic-308",
+    "ECO-20260416-scout-309",
+    "ECO-20260416-main-309",
+    "ECO-20260416-critic-309",
+    "ECO-20260416-scout-310",
+    "ECO-20260416-main-310",
+    "ECO-20260416-critic-310"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260416-scout-307",
+      "goal": "Prepare the lane-1 next-chapter shell and protective split.",
+      "why_now": "The next chapter should not open without one more structural protection pass."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260416-scout-308",
+      "goal": "Prepare the lane-2 chapter science pack.",
+      "why_now": "A real next chapter needs its content pack queued before the shell opens."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260416-scout-309",
+      "goal": "Prepare the lane-3 expedition-grade chapter space.",
+      "why_now": "The chapter needs a physical place to chase, not just a teaser."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260416-scout-310",
+      "goal": "Prepare the lane-4 chapter Route v2 structure.",
+      "why_now": "The next chapter should reuse the current evidence and filing model rather than invent another shell."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-season-board.ts",
+    "src/content/biomes/forest.ts",
+    "src/engine/field-requests.ts"
+  ],
+  "guardrails": [
+    "Open one real next chapter, not a broader dashboard.",
+    "Protect code health before expanding the expedition shell again.",
+    "Reuse the current calm traversal and evidence language."
+  ],
+  "main_307_focus": {
+    "chapter_shell_target": "Extend the existing single-card expedition shell so the logged Root Hollow state cleanly points at one real follow-on chapter through the current expedition-card model rather than another station page.",
+    "protective_split_target": "Extract the inline expedition-page body from src/engine/overlay-render.ts into a dedicated expedition-page helper, mirroring the earlier routes and nursery renderer splits.",
+    "preferred_files": [
+      "src/engine/field-season-board.ts",
+      "src/engine/overlay-render.ts",
+      "src/engine/field-station-expedition-page.ts",
+      "src/engine/game.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not add another field-station page.",
+      "Do not widen the routes-first station default.",
+      "Do not turn the expedition shell into a dashboard or multi-card board."
+    ]
+  },
+  "main_308_focus": {
+    "chapter_target": "one compact Treeline Pass science pack that strengthens the live High Pass chapter through current Stone Shelter and Low Fell carriers rather than opening a broader alpine wave",
+    "preferred_entries": [
+      "hoary-marmot",
+      "dwarf-birch"
+    ],
+    "preferred_surfaces": [
+      "close-look cards",
+      "focused runtime proof from live Treeline Pass inspectables"
+    ],
+    "preferred_files": [
+      "src/engine/close-look.ts",
+      "src/test/close-look.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not widen the atlas or journal shell.",
+      "Do not add another comparison-allowlist pass.",
+      "Do not reopen broader tundra content richness in this chunk.",
+      "Do not touch route-board or station copy."
+    ]
+  },
+  "main_309_focus": {
+    "chapter_target": "one compact Treeline Pass chapter pocket that makes the live High Pass opener feel like a real sheltered place, borrowing the forest family's remembered-middle pattern without reopening forest geometry",
+    "preferred_zone": "late krummholz-belt into early dwarf-shrub",
+    "preferred_band": {
+      "x": [288, 372],
+      "y": [108, 122]
+    },
+    "preferred_space": [
+      "one shallow stone-break basin under the live lee shelf",
+      "optionally one tiny return step back into the upper shelf if the basin alone is too plain"
+    ],
+    "preferred_entries": [
+      "frost-heave-boulder",
+      "hoary-marmot"
+    ],
+    "preferred_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/treeline-biome.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not reopen the right-side open-fell island or stack another lift to its right.",
+      "Do not move the tundra corridor door or travel logic.",
+      "Do not widen forest cave or giant-tree geometry in this chunk.",
+      "Do not add a new climbable, cue family, or text surface."
+    ]
+  },
+  "main_310_focus": {
+    "chapter_target": "one post-season High Pass Route v2 outing that replaces the filed-season placeholder direction copy with a real evidence-backed climb through the new Stone Shelter basin and out to the first exposed alpine hold",
+    "request_id": "treeline-high-pass",
+    "preferred_shape": {
+      "title": "High Pass",
+      "type": "assemble-evidence",
+      "zoneIds": [
+        "dwarf-shrub",
+        "lichen-fell"
+      ],
+      "slotOrder": [
+        "stone-lift",
+        "lee-watch",
+        "rime-mark",
+        "talus-hold"
+      ],
+      "evidenceSlots": {
+        "stone-lift": [
+          "frost-heave-boulder"
+        ],
+        "lee-watch": [
+          "hoary-marmot"
+        ],
+        "rime-mark": [
+          "moss-campion"
+        ],
+        "talus-hold": [
+          "talus-cushion-pocket"
+        ]
+      }
+    },
+    "support_target": "spend the route-feel proof on one hand-lens bias for the crowded final talus-hold clue while keeping route-marker, note-tabs filing, and the existing support shell unchanged",
+    "replay_target": {
+      "momentId": "frost-rime",
+      "activeTitle": "Rimed Pass",
+      "activeSlotEntryIdsBySlotId": {
+        "rime-mark": [
+          "reindeer-lichen"
+        ]
+      }
+    },
+    "activation_guard": "do not let the new request replace the calm season-close return beat while save.seasonCloseReturnPending is true",
+    "preferred_files": [
+      "src/engine/field-requests.ts",
+      "src/engine/field-request-state.ts",
+      "src/engine/field-season-board.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not add another field-station page, planner row, or route board.",
+      "Do not reopen treeline geometry or a second alpine content wave.",
+      "Do not broaden the second season into multiple simultaneous routes.",
+      "Do not let the new route override the season-close return before the player reopens the station."
+    ]
+  }
+}

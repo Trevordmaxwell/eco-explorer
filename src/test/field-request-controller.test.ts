@@ -8,6 +8,7 @@ import {
   getHandLensNotebookFitForEntry,
   getOutingSupportNoticeText,
   prefersHandLensActiveEntry,
+  resolveInspectTargetProjection,
   resolveInspectTargetSelection,
   resolveFieldRequestController,
 } from '../engine/field-request-controller';
@@ -282,10 +283,205 @@ describe('field request controller', () => {
 
     expect(selection.nearestInspectableEntityId).toBe('far-lousewort');
     expect(selection.nearestInspectable?.entryId).toBe('woolly-lousewort');
-    expect(selection.supportBiasActive).toBe(true);
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(true);
     expect(getFieldRequestHintState(controller, selection)).toMatchObject({
       label: 'NOTEBOOK J',
       title: 'Thaw Window',
+      variant: 'support-biased',
+    });
+  });
+
+  it('marks an ordinary Shore Shelter retarget as support-readable without treating it as an active-clue alternate', () => {
+    const handLensSave = createNewSaveState('field-request-controller-shore-shelter-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+      ],
+    };
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'beach',
+      lastBiomeId: 'beach',
+      sceneZoneId: 'tide-line',
+      scenePlayerX: 504,
+      scenePlayerY: 100,
+      hasFieldRequestNotice: false,
+    });
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-sand-crab',
+          entryId: 'pacific-sand-crab',
+          x: 512,
+          y: 100,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-wrack',
+          entryId: 'bull-kelp-wrack',
+          x: 486,
+          y: 100,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 509, y: 105 },
+      28,
+      () => 'tide-line',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-wrack');
+    expect(selection.nearestInspectable?.entryId).toBe('bull-kelp-wrack');
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Shore Shelter',
+      variant: 'support-biased',
+    });
+  });
+
+  it('marks an ordinary Moisture Holders retarget as support-readable without treating it as an active-clue alternate', () => {
+    const handLensSave = createNewSaveState('field-request-controller-moisture-holders-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = ['forest-hidden-hollow'];
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'root-hollow',
+      scenePlayerX: 392,
+      scenePlayerY: 96,
+      hasFieldRequestNotice: false,
+    });
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-lungwort',
+          entryId: 'tree-lungwort',
+          x: 384,
+          y: 100,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-licorice',
+          entryId: 'licorice-fern',
+          x: 410,
+          y: 76,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 397, y: 101 },
+      32,
+      () => 'root-hollow',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-licorice');
+    expect(selection.nearestInspectable?.entryId).toBe('licorice-fern');
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Moisture Holders',
+      variant: 'support-biased',
+    });
+  });
+
+  it('marks an ordinary High Pass retarget as support-readable without treating it as an active-clue alternate', () => {
+    const handLensSave = createNewSaveState('field-request-controller-high-pass-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ];
+    handLensSave.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+      ],
+    };
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'lichen-fell',
+      scenePlayerX: 560,
+      scenePlayerY: 96,
+      hasFieldRequestNotice: false,
+    });
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-avens',
+          entryId: 'mountain-avens',
+          x: 556,
+          y: 100,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-talus',
+          entryId: 'talus-cushion-pocket',
+          x: 572,
+          y: 102,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 561, y: 104 },
+      22,
+      () => 'lichen-fell',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-talus');
+    expect(selection.nearestInspectable?.entryId).toBe('talus-cushion-pocket');
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'High Pass',
       variant: 'support-biased',
     });
   });
@@ -344,11 +540,74 @@ describe('field request controller', () => {
 
     expect(selection.nearestInspectableEntityId).toBe('near-sedge');
     expect(selection.nearestInspectable?.entryId).toBe('bigelows-sedge');
-    expect(selection.supportBiasActive).toBe(false);
+    expect(selection.supportRetargetsInspect).toBe(false);
+    expect(selection.supportPrefersActiveClue).toBe(false);
     expect(getFieldRequestHintState(controller, selection)).toMatchObject({
       label: 'NOTEBOOK J',
       title: 'Thaw Window',
       variant: 'default',
+    });
+  });
+
+  it('resolves one inspect-target projection that keeps hint state and debug targeting together', () => {
+    const handLensSave = createNewSaveState('field-request-controller-target-projection');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    handLensSave.worldStep = 4;
+    handLensSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 349,
+      scenePlayerY: 120,
+      hasFieldRequestNotice: false,
+    });
+
+    const projection = resolveInspectTargetProjection(
+      controller,
+      [
+        {
+          entityId: 'near-sedge',
+          entryId: 'bigelows-sedge',
+          x: 344,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lousewort',
+          entryId: 'woolly-lousewort',
+          x: 360,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 354, y: 125 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(projection.nearestInspectableEntityId).toBe('far-lousewort');
+    expect(projection.inspectTargetSelection?.supportRetargetsInspect).toBe(true);
+    expect(projection.inspectTargetSelection?.supportPrefersActiveClue).toBe(true);
+    expect(projection.fieldRequestHint).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Thaw Window',
+      variant: 'support-biased',
     });
   });
 });

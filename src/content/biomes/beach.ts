@@ -549,12 +549,12 @@ export const beachBiome: BiomeDefinition = {
     {
       id: 'wave-edge-survivors',
       title: 'Wrack Workers',
-      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'western-snowy-plover'],
+      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'pacific-sand-crab'],
       minimumDiscoveries: 2,
       summary:
-        'Wrack feeds tiny scavengers first, and birds read that food line fast.',
+        'Wrack feeds tiny scavengers and small beach animals before birds rush in.',
       observationPrompt:
-        'What looks like food before birds arrive?',
+        'What in this wrack feeds small animals first?',
       zoneId: 'tide-line',
     },
     {

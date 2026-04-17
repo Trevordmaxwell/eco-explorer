@@ -115,6 +115,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('wave-edge-survivors');
   });
 
+  it('also gives pacific sand crab the wrack-worker note through the same tide-line pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'pacific-sand-crab',
+      ['bull-kelp-wrack', 'pacific-sand-crab'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('wave-edge-survivors');
+  });
+
   it('gives sanderling a tide-line food note through the new surf pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       beachBiome,

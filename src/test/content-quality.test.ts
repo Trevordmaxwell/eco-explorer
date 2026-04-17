@@ -73,7 +73,7 @@ describe('content quality guardrails', () => {
   });
 
   it('keeps field-request copy within the compact notebook budget', () => {
-    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(14);
+    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(15);
 
     for (const request of FIELD_REQUEST_DEFINITIONS) {
       expect(request.title.length).toBeLessThanOrEqual(FIELD_REQUEST_TITLE_MAX);

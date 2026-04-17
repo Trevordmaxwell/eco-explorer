@@ -44,6 +44,97 @@ This is the shared queue for all agents working in this repo.
 
 ## Parked
 
+### ECO-20260403-scout-242
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the coast-side destination continuation handoff`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-critic-223`
+
+Note:
+
+- Superseded by the Sprint 1 lane-3 signature-pocket track in packet `124`.
+- Keep as archival context only unless the new Sprint 1 lane-3 work is explicitly rolled back.
+
+### ECO-20260403-main-242
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the coast-side destination continuation`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-scout-242`
+
+Note:
+
+- Superseded by the Sprint 1 lane-3 signature-pocket track in packet `124`.
+
+### ECO-20260403-critic-242
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the coast-side destination continuation`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-main-242`
+
+Note:
+
+- Superseded by the Sprint 1 lane-3 signature-pocket track in packet `124`.
+
+### ECO-20260403-scout-243
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Prepare the high-country relief continuation handoff`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-critic-242`
+
+Note:
+
+- Superseded by the Sprint 2 lane-3 high-country relief track in packet `125`.
+
+### ECO-20260403-main-243
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Implement the high-country relief continuation`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-scout-243`
+
+Note:
+
+- Superseded by the Sprint 2 lane-3 high-country relief track in packet `125`.
+
+### ECO-20260403-critic-243
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `Review the high-country relief continuation`
+- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
+- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
+- Depends on: `ECO-20260403-main-243`
+
+Note:
+
+- Superseded by the Sprint 2 lane-3 high-country relief track in packet `125`.
+
 ### ECO-20260327-scout-01
 
 - Status: `PARKED`
@@ -112,126 +203,6 @@ Note:
 
 ## Blocked
 
-### ECO-20260403-scout-242
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Prepare the coast-side destination continuation handoff`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-critic-223`
-
-Goal:
-
-- Prepare one more memorable coast-side destination beat.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260403-main-242`
-- stays cozy, recoverable, and inside current traversal seams
-
-### ECO-20260403-main-242
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Implement the coast-side destination continuation`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-scout-242`
-
-Goal:
-
-- Add one more front-half destination beat players remember by feel.
-
-Acceptance:
-
-- the coast gains another memorable place
-- no travel confusion or harsher punishment appears
-
-### ECO-20260403-critic-242
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Review the coast-side destination continuation`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-main-242`
-
-Goal:
-
-- Review whether the new coast-side destination is memorable and readable.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- promotes `ECO-20260403-scout-243` if clean
-
-### ECO-20260403-scout-243
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Prepare the high-country relief continuation handoff`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-critic-242`
-
-Goal:
-
-- Prepare one more high-country threshold or relief continuation.
-
-Acceptance:
-
-- writes a concrete handoff for `ECO-20260403-main-243`
-- keeps the pass readable, recoverable, and current-system only
-
-### ECO-20260403-main-243
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Implement the high-country relief continuation`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-scout-243`
-
-Goal:
-
-- Add another memorable high-country destination or relief beat.
-
-Acceptance:
-
-- exposure and threshold feel more tactile
-- the pass stays cozy and recoverable
-
-### ECO-20260403-critic-243
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `Review the high-country relief continuation`
-- Source: `docs/reports/2026-04-03-destination-chain-continuation-phase.md`
-- Packet: `.agents/packets/099-destination-chain-continuation-phase.json`
-- Depends on: `ECO-20260403-main-243`
-
-Goal:
-
-- Review whether the new high-country continuation is readable and memorable.
-
-Acceptance:
-
-- records findings or a clean review in `docs/reports/`
-- leaves lane 3 ready for the next wave if clean
-
 ### ECO-20260328-main-13
 
 - Status: `BLOCKED`
@@ -252,6 +223,939 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260416-main-305
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement Sprint 2 high-country relief continuation`
+- Source: `docs/reports/2026-04-16-high-country-relief-continuation-handoff.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-scout-305`
+
+Goal:
+
+- Give the second act another unforgettable high-country place.
+
+Acceptance:
+
+- the second act gains another memorable location
+- recovery and readability stay cozy
+- no harsher traversal language appears
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-country-relief-continuation-implementation.md`, landing one compact open-fell talus island in Treeline Pass just beyond the lee family and before tundra travel takes over.
+- Verified with focused treeline biome/runtime tests, `npm run build`, the shared client smoke in `output/main-305-client/`, and a seeded browser proof in `output/main-305-browser/`; promoted `ECO-20260416-critic-305` to `READY`.
+
+### ECO-20260416-critic-305
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review Sprint 2 high-country relief continuation`
+- Source: `docs/reports/2026-04-16-high-country-relief-continuation-implementation.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-main-305`
+
+Goal:
+
+- Review whether the high-country branch now has a stronger unforgettable place.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the pass stays memorable and recoverable
+- leaves lane 3 ready for chapter-grade space work if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-country-relief-continuation-review.md`, finding no blocker in the new open-fell talus island and logging one non-blocking watch item to avoid stacking another lift immediately to its right.
+- Rechecked the focused treeline proof slice, inspected `output/main-305-browser/`, and promoted `ECO-20260416-scout-309` to `READY`.
+
+### ECO-20260416-scout-309
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare Sprint 3 expedition-grade chapter space`
+- Source: `docs/reports/2026-04-16-high-country-relief-continuation-review.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-critic-305`
+
+Goal:
+
+- Narrow Sprint 3 lane-3 work to one expedition-grade space built from current calm vertical and cave language.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-309`
+- reuses the existing forest trunk / cave family where practical
+- keeps the space chapter-grade without becoming punishing
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-chapter-space-handoff.md`, narrowing the next lane-3 spend to one compact `Stone Shelter` basin in `Treeline Pass` so the live `High Pass` opener gains a remembered middle without reopening the solved open-fell or forest families.
+- Updated packet `126` to version `6`, retargeted `ECO-20260416-main-309` and `ECO-20260416-critic-309` to the new handoff, and promoted `ECO-20260416-main-309` to `READY`.
+
+### ECO-20260416-main-309
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement Sprint 3 expedition-grade chapter space`
+- Source: `docs/reports/2026-04-16-high-pass-chapter-space-handoff.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-scout-309`
+
+Goal:
+
+- Build the physical expedition-grade space for the next chapter using current calm traversal language.
+
+Acceptance:
+
+- one chapter-grade space lands
+- the space feels memorable without combat or survival drift
+- calm vertical and cave language remains readable
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-chapter-space-implementation.md`, landing one compact `Stone Shelter` basin plus a tiny return step in `Treeline Pass` and anchoring the new middle pocket with one authored `frost-heave-boulder` and one authored `hoary-marmot`.
+- Verified with the focused treeline biome/runtime slice, `npm run build`, `npm run validate:agents`, the shared client smoke in `output/main-309-client-initial/`, and a seeded browser proof in `output/main-309-browser/`; promoted `ECO-20260416-critic-309` to `READY`.
+
+### ECO-20260416-critic-309
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review Sprint 3 expedition-grade chapter space`
+- Source: `docs/reports/2026-04-16-high-pass-chapter-space-implementation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-main-309`
+
+Goal:
+
+- Review whether the next chapter space feels expedition-grade, readable, and cozy.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the space is chapter-worthy without punishment drift
+- leaves lane 3 ready for chapter-side polish if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-chapter-space-review.md`, finding no blocker in the new `Stone Shelter` basin and logging one non-blocking watch item to avoid spending more authored geometry in the same `x 320-372` opener band.
+- Rechecked the focused treeline proof slice, inspected `output/main-309-browser/`, and confirmed lane 3 has no further actionable queue item in order after this review.
+
+### ECO-20260416-scout-307
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare Sprint 3 next-chapter shell and protective split`
+- Source: `docs/reports/2026-04-16-home-place-payoff-and-session-split-review.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-critic-303`
+
+Goal:
+
+- Narrow Sprint 3 lane-1 work to one expedition-shell extension plus one protective split before the chapter opens.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-307`
+- keeps the shell one-card-first and dashboard-free
+- names one further split out of a large renderer or coordinator
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-next-chapter-shell-and-expedition-render-split-handoff.md`, narrowing Sprint 3 lane 1 to one single-card expedition follow-on plus the next renderer safety split.
+- Bumped packet `126` to version `2`, added `main_307_focus`, and promoted `ECO-20260416-main-307` to `READY`.
+
+### ECO-20260416-main-307
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement Sprint 3 next-chapter shell and protective split`
+- Source: `docs/reports/2026-04-16-sprint-plan-queue-translation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-scout-307`
+
+Goal:
+
+- Open the expedition shell just enough for one real next chapter while landing another protective split first.
+
+Acceptance:
+
+- one real next-chapter shell lands without dashboard creep
+- another protective split lands out of a large file
+- the station remains routes-first and calm
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-next-chapter-shell-and-expedition-render-split-implementation.md`, pivoting the filed-season expedition tab into one real `HIGH PASS / NEXT` chapter card while keeping the station routes-first.
+- Extracted the expedition page body into `src/engine/field-station-expedition-page.ts`, updated expedition-state and runtime proofs, and promoted `ECO-20260416-critic-307` to `READY`.
+
+### ECO-20260416-critic-307
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review Sprint 3 next-chapter shell and protective split`
+- Source: `docs/reports/2026-04-16-next-chapter-shell-and-expedition-render-split-implementation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-main-307`
+
+Goal:
+
+- Review whether the next chapter opens safely without dashboard creep or renewed coordinator risk.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the shell stays calm and future-safe
+- leaves lane 1 ready for chapter-facing polish if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-next-chapter-shell-and-expedition-render-split-review.md`, finding no blocker in the one-card `HIGH PASS` pivot or the new expedition-page renderer split.
+- Lane 1 is clear again; the only watch item is to consider a dedicated filed-season chapter status if the expedition shell grows beyond this sprint.
+
+### ECO-20260416-scout-308
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare Sprint 3 chapter science pack`
+- Source: `docs/reports/2026-04-16-high-pass-science-pack-handoff.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-critic-304`
+
+Goal:
+
+- Narrow Sprint 3 lane-2 work to one science-backed content pack for the next chapter.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-308`
+- keeps the pack chapter-facing rather than general richness sprawl
+- stays inside current handheld copy budgets
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-science-pack-handoff.md`, narrowing Sprint 3 lane 2 to one Treeline Pass-owned chapter pack that strengthens the live `High Pass` opener through `hoary-marmot` and `dwarf-birch`.
+- Bumped packet `126` to version `3`, added `main_308_focus`, and recorded the durable rule to keep this first chapter science pass `Treeline Pass`-owned instead of reopening a broader alpine sweep.
+
+### ECO-20260416-main-308
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement Sprint 3 chapter science pack`
+- Source: `docs/reports/2026-04-16-high-pass-science-pack-implementation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-scout-308`
+
+Goal:
+
+- Give the next chapter its science-backed content pack without reopening general notebook density.
+
+Acceptance:
+
+- one chapter-facing content pack lands
+- science backing remains strong
+- the content supports a real next chapter rather than broader sprawl
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-science-pack-implementation.md`, landing `hoary-marmot` and `dwarf-birch` as compact Treeline Pass close-look cards for the live `High Pass` chapter carriers.
+- Verified with `npm test -- --run src/test/close-look.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "hoary-marmot|dwarf-birch|Treeline Pass"`, and `npm run build`.
+
+### ECO-20260416-critic-308
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review Sprint 3 chapter science pack`
+- Source: `docs/reports/2026-04-16-high-pass-science-pack-review.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-main-308`
+
+Goal:
+
+- Review whether the chapter science pack is accurate, compact, and chapter-serving.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the pack supports one real next chapter
+- keeps lane 2 ready for targeted follow-on richness only
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-science-pack-review.md`, finding no blocker in the compact `Treeline Pass` chapter pack for `hoary-marmot` and `dwarf-birch`.
+- Re-verified with `npm test -- --run src/test/close-look.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "hoary-marmot|dwarf-birch|Treeline Pass"`, and `npm run build`; lane 2 has no remaining actionable queue item.
+
+### ECO-20260416-scout-304
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare Sprint 2 relationship-teaching coast pass`
+- Source: `docs/reports/2026-04-16-coast-relationship-pass-handoff.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-critic-300`
+
+Goal:
+
+- Narrow Sprint 2 lane-2 work to one compact relationship-teaching pass on the beach / coast branch.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-304`
+- teaches ecology through connections rather than more isolated facts
+- keeps copy under the current handheld ceiling
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-coast-relationship-pass-handoff.md`, narrowing Sprint 2 lane 2 to one late-beach wrack-chain teaching pass on the existing note and notebook-prompt surfaces.
+- Bumped packet `125` to version `3`, added `main_304_focus`, and recorded the durable rule to keep this relationship pass prompt-first and shell-light.
+
+### ECO-20260416-main-304
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement Sprint 2 relationship-teaching coast pass`
+- Source: `docs/reports/2026-04-16-coast-relationship-pass-implementation.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-scout-304`
+
+Goal:
+
+- Teach one meaningful ecological relationship on the late beach / coast branch without bloating notebook surfaces.
+
+Acceptance:
+
+- one relationship-focused support pass lands
+- the coast branch teaches connection rather than more list depth
+- handheld readability stays intact
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-coast-relationship-pass-implementation.md`, retuning the late-beach `wave-edge-survivors` note and the existing `beach-tide-line-cover` prompt seed around the wrack -> tiny scavengers / small beach animals relationship.
+- Verified with `npm test -- --run src/test/ecosystem-notes.test.ts src/test/observation-prompts.test.ts` and `npm test -- --run src/test/runtime-smoke.test.ts -t "wrack|food line|tide line prompt"`.
+- `npm run build` is still blocked by the unrelated existing `supportBiasActive` TypeScript drift in `src/test/field-request-controller.test.ts`, outside lane 2.
+
+### ECO-20260416-critic-304
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review Sprint 2 relationship-teaching coast pass`
+- Source: `docs/reports/2026-04-16-coast-relationship-pass-review.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-main-304`
+
+Goal:
+
+- Review whether the coast branch now teaches ecology through relationships rather than isolated facts.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the pass stays compact and science-safe
+- leaves lane 2 ready for chapter-content prep if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-coast-relationship-pass-review.md`, finding no blocker in the compact wrack-line relationship pass: the coast branch now teaches one clearer connection without widening the notebook shell.
+- Promoted `ECO-20260416-scout-308` to `READY`; the only watch item is the unrelated repo-level `supportBiasActive` TypeScript drift in `src/test/field-request-controller.test.ts`.
+
+### ECO-20260416-scout-302
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare Sprint 1 route-feel extension handoff`
+- Source: `docs/reports/2026-04-16-route-feel-extension-handoff.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow Sprint 1 lane-4 work to one front-half route and one forest route that extend support-readable route feel without widening the shell.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-302`
+- identifies whether `supportBiasActive` needs a cleaner split before more UI depends on it
+- keeps the pass route-feel-first rather than text-first
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-route-feel-extension-handoff.md`, narrowing Sprint 1 lane 4 to one beach proof on `Shore Shelter`, one forest proof on `Cool Edge`, and one small controller split so the `NOTEBOOK J` chip can reflect broader support retargeting without widening the shell.
+- Bumped packet `124` to version `7`, promoted `ECO-20260416-main-302` to `READY`, and verified with `npm run validate:agents`.
+
+### ECO-20260416-main-302
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement Sprint 1 route-feel extension`
+- Source: `docs/reports/2026-04-16-route-feel-extension-implementation.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-scout-302`
+
+Goal:
+
+- Extend support-readable route feel to one front-half route and one forest route without widening the shell.
+
+Acceptance:
+
+- one front-half route and one forest route gain a player-felt support-shaped difference
+- any `supportBiasActive` split needed for safety lands first
+- route feel deepens without a new HUD or planner layer
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-route-feel-extension-implementation.md`, splitting the overloaded controller seam into `supportRetargetsInspect` and `supportPrefersActiveClue` so the existing `NOTEBOOK J` chip can read any live hand-lens inspect retarget without widening the shell.
+- Landed the two ordinary route proofs on `Shore Shelter` and `Moisture Holders`, kept the stronger `LENS CLUE:` bubble limited to active-clue alternates, and verified with focused controller/runtime coverage plus `npm run build`; promoted `ECO-20260416-critic-302` to `READY`.
+
+### ECO-20260416-critic-302
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review Sprint 1 route-feel extension`
+- Source: `docs/reports/2026-04-16-route-feel-extension-review.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-main-302`
+
+Goal:
+
+- Review whether Sprint 1 route-feel work stays readable, tactile, and structurally disciplined.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms route feel deepened through play, not text
+- promotes `ECO-20260416-scout-306` if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-route-feel-extension-review.md`, finding no blocker in the broader support-readable chip rule, the preserved active-clue-only bubble accent, or the fixed Root Hollow `Moisture Holders` proof.
+- Bumped packet `124` to version `9`, marked it `DONE`, re-ran the focused controller/runtime/build/agent-validation set, and promoted `ECO-20260416-scout-306` to `READY`.
+
+### ECO-20260416-scout-306
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare Sprint 2 living-world replay variant pass`
+- Source: `docs/reports/2026-04-16-living-world-replay-variant-handoff.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-critic-302`
+
+Goal:
+
+- Narrow Sprint 2 lane-4 work to one front-half route and one inland route whose replay windows change what the player does.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-306`
+- ties replay to process, weather, or phenology rather than a new shell
+- makes the replay variant action-changing rather than text-only
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-living-world-replay-variant-handoff.md`, narrowed Sprint 2 to `forest-moisture-holders` as `Moist Hollow` plus `treeline-low-fell` as `Brief Bloom`, and recorded the alternate-carrier seam in packet `125`.
+- Promoted `ECO-20260416-main-306` to `READY`; verification is `npm run validate:agents`.
+
+### ECO-20260416-main-306
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement Sprint 2 living-world replay variant pass`
+- Source: `docs/reports/2026-04-16-living-world-replay-variant-implementation.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-scout-306`
+
+Goal:
+
+- Make one front-half route and one inland route replay differently through the existing living-world seams.
+
+Acceptance:
+
+- the replay windows change player behavior, not just route text
+- no new replay HUD or planner layer appears
+- the routes still file through the existing Route v2 model
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-living-world-replay-variant-implementation.md`, letting `forest-moisture-holders` replay as `Moist Hollow` through `tree-lungwort` / `seep-moss-mat` and `treeline-low-fell` replay as `Brief Bloom` through `moss-campion`.
+- Extended the shared Route v2 replay seam so `worldStateFocus` can add alternate clue carriers, re-ran focused `field-requests` plus runtime replay slices, built successfully, and promoted `ECO-20260416-critic-306` to `READY`.
+
+### ECO-20260416-critic-306
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review Sprint 2 living-world replay variant pass`
+- Source: `docs/reports/2026-04-16-living-world-replay-variant-review.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-main-306`
+
+Goal:
+
+- Review whether the living-world replay variants change action instead of just language.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the replay windows are tactile and restrained
+- leaves lane 4 ready for next-chapter planning if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-living-world-replay-variant-review.md`, finding no blocker in the new `Moist Hollow` and `Brief Bloom` route-local alternates or the compact `worldStateFocus` seam extension.
+- Bumped packet `125` to version `11`, marked it `DONE`, and promoted `ECO-20260416-scout-310` to `READY`.
+
+### ECO-20260416-scout-310
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare Sprint 3 chapter Route v2 structure`
+- Source: `docs/reports/2026-04-16-high-pass-route-v2-handoff.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-critic-306`
+
+Goal:
+
+- Narrow Sprint 3 lane-4 work to the notebook, evidence, support, filing, and replay seams for the next chapter.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-310`
+- stays inside the existing Route v2 model
+- keeps the chapter feeling like a real next chase, not a new quest shell
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-route-v2-handoff.md`, narrowing Sprint 3 lane-4 work to one post-season `High Pass` outing in Treeline Pass with ordered `stone-lift -> lee-watch -> rime-mark -> talus-hold` evidence, a `frost-rime` replay variant, and an explicit guard that keeps the route dormant until the calm season-close return clears.
+- Bumped packet `126` to version `7`, promoted `ECO-20260416-main-310` to `READY`, and retargeted the follow-on items to the concrete High Pass handoff.
+
+### ECO-20260416-main-310
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement Sprint 3 chapter Route v2 structure`
+- Source: `docs/reports/2026-04-16-high-pass-route-v2-implementation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-scout-310`
+
+Goal:
+
+- Define the next chapter's evidence, support, filing, and replay seams using the current Route v2 model.
+
+Acceptance:
+
+- the chapter fits the existing Route v2 structure
+- support and filing remain small and readable
+- players finish with a real next chapter to chase
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-route-v2-implementation.md`, landing a real post-season `treeline-high-pass` Route v2 outing with ordered `stone-lift -> lee-watch -> rime-mark -> talus-hold` evidence plus the `Rimed Pass` replay variant through treeline's existing `frost-rime` process moment.
+- Kept the new route dormant while `seasonCloseReturnPending` is true, replaced the old filed-season placeholder next-direction line with the real High Pass clue path, verified the activation guard and support retarget through focused request/controller/runtime coverage plus `npm run build`, and promoted `ECO-20260416-critic-310` to `READY`.
+
+### ECO-20260416-critic-310
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review Sprint 3 chapter Route v2 structure`
+- Source: `docs/reports/2026-04-16-high-pass-route-v2-implementation.md`
+- Packet: `.agents/packets/126-open-the-next-chapter-safely.json`
+- Depends on: `ECO-20260416-main-310`
+
+Goal:
+
+- Review whether the next chapter uses the current Route v2 model cleanly and remains worth chasing.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the chapter uses the current model instead of inventing a new shell
+- keeps lane 4 ready for chapter-side refinement if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-high-pass-route-v2-review.md`, finding no blocker in the new post-season `High Pass` outing, its season-close activation guard, or the one-step hand-lens support proof.
+- Rechecked the focused High Pass request/controller/board/runtime slice, closed packet `126` at version `9`, and confirmed lane 4 has no remaining actionable queue item.
+
+### ECO-20260416-critic-300
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review Sprint 1 Coastal Scrub identity pack`
+- Source: `docs/reports/2026-04-16-coastal-scrub-identity-pack-review.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-main-300`
+
+Goal:
+
+- Review whether Coastal Scrub gained clearer identity without breaking the handheld copy budget.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the biome reads more strongly by feel
+- promotes `ECO-20260416-scout-304` if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-16-coastal-scrub-identity-pack-review.md`, finding no blocker in the new Coastal Scrub identity trio: the pass stayed compact, visual-first, and science-safe.
+- Promoted `ECO-20260416-scout-304` to `READY`; the only watch item is the unrelated stale-worktree `vine-maple` verification noise under `.claude/worktrees/angry-zhukovsky/`.
+
+### ECO-20260416-main-300
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement Sprint 1 Coastal Scrub identity pack`
+- Source: `docs/reports/2026-04-16-coastal-scrub-identity-pack-implementation.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-scout-300`
+
+Goal:
+
+- Make Coastal Scrub more memorable by feel through one tight identity cluster centered on bluff, swale, and forest-edge transition.
+
+Acceptance:
+
+- one compact identity pack lands for Coastal Scrub
+- it uses note-backed or visual carriers instead of denser notebook blocks
+- Coastal Scrub reads as a place players remember, not just a connector
+
+Completion notes:
+
+- Added close-look cards for `beach-strawberry` and `salmonberry` to complete the existing bluff -> swale -> forest-edge memory trio around live Coastal Scrub carriers.
+- Verified with `npm test -- --run src/test/close-look.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "close-look|beach-strawberry|salmonberry"`, and `npm run build`.
+
+### ECO-20260416-scout-301
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare Sprint 1 coast-side signature pocket`
+- Source: `docs/reports/2026-04-16-coast-side-signature-pocket-handoff.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow Sprint 1 lane-3 work to one memorable, recoverable coast-side signature pocket using current traversal language only.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-301`
+- reuses existing traversal and recovery language
+- avoids new geometry families or punitive movement
+
+Completion note:
+
+- Added `docs/reports/2026-04-16-coast-side-signature-pocket-handoff.md`, narrowing Sprint 1 lane 3 to one scrub-owned lee shelf inside `beach-coastal-corridor` instead of reopening the already-dense Beach opener or Coastal Scrub interior bands.
+- Bumped packet `124` to version `4`, added `main_301_focus` for the corridor-owned target band and guardrails, and promoted `ECO-20260416-main-301` to `READY`.
+- Verification: reviewed the current Beach, Coastal Scrub, and corridor traversal chain plus focused biome/corridor/runtime proofs; `npm run validate:agents`
+
+### ECO-20260416-main-301
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement Sprint 1 coast-side signature pocket`
+- Source: `docs/reports/2026-04-16-coast-side-signature-pocket-implementation.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-scout-301`
+
+Goal:
+
+- Add one memorable, recoverable coast-side signature pocket using current traversal language only.
+
+Acceptance:
+
+- the front half gains one signature pocket players remember by feel
+- recovery stays calm and readable
+- no new traversal family or punishment appears
+
+Completion notes:
+
+- Added `back-dune-hold-lip` and `back-dune-hold-rest` to `beach-coastal-corridor` in `src/engine/corridor.ts`, giving the scrub-owned half one compact lee shelf without reopening the Beach opener or Coastal Scrub interior bands.
+- Extended `src/test/corridor.test.ts` and `src/test/runtime-smoke.test.ts` to lock the new shelf family, carrier band, and front-half `beach -> corridor shelf -> coastal-scrub` recovery path, then promoted `ECO-20260416-critic-301` to `READY`.
+- Verification: `npm test -- --run src/test/corridor.test.ts src/test/runtime-smoke.test.ts -t "held back-dune shelf|reaches the beach corridor door from the inland dune side instead of the tide edge|lets the coastal door enter the first corridor proof, switches ownership at the threshold, and keeps the map alive from the menu|does not treat corridor threshold pacing as repeated visits or world-state skips|counts a corridor traversal only when the player fully exits into the neighboring biome"`; `npm run build`; shared web-game client smoke in `output/main-301-client/`; targeted Playwright proof in `output/main-301-browser/`
+
+### ECO-20260416-critic-301
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review Sprint 1 coast-side signature pocket`
+- Source: `docs/reports/2026-04-16-coast-side-signature-pocket-review.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-main-301`
+
+Goal:
+
+- Review whether the new coast-side signature pocket is memorable, readable, and recoverable.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the space is memorable without new movement complexity
+- promotes `ECO-20260416-scout-305` if clean
+
+Completion notes:
+
+- Wrote [2026-04-16-coast-side-signature-pocket-review.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-coast-side-signature-pocket-review.md), found no blocker in the new scrub-owned corridor shelf, and promoted `ECO-20260416-scout-305` to `READY`.
+- Rechecked the shelf-specific corridor/runtime coverage plus the seeded browser proof in `output/main-301-browser/`; the only watch item is to keep this exact corridor family at its current density ceiling.
+
+### ECO-20260416-scout-305
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare Sprint 2 high-country relief continuation`
+- Source: `docs/reports/2026-04-16-high-country-relief-continuation-handoff.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-critic-301`
+
+Goal:
+
+- Narrow Sprint 2 lane-3 work to one unforgettable high-country relief continuation.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-305`
+- keeps the place memorable, readable, and recoverable
+- reuses current calm traversal language
+
+Completion notes:
+
+- Added [2026-04-16-high-country-relief-continuation-handoff.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-high-country-relief-continuation-handoff.md), narrowing the next lane-3 spend to one early-`lichen-fell` talus-island hold in Treeline Pass instead of reopening tundra or the already-solved treeline threshold bands.
+- Bumped packet `125` to version `8`, added `main_305_focus`, and promoted `ECO-20260416-main-305` to `READY`.
+
+### ECO-20260416-scout-300
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare Sprint 1 Coastal Scrub identity pack`
+- Source: `docs/reports/2026-04-16-coastal-scrub-identity-pack-handoff.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow Sprint 1 lane-2 work to one note-backed Coastal Scrub identity cluster centered on bluff, swale, and forest-edge memory.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-300`
+- prefers close-look, sketchbook, atlas, or compact note-backed support over denser notebook prose
+- keeps the pack focused on place memory rather than more total facts
+
+Completion note:
+
+- Added `docs/reports/2026-04-16-coastal-scrub-identity-pack-handoff.md`, narrowing Sprint 1 lane-2 work to one close-look-first Coastal Scrub identity trio: keep bluff `pacific-wax-myrtle` as the anchor, then add swale `beach-strawberry` plus forest-edge `salmonberry`.
+- Bumped packet `124` to version `3` with a concrete `main_300_focus`, and recorded the durable rule that this memorability pass should avoid more notebook prose or comparison sprawl.
+
+### ECO-20260416-scout-299
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare Sprint 1 merge-safety and seam-split handoff`
+- Source: `docs/reports/2026-04-16-merge-safety-and-seam-split-handoff.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow Sprint 1 lane-1 work into one clean-machine guardrail pass plus one protective seam split out of `game.ts` or `field-season-board`.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-299`
+- keeps CI and portability work practical rather than aspirational
+- names one specific runtime seam to extract before more route/station growth lands
+
+Completion notes:
+
+- Wrote [2026-04-16-merge-safety-and-seam-split-handoff.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-merge-safety-and-seam-split-handoff.md), narrowed the runtime split to the remaining inspect-hint projection layer in [game.ts](/Users/trevormaxwell/Desktop/game/src/engine/game.ts), added packet focus guidance, and promoted `ECO-20260416-main-299` to `READY`.
+
+### ECO-20260416-main-299
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement Sprint 1 merge-safety and seam split`
+- Source: `docs/reports/2026-04-16-merge-safety-and-seam-split-implementation.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-scout-299`
+
+Goal:
+
+- Land one practical clean-machine safeguard pass and one protective runtime seam split before the next wider wave.
+
+Acceptance:
+
+- clean-machine guardrails exist for build, test, and agent validation
+- one targeted seam moves out of a large lane-1 coordinator file
+- the repo is safer to merge and easier to review
+
+Completion notes:
+
+- Added [2026-04-16-merge-safety-and-seam-split-implementation.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-merge-safety-and-seam-split-implementation.md), moved the inspect-hint projection seam into [field-request-controller.ts](/Users/trevormaxwell/Desktop/game/src/engine/field-request-controller.ts), updated [game.ts](/Users/trevormaxwell/Desktop/game/src/engine/game.ts) to consume that shared result, added one fresh-machine verification note in [README.md](/Users/trevormaxwell/Desktop/game/README.md), and verified with focused controller tests, focused runtime-smoke support-bias slices, and `npm run build`.
+
+### ECO-20260416-critic-299
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review Sprint 1 merge-safety and seam split`
+- Source: `docs/reports/2026-04-16-merge-safety-and-seam-split-review.md`
+- Packet: `.agents/packets/124-front-half-memorability-and-merge-safety.json`
+- Depends on: `ECO-20260416-main-299`
+
+Goal:
+
+- Review whether Sprint 1 lane-1 work actually improved clean-machine safety and merge safety.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the seam split lowered risk rather than moving clutter around
+- promotes `ECO-20260416-scout-303` if clean
+
+Completion notes:
+
+- Wrote [2026-04-16-merge-safety-and-seam-split-review.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-merge-safety-and-seam-split-review.md), found no blocker in the controller split or README guardrail pass, and promoted `ECO-20260416-scout-303` to `READY`.
+
+### ECO-20260416-scout-303
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare Sprint 2 home-place payoff and coordinator split handoff`
+- Source: `docs/reports/2026-04-16-home-place-payoff-and-session-split-handoff.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-critic-299`
+
+Goal:
+
+- Narrow Sprint 2 lane-1 work to one stronger home-place return payoff plus one additional coordinator-protection split.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260416-main-303`
+- keeps payoff inside the existing station shell
+- names one further split out of a large coordinator file
+
+Completion notes:
+
+- Wrote [2026-04-16-home-place-payoff-and-session-split-handoff.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-home-place-payoff-and-session-split-handoff.md), narrowed the payoff to the existing field-station arrival pulse plus shell accents, targeted the next split at the field-station open-session cluster in [game.ts](/Users/trevormaxwell/Desktop/game/src/engine/game.ts), and promoted `ECO-20260416-main-303` to `READY`.
+
+### ECO-20260416-main-303
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement Sprint 2 home-place payoff and coordinator split`
+- Source: `docs/reports/2026-04-16-home-place-payoff-and-session-split-implementation.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-scout-303`
+
+Goal:
+
+- Make the station feel more earned after outings and continue coordinator decomposition without widening the shell.
+
+Acceptance:
+
+- one visible return payoff lands inside the current station shell
+- one additional protective split lands out of a large coordinator
+- the home loop feels more earned without another nursery surgery pass
+
+Completion notes:
+
+- Added [2026-04-16-home-place-payoff-and-session-split-implementation.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-home-place-payoff-and-session-split-implementation.md), extracted the field-station open-session seam into [field-station-session.ts](/Users/trevormaxwell/Desktop/game/src/engine/field-station-session.ts), carried `arrivalMode` through [game.ts](/Users/trevormaxwell/Desktop/game/src/engine/game.ts) and [overlay-render.ts](/Users/trevormaxwell/Desktop/game/src/engine/overlay-render.ts), and verified with focused field-station tests, overlay-copy tests, the field-station runtime-smoke slice, and `npm run build`.
+
+### ECO-20260416-critic-303
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review Sprint 2 home-place payoff and coordinator split`
+- Source: `docs/reports/2026-04-16-home-place-payoff-and-session-split-review.md`
+- Packet: `.agents/packets/125-make-the-living-world-matter.json`
+- Depends on: `ECO-20260416-main-303`
+
+Goal:
+
+- Review whether the home loop feels more earned and the coordinator risk is lower.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the payoff stays inside the current shell
+- promotes `ECO-20260416-scout-307` if clean
+
+Completion notes:
+
+- Wrote [2026-04-16-home-place-payoff-and-session-split-review.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-16-home-place-payoff-and-session-split-review.md), found no blocker in the shell payoff or the station-session split, and promoted `ECO-20260416-scout-307` to `READY`.
 
 ### ECO-20260406-critic-298
 

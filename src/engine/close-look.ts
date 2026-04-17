@@ -52,6 +52,16 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Cold wind keeps this spruce low and bent instead of tall.',
     spriteScale: 5,
   },
+  'dwarf-birch': {
+    callouts: ['low woody stems', 'small rounded leaves'],
+    sentence: 'Staying low helps this woody shrub handle the harsh wind after the last trees.',
+    spriteScale: 5,
+  },
+  'hoary-marmot': {
+    callouts: ['rock shelter', 'upright lookout'],
+    sentence: 'Marmots use rocky slopes and shelter gaps while watching for danger.',
+    spriteScale: 5,
+  },
   'talus-cushion-pocket': {
     callouts: ['stone gap', 'cushion hold'],
     sentence: 'Between alpine stones, tiny cushions can hold on in calmer air.',
@@ -85,6 +95,16 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
   'pacific-wax-myrtle': {
     callouts: ['waxy berries', 'leaf cluster'],
     sentence: 'Dark berries help mark where coastal scrub starts holding steadier cover.',
+    spriteScale: 5,
+  },
+  'beach-strawberry': {
+    callouts: ['runner stem', 'red fruit'],
+    sentence: 'Low runners and fruit help this swale stay busy close to shelter.',
+    spriteScale: 5,
+  },
+  salmonberry: {
+    callouts: ['soft berry', 'thicket stem'],
+    sentence: 'Bright berries and thick stems mark where the scrub starts leaning into forest edge.',
     spriteScale: 5,
   },
   'song-sparrow': {

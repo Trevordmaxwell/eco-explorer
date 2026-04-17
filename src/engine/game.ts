@@ -30,8 +30,12 @@ import {
   getSelectedFieldUpgradeId,
   getWalkSpeed,
   purchaseFieldUpgrade,
-  syncFieldStationLedger,
 } from './field-station';
+import {
+  getFieldStationArrivalPulseValue,
+  resolveFieldStationOpenState,
+  type FieldStationArrivalMode,
+} from './field-station-session';
 import {
   clearNurseryTeachingBed,
   getNextNurseryProjectId,
@@ -44,10 +48,9 @@ import {
 } from './nursery';
 import { resolveFieldStationState } from './field-station-state';
 import {
-  getFieldRequestHintState,
   getInspectBubbleResourceNote,
   getOutingSupportNoticeText,
-  resolveInspectTargetSelection,
+  resolveInspectTargetProjection,
   resolveFieldRequestController,
 } from './field-request-controller';
 import { getActiveHabitatProcessMoments } from './habitat-process';
@@ -343,6 +346,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   let fieldGuideNotice: FieldGuideNoticeState | null = null;
   let fieldGuideNoticeTimer = 0;
   let fieldStationArrivalPulseTimer = 0;
+  let fieldStationArrivalMode: FieldStationArrivalMode = 'default';
   let fieldRequestNotice: FieldRequestNotice | null = null;
   let fieldRequestNoticeTimer = 0;
   let fieldPartnerNotice: FieldPartnerNotice | null = null;
@@ -585,24 +589,23 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function openFieldStation(): void {
-    const acknowledgedSeasonCloseReturn =
-      save.seasonCloseReturnPending
-      && save.completedFieldRequestIds.includes('forest-season-threads');
-    if (acknowledgedSeasonCloseReturn) {
-      save.seasonCloseReturnPending = false;
-    }
-    const claimedSources = syncFieldStationLedger(biomeRegistry, save);
-    const nurseryChanged = syncNurseryState(save);
-    if (claimedSources.length || nurseryChanged || acknowledgedSeasonCloseReturn) {
+    const openState = resolveFieldStationOpenState(
+      biomeRegistry,
+      save,
+      selectedFieldStationUpgradeId,
+      selectedNurseryProjectId,
+    );
+    if (openState.persistNeeded) {
       persistSave(save);
     }
     selectedFieldStationView = 'season';
     selectedFieldStationSeasonPage = 'routes';
     outingSupportSelected = false;
     selectedNurseryCardId = 'bench';
-    selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-    selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+    selectedFieldStationUpgradeId = openState.selectedFieldStationUpgradeId;
+    selectedNurseryProjectId = openState.selectedNurseryProjectId;
     fieldStationArrivalPulseTimer = FIELD_STATION_ARRIVAL_PULSE_SECONDS;
+    fieldStationArrivalMode = openState.arrivalMode;
     overlayMode = 'field-station';
   }
 
@@ -613,16 +616,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       );
     }
     fieldStationArrivalPulseTimer = 0;
+    fieldStationArrivalMode = 'default';
     overlayMode = 'playing';
     maybeShowNextHabitatNotice();
   }
 
   function getFieldStationArrivalPulse(): number {
-    if (overlayMode !== 'field-station' || fieldStationArrivalPulseTimer <= 0) {
-      return 0;
-    }
-
-    return Math.min(1, fieldStationArrivalPulseTimer / FIELD_STATION_ARRIVAL_PULSE_SECONDS);
+    return getFieldStationArrivalPulseValue(
+      overlayMode === 'field-station' ? 'field-station' : 'other',
+      fieldStationArrivalPulseTimer,
+      FIELD_STATION_ARRIVAL_PULSE_SECONDS,
+    );
   }
 
   function getMenuActionIds(): MenuActionId[] {
@@ -1197,12 +1201,16 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getFieldRequestController().context;
   }
 
-  function getInspectTargetSelection() {
+  function getInspectTargetProjection() {
     if (sceneMode !== 'biome' || overlayMode !== 'playing' || bubble) {
-      return null;
+      return {
+        inspectTargetSelection: null,
+        fieldRequestHint: null,
+        nearestInspectableEntityId: null,
+      };
     }
 
-    return resolveInspectTargetSelection(
+    return resolveInspectTargetProjection(
       getFieldRequestController(),
       currentBiome.entities,
       {
@@ -1216,10 +1224,6 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function getActiveFieldRequest(): ActiveFieldRequest | null {
     return getFieldRequestController().activeFieldRequest;
-  }
-
-  function getFieldRequestHint(inspectTargetSelection = getInspectTargetSelection()) {
-    return getFieldRequestHintState(getFieldRequestController(), inspectTargetSelection);
   }
 
   function showFieldNotice(
@@ -1957,7 +1961,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function getNearestInspectable(): BiomeEntity | null {
-    return getInspectTargetSelection()?.nearestInspectable ?? null;
+    return getInspectTargetProjection().inspectTargetSelection?.nearestInspectable ?? null;
   }
 
   function getEntityAtPoint(worldX: number, worldY: number): BiomeEntity | null {
@@ -3138,7 +3142,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
     const worldState = getWorldState();
     const transitionSnapshot = getTransitionSnapshot();
-    const inspectTargetSelection = getInspectTargetSelection();
+    const inspectTargetProjection = getInspectTargetProjection();
 
     if (sceneMode === 'world-map') {
       const focusedSurveyState =
@@ -3270,7 +3274,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       drawFade(context, transitionSnapshot.fadeAlpha);
     } else {
       const nearestEntityId =
-        save.settings.showInspectHints ? inspectTargetSelection?.nearestInspectableEntityId ?? null : null;
+        save.settings.showInspectHints ? inspectTargetProjection.nearestInspectableEntityId : null;
       const highlightedDoor =
         overlayMode === 'playing' &&
         sceneMode === 'biome' &&
@@ -3330,7 +3334,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       label: getCurrentZoneLabel(),
       isVisible: overlayMode === 'playing' && sceneMode === 'biome',
     });
-    const fieldRequestHint = getFieldRequestHint(inspectTargetSelection);
+    const fieldRequestHint = inspectTargetProjection.fieldRequestHint;
     drawFieldRequestHintChip({
       context,
       width: WIDTH,
@@ -3502,6 +3506,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
         nursery: fieldStationState.nursery,
         arrivalPulse: getFieldStationArrivalPulse(),
+        arrivalMode: fieldStationArrivalMode,
       });
     }
 
@@ -3540,8 +3545,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const worldState = getWorldState(worldStateBiomeId);
     const observationPrompt = getFieldGuideObservationPrompt();
     const activeFieldRequest = getActiveFieldRequest();
-    const inspectTargetSelection = getInspectTargetSelection();
-    const fieldRequestHint = getFieldRequestHint(inspectTargetSelection);
+    const inspectTargetProjection = getInspectTargetProjection();
+    const fieldRequestHint = inspectTargetProjection.fieldRequestHint;
     const journalFieldRequest = getJournalFieldRequest();
     const guidedFieldSeason = getGuidedFieldSeasonState();
     const fieldStationState = getFieldStationState();
@@ -3662,7 +3667,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             }
           : null,
       nearbyInspectables: nearby,
-      nearestInspectableEntityId: inspectTargetSelection?.nearestInspectableEntityId ?? null,
+      nearestInspectableEntityId: inspectTargetProjection.nearestInspectableEntityId,
       nearbyDoor:
         sceneMode === 'biome' && !activeCorridor
           ? {
@@ -3769,6 +3774,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         recentSources: fieldStationState.recentSources,
         selectedUpgradeId: fieldStationState.selectedUpgradeId,
         arrivalPulse: Number(getFieldStationArrivalPulse().toFixed(2)),
+        arrivalMode: fieldStationArrivalMode,
         selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
         selectedNurseryProjectId: fieldStationState.nursery.selectedProjectId,
         seasonNote: fieldStationState.seasonNote,

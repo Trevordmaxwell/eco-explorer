@@ -13,6 +13,8 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
     expect(supportsCloseLook('krummholz-spruce')).toBe(true);
+    expect(supportsCloseLook('dwarf-birch')).toBe(true);
+    expect(supportsCloseLook('hoary-marmot')).toBe(true);
     expect(supportsCloseLook('talus-cushion-pocket')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
     expect(supportsCloseLook('bigelows-sedge')).toBe(true);
@@ -20,6 +22,8 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('kinnikinnick')).toBe(true);
     expect(supportsCloseLook('nurse-log')).toBe(true);
     expect(supportsCloseLook('pacific-wax-myrtle')).toBe(true);
+    expect(supportsCloseLook('beach-strawberry')).toBe(true);
+    expect(supportsCloseLook('salmonberry')).toBe(true);
     expect(supportsCloseLook('song-sparrow')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
@@ -78,6 +82,26 @@ describe('close-look helpers', () => {
     });
     expect(krummholzPayload?.callouts).toContain('wind-bent branches');
 
+    const dwarfBirchPayload = buildCloseLookPayload(treelineBiome.entries['dwarf-birch']);
+    expect(dwarfBirchPayload).toMatchObject({
+      entryId: 'dwarf-birch',
+      title: 'Dwarf Birch',
+      spriteId: 'dwarf-birch',
+      sentence: 'Staying low helps this woody shrub handle the harsh wind after the last trees.',
+      spriteScale: 5,
+    });
+    expect(dwarfBirchPayload?.callouts).toContain('low woody stems');
+
+    const hoaryMarmotPayload = buildCloseLookPayload(treelineBiome.entries['hoary-marmot']);
+    expect(hoaryMarmotPayload).toMatchObject({
+      entryId: 'hoary-marmot',
+      title: 'Hoary Marmot',
+      spriteId: 'hoary-marmot',
+      sentence: 'Marmots use rocky slopes and shelter gaps while watching for danger.',
+      spriteScale: 5,
+    });
+    expect(hoaryMarmotPayload?.callouts).toContain('rock shelter');
+
     const talusPayload = buildCloseLookPayload(treelineBiome.entries['talus-cushion-pocket']);
     expect(talusPayload).toMatchObject({
       entryId: 'talus-cushion-pocket',
@@ -135,6 +159,26 @@ describe('close-look helpers', () => {
       spriteId: 'pacific-wax-myrtle',
     });
     expect(waxMyrtlePayload?.callouts).toContain('waxy berries');
+
+    const beachStrawberryPayload = buildCloseLookPayload(coastalScrubBiome.entries['beach-strawberry']);
+    expect(beachStrawberryPayload).toMatchObject({
+      entryId: 'beach-strawberry',
+      title: 'Beach Strawberry',
+      spriteId: 'beach-strawberry',
+      sentence: 'Low runners and fruit help this swale stay busy close to shelter.',
+      spriteScale: 5,
+    });
+    expect(beachStrawberryPayload?.callouts).toContain('runner stem');
+
+    const salmonberryPayload = buildCloseLookPayload(coastalScrubBiome.entries.salmonberry);
+    expect(salmonberryPayload).toMatchObject({
+      entryId: 'salmonberry',
+      title: 'Salmonberry',
+      spriteId: 'salmonberry',
+      sentence: 'Bright berries and thick stems mark where the scrub starts leaning into forest edge.',
+      spriteScale: 5,
+    });
+    expect(salmonberryPayload?.callouts).toContain('soft berry');
 
     const songSparrowPayload = buildCloseLookPayload(coastalScrubBiome.entries['song-sparrow']);
     expect(songSparrowPayload).toMatchObject({

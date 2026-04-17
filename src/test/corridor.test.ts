@@ -62,6 +62,34 @@ describe('beach to coastal-scrub corridor proof', () => {
     }
   });
 
+  it('adds one held back-dune shelf on the scrub-owned half without widening the seam roster', () => {
+    const save = createNewSaveState('corridor-held-shelf-seed');
+    const corridor = createBeachToScrubCorridorScene(save, 'beach');
+    const platformIds = corridor.instance.platforms.map((platform) => platform.id);
+    const holdLip = corridor.instance.platforms.find((platform) => platform.id === 'back-dune-hold-lip');
+    const holdRest = corridor.instance.platforms.find((platform) => platform.id === 'back-dune-hold-rest');
+    const nearbyCarriers = corridor.instance.entities
+      .filter(
+        (entity) =>
+          entity.x >= 152 &&
+          entity.x <= 220 &&
+          ['beach-grass', 'dune-lupine', 'pacific-wax-myrtle', 'coyote-brush'].includes(entity.entryId),
+      )
+      .map((entity) => entity.entryId);
+
+    expect(platformIds).toEqual(['back-dune-hold-lip', 'back-dune-hold-rest']);
+    expect(holdLip?.x).toBeGreaterThanOrEqual(corridor.thresholdX);
+    expect(holdRest?.x).toBeGreaterThan(holdLip?.x ?? 0);
+    expect((holdRest?.x ?? 0) + (holdRest?.w ?? 0)).toBeLessThan(224);
+    expect(holdLip?.y).toBeGreaterThan(holdRest?.y ?? 0);
+    expect(holdLip?.y).toBeGreaterThanOrEqual(99);
+    expect(holdRest?.y).toBeLessThanOrEqual(98);
+    expect(nearbyCarriers).toContain('beach-grass');
+    expect(nearbyCarriers).toContain('dune-lupine');
+    expect(nearbyCarriers).toContain('pacific-wax-myrtle');
+    expect(nearbyCarriers).not.toContain('coyote-brush');
+  });
+
   it('builds corridor scenes for every adjacent pair in the live chain', () => {
     const save = createNewSaveState('corridor-full-chain-seed');
     const cases = [

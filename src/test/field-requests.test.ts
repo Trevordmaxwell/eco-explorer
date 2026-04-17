@@ -140,9 +140,10 @@ describe('field requests', () => {
     expect(suppressedHintState.fieldRequestHint).toBeNull();
   });
 
-  it('falls back to the season outing locator for journal and replay state when no active request remains', () => {
+  it('falls back to the season outing locator for journal and replay state during the calm season-close return beat', () => {
     const save = createNewSaveState('field-request-state-season-seed');
     save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    save.seasonCloseReturnPending = true;
 
     const state = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
       sceneMode: 'world-map',
@@ -167,6 +168,37 @@ describe('field requests', () => {
       biomeId: 'treeline',
       title: 'High Pass',
       progressLabel: 'NEXT',
+    });
+    expect(state.routeReplayLabel).toBe('Today: High Pass');
+  });
+
+  it('turns High Pass into the active post-season request once the station-close beat clears', () => {
+    const save = createNewSaveState('field-request-state-high-pass-seed');
+    save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+
+    const state = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'trailhead',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      biomeId: 'treeline',
+      title: 'High Pass',
+      progressLabel: 'Go To Treeline Pass',
+    });
+    expect(state.journalFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      biomeId: 'treeline',
+      title: 'High Pass',
+      progressLabel: 'Go To Treeline Pass',
     });
     expect(state.routeReplayLabel).toBe('Today: High Pass');
   });
@@ -1072,6 +1104,195 @@ describe('field requests', () => {
     });
   });
 
+  it('turns High Pass into a four-leg post-season route that waits for filing', () => {
+    const treelineContext = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+        'treeline-low-fell',
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+      ],
+      'dwarf-shrub',
+    );
+
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: '0/4 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [],
+      },
+    });
+
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'talus-cushion-pocket')).toBeNull();
+    expect(getHandLensNotebookFit(treelineContext, 'frost-heave-boulder')).toBe('Notebook fit: stone lift');
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'frost-heave-boulder')).toBeNull();
+
+    expect(getHandLensNotebookFit(treelineContext, 'hoary-marmot')).toBe('Notebook fit: lee watch');
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'hoary-marmot')).toBeNull();
+
+    treelineContext.currentZoneId = 'lichen-fell';
+    expect(getHandLensNotebookFit(treelineContext, 'moss-campion')).toBe('Notebook fit: rime mark');
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'moss-campion')).toBeNull();
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: '3/4 clues',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'moss-campion' },
+        ],
+      },
+    });
+
+    expect(getHandLensNotebookFit(treelineContext, 'talus-cushion-pocket')).toBe('Notebook fit: talus hold');
+    expect(advanceActiveFieldRequest(treelineContext, 'inspect', 'talus-cushion-pocket')).toMatchObject({
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+    });
+
+    expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        filedText:
+          'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket now trace the first climb into High Pass.',
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'moss-campion' },
+          { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        ],
+      },
+    });
+    expect(fileReadyRouteV2FieldRequest(treelineContext.save)).toBe('treeline-high-pass');
+  });
+
+  it('keeps High Pass dormant until the calm season-close return clears', () => {
+    const context = createTreelineContext(
+      ['forest-expedition-upper-run', 'forest-season-threads'],
+      'dwarf-shrub',
+    );
+    context.save.seasonCloseReturnPending = true;
+
+    expect(resolveActiveFieldRequest(context)).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'frost-heave-boulder')).toBeNull();
+    expect(context.save.routeV2Progress).toBeNull();
+  });
+
+  it('only lets reindeer-lichen fit the High Pass rime-mark slot during the active Rimed Pass state', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+        'treeline-low-fell',
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+      ],
+      'lichen-fell',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+      ],
+    };
+
+    expect(getHandLensNotebookFit(context, 'reindeer-lichen')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'reindeer-lichen')).toBeNull();
+
+    context.save.worldStep = 6;
+    context.save.biomeVisits.treeline = 2;
+
+    expect(getHandLensNotebookFit(context, 'reindeer-lichen')).toBe('Notebook fit: rime mark');
+    expect(getHandLensNotebookFit(context, 'moss-campion')).toBe('Notebook fit: rime mark');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'reindeer-lichen')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'treeline-high-pass',
+      title: 'Rimed Pass',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'reindeer-lichen' },
+        ],
+      },
+    });
+  });
+
+  it('turns forest-moisture-holders into a process-backed outing during the moisture-hold window', () => {
+    const context = createForestContext(['forest-hidden-hollow'], 'root-hollow');
+    context.save.worldStep = 6;
+    context.save.biomeVisits.forest = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'forest-moisture-holders',
+      title: 'Moist Hollow',
+      summary: 'Mist and damp ground make the cool hollow clues stand out again.',
+      progressLabel: '0/3 clues',
+    });
+  });
+
+  it('only lets tree-lungwort and seep-moss-mat fit during the active Moist Hollow state', () => {
+    const context = createForestContext(['forest-hidden-hollow'], 'filtered-return');
+
+    expect(getHandLensNotebookFit(context, 'tree-lungwort')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'tree-lungwort')).toBeNull();
+
+    context.save.worldStep = 6;
+    context.save.biomeVisits.forest = 2;
+
+    expect(getHandLensNotebookFit(context, 'tree-lungwort')).toBe('Notebook fit: shelter');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'tree-lungwort')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'forest-moisture-holders',
+      title: 'Moist Hollow',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [{ slotId: 'shelter', entryId: 'tree-lungwort' }],
+      },
+    });
+
+    expect(getHandLensNotebookFit(context, 'seep-moss-mat')).toBe('Notebook fit: ground');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'seep-moss-mat')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'forest-moisture-holders',
+      title: 'Moist Hollow',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'shelter', entryId: 'tree-lungwort' },
+          { slotId: 'ground', entryId: 'seep-moss-mat' },
+        ],
+      },
+    });
+  });
+
   it('turns beach-shore-shelter into a process-backed outing during the wrack-hold window', () => {
     const context = createBeachContext();
     context.save.worldStep = 6;
@@ -1161,6 +1382,82 @@ describe('field requests', () => {
       title: 'Thaw Window',
       summary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
       progressLabel: '0/3 clues',
+    });
+  });
+
+  it('turns treeline-low-fell into a phenology-backed outing during peak phase', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+      ],
+      'lichen-fell',
+    );
+    context.save.worldStep = 4;
+    context.save.biomeVisits.treeline = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Brief Bloom',
+      summary: 'Peak avens bloom makes the low open fell easiest to spot today.',
+      progressLabel: '0/4 clues',
+    });
+  });
+
+  it('only lets moss-campion fit the fell-bloom slot during the active Brief Bloom state', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+      ],
+      'lichen-fell',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-low-fell',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+      ],
+    };
+
+    expect(getHandLensNotebookFit(context, 'moss-campion')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'moss-campion')).toBeNull();
+
+    context.save.worldStep = 4;
+    context.save.biomeVisits.treeline = 2;
+
+    expect(getHandLensNotebookFit(context, 'moss-campion')).toBe('Notebook fit: fell bloom');
+    expect(getHandLensNotebookFit(context, 'mountain-avens')).toBe('Notebook fit: fell bloom');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'moss-campion')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Brief Bloom',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+          { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          { slotId: 'fell-bloom', entryId: 'moss-campion' },
+        ],
+      },
     });
   });
 

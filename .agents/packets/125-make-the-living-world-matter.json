@@ -1,0 +1,193 @@
+{
+  "packet_id": "ECO-PACKET-125",
+  "version": 11,
+  "created_at": "2026-04-16",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Sprint 2 make the living world matter",
+  "summary": "Sprint 2 should convert the living-world seam into stronger replay value, stronger home-place return payoff, and stronger relationship-teaching ecology without growing the shell.",
+  "source_reports": [
+    "docs/reports/2026-04-16-sprint-plan-queue-translation.md",
+    "docs/reports/2026-04-16-home-place-payoff-and-session-split-handoff.md",
+    "docs/reports/2026-04-16-home-place-payoff-and-session-split-implementation.md",
+    "docs/reports/2026-04-16-home-place-payoff-and-session-split-review.md",
+    "docs/reports/2026-04-16-coast-relationship-pass-handoff.md",
+    "docs/reports/2026-04-16-coast-relationship-pass-implementation.md",
+    "docs/reports/2026-04-16-coast-relationship-pass-review.md",
+    "docs/reports/2026-04-16-high-country-relief-continuation-handoff.md",
+    "docs/reports/2026-04-16-living-world-replay-variant-handoff.md",
+    "docs/reports/2026-04-16-living-world-replay-variant-implementation.md",
+    "docs/reports/2026-04-16-living-world-replay-variant-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260416-scout-303",
+    "ECO-20260416-main-303",
+    "ECO-20260416-critic-303",
+    "ECO-20260416-scout-304",
+    "ECO-20260416-main-304",
+    "ECO-20260416-critic-304",
+    "ECO-20260416-scout-305",
+    "ECO-20260416-main-305",
+    "ECO-20260416-critic-305",
+    "ECO-20260416-scout-306",
+    "ECO-20260416-main-306",
+    "ECO-20260416-critic-306"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260416-scout-303",
+      "goal": "Prepare the lane-1 home-place payoff and coordinator split handoff.",
+      "why_now": "The home loop should feel more earned before the project opens a larger next chapter."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260416-scout-304",
+      "goal": "Prepare the lane-2 relationship-teaching coast pass.",
+      "why_now": "The coast branch is still the best place to teach ecology through relationship rather than accumulation."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260416-scout-305",
+      "goal": "Prepare the lane-3 high-country relief continuation.",
+      "why_now": "The second act still wants one more unforgettable place."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260416-scout-306",
+      "goal": "Prepare the lane-4 living-world replay variant pass.",
+      "why_now": "Replay should change action rather than just route wording."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/field-station.ts",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts"
+  ],
+  "guardrails": [
+    "Replay should change what the player does, not just what text they read.",
+    "Home-place payoff should grow through the existing station shell.",
+    "Keep ecology teaching relationship-first rather than fact-count-first."
+  ],
+  "main_303_focus": {
+    "payoff_seam": "reuse the existing field-station arrivalPulse on the current sill-and-gutter accent family so earned returns feel warmer without adding copy",
+    "split_target": "move field-station session-open normalization and arrival-mode derivation out of game.ts",
+    "candidate_files": [
+      "src/engine/game.ts",
+      "src/engine/field-station.ts",
+      "src/engine/overlay-render.ts",
+      "src/test/overlay-copy.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "recommended_hotspots": [
+      "game.ts openFieldStation()",
+      "game.ts closeFieldStation()",
+      "game.ts getFieldStationArrivalPulse()",
+      "overlay-render.ts field-station growth/backdrop accent draw helpers"
+    ],
+    "avoid": [
+      "new station rows or recap copy",
+      "route-board text growth",
+      "reopening nursery copy budgets",
+      "a broader animation system"
+    ]
+  },
+  "main_304_focus": {
+    "target_seam": "one late-beach wrack-line relationship pass through the existing ecosystem-note and notebook-prompt surfaces",
+    "preferred_chain": [
+      "bull-kelp-wrack",
+      "beach-hopper",
+      "pacific-sand-crab",
+      "shorebirds as the visible follow-up"
+    ],
+    "file_targets": [
+      "src/content/biomes/beach.ts",
+      "src/engine/observation-prompts.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/observation-prompts.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "avoid": [
+      "new notebook layout or shell work",
+      "new comparison allowlist entries",
+      "new close-look cards",
+      "route-board or field-partner copy"
+    ]
+  },
+  "main_305_focus": {
+    "target_biome": "treeline",
+    "target_zone": "lichen-fell",
+    "target_band": "just beyond lee-pocket-lee-rest but before the tundra corridor door comes into range",
+    "recommended_shape": [
+      "one tiny fell-island step only if the current release still feels empty",
+      "one compact fell-island rest as the real open-fell benchmark stop"
+    ],
+    "preferred_carriers": [
+      "talus-cushion-pocket",
+      "moss-campion",
+      "mountain-avens"
+    ],
+    "optional_silhouette": [
+      "rock-ptarmigan"
+    ],
+    "file_targets": [
+      "src/content/biomes/treeline.ts",
+      "src/test/treeline-biome.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "avoid": [
+      "reopening krummholz-belt",
+      "adding more height to the lee-pocket family",
+      "touching tundra geometry",
+      "moving corridor door or travel logic",
+      "adding a new traversal family or UI surface"
+    ]
+  },
+  "main_306_focus": {
+    "front_half_route": "forest-moisture-holders",
+    "front_half_variant": "Moist Hollow",
+    "inland_route": "treeline-low-fell",
+    "inland_variant": "Brief Bloom",
+    "target_seam": "let Route v2 replay focuses add alternate clue carriers so existing replay labels become action-changing instead of text-only",
+    "candidate_files": [
+      "src/engine/field-requests.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "recommended_hotspots": [
+      "field-requests.ts RouteV2ProcessFocus and FieldRequestWorldStateFocus",
+      "field-requests.ts getActiveEvidenceSlotEntryIds()",
+      "field-requests.ts prefersHandLensActiveRouteEntry()",
+      "forest-moisture-holders definition",
+      "treeline-low-fell definition"
+    ],
+    "front_half_alt_slots": {
+      "shelter": [
+        "tree-lungwort"
+      ],
+      "ground": [
+        "seep-moss-mat"
+      ]
+    },
+    "inland_alt_slots": {
+      "fell-bloom": [
+        "moss-campion"
+      ]
+    },
+    "avoid": [
+      "new replay HUD or planner copy",
+      "broad weather/day-part framework work",
+      "invented Creek Bend alternates for forest-cool-edge",
+      "changing filed note text away from clue-backed names"
+    ]
+  }
+}

@@ -34,6 +34,12 @@ Useful commands:
 - `npm run validate:agents`: validate queue and packet consistency for the agent system
 - `npm run preview`: preview the built app locally
 
+Fresh machine or review-drop verification after `npm install` should at minimum run:
+
+- `npm run build`
+- `npm run test`
+- `npm run validate:agents`
+
 ## Controls
 
 - `A / D` or `Left / Right`: move

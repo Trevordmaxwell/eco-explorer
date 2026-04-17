@@ -164,8 +164,8 @@ export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator
       worldMapLabel: 'Today: High Pass',
       routeBoardSummary: 'High Pass opens next from Treeline Pass into the next field season.',
       routeBoardNextDirection:
-        'Next: travel to Treeline Pass and log the last tree shape, then low wood, then fell bloom.',
-      atlasNote: 'Next: take the High Pass from Treeline Pass.',
+        'Next: travel to Treeline Pass and read High Pass through stone lift, lee watch, rime mark, and talus hold.',
+      atlasNote: 'Next: take High Pass from stone lift to talus hold.',
     };
   }
 
@@ -1195,6 +1195,8 @@ function resolveNextSeasonSetupTeaser(save: SaveState): FieldSeasonExpeditionTea
 
 export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonExpeditionState {
   const loggedRouteCount = getLoggedRouteCount(save);
+  const nextSeasonTargetBiomeId = resolveNextFieldSeasonTargetBiomeId(save);
+  const nextSeasonOuting = resolveSeasonOutingLocator(save);
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
   const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
   const expeditionNotebookReady = isExpeditionNotebookReady(save);
@@ -1211,6 +1213,19 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
 
   switch (status) {
     case 'logged':
+      if (nextSeasonTargetBiomeId && nextSeasonOuting) {
+        const nextSeasonLocation = getWorldMapLocationByBiomeId(ecoWorldMap, nextSeasonTargetBiomeId);
+        return {
+          id: 'root-hollow-expedition',
+          title: nextSeasonOuting.title.toUpperCase(),
+          status,
+          statusLabel: 'NEXT',
+          summary: resolveRegionalBridgeLine(nextSeasonOuting.title, nextSeasonTargetBiomeId),
+          startText: `${nextSeasonLocation.label} to ${nextSeasonOuting.title}`,
+          note: `Start from ${nextSeasonLocation.label} when you want the next field season.`,
+          teaser: null,
+        };
+      }
       return {
         id: 'root-hollow-expedition',
         title: 'ROOT HOLLOW',

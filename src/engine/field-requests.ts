@@ -42,6 +42,7 @@ interface FieldRequestWorldStateFocus {
   phenologyPhase?: PhenologyPhase;
   activeTitle?: string;
   activeSummary: string;
+  activeSlotEntryIdsBySlotId?: Record<string, string[]>;
 }
 
 interface EvidenceSlotDefinition {
@@ -255,6 +256,15 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       readyText: 'Return to the field station and file the Moisture Holders note.',
       filedText: 'Shelter, damp ground, and slug life show the hollow holding moisture.',
       clueBackedTail: 'show the hollow holding moisture.',
+    },
+    processFocus: {
+      momentId: 'moisture-hold',
+      activeTitle: 'Moist Hollow',
+      activeSummary: 'Mist and damp ground make the cool hollow clues stand out again.',
+      activeSlotEntryIdsBySlotId: {
+        shelter: ['tree-lungwort'],
+        ground: ['seep-moss-mat'],
+      },
     },
     completionTriggers: ['inspect'],
   },
@@ -528,6 +538,14 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       filedText: 'Last tree shape, low wood, fell bloom, and low rest now trace the full drop from treeline shelter into open fell.',
       clueBackedTail: 'now trace the full drop from treeline shelter into open fell.',
     },
+    worldStateFocus: {
+      phenologyPhase: 'peak',
+      activeTitle: 'Brief Bloom',
+      activeSummary: 'Peak avens bloom makes the low open fell easiest to spot today.',
+      activeSlotEntryIdsBySlotId: {
+        'fell-bloom': ['moss-campion'],
+      },
+    },
     completionTriggers: ['inspect'],
   },
   {
@@ -578,6 +596,53 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     type: 'inspect-entry-set',
     entryIds: ['sword-fern', 'salmonberry', 'tree-lungwort'],
     minimumCount: 3,
+    completionTriggers: ['inspect'],
+  },
+  {
+    id: 'treeline-high-pass',
+    biomeId: 'treeline',
+    title: 'High Pass',
+    summary: 'In Treeline Pass, log stone-lift, lee-watch, rime-mark, and talus-hold clues into High Pass.',
+    unlockAfter: ['forest-season-threads'],
+    type: 'assemble-evidence',
+    zoneIds: ['dwarf-shrub', 'lichen-fell'],
+    evidenceSlots: [
+      {
+        id: 'stone-lift',
+        label: 'Stone-lift clue',
+        entryIds: ['frost-heave-boulder'],
+      },
+      {
+        id: 'lee-watch',
+        label: 'Lee-watch clue',
+        entryIds: ['hoary-marmot'],
+      },
+      {
+        id: 'rime-mark',
+        label: 'Rime-mark clue',
+        entryIds: ['moss-campion'],
+      },
+      {
+        id: 'talus-hold',
+        label: 'Talus-hold clue',
+        entryIds: ['talus-cushion-pocket'],
+      },
+    ],
+    slotOrder: ['stone-lift', 'lee-watch', 'rime-mark', 'talus-hold'],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the High Pass note.',
+      filedText: 'Stone lift, lee watch, rime mark, and talus hold now trace the first climb into High Pass.',
+      clueBackedTail: 'now trace the first climb into High Pass.',
+    },
+    processFocus: {
+      momentId: 'frost-rime',
+      activeTitle: 'Rimed Pass',
+      activeSummary: 'Late ridge rime makes the cold-ground mark easier to follow through High Pass today.',
+      activeSlotEntryIdsBySlotId: {
+        'rime-mark': ['reindeer-lichen'],
+      },
+    },
     completionTriggers: ['inspect'],
   },
 ] as const;
@@ -709,7 +774,9 @@ function getActiveEvidenceSlotEntryIds(
   const baseEntryIds = definition.evidenceSlots.find((slot) => slot.id === slotId)?.entryIds ?? [];
   const activeProcessEntryIds = getActiveRouteV2ProcessFocus(definition, context)
     ?.activeSlotEntryIdsBySlotId?.[slotId] ?? [];
-  return new Set([...baseEntryIds, ...activeProcessEntryIds]);
+  const activeWorldStateEntryIds = getActiveFieldRequestWorldStateFocus(definition, context)
+    ?.activeSlotEntryIdsBySlotId?.[slotId] ?? [];
+  return new Set([...baseEntryIds, ...activeProcessEntryIds, ...activeWorldStateEntryIds]);
 }
 
 function resolveObservedZoneId(
@@ -879,6 +946,13 @@ function getActiveFieldRequestWorldStateFocus(
 
 function isUnlocked(definition: FieldRequestDefinition, completedIds: string[]): boolean {
   return (definition.unlockAfter ?? []).every((requestId) => completedIds.includes(requestId));
+}
+
+function isDeferredUntilSeasonCloseClears(
+  definition: FieldRequestDefinition,
+  save: SaveState,
+): boolean {
+  return definition.id === 'treeline-high-pass' && save.seasonCloseReturnPending;
 }
 
 function dependsOnRequest(
@@ -1174,6 +1248,10 @@ function getActiveFieldRequestDefinition(
       continue;
     }
 
+    if (isDeferredUntilSeasonCloseClears(definition, context.save)) {
+      continue;
+    }
+
     const biome = context.biomes[definition.biomeId];
     if (!biome) {
       continue;
@@ -1256,8 +1334,10 @@ export function prefersHandLensActiveRouteEntry(
 
   const activeProcessEntryIds = getActiveRouteV2ProcessFocus(definition, context)
     ?.activeSlotEntryIdsBySlotId?.[nextSlotId] ?? [];
+  const activeWorldStateEntryIds = getActiveFieldRequestWorldStateFocus(definition, context)
+    ?.activeSlotEntryIdsBySlotId?.[nextSlotId] ?? [];
 
-  return activeProcessEntryIds.includes(entryId);
+  return [...activeProcessEntryIds, ...activeWorldStateEntryIds].includes(entryId);
 }
 
 export function resolveActiveFieldRequest(
@@ -1408,6 +1488,10 @@ export function advanceActiveFieldRequest(
     }
 
     if (!isUnlocked(definition, context.save.completedFieldRequestIds)) {
+      continue;
+    }
+
+    if (isDeferredUntilSeasonCloseClears(definition, context.save)) {
       continue;
     }
 

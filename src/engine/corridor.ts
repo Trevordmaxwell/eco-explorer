@@ -18,6 +18,7 @@ import type {
   BiomeInstance,
   Cloud,
   Facing,
+  Platform,
   SaveState,
   Sparkle,
   TerrainSample,
@@ -67,6 +68,7 @@ interface CorridorSpec {
   };
   entries: BiomeDefinition['entries'];
   placements: Array<{ entryId: string; x: number; jitter: number }>;
+  authoredPlatforms?: Platform[];
   entryPoints: Record<string, { x: number; y: number; facing: Facing }>;
   phenology?: BiomeDefinition['phenology'];
 }
@@ -156,6 +158,24 @@ const corridorSpecs: CorridorSpec[] = [
       { entryId: 'dune-lupine', x: 186, jitter: 4 },
       { entryId: 'pacific-wax-myrtle', x: 210, jitter: 3 },
       { entryId: 'coyote-brush', x: 232, jitter: 2 },
+    ],
+    authoredPlatforms: [
+      {
+        id: 'back-dune-hold-lip',
+        spriteId: 'drift-platform',
+        x: 164,
+        y: 101,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'back-dune-hold-rest',
+        spriteId: 'drift-platform',
+        x: 188,
+        y: 97,
+        w: 24,
+        h: 4,
+      },
     ],
     entryPoints: {
       beach: { x: 20, y: 94, facing: 'right' },
@@ -523,6 +543,7 @@ function createDefinition(spec: CorridorSpec): BiomeDefinition {
         { id: 'destination-anchor', label: 'Destination Anchor', start: 208, end: 256, surfaceBaseY: spec.terrain.endY, surfaceVariance: 2 },
       ],
       platformRules: [],
+      authoredPlatforms: spec.authoredPlatforms,
     },
     spawnTables: [],
     ambientRules: {
@@ -543,7 +564,7 @@ function createInstance(spec: CorridorSpec, seed: string): BiomeInstance {
     biomeId: spec.id,
     visitCount: 0,
     terrainSamples,
-    platforms: [],
+    platforms: (spec.authoredPlatforms ?? []).map((platform) => ({ ...platform })),
     depthFeatures: [],
     climbables: [],
     entities: createEntities(spec, seed, terrainSamples),

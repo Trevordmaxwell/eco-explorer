@@ -3,13 +3,18 @@ import { describe, expect, it } from 'vitest';
 import { biomeRegistry } from '../content/biomes';
 import { beachBiome } from '../content/biomes/beach';
 import {
-  getJumpSpeed,
   getFieldUpgradeStates,
+  getJumpSpeed,
   getRecentFieldCreditSources,
   getWalkSpeed,
   purchaseFieldUpgrade,
   syncFieldStationLedger,
 } from '../engine/field-station';
+import {
+  getFieldStationArrivalPulseValue,
+  resolveFieldStationOpenState,
+  type FieldStationArrivalMode,
+} from '../engine/field-station-session';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
 
 describe('field station ledger', () => {
@@ -90,5 +95,27 @@ describe('field station ledger', () => {
     expect(purchaseFieldUpgrade(save, 'trail-stride')).toBe(false);
     expect(purchaseFieldUpgrade(save, 'field-step')).toBe(false);
     expect(purchaseFieldUpgrade(save, 'route-marker')).toBe(false);
+  });
+
+  it('derives a homecoming field-station open state only when return progress changed something', () => {
+    const save = createNewSaveState('field-station-open-earned');
+    save.completedFieldRequestIds = ['forest-hidden-hollow'];
+
+    const earnedOpen = resolveFieldStationOpenState(biomeRegistry, save, null, null);
+
+    expect(earnedOpen.arrivalMode).toBe<FieldStationArrivalMode>('homecoming');
+    expect(earnedOpen.persistNeeded).toBe(true);
+    expect(earnedOpen.selectedFieldStationUpgradeId).toBe('trail-stride');
+
+    const calmOpen = resolveFieldStationOpenState(biomeRegistry, save, 'trail-stride', null);
+    expect(calmOpen.arrivalMode).toBe<FieldStationArrivalMode>('default');
+    expect(calmOpen.persistNeeded).toBe(false);
+    expect(calmOpen.selectedFieldStationUpgradeId).toBe('trail-stride');
+  });
+
+  it('reports arrival pulse only while the field station is open', () => {
+    expect(getFieldStationArrivalPulseValue('field-station', 0.2, 0.4)).toBe(0.5);
+    expect(getFieldStationArrivalPulseValue('other', 0.2, 0.4)).toBe(0);
+    expect(getFieldStationArrivalPulseValue('field-station', 0, 0.4)).toBe(0);
   });
 });

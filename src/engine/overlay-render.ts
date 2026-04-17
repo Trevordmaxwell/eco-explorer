@@ -6,8 +6,10 @@ import type {
   FieldSeasonWrapState,
 } from './field-season-board';
 import type { FieldUpgradeState } from './field-station';
+import type { FieldStationArrivalMode } from './field-station-session';
 import type { ActiveFieldRequest } from './field-requests';
 import type { FieldPartnerNotice } from './field-partner';
+import { drawFieldStationExpeditionPage } from './field-station-expedition-page';
 import { drawFieldStationNurseryPage } from './field-station-nursery-page';
 import type { JournalComparison } from './journal-comparison';
 import type { JournalBiomeProgress } from './journal';
@@ -292,6 +294,7 @@ interface FieldStationOverlayOptions extends OverlaySurfaceOptions {
   selectedNurseryCardId: NurseryCardId;
   nursery: NurseryStateView;
   arrivalPulse: number;
+  arrivalMode: FieldStationArrivalMode;
 }
 
 interface FieldGuideNoticeOptions extends OverlaySurfaceOptions {
@@ -1136,12 +1139,31 @@ export function resolveFieldStationBackdropAccentState({
   };
 }
 
+export function resolveFieldStationBackdropPulseState(
+  accent: FieldStationBackdropAccentState,
+  arrivalMode: FieldStationArrivalMode,
+  arrivalPulse: number,
+): {
+  renderLeftBrace: boolean;
+  renderRightBrace: boolean;
+  renderCenterTie: boolean;
+} {
+  const pulseShell = arrivalMode === 'homecoming' && arrivalPulse > 0;
+  return {
+    renderLeftBrace: accent.hasLeftBrace || pulseShell,
+    renderRightBrace: accent.hasRightBrace || pulseShell,
+    renderCenterTie: accent.hasCenterTie || pulseShell,
+  };
+}
+
 function drawFieldStationBackdropAccent(
   context: CanvasRenderingContext2D,
   panelRect: UiRect,
   palette: BiomeDefinition['palette'],
   nursery: NurseryStateView,
   loggedRouteCount: number,
+  arrivalPulse: number,
+  arrivalMode: FieldStationArrivalMode,
 ): void {
   const accent = resolveFieldStationBackdropAccentState({
     teachingBedStage: nursery.activeProject?.state.stage ?? null,
@@ -1150,8 +1172,9 @@ function drawFieldStationBackdropAccent(
     compostRate: nursery.compostRate,
     loggedRouteCount,
   });
+  const pulseState = resolveFieldStationBackdropPulseState(accent, arrivalMode, arrivalPulse);
 
-  if (!accent.showAccent) {
+  if (!accent.showAccent && !pulseState.renderLeftBrace && !pulseState.renderRightBrace) {
     return;
   }
 
@@ -1175,15 +1198,15 @@ function drawFieldStationBackdropAccent(
     context.fillRect(crossbarX + 1, braceBottom - 5, 2, 1);
   };
 
-  if (accent.hasLeftBrace) {
+  if (pulseState.renderLeftBrace) {
     drawBrace(leftBraceX, 'left');
   }
 
-  if (accent.hasRightBrace) {
+  if (pulseState.renderRightBrace) {
     drawBrace(rightBraceX, 'right');
   }
 
-  if (accent.hasCenterTie) {
+  if (pulseState.renderCenterTie) {
     const tieY = braceTop + Math.floor(braceHeight / 2);
     context.fillStyle = palette.cardShadow;
     if (accent.hasLeftBrace) {
@@ -1375,6 +1398,7 @@ export function drawFieldStationOverlay({
   selectedNurseryCardId,
   nursery,
   arrivalPulse,
+  arrivalMode,
 }: FieldStationOverlayOptions): void {
   const panelWidth = Math.min(width - 24, 204);
   const panelRect = makeRect(Math.floor((width - panelWidth) / 2), 8, panelWidth, height - 16);
@@ -1396,6 +1420,8 @@ export function drawFieldStationOverlay({
     palette,
     nursery,
     atlas?.loggedRoutes.length ?? 0,
+    arrivalPulse,
+    arrivalMode,
   );
   drawFieldStationGrowthAccent(
     context,
@@ -1456,62 +1482,13 @@ export function drawFieldStationOverlay({
     );
 
     if (seasonPage === 'expedition') {
-      const cardRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, 72);
-      const expeditionStatusColor = expedition.status === 'locked' ? palette.text : palette.accent;
-
-      fillPixelPanel(context, cardRect.x, cardRect.y, cardRect.w, cardRect.h, palette.journalPage, palette.accent);
-      drawUiText(context, expedition.title, cardRect.x + 4, cardRect.y + 5, palette.text);
-      drawUiText(
+      drawFieldStationExpeditionPage({
         context,
-        expedition.statusLabel,
-        rightAlignTextX(context, expedition.statusLabel, cardRect, 4),
-        cardRect.y + 5,
-        expeditionStatusColor,
-      );
-      drawWrappedTextInRect(
-        context,
-        expedition.summary,
-        makeRect(cardRect.x + 4, cardRect.y + 14, cardRect.w - 8, 18),
-        6,
-        palette.text,
-        3,
-      );
-      drawUiText(context, 'STARTS', cardRect.x + 4, cardRect.y + 36, palette.accent);
-      drawUiText(
-        context,
-        fitTextToWidth(context, expedition.startText, cardRect.w - 46),
-        cardRect.x + 40,
-        cardRect.y + 36,
-        palette.text,
-      );
-      drawWrappedTextInRect(
-        context,
-        expedition.note,
-        makeRect(cardRect.x + 4, cardRect.y + 46, cardRect.w - 8, 18),
-        6,
-        expeditionStatusColor,
-        3,
-      );
-      if (expedition.teaser) {
-        const teaserRect = makeRect(contentRect.x, cardRect.y + cardRect.h + 2, contentRect.w, 13);
-        fillPixelPanel(
-          context,
-          teaserRect.x,
-          teaserRect.y,
-          teaserRect.w,
-          teaserRect.h,
-          palette.journalSelected,
-          palette.cardShadow,
-        );
-        drawUiText(context, expedition.teaser.label, teaserRect.x + 4, teaserRect.y + 2, palette.accent);
-        drawUiText(
-          context,
-          fitTextToWidth(context, expedition.teaser.text, teaserRect.w - 8),
-          teaserRect.x + 4,
-          teaserRect.y + 8,
-          palette.text,
-        );
-      }
+        palette,
+        contentRect,
+        seasonBodyTop,
+        expedition,
+      });
       return;
     }
 
