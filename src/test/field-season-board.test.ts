@@ -15,6 +15,7 @@ import {
   resolveFieldStationSubtitle,
   resolveFieldSeasonWrapState,
 } from '../engine/field-season-wrap';
+import { resolveHighPassChapterState } from '../engine/high-pass-chapter-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 
 describe('field season board', () => {
@@ -1667,6 +1668,37 @@ describe('field season board', () => {
     ).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Root Hollow now leads to High Pass.',
+    });
+  });
+
+  it('hardens the High Pass chapter helper across the calm season-close return beat', () => {
+    const save = createNewSaveState('high-pass-chapter-state-seed');
+
+    expect(resolveHighPassChapterState(save)).toBeNull();
+
+    save.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    save.seasonCloseReturnPending = true;
+
+    expect(resolveHighPassChapterState(save)).toMatchObject({
+      title: 'High Pass',
+      targetBiomeId: 'treeline',
+      summary: 'Treeline Pass carries the season toward High Pass.',
+      routeBoardSummary: 'High Pass opens next from Treeline Pass into the next field season.',
+      dormantAtlasNote: 'Next: take High Pass from stone lift to talus hold.',
+      liveAtlasNote: 'Filed season: High Pass from Treeline Pass.',
+      routesSubtitle: 'High Pass starts at Treeline Pass.',
+      archiveText: 'Root Hollow now leads to High Pass.',
+      expeditionTeaser: 'Treeline Pass waits beyond Root Hollow.',
+      cardTitle: 'HIGH PASS',
+      cardStartText: 'Treeline Pass to High Pass',
+      dormantUntilSeasonCloseClears: true,
+    });
+
+    save.seasonCloseReturnPending = false;
+
+    expect(resolveHighPassChapterState(save)).toMatchObject({
+      dormantUntilSeasonCloseClears: false,
+      liveAtlasNote: 'Filed season: High Pass from Treeline Pass.',
     });
   });
 

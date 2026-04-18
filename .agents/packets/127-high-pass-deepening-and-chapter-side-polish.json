@@ -1,0 +1,221 @@
+{
+  "packet_id": "ECO-PACKET-127",
+  "version": 7,
+  "created_at": "2026-04-18",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Sprint 4 deepen High Pass into a full chapter",
+  "summary": "Sprint 4 should make High Pass feel like a real next chapter by hardening chapter-state composition, deepening relationship teaching, adding one more remembered spatial payoff, and sharpening the current Route v2 replay/support feel without widening the shell.",
+  "source_reports": [
+    "docs/reports/2026-04-18-high-pass-deepening-phase.md",
+    "docs/reports/2026-04-18-high-pass-relationship-pack-handoff.md",
+    "docs/reports/2026-04-18-high-pass-relationship-pack-implementation.md",
+    "docs/reports/2026-04-18-high-pass-relationship-pack-review.md",
+    "docs/reports/2026-04-18-high-pass-chapter-state-hardening-handoff.md",
+    "docs/reports/2026-04-17-high-pass-rime-brow-handoff.md",
+    "docs/reports/2026-04-18-high-pass-route-refinement-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260418-scout-311",
+    "ECO-20260418-main-311",
+    "ECO-20260418-critic-311",
+    "ECO-20260418-scout-312",
+    "ECO-20260418-main-312",
+    "ECO-20260418-critic-312",
+    "ECO-20260418-scout-313",
+    "ECO-20260418-main-313",
+    "ECO-20260418-critic-313",
+    "ECO-20260418-scout-314",
+    "ECO-20260418-main-314",
+    "ECO-20260418-critic-314"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260418-scout-311",
+      "goal": "Prepare the lane-1 High Pass chapter-state hardening pass.",
+      "why_now": "The live next chapter should not broaden further until its filed-season and expedition state resolves through a smaller seam."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260418-scout-312",
+      "goal": "Prepare the lane-2 High Pass relationship-teaching pack.",
+      "why_now": "High Pass now exists as a chapter shell, but it still needs one relationship-first ecology pass to feel distinct and educational."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260418-scout-313",
+      "goal": "Prepare the lane-3 High Pass chapter-side spatial payoff.",
+      "why_now": "Stone Shelter gives the chapter a remembered middle, but the climb still wants one more memorable frame beyond that basin."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260418-scout-314",
+      "goal": "Prepare the lane-4 High Pass route refinement pass.",
+      "why_now": "The current High Pass outing works, so the next spend should deepen its replay and support feel rather than open a second route."
+    }
+  ],
+  "file_targets": [
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/close-look.ts",
+    "src/content/biomes/treeline.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/close-look.test.ts",
+    "src/test/treeline-biome.test.ts"
+  ],
+  "guardrails": [
+    "Deepen the live High Pass chapter before opening season three, biome six, or another major shell.",
+    "Keep station, expedition, journal, and Route v2 growth compact and handheld-safe at `256x160`.",
+    "Prefer one more relationship-teaching pass, one more remembered place, and one sharper replay seam over denser notebook prose or broader UI.",
+    "Land at least one more protective extraction from `field-season-board.ts`, `game.ts`, or an adjacent chapter-state seam before further chapter expansion."
+  ],
+  "main_311_focus": {
+    "chapter_state_target": "Harden the live High Pass / filed-season chapter state so outing locator, continuity copy, atlas note, launch card, and expedition card all derive from one compact helper instead of regrowing inline resolver logic.",
+    "protective_split_target": "Extract the repeated High Pass next-chapter composition out of `src/engine/field-season-board.ts` into a dedicated helper such as `src/engine/high-pass-chapter-state.ts`, leaving only thin adapters behind.",
+    "watch_item": "Only add a dedicated filed-season chapter status if the expedition shell truly needs another explicit state; prefer a smaller composition helper first, and leave the existing `treeline-high-pass` dormancy guard in `field-requests.ts` alone unless one tiny shared boolean is genuinely needed.",
+    "preferred_files": [
+      "src/engine/high-pass-chapter-state.ts",
+      "src/engine/field-season-board.ts",
+      "src/engine/field-requests.ts",
+      "src/engine/field-station-state.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "High Pass stays dormant while the calm season-close return is still pending.",
+      "The chapter reads cleanly once it becomes live from the current station, atlas, and expedition surfaces.",
+      "The refactor reduces inline chapter-state composition instead of introducing another dashboard seam."
+    ],
+    "non_goals": [
+      "Do not add another field-station page or planner row.",
+      "Do not widen the expedition shell into a dashboard.",
+      "Do not reopen unrelated route-board or nursery copy.",
+      "Do not invent a broader chapter framework if a High Pass-specific helper is enough."
+    ]
+  },
+  "main_312_focus": {
+    "chapter_target": "One relationship-first High Pass content pass that teaches shelter, exposure, wind, rime, and foothold ecology through the current chapter carriers instead of a wider fact dump.",
+    "preferred_entries": [
+      "moss-campion",
+      "reindeer-lichen",
+      "talus-cushion-pocket"
+    ],
+    "preferred_surfaces": [
+      "one compact ecosystem note in `lichen-fell`",
+      "one note-backed relationship explanation for the `rime-mark` plus `talus-hold` seam",
+      "existing ecosystem-note prompt fallback before any new authored seed"
+    ],
+    "preferred_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "relationship_note_target": {
+      "title_direction": "Rime Footholds",
+      "zone_id": "lichen-fell",
+      "entry_ids": [
+        "moss-campion",
+        "reindeer-lichen",
+        "talus-cushion-pocket"
+      ],
+      "summary_direction": "On exposed High Pass ground, wind and rime favor the lowest mats and lichens while tiny rock pockets still give them a place to hold.",
+      "prompt_direction": "What here still holds on where rime reaches first?"
+    },
+    "non_goals": [
+      "Do not make the existing `hoary-marmot` or `dwarf-birch` cards denser just because the chapter is new.",
+      "Do not add another comparison allowlist entry unless the note fallback proves insufficient.",
+      "Do not widen the atlas, journal shell, or comparison allowlists.",
+      "Do not reopen a broader alpine or tundra content wave in this chunk."
+    ]
+  },
+  "main_313_focus": {
+    "chapter_target": "One additional High Pass spatial payoff beyond Stone Shelter by turning the current rime-mark crest band into a real exposure-release overlook instead of ending the chapter as one good basin plus a route card.",
+    "preferred_zone": "late dwarf-shrub through the lee shelf into the first exposed lichen-fell",
+    "preferred_band": {
+      "x": [476, 534],
+      "y": [80, 96]
+    },
+    "preferred_space": [
+      "one compact Rime Brow overlook anchored around the current rime-cap and crest-brow band",
+      "optionally one tiny recoverable return step only if the reveal needs rhythm after the overlook reads"
+    ],
+    "preferred_entries": [
+      "moss-campion",
+      "reindeer-lichen",
+      "talus-cushion-pocket"
+    ],
+    "preferred_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/treeline-biome.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not spend more authored density inside the current Stone Shelter basin band (`x 320-372`).",
+      "Do not add another lift immediately to the right of the open-fell island.",
+      "Do not touch the tundra corridor door or travel logic.",
+      "Do not add a new traversal family, climbable, or text surface."
+    ]
+  },
+  "main_314_focus": {
+    "chapter_target": "Deepen the live `treeline-high-pass` outing so the replay/support seam feels more distinct in play without opening a second High Pass route.",
+    "request_id": "treeline-high-pass",
+    "preferred_shape": {
+      "title": "High Pass",
+      "type": "assemble-evidence",
+      "slotOrder": [
+        "stone-lift",
+        "lee-watch",
+        "rime-mark",
+        "talus-hold"
+      ]
+    },
+    "support_target": "Spend one more compact support or carrier consequence inside the current `stone-lift -> lee-watch -> rime-mark -> talus-hold` chain while keeping route-marker, note-tabs filing, and the station shell unchanged.",
+    "preferred_proof_band": {
+      "zone": "late dwarf-shrub into first lichen-fell lee-pocket rime shelf",
+      "x": [
+        448,
+        520
+      ],
+      "y": [
+        76,
+        96
+      ]
+    },
+    "replay_target": {
+      "momentId": "frost-rime",
+      "activeTitle": "Rimed Pass",
+      "priority": "Make the middle `rime-mark` band feel more distinct through the existing alternate-carrier or support seam rather than only a title change.",
+      "preferred_active_carrier": "reindeer-lichen",
+      "comparison_entries": [
+        "moss-campion",
+        "talus-cushion-pocket"
+      ]
+    },
+    "structural_watch": "If more deferred next-season requests appear later, move the dormancy guard into request metadata or a shared selection seam instead of stacking more request-id checks.",
+    "preferred_files": [
+      "src/engine/field-requests.ts",
+      "src/engine/field-request-controller.ts",
+      "src/engine/field-season-board.ts",
+      "src/test/field-request-controller.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not add a second High Pass route.",
+      "Do not add another station page, planner row, or route-board shell.",
+      "Do not reopen a broad weather/day-part framework pass.",
+      "Do not change the route away from the current clue-backed filing path."
+    ]
+  }
+}

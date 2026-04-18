@@ -174,6 +174,92 @@ describe('field request controller', () => {
     expect(prefersHandLensActiveEntry(noteTabsController, 'beach-grass', 'back-dune')).toBe(false);
   });
 
+  it('marks the High Pass rime shelf as an active-clue retarget during Rimed Pass', () => {
+    const handLensSave = createNewSaveState('field-request-controller-rimed-pass-preference');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ];
+    handLensSave.worldStep = 6;
+    handLensSave.biomeVisits.treeline = 2;
+    handLensSave.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+      ],
+    };
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'dwarf-shrub',
+      scenePlayerX: 465,
+      scenePlayerY: 88,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getInspectBubbleResourceNote(controller, 'moss-campion', 'dwarf-shrub')).toBe(
+      'Notebook fit: rime mark',
+    );
+    expect(getInspectBubbleResourceNote(controller, 'reindeer-lichen', 'dwarf-shrub')).toBe(
+      'LENS CLUE: rime mark',
+    );
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-campion',
+          entryId: 'moss-campion',
+          x: 460,
+          y: 84,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lichen',
+          entryId: 'reindeer-lichen',
+          x: 476,
+          y: 84,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 465, y: 89 },
+      24,
+      () => 'dwarf-shrub',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-lichen');
+    expect(selection.nearestInspectable?.entryId).toBe('reindeer-lichen');
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(true);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Rimed Pass',
+      variant: 'support-biased',
+    });
+  });
+
   it('formats one stronger inspect-bubble cue only for the active hand-lens winner', () => {
     const handLensSave = createNewSaveState('field-request-controller-resource-note');
     handLensSave.selectedOutingSupportId = 'hand-lens';

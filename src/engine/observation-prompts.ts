@@ -134,6 +134,15 @@ export const OBSERVATION_PROMPT_SEEDS: readonly ObservationPromptSeed[] = [
     requiredEntryIds: ['salmonberry', 'sword-fern', 'redwood-sorrel'],
   },
   {
+    id: 'treeline-rime-footholds',
+    biomeId: 'treeline',
+    family: 'neighbors',
+    text: 'What here still holds on where rime reaches first?',
+    zoneIds: ['lichen-fell'],
+    weatherProfiles: ['ridge-wind'],
+    requiredEntryIds: ['reindeer-lichen', 'talus-cushion-pocket'],
+  },
+  {
     id: 'treeline-lowest-wind',
     biomeId: 'treeline',
     family: 'shelter',

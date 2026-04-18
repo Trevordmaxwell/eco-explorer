@@ -261,15 +261,15 @@ export const treelineBiome: BiomeDefinition = {
         spriteId: 'granite-platform',
         x: 488,
         y: 88,
-        w: 16,
+        w: 28,
         h: 4,
       },
       {
         id: 'lee-pocket-crest-brow',
         spriteId: 'granite-platform',
-        x: 506,
+        x: 520,
         y: 80,
-        w: 20,
+        w: 16,
         h: 4,
       },
       {
@@ -356,6 +356,13 @@ export const treelineBiome: BiomeDefinition = {
         entryId: 'talus-cushion-pocket',
         x: 448,
         y: 90,
+        castsShadow: false,
+      },
+      {
+        id: 'rime-brow-lichen',
+        entryId: 'reindeer-lichen',
+        x: 512,
+        y: 84,
         castsShadow: false,
       },
       {
@@ -660,6 +667,17 @@ export const treelineBiome: BiomeDefinition = {
         'Among bare alpine stones, tiny sheltered pockets let low life keep a foothold.',
       observationPrompt:
         'What here stays alive between bare stones?',
+      zoneId: 'lichen-fell',
+    },
+    {
+      id: 'rime-footholds',
+      title: 'Rime Footholds',
+      entryIds: ['moss-campion', 'reindeer-lichen', 'talus-cushion-pocket'],
+      minimumDiscoveries: 2,
+      summary:
+        'Wind and rime favor the lowest life on exposed High Pass ground, and tiny rock pockets still give it foothold.',
+      observationPrompt:
+        'What here still holds on where rime reaches first?',
       zoneId: 'lichen-fell',
     },
     {

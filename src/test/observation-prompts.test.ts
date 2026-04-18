@@ -346,6 +346,35 @@ describe('observation prompt resolution', () => {
     });
   });
 
+  it('uses the new High Pass rime seed once talus and rime evidence overlap on the fell', () => {
+    const ecosystemNote = resolveEcosystemNoteForEntry(
+      treelineBiome,
+      'talus-cushion-pocket',
+      ['talus-cushion-pocket', 'reindeer-lichen'],
+    );
+
+    const prompt = resolveObservationPrompt({
+      biome: treelineBiome,
+      zoneId: 'lichen-fell',
+      nearbyDiscoveredEntryIds: ['reindeer-lichen', 'talus-cushion-pocket'],
+      selectedEntryId: 'talus-cushion-pocket',
+      ecosystemNote,
+      worldState: {
+        worldAge: 6,
+        dayPart: 'day',
+        weather: 'ridge-wind',
+        phenologyPhase: 'late',
+      },
+    });
+
+    expect(prompt).toMatchObject({
+      id: 'treeline-rime-footholds',
+      family: 'neighbors',
+      source: 'seed',
+      text: 'What here still holds on where rime reaches first?',
+    });
+  });
+
   it('uses the new tundra thaw-timing seed once ridge flower evidence is present', () => {
     const prompt = resolveObservationPrompt({
       biome: tundraBiome,

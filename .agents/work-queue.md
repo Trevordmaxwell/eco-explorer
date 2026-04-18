@@ -224,6 +224,320 @@ Use this section for newly discovered work that is not yet approved or prioritiz
 
 ## Done
 
+### ECO-20260418-critic-313
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review Sprint 4 High Pass chapter-side spatial payoff`
+- Source: `docs/reports/2026-04-17-high-pass-rime-brow-review.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-main-313`
+
+Goal:
+
+- Review whether the new High Pass pocket gives the chapter a stronger remembered shape by feel.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the new space helps High Pass read as a real chapter
+- leaves lane 3 ready for the next Treeline follow-on if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-17-high-pass-rime-brow-review.md`, finding no blocker in the new `Rime Brow` overlook and confirming the chapter now reads as `Stone Shelter -> Rime Brow -> open-fell hold` without reopening travel logic or overbuilding the right-side chain.
+- Rechecked the focused treeline biome/runtime proof, re-inspected the seeded browser artifact in `output/main-313-browser/`, and confirmed `errors.json` stayed empty.
+
+### ECO-20260418-main-313
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement Sprint 4 High Pass chapter-side spatial payoff`
+- Source: `docs/reports/2026-04-17-high-pass-rime-brow-implementation.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-scout-313`
+
+Goal:
+
+- Give High Pass one more remembered place beyond Stone Shelter without reopening a broad geometry wave.
+
+Acceptance:
+
+- the chapter gains another memorable frame or reveal
+- the work stays out of the current Stone Shelter density ceiling
+- traversal, recovery, and readability remain calm
+
+Completion notes:
+
+- Added `docs/reports/2026-04-17-high-pass-rime-brow-implementation.md`, turning the live `rime-mark` crest band into one compact `Rime Brow` overlook by widening `lee-pocket-rime-cap`, tightening `lee-pocket-crest-brow`, and adding one tiny authored `reindeer-lichen` accent.
+- Verified with `npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t "adds one compact Rime Brow overlook between Stone Shelter and the open-fell hold|adds one compact Stone Shelter basin under the lee shelf|adds one compact open-fell island before the tundra handoff"`, `npm run build`, the shared browser smoke in `output/main-313-client/`, and the seeded browser proof in `output/main-313-browser/`.
+
+### ECO-20260418-main-311
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement Sprint 4 High Pass chapter-state hardening`
+- Source: `docs/reports/2026-04-18-high-pass-chapter-state-hardening-handoff.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-scout-311`
+
+Goal:
+
+- Harden High Pass chapter-state composition and land one more protective split before the chapter broadens again.
+
+Acceptance:
+
+- High Pass filed-season, atlas, and expedition state resolves through one smaller seam
+- focused proof covers dormant-to-live chapter behavior
+- no new station page, planner row, or broader dashboard appears
+
+Completion notes:
+
+- Added `src/engine/high-pass-chapter-state.ts` so filed-season `High Pass` copy now resolves once for the outing locator, routes continuity, dormant/live atlas note, launch card, and the `HIGH PASS / NEXT` expedition card.
+- Updated `field-season-board.ts` to use thin adapters over the new helper, added direct seam coverage in `src/test/field-season-board.test.ts`, and re-ran focused field-season, field-request, and season-capstone runtime-smoke checks plus `npm run build`.
+
+### ECO-20260418-critic-311
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review Sprint 4 High Pass chapter-state hardening`
+- Source: `docs/reports/2026-04-18-high-pass-deepening-phase.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-main-311`
+
+Goal:
+
+- Review whether High Pass chapter-state logic is cleaner and still keeps the shell calm.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the split reduced chapter-state concentration
+- leaves lane 1 ready for the next High Pass follow-on if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-chapter-state-hardening-review.md`, finding no blocker in the dedicated `High Pass` chapter-state seam or its adapter-style use inside `field-season-board.ts`.
+- Confirmed the split keeps the shell calm, protects the season-close dormancy beat, and leaves no remaining actionable lane-1 queue item.
+
+### ECO-20260418-scout-311
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare Sprint 4 High Pass chapter-state hardening`
+- Source: `docs/reports/2026-04-18-high-pass-deepening-phase.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260416-critic-307`
+
+Goal:
+
+- Narrow Sprint 4 lane-1 work to one High Pass chapter-state hardening pass plus one protective split.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260418-main-311`
+- keeps the work inside the current station / expedition shell
+- points the split at a real chapter-state composition seam instead of another dashboard layer
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-chapter-state-hardening-handoff.md`, narrowing Sprint 4 lane 1 to one dedicated High Pass chapter-state helper instead of another explicit shell state.
+- Bumped packet `127` to version `3`, refined `main_311_focus`, and promoted `ECO-20260418-main-311` to `READY`.
+
+### ECO-20260418-scout-312
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare Sprint 4 High Pass relationship-teaching pack`
+- Source: `docs/reports/2026-04-18-high-pass-relationship-pack-handoff.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260416-critic-308`
+
+Goal:
+
+- Narrow Sprint 4 lane-2 work to one compact relationship-first High Pass content pass.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260418-main-312`
+- uses current chapter carriers and handheld-safe surfaces
+- deepens ecology relationships instead of expanding fact density
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-relationship-pack-handoff.md`, narrowing Sprint 4 lane 2 to one `rime + foothold` ecosystem-note pass in `lichen-fell` using `moss-campion`, `reindeer-lichen`, and `talus-cushion-pocket`.
+- Bumped packet `127` to version `2`, tightened `main_312_focus` around the live `rime-mark` plus `talus-hold` seam, and recorded the durable rule to keep this High Pass follow-on relationship-first instead of densifying the new close-look cards.
+
+### ECO-20260418-main-312
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement Sprint 4 High Pass relationship-teaching pack`
+- Source: `docs/reports/2026-04-18-high-pass-relationship-pack-implementation.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-scout-312`
+
+Goal:
+
+- Add one compact relationship-first ecology pass to make High Pass teach connections, not just carriers.
+
+Acceptance:
+
+- the chapter teaches at least one shelter / exposure / rime relationship more clearly
+- current cards and notes stay handheld-safe at `256x160`
+- no broader atlas, journal, or comparison shell growth appears
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-relationship-pack-implementation.md`, landing the new `Rime Footholds` note and the tiny `treeline-rime-footholds` prompt seam in the live High Pass open-fell pocket.
+- Verified with `npm test -- --run src/test/ecosystem-notes.test.ts src/test/observation-prompts.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "High Pass rime|rime-footing|rime-footholds"`, and `npm run build`.
+
+### ECO-20260418-critic-312
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review Sprint 4 High Pass relationship-teaching pack`
+- Source: `docs/reports/2026-04-18-high-pass-relationship-pack-review.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-main-312`
+
+Goal:
+
+- Review whether High Pass now teaches ecology relationships more clearly without getting wordier.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms relationship teaching deepened without card bloat
+- leaves lane 2 ready for the next chapter-side richness pass if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-relationship-pack-review.md`, finding no blocker in the new High Pass `rime + foothold` teaching seam after tightening the note back under the handheld copy budget.
+- Re-verified with focused content-quality, ecosystem-note, observation-prompt, and High Pass runtime-smoke coverage plus `npm run build`; lane 2 has no remaining actionable queue item.
+
+### ECO-20260418-scout-313
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare Sprint 4 High Pass chapter-side spatial payoff`
+- Source: `docs/reports/2026-04-18-high-pass-deepening-phase.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260416-critic-309`
+
+Goal:
+
+- Narrow Sprint 4 lane-3 work to one additional remembered High Pass place beyond Stone Shelter.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260418-main-313`
+- stays out of the saturated Stone Shelter basin band
+- gives the chapter another memorable frame without inventing a new traversal family
+
+Completion notes:
+
+- Added `docs/reports/2026-04-17-high-pass-rime-brow-handoff.md`, narrowing the next lane-3 spend to one compact `Rime Brow` overlook in `Treeline Pass` so the live High Pass chapter gains a distinct exposure-release frame between `Stone Shelter` and the open-fell talus hold.
+- Bumped packet `127` to version `4`, refined `main_313_focus` around the crest-side `rime-mark` band, retargeted `ECO-20260418-main-313` and `ECO-20260418-critic-313`, and promoted `ECO-20260418-main-313` to `READY`.
+
+### ECO-20260418-scout-314
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare Sprint 4 High Pass route refinement`
+- Source: `docs/reports/2026-04-18-high-pass-route-refinement-handoff.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260416-critic-310`
+
+Goal:
+
+- Narrow Sprint 4 lane-4 work to one deeper replay/support pass for the live High Pass outing.
+
+Acceptance:
+
+- writes a concrete handoff for `ECO-20260418-main-314`
+- stays inside the existing Route v2 shell
+- sharpens the live route by feel rather than by another shell or second route
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-route-refinement-handoff.md`, narrowing the next lane-4 spend to one `Rimed Pass` middle-band support proof on the lee-pocket rime shelf rather than another board-copy or end-of-route pass.
+- Bumped packet `127` to version `5`, refined `main_314_focus` around the live `rime-mark` shelf, retargeted `ECO-20260418-main-314` and `ECO-20260418-critic-314`, and promoted `ECO-20260418-main-314` to `READY`.
+
+### ECO-20260418-main-314
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement Sprint 4 High Pass route refinement`
+- Source: `docs/reports/2026-04-18-high-pass-route-refinement-implementation.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-scout-314`
+
+Goal:
+
+- Deepen the live High Pass outing so `Rimed Pass` and the current support seam feel more distinct in play.
+
+Acceptance:
+
+- the replay or support seam changes what the player notices or does, not just route naming
+- the current filing, note-tabs, and board shell stay unchanged
+- no second High Pass route appears
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-route-refinement-implementation.md`, confirming the existing active-clue support seam already makes `Rimed Pass` player-felt and that this lane-4 pass only needed focused proof instead of a runtime logic change.
+- Added deterministic coverage in `src/test/field-request-controller.test.ts` and `src/test/runtime-smoke.test.ts`, proving `hand-lens` prefers `reindeer-lichen` on the live `Rime Brow` shelf while `note-tabs` stays on the nearer ordinary inspectable.
+- Verified with `npx vitest run src/test/field-request-controller.test.ts -t "High Pass|Rimed Pass|active-clue"` and `npx vitest run src/test/runtime-smoke.test.ts -t "Rimed Pass|reindeer-lichen|High Pass"`; promoted `ECO-20260418-critic-314` to `READY`.
+
+### ECO-20260418-critic-314
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review Sprint 4 High Pass route refinement`
+- Source: `docs/reports/2026-04-18-high-pass-route-refinement-review.md`
+- Packet: `.agents/packets/127-high-pass-deepening-and-chapter-side-polish.json`
+- Depends on: `ECO-20260418-main-314`
+
+Goal:
+
+- Review whether the refined High Pass route now feels more chapter-grade without widening the shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the replay/support seam deepened live play instead of text density
+- leaves lane 4 ready for the next route-side follow-on if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-18-high-pass-route-refinement-review.md`, finding no blocker in the lane-4 pass: the replay/support seam is now concretely proved in live play without widening route logic or shell copy.
+- Re-verified with `npx vitest run src/test/field-request-controller.test.ts src/test/runtime-smoke.test.ts -t "Rimed Pass|reindeer-lichen|High Pass|active-clue"` and recorded one non-blocking watch item to keep the deterministic `Rime Brow` shelf proof aligned with any future lane-3 geometry retune.
+- Lane 4 has no remaining actionable queue item.
+
 ### ECO-20260416-main-305
 
 - Status: `DONE`

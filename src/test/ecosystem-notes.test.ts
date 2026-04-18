@@ -353,6 +353,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('cold-ground-works');
   });
 
+  it('supports the new High Pass rime note through the exposed fell hold pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      treelineBiome,
+      'talus-cushion-pocket',
+      ['talus-cushion-pocket', 'reindeer-lichen'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('rime-footholds');
+  });
+
   it('supports the new treeline talus-islands note through the shelter-pocket pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       treelineBiome,

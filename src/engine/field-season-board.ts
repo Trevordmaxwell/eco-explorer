@@ -5,6 +5,10 @@ import {
   resolveRouteV2FiledDisplayText,
 } from './field-requests';
 import { getActiveHabitatProcessMoments } from './habitat-process';
+import {
+  HIGH_PASS_CHAPTER_TARGET_BIOME_ID,
+  resolveHighPassChapterState,
+} from './high-pass-chapter-state';
 import { hasFieldUpgrade } from './field-station';
 import { getWorldMapLocationByBiomeId } from './world-map';
 import { buildWorldState } from './world-state';
@@ -114,21 +118,13 @@ export interface NextSeasonContinuityCopy {
   expeditionTeaser: string;
 }
 
-function resolveRegionalBridgeLine(
-  title: string,
-  targetBiomeId: Exclude<FieldSeasonBoardState['targetBiomeId'], null>,
-): string {
-  const location = getWorldMapLocationByBiomeId(ecoWorldMap, targetBiomeId);
-  return `${location.label} carries the season toward ${title}.`;
-}
-
 function hasCompletedRequest(save: SaveState, requestId: string): boolean {
   return hasResolvedFieldRequest(save, requestId);
 }
 
 const FOREST_EXPEDITION_CHAPTER_REQUEST_ID = 'forest-expedition-upper-run';
 const FOREST_EXPEDITION_EVIDENCE_TOTAL = 4;
-const NEXT_FIELD_SEASON_TARGET_BIOME_ID = 'treeline' as const;
+const NEXT_FIELD_SEASON_TARGET_BIOME_ID = HIGH_PASS_CHAPTER_TARGET_BIOME_ID;
 
 function getExpeditionChapterProgress(save: SaveState) {
   return save.routeV2Progress?.requestId === FOREST_EXPEDITION_CHAPTER_REQUEST_ID
@@ -154,18 +150,17 @@ export function resolveNextFieldSeasonTargetBiomeId(
 }
 
 export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator | null {
-  if (hasCompletedRequest(save, 'forest-season-threads')) {
-    const targetBiomeId = 'treeline' as const;
+  const highPassChapterState = resolveHighPassChapterState(save);
+  if (highPassChapterState) {
     return {
-      title: 'High Pass',
-      summary: resolveRegionalBridgeLine('High Pass', targetBiomeId),
-      progressLabel: 'NEXT',
-      targetBiomeId,
-      worldMapLabel: 'Today: High Pass',
-      routeBoardSummary: 'High Pass opens next from Treeline Pass into the next field season.',
-      routeBoardNextDirection:
-        'Next: travel to Treeline Pass and read High Pass through stone lift, lee watch, rime mark, and talus hold.',
-      atlasNote: 'Next: take High Pass from stone lift to talus hold.',
+      title: highPassChapterState.title,
+      summary: highPassChapterState.summary,
+      progressLabel: highPassChapterState.progressLabel,
+      targetBiomeId: highPassChapterState.targetBiomeId,
+      worldMapLabel: highPassChapterState.worldMapLabel,
+      routeBoardSummary: highPassChapterState.routeBoardSummary,
+      routeBoardNextDirection: highPassChapterState.routeBoardNextDirection,
+      atlasNote: highPassChapterState.dormantAtlasNote,
     };
   }
 
@@ -254,53 +249,32 @@ export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator
 }
 
 export function resolveNextSeasonContinuityCopy(save: SaveState): NextSeasonContinuityCopy | null {
-  if (!hasCompletedRequest(save, 'forest-season-threads')) {
+  const highPassChapterState = resolveHighPassChapterState(save);
+  if (!highPassChapterState) {
     return null;
   }
-
-  const nextSeasonApproachLine = resolveNextSeasonApproachLine(save);
-  const activeOuting = resolveSeasonOutingLocator(save);
-  if (!activeOuting) {
-    return null;
-  }
-
-  const location = getWorldMapLocationByBiomeId(ecoWorldMap, activeOuting.targetBiomeId);
 
   return {
-    routesSubtitle: nextSeasonApproachLine ?? `${activeOuting.title} continues from ${location.label}.`,
-    archiveText: `Root Hollow now leads to ${activeOuting.title}.`,
-    expeditionTeaser: `${formatApproachCue(location.approachLabel ?? null) ?? activeOuting.title} waits beyond Root Hollow.`,
+    routesSubtitle: highPassChapterState.routesSubtitle,
+    archiveText: highPassChapterState.archiveText,
+    expeditionTeaser: highPassChapterState.expeditionTeaser,
   };
 }
 
 export function resolveNextSeasonApproachLine(save: SaveState): string | null {
-  if (!hasCompletedRequest(save, 'forest-season-threads')) {
-    return null;
-  }
-
-  const activeOuting = resolveSeasonOutingLocator(save);
-  if (!activeOuting) {
-    return null;
-  }
-
-  const location = getWorldMapLocationByBiomeId(ecoWorldMap, activeOuting.targetBiomeId);
-  return `${activeOuting.title} starts at ${location.label}.`;
+  return resolveHighPassChapterState(save)?.routesSubtitle ?? null;
 }
 
 function resolveFiledSeasonLaunchCard(save: SaveState): FieldSeasonBoardLaunchCard | null {
-  if (!hasCompletedRequest(save, 'forest-season-threads')) {
-    return null;
-  }
-
-  const locator = resolveSeasonOutingLocator(save);
-  if (!locator) {
+  const highPassChapterState = resolveHighPassChapterState(save);
+  if (!highPassChapterState) {
     return null;
   }
 
   return {
-    title: locator.title.toUpperCase(),
-    progressLabel: locator.progressLabel,
-    summary: resolveRegionalBridgeLine(locator.title, locator.targetBiomeId),
+    title: highPassChapterState.cardTitle,
+    progressLabel: highPassChapterState.progressLabel,
+    summary: highPassChapterState.cardSummary,
   };
 }
 
@@ -1110,14 +1084,15 @@ export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null 
   }
 
   const activeOuting = resolveSeasonOutingLocator(save);
+  const highPassChapterState = resolveHighPassChapterState(save);
   const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
   const expeditionNotebookReady = isExpeditionNotebookReady(save);
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
 
   let note: string;
-  if (hasCompletedRequest(save, 'forest-season-threads') && !save.seasonCloseReturnPending) {
-    note = 'Filed season: High Pass from Treeline Pass.';
-  } else if (hasCompletedRequest(save, 'forest-season-threads') || expeditionLogged || expeditionNotebookReady || expeditionEvidenceCount > 0) {
+  if (highPassChapterState && !highPassChapterState.dormantUntilSeasonCloseClears) {
+    note = highPassChapterState.liveAtlasNote;
+  } else if (highPassChapterState || expeditionLogged || expeditionNotebookReady || expeditionEvidenceCount > 0) {
     note = activeOuting?.atlasNote ?? 'Next: open Root Hollow below the forest.';
   } else if (hasCompletedRequest(save, 'treeline-low-fell')) {
     note = 'Coast, ridge, edge filed. Root Hollow next.';
@@ -1195,8 +1170,7 @@ function resolveNextSeasonSetupTeaser(save: SaveState): FieldSeasonExpeditionTea
 
 export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonExpeditionState {
   const loggedRouteCount = getLoggedRouteCount(save);
-  const nextSeasonTargetBiomeId = resolveNextFieldSeasonTargetBiomeId(save);
-  const nextSeasonOuting = resolveSeasonOutingLocator(save);
+  const highPassChapterState = resolveHighPassChapterState(save);
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
   const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
   const expeditionNotebookReady = isExpeditionNotebookReady(save);
@@ -1213,16 +1187,15 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
 
   switch (status) {
     case 'logged':
-      if (nextSeasonTargetBiomeId && nextSeasonOuting) {
-        const nextSeasonLocation = getWorldMapLocationByBiomeId(ecoWorldMap, nextSeasonTargetBiomeId);
+      if (highPassChapterState) {
         return {
           id: 'root-hollow-expedition',
-          title: nextSeasonOuting.title.toUpperCase(),
+          title: highPassChapterState.cardTitle,
           status,
-          statusLabel: 'NEXT',
-          summary: resolveRegionalBridgeLine(nextSeasonOuting.title, nextSeasonTargetBiomeId),
-          startText: `${nextSeasonLocation.label} to ${nextSeasonOuting.title}`,
-          note: `Start from ${nextSeasonLocation.label} when you want the next field season.`,
+          statusLabel: highPassChapterState.cardStatusLabel,
+          summary: highPassChapterState.cardSummary,
+          startText: highPassChapterState.cardStartText,
+          note: highPassChapterState.cardNote,
           teaser: null,
         };
       }

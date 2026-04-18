@@ -84,6 +84,7 @@ describe('treeline biome generation', () => {
     const terrainAtLeePocket = instance.terrainSamples.find((sample) => sample.x === 400);
     const terrainAtFell = instance.terrainSamples.find((sample) => sample.x === 544);
     const leePlatforms = instance.platforms.filter((platform) => platform.id.startsWith('lee-pocket'));
+    const rimeCap = leePlatforms.find((platform) => platform.id === 'lee-pocket-rime-cap');
     const crestBrow = leePlatforms.find((platform) => platform.id === 'lee-pocket-crest-brow');
     const fellReturn = leePlatforms.find((platform) => platform.id === 'lee-pocket-fell-return');
     const leeRest = leePlatforms.find((platform) => platform.id === 'lee-pocket-lee-rest');
@@ -101,8 +102,8 @@ describe('treeline biome generation', () => {
       'lee-pocket-rime-rest',
       'lee-pocket-back-notch',
       'lee-pocket-rime-cap',
-      'lee-pocket-crest-brow',
       'lee-pocket-fell-return',
+      'lee-pocket-crest-brow',
       'lee-pocket-lee-rest',
     ]);
     expect(leePlatforms[0]?.y).toBeGreaterThan(leePlatforms[1]?.y ?? 0);
@@ -111,10 +112,11 @@ describe('treeline biome generation', () => {
     expect(leePlatforms[4]?.y).toBeLessThan(leePlatforms[3]?.y ?? 0);
     expect(leePlatforms[5]?.y).toBeGreaterThan(leePlatforms[4]?.y ?? 0);
     expect(leePlatforms[6]?.y).toBe(leePlatforms[4]?.y ?? 0);
-    expect(leePlatforms[7]?.y).toBeLessThan(leePlatforms[6]?.y ?? 0);
-    expect(leePlatforms[8]?.y).toBeLessThan(leePlatforms[5]?.y ?? 0);
-    expect(leePlatforms[9]?.y).toBeGreaterThan(leePlatforms[8]?.y ?? 0);
-    expect(crestBrow).toMatchObject({ x: 506, y: 80, w: 20, h: 4 });
+    expect(fellReturn?.y).toBeGreaterThan(rimeCap?.y ?? 0);
+    expect(crestBrow?.y).toBeLessThan(leePlatforms[5]?.y ?? 0);
+    expect(leeRest?.y).toBeGreaterThan(crestBrow?.y ?? 0);
+    expect(rimeCap).toMatchObject({ x: 488, y: 88, w: 28, h: 4 });
+    expect(crestBrow).toMatchObject({ x: 520, y: 80, w: 16, h: 4 });
     expect(fellReturn).toMatchObject({ x: 510, y: 96, w: 28, h: 4 });
     expect(leeRest).toMatchObject({ x: 538, y: 102, w: 20, h: 4 });
     expect((fellReturn?.x ?? 0) + (fellReturn?.w ?? 0)).toBe(leeRest?.x ?? 0);
@@ -262,6 +264,57 @@ describe('treeline biome generation', () => {
     expect((fellRest?.x ?? 0) + (fellRest?.w ?? 0)).toBeLessThan(584);
   });
 
+  it('adds one compact Rime Brow overlook between Stone Shelter and the open-fell hold', () => {
+    const rimeBrowPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['lee-pocket-rime-rest', 'lee-pocket-rime-cap', 'lee-pocket-crest-brow', 'lee-pocket-fell-return'].includes(
+        platform.id,
+      ),
+    );
+    const rimeRest = rimeBrowPlatforms?.find((platform) => platform.id === 'lee-pocket-rime-rest');
+    const rimeCap = rimeBrowPlatforms?.find((platform) => platform.id === 'lee-pocket-rime-cap');
+    const crestBrow = rimeBrowPlatforms?.find((platform) => platform.id === 'lee-pocket-crest-brow');
+    const fellReturn = rimeBrowPlatforms?.find((platform) => platform.id === 'lee-pocket-fell-return');
+
+    expect(rimeBrowPlatforms).toEqual([
+      {
+        id: 'lee-pocket-rime-rest',
+        spriteId: 'granite-platform',
+        x: 452,
+        y: 88,
+        w: 32,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-rime-cap',
+        spriteId: 'granite-platform',
+        x: 488,
+        y: 88,
+        w: 28,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-crest-brow',
+        spriteId: 'granite-platform',
+        x: 520,
+        y: 80,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'lee-pocket-fell-return',
+        spriteId: 'granite-platform',
+        x: 510,
+        y: 96,
+        w: 28,
+        h: 4,
+      },
+    ]);
+    expect((rimeRest?.x ?? 0) + (rimeRest?.w ?? 0)).toBeLessThanOrEqual(rimeCap?.x ?? 0);
+    expect((rimeCap?.x ?? 0) + (rimeCap?.w ?? 0)).toBeLessThanOrEqual((crestBrow?.x ?? 0) + 4);
+    expect((crestBrow?.y ?? 999)).toBeLessThan(rimeCap?.y ?? 0);
+    expect((fellReturn?.x ?? 0)).toBeLessThan((crestBrow?.x ?? 0) + (crestBrow?.w ?? 0));
+  });
+
   it('spawns shelter carriers through the new lee-side traversal band', () => {
     const save = createNewSaveState('treeline-shelter-band-seed');
     const instance = generateBiomeInstance(treelineBiome, save, 1);
@@ -298,8 +351,8 @@ describe('treeline biome generation', () => {
     const authoredStoneShelterCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
       ['stone-shelter-boulder', 'stone-shelter-marmot'].includes(entity.id),
     );
-    const authoredTalus = treelineBiome.terrainRules.authoredEntities?.filter(
-      (entity) => ['talus-cushion-pocket', 'mountain-avens', 'moss-campion'].includes(entity.entryId),
+    const authoredTalus = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
+      ['talus-cushion-pocket', 'mountain-avens', 'moss-campion', 'reindeer-lichen'].includes(entity.entryId),
     );
 
     expect(authoredThresholdCarriers).toEqual([
@@ -343,6 +396,13 @@ describe('treeline biome generation', () => {
         entryId: 'talus-cushion-pocket',
         x: 448,
         y: 90,
+        castsShadow: false,
+      },
+      {
+        id: 'rime-brow-lichen',
+        entryId: 'reindeer-lichen',
+        x: 512,
+        y: 84,
         castsShadow: false,
       },
       {

@@ -290,6 +290,17 @@ const treelineStoneShelterBasinBand = (() => {
   };
 })();
 
+const treelineRimeBrowBand = (() => {
+  const rimeCap = getRequiredAuthoredPlatform(treelineBiome, 'lee-pocket-rime-cap');
+
+  return {
+    minX: rimeCap.x + 4,
+    maxX: rimeCap.x + rimeCap.w,
+    minY: rimeCap.y - TEST_PLAYER_HEIGHT - 1,
+    maxY: rimeCap.y - TEST_PLAYER_HEIGHT + 1,
+  };
+})();
+
 const treelineOpenFellIslandBand = (() => {
   const fellStep = getRequiredAuthoredPlatform(treelineBiome, 'fell-island-step');
   const fellRest = getRequiredAuthoredPlatform(treelineBiome, 'fell-island-rest');
@@ -2746,6 +2757,53 @@ describe('runtime smoke loop', () => {
         state.nearbyInspectables.some((entity: any) => entity.entryId === 'hoary-marmot'),
       ).toBe(true);
 
+    } finally {
+      treelineBiome.startPosition = originalTreelineStartPosition;
+    }
+  });
+
+  it('adds one compact Rime Brow overlook between Stone Shelter and the open-fell hold', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-treeline-rime-brow-overlook-seed');
+    persistSave(seededSave);
+    const originalTreelineStartPosition = { ...treelineBiome.startPosition };
+    treelineBiome.startPosition = { x: 510, y: 78 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+
+      const state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'lichen-fell' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineRimeBrowBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineRimeBrowBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineRimeBrowBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineRimeBrowBand.maxY &&
+          nextState.nearbyInspectables.some((entity: any) =>
+            ['reindeer-lichen', 'talus-cushion-pocket'].includes(entity.entryId),
+          ),
+        45,
+      );
+
+      expect(state.zoneId).toBe('lichen-fell');
+      expect(state.player?.x).toBeGreaterThanOrEqual(treelineRimeBrowBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(treelineRimeBrowBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(treelineRimeBrowBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(treelineRimeBrowBand.maxY);
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'reindeer-lichen'),
+      ).toBe(true);
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'talus-cushion-pocket'),
+      ).toBe(true);
+      expect(state.nearbyTravelTarget ?? null).toBeNull();
     } finally {
       treelineBiome.startPosition = originalTreelineStartPosition;
     }
@@ -5414,6 +5472,25 @@ describe('runtime smoke loop', () => {
     'forest-season-threads',
   ];
 
+  function createHighPassRimeShelfSave(worldSeed: string, supportId: 'hand-lens' | 'note-tabs') {
+    const save = createNewSaveState(worldSeed);
+    save.selectedOutingSupportId = supportId;
+    save.completedFieldRequestIds = highPassFellHoldCompletions.slice();
+    save.worldStep = 6;
+    save.lastBiomeId = 'treeline';
+    save.biomeVisits.treeline = 2;
+    save.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+      ],
+    };
+    return save;
+  }
+
   function createHighPassFellHoldSave(worldSeed: string, supportId: 'hand-lens' | 'note-tabs') {
     const save = createNewSaveState(worldSeed);
     save.selectedOutingSupportId = supportId;
@@ -5533,6 +5610,153 @@ describe('runtime smoke loop', () => {
 
     throw new Error('Expected a deterministic High Pass open-fell pocket for support comparison.');
   }
+
+  it('lets hand lens prefer reindeer-lichen as the High Pass rime-mark clue on the live lee-pocket shelf', () => {
+    const originalStartPosition = { ...treelineBiome.startPosition };
+    treelineBiome.startPosition = { x: 510, y: 78 };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHighPassRimeShelfSave('runtime-high-pass-rime-shelf-layout', 'hand-lens');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+
+      const state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          !nextState.fieldRequestNotice &&
+          nextState.zoneId === 'lichen-fell' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineRimeBrowBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineRimeBrowBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineRimeBrowBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineRimeBrowBand.maxY &&
+          nextState.nearestInspectableEntityId !== null &&
+          nextState.activeFieldRequest?.id === 'treeline-high-pass' &&
+          nextState.activeFieldRequest?.title === 'Rimed Pass' &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'reindeer-lichen') &&
+          nextState.nearbyInspectables.some((entity: any) =>
+            ['moss-campion', 'talus-cushion-pocket', 'mountain-avens'].includes(entity.entryId),
+          ),
+        180,
+      );
+      const nearest = state.nearbyInspectables.find(
+        (entity: any) => entity.entityId === state.nearestInspectableEntityId,
+      );
+
+      expect(state.zoneId).toBe('lichen-fell');
+      expect(state.player?.x).toBeGreaterThanOrEqual(treelineRimeBrowBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(treelineRimeBrowBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(treelineRimeBrowBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(treelineRimeBrowBand.maxY);
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'Rimed Pass',
+      });
+      expect(nearest).toMatchObject({ entryId: 'reindeer-lichen' });
+      expect(state.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Rimed Pass',
+        variant: 'support-biased',
+      });
+
+      tapKey(fakeWindow, 'e');
+      const afterInspectState = readState(fakeWindow);
+      expect(afterInspectState.openBubble).toMatchObject({
+        entryId: 'reindeer-lichen',
+        resourceNote: 'LENS CLUE: rime mark',
+      });
+      expect(seededSave.routeV2Progress).toMatchObject({
+        requestId: 'treeline-high-pass',
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'reindeer-lichen' },
+        ],
+      });
+      expect(afterInspectState.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'Rimed Pass',
+      });
+    } finally {
+      treelineBiome.startPosition = originalStartPosition;
+    }
+  });
+
+  it('keeps non-hand-lens supports on the nearer lee-pocket inspectable in the same High Pass rime shelf setup', () => {
+    const originalStartPosition = { ...treelineBiome.startPosition };
+    treelineBiome.startPosition = { x: 510, y: 78 };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHighPassRimeShelfSave('runtime-high-pass-rime-shelf-layout', 'note-tabs');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+
+      const beforeInspectState = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          !nextState.fieldRequestNotice &&
+          nextState.zoneId === 'lichen-fell' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineRimeBrowBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineRimeBrowBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineRimeBrowBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineRimeBrowBand.maxY &&
+          nextState.nearestInspectableEntityId !== null &&
+          nextState.activeFieldRequest?.id === 'treeline-high-pass' &&
+          nextState.activeFieldRequest?.title === 'Rimed Pass' &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'reindeer-lichen'),
+        180,
+      );
+      const nearest = beforeInspectState.nearbyInspectables.find(
+        (entity: any) => entity.entityId === beforeInspectState.nearestInspectableEntityId,
+      );
+
+      expect(beforeInspectState.zoneId).toBe('lichen-fell');
+      expect(beforeInspectState.player?.x).toBeGreaterThanOrEqual(treelineRimeBrowBand.minX);
+      expect(beforeInspectState.player?.x).toBeLessThanOrEqual(treelineRimeBrowBand.maxX);
+      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(treelineRimeBrowBand.minY);
+      expect(beforeInspectState.player?.y).toBeLessThanOrEqual(treelineRimeBrowBand.maxY);
+      expect(beforeInspectState.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'Rimed Pass',
+      });
+      expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'reindeer-lichen')).toBe(
+        true,
+      );
+      expect(nearest?.entryId).not.toBe('reindeer-lichen');
+      expect(beforeInspectState.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Rimed Pass',
+        variant: 'default',
+      });
+
+      tapKey(fakeWindow, 'e');
+      const state = readState(fakeWindow);
+      expect(state.openBubble?.entryId).not.toBe('reindeer-lichen');
+      expect(seededSave.routeV2Progress?.evidenceSlots?.[2]?.entryId).not.toBe('reindeer-lichen');
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'Rimed Pass',
+      });
+    } finally {
+      treelineBiome.startPosition = originalStartPosition;
+    }
+  });
 
   it('lets hand lens prefer talus cushion pocket as the High Pass talus-hold clue on the live open-fell pocket', () => {
     const originalStartPosition = { ...treelineBiome.startPosition };
@@ -8149,5 +8373,73 @@ describe('runtime smoke loop', () => {
     });
     expect(state.journal?.observationPrompt?.evidenceKey).toContain('beach-tide-line-cover|tide-line|');
     expect(state.journal?.observationPrompt?.evidenceKey).toContain('|marine-haze|');
+  });
+
+  it('surfaces the new High Pass rime-footing note in the live open-fell chapter pocket', () => {
+    const originalStartPosition = { ...treelineBiome.startPosition };
+    const startX = findHighPassFellHoldStartX();
+    treelineBiome.startPosition = { x: startX, y: originalStartPosition.y };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHighPassFellHoldSave('runtime-high-pass-rime-note-seed', 'note-tabs');
+      seededSave.worldStep = 6;
+      seededSave.lastBiomeId = 'treeline';
+      seededSave.biomeVisits.treeline = 2;
+      recordDiscovery(seededSave, treelineBiome.entries['reindeer-lichen'], 'treeline');
+      recordDiscovery(seededSave, treelineBiome.entries['talus-cushion-pocket'], 'treeline');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+      let state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'lichen-fell' &&
+          !nextState.fieldRequestNotice &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'talus-cushion-pocket'),
+        180,
+      );
+
+      expect(state.zoneId).toBe('lichen-fell');
+      expect(state.worldState).toMatchObject({
+        weather: 'ridge-wind',
+        phenologyPhase: 'late',
+      });
+
+      tapKey(fakeWindow, 'j');
+      state = readState(fakeWindow);
+      for (
+        let index = 0;
+        index < 8 && state.journal?.selectedEntryId !== 'talus-cushion-pocket';
+        index += 1
+      ) {
+        tapKey(fakeWindow, 'ArrowDown');
+        state = readState(fakeWindow);
+      }
+
+      expect(state.journal?.selectedBiomeId).toBe('treeline');
+      expect(state.journal?.selectedEntryId).toBe('talus-cushion-pocket');
+      expect(state.journal?.ecosystemNote).toEqual({
+        state: 'unlocked',
+        discoveredCount: 2,
+        requiredCount: 2,
+        title: 'Rime Footholds',
+        summary:
+          'Wind and rime favor the lowest life on exposed High Pass ground, and tiny rock pockets still give it foothold.',
+      });
+      expect(state.journal?.observationPrompt).toMatchObject({
+        family: 'neighbors',
+        text: 'What here still holds on where rime reaches first?',
+        source: 'seed',
+      });
+      expect(state.journal?.observationPrompt?.evidenceKey).toContain('treeline-rime-footholds|lichen-fell|');
+      expect(state.journal?.observationPrompt?.evidenceKey).toContain('|ridge-wind');
+    } finally {
+      treelineBiome.startPosition = originalStartPosition;
+    }
   });
 });
