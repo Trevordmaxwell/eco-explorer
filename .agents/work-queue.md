@@ -42,6 +42,23 @@ This is the shared queue for all agents working in this repo.
 
 ## Ready
 
+## Blocked
+
+### ECO-20260328-main-13
+
+- Status: `BLOCKED`
+- Owner: `main-agent`
+- Priority: `P3`
+- Title: `Consider direct API mode for the field guide only after clipboard mode proves out`
+- Source: `docs/ai-naturalist-design.md`, `docs/reports/2026-03-29-direct-api-mode-feasibility.md`
+- Packet: `.agents/packets/005-ai-field-guide.json`
+- Depends on: `ECO-20260328-main-12`
+
+Note:
+
+- Clipboard Mode A and prompt-safety follow-ups are now solid, but the repo is still a browser-only Vite client.
+- Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
+
 ## Parked
 
 ### ECO-20260403-scout-242
@@ -201,28 +218,379 @@ Note:
 
 - Parked because the scout found no distinct lane-1 layout follow-on worth implementing after the clean renderer split review.
 
-## Blocked
-
-### ECO-20260328-main-13
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Priority: `P3`
-- Title: `Consider direct API mode for the field guide only after clipboard mode proves out`
-- Source: `docs/ai-naturalist-design.md`, `docs/reports/2026-03-29-direct-api-mode-feasibility.md`
-- Packet: `.agents/packets/005-ai-field-guide.json`
-- Depends on: `ECO-20260328-main-12`
-
-Note:
-
-- Clipboard Mode A and prompt-safety follow-ups are now solid, but the repo is still a browser-only Vite client.
-- Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
-
 ## Intake
 
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260419-critic-319
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review the thaw-bench authored proof repair`
+- Source: `docs/reports/2026-04-19-thaw-bench-authored-proof-repair-review.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-main-319`
+
+Goal:
+
+- Confirm the follow-up fully closes the authored thaw-bench proof without reopening the tundra geometry pass.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the full Tundra biome proof is aligned with the shipped bench layout
+- leaves lane 3 clear again if clean
+
+Completion notes:
+
+- Found no blocker in the repair: the stale thaw-channel expectation is gone, the full tundra file now passes, and the existing thaw-bench runtime-smoke path still agrees with the shipped layout.
+- Rechecked the test surface with the full tundra file, the focused runtime-smoke slice, and a repo-wide thaw-channel expectation search, then cleared lane 3.
+
+### ECO-20260419-main-319
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Repair the thaw-bench authored proof`
+- Source: `docs/reports/2026-04-19-thaw-bench-authored-proof-repair-implementation.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-critic-317`
+
+Goal:
+
+- Bring the full Tundra biome proof back in sync with the new thaw-bench layout without widening the geometry pass.
+
+Acceptance:
+
+- `src/test/tundra-biome.test.ts` no longer expects the pre-bench thaw-channel position
+- the full Tundra biome file passes
+- no new geometry or carrier retune lands outside the already-shipped thaw bench
+
+Completion notes:
+
+- Updated the stale authored thaw-channel expectation in `src/test/tundra-biome.test.ts` from the old shelf-era position to the shipped thaw-bench position at `x 398, y 100`, without changing runtime geometry.
+- Verified with the full Tundra biome file and the existing thaw-bench runtime-smoke slice, then promoted `ECO-20260419-critic-319` to `READY`.
+
+### ECO-20260419-critic-317
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Review the earlier-band Tundra remembered place`
+- Source: `docs/reports/2026-04-19-earlier-band-tundra-remembered-place-review.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-main-317`
+
+Goal:
+
+- Review whether the new earlier-band Tundra place strengthens north-end memory without overbuilding the route.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the new place reads clearly and stays recoverable
+- confirms the far-right meltwater pocket remains untouched
+
+Completion notes:
+
+- Found one blocker in the full Tundra biome proof: `src/test/tundra-biome.test.ts` still expected the pre-bench thaw-channel landmark position even though `main-317` intentionally moved that authored channel onto the new remembered bench.
+- Added `docs/reports/2026-04-19-earlier-band-tundra-remembered-place-review.md`, queued the tiny repair pair `ECO-20260419-main-319` / `ECO-20260419-critic-319`, and kept lane 3 open until the authored proof is brought back in sync.
+
+### ECO-20260419-main-317
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Implement the earlier-band Tundra remembered place`
+- Source: `docs/reports/2026-04-19-earlier-band-tundra-remembered-place-implementation.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-scout-317`
+
+Goal:
+
+- Add one memorable earlier-band Tundra place that reads by feel without reopening far-right pocket density.
+
+Acceptance:
+
+- one new place reads by feel, not just by route title
+- traversal stays calm and recoverable
+- no new climb family, trap geometry, or corridor rewrite lands
+
+Completion notes:
+
+- Split the long `thaw-skirt` shelf into a shorter lead-in plus one new `thaw-skirt-bench-rest`, then reclustered the existing thaw-channel and sedge anchors so the seam now reads as a held thaw bench before `frost-ridge`.
+- Verified with focused tundra biome/runtime tests, `npm run build`, the shared web-game client smoke in `output/main-317-browser-probe/`, and a seeded tundra browser proof in `output/main-317-browser/` with empty `errors.json`; promoted `ECO-20260419-critic-317` to `READY`.
+
+### ECO-20260419-main-315
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Implement the late-season homecoming seam and station payoff`
+- Source: `docs/reports/2026-04-19-late-season-consequence-and-homecoming-pass.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-scout-315`
+
+Goal:
+
+- Extract one smaller station-shell homecoming seam from `overlay-render.ts` and spend it on one calmer visible return payoff.
+
+Acceptance:
+
+- lands one visible station/homecoming change without adding a new card, row, or planner panel
+- makes `overlay-render.ts` smaller in a real way
+- covers default, mid-progression, and late-season return states
+
+Completion notes:
+
+- Added `src/engine/field-station-homecoming-shell.ts`, moving the field-station shell accent family out of `overlay-render.ts` and centralizing the brace/sill render seam plus shared state helpers for the overlay and `render_game_to_text()`.
+- Added `docs/reports/2026-04-19-late-season-homecoming-shell-implementation.md`, spending that new seam on one tiny archived-return lintel for the `SEASON ARCHIVE` `High Pass` shell while leaving early and mid station returns unchanged.
+- Verified with `npm run validate:agents`, `npm test -- --run src/test/overlay-copy.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "opens the world-map field station, claims field credit, and buys trail stride|surfaces the season capstone, then opens the next field season on the routes shell"`, `npm run build`, and the shared client smoke in `output/lane-1-main-315-client/` with no browser errors. The full runtime-smoke file still has one unrelated Tundra geometry failure outside lane 1.
+
+### ECO-20260419-critic-315
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Review the late-season homecoming seam and station payoff`
+- Source: `docs/reports/2026-04-19-late-season-consequence-and-homecoming-pass.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-main-315`
+
+Goal:
+
+- Review whether the new homecoming payoff feels more earned while the shell stays calm and compact.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms no new station chrome was introduced
+- confirms the split protects `overlay-render.ts` instead of regrowing inline logic
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-late-season-homecoming-shell-review.md`, finding no blocker in the new archived-return lintel or the extracted shell helper seam.
+- Logged one watch item to keep any future station-shell nuance inside `field-station-homecoming-shell.ts` instead of letting unrelated overlay work regrow there, and noted the remaining unrelated full-file Tundra runtime failure as workspace noise rather than a lane-1 blocker.
+
+### ECO-20260419-scout-317
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `Prepare the earlier-band Tundra remembered-place handoff`
+- Source: `docs/reports/2026-04-19-earlier-band-tundra-remembered-place-handoff.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `none`
+
+Goal:
+
+- Find one memorable Tundra place in the earlier `snow-meadow -> thaw-skirt` transition that reads by feel without crowding the far-right pocket.
+
+Acceptance:
+
+- picks one compact spatial beat in the earlier band
+- keeps traversal and recovery calm
+- leaves `main-317` ready with clear geometry guardrails
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-earlier-band-tundra-remembered-place-handoff.md`, narrowing the next lane-3 spend to one compact thaw-band bench inside the current `thaw-skirt-upper-shelf -> thaw-skirt-bank-shoulder` seam instead of reopening the solved `snow-meadow` drift hold or the far-right `meltwater-bank-rest`.
+- Bumped packet `128` to version `4`, refined `main_317_focus` to the `x 348-436` thaw-band target, and promoted `ECO-20260419-main-317` to `READY`.
+
+### ECO-20260419-scout-318
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Prepare the stronger Thaw Window consequence handoff`
+- Source: `docs/reports/2026-04-19-thaw-window-wet-tuft-handoff.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow the next route-feel pass to one player-felt `Thaw Window` consequence in the earlier Tundra band.
+
+Acceptance:
+
+- defines one real in-field difference during the active window
+- keeps station and notebook identity stable
+- leaves `main-318` ready without adding another route or support shell
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-thaw-window-wet-tuft-handoff.md`, narrowing lane 4 to one middle-band `wet-tuft` consequence on the thaw-skirt upper shelf instead of another first-bloom or shell pass.
+- Bumped packet `128` to version `2`, refined `main_318_focus` around the active `wet-tuft` slot and the `Bigelow's sedge` thaw-skirt shelf, retargeted `main-318` / `critic-318`, and promoted `ECO-20260419-main-318` to `READY`.
+
+### ECO-20260419-main-318
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Implement the stronger Thaw Window consequence`
+- Source: `docs/reports/2026-04-19-thaw-window-wet-tuft-implementation.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-scout-318`
+
+Goal:
+
+- Make `Thaw Window` play differently through one route-local consequence during the active window while keeping route identity stable.
+
+Acceptance:
+
+- the route plays differently during the active window
+- the station, notebook, and filed identity stay stable
+- tests prove the live difference directly
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-thaw-window-wet-tuft-implementation.md`, extending active `Thaw Window` so `bigelows-sedge` can carry the middle `wet-tuft` leg without widening the route shell or filed identity.
+- Updated `src/engine/field-requests.ts` plus focused request/controller/runtime proof so `hand-lens` now retargets to `bigelows-sedge` once `first-bloom` is logged, while non-hand-lens supports stay off the alternate carrier.
+- Verified with `npx vitest run src/test/field-requests.test.ts -t "thaw-window|Bigelow|bigelows-sedge|wet-tuft"`, `npx vitest run src/test/field-request-controller.test.ts -t "Thaw Window|wet-tuft|bigelows-sedge|Bigelow"`, `npx vitest run src/test/runtime-smoke.test.ts -t "Thaw Window|wet-tuft|bigelows-sedge|thaw-window wet-tuft|thaw-window bloom"`, and `npm run build`; promoted `ECO-20260419-critic-318` to `READY`.
+
+### ECO-20260419-critic-318
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `Review the stronger Thaw Window consequence`
+- Source: `docs/reports/2026-04-19-thaw-window-wet-tuft-review.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-main-318`
+
+Goal:
+
+- Review whether the stronger `Thaw Window` pass now feels more consequential in play without widening route or filing shells.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the active-window consequence is player-felt and route-local
+- leaves lane 4 ready for the next follow-on if clean
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-thaw-window-wet-tuft-review.md`, finding no blocker in the lane-4 pass: the active middle-leg consequence is player-felt, the filed `Thaw Window` identity stays stable, and the implementation remains data-first instead of widening controller logic.
+- Re-verified with `npx vitest run src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/runtime-smoke.test.ts -t "Thaw Window|wet-tuft|bigelows-sedge|thaw-window bloom"` and logged one non-blocking watch item to add slot-zone gating in request metadata if a future active alternate needs an exact shelf-only footprint.
+- Lane 4 has no remaining actionable queue item.
+
+### ECO-20260419-scout-315
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `Prepare the late-season homecoming seam and station payoff handoff`
+- Source: `docs/reports/2026-04-19-late-season-consequence-and-homecoming-pass.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `none`
+
+Goal:
+
+- Scope one calm homecoming payoff on the existing station shell and one protective extraction out of `overlay-render.ts`.
+
+Acceptance:
+
+- identifies one compact return payoff seam without adding new station chrome
+- narrows the helper split so lane 1 can land it without broad render churn
+- leaves `main-315` implementation-ready
+
+Completion notes:
+
+- Added `docs/reports/2026-04-19-late-season-homecoming-shell-handoff.md`, narrowing the next lane-1 step to the existing field-station shell accent cluster inside `overlay-render.ts` and recommending one tiny upper-shell archived-return lintel payoff instead of new copy or chrome.
+- Updated packet `128-late-season-consequence-and-homecoming-pass.json` so `main-315` now targets a dedicated homecoming-shell helper seam, focused renderer tests, and the three proof states: default unchanged, mid-progression unchanged, late-season archived return visibly improved.
+
+### ECO-20260419-scout-316
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Prepare the compact Tundra relationship-teaching handoff`
+- Source: `docs/reports/2026-04-19-tundra-relationship-teaching-handoff.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `none`
+
+Goal:
+
+- Narrow packet 128 lane 2 to one earlier-band Tundra relationship seam about thaw, wet ground, and low holding plants.
+
+Acceptance:
+
+- names the exact note or prompt-scale seam to use
+- keeps handheld copy budget compact
+- leaves `main-316` ready without widening atlas or notebook structure
+
+Completion notes:
+
+- Added [2026-04-19-tundra-relationship-teaching-handoff.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-19-tundra-relationship-teaching-handoff.md), narrowing packet `128` lane 2 to a refresh of the existing `between-tussocks` note instead of a ninth tundra note.
+- Bumped packet `128` to version `3`, pointed `main_316_focus` at the `tussock-thaw-channel` journal seam, and promoted `ECO-20260419-main-316` to `READY`.
+
+### ECO-20260419-main-316
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Implement the compact Tundra relationship-teaching pass`
+- Source: `docs/reports/2026-04-19-tundra-relationship-teaching-implementation.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-scout-316`
+
+Goal:
+
+- Teach one compact earlier-band Tundra relationship about thaw, wet ground, and low holding plants through an existing note or prompt seam.
+
+Acceptance:
+
+- one real ecological relationship becomes clearer
+- handheld copy stays compact
+- no new comparison shell, archive panel, or notebook branch appears
+
+Completion notes:
+
+- Added [2026-04-19-tundra-relationship-teaching-implementation.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-19-tundra-relationship-teaching-implementation.md), refreshing `between-tussocks` around `tussock-thaw-channel`, `bigelows-sedge`, and `arctic-willow` while keeping the note id stable.
+- Added the tighter `tundra-held-thaw` prompt seed after runtime proof showed the broader `tundra-short-season` seed would otherwise swallow the local note seam in the live thaw-skirt cluster.
+- Verified with `npm test -- --run src/test/ecosystem-notes.test.ts src/test/observation-prompts.test.ts src/test/content-quality.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "thaw-hold note|High Pass rime-footing note|wrack-chain relationship note"`, and `npm run build`.
+
+### ECO-20260419-critic-316
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `Review the compact Tundra relationship-teaching pass`
+- Source: `docs/reports/2026-04-19-tundra-relationship-teaching-review.md`
+- Packet: `.agents/packets/128-late-season-consequence-and-homecoming-pass.json`
+- Depends on: `ECO-20260419-main-316`
+
+Goal:
+
+- Review whether the north-end Tundra band now teaches one clearer relationship without crowding the shell.
+
+Acceptance:
+
+- records findings or a clean review in `docs/reports/`
+- confirms the teaching seam stays compact and relationship-first
+- leaves lane 2 ready for the next late-season follow-on if clean
+
+Completion notes:
+
+- Added [2026-04-19-tundra-relationship-teaching-review.md](/Users/trevormaxwell/Desktop/game/docs/reports/2026-04-19-tundra-relationship-teaching-review.md), finding no blocker in the refreshed tundra thaw-hold seam.
+- Logged one non-blocking watch item: if future passes spread more inspectables across `thaw-skirt`, recheck that `tundra-held-thaw` still behaves like a local channel-cluster prompt instead of becoming the default thaw-skirt note cue.
 
 ### ECO-20260418-critic-313
 

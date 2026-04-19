@@ -1493,6 +1493,47 @@ describe('field requests', () => {
     });
   });
 
+  it('only lets bigelows-sedge fit the wet-tuft slot during the active thaw-window state once first bloom is logged', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'thaw-skirt',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'first-bloom', entryId: 'purple-saxifrage' }],
+    };
+
+    expect(getHandLensNotebookFit(context, 'bigelows-sedge')).toBeNull();
+    expect(advanceActiveFieldRequest(context, 'inspect', 'bigelows-sedge')).toBeNull();
+
+    context.save.worldStep = 4;
+    context.save.biomeVisits.tundra = 2;
+
+    expect(getHandLensNotebookFit(context, 'cottongrass')).toBe('Notebook fit: wet tuft');
+    expect(getHandLensNotebookFit(context, 'bigelows-sedge')).toBe('Notebook fit: wet tuft');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'bigelows-sedge')).toBeNull();
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'tundra-short-season',
+      title: 'Thaw Window',
+      routeV2: {
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+          { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        ],
+      },
+    });
+  });
+
   it('builds clue-backed filed note text from gathered route evidence', () => {
     const context = createForestContext(['forest-hidden-hollow'], 'root-hollow');
     context.save.routeV2Progress = {
@@ -1780,6 +1821,39 @@ describe('field requests', () => {
     );
     expect(resolveRouteV2FiledDisplayText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
       'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+  });
+
+  it('keeps the thaw-window filed identity stable when wet-tuft uses bigelows-sedge', () => {
+    const context = createTundraContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+      ],
+      'snow-meadow',
+    );
+    context.save.worldStep = 4;
+    context.save.biomeVisits.tundra = 2;
+    context.save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
+      'Purple Saxifrage, Bigelow\'s Sedge, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+    expect(resolveRouteV2FiledDisplayText(biomeRegistry, context.save, 'tundra-short-season')).toBe(
+      'Thaw Window. Purple Saxifrage, Bigelow\'s Sedge, and Cloudberry trace the tundra\'s short thaw window.',
     );
   });
 

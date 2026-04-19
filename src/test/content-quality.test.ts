@@ -63,7 +63,7 @@ describe('content quality guardrails', () => {
   });
 
   it('keeps authored notebook prompts within the compact journal budget', () => {
-    expect(OBSERVATION_PROMPT_SEEDS).toHaveLength(19);
+    expect(OBSERVATION_PROMPT_SEEDS).toHaveLength(20);
 
     for (const seed of OBSERVATION_PROMPT_SEEDS) {
       expect(seed.text.length).toBeLessThanOrEqual(OBSERVATION_PROMPT_MAX);

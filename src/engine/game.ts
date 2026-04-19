@@ -37,6 +37,10 @@ import {
   type FieldStationArrivalMode,
 } from './field-station-session';
 import {
+  buildFieldStationGrowthInput,
+  resolveFieldStationBackdropAccentState,
+} from './field-station-homecoming-shell';
+import {
   clearNurseryTeachingBed,
   getNextNurseryProjectId,
   getSelectedNurseryProjectId,
@@ -109,7 +113,6 @@ import {
   drawCloseLookOverlay,
   drawBubbleOverlay,
   drawHabitatChip,
-  resolveFieldStationBackdropAccentState,
   drawFieldPartnerNotice,
   drawFieldGuideNotice,
   drawFieldRequestHintChip,
@@ -3765,6 +3768,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         jumpSpeed: fieldStationState.jumpSpeed,
       },
       fieldStation: {
+        backdropAccent:
+          typeof resolveFieldStationBackdropAccentState === 'function'
+            ? resolveFieldStationBackdropAccentState(
+                buildFieldStationGrowthInput({
+                  nursery: fieldStationState.nursery,
+                  loggedRouteCount: fieldStationState.atlas?.loggedRoutes.length ?? 0,
+                  seasonWrap: fieldStationState.seasonWrap,
+                  routeBoard: fieldStationState.routeBoard,
+                }),
+              )
+            : null,
         view: fieldStationState.view,
         seasonPage: fieldStationState.seasonPage,
         subtitle: fieldStationState.subtitle,
@@ -3782,17 +3796,6 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         atlas: fieldStationState.atlas,
         routeBoard: fieldStationState.routeBoard,
         expedition: fieldStationState.expedition,
-        backdropAccent: resolveFieldStationBackdropAccentState({
-          teachingBedStage: fieldStationState.nursery.activeProject?.state.stage ?? null,
-          hasLogPile: fieldStationState.nursery.extras.some(
-            (extra) => extra.id === 'log-pile' && extra.unlocked,
-          ),
-          hasPollinatorPatch: fieldStationState.nursery.extras.some(
-            (extra) => extra.id === 'pollinator-patch' && extra.unlocked,
-          ),
-          compostRate: fieldStationState.nursery.compostRate,
-          loggedRouteCount: fieldStationState.atlas?.loggedRoutes.length ?? 0,
-        }),
         nursery: {
           resources: fieldStationState.nursery.resources,
           selectedProject: fieldStationState.nursery.selectedProject

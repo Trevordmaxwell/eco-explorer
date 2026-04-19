@@ -434,7 +434,7 @@ describe('ecosystem note resolution', () => {
     const resolved = resolveEcosystemNoteForEntry(
       tundraBiome,
       'tussock-thaw-channel',
-      ['tussock-thaw-channel', 'cottongrass'],
+      ['tussock-thaw-channel', 'arctic-willow'],
     );
 
     expect(resolved.state).toBe('unlocked');

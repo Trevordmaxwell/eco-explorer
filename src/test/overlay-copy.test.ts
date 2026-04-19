@@ -1,14 +1,16 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  resolveFieldStationBackdropAccentState,
-  resolveFieldStationBackdropPulseState,
   getMenuOverlayHelperText,
   getMenuOverlayIntroText,
-  resolveFieldStationGrowthAccentState,
   TITLE_ACTION_ROWS,
   TITLE_START_HINT,
 } from '../engine/overlay-render';
+import {
+  resolveFieldStationBackdropAccentState,
+  resolveFieldStationBackdropPulseState,
+  resolveFieldStationGrowthAccentState,
+} from '../engine/field-station-homecoming-shell';
 
 describe('first-session overlay copy', () => {
   it('keeps the title controls focused on journal, menu, and confirmation', () => {
@@ -126,6 +128,7 @@ describe('first-session overlay copy', () => {
       hasLeftBrace: false,
       hasRightBrace: false,
       hasCenterTie: false,
+      hasLateSeasonLintel: false,
     });
 
     expect(
@@ -143,6 +146,7 @@ describe('first-session overlay copy', () => {
       hasLeftBrace: true,
       hasRightBrace: false,
       hasCenterTie: false,
+      hasLateSeasonLintel: false,
     });
 
     expect(
@@ -163,6 +167,24 @@ describe('first-session overlay copy', () => {
       hasLogPile: true,
       hasPollinatorPatch: true,
       hasCompostUpgrade: true,
+      hasLateSeasonLintel: false,
+    });
+
+    expect(
+      resolveFieldStationBackdropAccentState({
+        teachingBedStage: null,
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+        loggedRouteCount: 3,
+        hasLateSeasonArchive: true,
+      }),
+    ).toMatchObject({
+      showAccent: true,
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLateSeasonLintel: true,
     });
   });
 
@@ -179,12 +201,30 @@ describe('first-session overlay copy', () => {
       renderLeftBrace: false,
       renderRightBrace: false,
       renderCenterTie: false,
+      renderLateSeasonLintel: false,
     });
 
     expect(resolveFieldStationBackdropPulseState(noAccent, 'homecoming', 1)).toMatchObject({
       renderLeftBrace: true,
       renderRightBrace: true,
       renderCenterTie: true,
+      renderLateSeasonLintel: false,
+    });
+
+    const archivedReturn = resolveFieldStationBackdropAccentState({
+      teachingBedStage: null,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+      compostRate: 1,
+      loggedRouteCount: 3,
+      hasLateSeasonArchive: true,
+    });
+
+    expect(resolveFieldStationBackdropPulseState(archivedReturn, 'default', 0)).toMatchObject({
+      renderLeftBrace: true,
+      renderRightBrace: true,
+      renderCenterTie: true,
+      renderLateSeasonLintel: true,
     });
   });
 });

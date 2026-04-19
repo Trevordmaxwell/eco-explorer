@@ -399,6 +399,7 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
       activeSummary: 'Peak thaw makes first bloom, wet tuft, and brief fruit easiest to follow today.',
       activeSlotEntryIdsBySlotId: {
         'first-bloom': ['woolly-lousewort'],
+        'wet-tuft': ['bigelows-sedge'],
       },
     },
     completionTriggers: ['inspect'],

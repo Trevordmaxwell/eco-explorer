@@ -189,6 +189,15 @@ export const OBSERVATION_PROMPT_SEEDS: readonly ObservationPromptSeed[] = [
     requiredEntryIds: ['purple-saxifrage', 'cottongrass', 'arctic-willow'],
   },
   {
+    id: 'tundra-held-thaw',
+    biomeId: 'tundra',
+    family: 'neighbors',
+    text: 'What here keeps thaw water low and slow?',
+    zoneIds: ['thaw-skirt'],
+    weatherProfiles: ['clear', 'light-flurry'],
+    requiredEntryIds: ['tussock-thaw-channel', 'bigelows-sedge', 'arctic-willow'],
+  },
+  {
     id: 'tundra-low-shelter',
     biomeId: 'tundra',
     family: 'shelter',

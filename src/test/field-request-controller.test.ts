@@ -378,6 +378,82 @@ describe('field request controller', () => {
     });
   });
 
+  it('retargets the thaw-skirt wet-tuft shelf to bigelows-sedge during the active Thaw Window middle leg', () => {
+    const handLensSave = createNewSaveState('field-request-controller-thaw-window-wet-tuft');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    handLensSave.worldStep = 4;
+    handLensSave.biomeVisits.tundra = 2;
+    handLensSave.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'first-bloom', entryId: 'purple-saxifrage' }],
+    };
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 380,
+      scenePlayerY: 100,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getInspectBubbleResourceNote(controller, 'cottongrass', 'thaw-skirt')).toBe(
+      'Notebook fit: wet tuft',
+    );
+    expect(getInspectBubbleResourceNote(controller, 'bigelows-sedge', 'thaw-skirt')).toBe(
+      'LENS CLUE: wet tuft',
+    );
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-cottongrass',
+          entryId: 'cottongrass',
+          x: 376,
+          y: 100,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-sedge',
+          entryId: 'bigelows-sedge',
+          x: 390,
+          y: 96,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 380, y: 100 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('far-sedge');
+    expect(selection.nearestInspectable?.entryId).toBe('bigelows-sedge');
+    expect(selection.supportRetargetsInspect).toBe(true);
+    expect(selection.supportPrefersActiveClue).toBe(true);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Thaw Window',
+      variant: 'support-biased',
+    });
+  });
+
   it('marks an ordinary Shore Shelter retarget as support-readable without treating it as an active-clue alternate', () => {
     const handLensSave = createNewSaveState('field-request-controller-shore-shelter-retarget');
     handLensSave.selectedOutingSupportId = 'hand-lens';

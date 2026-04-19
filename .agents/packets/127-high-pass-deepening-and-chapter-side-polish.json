@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-127",
-  "version": 7,
+  "version": 8,
   "created_at": "2026-04-18",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Sprint 4 deepen High Pass into a full chapter",
   "summary": "Sprint 4 should make High Pass feel like a real next chapter by hardening chapter-state composition, deepening relationship teaching, adding one more remembered spatial payoff, and sharpening the current Route v2 replay/support feel without widening the shell.",
   "source_reports": [

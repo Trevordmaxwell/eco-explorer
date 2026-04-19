@@ -1,0 +1,222 @@
+{
+  "packet_id": "ECO-PACKET-128",
+  "version": 7,
+  "created_at": "2026-04-19",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Late-season consequence and homecoming pass",
+  "summary": "Packet 128 should cash in the success of High Pass by making the north end of the season feel more consequential and by giving station returns a little more visible payoff, without opening season three, biome six, or a broader planner shell.",
+  "source_reports": [
+    "docs/reports/2026-04-19-late-season-consequence-and-homecoming-pass.md",
+    "docs/reports/2026-04-19-late-season-homecoming-shell-handoff.md",
+    "docs/reports/2026-04-19-tundra-relationship-teaching-handoff.md",
+    "docs/reports/2026-04-19-tundra-relationship-teaching-implementation.md",
+    "docs/reports/2026-04-19-tundra-relationship-teaching-review.md",
+    "docs/reports/2026-04-19-earlier-band-tundra-remembered-place-handoff.md",
+    "docs/reports/2026-04-19-earlier-band-tundra-remembered-place-review.md",
+    "docs/reports/2026-04-18-high-pass-deepening-phase.md",
+    "docs/reports/2026-04-16-home-place-payoff-and-session-split-review.md",
+    "docs/reports/2026-04-18-high-pass-route-refinement-review.md",
+    "docs/reports/2026-04-19-thaw-window-wet-tuft-handoff.md",
+    "docs/reports/2026-04-19-thaw-window-wet-tuft-implementation.md",
+    "docs/reports/2026-04-19-thaw-window-wet-tuft-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260419-scout-315",
+    "ECO-20260419-main-315",
+    "ECO-20260419-critic-315",
+    "ECO-20260419-scout-316",
+    "ECO-20260419-main-316",
+    "ECO-20260419-critic-316",
+    "ECO-20260419-scout-317",
+    "ECO-20260419-main-317",
+    "ECO-20260419-critic-317",
+    "ECO-20260419-main-319",
+    "ECO-20260419-critic-319",
+    "ECO-20260419-scout-318",
+    "ECO-20260419-main-318",
+    "ECO-20260419-critic-318"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260419-scout-315",
+      "goal": "Prepare the lane-1 homecoming payoff seam and station-shell hardening pass.",
+      "why_now": "The return loop needs more visible earned payoff, and overlay composition still carries one of the remaining concentration risks."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260419-scout-316",
+      "goal": "Prepare the lane-2 compact Tundra relationship-teaching pass.",
+      "why_now": "High Pass now feels chapter-grade, so the broader late-season north end should teach one clearer earlier-band ecological relationship instead of leaving Tundra as a route endpoint."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260419-scout-317",
+      "goal": "Prepare the lane-3 earlier-band Tundra remembered-place pass.",
+      "why_now": "The next best spatial spend is an earlier Tundra place the player remembers by feel, not more density in the far-right meltwater pocket."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260419-scout-318",
+      "goal": "Prepare the lane-4 stronger Thaw Window consequence pass.",
+      "why_now": "Route v2 has already proved support and replay seams; the next leverage is one route-local consequence that changes what the player notices or reaches for during the active window."
+    }
+  ],
+  "file_targets": [
+    "src/engine/overlay-render.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/game.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/field-requests.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/tundra-biome.test.ts"
+  ],
+  "guardrails": [
+    "Do not open season three, biome six, or a broader planner/dashboard shell in this packet.",
+    "Keep all new station and route payoff handheld-safe at `256x160` and prefer visual or spatial consequence over more prose.",
+    "Do not reopen nursery surgery unless a real overlap or regression reappears.",
+    "Do not spend the immediate next wave on more beach-opener or extra High Pass geometry density.",
+    "Before future external review drops, omit `node_modules` and verify a clean install with `npm install`, `npm run build`, `npm test`, and `npm run validate:agents`."
+  ],
+  "main_315_focus": {
+    "chapter_shell_target": "Extract the existing field-station shell accent family out of `overlay-render.ts`, then use that same shell family for one late-season archived-return payoff instead of adding more copy or another panel.",
+    "protective_split_target": "Split the current shell accent cluster (`resolveFieldStationGrowthAccentState`, `resolveFieldStationBackdropAccentState`, `resolveFieldStationBackdropPulseState`, plus the paired draw helpers) into a dedicated renderer helper such as `src/engine/field-station-homecoming-shell.ts` so late-season return logic does not regrow inline inside `overlay-render.ts`.",
+    "preferred_files": [
+      "src/engine/overlay-render.ts",
+      "src/engine/field-station-homecoming-shell.ts",
+      "src/test/overlay-copy.test.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "The default station shell stays unchanged when no meaningful return state is active.",
+      "A mid-progression return reuses the current brace family without adding another card or row.",
+      "A late-season archived return reads as more earned through one calm upper-shell lintel on the same brace family."
+    ],
+    "non_goals": [
+      "Do not add a new station tab.",
+      "Do not add an expedition dashboard or planner row.",
+      "Do not reopen nursery layout work unless a regression appears.",
+      "Do not add new subtitle or station-note copy just to explain the payoff."
+    ]
+  },
+  "main_316_focus": {
+    "chapter_target": "Retune the existing `between-tussocks` thaw-skirt note so the late-season north end teaches one clearer thaw-hold relationship through channel, sedge, and willow instead of adding a ninth tundra note.",
+    "preferred_entries": [
+      "arctic-willow",
+      "bigelows-sedge",
+      "tussock-thaw-channel"
+    ],
+    "preferred_surfaces": [
+      "one compact ecosystem note refresh",
+      "ecosystem-note fallback prompt only unless runtime proof shows a dedicated seed is necessary"
+    ],
+    "preferred_files": [
+      "src/content/biomes/tundra.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "exact_note_target": {
+      "id": "between-tussocks",
+      "selected_entry_target": "tussock-thaw-channel",
+      "entry_ids": [
+        "tussock-thaw-channel",
+        "bigelows-sedge",
+        "arctic-willow"
+      ],
+      "summary_direction": "Teach that sedge and willow hold the edges while wetter thaw channels stay low between them.",
+      "prompt_direction": "Use one compact ecosystem-note fallback question about what keeps thaw water low and slow."
+    },
+    "non_goals": [
+      "Do not add another comparison shell or archive panel.",
+      "Do not widen the notebook or journal shell.",
+      "Do not crowd the far-right meltwater rest with more copy.",
+      "Do not add a brand-new tundra note id unless the refreshed existing seam proves impossible to surface cleanly."
+    ]
+  },
+  "main_317_focus": {
+    "chapter_target": "Add one remembered Tundra place in the earlier `snow-meadow -> thaw-skirt` transition so the north end reads as more place-based before the far-right meltwater pocket.",
+    "preferred_zone": "thaw-skirt upper shelf into bank shoulder",
+    "preferred_band": {
+      "min_x": 348,
+      "max_x": 436,
+      "min_y": 98,
+      "max_y": 106
+    },
+    "preferred_space": [
+      "one compact thaw bench or wet-bank rest inside the existing thaw-skirt shelf family",
+      "at most one tiny return step if the bench needs a calmer handoff into frost ridge"
+    ],
+    "preferred_support_entries": [
+      "arctic-willow",
+      "tussock-thaw-channel",
+      "bigelows-sedge"
+    ],
+    "preferred_files": [
+      "src/content/biomes/tundra.ts",
+      "src/test/tundra-biome.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not spend more density on the existing `meltwater-bank-rest` pocket.",
+      "Do not reopen the `snow-meadow` drift-hold strip except for tiny spacing fallout from the thaw-band change.",
+      "Do not add a new climb family, trap geometry, or corridor rewrite.",
+      "Do not widen the chapter into another High Pass-style geometry push."
+    ]
+  },
+  "main_318_focus": {
+    "chapter_target": "Deepen `Thaw Window` with one route-local consequence that changes what the player notices or reaches for during the active window while keeping the station, notebook, and filed identity stable.",
+    "request_id": "tundra-short-season",
+    "preferred_shape": {
+      "title": "Thaw Window",
+      "activeBand": "snow-meadow into thaw-skirt",
+      "constraint": "Alter the in-field clue or approach feel during the active window without opening a second tundra route."
+    },
+    "preferred_slot": "wet-tuft",
+    "preferred_proof_band": {
+      "zone": "thaw-skirt upper shelf and channel shoulder",
+      "x": [
+        332,
+        392
+      ],
+      "y": [
+        88,
+        108
+      ]
+    },
+    "replay_target": {
+      "momentId": "thaw-fringe",
+      "activeTitle": "Thaw Window",
+      "priority": "Spend the next route-local consequence on the middle wet-tuft leg instead of repeating the first-bloom proof.",
+      "preferred_active_carrier": "bigelows-sedge",
+      "comparison_entries": [
+        "cottongrass",
+        "purple-saxifrage",
+        "tussock-thaw-channel"
+      ]
+    },
+    "support_target": "Reuse the existing support-choice model so the player can feel a meaningful difference during the active window, but do not add another support row, HUD chrome, or broader replay framework.",
+    "preferred_files": [
+      "src/engine/field-request-controller.ts",
+      "src/engine/field-requests.ts",
+      "src/test/field-request-controller.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "non_goals": [
+      "Do not add a second Tundra route.",
+      "Do not widen the station or notebook shell.",
+      "Do not rename the route without a real play-feel difference."
+    ]
+  }
+}

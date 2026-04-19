@@ -238,15 +238,23 @@ export const tundraBiome: BiomeDefinition = {
         spriteId: 'ice-platform',
         x: 348,
         y: 98,
-        w: 72,
+        w: 40,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-bench-rest',
+        spriteId: 'ice-platform',
+        x: 392,
+        y: 101,
+        w: 28,
         h: 4,
       },
       {
         id: 'thaw-skirt-bank-shoulder',
         spriteId: 'ice-platform',
-        x: 420,
+        x: 424,
         y: 104,
-        w: 20,
+        w: 16,
         h: 4,
       },
       {
@@ -334,15 +342,15 @@ export const tundraBiome: BiomeDefinition = {
       {
         id: 'thaw-skirt-channel',
         entryId: 'tussock-thaw-channel',
-        x: 362,
-        y: 104,
+        x: 398,
+        y: 100,
         castsShadow: false,
       },
       {
         id: 'thaw-skirt-upper-sedge',
         entryId: 'bigelows-sedge',
-        x: 386,
-        y: 96,
+        x: 410,
+        y: 99,
       },
       {
         id: 'meltwater-channel',
@@ -661,12 +669,12 @@ export const tundraBiome: BiomeDefinition = {
     {
       id: 'between-tussocks',
       title: 'Between Tussocks',
-      entryIds: ['tussock-thaw-channel', 'bigelows-sedge', 'cottongrass'],
+      entryIds: ['tussock-thaw-channel', 'bigelows-sedge', 'arctic-willow'],
       minimumDiscoveries: 2,
       summary:
-        'Between raised tundra tussocks, wetter low channels hold thaw water and tiny ground cover.',
+        'Sedge and willow hold the edges while wetter thaw channels stay low between them.',
       observationPrompt:
-        'What here grows in the low wet spaces?',
+        'What here keeps thaw water low and slow?',
       zoneId: 'thaw-skirt',
     },
   ],

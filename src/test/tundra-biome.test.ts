@@ -137,6 +137,7 @@ describe('tundra biome generation', () => {
     expect(reliefPlatforms.map((platform) => platform.id)).toEqual([
       'thaw-skirt-entry-heave',
       'thaw-skirt-upper-shelf',
+      'thaw-skirt-bench-rest',
       'thaw-skirt-bank-shoulder',
       'thaw-skirt-exit-heave',
       'frost-ridge-drift-rest',
@@ -146,13 +147,15 @@ describe('tundra biome generation', () => {
     expect(reliefPlatforms[0]?.y).toBeGreaterThan(reliefPlatforms[1]?.y ?? 0);
     expect(reliefPlatforms[2]?.y).toBeGreaterThan(reliefPlatforms[1]?.y ?? 0);
     expect(reliefPlatforms[2]?.x).toBeGreaterThan(reliefPlatforms[1]?.x ?? 0);
-    expect(reliefPlatforms[3]?.y).toBeLessThanOrEqual(reliefPlatforms[2]?.y ?? 0);
-    expect(reliefPlatforms[4]?.x).toBeGreaterThan(reliefPlatforms[3]?.x ?? 0);
+    expect(reliefPlatforms[3]?.y).toBeGreaterThan(reliefPlatforms[2]?.y ?? 0);
+    expect(reliefPlatforms[3]?.x).toBeGreaterThan(reliefPlatforms[2]?.x ?? 0);
     expect(reliefPlatforms[4]?.y).toBeLessThanOrEqual(reliefPlatforms[3]?.y ?? 0);
     expect(reliefPlatforms[5]?.x).toBeGreaterThan(reliefPlatforms[4]?.x ?? 0);
-    expect(reliefPlatforms[5]?.y).toBeGreaterThan(reliefPlatforms[4]?.y ?? 0);
+    expect(reliefPlatforms[5]?.y).toBeLessThanOrEqual(reliefPlatforms[4]?.y ?? 0);
     expect(reliefPlatforms[6]?.x).toBeGreaterThan(reliefPlatforms[5]?.x ?? 0);
-    expect(reliefPlatforms[6]?.y).toBeGreaterThanOrEqual(reliefPlatforms[5]?.y ?? 0);
+    expect(reliefPlatforms[6]?.y).toBeGreaterThan(reliefPlatforms[5]?.y ?? 0);
+    expect(reliefPlatforms[7]?.x).toBeGreaterThan(reliefPlatforms[6]?.x ?? 0);
+    expect(reliefPlatforms[7]?.y).toBeGreaterThanOrEqual(reliefPlatforms[6]?.y ?? 0);
   });
 
   it('adds one compact snow-meadow drift hold before the thaw-skirt family', () => {
@@ -224,6 +227,67 @@ describe('tundra biome generation', () => {
     expect((thawEntry?.x ?? 0) + (thawEntry?.w ?? 0)).toBeGreaterThanOrEqual(338);
   });
 
+  it('adds one compact thaw-skirt bench between the drift hold and frost ridge', () => {
+    const thawPlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      [
+        'thaw-skirt-entry-heave',
+        'thaw-skirt-upper-shelf',
+        'thaw-skirt-bench-rest',
+        'thaw-skirt-bank-shoulder',
+        'thaw-skirt-exit-heave',
+      ].includes(platform.id),
+    );
+
+    expect(thawPlatforms).toEqual([
+      {
+        id: 'thaw-skirt-entry-heave',
+        spriteId: 'ice-platform',
+        x: 306,
+        y: 104,
+        w: 32,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-upper-shelf',
+        spriteId: 'ice-platform',
+        x: 348,
+        y: 98,
+        w: 40,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-bench-rest',
+        spriteId: 'ice-platform',
+        x: 392,
+        y: 101,
+        w: 28,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-bank-shoulder',
+        spriteId: 'ice-platform',
+        x: 424,
+        y: 104,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'thaw-skirt-exit-heave',
+        spriteId: 'ice-platform',
+        x: 444,
+        y: 103,
+        w: 24,
+        h: 4,
+      },
+    ]);
+    expect((thawPlatforms?.[1]?.x ?? 0) + (thawPlatforms?.[1]?.w ?? 0)).toBe(388);
+    expect((thawPlatforms?.[2]?.x ?? 0) - ((thawPlatforms?.[1]?.x ?? 0) + (thawPlatforms?.[1]?.w ?? 0))).toBe(4);
+    expect((thawPlatforms?.[3]?.x ?? 0) - ((thawPlatforms?.[2]?.x ?? 0) + (thawPlatforms?.[2]?.w ?? 0))).toBe(4);
+    expect((thawPlatforms?.[4]?.x ?? 0) - ((thawPlatforms?.[3]?.x ?? 0) + (thawPlatforms?.[3]?.w ?? 0))).toBe(4);
+    expect(thawPlatforms?.[2]?.y).toBeGreaterThan(thawPlatforms?.[1]?.y ?? 0);
+    expect(thawPlatforms?.[3]?.y).toBeGreaterThan(thawPlatforms?.[2]?.y ?? 0);
+  });
+
   it('anchors one local snow-meadow carrier pair around the new drift hold', () => {
     const driftEntities = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
       ['snow-meadow-drift-sedge', 'snow-meadow-drift-ptarmigan'].includes(entity.id),
@@ -284,15 +348,15 @@ describe('tundra biome generation', () => {
       {
         id: 'thaw-skirt-channel',
         entryId: 'tussock-thaw-channel',
-        x: 362,
-        y: 104,
+        x: 398,
+        y: 100,
         castsShadow: false,
       },
       {
         id: 'thaw-skirt-upper-sedge',
         entryId: 'bigelows-sedge',
-        x: 386,
-        y: 96,
+        x: 410,
+        y: 99,
       },
       {
         id: 'meltwater-channel',
@@ -322,11 +386,11 @@ describe('tundra biome generation', () => {
     const channels = instance.entities.filter((entity) => entity.entryId === 'tussock-thaw-channel');
 
     expect(channels).toHaveLength(2);
-    expect(channels.some((entity) => entity.x === 362 && entity.y === 104)).toBe(true);
+    expect(channels.some((entity) => entity.x === 398 && entity.y === 100)).toBe(true);
     expect(channels.some((entity) => entity.x === 544 && entity.y === 112)).toBe(true);
   });
 
-  it('anchors a tiny wet-edge carrier cluster around the new meltwater rest', () => {
+  it('keeps the meltwater-bank-rest pocket unchanged', () => {
     const authoredWetEdge = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
       ['meltwater-channel', 'meltwater-bank-willow', 'meltwater-bank-cottongrass'].includes(entity.id),
     );

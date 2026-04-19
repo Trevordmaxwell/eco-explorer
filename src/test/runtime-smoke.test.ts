@@ -2861,12 +2861,12 @@ describe('runtime smoke loop', () => {
     }
   });
 
-  it('turns the tundra thaw-skirt route into one fuller inland relief and snow-edge family', () => {
+  it('turns the thaw-skirt seam into one held thaw bench before frost ridge', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-tundra-relief-seed');
     persistSave(seededSave);
     const originalTundraStartPosition = { ...tundraBiome.startPosition };
-    tundraBiome.startPosition = { x: 332, y: 120 };
+    tundraBiome.startPosition = { x: 384, y: 120 };
 
     try {
       const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
@@ -2875,123 +2875,25 @@ describe('runtime smoke loop', () => {
       tapKey(fakeWindow, 'Enter');
       game.enterBiome('tundra');
 
-      let state = readState(fakeWindow);
-      expect(state.zoneId).toBe('thaw-skirt');
-      expect(state.player?.x).toBeGreaterThanOrEqual(324);
-      expect(state.player?.x).toBeLessThanOrEqual(340);
-
-      fakeWindow.dispatchEvent({ type: 'keydown', key: 'ArrowRight', preventDefault() {} });
-      for (let index = 0; index < 22; index += 1) {
-        fakeWindow.advanceTime?.(16);
-      }
-      fakeWindow.dispatchEvent({ type: 'keydown', key: 'Space', preventDefault() {} });
-      fakeWindow.advanceTime?.(16);
-      fakeWindow.dispatchEvent({ type: 'keyup', key: 'Space', preventDefault() {} });
-
-      let foundState: any = null;
-      for (let index = 0; index < 90; index += 1) {
-        fakeWindow.advanceTime?.(16);
-        const nextState = readState(fakeWindow);
-        if (
-          !nextState.player?.climbing &&
-          (nextState.player?.x ?? 0) >= 352 &&
-          (nextState.player?.x ?? 999) <= 430 &&
-          (nextState.player?.y ?? 999) <= 94
-        ) {
-          foundState = nextState;
-          break;
-        }
-      }
-      expect(foundState).not.toBeNull();
-      state = foundState;
-      expect(state.zoneId).toBe('thaw-skirt');
-
-      foundState = null;
-      for (let index = 0; index < 140; index += 1) {
-        fakeWindow.advanceTime?.(16);
-        const nextState = readState(fakeWindow);
-        if (
+      let state = advanceWhileHoldingKeyUntil(
+        fakeWindow,
+        'ArrowRight',
+        (nextState) =>
           !nextState.player?.climbing &&
           Math.abs(nextState.player?.vy ?? 999) <= 1 &&
-          (nextState.player?.x ?? 0) >= 420 &&
-          (nextState.player?.x ?? 999) <= 444 &&
-          (nextState.player?.y ?? 0) >= 94 &&
-          (nextState.player?.y ?? 999) <= 102
-        ) {
-          foundState = nextState;
-          break;
-        }
-      }
-      expect(foundState).not.toBeNull();
-      state = foundState;
-      expect(state.zoneId).toBe('frost-ridge');
-
-      state = advanceWhileHoldingKeyUntil(
-        fakeWindow,
-        'ArrowRight',
-        (nextState) =>
-          !nextState.player?.climbing &&
-          nextState.zoneId === 'frost-ridge' &&
-          (nextState.player?.x ?? 0) >= 448 &&
-          (nextState.player?.y ?? 999) <= 102,
-        90,
+          (nextState.player?.x ?? 0) >= 392 &&
+          (nextState.player?.x ?? 999) <= 420 &&
+          (nextState.player?.y ?? 0) >= 95 &&
+          (nextState.player?.y ?? 999) <= 105 &&
+          nextState.nearbyInspectables.some((entity: any) =>
+            ['tussock-thaw-channel', 'bigelows-sedge'].includes(entity.entryId),
+          ),
+        180,
       );
-      expect(state.zoneId).toBe('frost-ridge');
-      expect(state.player?.y).toBeLessThanOrEqual(102);
-
-      state = advanceWhileHoldingKeyUntil(
-        fakeWindow,
-        'ArrowRight',
-        (nextState) =>
-          !nextState.player?.climbing &&
-          nextState.zoneId === 'frost-ridge' &&
-          (nextState.player?.x ?? 0) >= 500 &&
-          (nextState.player?.x ?? 999) <= 522 &&
-          (nextState.player?.y ?? 999) <= 100,
-        120,
-      );
-      expect(state.zoneId).toBe('frost-ridge');
-      expect(state.player?.x).toBeGreaterThanOrEqual(500);
-      expect(state.player?.x).toBeLessThanOrEqual(522);
-      expect(state.player?.y).toBeLessThanOrEqual(100);
-
-      state = advanceWhileHoldingKeyUntil(
-        fakeWindow,
-        'ArrowRight',
-        (nextState) =>
-          !nextState.player?.climbing &&
-          nextState.zoneId === 'meltwater-edge' &&
-          (nextState.player?.x ?? 0) >= 538 &&
-          (nextState.player?.x ?? 999) <= 560 &&
-          (nextState.player?.y ?? 999) <= 108,
-        120,
-      );
-      expect(state.zoneId).toBe('meltwater-edge');
-      expect(state.player?.x).toBeGreaterThanOrEqual(538);
-      expect(state.player?.x).toBeLessThanOrEqual(560);
-      expect(state.player?.y).toBeLessThanOrEqual(108);
-      expect(
-        state.nearbyInspectables.some((entity: any) => entity.entryId === 'tussock-thaw-channel'),
-      ).toBe(true);
-
-      state = advanceWhileHoldingKeyUntil(
-        fakeWindow,
-        'ArrowRight',
-        (nextState) =>
-          !nextState.player?.climbing &&
-          nextState.zoneId === 'meltwater-edge' &&
-          (nextState.player?.x ?? 0) >= 576 &&
-          (nextState.player?.x ?? 999) <= 600 &&
-          (nextState.player?.y ?? 999) <= 112,
-        120,
-      );
-      expect(state.zoneId).toBe('meltwater-edge');
-      expect(state.player?.x).toBeGreaterThanOrEqual(576);
-      expect(state.player?.x).toBeLessThanOrEqual(600);
-      expect(state.player?.y).toBeLessThanOrEqual(112);
+      expect(['thaw-skirt', 'frost-ridge']).toContain(state.zoneId);
       expect(
         state.nearbyInspectables.some((entity: any) =>
-          entity.entryId === 'arctic-willow' || entity.entryId === 'cottongrass',
+          ['tussock-thaw-channel', 'bigelows-sedge'].includes(entity.entryId),
         ),
       ).toBe(true);
 
@@ -3000,14 +2902,19 @@ describe('runtime smoke loop', () => {
         'ArrowRight',
         (nextState) =>
           !nextState.player?.climbing &&
-          nextState.zoneId === 'meltwater-edge' &&
-          (nextState.player?.x ?? 0) >= 606 &&
-          (nextState.player?.y ?? 999) <= 116,
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          nextState.zoneId === 'frost-ridge' &&
+          (nextState.player?.x ?? 0) >= 424 &&
+          (nextState.player?.x ?? 999) <= 444 &&
+          (nextState.player?.y ?? 0) >= 94 &&
+          (nextState.player?.y ?? 999) <= 102,
         120,
       );
-      expect(state.zoneId).toBe('meltwater-edge');
-      expect(state.player?.x).toBeGreaterThanOrEqual(606);
-      expect(state.player?.y).toBeLessThanOrEqual(116);
+      expect(state.zoneId).toBe('frost-ridge');
+      expect(state.player?.x).toBeGreaterThanOrEqual(424);
+      expect(state.player?.x).toBeLessThanOrEqual(444);
+      expect(state.player?.y).toBeGreaterThanOrEqual(94);
+      expect(state.player?.y).toBeLessThanOrEqual(102);
     } finally {
       tundraBiome.startPosition = originalTundraStartPosition;
     }
@@ -3709,6 +3616,7 @@ describe('runtime smoke loop', () => {
         hasLeftBrace: false,
         hasRightBrace: false,
         hasCenterTie: false,
+        hasLateSeasonLintel: false,
       },
     });
     state = advanceUntil(fakeWindow, (nextState) => (nextState.fieldStation?.arrivalPulse ?? 0) === 0, 10);
@@ -4735,6 +4643,160 @@ describe('runtime smoke loop', () => {
         id: 'tundra-short-season',
         title: 'Thaw Window',
         progressLabel: '0/3 clues',
+      });
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
+    }
+  });
+
+  it('lets hand lens prefer bigelows-sedge as the thaw-window wet-tuft clue once first bloom is logged', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-hand-lens-thaw-window-wet-tuft-seed');
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    seededSave.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'first-bloom', entryId: 'purple-saxifrage' }],
+    };
+    persistSave(seededSave);
+
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 380, y: 100 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      const state = advanceUntil(fakeWindow, (nextState) => {
+        if (nextState.zoneId !== 'thaw-skirt') {
+          return false;
+        }
+
+        return (
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')
+          && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass')
+        );
+      });
+
+      expect(state.zoneId).toBe('thaw-skirt');
+      expect(state.fieldRequestNotice?.title).toBe('Thaw Window');
+      expect(state.player?.x).toBeGreaterThanOrEqual(332);
+      expect(state.player?.x).toBeLessThanOrEqual(392);
+      expect(state.player?.y).toBeGreaterThanOrEqual(88);
+      expect(state.player?.y).toBeLessThanOrEqual(108);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')).toBe(true);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass')).toBe(true);
+      expect(state.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Thaw Window',
+        variant: 'support-biased',
+      });
+
+      tapKey(fakeWindow, 'e');
+      const afterInspectState = readState(fakeWindow);
+      expect(afterInspectState.openBubble).toMatchObject({
+        entryId: 'bigelows-sedge',
+        resourceNote: 'LENS CLUE: wet tuft',
+      });
+      expect(seededSave.routeV2Progress).toMatchObject({
+        requestId: 'tundra-short-season',
+        status: 'gathering',
+        evidenceSlots: [
+          { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+          { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        ],
+      });
+      expect(afterInspectState.activeFieldRequest).toMatchObject({
+        id: 'tundra-short-season',
+        title: 'Thaw Window',
+        progressLabel: '2/3 clues',
+      });
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
+    }
+  });
+
+  it('keeps non-hand-lens supports off bigelows-sedge in the same thaw-window wet-tuft setup', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-note-tabs-thaw-window-wet-tuft-seed');
+    seededSave.selectedOutingSupportId = 'note-tabs';
+    seededSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    seededSave.worldStep = 4;
+    seededSave.biomeVisits.tundra = 2;
+    seededSave.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [{ slotId: 'first-bloom', entryId: 'purple-saxifrage' }],
+    };
+    persistSave(seededSave);
+
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 380, y: 100 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      const beforeInspectState = advanceUntil(fakeWindow, (nextState) => {
+        if (nextState.zoneId !== 'thaw-skirt') {
+          return false;
+        }
+
+        return (
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')
+          && nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass')
+        );
+      });
+
+      expect(beforeInspectState.zoneId).toBe('thaw-skirt');
+      expect(beforeInspectState.fieldRequestNotice?.title).toBe('Thaw Window');
+      expect(beforeInspectState.player?.x).toBeGreaterThanOrEqual(332);
+      expect(beforeInspectState.player?.x).toBeLessThanOrEqual(392);
+      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(88);
+      expect(beforeInspectState.player?.y).toBeLessThanOrEqual(108);
+      expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'bigelows-sedge')).toBe(true);
+      expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass')).toBe(true);
+
+      fakeWindow.advanceTime?.(5200);
+      const hintedState = readState(fakeWindow);
+      expect(hintedState.fieldRequestHint).toMatchObject({
+        label: 'NOTEBOOK J',
+        title: 'Thaw Window',
+        variant: 'default',
+      });
+
+      tapKey(fakeWindow, 'e');
+      const state = readState(fakeWindow);
+      expect(state.openBubble?.entryId).not.toBe('bigelows-sedge');
+      expect(seededSave.routeV2Progress?.evidenceSlots?.[1]?.entryId).not.toBe('bigelows-sedge');
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'tundra-short-season',
+        title: 'Thaw Window',
       });
     } finally {
       tundraBiome.startPosition = originalTundraStartPosition;
@@ -6496,6 +6558,12 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.subtitle).toBe('High Pass starts at Treeline Pass.');
+    expect(state.fieldStation?.backdropAccent).toMatchObject({
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLateSeasonLintel: true,
+    });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Root Hollow now leads to High Pass.',
@@ -6552,6 +6620,12 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.subtitle).toBe('High Pass starts at Treeline Pass.');
+    expect(state.fieldStation?.backdropAccent).toMatchObject({
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLateSeasonLintel: true,
+    });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Root Hollow now leads to High Pass.',
@@ -8373,6 +8447,70 @@ describe('runtime smoke loop', () => {
     });
     expect(state.journal?.observationPrompt?.evidenceKey).toContain('beach-tide-line-cover|tide-line|');
     expect(state.journal?.observationPrompt?.evidenceKey).toContain('|marine-haze|');
+  });
+
+  it('surfaces the sharpened thaw-hold note in the live thaw-skirt channel cluster', () => {
+    const originalStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 332, y: originalStartPosition.y };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createNewSaveState('runtime-tundra-held-thaw-seed');
+      seededSave.lastBiomeId = 'tundra';
+      seededSave.biomeVisits.tundra = 1;
+      recordDiscovery(seededSave, tundraBiome.entries['tussock-thaw-channel'], 'tundra');
+      recordDiscovery(seededSave, tundraBiome.entries['arctic-willow'], 'tundra');
+      recordDiscovery(seededSave, tundraBiome.entries['bigelows-sedge'], 'tundra');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+      let state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'thaw-skirt' &&
+          !nextState.fieldRequestNotice &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'tussock-thaw-channel'),
+        120,
+      );
+
+      expect(state.zoneId).toBe('thaw-skirt');
+      expect(['clear', 'light-flurry']).toContain(state.worldState.weather);
+
+      tapKey(fakeWindow, 'j');
+      state = readState(fakeWindow);
+      for (
+        let index = 0;
+        index < 10 && state.journal?.selectedEntryId !== 'tussock-thaw-channel';
+        index += 1
+      ) {
+        tapKey(fakeWindow, 'ArrowDown');
+        state = readState(fakeWindow);
+      }
+
+      expect(state.journal?.selectedBiomeId).toBe('tundra');
+      expect(state.journal?.selectedEntryId).toBe('tussock-thaw-channel');
+      expect(state.journal?.ecosystemNote).toEqual({
+        state: 'unlocked',
+        discoveredCount: 3,
+        requiredCount: 2,
+        title: 'Between Tussocks',
+        summary:
+          'Sedge and willow hold the edges while wetter thaw channels stay low between them.',
+      });
+      expect(state.journal?.observationPrompt).toMatchObject({
+        family: 'neighbors',
+        text: 'What here keeps thaw water low and slow?',
+        source: 'seed',
+      });
+      expect(state.journal?.observationPrompt?.evidenceKey).toContain('tundra-held-thaw|thaw-skirt|');
+      expect(state.journal?.observationPrompt?.evidenceKey).toContain(`|${state.worldState.weather}|`);
+    } finally {
+      tundraBiome.startPosition = originalStartPosition;
+    }
   });
 
   it('surfaces the new High Pass rime-footing note in the live open-fell chapter pocket', () => {

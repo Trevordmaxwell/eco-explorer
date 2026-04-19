@@ -210,6 +210,28 @@ describe('observation prompt resolution', () => {
     });
   });
 
+  it('uses the held-thaw seed when the thaw-skirt channel cluster is present', () => {
+    const prompt = resolveObservationPrompt({
+      biome: tundraBiome,
+      zoneId: 'thaw-skirt',
+      nearbyDiscoveredEntryIds: ['tussock-thaw-channel', 'bigelows-sedge', 'arctic-willow'],
+      selectedEntryId: 'tussock-thaw-channel',
+      worldState: {
+        worldAge: 5,
+        dayPart: 'day',
+        weather: 'clear',
+        phenologyPhase: 'peak',
+      },
+    });
+
+    expect(prompt).toMatchObject({
+      id: 'tundra-held-thaw',
+      family: 'neighbors',
+      source: 'seed',
+      text: 'What here keeps thaw water low and slow?',
+    });
+  });
+
   it('uses the new windbreak-swale shelter seed when runner cover and shrubs are both present', () => {
     const prompt = resolveObservationPrompt({
       biome: coastalScrubBiome,
