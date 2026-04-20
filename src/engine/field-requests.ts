@@ -633,8 +633,9 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     routeV2Note: {
       readyTitle: 'NOTEBOOK READY',
       readyText: 'Return to the field station and file the High Pass note.',
-      filedText: 'Stone lift, lee watch, rime mark, and talus hold now trace the first climb into High Pass.',
-      clueBackedTail: 'now trace the first climb into High Pass.',
+      filedText:
+        'Stone lift, lee watch, rime mark, and talus hold show how low ridge life uses shelter pockets on exposed High Pass.',
+      clueBackedTail: 'show how low ridge life uses shelter pockets on exposed High Pass.',
     },
     processFocus: {
       momentId: 'frost-rime',

@@ -5872,6 +5872,7 @@ describe('runtime smoke loop', () => {
         title: 'High Pass',
         variant: 'support-biased',
       });
+      expect(state.nearbyTravelTarget ?? null).toBeNull();
 
       tapKey(fakeWindow, 'e');
       const afterInspectState = readState(fakeWindow);
@@ -5892,8 +5893,129 @@ describe('runtime smoke loop', () => {
       expect(afterInspectState.activeFieldRequest).toMatchObject({
         id: 'treeline-high-pass',
         title: 'High Pass',
+        summary: 'Return to the field station and file the High Pass note.',
         progressLabel: 'Ready To File',
       });
+      expect(afterInspectState.fieldRequestNotice).toMatchObject({
+        title: 'NOTEBOOK READY',
+        text: 'Return to the field station and file the High Pass note.',
+        variant: 'notebook-ready',
+      });
+      expect(afterInspectState.nearbyTravelTarget ?? null).toBeNull();
+    } finally {
+      treelineBiome.startPosition = originalStartPosition;
+    }
+  });
+
+  it('files High Pass from the live talus-hold loop and settles the completed field arc', () => {
+    const originalStartPosition = { ...treelineBiome.startPosition };
+    const startX = findHighPassFellHoldStartX();
+    treelineBiome.startPosition = { x: startX, y: originalStartPosition.y };
+
+    try {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createHighPassFellHoldSave('runtime-high-pass-route-loop-filed-seed', 'hand-lens');
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+
+      const readyPocketState = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          !nextState.fieldRequestNotice &&
+          nextState.zoneId === 'lichen-fell' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineOpenFellIslandBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineOpenFellIslandBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineOpenFellIslandBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineOpenFellIslandBand.maxY &&
+          nextState.nearestInspectableEntityId !== null &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'talus-cushion-pocket'),
+      );
+      const nearest = readyPocketState.nearbyInspectables.find(
+        (entity: any) => entity.entityId === readyPocketState.nearestInspectableEntityId,
+      );
+
+      expect(readyPocketState.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'High Pass',
+      });
+      expect(nearest).toMatchObject({ entryId: 'talus-cushion-pocket' });
+
+      tapKey(fakeWindow, 'e');
+      let state = readState(fakeWindow);
+      expect(seededSave.routeV2Progress).toMatchObject({
+        requestId: 'treeline-high-pass',
+        status: 'ready-to-synthesize',
+      });
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'treeline-high-pass',
+        title: 'High Pass',
+        progressLabel: 'Ready To File',
+      });
+      expect(state.fieldRequestNotice).toMatchObject({
+        title: 'NOTEBOOK READY',
+        text: 'Return to the field station and file the High Pass note.',
+        variant: 'notebook-ready',
+      });
+
+      tapKey(fakeWindow, 'Escape');
+      tapKey(fakeWindow, 'm');
+      selectMenuAction(fakeWindow, 'world-map');
+      tapKey(fakeWindow, 'Enter');
+      state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+      expect(state.worldMap?.focusedLocationId).toBe('treeline');
+
+      tapKey(fakeWindow, 'm');
+      selectMenuAction(fakeWindow, 'field-station');
+      tapKey(fakeWindow, 'Enter');
+      state = readState(fakeWindow);
+      expect(state.mode).toBe('field-station');
+      expect(state.fieldStation?.seasonPage).toBe('routes');
+      expect(state.fieldStation?.routeBoard).toMatchObject({
+        targetBiomeId: null,
+        nextDirection: 'Next: return to the field station and file the High Pass note.',
+        launchCard: {
+          title: 'HIGH PASS',
+          progressLabel: 'NOTE',
+        },
+      });
+
+      tapKey(fakeWindow, 'Enter');
+      state = readState(fakeWindow);
+      expect(seededSave.routeV2Progress).toBeNull();
+      expect(seededSave.completedFieldRequestIds).toContain('treeline-high-pass');
+      expect(state.fieldRequestNotice).toMatchObject({
+        title: 'HIGH PASS',
+        text: 'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket show how low ridge life uses shelter pockets on exposed High Pass.',
+        variant: 'filed-route',
+      });
+      expect(state.activeFieldRequest).toBeNull();
+      expect(state.fieldStation?.routeBoard).toMatchObject({
+        targetBiomeId: null,
+        nextDirection: 'High Pass filed. This field arc is complete.',
+        launchCard: {
+          title: 'HIGH PASS',
+          progressLabel: 'FILED',
+          summary: 'High Pass filed from Treeline Pass.',
+        },
+      });
+
+      tapKey(fakeWindow, 'Escape');
+      state = readState(fakeWindow);
+      expect(state.scene).toBe('world-map');
+      expect(state.activeFieldRequest).toBeNull();
+      expect(state.worldMap?.routeMarkerLocationId).toBeNull();
+      expect(state.worldMap?.routeReplayLabel).toBeNull();
+
+      tapKey(fakeWindow, 'j');
+      state = readState(fakeWindow);
+      expect(state.journal?.fieldRequest).toBeNull();
     } finally {
       treelineBiome.startPosition = originalStartPosition;
     }
@@ -6587,6 +6709,7 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.expedition).toMatchObject({
       title: 'HIGH PASS',
       statusLabel: 'NEXT',
+      detailLabel: 'STARTS',
       startText: 'Treeline Pass to High Pass',
       teaser: null,
     });
@@ -6663,10 +6786,108 @@ describe('runtime smoke loop', () => {
     expect(state.worldMap?.routeReplayLabel).toBe('Today: High Pass');
     expect(state.worldMap?.originLabel).toBe('FROM FOREST TRAIL');
 
+    seededSave.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+    persistSave(seededSave);
+
     tapKey(fakeWindow, 'm');
     tapKey(fakeWindow, 'ArrowUp');
     tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('routes');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: null,
+      nextDirection: 'Next: return to the field station and file the High Pass note.',
+    });
+
     tapKey(fakeWindow, 'ArrowRight');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('expedition');
+    expect(state.fieldStation?.expedition).toMatchObject({
+      title: 'HIGH PASS',
+      statusLabel: 'NOTE READY',
+      detailLabel: 'FILE',
+      startText: 'File High Pass note',
+    });
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.seasonPage).toBe('expedition');
+    expect(state.fieldRequestNotice).toMatchObject({
+      text: 'High Pass is ready to file from Treeline Pass. File the High Pass note at the field station.',
+    });
+    expect(state.fieldRequestNotice?.text).not.toContain('Start:');
+
+    tapKey(fakeWindow, 'Escape');
+    state = readState(fakeWindow);
+    expect(state.scene).toBe('world-map');
+
+    seededSave.completedFieldRequestIds = [...seededSave.completedFieldRequestIds, 'treeline-high-pass'];
+    seededSave.routeV2Progress = null;
+    persistSave(seededSave);
+
+    state = readState(fakeWindow);
+    expect(state.activeFieldRequest).toBeNull();
+    expect(state.worldMap?.focusedLocationId).toBe('treeline');
+    expect(state.worldMap?.routeMarkerLocationId).toBeNull();
+    expect(state.worldMap?.routeReplayLabel).toBeNull();
+
+    tapKey(fakeWindow, 'j');
+    state = readState(fakeWindow);
+    expect(state.journal?.fieldRequest).toBeNull();
+    tapKey(fakeWindow, 'Escape');
+
+    tapKey(fakeWindow, 'm');
+    tapKey(fakeWindow, 'ArrowUp');
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('routes');
+    expect(state.fieldStation?.subtitle).toBe('High Pass filed from Treeline Pass.');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'High Pass filed from Treeline Pass.',
+    });
+    expect(state.fieldStation?.atlas?.note).toBe('High Pass filed from Treeline Pass.');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: null,
+      nextDirection: 'High Pass filed. This field arc is complete.',
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'FILED',
+        summary: 'High Pass filed from Treeline Pass.',
+      },
+    });
+
+    tapKey(fakeWindow, 'ArrowRight');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('expedition');
+    expect(state.fieldStation?.subtitle).toBe('High Pass is filed for this field arc.');
+    expect(state.fieldStation?.expedition).toMatchObject({
+      title: 'HIGH PASS',
+      statusLabel: 'FILED',
+      detailLabel: 'FILED',
+      startText: 'Treeline Pass',
+      teaser: null,
+    });
+
+    tapKey(fakeWindow, 'Enter');
+    state = readState(fakeWindow);
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'EXPEDITION LOGGED',
+      text: 'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+    });
+    expect(state.fieldRequestNotice?.text).not.toContain('Start:');
+
     tapKey(fakeWindow, 'ArrowRight');
     state = readState(fakeWindow);
     expect(state.fieldStation?.view).toBe('nursery');

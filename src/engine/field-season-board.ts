@@ -96,8 +96,10 @@ export interface FieldSeasonExpeditionState {
   status: FieldSeasonExpeditionStatus;
   statusLabel: string;
   summary: string;
+  detailLabel: string;
   startText: string;
   note: string;
+  noticeText: string | null;
   teaser: FieldSeasonExpeditionTeaser | null;
 }
 
@@ -143,6 +145,10 @@ function isExpeditionNotebookReady(save: SaveState): boolean {
 export function resolveNextFieldSeasonTargetBiomeId(
   save: SaveState,
 ): typeof NEXT_FIELD_SEASON_TARGET_BIOME_ID | null {
+  if (resolveHighPassChapterState(save)?.phase === 'filed') {
+    return null;
+  }
+
   return hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
     && hasCompletedRequest(save, 'forest-season-threads')
     ? NEXT_FIELD_SEASON_TARGET_BIOME_ID
@@ -152,6 +158,10 @@ export function resolveNextFieldSeasonTargetBiomeId(
 export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator | null {
   const highPassChapterState = resolveHighPassChapterState(save);
   if (highPassChapterState) {
+    if (!highPassChapterState.isActiveOuting) {
+      return null;
+    }
+
     return {
       title: highPassChapterState.title,
       summary: highPassChapterState.summary,
@@ -991,33 +1001,40 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
       'Next: travel to Treeline Pass and log the last tree shape, then low wood, then fell bloom, then low rest.';
     targetBiomeId = 'treeline';
   } else if (complete) {
-    const locator = resolveSeasonOutingLocator(save);
-    if (locator) {
-      summary = locator.routeBoardSummary;
-      nextDirection = locator.routeBoardNextDirection;
-      targetBiomeId = locator.targetBiomeId;
+    const highPassChapterState = resolveHighPassChapterState(save);
+    if (highPassChapterState) {
+      summary = highPassChapterState.routeBoardSummary;
+      nextDirection = highPassChapterState.routeBoardNextDirection;
+      targetBiomeId = highPassChapterState.routeBoardTargetBiomeId;
       launchCard = resolveFiledSeasonLaunchCard(save);
-    } else if (seasonThreadsLogged) {
-      summary = 'Season threads logged. Return to the field station for a calm season close.';
-      nextDirection = 'Next: return to the field station for season close.';
-    } else if (expeditionLogged) {
-      summary = 'Root Hollow reconnects the season. Tie the threads together back in Forest Trail.';
-      nextDirection = 'Next: return to Forest Trail and log Season Threads.';
-    } else if (expeditionNotebookReady) {
-      summary = 'Root Hollow is ready to file. Return to the field station and log the chapter.';
-      nextDirection = 'Next: return to the field station and file the Root Hollow note.';
-    } else if (expeditionEvidenceCount >= 3) {
-      summary = 'Root Hollow is nearly filed. Carry the high run back into Log Run.';
-      nextDirection = 'Next: follow the high return into Log Run.';
-    } else if (expeditionEvidenceCount >= 2) {
-      summary = 'Root Hollow is underway. Climb from the stone pocket toward the root-held return.';
-      nextDirection = 'Next: climb through Root Hollow to the root-held return.';
-    } else if (expeditionStarted) {
-      summary = 'Root Hollow is underway. Drop below the climb and read the stone pocket.';
-      nextDirection = 'Next: drop into the stone pocket below the climb.';
     } else {
-      summary = 'Edge line logged. Next: open the Root Hollow expedition.';
-      nextDirection = 'Next: open the Root Hollow expedition from the field station.';
+      const locator = resolveSeasonOutingLocator(save);
+      if (locator) {
+        summary = locator.routeBoardSummary;
+        nextDirection = locator.routeBoardNextDirection;
+        targetBiomeId = locator.targetBiomeId;
+      } else if (seasonThreadsLogged) {
+        summary = 'Season threads logged. Return to the field station for a calm season close.';
+        nextDirection = 'Next: return to the field station for season close.';
+      } else if (expeditionLogged) {
+        summary = 'Root Hollow reconnects the season. Tie the threads together back in Forest Trail.';
+        nextDirection = 'Next: return to Forest Trail and log Season Threads.';
+      } else if (expeditionNotebookReady) {
+        summary = 'Root Hollow is ready to file. Return to the field station and log the chapter.';
+        nextDirection = 'Next: return to the field station and file the Root Hollow note.';
+      } else if (expeditionEvidenceCount >= 3) {
+        summary = 'Root Hollow is nearly filed. Carry the high run back into Log Run.';
+        nextDirection = 'Next: follow the high return into Log Run.';
+      } else if (expeditionEvidenceCount >= 2) {
+        summary = 'Root Hollow is underway. Climb from the stone pocket toward the root-held return.';
+        nextDirection = 'Next: climb through Root Hollow to the root-held return.';
+      } else if (expeditionStarted) {
+        summary = 'Root Hollow is underway. Drop below the climb and read the stone pocket.';
+        nextDirection = 'Next: drop into the stone pocket below the climb.';
+      } else {
+        summary = 'Edge line logged. Next: open the Root Hollow expedition.';
+        nextDirection = 'Next: open the Root Hollow expedition from the field station.';
+      }
     }
   }
 
@@ -1194,8 +1211,10 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
           status,
           statusLabel: highPassChapterState.cardStatusLabel,
           summary: highPassChapterState.cardSummary,
+          detailLabel: highPassChapterState.cardDetailLabel,
           startText: highPassChapterState.cardStartText,
           note: highPassChapterState.cardNote,
+          noticeText: highPassChapterState.cardNoticeText,
           teaser: null,
         };
       }
@@ -1205,8 +1224,10 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         status,
         statusLabel: 'LOGGED',
         summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
+        detailLabel: 'STARTS',
         startText: 'Forest Trail to Root Hollow',
         note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
+        noticeText: null,
         teaser: resolveNextSeasonSetupTeaser(save),
       };
     case 'active':
@@ -1232,6 +1253,8 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
               : expeditionEvidenceCount >= 2
                 ? 'Next: climb through Root Hollow to the root-held return.'
                 : 'Next: drop into the stone pocket below the climb.',
+        detailLabel: expeditionNotebookReady ? 'FILE' : 'STARTS',
+        noticeText: null,
         teaser: null,
       };
     case 'ready':
@@ -1241,8 +1264,10 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         status,
         statusLabel: 'READY',
         summary: 'One deeper forest chapter is staged from seep mark through the stone pocket and root-held return to the high run.',
+        detailLabel: 'STARTS',
         startText: 'Forest Trail to Root Hollow',
         note: 'Start when you want a longer forest outing.',
+        noticeText: null,
         teaser: null,
       };
     default: {
@@ -1253,8 +1278,10 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
         status: 'locked',
         statusLabel: 'LOCKED',
         summary: 'A deeper forest outing opens after the season routes are logged.',
+        detailLabel: 'STARTS',
         startText: 'Forest Trail to Root Hollow',
         note: `${remainingRoutes} more route${remainingRoutes === 1 ? ' needs' : 's need'} logging first.`,
+        noticeText: null,
         teaser: null,
       };
     }

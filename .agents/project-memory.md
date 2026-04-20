@@ -423,15 +423,18 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 
 - The biggest product risk is now the meta-loop outrunning the tactile outing itself; prioritize memorable places, environmental feedback, and tangible return payoff over adding more surrounding structure.
 - Public-facing docs and tooling notes must stay synced with the live repo state and exposed npm scripts so the project does not undersell or misdescribe the current game.
-- The current active strategic priority is packet `128`: cash in the success of `High Pass` by making the broader late-season north end feel more consequential and by giving station returns a little more visible payoff before another scale jump.
+- Packet `128` is complete: the late-season north end now has a calmer homecoming shell split, a remembered Tundra thaw bench, a clearer `between-tussocks` thaw/sedge/willow relationship, and a real `Thaw Window` active-window consequence.
+- The current active strategic priority is packet `129`: close the current playable arc cleanly from first beach outing through `High Pass` filing so the game becomes alpha-playthrough ready before another scale jump.
+- Packet `129` is complete: `High Pass` now has post-filed station/map/journal/request closure, compact filed synthesis, final-route readiness coverage, and an end-to-end smoke from live talus-hold clue through station filing and settled filed state.
 - Future station and nursery payoff should become more visibly transformative through calm environmental change instead of more copy or a larger home-base shell.
 - The lower field-station sill is now the current payoff ceiling for that seam; future station evolution should shift to a different compact seam instead of widening the sill family further.
 - Future external review or playable repo drops should omit `node_modules` so platform-specific native bindings do not break clean install or build checks on other machines.
 - Before another major chapter expansion, targeted extractions should keep reducing concentration inside `game.ts`, `overlay-render.ts`, and `field-season-board.ts`.
 - The helper row should either create a felt difference in outings or stay intentionally small; `route-marker` now owns the map-planning difference, so future helper differentiation should focus on in-field feel rather than more map or station chrome.
-- `High Pass` should now stand as the proof chapter while the next wave raises the surrounding late-season north end to the same standard; do not immediately reopen another High Pass density pass, a broader planner shell, season three, or biome six.
-- The next leverage is one calmer homecoming payoff on the existing station shell, one compact earlier-band Tundra relationship seam, one remembered Tundra place, and one stronger `Thaw Window` consequence.
-- Do not spend the immediate next wave on broader Beach, Treeline, or nursery surgery work unless a real regression appears; the better spend is late-season consequence, return payoff, and maintainability.
+- `High Pass` should now stand as the completed proof chapter for the current alpha arc; do not immediately reopen another High Pass density pass, a broader planner shell, season three, or biome six.
+- `High Pass` closure state now uses an explicit `dormant -> active -> ready-to-file -> filed` phase helper; the `filed` phase suppresses active outing, route-locator, route-marker, and `Today: High Pass` behavior instead of reusing the earlier `NEXT` shell.
+- The next leverage should come from external/playthrough feedback on the complete arc before another major expansion wave.
+- Do not spend the immediate next wave on broader Beach, Treeline, Tundra, or nursery surgery work unless a real regression appears; the better spend is alpha-arc playthrough feedback and maintainability.
 
 ## Update Notes
 

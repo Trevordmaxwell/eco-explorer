@@ -203,6 +203,35 @@ describe('field requests', () => {
     expect(state.routeReplayLabel).toBe('Today: High Pass');
   });
 
+  it('stops synthesizing High Pass locator state once High Pass is filed', () => {
+    const save = createNewSaveState('field-request-state-high-pass-filed-seed');
+    save.completedFieldRequestIds = [
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+      'treeline-high-pass',
+    ];
+    save.purchasedUpgradeIds = ['route-marker'];
+    save.selectedOutingSupportId = 'route-marker';
+
+    const state = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'trailhead',
+      scenePlayerX: 24,
+      scenePlayerY: 48,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(state.activeFieldRequest).toBeNull();
+    expect(state.activeOuting).toBeNull();
+    expect(state.journalFieldRequest).toBeNull();
+    expect(state.routeMarkerLocationId).toBeNull();
+    expect(state.routeReplayLabel).toBeNull();
+  });
+
   it('starts with the beach shore-shelter request active', () => {
     const activeRequest = resolveActiveFieldRequest(createBeachContext());
 
@@ -1169,7 +1198,7 @@ describe('field requests', () => {
       routeV2: {
         status: 'ready-to-synthesize',
         filedText:
-          'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket now trace the first climb into High Pass.',
+          'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket show how low ridge life uses shelter pockets on exposed High Pass.',
         evidenceSlots: [
           { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
           { slotId: 'lee-watch', entryId: 'hoary-marmot' },
@@ -1646,6 +1675,42 @@ describe('field requests', () => {
 
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'treeline-low-fell')).toBe(
       'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
+    );
+  });
+
+  it('orders clue-backed High Pass filed note text by the route slot order', () => {
+    const context = createTreelineContext(
+      [
+        'forest-hidden-hollow',
+        'forest-moisture-holders',
+        'forest-survey-slice',
+        'coastal-shelter-shift',
+        'coastal-edge-moisture',
+        'treeline-stone-shelter',
+        'tundra-short-season',
+        'tundra-survey-slice',
+        'scrub-edge-pattern',
+        'forest-cool-edge',
+        'treeline-low-fell',
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+      ],
+      'lichen-fell',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+      ],
+    };
+
+    expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'treeline-high-pass')).toBe(
+      'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket show how low ridge life uses shelter pockets on exposed High Pass.',
     );
   });
 

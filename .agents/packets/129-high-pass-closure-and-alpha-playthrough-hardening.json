@@ -1,0 +1,293 @@
+{
+  "packet_id": "ECO-PACKET-129",
+  "version": 13,
+  "created_at": "2026-04-19",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "High Pass closure and alpha-playthrough hardening",
+  "summary": "Packet 129 should make the current playable arc feel complete from the first beach outing through High Pass filing, without opening season three, biome six, a broader planner shell, or another High Pass geometry-density pass.",
+  "source_reports": [
+    "docs/reports/2026-04-19-high-pass-closure-alpha-hardening-phase.md",
+    "docs/reports/2026-04-19-high-pass-closure-state-handoff.md",
+    "docs/reports/2026-04-19-high-pass-closure-state-implementation.md",
+    "docs/reports/2026-04-19-high-pass-closure-state-review.md",
+    "docs/reports/2026-04-19-high-pass-expedition-chrome-implementation.md",
+    "docs/reports/2026-04-19-high-pass-expedition-chrome-review.md",
+    "docs/reports/2026-04-19-high-pass-expedition-note-ready-implementation.md",
+    "docs/reports/2026-04-19-high-pass-expedition-note-ready-review.md",
+    "docs/reports/2026-04-19-high-pass-filed-synthesis-handoff.md",
+    "docs/reports/2026-04-19-high-pass-filed-synthesis-implementation.md",
+    "docs/reports/2026-04-19-high-pass-filed-synthesis-review.md",
+    "docs/reports/2026-04-19-late-season-consequence-and-homecoming-pass.md",
+    "docs/reports/2026-04-19-late-season-homecoming-shell-review.md",
+    "docs/reports/2026-04-19-tundra-relationship-teaching-review.md",
+    "docs/reports/2026-04-19-earlier-band-tundra-remembered-place-review.md",
+    "docs/reports/2026-04-19-thaw-window-wet-tuft-review.md",
+    "docs/reports/2026-04-18-high-pass-route-refinement-review.md",
+    "docs/reports/2026-04-19-high-pass-final-return-readability-handoff.md",
+    "docs/reports/2026-04-19-high-pass-route-loop-proof-handoff.md",
+    "docs/reports/2026-04-19-high-pass-route-loop-proof-implementation.md",
+    "docs/reports/2026-04-19-high-pass-route-loop-proof-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260419-scout-320",
+    "ECO-20260419-main-320",
+    "ECO-20260419-critic-320",
+    "ECO-20260419-main-324",
+    "ECO-20260419-critic-324",
+    "ECO-20260419-main-325",
+    "ECO-20260419-critic-325",
+    "ECO-20260419-scout-321",
+    "ECO-20260419-main-321",
+    "ECO-20260419-critic-321",
+    "ECO-20260419-scout-322",
+    "ECO-20260419-main-322",
+    "ECO-20260419-critic-322",
+    "ECO-20260419-scout-323",
+    "ECO-20260419-main-323",
+    "ECO-20260419-critic-323"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260419-scout-320",
+      "goal": "Prepare the lane-1 post-High-Pass station and chapter-state closure pass.",
+      "why_now": "The game now has a strong route to High Pass; the next risk is that station and map surfaces still read as if High Pass is merely next after the player files it."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260419-scout-321",
+      "goal": "Prepare the lane-2 High Pass filed synthesis pass.",
+      "why_now": "Filing High Pass should teach a relationship and close the arc, not just mark another checklist done."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260419-scout-322",
+      "goal": "Prepare the lane-3 High Pass endcap and return-readability pass.",
+      "why_now": "High Pass already has enough pockets; the final route moment needs to feel like an arrived-at place with a legible return."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260419-scout-323",
+      "goal": "Prepare the lane-4 end-to-end High Pass filing loop proof.",
+      "why_now": "The current alpha arc needs deterministic coverage from season closure into High Pass completion so future expansion does not break the finished loop."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260419-main-324",
+      "goal": "Remove the filed High Pass expedition card's leftover start-facing display chrome.",
+      "why_now": "The lane-1 closure review found the filed expedition card and activation notice still inherit generic `STARTS` / `Start:` language."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260419-critic-324",
+      "goal": "Review the filed expedition-card chrome fix before the final route-loop proof unblocks.",
+      "why_now": "The end-to-end proof should assert a settled filed card, not a filed card that still visually reads like a launch prompt."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260419-main-325",
+      "goal": "Make the note-ready High Pass expedition activation honor the station filing notice instead of reopening the world map.",
+      "why_now": "The filed chrome review confirmed the filed state is fixed, but found the same activation seam can still make the ready-to-file card feel start-facing."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260419-critic-325",
+      "goal": "Review the note-ready expedition activation follow-up before the final route-loop proof unblocks.",
+      "why_now": "The end-to-end proof should start from a settled High Pass ready-to-file station state."
+    }
+  ],
+  "file_targets": [
+    "src/engine/high-pass-chapter-state.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/game.ts",
+    "src/engine/overlay-render.ts",
+    "src/content/biomes/treeline.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/treeline-biome.test.ts"
+  ],
+  "guardrails": [
+    "Make the current arc land cleanly from first outing through High Pass filing before starting season three or biome six.",
+    "Once `treeline-high-pass` is filed, station, atlas, archive, expedition, journal, notice, and map surfaces should not keep implying High Pass is still unstarted.",
+    "Prefer filed-state synthesis, return readability, and deterministic proof over new geography or more High Pass density.",
+    "Keep the closure handheld-safe at `256x160`; do not add a larger notebook dump, quest log, planner panel, or station dashboard.",
+    "Continue reducing responsibility in `field-season-board.ts`, `overlay-render.ts`, and `game.ts` where this pass touches shared state."
+  ],
+  "main_320_focus": {
+    "chapter_state_target": "Extend `resolveHighPassChapterState` around one explicit phase model: `dormant` while `seasonCloseReturnPending` is true after `forest-season-threads`, `active` while `treeline-high-pass` is open/gathering, `ready-to-file` when `save.routeV2Progress` for `treeline-high-pass` is `ready-to-synthesize`, and `filed` once `treeline-high-pass` is in `completedFieldRequestIds`. Keep pre-`forest-season-threads` as `null`, and let filed win if save data is mixed.",
+    "surface_target": "Update station routes, atlas, archive strip, expedition card, world-map cue, season subtitle, and adjacent route-locator copy so they stop saying or implying `High Pass next` once the route is filed. Reuse the existing routes shell, archive strip, atlas line, and `HIGH PASS` expedition card; do not add a new shell.",
+    "protective_split_target": "Pull more chapter/outing state composition out of `field-season-board.ts` into `high-pass-chapter-state.ts` or a tiny adjacent helper, rather than adding more inline `High Pass` conditionals.",
+    "filed_surface_direction": [
+      "Station routes may keep one compact `HIGH PASS` card, but it should read `FILED` and avoid a travel action.",
+      "Atlas and archive copy should move to past-tense filed language such as `High Pass filed from Treeline Pass.` and `Root Hollow led into High Pass.`",
+      "After filed, `resolveSeasonOutingLocator` / field-request state should stop surfacing `route-locator:treeline`, route marker, and `Today: High Pass`."
+    ],
+    "preferred_files": [
+      "src/engine/high-pass-chapter-state.ts",
+      "src/engine/field-season-board.ts",
+      "src/engine/field-season-wrap.ts",
+      "src/engine/field-requests.ts",
+      "src/engine/field-request-state.ts",
+      "src/engine/game.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "season close pending still suppresses High Pass as a live request",
+      "High Pass active/opened state still routes the player to Treeline Pass",
+      "High Pass ready-to-file state points back to station filing",
+      "High Pass filed state reads as filed and does not send the player back as if unstarted",
+      "opening the station after High Pass filed shows a calm complete-arc state",
+      "world map and journal no longer synthesize `Today: High Pass` / `route-locator:treeline` after filing"
+    ],
+    "non_goals": [
+      "Do not add a new station tab, planner row, or dashboard.",
+      "Do not open season three or another route.",
+      "Do not reopen nursery or beach/treeline density work."
+    ]
+  },
+  "main_321_focus": {
+    "synthesis_target": "Refresh the existing `treeline-high-pass.routeV2Note` filed path so filing the route ties together stone lift, lee watch, rime mark, talus hold, low ridge life, exposed ground, and shelter pockets without adding a new shell.",
+    "copy_target": {
+      "filedText": "Stone lift, lee watch, rime mark, and talus hold show how low ridge life uses shelter pockets on exposed High Pass.",
+      "clueBackedTail": "show how low ridge life uses shelter pockets on exposed High Pass."
+    },
+    "preferred_surfaces": [
+      "`treeline-high-pass.routeV2Note.filedText`",
+      "`treeline-high-pass.routeV2Note.clueBackedTail`",
+      "existing note-tabs preview via `resolveRouteV2FiledDisplayText`",
+      "existing final filed notice via `resolveRouteV2FiledDisplayText`"
+    ],
+    "preferred_files": [
+      "src/engine/field-requests.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/content-quality.test.ts"
+    ],
+    "verification_targets": [
+      "High Pass filing teaches a relationship instead of only checklist completion",
+      "ready-to-file route text and clue-backed filed text use the same relationship tail",
+      "note-tabs preview and filed notice can inherit the refreshed copy from the existing display helper",
+      "copy stays under handheld budgets",
+      "no new journal shell, archive panel, or comparison dashboard appears"
+    ],
+    "non_goals": [
+      "Do not add more fact volume just because the arc is ending.",
+      "Do not add another close-look pack or broad Tundra/Treeline content pass.",
+      "Do not widen the notebook UI.",
+      "Do not edit station, map, locator, or chapter-state behavior; lane 1 owns post-filed closure state.",
+      "Do not add a new observation prompt unless the filed-note path cannot carry the relationship."
+    ]
+  },
+  "main_322_focus": {
+    "spatial_target": "Protect the existing open-fell `talus-hold` finish as the final High Pass arrival moment, then add only proof-first return/readiness coverage unless live proof shows a tiny existing-rest extension is necessary.",
+    "preferred_band": {
+      "zone": "late lichen-fell / talus-hold route finish",
+      "platforms": [
+        "fell-island-step",
+        "fell-island-rest"
+      ],
+      "carrier": "fell-island-talus",
+      "constraint": "Improve arrival and return readability without another High Pass pocket; if geometry is needed, prefer widening the existing `fell-island-rest` a few pixels rightward over adding a new platform."
+    },
+    "preferred_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/treeline-biome.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "the final High Pass moment settles on the existing open-fell island band",
+      "inspecting the final talus-hold clue flips `treeline-high-pass` to `Ready To File`",
+      "return-to-file or exit guidance is legible from that ready state",
+      "no new density competes with Stone Shelter, Rime Brow, or the existing talus-hold chain"
+    ],
+    "non_goals": [
+      "Do not add another climb family.",
+      "Do not add another right-side lift or alpine extension.",
+      "Do not move corridor doors, map-return posts, or rewrite travel logic.",
+      "Do not add new carriers, inspectables, or another route clue."
+    ]
+  },
+  "main_324_focus": {
+    "display_target": "Keep the existing one-card expedition page, but make the filed High Pass card stop using start-facing expedition chrome.",
+    "preferred_files": [
+      "src/engine/field-season-board.ts",
+      "src/engine/field-station-expedition-page.ts",
+      "src/engine/game.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "filed High Pass expedition display no longer says `STARTS`",
+      "activating the filed High Pass expedition card no longer emits `Start:`",
+      "active or ready Root Hollow expedition states still retain their normal start/route cue"
+    ],
+    "non_goals": [
+      "Do not add a new station page or panel.",
+      "Do not reopen route locator, atlas, archive, or world-map behavior unless the start chrome requires it.",
+      "Do not add new High Pass geography, route clues, or filed synthesis copy."
+    ]
+  },
+  "main_325_focus": {
+    "activation_target": "In `activateExpeditionCard()`, let explicit expedition `noticeText` win before the older logged-expedition world-map redirect so the High Pass `NOTE READY / FILE` card keeps the player at the field station with filing guidance.",
+    "preferred_files": [
+      "src/engine/game.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "pressing `Enter` on the note-ready High Pass expedition card shows the station filing notice",
+      "the note-ready activation keeps the player on the field station expedition page",
+      "active High Pass still opens the Treeline Pass world-map focus",
+      "filed High Pass still shows `EXPEDITION LOGGED` without `Start:`"
+    ],
+    "non_goals": [
+      "Do not add a new station page, panel, or route shell.",
+      "Do not reopen route locator, atlas, archive, or filed synthesis copy.",
+      "Do not change High Pass route completion rules or add geography."
+    ]
+  },
+  "main_323_focus": {
+    "loop_target": "Add an end-to-end deterministic smoke path from season closure into High Pass ready-to-file and filed states.",
+    "dependency_target": "Run this after `ECO-20260419-critic-320`, `ECO-20260419-critic-321`, `ECO-20260419-critic-322`, `ECO-20260419-critic-324`, and `ECO-20260419-critic-325` so the final proof asserts the settled filed-state semantics instead of today's pre-closure `High Pass NEXT` behavior.",
+    "preferred_test_shape": [
+      "reuse the existing live talus-hold runtime setup (`createHighPassFellHoldSave`, `findHighPassFellHoldStartX`, and `treelineOpenFellIslandBand`)",
+      "complete `talus-hold` into `ready-to-synthesize` through a real inspect",
+      "return to the field station and file `treeline-high-pass` from the routes page",
+      "assert the filed `HIGH PASS` notice uses the lane-2 finalized filed synthesis text",
+      "assert post-filed request, station, journal, and world-map state no longer present High Pass as an unstarted live target"
+    ],
+    "support_target": "Confirm support behavior around High Pass remains stable after filing and that replay/active request labels do not keep surfacing `Today: High Pass` once the route is filed.",
+    "notice_target": "Add a route-notice priority check for the final filing moment so the player gets the right filed feedback instead of a generic guided prompt.",
+    "preferred_files": [
+      "src/engine/field-request-controller.ts",
+      "src/engine/field-requests.ts",
+      "src/engine/game.ts",
+      "src/test/field-request-controller.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "verification_targets": [
+      "the game can be smoke-tested from season closure into High Pass completion",
+      "filed High Pass state is stable across station, map, journal/notice, and route request state",
+      "no new Route v2 framework is added"
+    ],
+    "non_goals": [
+      "Do not add a second High Pass route.",
+      "Do not add a larger replay framework.",
+      "Do not add new support UI chrome."
+    ]
+  }
+}

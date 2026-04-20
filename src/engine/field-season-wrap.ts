@@ -368,6 +368,12 @@ export function resolveFieldStationSubtitle(
   }
 
   if (seasonWrap.label === 'SEASON ARCHIVE') {
+    if (seasonWrap.text === 'High Pass filed from Treeline Pass.') {
+      return seasonPage === 'expedition'
+        ? 'High Pass is filed for this field arc.'
+        : archiveSubtitle ?? 'High Pass filed from Treeline Pass.';
+    }
+
     return seasonPage === 'expedition'
       ? 'High Pass opens the next field season.'
       : archiveSubtitle ?? 'This season is filed. Another field season can open here later.';

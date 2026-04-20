@@ -801,8 +801,10 @@ describe('field season board', () => {
       status: 'locked',
       statusLabel: 'LOCKED',
       summary: 'A deeper forest outing opens after the season routes are logged.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: '3 more routes need logging first.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -817,8 +819,10 @@ describe('field season board', () => {
       status: 'ready',
       statusLabel: 'READY',
       summary: 'One deeper forest chapter is staged from seep mark through the stone pocket and root-held return to the high run.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: 'Start when you want a longer forest outing.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -839,8 +843,10 @@ describe('field season board', () => {
       status: 'active',
       statusLabel: '1/4',
       summary: 'The seep mark is logged. Drop into the stone pocket below the climb.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: drop into the stone pocket below the climb.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -864,8 +870,10 @@ describe('field season board', () => {
       status: 'active',
       statusLabel: '2/4',
       summary: 'The seep mark and stone-pocket clue are logged. Climb toward the root-held return above the seep floor.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: climb through Root Hollow to the root-held return.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -906,8 +914,10 @@ describe('field season board', () => {
       status: 'active',
       statusLabel: '3/4',
       summary: 'The seep mark, stone-pocket clue, and root-held clue are logged. One high-run clue still leads back into the open forest.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: follow the high return into Log Run.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -933,8 +943,10 @@ describe('field season board', () => {
       status: 'active',
       statusLabel: 'NOTE READY',
       summary: 'The chapter is ready to file from seep mark through the stone pocket and root-held return to the high run.',
+      detailLabel: 'FILE',
       startText: 'Forest Trail to Root Hollow',
       note: 'Next: file the Root Hollow note at the field station.',
+      noticeText: null,
       teaser: null,
     });
   });
@@ -954,8 +966,10 @@ describe('field season board', () => {
       status: 'logged',
       statusLabel: 'LOGGED',
       summary: 'The forest chapter is filed from seep mark through the stone pocket and root-held return to the high run.',
+      detailLabel: 'STARTS',
       startText: 'Forest Trail to Root Hollow',
       note: 'Revisit for seep-mark, stone-pocket, root-held, and high-run clues.',
+      noticeText: null,
       teaser: {
         label: 'NEXT EXPEDITION',
         text: 'Treeline Pass waits beyond Root Hollow.',
@@ -979,10 +993,68 @@ describe('field season board', () => {
       status: 'logged',
       statusLabel: 'NEXT',
       summary: 'Treeline Pass carries the season toward High Pass.',
+      detailLabel: 'STARTS',
       startText: 'Treeline Pass to High Pass',
       note: 'Start from Treeline Pass when you want the next field season.',
+      noticeText: null,
       teaser: null,
     });
+  });
+
+  it('keeps High Pass filed instead of routing back to it after the note is complete', () => {
+    const save = createNewSaveState('field-season-high-pass-filed-seed');
+    save.completedFieldRequestIds = [
+      'coastal-edge-moisture',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+      'treeline-low-fell',
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+      'treeline-high-pass',
+    ];
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(resolveNextFieldSeasonTargetBiomeId(save)).toBeNull();
+    expect(resolveSeasonOutingLocator(save)).toBeNull();
+    expect(routeBoard).toMatchObject({
+      complete: true,
+      summary: 'High Pass filed from Treeline Pass.',
+      nextDirection: 'High Pass filed. This field arc is complete.',
+      targetBiomeId: null,
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'FILED',
+        summary: 'High Pass filed from Treeline Pass.',
+      },
+    });
+    expect(resolveFieldAtlasState(save)?.note).toBe('High Pass filed from Treeline Pass.');
+    expect(resolveFieldSeasonArchiveState(save)).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'High Pass filed from Treeline Pass.',
+    });
+    expect(resolveFieldSeasonExpeditionState(save)).toMatchObject({
+      title: 'HIGH PASS',
+      statusLabel: 'FILED',
+      summary: 'High Pass filed from Treeline Pass.',
+      detailLabel: 'FILED',
+      startText: 'Treeline Pass',
+      note: 'Current field arc filed. Revisit when you want a quiet pass.',
+      noticeText: 'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+    });
+    expect(
+      resolveFieldStationSubtitle('season', 'routes', {
+        label: 'SEASON ARCHIVE',
+        text: 'High Pass filed from Treeline Pass.',
+      }, 'High Pass filed from Treeline Pass.'),
+    ).toBe('High Pass filed from Treeline Pass.');
+    expect(
+      resolveFieldStationSubtitle('season', 'expedition', {
+        label: 'SEASON ARCHIVE',
+        text: 'High Pass filed from Treeline Pass.',
+      }),
+    ).toBe('High Pass is filed for this field arc.');
   });
 
   it('derives treeline as the next-field-season target once the season is filed', () => {
@@ -1681,7 +1753,9 @@ describe('field season board', () => {
 
     expect(resolveHighPassChapterState(save)).toMatchObject({
       title: 'High Pass',
+      phase: 'dormant',
       targetBiomeId: 'treeline',
+      routeBoardTargetBiomeId: 'treeline',
       summary: 'Treeline Pass carries the season toward High Pass.',
       routeBoardSummary: 'High Pass opens next from Treeline Pass into the next field season.',
       dormantAtlasNote: 'Next: take High Pass from stone lift to talus hold.',
@@ -1691,14 +1765,61 @@ describe('field season board', () => {
       expeditionTeaser: 'Treeline Pass waits beyond Root Hollow.',
       cardTitle: 'HIGH PASS',
       cardStartText: 'Treeline Pass to High Pass',
+      isActiveOuting: true,
       dormantUntilSeasonCloseClears: true,
     });
 
     save.seasonCloseReturnPending = false;
 
     expect(resolveHighPassChapterState(save)).toMatchObject({
+      phase: 'active',
       dormantUntilSeasonCloseClears: false,
       liveAtlasNote: 'Filed season: High Pass from Treeline Pass.',
+    });
+
+    save.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+
+    expect(resolveHighPassChapterState(save)).toMatchObject({
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+      routeBoardTargetBiomeId: null,
+      routeBoardSummary: 'High Pass is ready to file at the field station.',
+      routeBoardNextDirection: 'Next: return to the field station and file the High Pass note.',
+      liveAtlasNote: 'Next: file High Pass at the field station.',
+      cardStatusLabel: 'NOTE READY',
+      cardDetailLabel: 'FILE',
+      cardStartText: 'File High Pass note',
+      cardNoticeText: 'High Pass is ready to file from Treeline Pass. File the High Pass note at the field station.',
+      isActiveOuting: true,
+    });
+
+    save.completedFieldRequestIds = [...save.completedFieldRequestIds, 'treeline-high-pass'];
+
+    expect(resolveHighPassChapterState(save)).toMatchObject({
+      phase: 'filed',
+      progressLabel: 'FILED',
+      routeBoardTargetBiomeId: null,
+      routeBoardSummary: 'High Pass filed from Treeline Pass.',
+      routeBoardNextDirection: 'High Pass filed. This field arc is complete.',
+      liveAtlasNote: 'High Pass filed from Treeline Pass.',
+      routesSubtitle: 'High Pass filed from Treeline Pass.',
+      archiveText: 'High Pass filed from Treeline Pass.',
+      cardStatusLabel: 'FILED',
+      cardDetailLabel: 'FILED',
+      cardStartText: 'Treeline Pass',
+      cardNoticeText: 'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+      isActiveOuting: false,
+      dormantUntilSeasonCloseClears: false,
     });
   });
 

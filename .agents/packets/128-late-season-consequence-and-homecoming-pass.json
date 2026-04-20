@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-128",
-  "version": 7,
+  "version": 8,
   "created_at": "2026-04-19",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Late-season consequence and homecoming pass",
   "summary": "Packet 128 should cash in the success of High Pass by making the north end of the season feel more consequential and by giving station returns a little more visible payoff, without opening season three, biome six, or a broader planner shell.",
   "source_reports": [

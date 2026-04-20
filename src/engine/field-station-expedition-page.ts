@@ -59,7 +59,7 @@ export function drawFieldStationExpeditionPage({
     palette.text,
     3,
   );
-  drawUiText(context, 'STARTS', cardRect.x + 4, cardRect.y + 36, palette.accent);
+  drawUiText(context, expedition.detailLabel, cardRect.x + 4, cardRect.y + 36, palette.accent);
   drawUiText(
     context,
     fitTextToWidth(context, expedition.startText, cardRect.w - 46),

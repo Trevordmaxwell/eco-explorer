@@ -2538,7 +2538,12 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       expeditionRequest && expeditionRequest.id.startsWith('forest-expedition-')
         ? expeditionRequest
         : null;
-    if (!currentExpeditionTask && expedition.status === 'logged' && nextFieldSeasonTargetBiomeId) {
+    if (
+      !currentExpeditionTask
+      && !expedition.noticeText
+      && expedition.status === 'logged'
+      && nextFieldSeasonTargetBiomeId
+    ) {
       audio.playUiCue('confirm');
       openWorldMapDirect(nextFieldSeasonTargetBiomeId);
       return;
@@ -2557,6 +2562,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         ? expedition.note
         : currentExpeditionTask
           ? currentExpeditionTask.summary
+          : expedition.noticeText
+            ? expedition.noticeText
           : `${expedition.summary} Start: ${expedition.startText}.`;
 
     showFieldNotice(title, text, 2.8);
