@@ -169,6 +169,13 @@ Guidance:
 - When you add a new landmark, process-teaching carrier, or close-look entry, add or update its row in `docs/science-source-ledger.md`.
 - If a new entry is meant to be a remembered route or process anchor, prefer adding a short `sketchbookNote` so the archive surfaces keep a compact payoff later.
 
+## Route v2 and support copy
+
+- Use player-facing words such as route, outing, field season, evidence, and notebook filing.
+- Avoid promising quests, checklists, loadouts, planner pages, inventory, or extra support slots.
+- Keep support copy tied to the one tiny station slot. Name live supports only when the route actually reacts to them.
+- Keep live route variants and filed notebook identity distinct: a replay window can rename the active outing, but the filed route should stay canonical unless the route definition intentionally changes.
+
 ## Ecosystem note template
 
 Add relationship teaching at the biome level with `ecosystemNotes`:
@@ -203,7 +210,7 @@ Guidance:
 - `sketchbookNote`: aim for `<= 48` characters and one short line
 - `ecosystemNotes[].title`: `<= 28` characters
 - `ecosystemNotes[].summary`: `<= 110` characters
-- `ecosystemNotes[].observationPrompt`: `<= 90` characters and usually phrased as a question
+- `ecosystemNotes[].observationPrompt`: `<= 90` characters and usually phrased as a noticing prompt
 
 These are readability targets for the current `256x160` in-game UI.
 

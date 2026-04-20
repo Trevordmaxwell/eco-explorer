@@ -145,7 +145,7 @@ describe('world map travel scaffold', () => {
       'Ocean edge. Inland path leads to scrub.',
       'Between beach dunes and forest shade.',
       'Middle woods between scrub and treeline.',
-      'High pass between forest and tundra.',
+      'Wind-bent edge between forest and tundra.',
       'Highest reach beyond treeline.',
     ]);
   });

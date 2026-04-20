@@ -177,7 +177,7 @@ export const ecoWorldMap: WorldMapDefinition = {
       id: 'treeline',
       biomeId: 'treeline',
       label: 'Treeline Pass',
-      summary: 'High pass between forest and tundra.',
+      summary: 'Wind-bent edge between forest and tundra.',
       mapReturnLabel: 'HIGH PASS MAP',
       approachLabel: 'HIGH PASS',
       previewColor: '#86928a',

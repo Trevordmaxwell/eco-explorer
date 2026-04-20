@@ -15,7 +15,19 @@ import {
   resolveFieldStationOpenState,
   type FieldStationArrivalMode,
 } from '../engine/field-station-session';
+import { resolveFieldStationHomecomingState, resolveFieldStationState } from '../engine/field-station-state';
+import { FIELD_STATION_HOMECOMING_COPY_LABEL } from '../engine/field-station-homecoming-copy';
+import { getOutingSupportStationLabel } from '../engine/outing-support';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
+
+const DEFAULT_FIELD_STATION_SELECTIONS = {
+  selectedFieldStationView: 'season' as const,
+  selectedFieldStationSeasonPage: 'routes' as const,
+  outingSupportSelected: false,
+  selectedFieldStationUpgradeId: null,
+  selectedNurseryCardId: 'bench' as const,
+  selectedNurseryProjectId: null,
+};
 
 describe('field station ledger', () => {
   it('awards field credit once for surveyed biomes and completed notebook requests', () => {
@@ -113,9 +125,76 @@ describe('field station ledger', () => {
     expect(calmOpen.selectedFieldStationUpgradeId).toBe('trail-stride');
   });
 
+  it('keeps station homecoming copy behind earned arrival mode and filed milestones', () => {
+    const save = createNewSaveState('field-station-homecoming-state');
+    save.completedFieldRequestIds = ['coastal-edge-moisture'];
+
+    expect(resolveFieldStationHomecomingState(save, 'default')).toBeNull();
+    expect(resolveFieldStationHomecomingState(createNewSaveState('field-station-homecoming-empty'), 'homecoming'))
+      .toBeNull();
+
+    expect(resolveFieldStationHomecomingState(save, 'homecoming')).toEqual({
+      label: FIELD_STATION_HOMECOMING_COPY_LABEL,
+      requestId: 'coastal-edge-moisture',
+      homecomingMilestoneRequestId: 'coastal-edge-moisture',
+      text: 'Coast line filed. The station holds one shore-to-forest thread.',
+    });
+
+    expect(resolveFieldStationHomecomingState(save, 'default')).toBeNull();
+  });
+
   it('reports arrival pulse only while the field station is open', () => {
     expect(getFieldStationArrivalPulseValue('field-station', 0.2, 0.4)).toBe(0.5);
     expect(getFieldStationArrivalPulseValue('other', 0.2, 0.4)).toBe(0);
     expect(getFieldStationArrivalPulseValue('field-station', 0, 0.4)).toBe(0);
+  });
+
+  it('shares exact station outing-support labels with normalized support state', () => {
+    expect(getOutingSupportStationLabel('hand-lens')).toBe('HAND LENS');
+    expect(getOutingSupportStationLabel('note-tabs')).toBe('NOTE TABS');
+    expect(getOutingSupportStationLabel('place-tab')).toBe('PLACE TAB');
+    expect(getOutingSupportStationLabel('route-marker')).toBe('ROUTE MARKER');
+
+    const lockedRouteMarkerSave = createNewSaveState('field-station-locked-route-marker-label');
+    lockedRouteMarkerSave.selectedOutingSupportId = 'route-marker';
+
+    expect(
+      resolveFieldStationState(
+        biomeRegistry,
+        lockedRouteMarkerSave,
+        DEFAULT_FIELD_STATION_SELECTIONS,
+      ),
+    ).toMatchObject({
+      selectedOutingSupportId: 'hand-lens',
+      selectedOutingSupportLabel: 'HAND LENS',
+    });
+
+    lockedRouteMarkerSave.purchasedUpgradeIds = ['route-marker'];
+
+    expect(
+      resolveFieldStationState(
+        biomeRegistry,
+        lockedRouteMarkerSave,
+        DEFAULT_FIELD_STATION_SELECTIONS,
+      ),
+    ).toMatchObject({
+      selectedOutingSupportId: 'route-marker',
+      selectedOutingSupportLabel: 'ROUTE MARKER',
+    });
+
+    const unlockedPlaceTabSave = createNewSaveState('field-station-place-tab-label');
+    unlockedPlaceTabSave.completedFieldRequestIds = ['treeline-stone-shelter'];
+    unlockedPlaceTabSave.selectedOutingSupportId = 'place-tab';
+
+    expect(
+      resolveFieldStationState(
+        biomeRegistry,
+        unlockedPlaceTabSave,
+        DEFAULT_FIELD_STATION_SELECTIONS,
+      ),
+    ).toMatchObject({
+      selectedOutingSupportId: 'place-tab',
+      selectedOutingSupportLabel: 'PLACE TAB',
+    });
   });
 });

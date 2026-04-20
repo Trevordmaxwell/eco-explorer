@@ -11,6 +11,7 @@ import type {
   FieldSeasonBoardState,
   FieldSeasonWrapState,
 } from './field-season-board';
+import { resolveDefaultHighPassFiledArcCopy } from './high-pass-chapter-state';
 
 function getTargetBiomeName(
   biomes: Record<string, BiomeDefinition>,
@@ -368,10 +369,11 @@ export function resolveFieldStationSubtitle(
   }
 
   if (seasonWrap.label === 'SEASON ARCHIVE') {
-    if (seasonWrap.text === 'High Pass filed from Treeline Pass.') {
+    const highPassFiledArcCopy = resolveDefaultHighPassFiledArcCopy();
+    if (seasonWrap.text === highPassFiledArcCopy.filedLocationText) {
       return seasonPage === 'expedition'
-        ? 'High Pass is filed for this field arc.'
-        : archiveSubtitle ?? 'High Pass filed from Treeline Pass.';
+        ? highPassFiledArcCopy.filedExpeditionSubtitle
+        : archiveSubtitle ?? highPassFiledArcCopy.filedLocationText;
     }
 
     return seasonPage === 'expedition'

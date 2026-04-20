@@ -113,6 +113,7 @@ export class FakeWindow extends FakeEventTarget {
   readonly document = new FakeDocument();
   advanceTime?: (ms: number) => void;
   render_game_to_text?: () => string;
+  get_debug_save_snapshots?: () => string;
 }
 
 const originalWindow = globalThis.window;

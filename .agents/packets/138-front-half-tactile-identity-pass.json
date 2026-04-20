@@ -1,0 +1,476 @@
+{
+  "packet_id": "ECO-PACKET-138",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Front-half tactile identity pass",
+  "summary": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-handoff.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-implementation.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-review.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-handoff.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-implementation.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-review.md",
+    "docs/reports/2026-04-20-front-half-route-proof-handoff.md",
+    "docs/reports/2026-04-20-front-half-route-proof-implementation.md",
+    "docs/reports/2026-04-20-front-half-route-proof-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-358",
+    "ECO-20260420-main-358",
+    "ECO-20260420-critic-358",
+    "ECO-20260420-scout-359",
+    "ECO-20260420-main-359",
+    "ECO-20260420-critic-359",
+    "ECO-20260420-scout-360",
+    "ECO-20260420-main-360",
+    "ECO-20260420-critic-360",
+    "ECO-20260420-scout-361",
+    "ECO-20260420-main-361",
+    "ECO-20260420-critic-361"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-354",
+    "ECO-20260420-critic-355",
+    "ECO-20260420-critic-356",
+    "ECO-20260420-critic-357"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-358",
+      "goal": "Prepare lane-1: Add only the state/test hooks needed to prove front-half return, route, and support behavior after tactile edits.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-358",
+      "goal": "Implement lane-1: Add only the state/test hooks needed to prove front-half return, route, and support behavior after tactile edits.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-358",
+      "goal": "Review lane-1: Add only the state/test hooks needed to prove front-half return, route, and support behavior after tactile edits.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-359",
+      "goal": "Prepare lane-2: Refresh Beach or Coastal Scrub relationship copy in one compact note-backed place cluster, avoiding duplicate field-guide facts.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-359",
+      "goal": "Implement lane-2: Refresh Beach or Coastal Scrub relationship copy in one compact note-backed place cluster, avoiding duplicate field-guide facts.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-359",
+      "goal": "Review lane-2: Refresh Beach or Coastal Scrub relationship copy in one compact note-backed place cluster, avoiding duplicate field-guide facts.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-360",
+      "goal": "Prepare lane-3: Polish one front-half physical beat or transition silhouette, using existing traversal language and no new system.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-360",
+      "goal": "Implement lane-3: Polish one front-half physical beat or transition silhouette, using existing traversal language and no new system.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-360",
+      "goal": "Review lane-3: Polish one front-half physical beat or transition silhouette, using existing traversal language and no new system.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-361",
+      "goal": "Prepare lane-4: Route-proof the front-half beat so support/readiness changes what the player notices during an existing route.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-361",
+      "goal": "Implement lane-4: Route-proof the front-half beat so support/readiness changes what the player notices during an existing route.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-361",
+      "goal": "Review lane-4: Route-proof the front-half beat so support/readiness changes what the player notices during an existing route.",
+      "why_now": "Strengthen the first beach-to-coastal half with memorable physical beats rather than more notebook volume."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-handoff.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-implementation.md",
+    "docs/reports/2026-04-20-front-half-tactile-copy-review.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-handoff.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-implementation.md",
+    "docs/reports/2026-04-20-front-half-tactile-state-review.md",
+    "docs/save-snapshot-states.md",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "C / World feel",
+  "completion_gate": "The front half has at least two remembered-by-feel proof frames and one route/readability payoff without crowding the opening.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Add only the state/test hooks needed to prove front-half return, route, and support behavior after tactile edits.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Refresh Beach or Coastal Scrub relationship copy in one compact note-backed place cluster, avoiding duplicate field-guide facts.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Polish one front-half physical beat or transition silhouette, using existing traversal language and no new system.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Route-proof the front-half beat so support/readiness changes what the player notices during an existing route.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "queue_id": "ECO-20260420-scout-361",
+        "source_report": "docs/reports/2026-04-20-front-half-route-proof-handoff.md",
+        "status": "DONE",
+        "focus": "Make the first front-half `Open To Shelter` route handoff support-readable with focused proof, using existing hand-lens retargeting and note-tabs chip seams instead of new route/UI behavior.",
+        "recommended_files": [
+          "src/test/field-request-controller.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "src/test/field-requests.test.ts",
+          "docs/reports/2026-04-20-front-half-route-proof-implementation.md"
+        ],
+        "current_state": [
+          "lane 1 added the `front-half-open-to-shelter` debug snapshot for the first post-forest Coastal Scrub handoff",
+          "lane 2 refreshed the `shelter-builds-here` note around the back-dune `beach-grass`, `sand-verbena`, and `dune-lupine` tactile cluster",
+          "`coastal-shelter-shift` already starts `Open To Shelter` with the `open-bloom` slot on `sand-verbena`",
+          "hand lens can retarget to ordinary notebook-fit route clues and note-tabs can make the existing in-field chip progress-facing"
+        ],
+        "main_acceptance": [
+          "controller-level proof shows hand lens can retarget an active `Open To Shelter` back-dune inspect from a nearer non-fit candidate to the `sand-verbena` `open-bloom` clue",
+          "the same proof keeps that retarget ordinary, not process-backed: `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: open bloom`, and no `LENS CLUE` label",
+          "paired non-hand-lens coverage shows `note-tabs` leaves the physical nearest inspectable alone while keeping the in-field chip progress-facing",
+          "at most one focused runtime-smoke expectation proves the front-half support/readiness cue in play if a stable shelf or existing route path is practical",
+          "no route definitions, filed-note text, lane-2 copy, station pages, support order, save schema, world-map focus priority, route-marker behavior, geometry, science copy, new UI, replay, loadout, planner, or quest surface changes"
+        ],
+        "baseline_verification": [
+          "npm test -- --run src/test/field-request-controller.test.ts -t \"Open To Shelter|Shore Shelter|Held Sand|non-hand-lens|retarget\"",
+          "npm test -- --run src/test/field-requests.test.ts -t \"coastal shelter request|Open To Shelter|Held Sand\"",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|Held Sand|front-half-open-to-shelter\""
+        ],
+        "main_verification": [
+          "npm test -- --run src/test/field-request-controller.test.ts",
+          "npm test -- --run src/test/field-requests.test.ts -t \"coastal shelter request|Open To Shelter|Held Sand\" if route-state coverage is touched",
+          "focused runtime-smoke slice if runtime expectations are touched",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-361",
+        "status": "complete",
+        "implementation_report": "docs/reports/2026-04-20-front-half-route-proof-implementation.md",
+        "changed_files": [
+          "src/test/field-request-controller.test.ts",
+          "docs/reports/2026-04-20-front-half-route-proof-implementation.md"
+        ],
+        "result": [
+          "Added controller proof that `hand-lens` retargets active `Open To Shelter` back-dune inspection from a nearer non-fit `beach-pea` candidate to the farther `sand-verbena` `open-bloom` clue.",
+          "Confirmed the `hand-lens` retarget is ordinary notebook-fit behavior: `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: open bloom`, and no `LENS CLUE` label.",
+          "Added paired `note-tabs` coverage proving non-hand-lens support leaves the physical nearest inspectable alone while the in-field chip stays progress-facing with `0/3 stages`."
+        ],
+        "preserved": [
+          "route definitions",
+          "filed-note text",
+          "lane-2 copy",
+          "station pages",
+          "support order",
+          "save schema",
+          "world-map focus priority",
+          "route-marker behavior",
+          "geometry",
+          "science copy",
+          "new UI, replay, loadout, planner, or quest surfaces"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/field-request-controller.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter\"",
+          "PASS npm run build"
+        ],
+        "runtime_note": "A direct Open To Shelter runtime chip assertion was not kept because the existing smoke path intentionally suppresses the chip while route notices or inspect bubbles are active; the final proof stays controller-level."
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-361",
+        "status": "clean",
+        "review_report": "docs/reports/2026-04-20-front-half-route-proof-review.md",
+        "confirmed": [
+          "hand-lens retargets active `Open To Shelter` back-dune inspection from a nearer non-fit `beach-pea` candidate to the farther `sand-verbena` `open-bloom` clue",
+          "the retarget remains ordinary notebook-fit behavior, with `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: open bloom`, and no `LENS CLUE` label",
+          "`note-tabs` leaves the physical nearest inspectable alone while keeping the existing progress-facing chip",
+          "runtime, route definitions, filed-note text, lane-2 copy, station pages, support order, save schema, world-map focus, route-marker behavior, geometry, science copy, and new UI surfaces were not changed"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/field-request-controller.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter\"",
+          "PASS npm run build"
+        ],
+        "promoted_next": "ECO-20260420-scout-365"
+      }
+    }
+  },
+  "lane_1_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-358",
+    "status": "complete",
+    "handoff_report": "docs/reports/2026-04-20-front-half-tactile-state-handoff.md",
+    "recommended_main_scope": {
+      "mode": "debug/test/docs only",
+      "snapshot_id": "front-half-open-to-shelter",
+      "purpose": "Make the first post-forest front-half handoff directly loadable and test-backed after the tactile Coastal Scrub copy refresh.",
+      "expected_state": [
+        "completed forest-hidden-hollow, forest-moisture-holders, and forest-survey-slice",
+        "trail-stride owned",
+        "guidedFieldSeason.stage next-habitat",
+        "guidedFieldSeason.nextBiomeId coastal-scrub",
+        "field station routes page targets Coastal Scrub / Open To Shelter",
+        "world map focuses Coastal Scrub without Route Marker selected"
+      ]
+    },
+    "recommended_files": [
+      "src/engine/debug-save-snapshots.ts",
+      "docs/save-snapshot-states.md",
+      "src/test/save-snapshots.test.ts"
+    ],
+    "expected_tests": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|route board to coastal scrub|unlocked ecosystem-note teaching\""
+    ],
+    "avoid": [
+      "player-facing station behavior changes",
+      "route definition changes",
+      "lane-2 copy edits",
+      "support-choice behavior changes",
+      "world-map focus priority changes",
+      "save schema changes",
+      "biome geometry changes"
+    ]
+  },
+  "lane_1_main_result": {
+    "queue_id": "ECO-20260420-main-358",
+    "status": "complete",
+    "implementation_report": "docs/reports/2026-04-20-front-half-tactile-state-implementation.md",
+    "changed_runtime_scope": [
+      "src/engine/debug-save-snapshots.ts",
+      "docs/save-snapshot-states.md",
+      "src/test/save-snapshots.test.ts"
+    ],
+    "snapshot_id": "front-half-open-to-shelter",
+    "confirmed": [
+      "snapshot round-trips as plain SaveState JSON through normalizeSaveState",
+      "guidedFieldSeason.stage is next-habitat with nextBiomeId coastal-scrub",
+      "active field request is coastal-shelter-shift / Open To Shelter",
+      "station routes page targets Coastal Scrub and the coastal-comparison beat",
+      "default outing support remains HAND LENS",
+      "world map focuses Coastal Scrub while routeMarkerLocationId remains null"
+    ],
+    "preserved": [
+      "player-facing station behavior",
+      "route definitions",
+      "lane-2 copy",
+      "support-choice behavior",
+      "world-map focus priority",
+      "save schema",
+      "biome geometry"
+    ],
+    "verification": [
+      "PASS npm test -- --run src/test/save-snapshots.test.ts",
+      "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|route board to coastal scrub|unlocked ecosystem-note teaching\"",
+      "PASS npm run build",
+      "PASS git diff --check",
+      "PASS web_game_playwright_client smoke in output/web-game/front-half-main-358-client/",
+      "PASS direct browser snapshot proof in output/web-game/front-half-main-358-snapshot/"
+    ]
+  },
+  "lane_1_critic_result": {
+    "queue_id": "ECO-20260420-critic-358",
+    "status": "clean",
+    "review_report": "docs/reports/2026-04-20-front-half-tactile-state-review.md",
+    "confirmed": [
+      "front-half-open-to-shelter remains debug/test/docs only",
+      "snapshot round-trips as a plain current SaveState payload",
+      "guidedFieldSeason points to next-habitat / coastal-scrub",
+      "station routes page presents Open To Shelter with default HAND LENS",
+      "world map focuses Coastal Scrub while routeMarkerLocationId remains null",
+      "no player-facing station behavior, route definition, lane-2 copy, support-choice behavior, world-map focus priority, save schema, or biome geometry changed"
+    ],
+    "verification": [
+      "PASS npm test -- --run src/test/save-snapshots.test.ts",
+      "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|route board to coastal scrub|unlocked ecosystem-note teaching\"",
+      "PASS git diff --check",
+      "CITED implementation npm run build and browser proof"
+    ],
+    "promoted_next": "ECO-20260420-scout-362"
+  },
+  "lane_2_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-359",
+    "status": "complete",
+    "handoff_report": "docs/reports/2026-04-20-front-half-tactile-copy-handoff.md",
+    "recommended_main_scope": {
+      "target_note": "coastal-scrub:shelter-builds-here",
+      "preserve": [
+        "note id",
+        "title",
+        "entryIds",
+        "zoneId",
+        "resolver behavior",
+        "journal comparison structure"
+      ],
+      "summary": "Grass, verbena, and lupine slow wind so back-dune sand starts holding calmer life.",
+      "observationPrompt": "Where does wind-slowed sand start feeling calmer?"
+    },
+    "expected_tests": [
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/journal-comparison.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "src/test/content-quality.test.ts"
+    ],
+    "avoid": [
+      "new discoveries",
+      "route definitions or behavior",
+      "station surfaces",
+      "movement geometry",
+      "save/schema changes",
+      "new journal or atlas panels"
+    ]
+  },
+  "lane_2_main_result": {
+    "queue_id": "ECO-20260420-main-359",
+    "status": "complete",
+    "implementation_report": "docs/reports/2026-04-20-front-half-tactile-copy-implementation.md",
+    "changed_runtime_scope": [
+      "src/content/biomes/coastal-scrub.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/journal-comparison.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "preserved": [
+      "shelter-builds-here id/title/entryIds/zoneId",
+      "ecosystem-note resolver behavior",
+      "journal comparison structure",
+      "route definitions and behavior",
+      "station state",
+      "geometry",
+      "save/schema behavior",
+      "science ledger"
+    ],
+    "verification": [
+      "PASS npm test -- --run src/test/ecosystem-notes.test.ts src/test/journal-comparison.test.ts src/test/content-quality.test.ts",
+      "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"keeps unlocked ecosystem-note teaching alongside a longer coastal notebook seed prompt\"",
+      "PASS npm run build",
+      "ATTEMPTED broad runtime-smoke-inclusive content command; pre-existing world-map focus assertions failed outside this copy scope"
+    ]
+  },
+  "lane_2_critic_result": {
+    "queue_id": "ECO-20260420-critic-359",
+    "status": "clean",
+    "review_report": "docs/reports/2026-04-20-front-half-tactile-copy-review.md",
+    "confirmed": [
+      "shelter-builds-here id/title/entryIds/zoneId preserved",
+      "summary and prompt stay within content-quality budgets",
+      "science scope stays on the already-backed dune-plant wind-slowing relationship",
+      "focused content and journal coverage passed",
+      "targeted affected journal runtime-smoke copy assertion passed",
+      "no route definitions, station state, geometry, save/schema behavior, science-ledger row, close-look allowlist, or journal/atlas surface changed"
+    ],
+    "known_external_test_noise": "Broad runtime-smoke and the route-board place-tab smoke case still fail on pre-existing world-map focus expectations before reaching this copy assertion.",
+    "promoted_next": "ECO-20260420-scout-363"
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

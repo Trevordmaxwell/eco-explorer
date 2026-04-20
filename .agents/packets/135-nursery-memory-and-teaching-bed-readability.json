@@ -1,0 +1,409 @@
+{
+  "packet_id": "ECO-PACKET-135",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Nursery memory and teaching-bed readability",
+  "summary": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-nursery-memory-line-handoff.md",
+    "docs/reports/2026-04-20-nursery-memory-line-implementation.md",
+    "docs/reports/2026-04-20-nursery-memory-line-review.md",
+    "docs/reports/2026-04-20-nursery-page-memory-priority-handoff.md",
+    "docs/reports/2026-04-20-nursery-page-memory-priority-implementation.md",
+    "docs/reports/2026-04-20-nursery-page-memory-priority-review.md",
+    "docs/reports/2026-04-20-nursery-route-support-hint-handoff.md",
+    "docs/reports/2026-04-20-nursery-route-support-hint-implementation.md",
+    "docs/reports/2026-04-20-nursery-route-support-hint-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-346",
+    "ECO-20260420-main-346",
+    "ECO-20260420-critic-346",
+    "ECO-20260420-scout-347",
+    "ECO-20260420-main-347",
+    "ECO-20260420-critic-347",
+    "ECO-20260420-scout-348",
+    "ECO-20260420-main-348",
+    "ECO-20260420-critic-348",
+    "ECO-20260420-scout-349",
+    "ECO-20260420-main-349",
+    "ECO-20260420-critic-349"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-342",
+    "ECO-20260420-critic-343",
+    "ECO-20260420-critic-344",
+    "ECO-20260420-critic-345"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-346",
+      "goal": "Prepare lane-1: Harden nursery layout/state helpers only where proven overlap or priority bugs remain; do not widen the nursery shell.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-346",
+      "goal": "Implement lane-1: Harden nursery layout/state helpers only where proven overlap or priority bugs remain; do not widen the nursery shell.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-346",
+      "goal": "Review lane-1: Harden nursery layout/state helpers only where proven overlap or priority bugs remain; do not widen the nursery shell.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-347",
+      "goal": "Prepare lane-2: Refresh one teaching-bed memory family so it reflects a route place and science relationship in one short line.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-347",
+      "goal": "Implement lane-2: Refresh one teaching-bed memory family so it reflects a route place and science relationship in one short line.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-347",
+      "goal": "Review lane-2: Refresh one teaching-bed memory family so it reflects a route place and science relationship in one short line.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-348",
+      "goal": "Prepare lane-3: Add or tune a tiny nursery visual proof that makes growth visible before copy is read.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-348",
+      "goal": "Implement lane-3: Add or tune a tiny nursery visual proof that makes growth visible before copy is read.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-348",
+      "goal": "Review lane-3: Add or tune a tiny nursery visual proof that makes growth visible before copy is read.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-349",
+      "goal": "Prepare lane-4: Verify nursery support clues resolve by active route beat and never flatten multiple routes into the same repeated hint.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-349",
+      "goal": "Implement lane-4: Verify nursery support clues resolve by active route beat and never flatten multiple routes into the same repeated hint.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-349",
+      "goal": "Review lane-4: Verify nursery support clues resolve by active route beat and never flatten multiple routes into the same repeated hint.",
+      "why_now": "Use the nursery as a quiet memory of places visited, not a chore loop or base-building system."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "B / Home loop",
+  "completion_gate": "Nursery mature/active states communicate plant state, ecological memory, and utility without overlap or repeated route hints.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Harden nursery layout/state helpers only where proven overlap or priority bugs remain; do not widen the nursery shell.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-nursery-page-memory-priority-handoff.md",
+        "main_346_target": "Keep lane 1 test-first: update the live nursery-page seam test for lane 2's reviewed salmonberry memory line and add one mature-bed priority regression so habitat memory cannot overlap repeated route hints.",
+        "baseline_failure": "`npm test -- --run src/test/field-station-nursery-page.test.ts` currently fails because `resolveMatureBedFooterCopy(...)` returns `Cool forest edge where salmonberry thickets hold shade.` while the live-page test expects the old salmonberry footer.",
+        "recommended_files": [
+          "src/test/field-station-nursery-page.test.ts",
+          "docs/reports/2026-04-20-nursery-page-memory-priority-implementation.md"
+        ],
+        "main_acceptance": [
+          "`src/test/field-station-nursery-page.test.ts` passes",
+          "mature salmonberry live-page footer expectation uses `Cool forest edge where salmonberry thickets hold shade.`",
+          "coverage proves mature teaching-bed memory keeps priority over the route-support strip without widening the nursery page",
+          "runtime code remains unchanged unless the focused test exposes an actual helper bug",
+          "no save/schema, route-support behavior, nursery shell layout, new station card, new page, geometry, or copy-bank changes"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-nursery-page-memory-priority-implementation.md",
+        "status": "DONE",
+        "summary": "Updated the live nursery-page seam test for the reviewed salmonberry mature memory line and added a regression proving mature teaching-bed memory suppresses an available route-support hint without changing nursery layout or runtime behavior.",
+        "changed_files": [
+          "src/test/field-station-nursery-page.test.ts",
+          "docs/reports/2026-04-20-nursery-page-memory-priority-implementation.md"
+        ],
+        "runtime_code_changed": false,
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-nursery-page-memory-priority-review.md",
+        "status": "DONE",
+        "verdict": "no_blocker",
+        "summary": "The lane-1 pass stayed test-only, corrected the reviewed salmonberry mature footer expectation, and proved an available route-support hint stays hidden while mature teaching-bed memory owns the nursery page.",
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ],
+        "promoted": [
+          "ECO-20260420-scout-350"
+        ]
+      }
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Refresh one teaching-bed memory family so it reflects a route place and science relationship in one short line.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Add or tune a tiny nursery visual proof that makes growth visible before copy is read.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Verify nursery support clues resolve by active route beat and never flatten multiple routes into the same repeated hint.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-nursery-route-support-hint-handoff.md",
+        "main_349_target": "Add a tiny beat-specific nursery support hint resolver and focused tests so route-support clues follow the active route beat instead of the first claimed support project for the whole route.",
+        "current_gap": [
+          "`edge-pattern-line` already maps active beats to dune-lupine, salmonberry, or mountain-avens support.",
+          "`coastal-shelter-line` and `treeline-shelter-line` still fall back to the first claimed route-support project for the whole route.",
+          "Tests cover the edge-route happy path but not all route families or no-substitution cases."
+        ],
+        "recommended_files": [
+          "src/engine/nursery.ts",
+          "src/test/nursery.test.ts",
+          "src/test/field-station-nursery-page.test.ts",
+          "docs/reports/2026-04-20-nursery-route-support-hint-implementation.md"
+        ],
+        "support_mapping": [
+          "coastal-shelter-line / forest-study -> nursery:sand-verbena-support",
+          "coastal-shelter-line / coastal-comparison -> nursery:dune-lupine-support",
+          "treeline-shelter-line / tundra-short-season -> nursery:mountain-avens-support",
+          "edge-pattern-line / scrub-edge-pattern -> nursery:dune-lupine-support",
+          "edge-pattern-line / forest-cool-edge -> nursery:salmonberry-support",
+          "edge-pattern-line / treeline-low-fell -> nursery:mountain-avens-support"
+        ],
+        "main_acceptance": [
+          "centralize route-support hint selection around routeId plus activeBeatId instead of scanning the first claimed project for the whole route",
+          "if the active beat's mapped reward is not claimed, show no route-support hint rather than substituting another beat's support",
+          "keep the capstone salmonberry fallback only for the no-active-beat post-route window",
+          "preserve mature teaching-bed memory priority and existing nursery page layout",
+          "add focused nursery tests for coastal switching, treeline no-early-avens, existing edge mapping, and at least one no-substitution case",
+          "do not change nursery layout, authored plant copy, station pages, save schema, route definitions, route filing behavior, world geometry, or science content"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/nursery.test.ts`",
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts` if nursery page priority assertions are touched",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-nursery-route-support-hint-implementation.md",
+        "status": "DONE",
+        "summary": "Added a beat-specific nursery route-support resolver so coastal, treeline, and edge route hints resolve from the active beat and never substitute another claimed support when the mapped beat reward is missing.",
+        "changed_files": [
+          "src/engine/nursery.ts",
+          "src/test/nursery.test.ts",
+          "docs/reports/2026-04-20-nursery-route-support-hint-implementation.md"
+        ],
+        "guardrails": [
+          "No nursery layout, station page, save schema, route definition, route filing, world geometry, or science content changes.",
+          "The existing salmonberry capstone fallback stays limited to the no-active-beat post-route window.",
+          "Mature teaching-bed memory priority remains unchanged."
+        ],
+        "verification": [
+          "`npm test -- --run src/test/nursery.test.ts`",
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-nursery-route-support-hint-review.md",
+        "status": "DONE",
+        "verdict": "no_blocker",
+        "summary": "The route-support resolver now keys nursery hints to the active route beat, covers coastal switching, treeline no-early-avens, existing edge behavior, no-substitution, and the no-active-beat salmonberry capstone fallback without widening nursery layout, station pages, save/schema, route definitions, route filing, geometry, or science content.",
+        "verification": [
+          "`npm test -- --run src/test/nursery.test.ts`",
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ],
+        "promoted": [
+          "ECO-20260420-scout-353"
+        ]
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_2_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-347",
+    "source_report": "docs/reports/2026-04-20-nursery-memory-line-handoff.md",
+    "status": "DONE",
+    "target": {
+      "project_id": "salmonberry-bed",
+      "field": "memorySummary",
+      "current_line": "Cool wet edge tucked under taller cover.",
+      "recommended_line": "Cool forest edge where salmonberry thickets hold shade.",
+      "budget": {
+        "max_characters": 56,
+        "actual_characters": 55,
+        "sentence_count": 1
+      }
+    },
+    "science_support": [
+      "docs/science-source-ledger.md verifies `salmonberry` as a Pacific coastal forest-edge species.",
+      "src/content/shared-entries.ts says salmonberry grows in moist coastal forests and edges and dense stems build sheltered thickets.",
+      "src/content/biomes/coastal-scrub.ts and src/content/biomes/forest.ts already use salmonberry and berry-edge notes to teach cooler, wetter shade at the scrub-to-forest transition."
+    ],
+    "main_347_scope": {
+      "recommended_files": [
+        "src/engine/nursery.ts",
+        "src/test/nursery.test.ts",
+        "docs/reports/2026-04-20-nursery-memory-line-implementation.md"
+      ],
+      "required_change": "Refresh only `salmonberry-bed.memorySummary` and its focused mature-bed test expectations.",
+      "shared_file_reason": "`NURSERY_PROJECT_DEFINITIONS` currently lives in src/engine/nursery.ts, so this lane-2 pass may touch that shared engine file for authored copy only."
+    },
+    "non_goals": [
+      "No nursery layout, station state, route-support selection, save schema, route controller behavior, world geometry, or renderer changes.",
+      "No new nursery card, notebook page, station panel, route hint, or broad memory-line rewrite.",
+      "No science-source ledger update unless implementation copy drifts beyond the existing verified salmonberry support."
+    ],
+    "verification": [
+      "npm test -- --run src/test/nursery.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "queue_id": "ECO-20260420-main-347",
+    "source_report": "docs/reports/2026-04-20-nursery-memory-line-implementation.md",
+    "status": "DONE",
+    "changed_files": [
+      "src/engine/nursery.ts",
+      "src/test/nursery.test.ts",
+      "docs/reports/2026-04-20-nursery-memory-line-implementation.md"
+    ],
+    "implemented_line": "Cool forest edge where salmonberry thickets hold shade.",
+    "guardrail_result": "No nursery layout, station state, route-support selection, save schema, route controller behavior, renderer structure, world geometry, or new UI surface changed.",
+    "verification": [
+      "npm test -- --run src/test/nursery.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "queue_id": "ECO-20260420-critic-347",
+    "source_report": "docs/reports/2026-04-20-nursery-memory-line-review.md",
+    "status": "DONE",
+    "verdict": "No blocker.",
+    "reviewed_scope": [
+      "single salmonberry mature-bed memory line",
+      "focused nursery test expectation and anchors",
+      "packet and queue handoff updates"
+    ],
+    "cleared_next": "ECO-20260420-scout-351",
+    "verification_reviewed": [
+      "npm test -- --run src/test/nursery.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  }
+}

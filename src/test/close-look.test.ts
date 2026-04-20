@@ -21,17 +21,19 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('nootka-rose')).toBe(true);
     expect(supportsCloseLook('kinnikinnick')).toBe(true);
     expect(supportsCloseLook('nurse-log')).toBe(true);
+    expect(supportsCloseLook('shore-pine')).toBe(true);
     expect(supportsCloseLook('pacific-wax-myrtle')).toBe(true);
     expect(supportsCloseLook('beach-strawberry')).toBe(true);
     expect(supportsCloseLook('salmonberry')).toBe(true);
     expect(supportsCloseLook('song-sparrow')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
+    expect(supportsCloseLook('root-curtain')).toBe(true);
     expect(supportsCloseLook('tree-lungwort')).toBe(true);
     expect(supportsCloseLook('old-mans-beard')).toBe(true);
     expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
-    expect(supportsCloseLook('shore-pine')).toBe(false);
+    expect(supportsCloseLook('fallen-giant-log')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
   });
 
@@ -152,6 +154,16 @@ describe('close-look helpers', () => {
     });
     expect(nurseLogPayload?.callouts).toContain('soft old wood');
 
+    const shorePinePayload = buildCloseLookPayload(coastalScrubBiome.entries['shore-pine']);
+    expect(shorePinePayload).toMatchObject({
+      entryId: 'shore-pine',
+      title: 'Shore Pine',
+      spriteId: 'shore-pine',
+      sentence: 'Wind-bent shore pines mark where open sand starts settling into cover.',
+      spriteScale: 6,
+    });
+    expect(shorePinePayload?.callouts).toEqual(['wind-shaped crown', 'shelter edge']);
+
     const waxMyrtlePayload = buildCloseLookPayload(coastalScrubBiome.entries['pacific-wax-myrtle']);
     expect(waxMyrtlePayload).toMatchObject({
       entryId: 'pacific-wax-myrtle',
@@ -203,6 +215,16 @@ describe('close-look helpers', () => {
       spriteId: 'seep-moss-mat',
     });
     expect(seepMossPayload?.callouts).toContain('wet stone grip');
+
+    const rootCurtainPayload = buildCloseLookPayload(forestBiome.entries['root-curtain']);
+    expect(rootCurtainPayload).toMatchObject({
+      entryId: 'root-curtain',
+      title: 'Root Curtain',
+      spriteId: 'root-curtain',
+      sentence: 'Root tangles slow drips and make a dim shelter above the cave floor.',
+      spriteScale: 6,
+    });
+    expect(rootCurtainPayload?.callouts).toEqual(['hanging roots', 'drip shelter']);
 
     const treeLungwortPayload = buildCloseLookPayload(forestBiome.entries['tree-lungwort']);
     expect(treeLungwortPayload).toMatchObject({

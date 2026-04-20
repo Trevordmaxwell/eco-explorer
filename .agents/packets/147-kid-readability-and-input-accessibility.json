@@ -1,0 +1,438 @@
+{
+  "packet_id": "ECO-PACKET-147",
+    "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Kid readability and input accessibility",
+  "summary": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity.",
+    "source_reports": [
+        "docs/reports/2026-04-20-alpha-runway-megapush.md",
+        "docs/reports/2026-04-20-kid-input-accessibility-handoff.md",
+        "docs/reports/2026-04-20-kid-input-accessibility-implementation.md",
+        "docs/reports/2026-04-20-kid-input-accessibility-review.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-handoff.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-implementation.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-394",
+    "ECO-20260420-main-394",
+    "ECO-20260420-critic-394",
+    "ECO-20260420-scout-395",
+    "ECO-20260420-main-395",
+    "ECO-20260420-critic-395",
+    "ECO-20260420-scout-396",
+    "ECO-20260420-main-396",
+    "ECO-20260420-critic-396",
+    "ECO-20260420-scout-397",
+    "ECO-20260420-main-397",
+    "ECO-20260420-critic-397"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-390",
+    "ECO-20260420-critic-391",
+    "ECO-20260420-critic-392",
+    "ECO-20260420-critic-393"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-394",
+      "goal": "Prepare lane-1: Audit focus order, Esc behavior, fullscreen/menu exits, and save-safe input defaults.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-394",
+      "goal": "Implement lane-1: Audit focus order, Esc behavior, fullscreen/menu exits, and save-safe input defaults.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-394",
+      "goal": "Review lane-1: Audit focus order, Esc behavior, fullscreen/menu exits, and save-safe input defaults.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-395",
+      "goal": "Prepare lane-2: Review core instructional copy for age 7-10 readability and remove jargon where it is not teaching useful science.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-395",
+      "goal": "Implement lane-2: Review core instructional copy for age 7-10 readability and remove jargon where it is not teaching useful science.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-395",
+      "goal": "Review lane-2: Review core instructional copy for age 7-10 readability and remove jargon where it is not teaching useful science.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-396",
+      "goal": "Prepare lane-3: Review contrast, pixel silhouettes, and interaction markers on the most important route/clue frames.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-396",
+      "goal": "Implement lane-3: Review contrast, pixel silhouettes, and interaction markers on the most important route/clue frames.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-396",
+      "goal": "Review lane-3: Review contrast, pixel silhouettes, and interaction markers on the most important route/clue frames.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-397",
+      "goal": "Prepare lane-4: Harden route notices and support prompts so failure/recovery states give one clear next action.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-397",
+      "goal": "Implement lane-4: Harden route notices and support prompts so failure/recovery states give one clear next action.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-397",
+      "goal": "Review lane-4: Harden route notices and support prompts so failure/recovery states give one clear next action.",
+      "why_now": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity."
+    }
+  ],
+    "file_targets": [
+        ".agents/work-queue.md",
+        ".agents/project-memory.md",
+        "docs/reports/2026-04-20-alpha-runway-megapush.md",
+        "docs/reports/2026-04-20-kid-readability-copy-handoff.md",
+        "docs/reports/2026-04-20-kid-readability-copy-implementation.md",
+        "docs/reports/2026-04-20-kid-readability-copy-review.md",
+        "docs/reports/2026-04-20-kid-input-accessibility-handoff.md",
+        "docs/reports/2026-04-20-kid-input-accessibility-implementation.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-handoff.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-implementation.md",
+        "docs/reports/2026-04-20-route-support-notice-readability-review.md",
+        "src/engine/game.ts",
+        "src/test/runtime-smoke.test.ts",
+        "src/engine/field-request-controller.ts",
+        "src/test/field-request-controller.test.ts",
+        "src/engine/field-requests.ts",
+        "src/test/content-quality.test.ts",
+        "src/test/field-requests.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "A kid can discover controls, recover from overlays, and read core copy without external instruction.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Audit focus order, Esc behavior, fullscreen/menu exits, and save-safe input defaults.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Review core instructional copy for age 7-10 readability and remove jargon where it is not teaching useful science.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Review contrast, pixel silhouettes, and interaction markers on the most important route/clue frames.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Harden route notices and support prompts so failure/recovery states give one clear next action.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+        }
+    },
+    "lane_1_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-394",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-input-accessibility-handoff.md",
+        "verdict": "implementation-ready",
+        "finding": [
+            "Guided menu focus already defaults to world-map in biome play and field-station on the world map during station-return guidance.",
+            "Escape already closes normal menus and cancels reset confirmation before destructive reset actions.",
+            "toggleFullscreen currently persists settings.fullscreen=true even when canvas.requestFullscreen is unavailable, leaving a save-safe input-default gap.",
+            "The runtime-smoke fake DOM has no Fullscreen API, making it a focused harness for the unsupported fullscreen path."
+        ],
+        "main_scope": [
+            "Update toggleFullscreen so unsupported fullscreen entry does not persist settings.fullscreen=true.",
+            "Keep fullscreen request failure or rejection from stranding the saved fullscreen setting as true.",
+            "Add a focused runtime-smoke regression proving unsupported fullscreen activation leaves settings.fullscreen false and Escape still recovers from the menu.",
+            "Add a dated implementation report."
+        ],
+        "non_goals": [
+            "No menu action order changes, guided menu default changes, reset-flow redesign, station/route/world-map behavior changes, save schema changes, authored copy changes, geometry changes, or UI layout changes."
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"unsupported fullscreen\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ],
+        "known_unrelated_baseline_noise": "npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play|arms sound\" currently fails in the existing broad smoke because world-map focus expects forest and receives beach; do not make this packet depend on that broad smoke unless the map-focus issue is intentionally addressed."
+    },
+    "lane_1_main_result": {
+        "completed_by": "ECO-20260420-main-394",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-input-accessibility-implementation.md",
+        "changed_files": [
+            "src/engine/game.ts",
+            "src/test/runtime-smoke.test.ts",
+            "docs/reports/2026-04-20-kid-input-accessibility-implementation.md"
+        ],
+        "result": [
+            "Added an explicit fullscreen preference persistence helper.",
+            "Made unsupported fullscreen entry persist settings.fullscreen=false instead of leaving a stale true setting.",
+            "Made thrown or rejected fullscreen entry requests restore settings.fullscreen=false.",
+            "Added focused runtime-smoke coverage for unsupported fullscreen activation and Escape recovery from the title menu."
+        ],
+        "scope_notes": [
+            "No menu action order, guided menu default, reset behavior, station behavior, route behavior, world-map behavior, save schema, authored copy, geometry, or UI layout changed."
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"unsupported fullscreen\"",
+            "npm run build"
+        ]
+    },
+    "lane_1_critic_result": {
+        "completed_by": "ECO-20260420-critic-394",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-input-accessibility-review.md",
+        "verdict": "clean",
+        "lane_1_status": "clear; promote ECO-20260420-scout-398",
+        "scope_notes": [
+            "Confirmed unsupported fullscreen entry now persists settings.fullscreen=false instead of keeping a stale true preference.",
+            "Confirmed thrown or rejected fullscreen entry requests restore settings.fullscreen=false.",
+            "Confirmed the focused runtime-smoke coverage proves unsupported fullscreen activation and Escape recovery from the unchanged title menu default.",
+            "Confirmed no menu action order, guided menu default, reset behavior, station behavior, route behavior, world-map behavior, save schema, authored copy, geometry, or UI layout changed for this lane-1 pass."
+        ],
+        "promoted_next": "ECO-20260420-scout-398",
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"unsupported fullscreen\"",
+            "npm run build",
+            "git diff --check"
+        ]
+    },
+    "lane_2_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-395",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-copy-handoff.md",
+        "focus": "Remove internal evidence-slot id wording from active field-request summaries while preserving route meaning and behavior.",
+        "target_request_ids": [
+            "treeline-stone-shelter",
+            "tundra-short-season",
+            "scrub-edge-pattern",
+            "forest-cool-edge",
+            "treeline-low-fell",
+            "forest-expedition-upper-run",
+            "treeline-high-pass"
+        ],
+        "implementation_scope": [
+            "Update summary strings only where a player-facing field-request summary contains an exact evidenceSlots[].id token.",
+            "Add a content-quality guard that blocks route summaries from containing exact slot ids.",
+            "Refresh focused field-request exact-copy expectations."
+        ],
+        "avoid": [
+            "evidence slot id, slot order, entry id, route behavior, support behavior, station behavior, world-map behavior, save schema, geometry, menu/input behavior, or filed-note synthesis changes",
+            "rewriting label fields unless a focused test proves those labels are directly player-facing",
+            "broad content prose rewrite or science simplification"
+        ],
+        "verification": [
+            "npm test -- --run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"field-request|route|summary|content quality\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_2_main_result": {
+        "completed_by": "ECO-20260420-main-395",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-copy-implementation.md",
+        "changed_files": [
+            "src/engine/field-requests.ts",
+            "src/test/content-quality.test.ts",
+            "src/test/field-requests.test.ts",
+            "docs/reports/2026-04-20-kid-readability-copy-implementation.md"
+        ],
+        "updated_request_ids": [
+            "treeline-stone-shelter",
+            "tundra-short-season",
+            "scrub-edge-pattern",
+            "forest-cool-edge",
+            "treeline-low-fell",
+            "forest-expedition-upper-run",
+            "treeline-high-pass"
+        ],
+        "scope_notes": [
+            "Replaced hyphenated internal evidence-slot id wording in the active field-request summaries with plain clue phrases.",
+            "Added content-quality coverage that rejects hyphenated evidence-slot ids in field-request summaries while allowing ordinary single-word clue terms such as shelter.",
+            "Refreshed focused exact-copy expectations without changing evidence slot ids, slot order, route behavior, support behavior, station/map/save/input behavior, geometry, or filed-note synthesis."
+        ],
+        "verification": [
+            "npm test -- --run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"field-request|route|summary|content quality\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_2_critic_result": {
+        "completed_by": "ECO-20260420-critic-395",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-copy-review.md",
+        "verdict": "clean",
+        "scope_notes": [
+            "Confirmed the seven targeted active field-request summaries no longer leak hyphenated internal evidence-slot ids.",
+            "Confirmed the content-quality guard rejects hyphenated evidence-slot ids while allowing ordinary single-word clue terms such as shelter.",
+            "Confirmed no evidence slot ids, slot order, route/support behavior, station/map/save/input behavior, geometry, or filed-note synthesis changed."
+        ],
+        "promoted_next": "ECO-20260420-scout-399",
+        "verification": [
+            "npm test -- --run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"field-request|route|summary|content quality\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_4_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-397",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-route-support-notice-readability-handoff.md",
+        "verdict": "implementation-ready",
+        "finding": [
+            "Route-ready notices already give a clear station-return filing action; Shore Shelter also names M -> Field station plus Enter.",
+            "The remaining lane-4 kid-readability gap is the support-toggle notice copy in getOutingSupportNoticeText(...).",
+            "The hand-lens support toast currently says notebook-fit, exposing an internal helper phrase instead of a kid-facing action."
+        ],
+        "main_scope": [
+            "Update only getOutingSupportNoticeText(...) in src/engine/field-request-controller.ts.",
+            "Replace the hand-lens support toast with short, plain action language such as Highlights next notebook clue.",
+            "Optionally tighten note-tabs wording if it improves clarity, while keeping every support toast at five words or fewer.",
+            "Update the existing support notice copy test and add a guard against notebook-fit or hyphenated helper terms in support-toggle notices.",
+            "Add a dated implementation report."
+        ],
+        "non_goals": [
+            "No support id, support cycling, support unlock, route targeting, route definition, filed-note synthesis, station page, world-map focus, save schema, notice timer, geometry, or broad content copy changes.",
+            "Do not rewrite inspect-bubble Notebook fit labels in this pass; this packet slice is only the support-toggle toast."
+        ],
+        "verification": [
+            "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_4_main_result": {
+        "completed_by": "ECO-20260420-main-397",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-route-support-notice-readability-implementation.md",
+        "changed_files": [
+            "src/engine/field-request-controller.ts",
+            "src/test/field-request-controller.test.ts",
+            "docs/reports/2026-04-20-route-support-notice-readability-implementation.md"
+        ],
+        "result": [
+            "Changed hand-lens support-toggle copy from Tags notebook-fit clues. to Highlights notebook clues.",
+            "Changed note-tabs support-toggle copy from Keeps notebook aim visible. to Keeps route aim visible.",
+            "Extended the focused support notice test to reject notebook-fit and hyphenated helper terms while preserving the five-word ceiling."
+        ],
+        "scope_notes": [
+            "No support ids, support cycling, support unlocks, route targeting, route definitions, station pages, world-map focus, save schema, notice timers, geometry, filed-note synthesis, broad content copy, or inspect-bubble Notebook fit labels changed."
+        ],
+        "verification": [
+            "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+            "npm run build"
+        ]
+    },
+    "lane_4_critic_result": {
+        "completed_by": "ECO-20260420-critic-397",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-route-support-notice-readability-review.md",
+        "verdict": "clean",
+        "scope_notes": [
+            "Confirmed hand-lens support-toggle copy no longer exposes notebook-fit.",
+            "Confirmed all support-toggle notices stay at five words or fewer and the focused test rejects notebook-fit plus hyphenated helper terms.",
+            "Confirmed no support id, support cycling, support unlock, route targeting, route definition, station page, world-map focus, save schema, notice timer, geometry, filed-note synthesis, broad content copy, or inspect-bubble Notebook fit label changed."
+        ],
+        "promoted_next": "ECO-20260420-scout-401",
+        "verification": [
+            "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

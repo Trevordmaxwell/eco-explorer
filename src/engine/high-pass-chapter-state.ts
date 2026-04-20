@@ -37,8 +37,35 @@ export interface HighPassChapterState {
   dormantUntilSeasonCloseClears: boolean;
 }
 
+export interface HighPassFiledArcCopy {
+  filedLocationText: string;
+  fieldArcCompleteText: string;
+  optionalRevisitText: string;
+  filedExpeditionSubtitle: string;
+  noticeText: string;
+}
+
 function resolveRegionalBridgeLine(title: string, locationLabel: string): string {
   return `${locationLabel} carries the season toward ${title}.`;
+}
+
+export function resolveHighPassFiledArcCopy(locationLabel: string): HighPassFiledArcCopy {
+  const filedLocationText = `${HIGH_PASS_CHAPTER_TITLE} filed from ${locationLabel}.`;
+  const optionalRevisitText = 'Current field arc filed. Revisit when you want a quiet pass.';
+
+  return {
+    filedLocationText,
+    fieldArcCompleteText: `${HIGH_PASS_CHAPTER_TITLE} filed. This field arc is complete.`,
+    optionalRevisitText,
+    filedExpeditionSubtitle: `${HIGH_PASS_CHAPTER_TITLE} is filed for this field arc.`,
+    noticeText: `${filedLocationText} ${optionalRevisitText}`,
+  };
+}
+
+export function resolveDefaultHighPassFiledArcCopy(): HighPassFiledArcCopy {
+  const location = getWorldMapLocationByBiomeId(ecoWorldMap, HIGH_PASS_CHAPTER_TARGET_BIOME_ID);
+
+  return resolveHighPassFiledArcCopy(location.label);
 }
 
 export function resolveHighPassChapterState(save: SaveState): HighPassChapterState | null {
@@ -73,23 +100,24 @@ export function resolveHighPassChapterState(save: SaveState): HighPassChapterSta
   >;
 
   if (phase === 'filed') {
+    const filedArcCopy = resolveHighPassFiledArcCopy(location.label);
+
     return {
       ...baseState,
       progressLabel: 'FILED',
       routeBoardTargetBiomeId: null,
       worldMapLabel: `${HIGH_PASS_CHAPTER_TITLE} filed`,
-      routeBoardSummary: `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}.`,
-      routeBoardNextDirection: `${HIGH_PASS_CHAPTER_TITLE} filed. This field arc is complete.`,
-      liveAtlasNote: `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}.`,
-      routesSubtitle: `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}.`,
-      archiveText: `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}.`,
+      routeBoardSummary: filedArcCopy.filedLocationText,
+      routeBoardNextDirection: filedArcCopy.fieldArcCompleteText,
+      liveAtlasNote: filedArcCopy.filedLocationText,
+      routesSubtitle: filedArcCopy.filedLocationText,
+      archiveText: filedArcCopy.filedLocationText,
       cardStatusLabel: 'FILED',
-      cardSummary: `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}.`,
+      cardSummary: filedArcCopy.filedLocationText,
       cardDetailLabel: 'FILED',
       cardStartText: location.label,
-      cardNote: 'Current field arc filed. Revisit when you want a quiet pass.',
-      cardNoticeText:
-        `${HIGH_PASS_CHAPTER_TITLE} filed from ${location.label}. Current field arc filed. Revisit when you want a quiet pass.`,
+      cardNote: filedArcCopy.optionalRevisitText,
+      cardNoticeText: filedArcCopy.noticeText,
       isActiveOuting: false,
     };
   }

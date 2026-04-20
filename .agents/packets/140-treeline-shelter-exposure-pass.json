@@ -1,0 +1,473 @@
+{
+  "packet_id": "ECO-PACKET-140",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Treeline shelter and exposure pass",
+  "summary": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-handoff.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-implementation.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-review.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-handoff.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-implementation.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-review.md",
+    "docs/reports/2026-04-20-treeline-route-support-handoff.md",
+    "docs/reports/2026-04-20-treeline-route-support-implementation.md",
+    "docs/reports/2026-04-20-treeline-route-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-366",
+    "ECO-20260420-main-366",
+    "ECO-20260420-critic-366",
+    "ECO-20260420-scout-367",
+    "ECO-20260420-main-367",
+    "ECO-20260420-critic-367",
+    "ECO-20260420-scout-368",
+    "ECO-20260420-main-368",
+    "ECO-20260420-critic-368",
+    "ECO-20260420-scout-369",
+    "ECO-20260420-main-369",
+    "ECO-20260420-critic-369"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-362",
+    "ECO-20260420-critic-363",
+    "ECO-20260420-critic-364",
+    "ECO-20260420-critic-365"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-366",
+      "goal": "Prepare lane-1: Ensure Treeline route/station states remain distinct from filed High Pass closure.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-366",
+      "goal": "Implement lane-1: Ensure Treeline route/station states remain distinct from filed High Pass closure.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-366",
+      "goal": "Review lane-1: Ensure Treeline route/station states remain distinct from filed High Pass closure.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-367",
+      "goal": "Prepare lane-2: Refresh one Treeline relationship prompt or atlas line around krummholz, stone, wind, or lee shelter.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-367",
+      "goal": "Implement lane-2: Refresh one Treeline relationship prompt or atlas line around krummholz, stone, wind, or lee shelter.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-367",
+      "goal": "Review lane-2: Refresh one Treeline relationship prompt or atlas line around krummholz, stone, wind, or lee shelter.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-368",
+      "goal": "Prepare lane-3: Tune a lower Treeline or shelter-line spatial beat, explicitly avoiding the High Pass opener/endcap bands.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-368",
+      "goal": "Implement lane-3: Tune a lower Treeline or shelter-line spatial beat, explicitly avoiding the High Pass opener/endcap bands.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-368",
+      "goal": "Review lane-3: Tune a lower Treeline or shelter-line spatial beat, explicitly avoiding the High Pass opener/endcap bands.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-369",
+      "goal": "Prepare lane-4: Improve an existing Treeline route support/replay cue without creating another High Pass route.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-369",
+      "goal": "Implement lane-4: Improve an existing Treeline route support/replay cue without creating another High Pass route.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-369",
+      "goal": "Review lane-4: Improve an existing Treeline route support/replay cue without creating another High Pass route.",
+      "why_now": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/140-treeline-shelter-exposure-pass.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-handoff.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-implementation.md",
+    "docs/reports/2026-04-20-treeline-stone-shelter-copy-review.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-handoff.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-implementation.md",
+    "docs/reports/2026-04-20-treeline-route-transition-state-review.md",
+    "docs/save-snapshot-states.md",
+    "src/engine/debug-save-snapshots.ts",
+    "src/content/biomes/treeline.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "C / World feel",
+  "completion_gate": "Treeline has a clearer shelter/exposure read outside the High Pass route and no new High Pass density.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Ensure Treeline route/station states remain distinct from filed High Pass closure.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Refresh one Treeline relationship prompt or atlas line around krummholz, stone, wind, or lee shelter.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Tune a lower Treeline or shelter-line spatial beat, explicitly avoiding the High Pass opener/endcap bands.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Improve an existing Treeline route support/replay cue without creating another High Pass route.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-366",
+    "report": "docs/reports/2026-04-20-treeline-route-transition-state-handoff.md",
+    "recommended_snapshot": {
+      "id": "treeline-stone-shelter",
+      "reason": "A debug-only loadable state after the coastal line but before High Pass lets reviewers prove the station/map/journal seam still presents ordinary Treeline Stone Shelter rather than filed-season High Pass closure."
+    },
+    "expected_state": [
+      "completed forest-hidden-hollow",
+      "completed forest-moisture-holders",
+      "completed forest-survey-slice",
+      "completed coastal-shelter-shift",
+      "completed coastal-edge-moisture",
+      "active incomplete treeline-stone-shelter",
+      "trail-stride owned",
+      "lastBiomeId forest",
+      "default support hand-lens",
+      "no route-marker, tundra-short-season, tundra-survey-slice, treeline-low-fell, forest-season-threads, High Pass, filed-season archive, save-schema, or station-shell change"
+    ],
+    "expected_assertions": [
+      "guidedFieldSeason.stage settled with nextBiomeId treeline and STONE SHELTER station note",
+      "activeFieldRequest id treeline-stone-shelter in treeline",
+      "world map current forest, focused treeline, and routeMarkerLocationId null",
+      "field station routes page keeps hand-lens / HAND LENS selected",
+      "route board remains TREELINE SHELTER LINE targeting treeline with treeline-shelter active and Stone Shelter summary",
+      "route board does not show a HIGH PASS launch card or filed High Pass copy",
+      "journal field request matches treeline-stone-shelter"
+    ],
+    "preserve": [
+      "player-facing station behavior",
+      "route definitions",
+      "lane-2 Treeline copy",
+      "support-choice behavior",
+      "world-map focus priority",
+      "save schema",
+      "Treeline geometry",
+      "High Pass copy",
+      "route controller behavior"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"route board to treeline|High Pass\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "queue_id": "ECO-20260420-main-366",
+    "report": "docs/reports/2026-04-20-treeline-route-transition-state-implementation.md",
+    "changed_files": [
+      "src/engine/debug-save-snapshots.ts",
+      "docs/save-snapshot-states.md",
+      "src/test/save-snapshots.test.ts",
+      "docs/reports/2026-04-20-treeline-route-transition-state-implementation.md"
+    ],
+    "summary": "Added the debug-only treeline-stone-shelter save snapshot and focused resolver/runtime assertions proving the ordinary Treeline Stone Shelter station, map, and journal seam stays distinct from High Pass closure.",
+    "browser_proof": [
+      "output/web-game/treeline-main-366-client/",
+      "output/web-game/treeline-main-366-snapshot/"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"route board to treeline|High Pass\"",
+      "npm run build",
+      "web-game client smoke against http://127.0.0.1:5173/",
+      "direct Playwright treeline-stone-shelter snapshot proof with no console/page errors"
+    ],
+    "scope_preserved": [
+      "no player-facing station behavior, route definitions, lane-2 Treeline copy, support-choice behavior, world-map focus priority, save schema, Treeline geometry, High Pass copy, or route-controller behavior changed"
+    ],
+    "promoted_next_lane_1_item": "ECO-20260420-critic-366"
+  },
+  "lane_1_critic_result": {
+    "queue_id": "ECO-20260420-critic-366",
+    "report": "docs/reports/2026-04-20-treeline-route-transition-state-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "Confirmed the treeline-stone-shelter snapshot stays debug/test/docs only, round-trips as plain SaveState, and proves Stone Shelter station/map/journal state without High Pass launch or filed-copy drift.",
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"route board to treeline\"",
+      "source inspection of snapshot builder, docs, packet result, and browser proof state"
+    ],
+    "residual_notes": [
+      "The broader High Pass runtime-smoke filter currently catches an unrelated dirty-tree rime-footing summary expectation mismatch outside the lane-1 snapshot files."
+    ],
+    "scope_preserved": [
+      "no player-facing station behavior, route definitions, lane-2 Treeline copy, support-choice behavior, world-map focus priority, save schema, Treeline geometry, High Pass copy, or route-controller behavior changed"
+    ],
+    "promoted_next_lane_1_item": "ECO-20260420-scout-370"
+  },
+  "lane_2_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-367",
+    "report": "docs/reports/2026-04-20-treeline-stone-shelter-copy-handoff.md",
+    "recommended_target": {
+      "biome": "treeline",
+      "ecosystem_note_id": "stone-shelter",
+      "reason": "This existing note already links krummholz, raised stone, and marmot shelter, so it can strengthen Treeline's shelter/exposure identity without touching Route v2, High Pass closure, or spatial bands."
+    },
+    "recommended_copy": {
+      "summary": "Bent krummholz and raised stone break wind into lee pockets animals can use.",
+      "observationPrompt": "Where do stone and bent wood make a lee pocket?"
+    },
+    "preserve": [
+      "stone-shelter id/title/entryIds/minimumDiscoveries/zoneId",
+      "treeline-stone-shelter Route v2 definition and filed note behavior",
+      "station/progression/save/schema behavior",
+      "Treeline geometry and High Pass copy"
+    ],
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "queue_id": "ECO-20260420-main-367",
+    "report": "docs/reports/2026-04-20-treeline-stone-shelter-copy-implementation.md",
+    "changed_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "docs/reports/2026-04-20-treeline-stone-shelter-copy-implementation.md"
+    ],
+    "summary": "Refreshed the existing Treeline stone-shelter ecosystem-note copy around bent krummholz, raised stone, wind break, and lee pockets, with focused resolver coverage.",
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check",
+      "node -e copy budget check printed summary 76 / prompt 47"
+    ],
+    "scope_preserved": [
+      "no Route v2 behavior, station/state/save behavior, world-map focus, Treeline geometry, High Pass copy, science-ledger rows, close-look cards, new species, or comparison branches changed",
+      "stone-shelter metadata and unlock behavior preserved"
+    ]
+  },
+  "lane_2_critic_result": {
+    "queue_id": "ECO-20260420-critic-367",
+    "report": "docs/reports/2026-04-20-treeline-stone-shelter-copy-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "Confirmed the Treeline stone-shelter copy refresh is science-safe, budget-safe, resolver-covered, and lane-2 scoped.",
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "source inspection confirmed stone-shelter metadata and copy",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "scope_preserved": [
+      "stone-shelter id/title/entryIds/minimumDiscoveries/zoneId stayed stable",
+      "no Route v2 behavior, station/state/save behavior, world-map focus, Treeline geometry, High Pass copy, science-ledger rows, close-look cards, new species, or comparison branches changed"
+    ],
+    "promoted_next_lane_2_item": "ECO-20260420-scout-371"
+  },
+  "lane_4_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-369",
+    "report": "docs/reports/2026-04-20-treeline-route-support-handoff.md",
+    "focus": "Add a behavior-neutral controller proof for the existing Treeline `Brief Bloom` support/replay cue below High Pass.",
+    "recommended_file_targets": [
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-20-treeline-route-support-implementation.md"
+    ],
+    "recommended_setup": {
+      "request_id": "treeline-low-fell",
+      "active_title": "Brief Bloom",
+      "scene_biome_id": "treeline",
+      "scene_zone_id": "lichen-fell",
+      "world_step": 4,
+      "treeline_visits": 2,
+      "existing_evidence_slots": [
+        {
+          "slotId": "last-tree-shape",
+          "entryId": "krummholz-spruce"
+        },
+        {
+          "slotId": "low-wood",
+          "entryId": "dwarf-birch"
+        }
+      ],
+      "near_ordinary_carrier": {
+        "entryId": "mountain-avens",
+        "expected_note": "Notebook fit: fell bloom"
+      },
+      "far_active_carrier": {
+        "entryId": "moss-campion",
+        "expected_note": "LENS CLUE: fell bloom"
+      }
+    },
+    "main_acceptance": [
+      "hand-lens active `Brief Bloom` retargets from nearer `mountain-avens` to farther `moss-campion` in `lichen-fell`",
+      "`supportRetargetsInspect` and `supportPrefersActiveClue` are true for hand-lens",
+      "the hand-lens `NOTEBOOK J` chip stays `Brief Bloom` / `support-biased`",
+      "`note-tabs` keeps nearest-inspect behavior on `mountain-avens`, does not prefer the active clue, and keeps the chip progress-facing as `2/4 clues` / `support-biased`",
+      "no route definition, filed-note, support ordering, save schema, station, world-map, route-marker, geometry, High Pass, science-copy, or new UI surface changes"
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Brief Bloom|Rimed Pass|High Pass|non-hand-lens\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"Brief Bloom|treeline-low-fell|Low Fell\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Brief Bloom|Low Fell|place-tab\""
+    ],
+    "main_verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"Brief Bloom|treeline-low-fell|Low Fell\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-main-369"
+  },
+  "lane_4_main_result": {
+    "queue_id": "ECO-20260420-main-369",
+    "report": "docs/reports/2026-04-20-treeline-route-support-implementation.md",
+    "changed_files": [
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-20-treeline-route-support-implementation.md"
+    ],
+    "summary": "Added controller-level `Brief Bloom` support proof for `treeline-low-fell`, pairing hand-lens active-clue retargeting to `moss-campion` against `note-tabs` nearest-inspect behavior on `mountain-avens`.",
+    "coverage": [
+      "active request stays `treeline-low-fell` / `Brief Bloom` with `2/4 clues`",
+      "`mountain-avens` remains ordinary `Notebook fit: fell bloom`",
+      "`moss-campion` receives `LENS CLUE: fell bloom` and is preferred only by hand-lens",
+      "hand-lens selection sets `supportRetargetsInspect` and `supportPrefersActiveClue` true and shows `Brief Bloom` / `support-biased`",
+      "note-tabs selection stays on the nearer `mountain-avens`, keeps both support flags false, and shows `2/4 clues` / `support-biased`"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"Brief Bloom|treeline-low-fell|Low Fell\"",
+      "npm run build"
+    ],
+    "scope_preserved": [
+      "no route definitions, world-state focus copy, filed-note copy, support order, save schema, station pages, world-map focus, route-marker behavior, Treeline geometry, High Pass copy, science copy, or new UI/replay/loadout/planner surfaces changed"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-critic-369"
+  },
+  "lane_4_critic_result": {
+    "queue_id": "ECO-20260420-critic-369",
+    "report": "docs/reports/2026-04-20-treeline-route-support-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "Confirmed the `Brief Bloom` controller proof is behavior-neutral, keeps hand-lens active-clue retargeting to `moss-campion` distinct from `note-tabs` nearest-inspect behavior on `mountain-avens`, and stays below High Pass.",
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"Brief Bloom|treeline-low-fell|Low Fell\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Brief Bloom|Low Fell|place-tab\"",
+      "npm run build"
+    ],
+    "scope_preserved": [
+      "no route definitions, world-state focus copy, filed-note copy, support order, save schema, station pages, world-map focus, route-marker behavior, Treeline geometry, High Pass copy, science copy, or new UI/replay/loadout/planner surfaces changed"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-scout-373"
+  }
+}

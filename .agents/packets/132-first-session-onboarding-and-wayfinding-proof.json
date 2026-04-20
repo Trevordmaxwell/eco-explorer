@@ -1,0 +1,454 @@
+{
+  "packet_id": "ECO-PACKET-132",
+  "version": 13,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "First-session onboarding and wayfinding proof",
+  "summary": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-first-session-onboarding-copy-handoff.md",
+    "docs/reports/2026-04-20-first-session-onboarding-copy-implementation.md",
+    "docs/reports/2026-04-20-first-session-onboarding-copy-review.md",
+    "docs/reports/2026-04-20-lane-3-first-session-visual-cue-handoff.md",
+    "docs/reports/2026-04-20-lane-3-first-session-visual-cue-implementation.md",
+    "docs/reports/2026-04-20-lane-3-first-session-visual-cue-review.md",
+    "docs/reports/2026-04-20-first-session-route-loop-handoff.md",
+    "docs/reports/2026-04-20-first-session-route-loop-implementation.md",
+    "docs/reports/2026-04-20-first-session-route-loop-review.md",
+    "docs/reports/2026-04-20-lane-1-first-session-wayfinding-handoff.md",
+    "docs/reports/2026-04-20-lane-1-first-session-wayfinding-implementation.md",
+    "docs/reports/2026-04-20-lane-1-first-session-wayfinding-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-334",
+    "ECO-20260420-main-334",
+    "ECO-20260420-critic-334",
+    "ECO-20260420-scout-335",
+    "ECO-20260420-main-335",
+    "ECO-20260420-critic-335",
+    "ECO-20260420-scout-336",
+    "ECO-20260420-main-336",
+    "ECO-20260420-critic-336",
+    "ECO-20260420-scout-337",
+    "ECO-20260420-main-337",
+    "ECO-20260420-critic-337"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-330",
+    "ECO-20260420-critic-331",
+    "ECO-20260420-critic-332",
+    "ECO-20260420-critic-333"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-334",
+      "goal": "Prepare lane-1: Audit title/menu/map/station focus defaults and fix only the smallest first-session state or focus seams that block travel comprehension.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-334",
+      "goal": "Implement lane-1: Audit title/menu/map/station focus defaults and fix only the smallest first-session state or focus seams that block travel comprehension.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-334",
+      "goal": "Review lane-1: Audit title/menu/map/station focus defaults and fix only the smallest first-session state or focus seams that block travel comprehension.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-335",
+      "goal": "Prepare lane-2: Cut and clarify onboarding copy around J/M/Enter, field station, first route, and first filed note while preserving kid-readable tone.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-335",
+      "goal": "Implement lane-2: Cut and clarify onboarding copy around J/M/Enter, field station, first route, and first filed note while preserving kid-readable tone.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-335",
+      "goal": "Review lane-2: Cut and clarify onboarding copy around J/M/Enter, field station, first route, and first filed note while preserving kid-readable tone.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-336",
+      "goal": "Prepare lane-3: Tune initial beach/coastal visual landmarks only if the screenshot proof shows the player lacks a physical first objective cue.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-336",
+      "goal": "Implement lane-3: Tune initial beach/coastal visual landmarks only if the screenshot proof shows the player lacks a physical first objective cue.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-336",
+      "goal": "Review lane-3: Tune initial beach/coastal visual landmarks only if the screenshot proof shows the player lacks a physical first objective cue.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-337",
+      "goal": "Prepare lane-4: Smoke first request activation and filing preview so the route loop teaches itself before support choices become relevant.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-337",
+      "goal": "Implement lane-4: Smoke first request activation and filing preview so the route loop teaches itself before support choices become relevant.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-337",
+      "goal": "Review lane-4: Smoke first request activation and filing preview so the route loop teaches itself before support choices become relevant.",
+      "why_now": "Harden the first ten minutes so new players find the notebook, map, station, and first purpose without a tutorial panel."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "A / Preflight",
+  "completion_gate": "A fresh player can reach the first purposeful outing and understand how to return to station using only the in-game shell.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Audit title/menu/map/station focus defaults and fix only the smallest first-session state or focus seams that block travel comprehension.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-lane-1-first-session-wayfinding-handoff.md",
+        "main_334_target": "Use guided nextBiomeId as the world-map focus fallback after route-marker support so first-session M + Enter points at Forest Trail after Shore Shelter and Coastal Scrub after Trail Stride.",
+        "recommended_files": [
+          "src/engine/game.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "systems_targets": [
+          "keep route-marker support as the first preferred map focus when active",
+          "fall back to GuidedFieldSeasonState.nextBiomeId when present before falling back to the current map location",
+          "prove beach-beat-complete starter state opens the world map focused on forest with no menu cycling",
+          "prove station close after Trail Stride returns to the world map focused on coastal-scrub",
+          "preserve station-return and season-close-return map-menu default to field-station"
+        ],
+        "non_goals": [
+          "new tutorial panel or overlay",
+          "authored science copy changes",
+          "field-station page redesign",
+          "save schema or migration changes",
+          "biome geometry changes",
+          "route-marker support behavior changes beyond preserving its existing priority"
+        ],
+        "verification": [
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance\"",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-lane-1-first-session-wayfinding-implementation.md",
+        "changed_files": [
+          "src/engine/game.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "notes": [
+          "route-marker support remains the first preferred world-map focus",
+          "guided nextBiomeId now becomes the fallback focus before current location",
+          "first-session runtime smoke proves Shore Shelter completion opens the map focused on forest",
+          "first-session runtime smoke proves station close after Trail Stride focuses coastal-scrub",
+          "station-return and season-close-return map-menu defaults still select field-station"
+        ],
+        "verified": [
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance\" passed",
+          "web-game client boot smoke passed with screenshot output/lane-1-main-334-browser/shot-0.png",
+          "custom browser proof for completed Shore Shelter save opened world-map focusedLocationId forest with no console/page errors",
+          "npm run build attempted but blocked by pre-existing unused declarations in src/test/field-requests.test.ts"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-lane-1-first-session-wayfinding-review.md",
+        "status": "clean",
+        "notes": [
+          "route-marker support remains the first preferred world-map focus",
+          "guided nextBiomeId fallback stays inside existing map/station/menu seams",
+          "first-session focused tests cover forest focus after Shore Shelter and coastal-scrub focus after Trail Stride",
+          "no tutorial panel, copy expansion, station redesign, route rewrite, save schema change, telemetry, or geometry change landed"
+        ],
+        "verified": [
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|route marker is already selected\" passed",
+          "git diff --check passed",
+          "npm run build attempted but blocked outside lane 1 by a concurrent src/test/field-requests.test.ts type issue"
+        ],
+        "next": "Promote ECO-20260420-scout-338 for packet 133."
+      }
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Cut and clarify onboarding copy around J/M/Enter, field station, first route, and first filed note while preserving kid-readable tone.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-first-session-onboarding-copy-handoff.md",
+        "main_335_target": "Make the first-session title, menu, guided-season notice, Shore Shelter route copy, and first ready-to-file note read as one kid-readable loop: J for notebook, M for map/station, and Enter to choose or file.",
+        "recommended_files": [
+          "src/engine/overlay-render.ts",
+          "src/engine/guided-field-season.ts",
+          "src/engine/field-requests.ts copy-only beach-shore-shelter strings",
+          "src/engine/field-season-board.ts first Shore Shelter beat detail if needed",
+          "src/test/overlay-copy.test.ts",
+          "src/test/guided-field-season.test.ts",
+          "src/test/field-season-board.test.ts",
+          "src/test/runtime-smoke.test.ts first-session assertions"
+        ],
+        "copy_targets": [
+          "title hint names M directly before map/station",
+          "menu intro/helper pairs world-map travel with field-station filing/support",
+          "fresh-save NOTEBOOK TASK uses physical clue language before log/file language",
+          "Shore Shelter summary avoids token-like hyphenated clue wording where player-facing",
+          "first ready-to-file line points through M -> Field station -> Enter"
+        ],
+        "non_goals": [
+          "menu selection defaults",
+          "menu action availability",
+          "route progression behavior",
+          "field-station state",
+          "save schema",
+          "world-map behavior",
+          "new tutorial panel or overlay",
+          "biome geometry",
+          "science fact rewrites beyond the first-route instruction copy"
+        ],
+        "verification": [
+          "npx vitest run src/test/overlay-copy.test.ts src/test/guided-field-season.test.ts src/test/field-season-board.test.ts src/test/runtime-smoke.test.ts -t \"first-session|guided field season|Shore Shelter|first field season\"",
+          "npm run validate:agents",
+          "git diff --check",
+          "npm run build if TypeScript runtime files change"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-first-session-onboarding-copy-implementation.md",
+        "changed_files": [
+          "src/engine/overlay-render.ts",
+          "src/engine/guided-field-season.ts",
+          "src/engine/field-requests.ts",
+          "src/engine/field-season-board.ts",
+          "src/test/overlay-copy.test.ts",
+          "src/test/guided-field-season.test.ts",
+          "src/test/field-season-board.test.ts",
+          "src/test/field-requests.test.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "verified": [
+          "focused Vitest copy and first-route slices passed",
+          "npm run build passed",
+          "npm run validate:agents passed with only the existing queue-size warning",
+          "git diff --check passed"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-first-session-onboarding-copy-review.md",
+        "status": "clean",
+        "notes": [
+          "first-session title, menu, starter notice, Shore Shelter, and ready-to-file copy now read as a single J / M / Enter loop",
+          "route evidence ids, progression behavior, station state, save schema, world-map behavior, tutorial surfaces, geometry, and science facts stayed unchanged",
+          "review rechecked focused copy/first-route Vitest slices, npm run build, and git diff --check"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-lane-3-first-session-visual-cue-review.md",
+        "status": "clean",
+        "notes": [
+          "first-session objective proof is tied to the existing beach-opening-shoulder frame",
+          "fresh screenshot/state/error targets stay under ignored output/alpha-screenshot-proof",
+          "pass conditions cover visible or nearby beach grass, active beach-shore-shelter, no large overlay, and no competing nearby travel target",
+          "geometry, route state, station/menu behavior, save schema, tutorial UI, support behavior, science copy, and committed screenshot output stayed unchanged"
+        ],
+        "next": "Promote ECO-20260420-scout-340 for packet 133."
+      }
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Tune initial beach/coastal visual landmarks only if the screenshot proof shows the player lacks a physical first objective cue.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-lane-3-first-session-visual-cue-handoff.md",
+        "main_336_target": "Harden the first-session beach objective proof without changing geometry unless fresh screenshot/state evidence shows the player lacks a physical first cue.",
+        "recommended_files": [
+          "docs/alpha-screenshot-proof-manifest.md",
+          "docs/reports/2026-04-20-lane-3-first-session-visual-cue-implementation.md"
+        ],
+        "proof_targets": [
+          "output/alpha-screenshot-proof/first-session-beach-objective.png",
+          "output/alpha-screenshot-proof/first-session-beach-objective.json",
+          "output/alpha-screenshot-proof/first-session-beach-objective-errors.json"
+        ],
+        "pass_conditions": [
+          "beach grass or authored dune-shoulder grass is visible or nearby at the first beach objective",
+          "`beach-shore-shelter` is active in the paired state",
+          "no large overlay covers the physical cue",
+          "no nearby travel target competes with the first objective"
+        ],
+        "non_goals": [
+          "route state",
+          "station behavior",
+          "menu behavior",
+          "save schema",
+          "field-request copy",
+          "science copy",
+          "tutorial panel",
+          "support-choice behavior",
+          "committed screenshot output",
+          "new coastline branch or route objective"
+        ],
+        "verification": [
+          "`npm run validate:agents`",
+          "`git diff --check`",
+          "if runtime or biome tests change, run focused beach/start tests plus `npm run build`"
+        ]
+      }
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Smoke first request activation and filing preview so the route loop teaches itself before support choices become relevant.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-first-session-route-loop-handoff.md",
+        "main_337_target": "Tighten the existing Shore Shelter runtime smoke so render_game_to_text proves first request activation, clue progress, ready-to-file state, station filing preview, filed notice, and next-route handoff without changing route behavior.",
+        "recommended_files": [
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "debug_checkpoints": [
+          "fresh start exposes active beach-shore-shelter with title Shore Shelter, progress 0/3 stages, routeV2 gathering, and no evidence slots",
+          "after beach grass and driftwood inspect, serialized activeFieldRequest.routeV2 evidence slots advance through dune-grass and lee-cover",
+          "after bull kelp wrack inspect, serialized activeFieldRequest.routeV2 status is ready-to-synthesize, active progress is Ready To File, and fieldRequestNotice.variant is notebook-ready",
+          "field-station routeBoard.notebookReady previews beach-shore-shelter with SHORE SHELTER and the clue-backed filed sentence before Enter files it",
+          "filing clears routeV2Progress, records beach-shore-shelter, emits a filed-route notice, and hands activeFieldRequest to forest-hidden-hollow"
+        ],
+        "coordination_notes": [
+          "Lane 1 owns menu focus defaults and station/menu travel behavior.",
+          "Lane 2 owns exact onboarding wording around J, M, Enter, Shore Shelter, and ready-to-file copy.",
+          "Lane 3 owns first-session physical cue proof and beach geometry only if screenshot/state evidence contradicts the current start.",
+          "Prefer structural assertions over broad exact-copy assertions while lane 2 copy work is active."
+        ],
+        "non_goals": [
+          "route behavior",
+          "route definitions",
+          "station layout",
+          "menu focus",
+          "save schema",
+          "support-choice behavior",
+          "beach geometry",
+          "science content",
+          "onboarding copy",
+          "tutorial panel",
+          "new UI",
+          "telemetry",
+          "screenshots",
+          "packet 133 full route matrix"
+        ],
+        "verification": [
+          "`npm test -- src/test/runtime-smoke.test.ts -t \"Shore Shelter\"` or a narrower equivalent focused on the edited first route-loop assertions passes",
+          "`npm run validate:agents` passes after queue and packet updates",
+          "`git diff --check` passes"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-first-session-route-loop-implementation.md",
+        "changed_files": [
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "verified": [
+          "npm test -- src/test/runtime-smoke.test.ts -t \"Shore Shelter\" passed"
+        ],
+        "notes": [
+          "Shore Shelter first-route runtime smoke now proves activation, routeV2 evidence progress, ready-to-file state, station preview, filing, and next-route handoff through existing debug output.",
+          "Route behavior, route definitions, station layout, menu focus, save schema, support choice, beach geometry, science content, onboarding copy, UI, telemetry, screenshots, and packet 133 matrix work stayed unchanged."
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-first-session-route-loop-review.md",
+        "status": "clean",
+        "notes": [
+          "Shore Shelter first-route smoke now has deterministic route-loop proof through existing debug output.",
+          "The review found no behavior, UI, geometry, station, save, science, copy, telemetry, screenshot, or packet 133 matrix drift.",
+          "Focused Shore Shelter runtime smoke was rechecked and passed."
+        ],
+        "next": "Promote ECO-20260420-scout-341 for packet 133."
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

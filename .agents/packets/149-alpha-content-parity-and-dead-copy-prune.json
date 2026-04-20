@@ -1,0 +1,352 @@
+{
+  "packet_id": "ECO-PACKET-149",
+  "version": 7,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Alpha content parity and dead-copy prune",
+  "summary": "Prune stale promises and align all live content surfaces with the completed alpha arc.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-alpha-content-parity-tooling-handoff.md",
+    "docs/reports/2026-04-20-alpha-content-parity-tooling-implementation.md",
+    "docs/reports/2026-04-20-alpha-content-parity-tooling-review.md",
+    "docs/reports/2026-04-20-route-support-doc-truth-handoff.md",
+    "docs/reports/2026-04-20-route-support-doc-truth-implementation.md",
+    "docs/reports/2026-04-20-route-support-doc-truth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-402",
+    "ECO-20260420-main-402",
+    "ECO-20260420-critic-402",
+    "ECO-20260420-scout-403",
+    "ECO-20260420-main-403",
+    "ECO-20260420-critic-403",
+    "ECO-20260420-scout-404",
+    "ECO-20260420-main-404",
+    "ECO-20260420-critic-404",
+    "ECO-20260420-scout-405",
+    "ECO-20260420-main-405",
+    "ECO-20260420-critic-405"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-398",
+    "ECO-20260420-critic-399",
+    "ECO-20260420-critic-400",
+    "ECO-20260420-critic-401"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-402",
+      "goal": "Prepare lane-1: Sync public docs and exposed commands with actual build/test/validate behavior after packaging fixes.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-402",
+      "goal": "Implement lane-1: Sync public docs and exposed commands with actual build/test/validate behavior after packaging fixes.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-402",
+      "goal": "Review lane-1: Sync public docs and exposed commands with actual build/test/validate behavior after packaging fixes.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-403",
+      "goal": "Prepare lane-2: Remove stale or redundant copy paths and ensure five-biome parity in notebook-facing surfaces.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-403",
+      "goal": "Implement lane-2: Remove stale or redundant copy paths and ensure five-biome parity in notebook-facing surfaces.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-403",
+      "goal": "Review lane-2: Remove stale or redundant copy paths and ensure five-biome parity in notebook-facing surfaces.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-404",
+      "goal": "Prepare lane-3: Update screenshot/contact-sheet docs for the representative five-biome alpha state.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-404",
+      "goal": "Implement lane-3: Update screenshot/contact-sheet docs for the representative five-biome alpha state.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-404",
+      "goal": "Review lane-3: Update screenshot/contact-sheet docs for the representative five-biome alpha state.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-405",
+      "goal": "Prepare lane-4: Ensure route/support documentation matches the actual Route v2 flow and no legacy request language leaks.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-405",
+      "goal": "Implement lane-4: Ensure route/support documentation matches the actual Route v2 flow and no legacy request language leaks.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-405",
+      "goal": "Review lane-4: Ensure route/support documentation matches the actual Route v2 flow and no legacy request language leaks.",
+      "why_now": "Prune stale promises and align all live content surfaces with the completed alpha arc."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "README.md",
+    "docs/architecture.md",
+    "docs/content-authoring.md",
+    "docs/reports/2026-04-20-route-support-doc-truth-implementation.md",
+    "docs/reports/2026-04-20-route-support-doc-truth-review.md",
+    "package.json",
+    "docs/review-drop-checklist.md",
+    "scripts/create-review-drop.mjs",
+    "scripts/verify-review-drop.mjs"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "No public or in-game copy promises unavailable systems; all five biomes feel represented in alpha documentation.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Sync public docs and exposed commands with actual build/test/validate behavior after packaging fixes.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Remove stale or redundant copy paths and ensure five-biome parity in notebook-facing surfaces.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Update screenshot/contact-sheet docs for the representative five-biome alpha state.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Ensure route/support documentation matches the actual Route v2 flow and no legacy request language leaks.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-402",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-content-parity-tooling-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "The package scripts already expose build, test, science source-ledger checking, agent validation, review-drop packaging, and review-drop verification.",
+      "The dedicated review-drop checklist already describes the clean-extract flow and the science-check gate.",
+      "README.md is the remaining public entrypoint drift: it omits science:check, review:pack, and review:verify from the useful-command list and still uses a generic archive-sharing note instead of the verified source-drop workflow."
+    ],
+    "main_scope": [
+      "Update README.md so Useful commands names npm run science:check, npm run review:pack, and npm run review:verify -- <archive.tgz>.",
+      "Separate fresh local verification from source review-drop verification in README.md.",
+      "Replace the generic node_modules archive note with a pointer to docs/review-drop-checklist.md and the review:pack/review:verify flow.",
+      "Leave docs/review-drop-checklist.md, package.json, scripts/create-review-drop.mjs, and scripts/verify-review-drop.mjs behavior unchanged unless a direct mismatch is found while editing."
+    ],
+    "non_goals": [
+      "No runtime code, route behavior, station state, save schema, test behavior, package script behavior, authored science/content, dated historical report, alpha promise, season-three or biome-six language, release date, direct API mode, crafting, combat, inventory, account, or planner UI change."
+    ],
+    "verification": [
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-402",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-content-parity-tooling-implementation.md",
+    "changed_files": [
+      "README.md",
+      "docs/reports/2026-04-20-alpha-content-parity-tooling-implementation.md"
+    ],
+    "result": [
+      "Added science:check, review:pack, and review:verify to README.md's useful command list.",
+      "Separated fresh local verification from source review-drop clean-extract verification in README.md.",
+      "Replaced the generic archive-sharing note with the dedicated review-drop pack/verify workflow and a pointer to docs/review-drop-checklist.md."
+    ],
+    "scope_notes": [
+      "Left package.json scripts, docs/review-drop-checklist.md, scripts/create-review-drop.mjs, scripts/verify-review-drop.mjs, runtime behavior, tests, save schema, authored content, and historical reports unchanged."
+    ],
+    "verification": [
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-402",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-content-parity-tooling-review.md",
+    "verdict": "clean",
+    "findings": [
+      "README.md now exposes the actual science-check and review-drop commands.",
+      "README.md's clean-extract verification description matches scripts/verify-review-drop.mjs.",
+      "The pass stayed docs-only and did not change package scripts, verifier behavior, runtime code, tests, save schema, authored content, historical reports, or future-scope promises."
+    ],
+    "verification": [
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_1_status": "clear; promote ECO-20260420-scout-406"
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-405",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-support-doc-truth-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "README.md still describes the filed alpha arc as having request cues after filing.",
+      "docs/architecture.md still leads the live loop section with field-request/request wording instead of Route v2 outing language.",
+      "docs/content-authoring.md lacks compact author guidance for Route v2/support wording, leaving room for quest, checklist, loadout, or planner promises to drift back in."
+    ],
+    "main_scope": [
+      "Update the README alpha-arc bullet so it names route/support/notebook cues instead of generic request cues.",
+      "Refresh docs/architecture.md prose around the progression section so player-facing language leads with Route v2 outings, field-season routes, notebook filing, replay labels, and the tiny support slot while keeping field-request module/save names accurate.",
+      "Add one short Route v2 and support copy guidance section to docs/content-authoring.md.",
+      "Keep the pass docs-only unless a direct typo in a doc link requires a tiny correction."
+    ],
+    "non_goals": [
+      "No runtime code, route definitions, support behavior, save schema, tests, station layout, station state, authored science facts, content roster, geometry, packaging scripts, review-drop workflow, historical report rewrites, code-module renames, save-field renames, lane-1 station copy, lane-2 science/content copy, or lane-3 screenshot/proof docs."
+    ],
+    "verification": [
+      "rg -n \"request cues|routes and requests|Field requests and guided season flow|quest|checklist|loadout|planner\" README.md docs/architecture.md docs/content-authoring.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-405",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-support-doc-truth-implementation.md",
+    "changed_files": [
+      "README.md",
+      "docs/architecture.md",
+      "docs/content-authoring.md",
+      "docs/reports/2026-04-20-route-support-doc-truth-implementation.md"
+    ],
+    "result": [
+      "Updated README.md so the completed alpha arc names route-support and notebook-return cues instead of generic request cues.",
+      "Refreshed docs/architecture.md so the progression section leads with Route v2 outings, notebook filing, replay cues, and the tiny support slot while preserving field-request compatibility names.",
+      "Added compact Route v2/support copy guidance to docs/content-authoring.md warning against quest, checklist, loadout, planner, inventory, or extra-support-slot promises.",
+      "Tightened the existing observationPrompt copy-budget wording from question to noticing prompt so the route/support scan no longer catches a generic quest substring."
+    ],
+    "scope_notes": [
+      "No runtime code, route definitions, support behavior, save schema, tests, station layout/state, authored science facts, content roster, geometry, packaging scripts, review-drop workflow, historical reports, code-module renames, or save-field renames changed."
+    ],
+    "verification": [
+      "rg -n \"request cues|routes and requests|Field requests and guided season flow|quest|checklist|loadout|planner\" README.md docs/architecture.md docs/content-authoring.md",
+      "rg -n \"request cues|routes and requests|Field requests and guided season flow\" README.md docs/architecture.md docs/content-authoring.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-405",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-support-doc-truth-review.md",
+    "verdict": "clean",
+    "scope_notes": [
+      "Confirmed README.md no longer describes the completed alpha arc as generic request cues.",
+      "Confirmed docs/architecture.md leads with Route v2 outings, notebook filing, replay cues, and the tiny support slot while preserving accurate field-request module/save names.",
+      "Confirmed docs/content-authoring.md warns against quest/checklist/loadout/planner promises without implying new systems.",
+      "Confirmed remaining broad grep matches are intentional compatibility/code names, review-drop checklist wording, or the new authoring warning only.",
+      "Confirmed no runtime code, route definitions, support behavior, save schema, tests, station layout/state, authored science facts, content roster, geometry, packaging scripts, review-drop workflow, historical reports, code-module renames, or save-field renames changed."
+    ],
+    "promoted_next": "ECO-20260420-scout-409",
+    "verification": [
+      "rg -n \"request cues|routes and requests|Field requests and guided season flow|quest|checklist|loadout|planner\" README.md docs/architecture.md docs/content-authoring.md",
+      "rg -n \"request cues|routes and requests|Field requests and guided season flow\" README.md docs/architecture.md docs/content-authoring.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  }
+}

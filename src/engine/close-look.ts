@@ -92,6 +92,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Old wood can hold water and give new plants a gentler start.',
     spriteScale: 6,
   },
+  'shore-pine': {
+    callouts: ['wind-shaped crown', 'shelter edge'],
+    sentence: 'Wind-bent shore pines mark where open sand starts settling into cover.',
+    spriteScale: 6,
+  },
   'pacific-wax-myrtle': {
     callouts: ['waxy berries', 'leaf cluster'],
     sentence: 'Dark berries help mark where coastal scrub starts holding steadier cover.',
@@ -120,6 +125,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
   'seep-moss-mat': {
     callouts: ['wet stone grip', 'clinging moss'],
     sentence: 'Seep water keeps this moss patch clinging to wet stone.',
+    spriteScale: 6,
+  },
+  'root-curtain': {
+    callouts: ['hanging roots', 'drip shelter'],
+    sentence: 'Root tangles slow drips and make a dim shelter above the cave floor.',
     spriteScale: 6,
   },
   'tree-lungwort': {

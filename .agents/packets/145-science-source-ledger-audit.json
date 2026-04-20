@@ -1,0 +1,452 @@
+{
+  "packet_id": "ECO-PACKET-145",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Science source-ledger audit",
+  "summary": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-handoff.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-implementation.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-review.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-handoff.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-implementation.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-review.md",
+    "docs/reports/2026-04-20-route-evidence-language-handoff.md",
+    "docs/reports/2026-04-20-route-evidence-language-implementation.md",
+    "docs/reports/2026-04-20-route-evidence-language-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-386",
+    "ECO-20260420-main-386",
+    "ECO-20260420-critic-386",
+    "ECO-20260420-scout-387",
+    "ECO-20260420-main-387",
+    "ECO-20260420-critic-387",
+    "ECO-20260420-scout-388",
+    "ECO-20260420-main-388",
+    "ECO-20260420-critic-388",
+    "ECO-20260420-scout-389",
+    "ECO-20260420-main-389",
+    "ECO-20260420-critic-389"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-382",
+    "ECO-20260420-critic-383",
+    "ECO-20260420-critic-384",
+    "ECO-20260420-critic-385"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-386",
+      "goal": "Prepare lane-1: Add tooling or checklist support for ledger coverage if feasible; otherwise keep to docs and tests.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-386",
+      "goal": "Implement lane-1: Add tooling or checklist support for ledger coverage if feasible; otherwise keep to docs and tests.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-386",
+      "goal": "Review lane-1: Add tooling or checklist support for ledger coverage if feasible; otherwise keep to docs and tests.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-387",
+      "goal": "Prepare lane-2: Audit live science claims by cluster, update the source ledger, and flag only high-risk unsupported claims for rewrite.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-387",
+      "goal": "Implement lane-2: Audit live science claims by cluster, update the source ledger, and flag only high-risk unsupported claims for rewrite.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-387",
+      "goal": "Review lane-2: Audit live science claims by cluster, update the source ledger, and flag only high-risk unsupported claims for rewrite.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-388",
+      "goal": "Prepare lane-3: Identify any visual/spatial science claims that need physical adjustment, such as misleading habitat placement.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-388",
+      "goal": "Implement lane-3: Identify any visual/spatial science claims that need physical adjustment, such as misleading habitat placement.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-388",
+      "goal": "Review lane-3: Identify any visual/spatial science claims that need physical adjustment, such as misleading habitat placement.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-389",
+      "goal": "Prepare lane-4: Audit route evidence claims so filed notes do not overstate causal relationships beyond observed evidence.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-389",
+      "goal": "Implement lane-4: Audit route evidence claims so filed notes do not overstate causal relationships beyond observed evidence.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-389",
+      "goal": "Review lane-4: Audit route evidence claims so filed notes do not overstate causal relationships beyond observed evidence.",
+      "why_now": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/145-science-source-ledger-audit.json",
+    "package.json",
+    "scripts/verify-review-drop.mjs",
+    "docs/review-drop-checklist.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-handoff.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-implementation.md",
+    "docs/reports/2026-04-20-science-source-ledger-tooling-review.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-handoff.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-implementation.md",
+    "docs/reports/2026-04-20-science-source-ledger-audit-review.md",
+    "docs/reports/2026-04-20-route-evidence-language-handoff.md",
+    "docs/reports/2026-04-20-route-evidence-language-implementation.md",
+    "docs/reports/2026-04-20-route-evidence-language-review.md",
+    "docs/science-source-ledger.md",
+    "src/engine/field-requests.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "Every player-facing science cluster touched by the alpha arc has a ledger entry or an explicit follow-up gap.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Add tooling or checklist support for ledger coverage if feasible; otherwise keep to docs and tests.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Audit live science claims by cluster, update the source ledger, and flag only high-risk unsupported claims for rewrite.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Identify any visual/spatial science claims that need physical adjustment, such as misleading habitat placement.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Audit route evidence claims so filed notes do not overstate causal relationships beyond observed evidence.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-386",
+    "report": "docs/reports/2026-04-20-science-source-ledger-tooling-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 2 already completed the science-ledger coverage rows and generalized content-quality guards.",
+      "Lane 1 should make that gate explicit in package and review-drop tooling instead of taking over authored science copy.",
+      "The focused source-ledger proof is currently npm test -- --run src/test/content-quality.test.ts and passes."
+    ],
+    "main_scope": [
+      "Add a package script such as science:check for the focused content-quality/source-ledger gate.",
+      "Update scripts/verify-review-drop.mjs to require docs/science-source-ledger.md and src/test/content-quality.test.ts, then run npm run science:check before the full npm test.",
+      "Update docs/review-drop-checklist.md so the source-ledger gate is visible in the local review-drop checklist and clean extract proof description.",
+      "Add a dated implementation report."
+    ],
+    "non_goals": [
+      "No edits to docs/science-source-ledger.md, src/content/**, src/test/content-quality.test.ts, authored science copy, route prose, station/runtime behavior, save schema, geometry, or UI unless the new tooling exposes a real failure.",
+      "No new ledger rows, no science claim rewrites, and no broader review-drop archive policy changes beyond the source-ledger gate."
+    ],
+    "verification": [
+      "npm run science:check",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run validate:agents",
+      "npm run build",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-386",
+    "report": "docs/reports/2026-04-20-science-source-ledger-tooling-implementation.md",
+    "changed_files": [
+      "package.json",
+      "scripts/verify-review-drop.mjs",
+      "docs/review-drop-checklist.md",
+      "docs/reports/2026-04-20-science-source-ledger-tooling-implementation.md"
+    ],
+    "result": [
+      "Added npm run science:check as the focused source-ledger/content-quality gate.",
+      "Updated review-drop verification to require docs/science-source-ledger.md and src/test/content-quality.test.ts in archives.",
+      "Updated review-drop verification to run npm run science:check after agent validation and before full npm test.",
+      "Updated the review-drop checklist so source-ledger coverage is explicit in local pre-pack and clean extract proof steps.",
+      "Left docs/science-source-ledger.md, src/content/**, src/test/content-quality.test.ts, authored science copy, station/runtime behavior, route behavior, world-map behavior, save schema, geometry, and UI unchanged."
+    ],
+    "verification": [
+      "npm run science:check",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run build"
+    ]
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-386",
+    "report": "docs/reports/2026-04-20-science-source-ledger-tooling-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "npm run science:check is a focused source-ledger/content-quality gate.",
+      "Review-drop verification requires docs/science-source-ledger.md and src/test/content-quality.test.ts in archives.",
+      "Review-drop verification runs npm run science:check before the full npm test.",
+      "The checklist makes source-ledger proof visible before packaging and in clean extract verification.",
+      "No source-ledger rows, content rosters, content-quality assertions, authored science copy, station/runtime behavior, route behavior, world-map behavior, save schema, geometry, or UI changed for this lane-1 pass."
+    ],
+    "scope_note": "The shared worktree remains dirty and includes untracked review-drop files plus unrelated lane work; this review is scoped to packet 145 lane-1 tooling changes.",
+    "lane_1_status": "clear; promote ECO-20260420-scout-390",
+    "verification": [
+      "npm run science:check",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-387",
+    "report": "docs/reports/2026-04-20-science-source-ledger-audit-handoff.md",
+    "audit_summary": {
+      "live_inspectable_entry_ids_checked": 74,
+      "entry_ledger_gap": [
+        "fallen-giant-log"
+      ],
+      "process_moments_with_existing_support": [
+        "wrack-hold"
+      ],
+      "process_moment_ledger_gaps": [
+        "sand-capture",
+        "moisture-hold",
+        "frost-rime",
+        "thaw-fringe"
+      ],
+      "high_risk_claims_found": []
+    },
+    "main_scope": [
+      "Update docs/science-source-ledger.md status/date for the alpha audit.",
+      "Add a Forest fallen-giant-log ledger row, likely Watch unless a more exact official source trail supports Verified.",
+      "Add process-support rows or short process subsections for sand-capture, moisture-hold, frost-rime, and thaw-fringe.",
+      "Extend src/test/content-quality.test.ts so every live authored biome entry id and every live processMoments id has a source-ledger marker.",
+      "Do not rewrite content copy unless the implementation finds a true Risk claim; the scout found coverage gaps only."
+    ],
+    "suggested_source_anchors": {
+      "fallen-giant-log": "Reuse nurse-log, old-wood, and western-hemlock-seedling source families; keep it framed as a habitat landmark rather than a taxon.",
+      "sand-capture": "Reuse beach/coastal dune plant sources already backing beach-grass, dune-lupine, sand-verbena, and pacific-wax-myrtle.",
+      "moisture-hold": "Reuse forest-floor and moist-edge sources already backing sword-fern, redwood-sorrel, salmonberry, seep-stone, and seep-moss-mat.",
+      "frost-rime": "Reuse cold-ground, low-shrub, lichen, and freeze-thaw sources backing dwarf-birch, reindeer-lichen, and frost-heave-boulder; mark as broad Watch if it remains a visual process rather than an exact meteorology lesson.",
+      "thaw-fringe": "Reuse tundra thaw/moist-ground sources backing arctic-willow, purple-saxifrage, cottongrass, and tussock-thaw-channel."
+    },
+    "non_goals": [
+      "No new species, inspectables, close-look cards, ecosystem notes, route tasks, world-map behavior, station state, save behavior, geometry, or UI.",
+      "No broad web-source expansion unless an item cannot be supported by existing official-source families.",
+      "No lane-3 spatial placement fixes and no lane-4 route evidence rewrite in this lane-2 scout/main pair."
+    ],
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "completed_by": "ECO-20260420-main-387",
+    "report": "docs/reports/2026-04-20-science-source-ledger-audit-implementation.md",
+    "changed_files": [
+      "docs/science-source-ledger.md",
+      "src/test/content-quality.test.ts",
+      "docs/reports/2026-04-20-science-source-ledger-audit-implementation.md"
+    ],
+    "result": [
+      "Updated the science source ledger alpha-audit status/date.",
+      "Added Watch source-ledger support for fallen-giant-log and process-support rows for sand-capture, moisture-hold, frost-rime, and thaw-fringe.",
+      "Added generalized content-quality coverage so every live authored biome entry id and every live processMoments id has a science-ledger marker.",
+      "Preserved authored science copy, species, inspectables, close-look cards, ecosystem notes, route tasks, world-map behavior, station state, save behavior, geometry, and UI."
+    ],
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "completed_by": "ECO-20260420-critic-387",
+    "report": "docs/reports/2026-04-20-science-source-ledger-audit-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "fallen-giant-log now has a conservative Watch ledger row as a habitat landmark.",
+      "sand-capture, moisture-hold, frost-rime, and thaw-fringe now have process-support ledger markers.",
+      "The generalized content-quality guard covers every live authored biome entry id and every live processMoments id.",
+      "A focused coverage audit found 74 live inspectable entries with 0 missing rows and 5 process moments with 0 missing markers.",
+      "Authored content copy, species, inspectables, close-look cards, ecosystem notes, route tasks, world-map behavior, station state, save behavior, geometry, and UI stayed unchanged for this packet."
+    ],
+    "scope_note": "The shared dirty worktree includes earlier lane edits in src/test/content-quality.test.ts; this review is scoped to packet 145 ledger rows and the two new generalized source-ledger tests.",
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-389",
+    "report": "docs/reports/2026-04-20-route-evidence-language-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 2 already closed packet 145 source-ledger coverage for live entries and process moments.",
+      "Lane 4 should not add ledger rows or rewrite broad science copy.",
+      "The remaining route-facing risk is two filed-note phrases that sound more causal or developmental than the gathered route evidence proves."
+    ],
+    "main_scope": [
+      "In src/engine/field-requests.ts, soften beach-shore-shelter filed text and clueBackedTail away from shelter grows from dune edge to tide line toward an observation-led mark shelter from dune edge to tide line wording.",
+      "In src/engine/field-requests.ts, soften coastal-shelter-shift filed text and clueBackedTail away from coast settling into forest-edge shelter toward an observation-led open coast meeting forest-edge shelter wording.",
+      "Update src/test/content-quality.test.ts route-note anchors and add a tiny guard that the two overclaim phrases do not return.",
+      "Update src/test/field-requests.test.ts route filed-note anchors, expected includes, and exact string expectations for the two changed notes and the Wrack Shelter variant.",
+      "Add a dated implementation report."
+    ],
+    "non_goals": [
+      "No docs/science-source-ledger.md changes, new source rows, broad web-source expansion, or lane-2 authored biome copy rewrites.",
+      "No route progression, support, station, world-map, save/schema, geometry, UI, filing-state, route summary, active process title, ready text, or evidence-slot behavior changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route-state matrix|filed-note|Shore Shelter|Open To Shelter\"",
+      "npm run science:check",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-389",
+    "report": "docs/reports/2026-04-20-route-evidence-language-implementation.md",
+    "changed_files": [
+      "src/engine/field-requests.ts",
+      "src/test/content-quality.test.ts",
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-route-evidence-language-implementation.md"
+    ],
+    "result": [
+      "Softened beach-shore-shelter filed-note text and clueBackedTail to mark shelter from dune edge to tide line instead of saying shelter grows.",
+      "Softened coastal-shelter-shift filed-note text and clueBackedTail to mark open coast meeting forest-edge shelter instead of saying the coast is settling.",
+      "Updated focused field-request expectations and content-quality route-note anchors.",
+      "Added a tiny content-quality guard against the two overclaim phrases returning.",
+      "Preserved route progression, evidence slots, active route titles, ready text, support behavior, station behavior, world-map behavior, save/schema behavior, geometry, UI, and science-ledger rows."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route-state matrix|filed-note|Shore Shelter|Open To Shelter\"",
+      "npm run science:check",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-389",
+    "report": "docs/reports/2026-04-20-route-evidence-language-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "Shore Shelter filed-note text is now observation-led and avoids the prior shelter grows phrasing.",
+      "Open To Shelter filed-note text is now observation-led and avoids the prior coast settling phrasing.",
+      "content-quality coverage rejects the two exact overclaim phrases if they return.",
+      "field-requests coverage still checks clue-backed filed-note generated text, including the Wrack Shelter variant.",
+      "Route progression, support behavior, station behavior, world-map behavior, save/schema behavior, geometry, UI, evidence slots, active process titles, ready text, and science-ledger rows stayed unchanged for this packet."
+    ],
+    "lane_4_status": "clear; promote ECO-20260420-scout-393",
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route-state matrix|filed-note|Shore Shelter|Open To Shelter\"",
+      "npm run science:check",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  }
+}

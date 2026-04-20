@@ -1,0 +1,254 @@
+{
+  "packet_id": "ECO-PACKET-155",
+  "version": 4,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "External playtest feedback batch one",
+  "summary": "Use the completed alpha arc to absorb real feedback without thrashing the architecture.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-handoff.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-implementation.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-426",
+    "ECO-20260420-main-426",
+    "ECO-20260420-critic-426",
+    "ECO-20260420-scout-427",
+    "ECO-20260420-main-427",
+    "ECO-20260420-critic-427",
+    "ECO-20260420-scout-428",
+    "ECO-20260420-main-428",
+    "ECO-20260420-critic-428",
+    "ECO-20260420-scout-429",
+    "ECO-20260420-main-429",
+    "ECO-20260420-critic-429"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-422",
+    "ECO-20260420-critic-423",
+    "ECO-20260420-critic-424",
+    "ECO-20260420-critic-425"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-426",
+      "goal": "Prepare lane-1: Triage systems/usability feedback and implement only small state/focus/save fixes with clear reproduction.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-426",
+      "goal": "Implement lane-1: Triage systems/usability feedback and implement only small state/focus/save fixes with clear reproduction.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-426",
+      "goal": "Review lane-1: Triage systems/usability feedback and implement only small state/focus/save fixes with clear reproduction.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-427",
+      "goal": "Prepare lane-2: Triage comprehension/science/copy feedback and implement only relation-clarifying edits under budget.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-427",
+      "goal": "Implement lane-2: Triage comprehension/science/copy feedback and implement only relation-clarifying edits under budget.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-427",
+      "goal": "Review lane-2: Triage comprehension/science/copy feedback and implement only relation-clarifying edits under budget.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-428",
+      "goal": "Prepare lane-3: Triage spatial confusion feedback and implement only small readability fixes to existing places.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-428",
+      "goal": "Implement lane-3: Triage spatial confusion feedback and implement only small readability fixes to existing places.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-428",
+      "goal": "Review lane-3: Triage spatial confusion feedback and implement only small readability fixes to existing places.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-429",
+      "goal": "Prepare lane-4: Triage route/support/replay feedback and implement only fixes that preserve current Route v2 shell.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-429",
+      "goal": "Implement lane-4: Triage route/support/replay feedback and implement only fixes that preserve current Route v2 shell.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-429",
+      "goal": "Review lane-4: Triage route/support/replay feedback and implement only fixes that preserve current Route v2 shell.",
+      "why_now": "Use the completed alpha arc to absorb real feedback without thrashing the architecture."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/155-external-playtest-feedback-batch-one.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-handoff.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-implementation.md",
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-review.md",
+    "src/engine/game.ts",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "lane_1_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "Fresh first-session menu focus still defaults to world-map even when the guided starter target is the current Sunny Beach opener.",
+    "evidence": [
+      ".agents/project-memory.md says starter-stage menu focus should only default to world-map when guided nextBiomeId differs from the current biome.",
+      "src/engine/game.ts has the guarded starter check, then falls through to the generic in-biome world-map default.",
+      "src/test/runtime-smoke.test.ts still expects world-map for the fresh nextBiomeId: beach starter state."
+    ],
+    "main_contract": [
+      "Restore the intended fresh/current-biome starter default so it does not select world-map before Shore Shelter.",
+      "Keep the post-Shore Shelter next-habitat default on world-map and keep station-return/season-close world-map menus defaulting to field-station.",
+      "Refresh only focused runtime-smoke coverage for this first-session menu-focus behavior."
+    ],
+    "non_goals": [
+      "No guided-season copy rewrite.",
+      "No route, station, save, world-map focus-order, field-guide export, geometry, science content, or tooling changes.",
+      "No new tutorial panel, HUD, or onboarding state."
+    ]
+  },
+  "lane_1_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "summary": "Fresh/current-biome starter menus now prefer field-guide instead of world-map, while post-Shore-Shelter next-habitat and station-return defaults remain covered.",
+    "changed_paths": [
+      "src/engine/game.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-first-session-menu-focus-feedback-implementation.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"arms sound after input\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"shows notebook prompts in the journal and reuses them in the copied field-guide prompt\"",
+      "npm run build"
+    ],
+    "known_noise": "Full runtime-smoke remains red in the dirty tree on broader map-focus / route-replay expectations and an unrelated High Pass rime-footing copy expectation outside this item."
+  },
+  "lane_1_critic_result": {
+    "status": "CLEAR",
+    "summary": "No blocker found. The fresh/current-biome starter menu no longer selects world-map, while the later guided world-map and station-return defaults remain covered.",
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"arms sound after input\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"shows notebook prompts in the journal and reuses them in the copied field-guide prompt\"",
+      "npm run build"
+    ],
+    "follow_up": "No lane-1 follow-up needed for this packet item."
+  },
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "F / Feedback",
+  "completion_gate": "Feedback items are triaged into keep/fix/defer, with only high-confidence fixes entering the lanes.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Triage systems/usability feedback and implement only small state/focus/save fixes with clear reproduction.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Triage comprehension/science/copy feedback and implement only relation-clarifying edits under budget.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Triage spatial confusion feedback and implement only small readability fixes to existing places.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Triage route/support/replay feedback and implement only fixes that preserve current Route v2 shell.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

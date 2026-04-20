@@ -65,8 +65,12 @@ import {
   type FieldPartnerTrigger,
 } from './field-partner';
 import {
+  canShowGuidedFieldSeasonNotice,
   createNotebookReadyFieldNotice,
   resolveRecordedFieldRequestNotice,
+  shouldAdvanceFieldRequestNoticeTimer,
+  shouldClearFieldNoticeForHomecoming,
+  shouldReplaceFieldNotice,
   type FieldNoticeDescriptor,
   type FieldNoticeVariant,
 } from './field-notices';
@@ -78,6 +82,7 @@ import {
 } from './field-requests';
 import { resolveGuidedFieldSeasonState } from './guided-field-season';
 import { createAudioEngine, resolveAmbientProfileId } from './audio';
+import { serializeDebugSaveSnapshots } from './debug-save-snapshots';
 import { drawBiomeScene } from './biome-scene-render';
 import { buildCloseLookPayload } from './close-look';
 import { findClimbGrabTarget, findClimbHintTarget } from './climb-navigation';
@@ -113,10 +118,6 @@ import {
   drawCloseLookOverlay,
   drawBubbleOverlay,
   drawHabitatChip,
-  drawFieldPartnerNotice,
-  drawFieldGuideNotice,
-  drawFieldRequestHintChip,
-  drawFieldRequestNotice,
   drawFieldStationOverlay,
   drawJournalOverlay,
   drawMenuChip,
@@ -133,6 +134,12 @@ import {
   type JournalScrollHitTarget,
   type MenuActionId,
 } from './overlay-render';
+import {
+  drawFieldGuideNotice,
+  drawFieldPartnerNotice,
+  drawFieldRequestHintChip,
+  drawFieldRequestNotice,
+} from './field-notice-overlays';
 import { clamp } from './random';
 import { copyTextToClipboard } from './clipboard';
 import {
@@ -207,6 +214,7 @@ interface PlayerState {
 interface TextRenderableWindow extends Window {
   advanceTime?: (ms: number) => void;
   render_game_to_text?: () => string;
+  get_debug_save_snapshots?: () => string;
 }
 
 type SceneMode = 'biome' | 'world-map' | 'transition';
@@ -515,7 +523,9 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (syncNurseryState(save)) {
       persistSave(save);
     }
-    return resolveFieldStationState(biomeRegistry, save, getFieldStationSelections());
+    return resolveFieldStationState(biomeRegistry, save, getFieldStationSelections(), {
+      arrivalMode: fieldStationArrivalMode,
+    });
   }
 
   function getFieldRequestController(focusedWorldMapLocationId: string | null = null) {
@@ -540,8 +550,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getFieldRequestController().routeMarkerLocationId;
   }
 
+  function getGuidedWorldMapFocusLocationId(): string | null {
+    const guidedFieldSeason = getGuidedFieldSeasonState();
+    if (!guidedFieldSeason.nextBiomeId) {
+      return null;
+    }
+
+    return getWorldMapLocationByBiomeId(ecoWorldMap, guidedFieldSeason.nextBiomeId).id;
+  }
+
   function getPreferredWorldMapFocusLocationId(fallbackLocationId: string): string {
-    return getRouteMarkerLocationId() ?? fallbackLocationId;
+    return getRouteMarkerLocationId() ?? getGuidedWorldMapFocusLocationId() ?? fallbackLocationId;
   }
 
   function getWorldMapReplayLabel(focusedLocationId: string): string | null {
@@ -601,6 +620,10 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     if (openState.persistNeeded) {
       persistSave(save);
     }
+    if (openState.arrivalMode === 'homecoming' && shouldClearFieldNoticeForHomecoming(fieldRequestNotice)) {
+      fieldRequestNotice = null;
+      fieldRequestNoticeTimer = 0;
+    }
     selectedFieldStationView = 'season';
     selectedFieldStationSeasonPage = 'routes';
     outingSupportSelected = false;
@@ -651,6 +674,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     const available = getMenuActionIds();
     const guidedFieldSeason = getGuidedFieldSeasonState();
     const inBiomePlayMenu = menuReturnMode === 'playing' && sceneMode === 'biome';
+    const guidedStarterTargetIsHere = inBiomePlayMenu
+      && activeCorridor === null
+      && guidedFieldSeason.stage === 'starter'
+      && guidedFieldSeason.nextBiomeId !== null
+      && guidedFieldSeason.nextBiomeId === getContextBiomeId();
 
     if (
       inBiomePlayMenu &&
@@ -678,6 +706,16 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       available.includes('field-station')
     ) {
       return 'field-station';
+    }
+
+    if (guidedStarterTargetIsHere) {
+      if (available.includes('field-guide')) {
+        return 'field-guide';
+      }
+
+      if (available.includes('close-menu')) {
+        return 'close-menu';
+      }
     }
 
     if (
@@ -1236,11 +1274,16 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     variant: FieldNoticeVariant = 'default',
   ): void {
     startFieldPartnerQuiet();
-    fieldRequestNotice = {
+    const nextNotice: FieldRequestNotice = {
       title,
       text,
       variant,
     };
+    if (!shouldReplaceFieldNotice(fieldRequestNotice, nextNotice, { overlayMode })) {
+      return;
+    }
+
+    fieldRequestNotice = nextNotice;
     fieldRequestNoticeTimer = seconds;
   }
 
@@ -1259,7 +1302,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedStarterNoticeShown ||
       guidedFieldSeason.stage !== 'starter' ||
       !guidedFieldSeason.promptNotice ||
-      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+      !canShowGuidedFieldSeasonNotice(fieldRequestNotice, guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1274,7 +1317,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedStationNoticeShown ||
       guidedFieldSeason.stage !== 'station-return' ||
       !guidedFieldSeason.promptNotice ||
-      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+      !canShowGuidedFieldSeasonNotice(fieldRequestNotice, guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1290,7 +1333,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedSeasonCapstoneNoticeShown ||
       guidedFieldSeason.stage !== 'season-capstone' ||
       !guidedFieldSeason.promptNotice ||
-      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+      !canShowGuidedFieldSeasonNotice(fieldRequestNotice, guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1305,7 +1348,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedSeasonCloseReturnNoticeShown ||
       guidedFieldSeason.stage !== 'season-close-return' ||
       !guidedFieldSeason.promptNotice ||
-      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+      !canShowGuidedFieldSeasonNotice(fieldRequestNotice, guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1325,7 +1368,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       guidedNextStopNoticeShown ||
       guidedFieldSeason.stage !== 'next-habitat' ||
       !guidedFieldSeason.promptNotice ||
-      !canShowGuidedFieldSeasonNotice(guidedFieldSeason.promptNotice.title)
+      !canShowGuidedFieldSeasonNotice(fieldRequestNotice, guidedFieldSeason.promptNotice.title)
     ) {
       return;
     }
@@ -1345,22 +1388,6 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     }
 
     showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, FIELD_NOTICE_IMPORTANT_SECONDS);
-  }
-
-  function canShowGuidedFieldSeasonNotice(nextTitle: string): boolean {
-    if (!fieldRequestNotice) {
-      return true;
-    }
-
-    return isGuidedFieldSeasonNoticeTitle(fieldRequestNotice.title)
-      && isGuidedFieldSeasonNoticeTitle(nextTitle);
-  }
-
-  function isGuidedFieldSeasonNoticeTitle(title: string): boolean {
-    return title === 'NOTEBOOK TASK'
-      || title === 'FIELD STATION'
-      || title === 'NEXT STOP'
-      || title === 'SEASON THREADS';
   }
 
   function maybeCompleteActiveFieldRequest(
@@ -1999,19 +2026,36 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     setSelectedJournalEntryId(discovered[nextIndex].id);
   }
 
+  function setFullscreenPreference(enabled: boolean): void {
+    save.settings.fullscreen = enabled;
+    persistSave(save);
+  }
+
   function toggleFullscreen(): void {
     if (document.fullscreenElement) {
-      if (typeof document.exitFullscreen === 'function') {
-        void document.exitFullscreen();
+      if (typeof document.exitFullscreen !== 'function') {
+        setFullscreenPreference(false);
+        return;
       }
-      save.settings.fullscreen = false;
-    } else {
-      if (typeof canvas.requestFullscreen === 'function') {
-        void canvas.requestFullscreen();
-      }
-      save.settings.fullscreen = true;
+
+      void Promise.resolve(document.exitFullscreen())
+        .then(() => setFullscreenPreference(false))
+        .catch(() => setFullscreenPreference(true));
+      return;
     }
-    persistSave(save);
+
+    if (typeof canvas.requestFullscreen !== 'function') {
+      setFullscreenPreference(false);
+      return;
+    }
+
+    try {
+      void Promise.resolve(canvas.requestFullscreen())
+        .then(() => setFullscreenPreference(true))
+        .catch(() => setFullscreenPreference(false));
+    } catch {
+      setFullscreenPreference(false);
+    }
   }
 
   function startPlaying(): void {
@@ -3026,7 +3070,14 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       fieldStationArrivalPulseTimer = Math.max(0, fieldStationArrivalPulseTimer - dt);
     }
 
-    if (fieldRequestNotice) {
+    if (
+      fieldRequestNotice &&
+      shouldAdvanceFieldRequestNoticeTimer({
+        overlayMode,
+        sceneMode,
+        hasVisibleFieldGuideNotice: Boolean(fieldGuideNotice && sceneMode === 'biome'),
+      })
+    ) {
       fieldRequestNoticeTimer = Math.max(0, fieldRequestNoticeTimer - dt);
       if (fieldRequestNoticeTimer <= 0) {
         fieldRequestNotice = null;
@@ -3515,6 +3566,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         seasonWrap: fieldStationState.seasonWrap,
         selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
         nursery: fieldStationState.nursery,
+        homecoming: fieldStationState.homecoming,
         arrivalPulse: getFieldStationArrivalPulse(),
         arrivalMode: fieldStationArrivalMode,
       });
@@ -3783,6 +3835,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
                   loggedRouteCount: fieldStationState.atlas?.loggedRoutes.length ?? 0,
                   seasonWrap: fieldStationState.seasonWrap,
                   routeBoard: fieldStationState.routeBoard,
+                  homecoming: fieldStationState.homecoming,
                 }),
               )
             : null,
@@ -3791,11 +3844,13 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         subtitle: fieldStationState.subtitle,
         credits: fieldStationState.credits,
         selectedOutingSupportId: fieldStationState.selectedOutingSupportId,
+        selectedOutingSupportLabel: fieldStationState.selectedOutingSupportLabel,
         outingSupportSelected: fieldStationState.outingSupportSelected,
         recentSources: fieldStationState.recentSources,
         selectedUpgradeId: fieldStationState.selectedUpgradeId,
         arrivalPulse: Number(getFieldStationArrivalPulse().toFixed(2)),
         arrivalMode: fieldStationArrivalMode,
+        homecoming: fieldStationState.homecoming,
         selectedNurseryCardId: fieldStationState.selectedNurseryCardId,
         selectedNurseryProjectId: fieldStationState.nursery.selectedProjectId,
         seasonNote: fieldStationState.seasonNote,
@@ -3983,6 +4038,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     render();
   };
   externalWindow.render_game_to_text = renderGameToText;
+  externalWindow.get_debug_save_snapshots = serializeDebugSaveSnapshots;
 
   requestAnimationFrame(tick);
 

@@ -1,0 +1,238 @@
+{
+  "packet_id": "ECO-PACKET-157",
+  "version": 2,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Alpha release candidate and post-alpha scope gate",
+  "summary": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-434",
+    "ECO-20260420-main-434",
+    "ECO-20260420-critic-434",
+    "ECO-20260420-scout-435",
+    "ECO-20260420-main-435",
+    "ECO-20260420-critic-435",
+    "ECO-20260420-scout-436",
+    "ECO-20260420-main-436",
+    "ECO-20260420-critic-436",
+    "ECO-20260420-scout-437",
+    "ECO-20260420-main-437",
+    "ECO-20260420-critic-437"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-430",
+    "ECO-20260420-critic-431",
+    "ECO-20260420-critic-432",
+    "ECO-20260420-critic-433"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-434",
+      "goal": "Prepare lane-1: Own RC packaging, command verification, README/progress sync, and source-complete archive instructions.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-434",
+      "goal": "Implement lane-1: Own RC packaging, command verification, README/progress sync, and source-complete archive instructions.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-434",
+      "goal": "Review lane-1: Own RC packaging, command verification, README/progress sync, and source-complete archive instructions.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-435",
+      "goal": "Prepare lane-2: Own final alpha content/science signoff and post-alpha content risk list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-435",
+      "goal": "Implement lane-2: Own final alpha content/science signoff and post-alpha content risk list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-435",
+      "goal": "Review lane-2: Own final alpha content/science signoff and post-alpha content risk list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-436",
+      "goal": "Prepare lane-3: Own final screenshot/contact-sheet proof and post-alpha spatial opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-436",
+      "goal": "Implement lane-3: Own final screenshot/contact-sheet proof and post-alpha spatial opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-436",
+      "goal": "Review lane-3: Own final screenshot/contact-sheet proof and post-alpha spatial opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-437",
+      "goal": "Prepare lane-4: Own final full-arc route smoke and post-alpha route/support opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-437",
+      "goal": "Implement lane-4: Own final full-arc route smoke and post-alpha route/support opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-437",
+      "goal": "Review lane-4: Own final full-arc route smoke and post-alpha route/support opportunity list.",
+      "why_now": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/157-alpha-release-candidate-and-scope-gate.json",
+    "package.json",
+    "README.md",
+    "docs/review-drop-checklist.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md"
+  ],
+  "lane_1_scout_refinement": {
+    "status": "BLOCKED_UNTIL_CROSS_LANE_GATES_CLEAR",
+    "selected_scope": "Add a strict alpha RC wrapper command around the existing review-drop pack and clean-extract verifier once packet 156 is fully clear.",
+    "recommended_files": [
+      "package.json",
+      "scripts/create-alpha-rc.mjs",
+      "README.md",
+      "docs/review-drop-checklist.md",
+      "docs/reports/2026-04-20-alpha-rc-packaging-implementation.md"
+    ],
+    "main_contract": [
+      "Add npm run alpha:rc backed by scripts/create-alpha-rc.mjs.",
+      "Run source preflight before packaging: npm run validate:agents, npm run science:check, npm test, and npm run build.",
+      "After preflight passes, run npm run review:pack, capture the archive path, then run npm run review:verify -- <archive>.",
+      "Print the verified archive path at the end and leave generated output under ignored output/review-drops/.",
+      "Update README and docs/review-drop-checklist.md so reviewers know the RC command and the manual fallback."
+    ],
+    "blockers": [
+      "ECO-20260420-critic-431",
+      "ECO-20260420-critic-432",
+      "ECO-20260420-critic-433",
+      "Known lane-2 High Pass rime-footing exact-copy failure in npm test"
+    ],
+    "non_goals": [
+      "No runtime/gameplay behavior changes.",
+      "No authored science copy, biome geometry, route prose, station UI, save schema, or map behavior changes.",
+      "Do not relax review:verify or commit generated review archives / .tmp extracts."
+    ],
+    "acceptance": [
+      "node --check scripts/create-alpha-rc.mjs passes.",
+      "npm run validate:agents, npm run science:check, npm test, npm run build, npm run alpha:rc, and git diff --check pass when blockers are clear."
+    ]
+  },
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "F / Feedback",
+  "completion_gate": "Alpha RC is source-complete and documented; post-alpha scope gate says continue hardening, deepen current five biomes, or begin a scoped next chapter.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Own RC packaging, command verification, README/progress sync, and source-complete archive instructions.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Own final alpha content/science signoff and post-alpha content risk list.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Own final screenshot/contact-sheet proof and post-alpha spatial opportunity list.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Own final full-arc route smoke and post-alpha route/support opportunity list.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

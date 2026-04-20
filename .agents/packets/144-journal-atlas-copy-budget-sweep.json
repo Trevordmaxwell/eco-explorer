@@ -1,0 +1,445 @@
+{
+  "packet_id": "ECO-PACKET-144",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Journal and atlas copy-budget sweep",
+  "summary": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-implementation.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-review.md",
+    "docs/reports/2026-04-20-journal-atlas-copy-budget-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-copy-budget-implementation.md",
+    "docs/reports/2026-04-20-journal-atlas-copy-budget-review.md",
+    "docs/reports/2026-04-20-journal-atlas-route-preview-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-route-preview-implementation.md",
+    "docs/reports/2026-04-20-journal-atlas-route-preview-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-382",
+    "ECO-20260420-main-382",
+    "ECO-20260420-critic-382",
+    "ECO-20260420-scout-383",
+    "ECO-20260420-main-383",
+    "ECO-20260420-critic-383",
+    "ECO-20260420-scout-384",
+    "ECO-20260420-main-384",
+    "ECO-20260420-critic-384",
+    "ECO-20260420-scout-385",
+    "ECO-20260420-main-385",
+    "ECO-20260420-critic-385"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-378",
+    "ECO-20260420-critic-379",
+    "ECO-20260420-critic-380",
+    "ECO-20260420-critic-381"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-382",
+      "goal": "Prepare lane-1: Add layout/budget tests or helpers for long journal/atlas strings without restructuring the notebook.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-382",
+      "goal": "Implement lane-1: Add layout/budget tests or helpers for long journal/atlas strings without restructuring the notebook.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-382",
+      "goal": "Review lane-1: Add layout/budget tests or helpers for long journal/atlas strings without restructuring the notebook.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-383",
+      "goal": "Prepare lane-2: Run a copy-budget sweep over filed notes, ecosystem notes, atlas strips, and comparison summaries.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-383",
+      "goal": "Implement lane-2: Run a copy-budget sweep over filed notes, ecosystem notes, atlas strips, and comparison summaries.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-383",
+      "goal": "Review lane-2: Run a copy-budget sweep over filed notes, ecosystem notes, atlas strips, and comparison summaries.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-384",
+      "goal": "Prepare lane-3: Provide screenshot proof for the most text-stressed notebook surfaces at 256x160.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-384",
+      "goal": "Implement lane-3: Provide screenshot proof for the most text-stressed notebook surfaces at 256x160.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-384",
+      "goal": "Review lane-3: Provide screenshot proof for the most text-stressed notebook surfaces at 256x160.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-385",
+      "goal": "Prepare lane-4: Ensure route filing and notebook-ready displays inherit shortened text without losing route-state clarity.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-385",
+      "goal": "Implement lane-4: Ensure route filing and notebook-ready displays inherit shortened text without losing route-state clarity.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-385",
+      "goal": "Review lane-4: Ensure route filing and notebook-ready displays inherit shortened text without losing route-state clarity.",
+      "why_now": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/144-journal-atlas-copy-budget-sweep.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-implementation.md",
+    "docs/reports/2026-04-20-journal-atlas-systems-budget-review.md",
+    "docs/reports/2026-04-20-journal-atlas-copy-budget-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-copy-budget-implementation.md",
+    "src/test/field-season-board.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/coastal-scrub.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "Journal, atlas, comparison, and filed-note surfaces remain readable with compact relation-first summaries.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Add layout/budget tests or helpers for long journal/atlas strings without restructuring the notebook.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Run a copy-budget sweep over filed notes, ecosystem notes, atlas strips, and comparison summaries.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Provide screenshot proof for the most text-stressed notebook surfaces at 256x160.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Ensure route filing and notebook-ready displays inherit shortened text without losing route-state clarity.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-382",
+    "report": "docs/reports/2026-04-20-journal-atlas-systems-budget-handoff.md",
+    "target": "Add test-only copy-budget coverage for lane-1-owned station route, atlas, wrap, and active-outing resolver strings that can feed station, map, and quiet journal outing surfaces.",
+    "recommended_paths": [
+      "src/test/field-season-board.test.ts"
+    ],
+    "recommended_budgets": {
+      "seasonWrap.label": 24,
+      "seasonWrap.text": 96,
+      "atlas.note": 64,
+      "routeBoard.summary": 96,
+      "routeBoard.launchCard.summary": 72,
+      "routeBoard.launchCard.detail": 72,
+      "activeOuting.summary": 86,
+      "activeOuting.worldMapLabel": 32,
+      "activeOuting.atlasNote": 64
+    },
+    "representative_states": [
+      "fresh beach starter",
+      "Shore Shelter logged with note-tabs",
+      "coastal line logged / inland route opener with atlas present",
+      "inland line logged / edge-pattern opener with atlas present",
+      "edge line logged before Root Hollow",
+      "Root Hollow evidence counts 1, 2, 3, and notebook-ready",
+      "Root Hollow filed / Season Threads active",
+      "Season Threads filed / High Pass active",
+      "High Pass ready-to-file",
+      "High Pass filed"
+    ],
+    "exclusions": [
+      "Do not budget-lock routeBoard.notebookReady.previewText in lane 1; route filing and notebook-ready display inheritance belongs to packet 144 lane 4.",
+      "Do not edit src/content/**, ecosystem-note summaries, filed Route v2 note synthesis, comparison cards, close-look copy, science ledger entries, station layout, render coordinates, save schema, route-controller behavior, world-map behavior, corridor behavior, traversal behavior, or High Pass route-state behavior."
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/field-season-board.test.ts"
+    ],
+    "next": "Promote ECO-20260420-main-382."
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-382",
+    "report": "docs/reports/2026-04-20-journal-atlas-systems-budget-implementation.md",
+    "changed_files": [
+      "src/test/field-season-board.test.ts",
+      "docs/reports/2026-04-20-journal-atlas-systems-budget-implementation.md"
+    ],
+    "result": [
+      "Added a small copy-budget helper and table-driven resolver coverage for lane-1 station route, atlas, wrap, and active-outing strings.",
+      "Covered representative saves from fresh beach through filed High Pass, including atlas-present route phases, Root Hollow evidence progress, Season Threads, High Pass active, High Pass ready-to-file, and High Pass filed.",
+      "Left routeBoard.notebookReady.previewText out of the budget guard for lane 4's route filing and notebook-ready display inheritance step."
+    ],
+    "preserved": [
+      "No production runtime, station layout, render-coordinate, save-schema, route-controller, world-map, corridor, traversal, High Pass route-state, authored science content, ecosystem-note summary, filed Route v2 synthesis, comparison-card, close-look copy, or science-ledger changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts",
+      "npm run build"
+    ],
+    "next": "Promote ECO-20260420-critic-382."
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-382",
+    "report": "docs/reports/2026-04-20-journal-atlas-systems-budget-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "The implementation is test-only for runtime source and does not change station, atlas, journal, route, map, save, geometry, or content behavior.",
+      "The guard covers season-wrap, atlas note, route-board summary, launch-card copy, and active-outing summary/world-map/atlas strings across representative fresh-through-filed High Pass states.",
+      "routeBoard.notebookReady.previewText remains out of lane-1 scope for packet 144 lane 4."
+    ],
+    "scope_note": "The shared worktree contains other pre-existing edits in src/test/field-season-board.test.ts; this review is scoped to the packet 144 lane-1 copy-budget helper and table-driven test.",
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_1_status": "clear; promote ECO-20260420-scout-386"
+  },
+  "lane_2_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-383",
+    "report": "docs/reports/2026-04-20-journal-atlas-copy-budget-handoff.md",
+    "target": "Prune ecosystem-note summaries that can also surface as comparison-card summaries, while leaving atlas layout and route filed-note behavior untouched.",
+    "recommended_budget": {
+      "NOTE_SUMMARY_MAX": 96,
+      "reason": "Comparison cards reuse ecosystem-note summaries inside a tighter handheld card than the normal journal detail surface."
+    },
+    "recommended_copy": {
+      "src/content/biomes/treeline.ts rime-footholds.summary": "Rime favors low life on exposed High Pass ground, while tiny rock pockets give footholds.",
+      "src/content/biomes/treeline.ts broken-canopy-floor.summary": "Under the last mountain trees, low floor plants mix with shrubs and brighter wind.",
+      "src/content/biomes/forest.ts forest-floor-carpet.summary": "Near the last big trees, cool shade still stacks low leaves and tiny tree starts.",
+      "src/content/biomes/forest.ts edge-berry-thicket.summary": "The first forest edge stacks thorny stems and berries into a shadier thicket.",
+      "src/content/biomes/coastal-scrub.ts pine-underlayer.summary": "Under shore pines, low mats and quiet cover show steadier sand than open scrub."
+    },
+    "atlas_audit": {
+      "current_known_atlas_note_range": "32-43 characters",
+      "decision": "Do not edit field-season-board or atlas rendering in lane 2; lane 1 owns broader atlas layout or helper work."
+    },
+    "preserve": [
+      "No edits to game, overlay-render, field-season-board, field-season-wrap, station state, route board layout, save, route controller, world map, corridor, or traversal behavior.",
+      "No route filed-note rewrites in this slice; packet 133 already added filed-note compactness and relationship-anchor guards.",
+      "No new notebook, atlas, comparison, HUD, or station panel.",
+      "No science-source-ledger churn unless a touched claim changes meaning."
+    ],
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts src/test/journal-comparison.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "completed_by": "ECO-20260420-main-383",
+    "report": "docs/reports/2026-04-20-journal-atlas-copy-budget-implementation.md",
+    "changed_files": [
+      "src/test/content-quality.test.ts",
+      "src/content/biomes/treeline.ts",
+      "src/content/biomes/forest.ts",
+      "src/content/biomes/coastal-scrub.ts",
+      "docs/reports/2026-04-20-journal-atlas-copy-budget-implementation.md"
+    ],
+    "result": [
+      "Lowered NOTE_SUMMARY_MAX from 110 to 96 and renamed the test to protect both journal notes and comparison-card copy.",
+      "Trimmed the five named ecosystem-note summaries while preserving note ids, entry ids, unlock rules, zones, observation prompts, and science meaning.",
+      "Left atlas rendering/layout, station state, route-board layout, route-controller behavior, save behavior, world-map behavior, corridor behavior, traversal behavior, and route filed-note copy unchanged."
+    ],
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts src/test/journal-comparison.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "completed_by": "ECO-20260420-critic-383",
+    "report": "docs/reports/2026-04-20-journal-atlas-copy-budget-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "NOTE_SUMMARY_MAX is 96 and the content-quality test names the journal plus comparison-card budget.",
+      "The five packet-scoped ecosystem-note summaries are all under the new cap: rime-footholds 89, broken-canopy-floor 82, forest-floor-carpet 81, edge-berry-thicket 77, and pine-underlayer 79.",
+      "Touched note ids, entry ids, unlock rules, zones, observation prompts, and science meaning stayed intact.",
+      "Atlas rendering/layout, station state, route-board layout, route-controller behavior, save behavior, world-map behavior, corridor behavior, traversal behavior, route filed-note logic, and new UI scope stayed untouched for this packet."
+    ],
+    "scope_note": "The shared worktree still contains unrelated earlier lane edits in some of the same files; this review is scoped to packet 144's five named summary trims plus the budget/test-name update.",
+    "verification": [
+      "npm test -- --run src/test/content-quality.test.ts src/test/journal-comparison.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-385",
+    "report": "docs/reports/2026-04-20-journal-atlas-route-preview-handoff.md",
+    "target": "Add test-only station notebook-ready preview budget coverage so route filing displays inherit shortened filed-display text without losing canonical route labels.",
+    "recommended_paths": [
+      "src/test/field-season-board.test.ts"
+    ],
+    "recommended_budget": {
+      "routeBoard.notebookReady.previewLabel": 24,
+      "routeBoard.notebookReady.previewText": 144,
+      "noteTabsReadyWrap.text": 144
+    },
+    "representative_ready_routes": [
+      "beach-shore-shelter",
+      "forest-hidden-hollow",
+      "forest-moisture-holders",
+      "coastal-shelter-shift",
+      "treeline-stone-shelter",
+      "tundra-short-season",
+      "scrub-edge-pattern",
+      "forest-cool-edge",
+      "treeline-low-fell"
+    ],
+    "exclusions": [
+      "Keep forest-expedition-upper-run and treeline-high-pass out of routeBoard.notebookReady budget coverage because they use expedition and High Pass chapter seams instead of the season-route notebookReady bridge.",
+      "Do not edit production runtime, route filed-note copy, broad content, station layout, save schema, world-map behavior, corridor or traversal behavior, science ledger entries, support behavior, or High Pass chapter-state wiring unless a focused test exposes a real bug."
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"notebook-ready|preview|copy budgets|High Pass\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"filed-note synthesis matrix|High Pass|Thaw Window\""
+    ],
+    "next": "Promote ECO-20260420-main-385."
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-385",
+    "report": "docs/reports/2026-04-20-journal-atlas-route-preview-implementation.md",
+    "changed_files": [
+      "src/test/field-season-board.test.ts",
+      "docs/reports/2026-04-20-journal-atlas-route-preview-implementation.md"
+    ],
+    "result": [
+      "Added a behavior-neutral table-driven station notebook-ready preview guard for the nine board-mapped ready Route v2 notes.",
+      "Asserted preview labels remain canonical and <= 24 characters, preview text stays <= 144 characters, note-tabs wrap inherits the same preview text, and default wraps keep NOTEBOOK READY plus route ready text.",
+      "Kept Short Season as the filing label while allowing the Thaw Window display prefix in the preview text."
+    ],
+    "preserved": [
+      "No production runtime, route filed-note synthesis, route definition, station layout, save schema, world-map, corridor, traversal, support, content, science-ledger, Root Hollow expedition, or High Pass chapter-state changes.",
+      "forest-expedition-upper-run and treeline-high-pass remain on their existing expedition and High Pass chapter seams instead of routeBoard.notebookReady."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"notebook-ready|preview|copy budgets|High Pass\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"filed-note synthesis matrix|High Pass|Thaw Window\"",
+      "npm run build"
+    ],
+    "next": "Promote ECO-20260420-critic-385."
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-385",
+    "report": "docs/reports/2026-04-20-journal-atlas-route-preview-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "The implementation is behavior-neutral and adds only station notebook-ready preview budget coverage.",
+      "The table covers the nine board-mapped ready Route v2 notes from beach-shore-shelter through treeline-low-fell.",
+      "Preview labels remain canonical and <= 24 characters, preview text remains <= 144 characters, and note-tabs wrap text inherits the same preview text.",
+      "Default non-note-tabs wraps keep NOTEBOOK READY plus route ready text.",
+      "SHORT SEASON remains the filing label while Thaw Window. stays display-prefix preview context.",
+      "forest-expedition-upper-run and treeline-high-pass remain on the existing expedition and High Pass chapter seams."
+    ],
+    "scope_note": "The shared worktree contains unrelated dirty files from other lane work; this review is scoped to packet 144 lane 4's route preview guard and handoff surfaces.",
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"notebook-ready|preview|copy budgets|High Pass\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"filed-note synthesis matrix|High Pass|Thaw Window\"",
+      "npm run build"
+    ],
+    "lane_4_status": "clear; promote ECO-20260420-scout-389"
+  }
+}

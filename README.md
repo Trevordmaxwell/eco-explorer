@@ -14,6 +14,7 @@ The current build includes:
 - a clipboard-friendly field guide prompt, notebook-style observation prompts, and a lightweight field partner
 - living-world variation through deterministic `day-part`, `weather`, and `phenology`
 - a field station with `SEASON -> ROUTES`, `SEASON -> EXPEDITION`, upgrades, and a compact `NURSERY` teaching-bed loop
+- a completed current alpha arc through Root Hollow and filed `High Pass`, with station, map, journal, route-support, and notebook-return cues settling after filing
 - sketchbook and close-look modes for deeper discovery surfaces
 - deterministic save behavior in `localStorage`
 
@@ -31,14 +32,27 @@ Useful commands:
 - `npm run dev`: start the Vite dev server
 - `npm run build`: type-check and build the production bundle
 - `npm run test`: run the Vitest suite
+- `npm run science:check`: run the focused source-ledger/content-quality gate
 - `npm run validate:agents`: validate queue and packet consistency for the agent system
+- `npm run review:pack`: create a source review-drop archive under `output/review-drops/`
+- `npm run review:verify -- <archive.tgz>`: verify a review-drop archive from a clean extract
 - `npm run preview`: preview the built app locally
 
-Fresh machine or review-drop verification after `npm install` should at minimum run:
+Fresh local verification after `npm install` should at minimum run:
 
 - `npm run build`
 - `npm run test`
+- `npm run science:check`
 - `npm run validate:agents`
+
+Source review drops should use the dedicated clean-extract workflow instead of manual archiving:
+
+```bash
+npm run review:pack
+npm run review:verify -- output/review-drops/<archive-name>.tgz
+```
+
+The review verifier extracts the archive into `.tmp/`, checks that generated or local-only folders are absent, runs `npm ci`, then runs agent validation, the science gate, the full Vitest suite, and the production build. See `docs/review-drop-checklist.md` for the full checklist.
 
 ## Controls
 
@@ -84,14 +98,15 @@ If you edit queue or packet files, run:
 npm run validate:agents
 ```
 
-When you share an external review or playable repo archive, omit `node_modules/` so reviewers can install cleanly on their own machine.
+When you share an external source review drop, use `npm run review:pack` and verify the resulting archive with `npm run review:verify -- output/review-drops/<archive-name>.tgz` before handing it off.
 
 ## Current Product Direction
 
-The current product direction is to make Eco Explorer feel like a richer game without losing its science-forward, cozy tone. The active priorities are:
+The current product direction is to harden the completed five-biome alpha arc for feedback without losing its science-forward, cozy tone. The active priorities are:
 
 - keep the screen game-first and readable at handheld scale
-- deepen the five-biome world before adding new regions
+- make the filed `High Pass` arc easy to play through, review, and regression-test
+- deepen tactile payoff in the current five-biome world before adding new regions
 - connect exploration, route progression, the field station, and the nursery into a stronger gameplay loop
 - treat science accuracy as a hard gate
 - preserve deterministic hooks, modular content authoring, and strong agent handoff surfaces

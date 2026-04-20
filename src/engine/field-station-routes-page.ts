@@ -4,6 +4,7 @@ import type {
   FieldSeasonWrapState,
 } from './field-season-board';
 import type { FieldUpgradeState } from './field-station';
+import { getOutingSupportStationLabel } from './outing-support';
 import {
   drawUiText,
   drawUiTextInRect,
@@ -42,19 +43,6 @@ function fitTextToWidth(
   }
 
   return `${trimmed}…`;
-}
-
-function getSelectedOutingSupportLabel(selectedOutingSupportId: OutingSupportId): string {
-  switch (selectedOutingSupportId) {
-    case 'route-marker':
-      return 'ROUTE MARKER';
-    case 'place-tab':
-      return 'PLACE TAB';
-    case 'note-tabs':
-      return 'NOTE TABS';
-    default:
-      return 'HAND LENS';
-  }
 }
 
 function getRouteBeatPrefix(status: FieldSeasonBoardState['beats'][number]['status']): string {
@@ -213,7 +201,7 @@ export function drawFieldStationRoutesPage({
   );
   drawUiTextInRect(
     context,
-    getSelectedOutingSupportLabel(selectedOutingSupportId),
+    getOutingSupportStationLabel(selectedOutingSupportId),
     makeRect(outingSupportRowRect.x, outingSupportRowRect.y, outingSupportRowRect.w - 4, outingSupportRowRect.h),
     selectedOutingSupportId === 'hand-lens' ? palette.text : palette.accent,
     { align: 'right' },

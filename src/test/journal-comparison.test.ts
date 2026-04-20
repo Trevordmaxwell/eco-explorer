@@ -49,7 +49,7 @@ describe('journal comparison resolution', () => {
           biomeId: 'coastal-scrub',
           biomeName: 'Coastal Scrub',
           noteTitle: 'Shelter Builds Here',
-          noteSummary: 'Dune plants slow wind and help harsh sand start holding more life.',
+          noteSummary: 'Grass, verbena, and lupine slow wind so back-dune sand starts holding calmer life.',
         },
       ],
     });

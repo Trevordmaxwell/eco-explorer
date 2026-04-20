@@ -628,9 +628,9 @@ export const tundraBiome: BiomeDefinition = {
       title: 'Short Summer Rush',
       entryIds: ['purple-saxifrage', 'cloudberry', 'snow-bunting'],
       summary:
-        'Plants and birds must use the short summer fast.',
+        'First blooms, birds, and cloudberry fruit all race the short tundra summer.',
       observationPrompt:
-        'What hints at a very short summer?',
+        'What here races the short summer?',
       zoneId: 'snow-meadow',
     },
     {

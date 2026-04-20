@@ -6,10 +6,10 @@ import type {
   FieldSeasonWrapState,
 } from './field-season-board';
 import type { FieldUpgradeState } from './field-station';
+import type { FieldStationHomecomingState } from './field-station-state';
 import type { FieldStationArrivalMode } from './field-station-session';
 import { buildFieldStationGrowthInput, drawFieldStationHomecomingShell } from './field-station-homecoming-shell';
 import type { ActiveFieldRequest } from './field-requests';
-import type { FieldPartnerNotice } from './field-partner';
 import { drawFieldStationExpeditionPage } from './field-station-expedition-page';
 import { drawFieldStationNurseryPage } from './field-station-nursery-page';
 import type { JournalComparison } from './journal-comparison';
@@ -43,7 +43,6 @@ import {
   splitRectColumns,
   takeBottom,
   type UiRect,
-  wrapTextLines,
 } from './ui-layout';
 import { drawSprite, type SpriteRegistry } from './sprites';
 import type {
@@ -82,7 +81,7 @@ export const TITLE_ACTION_ROWS = [
   ['PICK', 'ENTER'],
 ] as const;
 
-export const TITLE_START_HINT = 'START, THEN OPEN MENU FOR MAP OR STATION.';
+export const TITLE_START_HINT = 'START, THEN M FOR MAP OR STATION.';
 
 export interface ButtonHitTarget {
   id: UiActionId;
@@ -176,15 +175,15 @@ export function getMenuOverlayIntroText({
   showFieldGuideAction,
 }: MenuOverlayCopyOptions): string {
   if (showWorldMapAction && showFieldStationAction) {
-    return 'World map handles travel. Field station handles support.';
+    return 'World map handles travel. Field station files notes and support.';
   }
 
   if (showWorldMapAction) {
-    return 'World map handles travel. Journal stays on J.';
+    return 'World map handles travel. Notebook stays on J.';
   }
 
   if (showFieldStationAction) {
-    return 'Field station handles support and route upgrades.';
+    return 'Field station files notes and support.';
   }
 
   if (showFieldGuideAction) {
@@ -200,22 +199,22 @@ export function getMenuOverlayHelperText({
   showFieldGuideAction,
 }: MenuOverlayCopyOptions): string {
   if (showWorldMapAction && showFieldStationAction) {
-    return 'Pick a stop, then press Enter to open it.';
+    return 'Pick a stop, press Enter. J opens the notebook.';
   }
 
   if (showWorldMapAction) {
-    return 'Pick World map for routes. Sound wakes after your first key or click.';
+    return 'Pick World map for routes. J opens the notebook.';
   }
 
   if (showFieldStationAction) {
-    return 'Trail Stride, credits, and season notes live here.';
+    return 'Press Enter to file notes or choose support.';
   }
 
   if (showFieldGuideAction) {
-    return 'Sound wakes after your first key or click.';
+    return 'Quiet sounds start after a key or click.';
   }
 
-  return 'Sound wakes after your first key or click.';
+  return 'Quiet sounds start after a key or click.';
 }
 
 interface TitleOverlayOptions extends OverlaySurfaceOptions {}
@@ -261,29 +260,9 @@ interface FieldStationOverlayOptions extends OverlaySurfaceOptions {
   seasonWrap: FieldSeasonWrapState;
   selectedNurseryCardId: NurseryCardId;
   nursery: NurseryStateView;
+  homecoming: FieldStationHomecomingState | null;
   arrivalPulse: number;
   arrivalMode: FieldStationArrivalMode;
-}
-
-interface FieldGuideNoticeOptions extends OverlaySurfaceOptions {
-  state: 'copied' | 'failed';
-}
-
-interface FieldRequestNoticeOptions extends OverlaySurfaceOptions {
-  frameCount: number;
-  title: string;
-  text: string;
-  variant: 'default' | 'notebook-ready' | 'filed-route';
-}
-
-interface FieldRequestHintOptions extends OverlaySurfaceOptions {
-  title: string | null;
-  isVisible: boolean;
-  variant: 'default' | 'support-biased';
-}
-
-interface FieldPartnerNoticeOptions extends OverlaySurfaceOptions {
-  notice: FieldPartnerNotice;
 }
 
 interface JournalOverlayOptions extends OverlaySurfaceOptions {
@@ -902,135 +881,6 @@ export function drawMenuOverlay({
   return hitTargets;
 }
 
-export function drawFieldGuideNotice({
-  context,
-  width,
-  height,
-  state,
-}: FieldGuideNoticeOptions): void {
-  const failed = state === 'failed';
-  const rect = failed
-    ? makeRect(Math.round((width - 136) / 2), height - 32, 136, 28)
-    : makeRect(Math.round((width - 128) / 2), height - 26, 128, 22);
-
-  fillLeafGreenPanel(context, rect.x, rect.y, rect.w, rect.h);
-  context.font = UI_FONT_SMALL;
-  if (failed) {
-    drawUiTextInRect(context, "COPY DIDN'T WORK", makeRect(rect.x + 6, rect.y + 4, rect.w - 12, 8), '#395f56', { align: 'center' });
-    drawUiTextInRect(context, 'ALLOW COPY, TRY AGAIN', makeRect(rect.x + 6, rect.y + 12, rect.w - 12, 8), '#395f56', { align: 'center' });
-    return;
-  }
-
-  drawUiTextInRect(context, 'FIELD GUIDE COPIED', makeRect(rect.x + 6, rect.y + 6, rect.w - 12, 8), '#395f56', { align: 'center' });
-}
-
-export function drawFieldRequestNotice({
-  context,
-  width,
-  height,
-  frameCount,
-  title,
-  text,
-  variant,
-}: FieldRequestNoticeOptions): void {
-  const rect = makeRect(Math.round((width - 154) / 2), height - 36, 154, 32);
-  const pulseOn = Math.floor(frameCount / 8) % 2 === 0;
-
-  fillLeafGreenPanel(context, rect.x, rect.y, rect.w, rect.h);
-  context.font = UI_FONT_SMALL;
-
-  if (variant !== 'default') {
-    const badgeRect = makeRect(rect.x + rect.w - 18, rect.y + 5, 10, 10);
-    fillPixelPanel(context, badgeRect.x, badgeRect.y, badgeRect.w, badgeRect.h, '#fff7de', '#395f56');
-    context.fillStyle = '#395f56';
-    if (variant === 'notebook-ready') {
-      context.fillRect(badgeRect.x + 3, badgeRect.y + 2, 4, 1);
-      context.fillRect(badgeRect.x + 3, badgeRect.y + 4, 3, 1);
-      context.fillRect(badgeRect.x + 3, badgeRect.y + 6, 4, 1);
-      if (pulseOn) {
-        context.fillRect(badgeRect.x + 7, badgeRect.y + 2, 1, 1);
-        context.fillRect(badgeRect.x + 8, badgeRect.y + 3, 1, 1);
-      }
-    } else {
-      context.fillRect(badgeRect.x + 2, badgeRect.y + 3, 4, 3);
-      context.fillRect(badgeRect.x + 4, badgeRect.y + 1, 4, 3);
-      if (pulseOn) {
-        context.fillRect(badgeRect.x + 2, badgeRect.y + 7, 5, 1);
-      }
-    }
-
-    context.fillStyle = pulseOn ? '#395f56' : '#8aa295';
-    context.fillRect(rect.x + 10, rect.y + rect.h - 6, rect.w - 20, 1);
-  }
-
-  drawUiTextInRect(
-    context,
-    fitTextToWidth(context, title.toUpperCase(), rect.w - (variant === 'default' ? 8 : 26)),
-    makeRect(rect.x + 4, rect.y + 2, rect.w - (variant === 'default' ? 8 : 26), 8),
-    '#395f56',
-    { align: 'center' },
-  );
-  drawUiTextInRect(context, fitTextToWidth(context, text, rect.w - 8), makeRect(rect.x + 4, rect.y + 10, rect.w - 8, 8), '#395f56', { align: 'center' });
-  drawUiTextInRect(context, 'DETAILS IN JOURNAL (J)', makeRect(rect.x + 4, rect.y + 19, rect.w - 8, 8), '#395f56', { align: 'center' });
-}
-
-export function drawFieldRequestHintChip({
-  context,
-  width,
-  palette,
-  title,
-  isVisible,
-  variant,
-}: FieldRequestHintOptions): void {
-  if (!isVisible || !title) {
-    return;
-  }
-
-  const rect = makeRect(width - 86, 24, 78, 18);
-  fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.cardShadow);
-  drawUiTextInRect(context, 'NOTEBOOK J', makeRect(rect.x + 4, rect.y + 2, rect.w - 8, 8), palette.accent, {
-    align: 'center',
-  });
-  if (variant === 'support-biased') {
-    const badgeX = rect.x + rect.w - 12;
-    const badgeY = rect.y + 3;
-    context.fillStyle = palette.accent;
-    context.fillRect(badgeX + 1, badgeY + 1, 3, 3);
-    context.fillRect(badgeX + 3, badgeY + 3, 1, 1);
-    context.fillRect(badgeX + 4, badgeY + 4, 2, 1);
-    context.fillRect(badgeX + 5, badgeY + 5, 1, 1);
-  }
-  drawUiTextInRect(
-    context,
-    fitTextToWidth(context, title.toUpperCase(), rect.w - 8),
-    makeRect(rect.x + 4, rect.y + 9, rect.w - 8, 8),
-    palette.text,
-    { align: 'center' },
-  );
-}
-
-export function drawFieldPartnerNotice({
-  context,
-  width,
-  height,
-  palette,
-  notice,
-}: FieldPartnerNoticeOptions): void {
-  const rect = makeRect(Math.round((width - 148) / 2), height - 24, 148, 18);
-  const textRect = makeRect(rect.x + 6, rect.y + 4, rect.w - 12, rect.h - 6);
-
-  fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.accent);
-  context.font = UI_FONT_SMALL;
-  const lines = wrapTextLines(context, notice.text, textRect.w, 2);
-  if (lines.length <= 1) {
-    drawUiTextInRect(context, lines[0] ?? '', textRect, palette.text);
-    return;
-  }
-
-  drawUiText(context, lines[0], textRect.x, rect.y + 9, palette.text);
-  drawUiText(context, lines[1], textRect.x, rect.y + 15, palette.text);
-}
-
 export function drawFieldStationOverlay({
   context,
   width,
@@ -1050,6 +900,7 @@ export function drawFieldStationOverlay({
   seasonWrap,
   selectedNurseryCardId,
   nursery,
+  homecoming,
   arrivalPulse,
   arrivalMode,
 }: FieldStationOverlayOptions): void {
@@ -1068,6 +919,7 @@ export function drawFieldStationOverlay({
     loggedRouteCount: atlas?.loggedRoutes.length ?? 0,
     seasonWrap,
     routeBoard,
+    homecoming,
   });
 
   context.fillStyle = 'rgba(32, 25, 20, 0.55)';
@@ -1087,7 +939,14 @@ export function drawFieldStationOverlay({
   drawUiText(context, 'FIELD STATION', contentRect.x, contentRect.y, palette.text);
   drawUiText(context, creditLabel, rightAlignTextX(context, creditLabel, contentRect, 2), contentRect.y, palette.accent);
   context.font = UI_FONT_SMALL;
-  drawUiText(context, fitTextToWidth(context, subtitle, contentRect.w), contentRect.x, contentRect.y + 8, palette.text);
+  const subtitleLine = homecoming ? `${homecoming.label}: ${homecoming.text}` : subtitle;
+  drawUiText(
+    context,
+    fitTextToWidth(context, subtitleLine, contentRect.w),
+    contentRect.x,
+    contentRect.y + 8,
+    homecoming ? palette.accent : palette.text,
+  );
 
   drawPanelButton(context, seasonTabRect.x, seasonTabRect.y, seasonTabRect.w, seasonTabRect.h, 'SEASON', {
     fill: view === 'season' ? palette.journalPage : palette.journalSelected,

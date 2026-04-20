@@ -13,7 +13,7 @@ import type {
 import { createRandomSeed } from './random';
 import { normalizeSketchbookPages } from './sketchbook';
 
-const STORAGE_KEY = 'eco-explorer-save-v1';
+export const SAVE_STORAGE_KEY = 'eco-explorer-save-v1';
 const CURRENT_WORLD_STATE_VERSION = 2;
 const ROOT_HOLLOW_EXPEDITION_REQUEST_ID = 'forest-expedition-upper-run';
 const ROOT_HOLLOW_STONE_POCKET_COMPAT_ENTRY_ID = 'banana-slug';
@@ -155,6 +155,27 @@ function normalizeNurseryExtraIds(value: PersistedSaveState['nurseryUnlockedExtr
         (entry): entry is NurseryExtraId => entry === 'log-pile' || entry === 'pollinator-patch',
       )
     : [];
+}
+
+function normalizeBiomeVisits(value: PersistedSaveState['biomeVisits']): SaveState['biomeVisits'] {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    return {};
+  }
+
+  const normalizedVisits: SaveState['biomeVisits'] = {};
+  for (const [biomeId, visitCount] of Object.entries(value)) {
+    if (!biomeId || typeof visitCount !== 'number' || !Number.isFinite(visitCount)) {
+      continue;
+    }
+
+    normalizedVisits[biomeId] = Math.max(0, Math.floor(visitCount));
+  }
+
+  return normalizedVisits;
+}
+
+function normalizeLastBiomeId(value: PersistedSaveState['lastBiomeId']): SaveState['lastBiomeId'] {
+  return typeof value === 'string' && value.trim().length > 0 ? value : 'beach';
 }
 
 function normalizeRouteV2Progress(
@@ -325,7 +346,7 @@ export function normalizeSaveState(
     worldSeed: parsed.worldSeed ?? createRandomSeed(),
     worldStateVersion: worldState.worldStateVersion,
     worldStep: worldState.worldStep,
-    biomeVisits: parsed.biomeVisits ?? {},
+    biomeVisits: normalizeBiomeVisits(parsed.biomeVisits),
     discoveredEntries: migrateDiscoveredEntries(parsed.discoveredEntries),
     sketchbookPages: normalizeSketchbookPages(parsed.sketchbookPages),
     completedFieldRequestIds,
@@ -356,7 +377,7 @@ export function normalizeSaveState(
         : worldState.worldStep,
     seasonCloseReturnPending: parsed.seasonCloseReturnPending === true,
     settings: createDefaultSettings(parsed.settings),
-    lastBiomeId: parsed.lastBiomeId ?? 'beach',
+    lastBiomeId: normalizeLastBiomeId(parsed.lastBiomeId),
   };
 }
 
@@ -365,7 +386,7 @@ export function loadOrCreateSave(): SaveState {
     return createNewSaveState();
   }
 
-  const raw = window.localStorage.getItem(STORAGE_KEY);
+  const raw = window.localStorage.getItem(SAVE_STORAGE_KEY);
   if (!raw) {
     const fresh = createNewSaveState();
     persistSave(fresh);
@@ -388,7 +409,7 @@ export function persistSave(save: SaveState): void {
   if (typeof window === 'undefined' || !window.localStorage) {
     return;
   }
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  window.localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(save));
 }
 
 export function incrementBiomeVisit(save: SaveState, biomeId: string): number {

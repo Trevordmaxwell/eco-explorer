@@ -1,0 +1,265 @@
+{
+  "packet_id": "ECO-PACKET-156",
+  "version": 4,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "External playtest feedback batch two",
+  "summary": "Second feedback pass, focused on repeated observations rather than one-off preferences.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-handoff.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-implementation.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-430",
+    "ECO-20260420-main-430",
+    "ECO-20260420-critic-430",
+    "ECO-20260420-scout-431",
+    "ECO-20260420-main-431",
+    "ECO-20260420-critic-431",
+    "ECO-20260420-scout-432",
+    "ECO-20260420-main-432",
+    "ECO-20260420-critic-432",
+    "ECO-20260420-scout-433",
+    "ECO-20260420-main-433",
+    "ECO-20260420-critic-433"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-426",
+    "ECO-20260420-critic-427",
+    "ECO-20260420-critic-428",
+    "ECO-20260420-critic-429"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-430",
+      "goal": "Prepare lane-1: Resolve repeated navigation, station, save, or overlay pain points if they reproduce across players.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-430",
+      "goal": "Implement lane-1: Resolve repeated navigation, station, save, or overlay pain points if they reproduce across players.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-430",
+      "goal": "Review lane-1: Resolve repeated navigation, station, save, or overlay pain points if they reproduce across players.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-431",
+      "goal": "Prepare lane-2: Resolve repeated misunderstood science/copy beats without expanding text-heavy surfaces.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-431",
+      "goal": "Implement lane-2: Resolve repeated misunderstood science/copy beats without expanding text-heavy surfaces.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-431",
+      "goal": "Review lane-2: Resolve repeated misunderstood science/copy beats without expanding text-heavy surfaces.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-432",
+      "goal": "Prepare lane-3: Resolve repeated missed landmarks or confusing traversal beats with minimal physical edits.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-432",
+      "goal": "Implement lane-3: Resolve repeated missed landmarks or confusing traversal beats with minimal physical edits.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-432",
+      "goal": "Review lane-3: Resolve repeated missed landmarks or confusing traversal beats with minimal physical edits.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-433",
+      "goal": "Prepare lane-4: Resolve repeated route/support/filing confusion with tests and no new quest shell.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-433",
+      "goal": "Implement lane-4: Resolve repeated route/support/filing confusion with tests and no new quest shell.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-433",
+      "goal": "Review lane-4: Resolve repeated route/support/filing confusion with tests and no new quest shell.",
+      "why_now": "Second feedback pass, focused on repeated observations rather than one-off preferences."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/156-external-playtest-feedback-batch-two.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-handoff.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-implementation.md",
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md",
+    "src/test/runtime-smoke.test.ts"
+  ],
+  "lane_1_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "Repeated broad runtime-smoke failures are stale lane-1 navigation/replay proof expectations rather than new runtime behavior gaps.",
+    "evidence": [
+      "Multiple runtime-smoke failures still expect current-location map focus even though lane 1's current rule opens on the guided active target for seeded next-outing states.",
+      "The Open To Shelter ready-to-file smoke still expects a replay footer even though ready-to-synthesize requests intentionally suppress active outing / replay labels.",
+      "The remaining High Pass rime-footing exact-copy mismatch is content-copy ownership and should stay outside lane 1."
+    ],
+    "main_contract": [
+      "Update only stale lane-1 runtime-smoke expectations in src/test/runtime-smoke.test.ts.",
+      "Do not change runtime behavior or route/controller helpers.",
+      "Use focused slices for touched tests and document any remaining lane-2 copy-only broad-smoke failure."
+    ],
+    "non_goals": [
+      "No guided-season copy, route definition, station layout, save schema, map UI, support behavior, geometry, science content, or tooling changes.",
+      "No lane-2 High Pass rime-footing copy expectation update in this lane-1 item."
+    ]
+  },
+  "lane_1_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "changed_files": [
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-runtime-smoke-navigation-proof-implementation.md"
+    ],
+    "summary": "Refreshed stale lane-1 runtime-smoke navigation and replay expectations without runtime behavior changes.",
+    "behavior_notes": [
+      "Tests that intentionally open the world map from current-biome starter guidance now select world-map explicitly instead of depending on the menu default.",
+      "Later-route fixtures that need current Forest Trail map focus now include the completed starter beach beat so guided focus is coherent.",
+      "The Open To Shelter ready-to-file world-map assertion now expects routeReplayLabel to be null, matching ready-to-synthesize active-outing suppression.",
+      "The route replay footer proof now starts from the current guided coastal target and moves focus once to Forest Trail before expecting Today: Moist Edge.",
+      "Critic-side isolated proof also refreshed stale Shore Shelter and Open To Shelter filed-route exact-copy expectations to match existing shortened runtime text."
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title|surfaces surveyed|Open To Shelter|routes page|world-map field station|live replay note|same-biome anchor|current origin\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Shore Shelter|Wrack Shelter|Open To Shelter|covers title|surfaces surveyed|routes page|world-map field station|live replay note|same-biome anchor|current origin\"",
+      "npm run build",
+      "Attempted npm test -- --run src/test/runtime-smoke.test.ts; it now fails only on the known lane-2 High Pass rime-footing exact-copy expectation."
+    ],
+    "remaining_out_of_scope": [
+      "High Pass rime-footing exact-copy mismatch remains lane-2/content-copy ownership."
+    ]
+  },
+  "lane_1_critic_result": {
+    "status": "CLEAR",
+    "review_report": "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md",
+    "findings": [],
+    "notes": [
+      "The change remains test-only and does not alter runtime behavior.",
+      "Focused navigation/replay/filed-route proof slices pass.",
+      "Full runtime-smoke fails only on the known High Pass rime-footing exact-copy mismatch, which remains lane-2/content-copy ownership."
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Shore Shelter|Wrack Shelter|Open To Shelter|covers title|surfaces surveyed|routes page|world-map field station|live replay note|same-biome anchor|current origin\"",
+      "npm run build",
+      "npm test -- --run src/test/runtime-smoke.test.ts (expected remaining lane-2 High Pass copy mismatch only)"
+    ]
+  },
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "F / Feedback",
+  "completion_gate": "Repeated feedback patterns are addressed or deliberately deferred with reasons.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Resolve repeated navigation, station, save, or overlay pain points if they reproduce across players.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Resolve repeated misunderstood science/copy beats without expanding text-heavy surfaces.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Resolve repeated missed landmarks or confusing traversal beats with minimal physical edits.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Resolve repeated route/support/filing confusion with tests and no new quest shell.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

@@ -1,0 +1,417 @@
+{
+  "packet_id": "ECO-PACKET-136",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Support choice in-field differentiation",
+  "summary": "Make support choice felt during outings rather than mostly visible on map/station chrome.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-support-choice-copy-handoff.md",
+    "docs/reports/2026-04-20-support-choice-copy-implementation.md",
+    "docs/reports/2026-04-20-support-choice-copy-review.md",
+    "docs/reports/2026-04-20-support-choice-station-echo-handoff.md",
+    "docs/reports/2026-04-20-support-choice-station-echo-implementation.md",
+    "docs/reports/2026-04-20-support-choice-station-echo-review.md",
+    "docs/reports/2026-04-20-support-choice-in-field-handoff.md",
+    "docs/reports/2026-04-20-support-choice-in-field-implementation.md",
+    "docs/reports/2026-04-20-support-choice-in-field-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-350",
+    "ECO-20260420-main-350",
+    "ECO-20260420-critic-350",
+    "ECO-20260420-scout-351",
+    "ECO-20260420-main-351",
+    "ECO-20260420-critic-351",
+    "ECO-20260420-scout-352",
+    "ECO-20260420-main-352",
+    "ECO-20260420-critic-352",
+    "ECO-20260420-scout-353",
+    "ECO-20260420-main-353",
+    "ECO-20260420-critic-353"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-346",
+    "ECO-20260420-critic-347",
+    "ECO-20260420-critic-348",
+    "ECO-20260420-critic-349"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-350",
+      "goal": "Prepare lane-1: Normalize support-selection persistence and station echo so support state remains small, deterministic, and save-safe.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-350",
+      "goal": "Implement lane-1: Normalize support-selection persistence and station echo so support state remains small, deterministic, and save-safe.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-350",
+      "goal": "Review lane-1: Normalize support-selection persistence and station echo so support state remains small, deterministic, and save-safe.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-351",
+      "goal": "Prepare lane-2: Clarify support labels and microcopy so kids understand lens/tabs/place/marker differences in five words or fewer per cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-351",
+      "goal": "Implement lane-2: Clarify support labels and microcopy so kids understand lens/tabs/place/marker differences in five words or fewer per cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-351",
+      "goal": "Review lane-2: Clarify support labels and microcopy so kids understand lens/tabs/place/marker differences in five words or fewer per cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-352",
+      "goal": "Prepare lane-3: Add small visual affordances for support-relevant clue reading only where an existing route lacks a physical cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-352",
+      "goal": "Implement lane-3: Add small visual affordances for support-relevant clue reading only where an existing route lacks a physical cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-352",
+      "goal": "Review lane-3: Add small visual affordances for support-relevant clue reading only where an existing route lacks a physical cue.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-353",
+      "goal": "Prepare lane-4: Implement support-specific in-field consequences across route families using existing Route v2 seams, not a new loadout model.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-353",
+      "goal": "Implement lane-4: Implement support-specific in-field consequences across route families using existing Route v2 seams, not a new loadout model.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-353",
+      "goal": "Review lane-4: Implement support-specific in-field consequences across route families using existing Route v2 seams, not a new loadout model.",
+      "why_now": "Make support choice felt during outings rather than mostly visible on map/station chrome."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "B / Home loop",
+  "completion_gate": "At least three support choices create distinct in-field reading or feedback on existing routes with no inventory expansion.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Normalize support-selection persistence and station echo so support state remains small, deterministic, and save-safe.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-support-choice-station-echo-handoff.md",
+        "main_350_target": "Keep lane 1 systems-small: add one shared station-label seam for outing support, expose that exact label in field-station debug state, and refresh stale support-row runtime smoke expectations for the current guided world-map focus rule.",
+        "baseline": {
+          "passing": "`npm test -- --run src/test/save.test.ts src/test/field-station.test.ts`",
+          "failing": "`npm test -- --run src/test/runtime-smoke.test.ts -t \"route marker|outing support|locked route-marker|route board to tundra|coastal scrub and can hand\"` currently fails five stale initial map-focus assertions because the newer guided focus rule opens on the active outing target instead of the old current-location fallback."
+        },
+        "recommended_files": [
+          "src/engine/field-station-routes-page.ts",
+          "src/engine/field-station-state.ts",
+          "src/engine/game.ts",
+          "src/test/field-station.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-support-choice-station-echo-implementation.md"
+        ],
+        "main_acceptance": [
+          "the visible routes-page support row and debug field-station state use one shared station-label mapping for `HAND LENS`, `NOTE TABS`, `PLACE TAB`, and `ROUTE MARKER`",
+          "focused coverage proves locked `route-marker` saves echo `hand-lens` / `HAND LENS`",
+          "focused coverage proves route-marker activation echoes `route-marker` / `ROUTE MARKER` and still points the world map at the active outing target",
+          "the stale runtime-smoke initial map-focus expectations are updated to the current guided active-target behavior",
+          "no save schema, support order, notice copy, route-marker behavior, hand-lens retargeting, note-tabs/place-tab behavior, station layout, new UI, geometry, route definitions, or science copy changes"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/save.test.ts src/test/field-station.test.ts`",
+          "focused support-row `runtime-smoke` slice",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-350",
+        "source": "docs/reports/2026-04-20-support-choice-station-echo-implementation.md",
+        "status": "DONE",
+        "summary": "Added a shared station-label helper for outing support, reused it in the visible routes-page row, exposed `fieldStation.selectedOutingSupportLabel` through debug state, and refreshed stale support-row runtime-smoke map-focus expectations for the guided active-target rule.",
+        "verified": [
+          "`npm test -- --run src/test/save.test.ts src/test/field-station.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"route marker|outing support|locked route-marker|route board to tundra|coastal scrub and can hand\"`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`",
+          "`web_game_playwright_client` smoke in `output/web-game/support-choice-station-echo-main-350/`"
+        ],
+        "non_goals_preserved": [
+          "no save schema or support order change",
+          "no support notice-copy change",
+          "no route-marker behavior, hand-lens retargeting, note-tabs/place-tab behavior, station layout, route definition, geometry, new UI, or science-copy change"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-350",
+        "source": "docs/reports/2026-04-20-support-choice-station-echo-review.md",
+        "status": "DONE",
+        "verdict": "no blocker",
+        "summary": "Confirmed the shared station-label seam is pure, visible route-page and debug labels share the same mapping, locked support saves cannot show stale route-marker labels, route-marker activation still points to the active outing target, and the guided active-target map-focus expectation refresh did not change support behavior.",
+        "promoted": "ECO-20260420-scout-354"
+      }
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Clarify support labels and microcopy so kids understand lens/tabs/place/marker differences in five words or fewer per cue.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Add small visual affordances for support-relevant clue reading only where an existing route lacks a physical cue.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Implement support-specific in-field consequences across route families using existing Route v2 seams, not a new loadout model.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-support-choice-in-field-handoff.md",
+        "main_353_target": "Reuse the existing in-field NOTEBOOK J chip as a tiny support-specific cue seam for note-tabs and place-tab while preserving hand-lens inspect retargeting as the only support that changes nearest inspectable selection.",
+        "current_gap": [
+          "Hand lens already changes in-field clue targeting and can mark the chip as support-biased.",
+          "Note-tabs and place-tab are currently strongest on the station TODAY wrap, so they are less felt during the outing itself.",
+          "Route-marker should remain map/travel-facing for this pass."
+        ],
+        "recommended_files": [
+          "src/engine/field-request-controller.ts",
+          "src/engine/field-request-state.ts",
+          "src/test/field-request-controller.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-support-choice-in-field-implementation.md"
+        ],
+        "recommended_behavior": [
+          "keep hand-lens behavior unchanged: notebook-fit retargeting, active-clue preference, and LENS CLUE inspect-bubble copy remain hand-lens-only",
+          "for note-tabs on an active Route v2 outing, make the existing in-field chip progress/notebook-facing using active request progress state and the existing support-biased variant",
+          "for place-tab on an active Route v2 outing, make the existing in-field chip place-question-facing with compact chip copy and the existing support-biased variant",
+          "keep route-marker map/travel-facing and prove it does not gain inspect retargeting or notebook-chip behavior accidentally"
+        ],
+        "main_acceptance": [
+          "at least three support choices feel distinct in-field or during route travel without a new UI surface: hand-lens, note-tabs, and place-tab",
+          "non-hand-lens supports do not change nearest inspectable selection, inspect-bubble resource notes, route progress, or filed-note behavior",
+          "support-specific chip behavior is covered by focused field-request-controller tests and at most one representative runtime-smoke update if debug-state coverage is needed",
+          "no station layout, support order, save schema, route definitions, route filing behavior, world geometry, authored science/copy, nursery behavior, new HUD, inventory, or loadout model changes"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "focused `runtime-smoke` slice only if `render_game_to_text()` chip state is changed beyond controller-level unit coverage",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ],
+        "baseline_verification": [
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm test -- --run src/test/field-season-board.test.ts -t \"support|note-tabs|place-tab|hand lens|route marker\"`"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-353",
+        "source": "docs/reports/2026-04-20-support-choice-in-field-implementation.md",
+        "status": "DONE",
+        "summary": "Reused the existing in-field `NOTEBOOK J` chip as the support-specific Route v2 cue seam: hand lens keeps inspect retargeting and `LENS CLUE`, note-tabs now shows active route progress, place-tab shows compact `Place Question` chip copy, and route-marker keeps default map/travel-facing behavior.",
+        "changed_files": [
+          "src/engine/field-request-controller.ts",
+          "src/test/field-request-controller.test.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "guardrails_preserved": [
+          "no save schema, support order, station layout, route definitions, route filing behavior, world geometry, authored science/copy, nursery behavior, new HUD, inventory, or loadout model changes",
+          "non-hand-lens supports do not change nearest inspectable selection or inspect-bubble notebook-fit behavior",
+          "route-marker does not gain hand-lens-style inspect retargeting or support-biased notebook-chip behavior"
+        ],
+        "verified": [
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"keeps non-hand-lens supports\"`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-353",
+        "source": "docs/reports/2026-04-20-support-choice-in-field-review.md",
+        "status": "DONE",
+        "verdict": "no blocker",
+        "summary": "Confirmed the lane-4 implementation stays in the existing Route v2 hint/targeting seam: hand lens remains the only inspect-retargeting support, note-tabs shows route progress, place-tab shows compact place-question chip copy, and route-marker remains map/travel-facing with default chip behavior.",
+        "verified": [
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"keeps non-hand-lens supports\"`",
+          "`npm run build`"
+        ],
+        "promoted": "ECO-20260420-scout-357"
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_2_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-351",
+    "source_report": "docs/reports/2026-04-20-support-choice-copy-handoff.md",
+    "status": "DONE",
+    "focus": "Shorten support-toggle notice copy so each cue is five words or fewer, without changing support behavior.",
+    "existing_labels_checked": [
+      "HAND LENS",
+      "NOTE TABS",
+      "PLACE TAB",
+      "ROUTE MARKER"
+    ],
+    "proposed_copy": {
+      "hand-lens": "Tags notebook-fit clues.",
+      "note-tabs": "Keeps notebook aim visible.",
+      "place-tab": "Keeps one place question.",
+      "route-marker": "Marks next map stop."
+    },
+    "main_351_scope": {
+      "recommended_files": [
+        "src/engine/field-request-controller.ts",
+        "src/test/field-request-controller.test.ts",
+        "docs/reports/2026-04-20-support-choice-copy-implementation.md"
+      ],
+      "required_change": "Update only `getOutingSupportNoticeText(...)` and its focused test expectations.",
+      "shared_file_reason": "The pure support notice-copy helper currently lives in lane-4-owned src/engine/field-request-controller.ts; lane 2 may touch only that copy helper and no route/support behavior."
+    },
+    "non_goals": [
+      "No support selection order, save normalization, route-marker behavior, hand-lens retargeting, note-tabs/place-tab route behavior, inspect-bubble label, or notebook chip changes.",
+      "No station layout, route-board layout, world-map/corridor behavior, save schema, renderer geometry, route definitions, or new support UI.",
+      "No new loadout model, inventory row, or tutorial panel."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "queue_id": "ECO-20260420-main-351",
+    "source_report": "docs/reports/2026-04-20-support-choice-copy-implementation.md",
+    "status": "DONE",
+    "changed_files": [
+      "src/engine/field-request-controller.ts",
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-20-support-choice-copy-implementation.md"
+    ],
+    "implemented_copy": {
+      "hand-lens": "Tags notebook-fit clues.",
+      "note-tabs": "Keeps notebook aim visible.",
+      "place-tab": "Keeps one place question.",
+      "route-marker": "Marks next map stop."
+    },
+    "guardrail_result": "Only the support notice-copy helper and focused test changed; support behavior, save behavior, station layout, route behavior, renderer geometry, and new UI surfaces stayed untouched.",
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "queue_id": "ECO-20260420-critic-351",
+    "source_report": "docs/reports/2026-04-20-support-choice-copy-review.md",
+    "status": "DONE",
+    "verdict": "No blocker.",
+    "checks": [
+      "The implementation changed only the support notice-copy helper and focused test.",
+      "All four notices are five words or fewer and exact-copy tested.",
+      "Support selection, route targeting, save behavior, station layout, world-map behavior, renderer geometry, route definitions, and new UI surfaces stayed untouched."
+    ],
+    "promoted_next": "ECO-20260420-scout-355",
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice copy\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  }
+}

@@ -1,0 +1,494 @@
+{
+  "packet_id": "ECO-PACKET-143",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Map and station travel clarity pass",
+  "summary": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-map-station-travel-state-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-state-implementation.md",
+    "docs/reports/2026-04-20-map-station-travel-state-review.md",
+    "docs/reports/2026-04-20-map-station-travel-copy-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-copy-implementation.md",
+    "docs/reports/2026-04-20-map-station-travel-copy-review.md",
+    "docs/reports/2026-04-20-map-station-travel-route-marker-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-route-marker-implementation.md",
+    "docs/reports/2026-04-20-map-station-travel-route-marker-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-378",
+    "ECO-20260420-main-378",
+    "ECO-20260420-critic-378",
+    "ECO-20260420-scout-379",
+    "ECO-20260420-main-379",
+    "ECO-20260420-critic-379",
+    "ECO-20260420-scout-380",
+    "ECO-20260420-main-380",
+    "ECO-20260420-critic-380",
+    "ECO-20260420-scout-381",
+    "ECO-20260420-main-381",
+    "ECO-20260420-critic-381"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-374",
+    "ECO-20260420-critic-375",
+    "ECO-20260420-critic-376",
+    "ECO-20260420-critic-377"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-378",
+      "goal": "Prepare lane-1: Audit and harden map/station focus, return targets, route markers, and filed-state travel suppression.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-378",
+      "goal": "Implement lane-1: Audit and harden map/station focus, return targets, route markers, and filed-state travel suppression.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-378",
+      "goal": "Review lane-1: Audit and harden map/station focus, return targets, route markers, and filed-state travel suppression.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-379",
+      "goal": "Prepare lane-2: Clarify travel labels and tiny route destination copy without adding a map tutorial paragraph.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-379",
+      "goal": "Implement lane-2: Clarify travel labels and tiny route destination copy without adding a map tutorial paragraph.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-379",
+      "goal": "Review lane-2: Clarify travel labels and tiny route destination copy without adding a map tutorial paragraph.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-380",
+      "goal": "Prepare lane-3: Polish one map/door/return visual cue only where proof shows spatial confusion.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-380",
+      "goal": "Implement lane-3: Polish one map/door/return visual cue only where proof shows spatial confusion.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-380",
+      "goal": "Review lane-3: Polish one map/door/return visual cue only where proof shows spatial confusion.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-381",
+      "goal": "Prepare lane-4: Assert route marker/support behavior across active, ready, filed, replay, and no-active-route states.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-381",
+      "goal": "Implement lane-4: Assert route marker/support behavior across active, ready, filed, replay, and no-active-route states.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-381",
+      "goal": "Review lane-4: Assert route marker/support behavior across active, ready, filed, replay, and no-active-route states.",
+      "why_now": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/143-map-station-travel-clarity-pass.json",
+    "docs/reports/2026-04-20-map-station-travel-state-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-state-implementation.md",
+    "docs/reports/2026-04-20-map-station-travel-state-review.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-map-station-travel-copy-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-copy-implementation.md",
+    "src/test/save-snapshots.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/content/world-map.ts",
+    "src/engine/field-requests.ts",
+    "src/test/world-map.test.ts",
+    "src/test/field-requests.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "C / World feel",
+  "completion_gate": "Travel intent is clear from map/station/route surfaces, and no surface points to completed High Pass as active work.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Audit and harden map/station focus, return targets, route markers, and filed-state travel suppression.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Clarify travel labels and tiny route destination copy without adding a map tutorial paragraph.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Polish one map/door/return visual cue only where proof shows spatial confusion.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Assert route marker/support behavior across active, ready, filed, replay, and no-active-route states.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-378",
+    "report": "docs/reports/2026-04-20-map-station-travel-state-handoff.md",
+    "target": "Add one focused test-only regression proving filed High Pass cannot revive active travel cues when route-marker remains selected.",
+    "existing_coverage": [
+      "Filed High Pass chapter state already sets routeBoardTargetBiomeId to null and isActiveOuting to false.",
+      "Field-request state already requires an active outing before route-marker focus or replay labels can appear.",
+      "The high-pass-filed debug save snapshot covers filed station/map/journal state with the default support selection.",
+      "A broad runtime season-capstone smoke reaches route-marker-selected active High Pass, ready-to-file High Pass, and filed High Pass, but it is not a focused stale-support regression."
+    ],
+    "recommended_scope": [
+      "Prefer src/test/save-snapshots.test.ts.",
+      "Build the existing high-pass-filed debug snapshot save, set selectedOutingSupportId to route-marker, boot it through createGame(), and assert the filed state stays settled.",
+      "Use a focused runtime-smoke seed only if the snapshot helper shape blocks the small save-snapshot proof."
+    ],
+    "acceptance": [
+      "Filed High Pass with route-marker selected has activeFieldRequest null.",
+      "Opening the world map keeps routeMarkerLocationId null and routeReplayLabel null; Today: High Pass must not reappear.",
+      "Opening the journal keeps journal.fieldRequest null.",
+      "The field station route board remains filed with targetBiomeId null, the filed nextDirection, and a filed launch card.",
+      "Activating the filed High Pass expedition card stays in the station and shows the filed/logged notice instead of opening travel."
+    ],
+    "preserve": [
+      "route definitions",
+      "High Pass copy",
+      "station layout",
+      "support cycling behavior",
+      "world-map labels",
+      "corridor geometry",
+      "save schema",
+      "lane-2 copy"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-378",
+    "report": "docs/reports/2026-04-20-map-station-travel-state-implementation.md",
+    "changed_files": [
+      "src/test/save-snapshots.test.ts",
+      "docs/reports/2026-04-20-map-station-travel-state-implementation.md"
+    ],
+    "result": [
+      "Added a focused save-snapshot regression that boots filed High Pass with selectedOutingSupportId set to route-marker.",
+      "Proved filed High Pass keeps activeFieldRequest null, routeMarkerLocationId null, routeReplayLabel null, and journal.fieldRequest null.",
+      "Proved the filed route board remains targetless/filed and the expedition card activation stays in the station with the filed/logged notice instead of opening travel."
+    ],
+    "preserved": [
+      "route definitions",
+      "High Pass copy",
+      "station layout",
+      "support cycling behavior",
+      "world-map labels",
+      "corridor geometry",
+      "save schema",
+      "lane-2 copy",
+      "runtime behavior"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-378",
+    "report": "docs/reports/2026-04-20-map-station-travel-state-review.md",
+    "result": "Clean review. The filed High Pass stale-route-marker regression proves completed-arc travel cues stay suppressed without changing runtime behavior.",
+    "confirmed": [
+      "The test mutates only a copied high-pass-filed debug snapshot save by setting selectedOutingSupportId to route-marker.",
+      "Filed station route board state stays targetless, complete, and filed while the selected support remains route-marker.",
+      "World-map activeFieldRequest, routeMarkerLocationId, and routeReplayLabel stay null.",
+      "Journal fieldRequest stays null.",
+      "Filed High Pass expedition activation stays in the station with the filed/logged notice instead of opening travel."
+    ],
+    "preserved": [
+      "route definitions",
+      "High Pass copy",
+      "station layout",
+      "support cycling behavior",
+      "world-map labels",
+      "corridor geometry",
+      "save schema",
+      "lane-2 copy",
+      "runtime behavior"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "follow_up": "none",
+    "lane_1_status": "clear; promote ECO-20260420-scout-382"
+  },
+  "lane_2_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-379",
+    "report": "docs/reports/2026-04-20-map-station-travel-copy-handoff.md",
+    "target": "Clarify the Treeline Pass map footer and High Pass active-route summary so place and route language do not blur together.",
+    "recommended_copy": {
+      "src/content/world-map.ts treeline.summary": "Wind-bent edge between forest and tundra.",
+      "src/engine/field-requests.ts treeline-high-pass.summary": "Start in Treeline Pass; log stone-lift, lee-watch, rime-mark, and talus-hold."
+    },
+    "rationale": [
+      "The current world-map summary uses lower-case high pass language on the Treeline Pass node while High Pass is also the next route title.",
+      "The current High Pass route summary says clues go into High Pass, which is readable but less precise than starting from Treeline Pass.",
+      "Two exact-copy changes keep travel intent clearer without adding tutorial prose or changing map/station behavior."
+    ],
+    "preserve": [
+      "Treeline Pass location label",
+      "HIGH PASS MAP map-return label",
+      "HIGH PASS approach label",
+      "High Pass route title and route id",
+      "High Pass filed, ready, and active state behavior",
+      "route marker behavior, support behavior, save behavior, station state, world-map focus, world-map walking, corridor geometry, and field-request progression"
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts src/test/field-requests.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "completed_by": "ECO-20260420-main-379",
+    "report": "docs/reports/2026-04-20-map-station-travel-copy-implementation.md",
+    "changed_files": [
+      "src/content/world-map.ts",
+      "src/engine/field-requests.ts",
+      "src/test/world-map.test.ts",
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-map-station-travel-copy-implementation.md"
+    ],
+    "result": [
+      "Updated Treeline Pass's world-map footer summary to Wind-bent edge between forest and tundra.",
+      "Updated the active treeline-high-pass route summary to Start in Treeline Pass; log stone-lift, lee-watch, rime-mark, and talus-hold.",
+      "Added focused exact-copy coverage while preserving labels, ids, route/state behavior, support behavior, save behavior, world-map behavior, station state, and corridor geometry."
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts src/test/field-requests.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "completed_by": "ECO-20260420-critic-379",
+    "report": "docs/reports/2026-04-20-map-station-travel-copy-review.md",
+    "result": "Clean review. The Treeline Pass map footer and active High Pass route summary clarify place-vs-route language without changing route identity, map labels, route state, support, save, station, world-map focus/walking, corridor geometry, or field-request progression.",
+    "confirmed": [
+      "Treeline Pass, HIGH PASS MAP, HIGH PASS, the High Pass route title, and the treeline-high-pass route id remain unchanged.",
+      "Only the Treeline world-map summary and the active treeline-high-pass route summary changed for this packet's runtime scope.",
+      "Focused exact-copy coverage now protects both lines.",
+      "No map tutorial paragraph, HUD, station panel, route objective, save shape, corridor behavior, map-return-label rewrite, or approach-label rewrite was added."
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts src/test/field-requests.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "follow_up": "none"
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-381",
+    "report": "docs/reports/2026-04-20-map-station-travel-route-marker-handoff.md",
+    "target": "Assert route-marker and world-map replay behavior across active, ready-to-file, filed, replay-locator, and no-active-route states without adding a new surface.",
+    "existing_coverage": [
+      "Field-request state already covers season-close outing locator, active post-season High Pass, and filed High Pass suppression as separate tests.",
+      "Save snapshots cover active High Pass, ready-to-file High Pass station filing state, filed High Pass, and filed High Pass with route-marker selected.",
+      "Runtime smoke has broad full-flow coverage from active route-marker High Pass through ready-to-file return and filed suppression.",
+      "Controller coverage confirms route-marker remains map-facing and does not bias notebook chip or inspect target behavior."
+    ],
+    "recommended_scope": [
+      "Add the smallest guard in src/engine/field-request-state.ts so routeV2.status === 'ready-to-synthesize' does not synthesize an activeOuting.",
+      "Keep ready-to-file activeFieldRequest and journalFieldRequest intact so notebook and station filing remain visible.",
+      "Do not fall through to resolveSeasonOutingLocator(save) for an active ready-to-file request.",
+      "Add one focused src/test/field-requests.test.ts state-matrix test covering active High Pass, ready-to-file High Pass, season-close replay locator, and filed High Pass with route-marker selected."
+    ],
+    "acceptance": [
+      "Active High Pass with owned and selected route-marker still marks Treeline Pass and shows Today: High Pass on the focused treeline map node.",
+      "Ready-to-file High Pass keeps activeFieldRequest and journalFieldRequest for treeline-high-pass, but activeOuting, routeMarkerLocationId, and routeReplayLabel are null.",
+      "The season-close replay locator with no active field request still creates route-locator:treeline journal state and Today: High Pass replay label.",
+      "Filed High Pass with selected route-marker stays fully suppressed: no active request, active outing, journal request, route marker, or replay label."
+    ],
+    "preserve": [
+      "station pages",
+      "world-map UI and copy",
+      "route definitions and slot order",
+      "route titles and filed-note copy",
+      "support cycling behavior",
+      "save schema",
+      "corridor state and geometry",
+      "prompt seeds",
+      "new support surfaces"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"High Pass|route-marker|ready-to-file|filed|season outing locator\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"route-marker|High Pass\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|route-marker\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-main-381"
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-381",
+    "report": "docs/reports/2026-04-20-map-station-travel-route-marker-implementation.md",
+    "changed_files": [
+      "src/engine/field-request-state.ts",
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-map-station-travel-route-marker-implementation.md"
+    ],
+    "result": [
+      "Added a ready-to-file Route v2 guard so active notebook-ready requests keep activeFieldRequest and journalFieldRequest but do not synthesize activeOuting.",
+      "Because activeOuting is null for ready-to-file requests, route-marker and world-map replay labels stay suppressed while the station-side filing step is active.",
+      "Added focused High Pass state-matrix coverage for active route-marker, ready-to-file, season-close locator, and filed route-marker states."
+    ],
+    "preserved": [
+      "station pages",
+      "world-map UI and copy",
+      "route definitions and slot order",
+      "route titles and filed-note copy",
+      "support cycling behavior",
+      "save schema",
+      "corridor state and geometry",
+      "prompt seeds",
+      "new support surfaces"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"High Pass|route-marker|ready-to-file|filed|season outing locator\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"route-marker|High Pass\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|route-marker\"",
+      "npm run build"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-critic-381"
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-381",
+    "report": "docs/reports/2026-04-20-map-station-travel-route-marker-review.md",
+    "result": "Clean review. The ready-to-file Route v2 guard keeps notebook filing state alive while suppressing active outing, route-marker, and world-map replay affordances.",
+    "confirmed": [
+      "Ready-to-file requests remain activeFieldRequest and journalFieldRequest.",
+      "Ready-to-file requests do not synthesize activeOuting and do not fall through to the season outing locator.",
+      "Active High Pass with selected route-marker still marks treeline and shows Today: High Pass.",
+      "The season-close no-active-field-request locator still creates route-locator:treeline and Today: High Pass.",
+      "Filed High Pass with selected route-marker remains suppressed."
+    ],
+    "preserved": [
+      "station pages",
+      "world-map UI and copy",
+      "route definitions and slot order",
+      "route titles and filed-note copy",
+      "support cycling behavior",
+      "save schema",
+      "corridor state and geometry",
+      "prompt seeds",
+      "new support surfaces"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"High Pass|route-marker|ready-to-file|filed|season outing locator\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"route-marker|High Pass\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|route-marker\"",
+      "npm run build"
+    ],
+    "follow_up": "none",
+    "lane_4_status": "packet 143 lane-4 chain clear; promote ECO-20260420-scout-385"
+  }
+}

@@ -643,9 +643,9 @@ export const treelineBiome: BiomeDefinition = {
       entryIds: ['frost-heave-boulder', 'hoary-marmot', 'krummholz-spruce'],
       minimumDiscoveries: 2,
       summary:
-        'Near treeline, bent wood and raised stone make calmer pockets that animals can also use.',
+        'Bent krummholz and raised stone break wind into lee pockets animals can use.',
       observationPrompt:
-        'What here breaks the wind first?',
+        'Where do stone and bent wood make a lee pocket?',
       zoneId: 'dwarf-shrub',
     },
     {
@@ -675,7 +675,7 @@ export const treelineBiome: BiomeDefinition = {
       entryIds: ['moss-campion', 'reindeer-lichen', 'talus-cushion-pocket'],
       minimumDiscoveries: 2,
       summary:
-        'Wind and rime favor the lowest life on exposed High Pass ground, and tiny rock pockets still give it foothold.',
+        'Rime favors low life on exposed High Pass ground, while tiny rock pockets give footholds.',
       observationPrompt:
         'What here still holds on where rime reaches first?',
       zoneId: 'lichen-fell',
@@ -686,7 +686,7 @@ export const treelineBiome: BiomeDefinition = {
       entryIds: ['bunchberry', 'mountain-hemlock', 'dwarf-birch'],
       minimumDiscoveries: 2,
       summary:
-        'Low floor plants still hold on under the last mountain trees, but shrubs and brighter wind reach the ground.',
+        'Under the last mountain trees, low floor plants mix with shrubs and brighter wind.',
       observationPrompt:
         'What still feels like forest floor here?',
       zoneId: 'krummholz-belt',

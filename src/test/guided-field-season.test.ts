@@ -14,11 +14,11 @@ describe('guided field season', () => {
       nextBiomeId: 'beach',
       stationNote: {
         title: 'FIRST FIELD SEASON',
-        text: 'Start with Shore Shelter on Sunny Beach, then carry shelter inland through Hidden Hollow before returning to the field station.',
+        text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
       },
       promptNotice: {
         title: 'NOTEBOOK TASK',
-        text: 'Shore Shelter first. Stay on Sunny Beach and log dune grass to wrack line.',
+        text: 'Shore Shelter first: inspect dune grass, lee cover, and wrack line.',
       },
     });
   });

@@ -1,0 +1,345 @@
+{
+  "packet_id": "ECO-PACKET-131",
+  "version": 11,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Playthrough instrumentation and save snapshots",
+  "summary": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-playtest-comprehension-rubric-handoff.md",
+    "docs/reports/2026-04-20-lane-3-visual-anchor-snapshots-handoff.md",
+    "docs/reports/2026-04-20-route-loop-instrumentation-handoff.md",
+    "docs/reports/2026-04-20-lane-3-visual-anchor-snapshots-implementation.md",
+    "docs/reports/2026-04-20-lane-1-save-snapshot-handoff.md",
+    "docs/reports/2026-04-20-lane-3-visual-anchor-snapshots-review.md",
+    "docs/reports/2026-04-20-route-loop-instrumentation-implementation.md",
+    "docs/reports/2026-04-20-route-loop-instrumentation-review.md",
+    "docs/reports/2026-04-20-lane-1-save-snapshots-implementation.md",
+    "docs/reports/2026-04-20-lane-1-save-snapshots-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-330",
+    "ECO-20260420-main-330",
+    "ECO-20260420-critic-330",
+    "ECO-20260420-scout-331",
+    "ECO-20260420-main-331",
+    "ECO-20260420-critic-331",
+    "ECO-20260420-scout-332",
+    "ECO-20260420-main-332",
+    "ECO-20260420-critic-332",
+    "ECO-20260420-scout-333",
+    "ECO-20260420-main-333",
+    "ECO-20260420-critic-333"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-326",
+    "ECO-20260420-critic-327",
+    "ECO-20260420-critic-328",
+    "ECO-20260420-critic-329"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-330",
+      "goal": "Prepare lane-1: Create debug-only save snapshot helpers and documented localStorage states for first session, station return, season close, High Pass active, and filed High Pass.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-330",
+      "goal": "Implement lane-1: Create debug-only save snapshot helpers and documented localStorage states for first session, station return, season close, High Pass active, and filed High Pass.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-330",
+      "goal": "Review lane-1: Create debug-only save snapshot helpers and documented localStorage states for first session, station return, season close, High Pass active, and filed High Pass.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-331",
+      "goal": "Prepare lane-2: Define a kid/adult playtest rubric focused on comprehension, emotional memory, and science takeaways rather than feature requests.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-331",
+      "goal": "Implement lane-2: Define a kid/adult playtest rubric focused on comprehension, emotional memory, and science takeaways rather than feature requests.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-331",
+      "goal": "Review lane-2: Define a kid/adult playtest rubric focused on comprehension, emotional memory, and science takeaways rather than feature requests.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-332",
+      "goal": "Prepare lane-3: Capture named visual anchors for each major arc place and mark which frames are allowed to change in later packets.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-332",
+      "goal": "Implement lane-3: Capture named visual anchors for each major arc place and mark which frames are allowed to change in later packets.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-332",
+      "goal": "Review lane-3: Capture named visual anchors for each major arc place and mark which frames are allowed to change in later packets.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-333",
+      "goal": "Prepare lane-4: Create route-loop instrumentation assertions for active request, support selection, ready-to-file, filed notice, and replay-cleared states.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-333",
+      "goal": "Implement lane-4: Create route-loop instrumentation assertions for active request, support selection, ready-to-file, filed notice, and replay-cleared states.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-333",
+      "goal": "Review lane-4: Create route-loop instrumentation assertions for active request, support selection, ready-to-file, filed notice, and replay-cleared states.",
+      "why_now": "Add deterministic internal playthrough observability without creating a player-facing telemetry or dashboard system."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "A / Preflight",
+  "completion_gate": "A maintainer can start from named saves and reproduce first-session, mid-season, route-ready, High Pass-ready, and filed states.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Create debug-only save snapshot helpers and documented localStorage states for first session, station return, season close, High Pass active, and filed High Pass.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Define a kid/adult playtest rubric focused on comprehension, emotional memory, and science takeaways rather than feature requests.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-playtest-comprehension-rubric-handoff.md",
+        "main_331_target": "Add a source-tracked playtest comprehension rubric for kids and adult observers that emphasizes ecosystem understanding, emotional memory, and friction patterns instead of feature requests.",
+        "recommended_files": [
+          "docs/playtest-comprehension-rubric.md"
+        ],
+        "rubric_sections": [
+          "adult setup note",
+          "child-friendly post-play prompts",
+          "adult observer checklist",
+          "science relationship takeaways",
+          "place memory and emotional response",
+          "reading, control, wayfinding, and station/journal friction",
+          "feature-request parking lot",
+          "green/yellow/red follow-up triage"
+        ],
+        "non_goals": [
+          "runtime code",
+          "telemetry",
+          "analytics",
+          "UI",
+          "save schema",
+          "route logic",
+          "station behavior",
+          "personal child data collection"
+        ],
+        "verification": [
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      }
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Capture named visual anchors for each major arc place and mark which frames are allowed to change in later packets.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Create route-loop instrumentation assertions for active request, support selection, ready-to-file, filed notice, and replay-cleared states.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "main_330_focus": {
+    "target": "Add debug-only named save snapshot helpers plus a source-tracked localStorage reference so reviewers can jump to first-session, station-return, season-close, High Pass active, High Pass ready-to-file, and filed High Pass states without replaying the full arc manually.",
+    "preferred_files": [
+      "src/engine/debug-save-snapshots.ts",
+      "src/engine/save.ts",
+      "src/engine/game.ts",
+      "src/test/save-snapshots.test.ts",
+      "docs/save-snapshot-states.md"
+    ],
+    "snapshot_ids": [
+      "first-session",
+      "station-return",
+      "season-close-return",
+      "high-pass-active",
+      "high-pass-ready-to-file",
+      "high-pass-filed"
+    ],
+    "recommended_state_contract": [
+      "Export the localStorage key from `src/engine/save.ts` instead of duplicating `eco-explorer-save-v1` in docs or tests.",
+      "Keep snapshots as plain `SaveState` JSON and serialize them as `localStorage.setItem(SAVE_STORAGE_KEY, JSON.stringify(snapshot.save))` payloads.",
+      "`station-return` should use the existing forest-study completion recipe from `guided-field-season.test.ts` / `field-season-board.test.ts`, including the forest survey discoveries needed for the station-return beat.",
+      "`season-close-return` should set `completedFieldRequestIds` to at least `forest-expedition-upper-run` and `forest-season-threads` plus `seasonCloseReturnPending: true`.",
+      "`high-pass-active` should use the existing High Pass completion recipe from `runtime-smoke.test.ts` with `seasonCloseReturnPending: false` and no `treeline-high-pass` completion.",
+      "`high-pass-ready-to-file` should use `routeV2Progress.requestId: treeline-high-pass`, `status: ready-to-synthesize`, and ordered slots `stone-lift`, `lee-watch`, `rime-mark`, `talus-hold` using `frost-heave-boulder`, `hoary-marmot`, `moss-campion`, and `talus-cushion-pocket`.",
+      "`high-pass-filed` should clear `routeV2Progress` and include `treeline-high-pass` in `completedFieldRequestIds`."
+    ],
+    "verification_targets": [
+      "`npm test -- --run src/test/save-snapshots.test.ts` passes",
+      "the snapshot tests round-trip every payload through `normalizeSaveState`",
+      "the snapshot tests assert the expected guided-season, field-station, or High Pass chapter phase for each named state",
+      "`npm run validate:agents` passes after queue and packet updates",
+      "`git diff --check` passes"
+    ],
+    "non_goals": [
+      "Do not add telemetry, analytics, network calls, a player-facing snapshot menu, or a debug dashboard.",
+      "Do not add a save-schema migration or change persisted field meanings beyond exporting the existing storage key if needed.",
+      "Do not change route behavior, station layout, route copy, biome geometry, science content, or support behavior.",
+      "Do not build packet `133`'s full deterministic route-state matrix or duplicate lane-4 route-loop assertions."
+    ]
+  },
+  "main_332_focus": {
+    "target": "Extend the source-tracked screenshot manifest with an anchor-change policy so every lane-3 visual anchor says whether it is a protected baseline, expected recapture, or state gap.",
+    "preferred_files": [
+      "docs/alpha-screenshot-proof-manifest.md"
+    ],
+    "frame_ids": [
+      "beach-opening-shoulder",
+      "beach-lee-pocket",
+      "beach-tidepool-approach",
+      "beach-tidepool-return",
+      "scrub-corridor-threshold",
+      "forest-giant-tree-entry",
+      "forest-log-run-trunk",
+      "forest-cave-trunk",
+      "forest-upper-return",
+      "treeline-last-tree-shelter",
+      "treeline-stone-shelter",
+      "treeline-rime-brow",
+      "treeline-talus-hold",
+      "tundra-drift-hold",
+      "tundra-thaw-bench"
+    ],
+    "snapshot_contract": [
+      "Fresh captures use `output/alpha-screenshot-proof/<frame-id>.png`.",
+      "Fresh state uses `output/alpha-screenshot-proof/<frame-id>.json` from `render_game_to_text()`.",
+      "Fresh browser errors use `output/alpha-screenshot-proof/<frame-id>-errors.json` when available.",
+      "Generated output remains ignored and must not be committed."
+    ],
+    "verification_targets": [
+      "`npm run validate:agents` passes after queue and packet updates",
+      "`git diff --check` passes",
+      "all 15 frame ids have an anchor class and allowed-change or recapture trigger",
+      "older references without adjacent state JSON are marked as state gaps"
+    ],
+    "non_goals": [
+      "Do not add runtime code, telemetry, analytics, save helpers, route assertions, or browser automation.",
+      "Do not generate or commit screenshot files.",
+      "Do not change biome geometry, traversal behavior, route state, station UI, save schema, or science copy.",
+      "Do not duplicate lane 1's save snapshot documentation or lane 4's route-loop assertions."
+    ]
+  },
+  "main_333_focus": {
+    "target": "Tighten lane-4 route-loop instrumentation assertions around the existing High Pass runtime smoke so `render_game_to_text()` proves active request, support choice, ready-to-file, filed notice, and replay-cleared states without adding telemetry or a new debug dashboard.",
+    "preferred_files": [
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "debug_checkpoints": [
+      "active `treeline-high-pass` state exposes `activeFieldRequest`, `nearestInspectableEntityId`, and the `support-biased` `fieldRequestHint` for `hand-lens`",
+      "non-`hand-lens` support on the same pocket keeps the hint `default` and does not retarget to the notebook-fit talus clue",
+      "after talus-hold inspect, `routeV2Progress.status` is `ready-to-synthesize`, `activeFieldRequest.progressLabel` is `Ready To File`, and the notice variant is `notebook-ready`",
+      "station-side filing clears `routeV2Progress`, records `treeline-high-pass`, and emits the route-authored `HIGH PASS` filed notice with `filed-route` variant",
+      "post-filed world-map and journal states expose no active request, route marker, replay label, or journal field request"
+    ],
+    "verification_targets": [
+      "`npm test -- src/test/runtime-smoke.test.ts -t \"High Pass\"` or a narrower equivalent focused on the edited High Pass route-loop assertions passes",
+      "`npm run validate:agents` passes after queue and packet updates",
+      "`git diff --check` passes"
+    ],
+    "non_goals": [
+      "Do not add runtime telemetry, analytics, player-facing UI, screenshots, save schema, or a dashboard.",
+      "Do not change Route v2 behavior, support selection behavior, station layout, route copy, biome geometry, or science content.",
+      "Do not build packet `133`'s full deterministic route-state matrix.",
+      "Do not duplicate lane-1 save snapshot helpers or lane-3 visual-anchor capture policy."
+    ]
+  }
+}

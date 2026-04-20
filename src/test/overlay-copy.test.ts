@@ -17,7 +17,7 @@ describe('first-session overlay copy', () => {
     expect(TITLE_ACTION_ROWS).toContainEqual(['BOOK', 'J']);
     expect(TITLE_ACTION_ROWS).toContainEqual(['MENU', 'M']);
     expect(TITLE_ACTION_ROWS).toContainEqual(['PICK', 'ENTER']);
-    expect(TITLE_START_HINT).toContain('MENU');
+    expect(TITLE_START_HINT).toContain('M');
     expect(TITLE_START_HINT).toContain('MAP');
     expect(TITLE_START_HINT).toContain('STATION');
   });
@@ -29,7 +29,7 @@ describe('first-session overlay copy', () => {
         showFieldStationAction: false,
         showFieldGuideAction: true,
       }),
-    ).toBe('World map handles travel. Journal stays on J.');
+    ).toBe('World map handles travel. Notebook stays on J.');
 
     expect(
       getMenuOverlayHelperText({
@@ -45,7 +45,7 @@ describe('first-session overlay copy', () => {
         showFieldStationAction: true,
         showFieldGuideAction: false,
       }),
-    ).toBe('Field station handles support and route upgrades.');
+    ).toBe('Field station files notes and support.');
 
     expect(
       getMenuOverlayHelperText({
@@ -53,7 +53,25 @@ describe('first-session overlay copy', () => {
         showFieldStationAction: true,
         showFieldGuideAction: false,
       }),
-    ).toContain('Trail Stride');
+    ).toContain('file notes');
+  });
+
+  it('keeps sound helper copy quiet and gesture-aware for menu fallbacks', () => {
+    expect(
+      getMenuOverlayHelperText({
+        showWorldMapAction: false,
+        showFieldStationAction: false,
+        showFieldGuideAction: true,
+      }),
+    ).toBe('Quiet sounds start after a key or click.');
+
+    expect(
+      getMenuOverlayHelperText({
+        showWorldMapAction: false,
+        showFieldStationAction: false,
+        showFieldGuideAction: false,
+      }),
+    ).toBe('Quiet sounds start after a key or click.');
   });
 
   it('derives a calm field-station growth accent from nursery progress instead of new copy', () => {
@@ -225,6 +243,40 @@ describe('first-session overlay copy', () => {
       renderRightBrace: true,
       renderCenterTie: true,
       renderLateSeasonLintel: true,
+    });
+  });
+
+  it('exposes homecoming memory as a non-drawing backdrop seam for later accent work', () => {
+    const accent = resolveFieldStationBackdropAccentState({
+      teachingBedStage: null,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+      compostRate: 1,
+      loggedRouteCount: 0,
+      homecomingMilestoneRequestId: 'coastal-edge-moisture',
+    });
+
+    expect(accent).toMatchObject({
+      showAccent: false,
+      homecomingMilestoneRequestId: 'coastal-edge-moisture',
+      hasHomecomingMemory: true,
+      hasLeftBrace: false,
+      hasRightBrace: false,
+      hasCenterTie: false,
+      hasLateSeasonLintel: false,
+    });
+
+    expect(
+      resolveFieldStationBackdropAccentState({
+        teachingBedStage: null,
+        hasLogPile: false,
+        hasPollinatorPatch: false,
+        compostRate: 1,
+        loggedRouteCount: 0,
+      }),
+    ).toMatchObject({
+      homecomingMilestoneRequestId: null,
+      hasHomecomingMemory: false,
     });
   });
 });

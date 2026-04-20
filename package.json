@@ -8,7 +8,10 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "validate:agents": "node scripts/validate-agent-packets.mjs"
+    "science:check": "vitest run --run src/test/content-quality.test.ts",
+    "validate:agents": "node scripts/validate-agent-packets.mjs",
+    "review:pack": "node scripts/create-review-drop.mjs",
+    "review:verify": "node scripts/verify-review-drop.mjs"
   },
   "devDependencies": {
     "typescript": "~5.9.3",

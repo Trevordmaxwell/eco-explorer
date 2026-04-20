@@ -1,0 +1,275 @@
+{
+  "packet_id": "ECO-PACKET-154",
+  "version": 4,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Performance, bundle, and error hardening",
+  "summary": "Make the source-complete alpha build resilient on fresh machines and browsers.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-save-normalization-hardening-review.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-handoff.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-422",
+    "ECO-20260420-main-422",
+    "ECO-20260420-critic-422",
+    "ECO-20260420-scout-423",
+    "ECO-20260420-main-423",
+    "ECO-20260420-critic-423",
+    "ECO-20260420-scout-424",
+    "ECO-20260420-main-424",
+    "ECO-20260420-critic-424",
+    "ECO-20260420-scout-425",
+    "ECO-20260420-main-425",
+    "ECO-20260420-critic-425"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-418",
+    "ECO-20260420-critic-419",
+    "ECO-20260420-critic-420",
+    "ECO-20260420-critic-421"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-422",
+      "goal": "Prepare lane-1: Own clean install, build/test/validate, package ignore, script docs, and any low-risk runtime error fixes.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-422",
+      "goal": "Implement lane-1: Own clean install, build/test/validate, package ignore, script docs, and any low-risk runtime error fixes.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-422",
+      "goal": "Review lane-1: Own clean install, build/test/validate, package ignore, script docs, and any low-risk runtime error fixes.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-423",
+      "goal": "Prepare lane-2: Check that content volume or copy helpers are not driving unnecessary bundle/runtime cost.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-423",
+      "goal": "Implement lane-2: Check that content volume or copy helpers are not driving unnecessary bundle/runtime cost.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-423",
+      "goal": "Review lane-2: Check that content volume or copy helpers are not driving unnecessary bundle/runtime cost.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-424",
+      "goal": "Prepare lane-3: Run browser proof across representative spatial frames and flag rendering or asset regressions.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-424",
+      "goal": "Implement lane-3: Run browser proof across representative spatial frames and flag rendering or asset regressions.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-424",
+      "goal": "Review lane-3: Run browser proof across representative spatial frames and flag rendering or asset regressions.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-425",
+      "goal": "Prepare lane-4: Run route-loop browser proof across active/ready/filed/replay surfaces and capture console errors.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-425",
+      "goal": "Implement lane-4: Run route-loop browser proof across active/ready/filed/replay surfaces and capture console errors.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-425",
+      "goal": "Review lane-4: Run route-loop browser proof across active/ready/filed/replay surfaces and capture console errors.",
+      "why_now": "Make the source-complete alpha build resilient on fresh machines and browsers."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/packets/154-performance-bundle-and-error-hardening.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-handoff.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md",
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md",
+    ".gitignore",
+    "src/test/review-drop-hygiene.test.ts"
+  ],
+  "lane_1_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-422",
+    "status": "complete",
+    "result": "Narrowed lane 1 to repo-local ignore coverage for review-drop scratch workspaces.",
+    "main_scope": [
+      "Add .tmp to the repo .gitignore because review:verify intentionally extracts and installs there.",
+      "Add a focused review-drop hygiene test that protects the local/generated folder ignore list.",
+      "Keep review-drop scripts, package scripts, README wording, runtime source, and UI behavior unchanged unless the guard exposes a mismatch."
+    ],
+    "out_of_scope": [
+      "Review-drop workflow rewrites",
+      "New packaging commands",
+      "Full clean-extract verification requirement for this tiny main pass",
+      "Runtime code, save schema, route behavior, station behavior, content, geometry, or browser UI changes"
+    ],
+    "baseline_checks": [
+      "npm run review:pack",
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-review-drop-scratch-ignore-handoff.md"
+  },
+  "lane_1_main_result": {
+    "queue_id": "ECO-20260420-main-422",
+    "status": "implemented",
+    "result": "Repo-local ignore coverage now protects review-drop clean-extract scratch workspaces.",
+    "changed_files": [
+      ".gitignore",
+      "src/test/review-drop-hygiene.test.ts",
+      "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md"
+    ],
+    "behavior_notes": [
+      ".tmp is now ignored by the project instead of relying on a personal global gitignore.",
+      "The new test guards the generated/local folder ignore list used by build and review-drop workflows.",
+      "Review-drop scripts, package scripts, README wording, runtime source, and UI behavior were not changed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/review-drop-hygiene.test.ts",
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run build"
+    ],
+    "critic_focus": [
+      "Confirm .tmp is present in .gitignore alongside the existing generated folders.",
+      "Confirm the new test uses Vite raw import rather than Node fs/path types so build remains clean.",
+      "Confirm no review-drop script, package script, README, runtime, route, save, station, content, geometry, or UI drift landed."
+    ],
+    "handoff_report": "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md"
+  },
+  "lane_1_critic_result": {
+    "queue_id": "ECO-20260420-critic-422",
+    "status": "clear",
+    "result": "No blocker found; review-drop scratch ignore coverage is scoped and verified.",
+    "verification": [
+      "npm test -- --run src/test/review-drop-hygiene.test.ts",
+      "node --check scripts/create-review-drop.mjs",
+      "node --check scripts/verify-review-drop.mjs",
+      "npm run build"
+    ],
+    "notes": [
+      ".tmp is now project-ignored alongside existing generated/local folders.",
+      "The new test uses Vite raw import support instead of Node fs/path types.",
+      "Review-drop scripts, package scripts, README wording, runtime code, route behavior, save schema, station behavior, content, geometry, and UI were unchanged."
+    ],
+    "promote_next": "ECO-20260420-scout-426",
+    "review_report": "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md"
+  },
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "E / Maintainability",
+  "completion_gate": "Build/test/validate pass from a clean install, browser console proof is clean on core alpha states, and review archives are source-complete.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Own clean install, build/test/validate, package ignore, script docs, and any low-risk runtime error fixes.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Check that content volume or copy helpers are not driving unnecessary bundle/runtime cost.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Run browser proof across representative spatial frames and flag rendering or asset regressions.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Run route-loop browser proof across active/ready/filed/replay surfaces and capture console errors.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

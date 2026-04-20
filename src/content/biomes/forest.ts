@@ -1126,7 +1126,7 @@ export const forestBiome: BiomeDefinition = {
       entryIds: ['nootka-rose', 'red-huckleberry', 'salmonberry'],
       minimumDiscoveries: 2,
       summary:
-        'The first forest edge stacks thorny stems and berries into a shadier thicket than the scrub behind.',
+        'The first forest edge stacks thorny stems and berries into a shadier thicket.',
       observationPrompt:
         'Where does the first berry thicket gather?',
       zoneId: 'trailhead',
@@ -1169,9 +1169,9 @@ export const forestBiome: BiomeDefinition = {
       entryIds: ['root-curtain', 'licorice-fern', 'tree-lungwort'],
       minimumDiscoveries: 2,
       summary:
-        'Hanging roots and bark can keep damp shelter above the seep floor.',
+        'Root curtains catch drips and shade, keeping damp shelter above the seep floor.',
       observationPrompt:
-        'What here keeps moisture above the seep floor?',
+        'Where do roots keep damp shelter above the seep?',
       zoneId: 'filtered-return',
     },
     {
@@ -1255,7 +1255,7 @@ export const forestBiome: BiomeDefinition = {
       entryIds: ['bunchberry', 'redwood-sorrel', 'western-hemlock-seedling'],
       minimumDiscoveries: 2,
       summary:
-        'Even near the last big trees, cool shade still stacks low leaves and tiny starts into a full forest floor.',
+        'Near the last big trees, cool shade still stacks low leaves and tiny tree starts.',
       observationPrompt:
         'What here still looks like a full forest floor?',
       zoneId: 'old-growth-pocket',

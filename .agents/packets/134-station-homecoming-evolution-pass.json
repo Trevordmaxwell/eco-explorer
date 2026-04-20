@@ -1,0 +1,468 @@
+{
+  "packet_id": "ECO-PACKET-134",
+  "version": 11,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Station homecoming evolution pass",
+  "summary": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-station-homecoming-visual-accent-handoff.md",
+    "docs/reports/2026-04-20-station-homecoming-copy-handoff.md",
+    "docs/reports/2026-04-20-station-homecoming-copy-review.md",
+    "docs/reports/2026-04-20-station-homecoming-route-notice-handoff.md",
+    "docs/reports/2026-04-20-station-homecoming-lane-1-handoff.md",
+    "docs/reports/2026-04-20-station-homecoming-lane-1-implementation.md",
+    "docs/reports/2026-04-20-station-homecoming-lane-1-review.md",
+    "docs/reports/2026-04-20-station-homecoming-route-notice-implementation.md",
+    "docs/reports/2026-04-20-station-homecoming-route-notice-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-342",
+    "ECO-20260420-main-342",
+    "ECO-20260420-critic-342",
+    "ECO-20260420-scout-343",
+    "ECO-20260420-main-343",
+    "ECO-20260420-critic-343",
+    "ECO-20260420-scout-344",
+    "ECO-20260420-main-344",
+    "ECO-20260420-critic-344",
+    "ECO-20260420-scout-345",
+    "ECO-20260420-main-345",
+    "ECO-20260420-critic-345"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-338",
+    "ECO-20260420-critic-339",
+    "ECO-20260420-critic-340",
+    "ECO-20260420-critic-341"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-342",
+      "goal": "Prepare lane-1: Extract or harden the station homecoming state resolver and wire one additional non-sill visual payoff seam.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-342",
+      "goal": "Implement lane-1: Extract or harden the station homecoming state resolver and wire one additional non-sill visual payoff seam.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-342",
+      "goal": "Review lane-1: Extract or harden the station homecoming state resolver and wire one additional non-sill visual payoff seam.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-343",
+      "goal": "Prepare lane-2: Write a tiny homecoming line family that acknowledges filed progress without repeating route notes or adding a new panel.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-343",
+      "goal": "Implement lane-2: Write a tiny homecoming line family that acknowledges filed progress without repeating route notes or adding a new panel.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-343",
+      "goal": "Review lane-2: Write a tiny homecoming line family that acknowledges filed progress without repeating route notes or adding a new panel.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-344",
+      "goal": "Prepare lane-3: Design the visual accent family for the new station seam and prove it does not crowd the existing sill/gutter accents.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-344",
+      "goal": "Implement lane-3: Design the visual accent family for the new station seam and prove it does not crowd the existing sill/gutter accents.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-344",
+      "goal": "Review lane-3: Design the visual accent family for the new station seam and prove it does not crowd the existing sill/gutter accents.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-345",
+      "goal": "Prepare lane-4: Ensure route filing and support notices hand off cleanly into homecoming without competing toasts or stale Today labels.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-345",
+      "goal": "Implement lane-4: Ensure route filing and support notices hand off cleanly into homecoming without competing toasts or stale Today labels.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-345",
+      "goal": "Review lane-4: Ensure route filing and support notices hand off cleanly into homecoming without competing toasts or stale Today labels.",
+      "why_now": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "B / Home loop",
+  "completion_gate": "Station return after major filed beats visibly changes in one compact seam and remains readable at 256x160.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Extract or harden the station homecoming state resolver and wire one additional non-sill visual payoff seam.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-station-homecoming-lane-1-handoff.md",
+        "main_342_target": "Add the smallest station-owned homecoming state seam, consume the reviewed lane-2 WELCOME BACK copy helper conditionally, and expose one non-sill seam key for later lane-3 visual accent work.",
+        "recommended_files": [
+          "src/engine/field-station-state.ts",
+          "src/engine/field-station-session.ts",
+          "src/engine/field-station-homecoming-shell.ts",
+          "src/engine/overlay-render.ts",
+          "src/engine/game.ts",
+          "src/test/field-station.test.ts",
+          "src/test/overlay-copy.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-station-homecoming-lane-1-implementation.md"
+        ],
+        "existing_seams": [
+          "resolveFieldStationOpenState(...) already emits arrivalMode homecoming only when opening the station mutates progress state",
+          "fieldStationArrivalMode is stored in game.ts and exposed through render_game_to_text().fieldStation.arrivalMode",
+          "field-station-homecoming-shell already consumes arrivalMode for the transient brace pulse",
+          "resolveFieldStationHomecomingCopy(...) is reviewed and intentionally unwired until lane 1 provides the station seam"
+        ],
+        "main_acceptance": [
+          "consume resolveFieldStationHomecomingCopy(...) only through a station-owned homecoming state seam",
+          "keep homecoming copy conditional on arrivalMode === homecoming so it is not an always-on station subtitle",
+          "expose fieldStation.homecoming with label, text, and requestId during earned homecoming opens and null on calm reopens",
+          "add or extend pure tests for default, earned, and repeated/calm station open states",
+          "add focused runtime-smoke coverage proving a representative earned station return exposes the homecoming state and a second open clears it",
+          "give lane 3 one non-sill seam key or flag to consume later without drawing the lane-3 visual accent yet",
+          "do not change save schema, route definitions, route filing behavior, support notices, geometry, science copy, lane-2 copy text, new station pages, or broad station layout"
+        ],
+        "non_goals": [
+          "new dashboard, page, card stack, or permanent station subtitle",
+          "committed screenshots or browser proof unless runtime rendering changes require it",
+          "lane-3 upper-frame visual accent implementation before ECO-20260420-critic-342",
+          "lane-4 route-notice lifecycle changes before ECO-20260420-critic-342",
+          "edits to lane-2 copy text unless a concrete bug appears"
+        ],
+        "verification": [
+          "focused station/homecoming unit tests",
+          "focused runtime-smoke station homecoming slice",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-lane-1-implementation.md",
+        "implemented_files": [
+          "src/engine/field-station-state.ts",
+          "src/engine/field-station-homecoming-shell.ts",
+          "src/engine/overlay-render.ts",
+          "src/engine/game.ts",
+          "src/test/field-station.test.ts",
+          "src/test/overlay-copy.test.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "summary": "Added a station-owned homecoming state resolver that consumes the lane-2 WELCOME BACK copy helper only when arrivalMode is homecoming, exposes fieldStation.homecoming in debug state, shows one transient compact header-line during earned returns, and gives lane 3 a non-drawing homecoming memory seam.",
+        "guardrails_kept": [
+          "no save schema changes",
+          "no route definitions or route filing behavior changes",
+          "no support notice lifecycle changes",
+          "no geometry, science copy, or lane-2 copy text changes",
+          "no new station page, panel, card stack, or broad station layout change"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-station.test.ts`",
+          "`npm test -- --run src/test/overlay-copy.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"homecoming copy state\"`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-lane-1-review.md",
+        "verdict": "no blocker",
+        "confirmed": [
+          "station-owned resolver consumes the lane-2 copy helper instead of letting rendering or route code import it directly",
+          "fieldStation.homecoming is conditional on arrivalMode homecoming plus a completed filed-progress milestone and clears on calm reopen",
+          "visible copy stays to one transient existing header-line without a new station page, panel, card stack, or permanent subtitle",
+          "homecomingMilestoneRequestId and hasHomecomingMemory are exposed as a non-drawing lane-3 seam",
+          "save schema, route definitions, route filing behavior, support notices, geometry, science copy, and lane-2 copy text stayed unchanged"
+        ],
+        "watch_item": "If later work needs to distinguish route-filed returns from nursery or ledger homecoming returns, extend resolveFieldStationOpenState(...) with a narrow reason/key instead of adding parallel homecoming state.",
+        "unblocks": [
+          "ECO-20260420-main-344",
+          "ECO-20260420-main-345",
+          "ECO-20260420-scout-346"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-station.test.ts`",
+          "`npm test -- --run src/test/overlay-copy.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"homecoming copy state\"`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      }
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Write a tiny homecoming line family that acknowledges filed progress without repeating route notes or adding a new panel.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-station-homecoming-copy-handoff.md",
+        "main_343_target": "Add a tiny copy-only homecoming line resolver/data bank that acknowledges filed progress from existing completedFieldRequestIds, with direct tests and no station wiring until lane 1 lands the homecoming resolver seam.",
+        "recommended_files": [
+          "src/engine/field-station-homecoming-copy.ts",
+          "src/test/field-station-homecoming-copy.test.ts",
+          "docs/reports/2026-04-20-station-homecoming-copy-implementation.md"
+        ],
+        "copy_contract": {
+          "label": "WELCOME BACK",
+          "label_max": 14,
+          "text_max": 76,
+          "milestones": [
+            {
+              "request_id": "coastal-edge-moisture",
+              "text": "Coast line filed. The station holds one shore-to-forest thread."
+            },
+            {
+              "request_id": "tundra-survey-slice",
+              "text": "Coast and ridge filed. The board reads like one longer path."
+            },
+            {
+              "request_id": "treeline-low-fell",
+              "text": "Edge line filed. Coast, ridge, and low fell now connect."
+            },
+            {
+              "request_id": "forest-expedition-upper-run",
+              "text": "Root Hollow filed. The season reaches from shore to upper run."
+            },
+            {
+              "request_id": "forest-season-threads",
+              "text": "Season Threads filed. The station can rest before High Pass."
+            },
+            {
+              "request_id": "treeline-high-pass",
+              "text": "High Pass filed. Treeline stone and talus close the field arc."
+            }
+          ]
+        },
+        "non_goals": [
+          "station rendering, station state, route controller behavior, route-board layout, save/schema changes, geometry, source-ledger changes for non-science station copy, new panels, new notice priority, or wider station subtitles",
+          "repeating route notes, clue lists, or filed-note synthesis copy from packet 133"
+        ],
+        "verification": [
+          "direct focused tests for the new copy resolver/data bank",
+          "`npm run build` if the shared tree allows TypeScript build verification",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ],
+        "main_result": {
+          "source": "docs/reports/2026-04-20-station-homecoming-copy-implementation.md",
+          "implemented_files": [
+            "src/engine/field-station-homecoming-copy.ts",
+            "src/test/field-station-homecoming-copy.test.ts"
+          ],
+          "summary": "Added a copy-only field-station homecoming resolver/data bank with six filed-progress milestones, compact budgets, strongest-applicable resolution from completedFieldRequestIds, and direct tests.",
+          "kept_out_of_scope": [
+            "station rendering",
+            "station state",
+            "route controller behavior",
+            "route-board layout",
+            "save schema",
+            "geometry",
+            "new UI panels"
+          ],
+          "verification": [
+            "`npm test -- --run src/test/field-station-homecoming-copy.test.ts`",
+            "`npm run build`",
+            "`npm run validate:agents`",
+            "`git diff --check`"
+          ]
+        },
+        "critic_result": {
+          "source": "docs/reports/2026-04-20-station-homecoming-copy-review.md",
+          "verdict": "no blocker",
+          "confirmed": [
+            "copy-only helper reads existing completedFieldRequestIds and stays unwired until lane 1 provides the station seam",
+            "strongest-applicable filed milestone selection is test-backed",
+            "label/text budgets and clue-list avoidance are test-backed",
+            "no station rendering, station state, route controller behavior, route-board layout, save schema, geometry, or new UI panel changed"
+          ],
+          "residual_risk": "When lane 1 consumes the helper, the line should stay conditional on the earned homecoming state instead of becoming an always-on station subtitle.",
+          "verification": [
+            "`npm test -- --run src/test/field-station-homecoming-copy.test.ts`",
+            "`npm run build`",
+            "`npm run validate:agents`",
+            "`git diff --check`"
+          ]
+        }
+      }
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Design the visual accent family for the new station seam and prove it does not crowd the existing sill/gutter accents.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Ensure route filing and support notices hand off cleanly into homecoming without competing toasts or stale Today labels.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-station-homecoming-route-notice-handoff.md",
+        "main_345_target": "After lane 1's homecoming seam review clears, add the smallest route-notice/replay lifecycle proof so filed-route notices, support-selection notices, and world-map Today labels hand off cleanly around station homecoming.",
+        "dependency_note": "Keep ECO-20260420-main-345 blocked until ECO-20260420-critic-342 clears; lane 2's copy helper review has already cleared and should be respected rather than edited.",
+        "recommended_files": [
+          "src/engine/field-notices.ts",
+          "src/test/field-notices.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "src/test/field-requests.test.ts",
+          "src/engine/game.ts",
+          "docs/reports/2026-04-20-station-homecoming-route-notice-implementation.md"
+        ],
+        "main_acceptance": [
+          "opening a homecoming station state does not let stale FIELD STATION, support-selection, or route-replay notices reappear later",
+          "filing a ready Route v2 note from the station keeps the filed-route notice as the only route notice generated by that action",
+          "support selection remains persisted but does not replace the filed-route notice in the same station interaction",
+          "world-map routeMarkerLocationId, routeReplayLabel, active outing, and journal field-request state clear for filed treeline-high-pass or hand off to the next real outing for earlier route filings",
+          "no station layout, homecoming copy, station shell visuals, route definitions, save schema, geometry, broad onboarding copy, or science content changes"
+        ],
+        "verification": [
+          "focused runtime-smoke station filing/homecoming notice handoff slice",
+          "`npm test -- src/test/field-requests.test.ts` if the pure route-state matrix is touched",
+          "`npm test -- src/test/field-notices.test.ts` if a notice-priority helper is added",
+          "`npm run build` for runtime TypeScript changes",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-route-notice-implementation.md",
+        "implemented_files": [
+          "src/engine/field-notices.ts",
+          "src/engine/game.ts",
+          "src/test/field-notices.test.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "summary": "Added tiny notice-lifecycle helpers and runtime wiring so earned homecoming station opens clear stale non-filed notices, while filed-route notices remain canonical and cannot be replaced by support-selection copy during the same station interaction.",
+        "guardrails_kept": [
+          "consumed lane 1's reviewed station-owned homecoming seam",
+          "left lane 2 homecoming copy unchanged",
+          "no station layout, station shell visual, route definition, save schema, geometry, broad onboarding copy, or science content changes",
+          "support selection persistence stayed unchanged"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-notices.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"clears stale station guidance notices\"`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"lets hand lens prefer talus cushion pocket\"`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-route-notice-review.md",
+        "verdict": "no blocker",
+        "confirmed": [
+          "earned homecoming station opens clear stale non-filed notices through lane 1's reviewed station-owned arrivalMode seam",
+          "filed-route notices stay canonical and cannot be replaced by non-filed support-selection copy during the same station interaction",
+          "support selection persistence remains unchanged",
+          "filed treeline-high-pass clears active request, route marker, replay label, and journal field-request state",
+          "homecoming copy, station layout, station shell visuals, route definitions, save schema, geometry, broad onboarding copy, and science content stayed unchanged"
+        ],
+        "residual_risk": "Filed-route notices are intentionally preserved on homecoming opens; if a later route replay pass creates a truly stale filed-route notice, add a narrow age/source check instead of clearing all filed-route notices.",
+        "unblocks": [
+          "ECO-20260420-scout-349"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-notices.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"clears stale station guidance notices\"`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"lets hand lens prefer talus cushion pocket\"`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

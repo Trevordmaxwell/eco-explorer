@@ -170,6 +170,21 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('pine-underlayer');
   });
 
+  it('keeps the coastal scrub back-dune note tactile and relationship-led', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      coastalScrubBiome,
+      'beach-grass',
+      ['beach-grass', 'sand-verbena', 'dune-lupine'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('shelter-builds-here');
+    expect(resolved.note?.summary).toContain('slow wind');
+    expect(resolved.note?.summary).toContain('back-dune sand');
+    expect(resolved.note?.summary).toContain('calmer life');
+    expect(resolved.note?.observationPrompt).toBe('Where does wind-slowed sand start feeling calmer?');
+  });
+
   it('supports the new scrub transition note once sturdier shrub cover shows up', () => {
     const resolved = resolveEcosystemNoteForEntry(
       coastalScrubBiome,
@@ -212,6 +227,10 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('root-held-shelter');
+    expect(resolved.note?.summary).toContain('catch drips');
+    expect(resolved.note?.summary).toContain('shade');
+    expect(resolved.note?.summary).toContain('above the seep floor');
+    expect(resolved.note?.observationPrompt).toBe('Where do roots keep damp shelter above the seep?');
   });
 
   it('keeps the old-wood link locked until the player reaches a true old-growth clue', () => {
@@ -296,6 +315,10 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('stone-shelter');
+    expect(resolved.note?.summary).toContain('break wind');
+    expect(resolved.note?.summary).toContain('lee pockets');
+    expect(resolved.note?.summary).toContain('animals can use');
+    expect(resolved.note?.observationPrompt).toBe('Where do stone and bent wood make a lee pocket?');
   });
 
   it('supports the new treeline alpine-mat note through the fell bloom pair', () => {
@@ -406,6 +429,21 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('thaw-edge');
+  });
+
+  it('keeps the tundra short-summer note tied to bloom, bird, and berry timing', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      tundraBiome,
+      'cloudberry',
+      ['purple-saxifrage', 'cloudberry', 'snow-bunting'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('short-summer-rush');
+    expect(resolved.note?.summary).toContain('cloudberry fruit');
+    expect(resolved.note?.summary).toContain('race');
+    expect(resolved.note?.summary).toContain('short tundra summer');
+    expect(resolved.note?.observationPrompt).toBe('What here races the short summer?');
   });
 
   it('supports the new tundra exposed-ground note through the campion and lichen pair', () => {

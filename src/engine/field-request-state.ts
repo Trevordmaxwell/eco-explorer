@@ -1,5 +1,6 @@
 import type { WorldMapDefinition } from '../content/world-map';
-import { resolveFieldSeasonBoardState, resolveSeasonOutingLocator } from './field-season-board';
+import { resolveFieldSeasonBoardState } from './field-season-board';
+import { resolveSeasonOutingLocator } from './field-season-outing-locator';
 import { hasFieldUpgrade } from './field-station';
 import {
   resolveActiveFieldRequest,
@@ -70,11 +71,19 @@ export function createFieldRequestContext(
   };
 }
 
+function isNotebookReadyRoute(activeFieldRequest: ActiveFieldRequest | null): boolean {
+  return activeFieldRequest?.routeV2?.status === 'ready-to-synthesize';
+}
+
 function resolveActiveOuting(
   save: SaveState,
   activeFieldRequest: ActiveFieldRequest | null,
 ): ActiveOutingState | null {
   if (activeFieldRequest) {
+    if (isNotebookReadyRoute(activeFieldRequest)) {
+      return null;
+    }
+
     return {
       title: activeFieldRequest.title,
       summary: activeFieldRequest.summary,

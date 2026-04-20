@@ -15,6 +15,172 @@ import {
   shouldCompleteActiveFieldRequest,
 } from '../engine/field-requests';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
+import type { SaveState } from '../engine/types';
+
+type RouteV2Progress = NonNullable<SaveState['routeV2Progress']>;
+
+const ROUTE_FILED_NOTE_MATRIX_MAX = 144;
+const ROUTE_FILED_NOTE_MATRIX: Array<{
+  requestId: string;
+  progress: RouteV2Progress;
+  anchor: string;
+  displayPrefix?: string;
+}> = [
+  {
+    requestId: 'beach-shore-shelter',
+    progress: {
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+        { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+      ],
+    },
+    anchor: 'shelter from dune edge to tide line',
+  },
+  {
+    requestId: 'forest-hidden-hollow',
+    progress: {
+      requestId: 'forest-hidden-hollow',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: ['seep-stone'],
+      evidenceSlots: [],
+    },
+    anchor: 'damp lower hollow under the roots',
+  },
+  {
+    requestId: 'forest-moisture-holders',
+    progress: {
+      requestId: 'forest-moisture-holders',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'shelter', entryId: 'licorice-fern' },
+        { slotId: 'ground', entryId: 'seep-stone' },
+        { slotId: 'living', entryId: 'banana-slug' },
+      ],
+    },
+    anchor: 'hollow holding moisture',
+  },
+  {
+    requestId: 'coastal-shelter-shift',
+    progress: {
+      requestId: 'coastal-shelter-shift',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'open-bloom', entryId: 'sand-verbena' },
+        { slotId: 'pine-cover', entryId: 'shore-pine' },
+        { slotId: 'edge-log', entryId: 'nurse-log' },
+      ],
+    },
+    anchor: 'open coast meeting forest-edge shelter',
+  },
+  {
+    requestId: 'treeline-stone-shelter',
+    progress: {
+      requestId: 'treeline-stone-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'lee-life', entryId: 'hoary-marmot' },
+        { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+        { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+      ],
+    },
+    anchor: 'sheltered treeline pocket',
+  },
+  {
+    requestId: 'tundra-short-season',
+    progress: {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    },
+    anchor: "tundra's short thaw window",
+    displayPrefix: 'Thaw Window.',
+  },
+  {
+    requestId: 'scrub-edge-pattern',
+    progress: {
+      requestId: 'scrub-edge-pattern',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+        { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'thicker-edge', entryId: 'salmonberry' },
+      ],
+    },
+    anchor: 'clear transition',
+  },
+  {
+    requestId: 'forest-cool-edge',
+    progress: {
+      requestId: 'forest-cool-edge',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'edge-carrier', entryId: 'salmonberry' },
+        { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+        { slotId: 'wet-shade', entryId: 'sword-fern' },
+      ],
+    },
+    anchor: 'cooler forest middle',
+  },
+  {
+    requestId: 'treeline-low-fell',
+    progress: {
+      requestId: 'treeline-low-fell',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'low-rest', entryId: 'arctic-willow' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+      ],
+    },
+    anchor: 'treeline shelter into open fell',
+  },
+  {
+    requestId: 'forest-expedition-upper-run',
+    progress: {
+      requestId: 'forest-expedition-upper-run',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'high-run', entryId: 'fir-cone' },
+        { slotId: 'stone-pocket', entryId: 'banana-slug' },
+        { slotId: 'root-held', entryId: 'root-curtain' },
+        { slotId: 'seep-mark', entryId: 'seep-stone' },
+      ],
+    },
+    anchor: 'whole hollow return',
+  },
+  {
+    requestId: 'treeline-high-pass',
+    progress: {
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+      ],
+    },
+    anchor: 'shelter pockets on exposed high pass',
+  },
+];
 
 function createForestContext(
   completedFieldRequestIds: string[] = [],
@@ -100,6 +266,738 @@ function createTundraContext(
     currentPlayerX: null,
     currentPlayerY: null,
   };
+}
+
+type FieldRequestTestContext = ReturnType<typeof createForestContext>;
+
+interface RouteMatrixStep {
+  zoneId?: string;
+  entryId: string;
+  expectedSlots?: Array<{ slotId: string; entryId: string }>;
+  expectedLandmarks?: string[];
+}
+
+interface RouteMatrixCase {
+  name: string;
+  requestId: string;
+  createContext: () => FieldRequestTestContext;
+  activeTitle: string;
+  activeProgressLabel: string;
+  steps: RouteMatrixStep[];
+  readyText: string;
+  expectedFiledTextIncludes?: string[];
+  expectedNextRequestId: string | null;
+  blockedProbe?: { zoneId: string; entryId: string };
+}
+
+interface RouteVariantMatrixCase {
+  name: string;
+  requestId: string;
+  createContext: () => FieldRequestTestContext;
+  activateWindow: (context: FieldRequestTestContext) => void;
+  activeTitle: string;
+  readyTitle: string;
+  steps?: RouteMatrixStep[];
+  readyEvidenceSlots: Array<{ slotId: string; entryId: string }>;
+  expectedFiledTextIncludes: string[];
+  expectedDisplayTextIncludes?: string[];
+}
+
+const EARLY_FOREST_COMPLETED = [
+  'beach-shore-shelter',
+  'forest-hidden-hollow',
+  'forest-moisture-holders',
+  'forest-survey-slice',
+];
+
+const COASTAL_TO_TREELINE_COMPLETED = [
+  ...EARLY_FOREST_COMPLETED,
+  'coastal-shelter-shift',
+  'coastal-edge-moisture',
+];
+
+const INLAND_COMPLETED = [
+  ...COASTAL_TO_TREELINE_COMPLETED,
+  'treeline-stone-shelter',
+  'tundra-short-season',
+  'tundra-survey-slice',
+];
+
+const EDGE_LINE_COMPLETED = [
+  ...INLAND_COMPLETED,
+  'scrub-edge-pattern',
+  'forest-cool-edge',
+  'treeline-low-fell',
+];
+
+const HIGH_PASS_COMPLETED = [
+  ...EDGE_LINE_COMPLETED,
+  'forest-expedition-upper-run',
+  'forest-season-threads',
+];
+
+function setRouteMatrixZone(context: FieldRequestTestContext, zoneId: string | undefined): void {
+  if (zoneId) {
+    context.currentZoneId = zoneId;
+  }
+}
+
+function expectFiledTextIncludes(text: string | null | undefined, expectedParts: string[] | undefined): void {
+  if (!expectedParts?.length) {
+    return;
+  }
+
+  expect(text).toBeTruthy();
+  for (const expectedPart of expectedParts) {
+    expect(text).toContain(expectedPart);
+  }
+}
+
+function createRouteMatrixCases(): RouteMatrixCase[] {
+  return [
+    {
+      name: 'Shore Shelter',
+      requestId: 'beach-shore-shelter',
+      createContext: () => createBeachContext([], 'dune-edge'),
+      activeTitle: 'Shore Shelter',
+      activeProgressLabel: '0/3 stages',
+      steps: [
+        {
+          zoneId: 'dune-edge',
+          entryId: 'beach-grass',
+          expectedSlots: [{ slotId: 'dune-grass', entryId: 'beach-grass' }],
+        },
+        {
+          zoneId: 'lee-pocket',
+          entryId: 'driftwood-log',
+          expectedSlots: [
+            { slotId: 'dune-grass', entryId: 'beach-grass' },
+            { slotId: 'lee-cover', entryId: 'driftwood-log' },
+          ],
+        },
+        {
+          zoneId: 'tide-line',
+          entryId: 'bull-kelp-wrack',
+          expectedSlots: [
+            { slotId: 'dune-grass', entryId: 'beach-grass' },
+            { slotId: 'lee-cover', entryId: 'driftwood-log' },
+            { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+          ],
+        },
+      ],
+      readyText: 'Use M -> Field station, then Enter to file the Shore Shelter note.',
+      expectedFiledTextIncludes: ['American Dunegrass', 'Driftwood', 'Bull Kelp Wrack', 'mark shelter'],
+      expectedNextRequestId: 'forest-hidden-hollow',
+    },
+    {
+      name: 'Hidden Hollow',
+      requestId: 'forest-hidden-hollow',
+      createContext: () => createForestContext(['beach-shore-shelter'], 'seep-pocket'),
+      activeTitle: 'Hidden Hollow',
+      activeProgressLabel: '0/1 clue',
+      steps: [
+        {
+          entryId: 'seep-stone',
+          expectedLandmarks: ['seep-stone'],
+        },
+      ],
+      readyText: 'Return to the field station and file the Hidden Hollow note.',
+      expectedNextRequestId: 'forest-moisture-holders',
+    },
+    {
+      name: 'Moisture Holders',
+      requestId: 'forest-moisture-holders',
+      createContext: () => createForestContext(['beach-shore-shelter', 'forest-hidden-hollow'], 'root-hollow'),
+      activeTitle: 'Moisture Holders',
+      activeProgressLabel: '0/3 clues',
+      steps: [
+        {
+          entryId: 'sword-fern',
+          expectedSlots: [{ slotId: 'shelter', entryId: 'sword-fern' }],
+        },
+        {
+          entryId: 'redwood-sorrel',
+          expectedSlots: [
+            { slotId: 'shelter', entryId: 'sword-fern' },
+            { slotId: 'ground', entryId: 'redwood-sorrel' },
+          ],
+        },
+        {
+          entryId: 'banana-slug',
+          expectedSlots: [
+            { slotId: 'shelter', entryId: 'sword-fern' },
+            { slotId: 'ground', entryId: 'redwood-sorrel' },
+            { slotId: 'living', entryId: 'banana-slug' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Moisture Holders note.',
+      expectedFiledTextIncludes: ['Sword Fern', 'Redwood Sorrel', 'Banana Slug', 'hollow holding moisture'],
+      expectedNextRequestId: 'forest-survey-slice',
+    },
+    {
+      name: 'Open To Shelter',
+      requestId: 'coastal-shelter-shift',
+      createContext: () => createCoastalContext(EARLY_FOREST_COMPLETED, 'back-dune'),
+      activeTitle: 'Open To Shelter',
+      activeProgressLabel: '0/3 stages',
+      steps: [
+        {
+          zoneId: 'back-dune',
+          entryId: 'sand-verbena',
+          expectedSlots: [{ slotId: 'open-bloom', entryId: 'sand-verbena' }],
+        },
+        {
+          zoneId: 'shore-pine-stand',
+          entryId: 'shore-pine',
+          expectedSlots: [
+            { slotId: 'open-bloom', entryId: 'sand-verbena' },
+            { slotId: 'pine-cover', entryId: 'shore-pine' },
+          ],
+        },
+        {
+          zoneId: 'forest-edge',
+          entryId: 'nurse-log',
+          expectedSlots: [
+            { slotId: 'open-bloom', entryId: 'sand-verbena' },
+            { slotId: 'pine-cover', entryId: 'shore-pine' },
+            { slotId: 'edge-log', entryId: 'nurse-log' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Open To Shelter note.',
+      expectedFiledTextIncludes: ['Sand Verbena', 'Shore Pine', 'Nurse Log', 'open coast'],
+      expectedNextRequestId: 'coastal-edge-moisture',
+    },
+    {
+      name: 'Stone Shelter',
+      requestId: 'treeline-stone-shelter',
+      createContext: () => createTreelineContext(COASTAL_TO_TREELINE_COMPLETED, 'krummholz-belt'),
+      activeTitle: 'Stone Shelter',
+      activeProgressLabel: '0/3 clues',
+      blockedProbe: { zoneId: 'dwarf-shrub', entryId: 'frost-heave-boulder' },
+      steps: [
+        {
+          zoneId: 'krummholz-belt',
+          entryId: 'krummholz-spruce',
+          expectedSlots: [{ slotId: 'bent-cover', entryId: 'krummholz-spruce' }],
+        },
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'frost-heave-boulder',
+          expectedSlots: [
+            { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+            { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+          ],
+        },
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'hoary-marmot',
+          expectedSlots: [
+            { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+            { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-life', entryId: 'hoary-marmot' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Stone Shelter note.',
+      expectedFiledTextIncludes: ['Krummholz Spruce', 'Frost-Heave Boulder', 'Hoary Marmot', 'treeline pocket'],
+      expectedNextRequestId: 'tundra-short-season',
+    },
+    {
+      name: 'Short Season',
+      requestId: 'tundra-short-season',
+      createContext: () => createTundraContext([...COASTAL_TO_TREELINE_COMPLETED, 'treeline-stone-shelter'], 'snow-meadow'),
+      activeTitle: 'Short Season',
+      activeProgressLabel: '0/3 clues',
+      blockedProbe: { zoneId: 'snow-meadow', entryId: 'cloudberry' },
+      steps: [
+        {
+          zoneId: 'snow-meadow',
+          entryId: 'purple-saxifrage',
+          expectedSlots: [{ slotId: 'first-bloom', entryId: 'purple-saxifrage' }],
+        },
+        {
+          zoneId: 'thaw-skirt',
+          entryId: 'cottongrass',
+          expectedSlots: [
+            { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+            { slotId: 'wet-tuft', entryId: 'cottongrass' },
+          ],
+        },
+        {
+          zoneId: 'snow-meadow',
+          entryId: 'cloudberry',
+          expectedSlots: [
+            { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+            { slotId: 'wet-tuft', entryId: 'cottongrass' },
+            { slotId: 'brief-fruit', entryId: 'cloudberry' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Short Season note.',
+      expectedFiledTextIncludes: ['Purple Saxifrage', 'Cottongrass', 'Cloudberry', 'short thaw window'],
+      expectedNextRequestId: 'tundra-survey-slice',
+    },
+    {
+      name: 'Scrub Pattern',
+      requestId: 'scrub-edge-pattern',
+      createContext: () => createCoastalContext(INLAND_COMPLETED, 'back-dune'),
+      activeTitle: 'Scrub Pattern',
+      activeProgressLabel: '0/3 stages',
+      steps: [
+        {
+          zoneId: 'back-dune',
+          entryId: 'dune-lupine',
+          expectedSlots: [{ slotId: 'open-pioneer', entryId: 'dune-lupine' }],
+        },
+        {
+          zoneId: 'windbreak-swale',
+          entryId: 'pacific-wax-myrtle',
+          expectedSlots: [
+            { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+            { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+          ],
+        },
+        {
+          zoneId: 'forest-edge',
+          entryId: 'salmonberry',
+          expectedSlots: [
+            { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+            { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+            { slotId: 'thicker-edge', entryId: 'salmonberry' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Scrub Pattern note.',
+      expectedFiledTextIncludes: ['Seashore Lupine', 'Pacific Wax Myrtle', 'Salmonberry', 'clear transition'],
+      expectedNextRequestId: 'forest-cool-edge',
+    },
+    {
+      name: 'Cool Edge',
+      requestId: 'forest-cool-edge',
+      createContext: () => createForestContext([...INLAND_COMPLETED, 'scrub-edge-pattern'], 'creek-bend'),
+      activeTitle: 'Cool Edge',
+      activeProgressLabel: '0/3 clues',
+      steps: [
+        {
+          entryId: 'salmonberry',
+          expectedSlots: [{ slotId: 'edge-carrier', entryId: 'salmonberry' }],
+        },
+        {
+          entryId: 'redwood-sorrel',
+          expectedSlots: [
+            { slotId: 'edge-carrier', entryId: 'salmonberry' },
+            { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+          ],
+        },
+        {
+          entryId: 'sword-fern',
+          expectedSlots: [
+            { slotId: 'edge-carrier', entryId: 'salmonberry' },
+            { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+            { slotId: 'wet-shade', entryId: 'sword-fern' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Cool Edge note.',
+      expectedFiledTextIncludes: ['Salmonberry', 'Redwood Sorrel', 'Sword Fern', 'cooler forest middle'],
+      expectedNextRequestId: 'treeline-low-fell',
+    },
+    {
+      name: 'Low Fell',
+      requestId: 'treeline-low-fell',
+      createContext: () => createTreelineContext([...INLAND_COMPLETED, 'scrub-edge-pattern', 'forest-cool-edge'], 'krummholz-belt'),
+      activeTitle: 'Low Fell',
+      activeProgressLabel: '0/4 clues',
+      blockedProbe: { zoneId: 'lichen-fell', entryId: 'mountain-avens' },
+      steps: [
+        {
+          zoneId: 'krummholz-belt',
+          entryId: 'krummholz-spruce',
+          expectedSlots: [{ slotId: 'last-tree-shape', entryId: 'krummholz-spruce' }],
+        },
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'dwarf-birch',
+          expectedSlots: [
+            { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+            { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          ],
+        },
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'mountain-avens',
+          expectedSlots: [
+            { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+            { slotId: 'low-wood', entryId: 'dwarf-birch' },
+            { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+          ],
+        },
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'arctic-willow',
+          expectedSlots: [
+            { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+            { slotId: 'low-wood', entryId: 'dwarf-birch' },
+            { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+            { slotId: 'low-rest', entryId: 'arctic-willow' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Low Fell note.',
+      expectedFiledTextIncludes: ['Krummholz Spruce', 'Dwarf Birch', 'Mountain Avens', 'Arctic Willow', 'open fell'],
+      expectedNextRequestId: 'forest-expedition-upper-run',
+    },
+    {
+      name: 'Root Hollow',
+      requestId: 'forest-expedition-upper-run',
+      createContext: () => createForestContext(EDGE_LINE_COMPLETED, 'seep-pocket'),
+      activeTitle: 'Root Hollow',
+      activeProgressLabel: '0/4 clues',
+      blockedProbe: { zoneId: 'log-run', entryId: 'fir-cone' },
+      steps: [
+        {
+          zoneId: 'seep-pocket',
+          entryId: 'seep-stone',
+          expectedSlots: [{ slotId: 'seep-mark', entryId: 'seep-stone' }],
+        },
+        {
+          zoneId: 'stone-basin',
+          entryId: 'banana-slug',
+          expectedSlots: [
+            { slotId: 'seep-mark', entryId: 'seep-stone' },
+            { slotId: 'stone-pocket', entryId: 'banana-slug' },
+          ],
+        },
+        {
+          zoneId: 'filtered-return',
+          entryId: 'root-curtain',
+          expectedSlots: [
+            { slotId: 'seep-mark', entryId: 'seep-stone' },
+            { slotId: 'stone-pocket', entryId: 'banana-slug' },
+            { slotId: 'root-held', entryId: 'root-curtain' },
+          ],
+        },
+        {
+          zoneId: 'log-run',
+          entryId: 'fir-cone',
+          expectedSlots: [
+            { slotId: 'seep-mark', entryId: 'seep-stone' },
+            { slotId: 'stone-pocket', entryId: 'banana-slug' },
+            { slotId: 'root-held', entryId: 'root-curtain' },
+            { slotId: 'high-run', entryId: 'fir-cone' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Root Hollow note.',
+      expectedFiledTextIncludes: ['Seep Stone', 'Banana Slug', 'Root Curtain', 'Douglas-fir Cone', 'hollow return'],
+      expectedNextRequestId: 'forest-season-threads',
+    },
+    {
+      name: 'High Pass',
+      requestId: 'treeline-high-pass',
+      createContext: () => createTreelineContext(HIGH_PASS_COMPLETED, 'dwarf-shrub'),
+      activeTitle: 'High Pass',
+      activeProgressLabel: '0/4 clues',
+      blockedProbe: { zoneId: 'lichen-fell', entryId: 'talus-cushion-pocket' },
+      steps: [
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'frost-heave-boulder',
+          expectedSlots: [{ slotId: 'stone-lift', entryId: 'frost-heave-boulder' }],
+        },
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'hoary-marmot',
+          expectedSlots: [
+            { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          ],
+        },
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'moss-campion',
+          expectedSlots: [
+            { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+            { slotId: 'rime-mark', entryId: 'moss-campion' },
+          ],
+        },
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'talus-cushion-pocket',
+          expectedSlots: [
+            { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+            { slotId: 'rime-mark', entryId: 'moss-campion' },
+            { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the High Pass note.',
+      expectedFiledTextIncludes: ['Frost-Heave Boulder', 'Hoary Marmot', 'Moss Campion', 'Talus Cushion Pocket', 'High Pass'],
+      expectedNextRequestId: null,
+    },
+  ];
+}
+
+function createRouteVariantMatrixCases(): RouteVariantMatrixCase[] {
+  return [
+    {
+      name: 'Wrack Shelter keeps Shore Shelter filing identity',
+      requestId: 'beach-shore-shelter',
+      createContext: () => createBeachContext([], 'dune-edge'),
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits.beach = 2;
+      },
+      activeTitle: 'Wrack Shelter',
+      readyTitle: 'Shore Shelter',
+      steps: [
+        {
+          zoneId: 'dune-edge',
+          entryId: 'beach-grass',
+          expectedSlots: [{ slotId: 'dune-grass', entryId: 'beach-grass' }],
+        },
+        {
+          zoneId: 'lee-pocket',
+          entryId: 'driftwood-log',
+          expectedSlots: [
+            { slotId: 'dune-grass', entryId: 'beach-grass' },
+            { slotId: 'lee-cover', entryId: 'driftwood-log' },
+          ],
+        },
+        {
+          zoneId: 'tide-line',
+          entryId: 'beach-hopper',
+          expectedSlots: [
+            { slotId: 'dune-grass', entryId: 'beach-grass' },
+            { slotId: 'lee-cover', entryId: 'driftwood-log' },
+            { slotId: 'wrack-line', entryId: 'beach-hopper' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+        { slotId: 'wrack-line', entryId: 'beach-hopper' },
+      ],
+      expectedFiledTextIncludes: ['American Dunegrass', 'Driftwood', 'Beach Hopper', 'mark shelter'],
+    },
+    {
+      name: 'Moist Hollow keeps Moisture Holders filing identity',
+      requestId: 'forest-moisture-holders',
+      createContext: () => createForestContext(['beach-shore-shelter', 'forest-hidden-hollow'], 'filtered-return'),
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits.forest = 2;
+      },
+      activeTitle: 'Moist Hollow',
+      readyTitle: 'Moisture Holders',
+      steps: [
+        {
+          entryId: 'tree-lungwort',
+          expectedSlots: [{ slotId: 'shelter', entryId: 'tree-lungwort' }],
+        },
+        {
+          entryId: 'seep-moss-mat',
+          expectedSlots: [
+            { slotId: 'shelter', entryId: 'tree-lungwort' },
+            { slotId: 'ground', entryId: 'seep-moss-mat' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'shelter', entryId: 'tree-lungwort' },
+        { slotId: 'ground', entryId: 'seep-moss-mat' },
+        { slotId: 'living', entryId: 'banana-slug' },
+      ],
+      expectedFiledTextIncludes: ['Tree Lungwort', 'Seep Moss Mat', 'Banana Slug', 'hollow holding moisture'],
+    },
+    {
+      name: 'Held Sand keeps Scrub Pattern filing identity',
+      requestId: 'scrub-edge-pattern',
+      createContext: () => createCoastalContext(INLAND_COMPLETED, 'back-dune'),
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits['coastal-scrub'] = 2;
+      },
+      activeTitle: 'Held Sand',
+      readyTitle: 'Scrub Pattern',
+      steps: [
+        {
+          zoneId: 'back-dune',
+          entryId: 'beach-grass',
+          expectedSlots: [{ slotId: 'open-pioneer', entryId: 'beach-grass' }],
+        },
+        {
+          zoneId: 'windbreak-swale',
+          entryId: 'pacific-wax-myrtle',
+          expectedSlots: [
+            { slotId: 'open-pioneer', entryId: 'beach-grass' },
+            { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+          ],
+        },
+        {
+          zoneId: 'forest-edge',
+          entryId: 'salmonberry',
+          expectedSlots: [
+            { slotId: 'open-pioneer', entryId: 'beach-grass' },
+            { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+            { slotId: 'thicker-edge', entryId: 'salmonberry' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'open-pioneer', entryId: 'beach-grass' },
+        { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'thicker-edge', entryId: 'salmonberry' },
+      ],
+      expectedFiledTextIncludes: ['American Dunegrass', 'Pacific Wax Myrtle', 'Salmonberry', 'clear transition'],
+    },
+    {
+      name: 'Moist Edge keeps Cool Edge filing identity',
+      requestId: 'forest-cool-edge',
+      createContext: () => createForestContext([...INLAND_COMPLETED, 'scrub-edge-pattern'], 'creek-bend'),
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits.forest = 2;
+      },
+      activeTitle: 'Moist Edge',
+      readyTitle: 'Cool Edge',
+      readyEvidenceSlots: [
+        { slotId: 'edge-carrier', entryId: 'salmonberry' },
+        { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+        { slotId: 'wet-shade', entryId: 'sword-fern' },
+      ],
+      expectedFiledTextIncludes: ['Salmonberry', 'Redwood Sorrel', 'Sword Fern', 'cooler forest middle'],
+    },
+    {
+      name: 'Thaw Window keeps Short Season filing identity',
+      requestId: 'tundra-short-season',
+      createContext: () => createTundraContext([...COASTAL_TO_TREELINE_COMPLETED, 'treeline-stone-shelter'], 'thaw-skirt'),
+      activateWindow: (context) => {
+        context.save.worldStep = 4;
+        context.save.biomeVisits.tundra = 2;
+      },
+      activeTitle: 'Thaw Window',
+      readyTitle: 'Short Season',
+      steps: [
+        {
+          zoneId: 'thaw-skirt',
+          entryId: 'woolly-lousewort',
+          expectedSlots: [{ slotId: 'first-bloom', entryId: 'woolly-lousewort' }],
+        },
+        {
+          zoneId: 'thaw-skirt',
+          entryId: 'bigelows-sedge',
+          expectedSlots: [
+            { slotId: 'first-bloom', entryId: 'woolly-lousewort' },
+            { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+          ],
+        },
+        {
+          zoneId: 'snow-meadow',
+          entryId: 'cloudberry',
+          expectedSlots: [
+            { slotId: 'first-bloom', entryId: 'woolly-lousewort' },
+            { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+            { slotId: 'brief-fruit', entryId: 'cloudberry' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'woolly-lousewort' },
+        { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+      expectedFiledTextIncludes: ['Woolly Lousewort', 'Bigelow\'s Sedge', 'Cloudberry', 'short thaw window'],
+      expectedDisplayTextIncludes: ['Thaw Window.', 'Woolly Lousewort', 'Bigelow\'s Sedge'],
+    },
+    {
+      name: 'Brief Bloom keeps Low Fell filing identity',
+      requestId: 'treeline-low-fell',
+      createContext: () => {
+        const context = createTreelineContext([...INLAND_COMPLETED, 'scrub-edge-pattern', 'forest-cool-edge'], 'lichen-fell');
+        context.save.routeV2Progress = {
+          requestId: 'treeline-low-fell',
+          status: 'gathering',
+          landmarkEntryIds: [],
+          evidenceSlots: [
+            { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+            { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          ],
+        };
+        return context;
+      },
+      activateWindow: (context) => {
+        context.save.worldStep = 4;
+        context.save.biomeVisits.treeline = 2;
+      },
+      activeTitle: 'Brief Bloom',
+      readyTitle: 'Low Fell',
+      steps: [
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'moss-campion',
+          expectedSlots: [
+            { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+            { slotId: 'low-wood', entryId: 'dwarf-birch' },
+            { slotId: 'fell-bloom', entryId: 'moss-campion' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        { slotId: 'fell-bloom', entryId: 'moss-campion' },
+        { slotId: 'low-rest', entryId: 'arctic-willow' },
+      ],
+      expectedFiledTextIncludes: ['Krummholz Spruce', 'Dwarf Birch', 'Moss Campion', 'Arctic Willow', 'open fell'],
+    },
+    {
+      name: 'Rimed Pass keeps High Pass filing identity',
+      requestId: 'treeline-high-pass',
+      createContext: () => {
+        const context = createTreelineContext(HIGH_PASS_COMPLETED, 'lichen-fell');
+        context.save.routeV2Progress = {
+          requestId: 'treeline-high-pass',
+          status: 'gathering',
+          landmarkEntryIds: [],
+          evidenceSlots: [
+            { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          ],
+        };
+        return context;
+      },
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits.treeline = 2;
+      },
+      activeTitle: 'Rimed Pass',
+      readyTitle: 'High Pass',
+      steps: [
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'reindeer-lichen',
+          expectedSlots: [
+            { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+            { slotId: 'rime-mark', entryId: 'reindeer-lichen' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'reindeer-lichen' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+      expectedFiledTextIncludes: ['Frost-Heave Boulder', 'Hoary Marmot', 'Reindeer Lichen', 'Talus Cushion Pocket', 'High Pass'],
+    },
+  ];
 }
 
 describe('field requests', () => {
@@ -203,6 +1101,111 @@ describe('field requests', () => {
     expect(state.routeReplayLabel).toBe('Today: High Pass');
   });
 
+  it('keeps route-marker and replay state aligned across active, ready-to-file, locator, and filed High Pass states', () => {
+    const resolveHighPassMapState = (save: SaveState) =>
+      resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+        sceneMode: 'world-map',
+        overlayMode: 'playing',
+        sceneBiomeId: 'forest',
+        lastBiomeId: 'forest',
+        sceneZoneId: 'trailhead',
+        scenePlayerX: 24,
+        scenePlayerY: 48,
+        hasFieldRequestNotice: false,
+        focusedWorldMapLocationId: 'treeline',
+      });
+
+    const activeSave = createNewSaveState('field-request-state-high-pass-active-route-marker-seed');
+    activeSave.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    activeSave.purchasedUpgradeIds = ['route-marker'];
+    activeSave.selectedOutingSupportId = 'route-marker';
+
+    const activeState = resolveHighPassMapState(activeSave);
+    expect(activeState.activeFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: 'Go To Treeline Pass',
+    });
+    expect(activeState.activeOuting).toMatchObject({
+      title: 'High Pass',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: High Pass',
+    });
+    expect(activeState.journalFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      biomeId: 'treeline',
+    });
+    expect(activeState.routeMarkerLocationId).toBe('treeline');
+    expect(activeState.routeReplayLabel).toBe('Today: High Pass');
+
+    const readySave = createNewSaveState('field-request-state-high-pass-ready-route-marker-seed');
+    readySave.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    readySave.purchasedUpgradeIds = ['route-marker'];
+    readySave.selectedOutingSupportId = 'route-marker';
+    readySave.routeV2Progress = {
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+
+    const readyState = resolveHighPassMapState(readySave);
+    expect(readyState.activeFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+      },
+    });
+    expect(readyState.journalFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      biomeId: 'treeline',
+      progressLabel: 'Ready To File',
+    });
+    expect(readyState.activeOuting).toBeNull();
+    expect(readyState.routeMarkerLocationId).toBeNull();
+    expect(readyState.routeReplayLabel).toBeNull();
+
+    const locatorSave = createNewSaveState('field-request-state-high-pass-locator-seed');
+    locatorSave.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
+    locatorSave.seasonCloseReturnPending = true;
+
+    const locatorState = resolveHighPassMapState(locatorSave);
+    expect(locatorState.activeFieldRequest).toBeNull();
+    expect(locatorState.activeOuting).toMatchObject({
+      title: 'High Pass',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: High Pass',
+    });
+    expect(locatorState.journalFieldRequest).toMatchObject({
+      id: 'route-locator:treeline',
+      biomeId: 'treeline',
+      title: 'High Pass',
+    });
+    expect(locatorState.routeMarkerLocationId).toBeNull();
+    expect(locatorState.routeReplayLabel).toBe('Today: High Pass');
+
+    const filedSave = createNewSaveState('field-request-state-high-pass-filed-route-marker-seed');
+    filedSave.completedFieldRequestIds = [
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+      'treeline-high-pass',
+    ];
+    filedSave.purchasedUpgradeIds = ['route-marker'];
+    filedSave.selectedOutingSupportId = 'route-marker';
+
+    const filedState = resolveHighPassMapState(filedSave);
+    expect(filedState.activeFieldRequest).toBeNull();
+    expect(filedState.activeOuting).toBeNull();
+    expect(filedState.journalFieldRequest).toBeNull();
+    expect(filedState.routeMarkerLocationId).toBeNull();
+    expect(filedState.routeReplayLabel).toBeNull();
+  });
+
   it('stops synthesizing High Pass locator state once High Pass is filed', () => {
     const save = createNewSaveState('field-request-state-high-pass-filed-seed');
     save.completedFieldRequestIds = [
@@ -228,6 +1231,7 @@ describe('field requests', () => {
     expect(state.activeFieldRequest).toBeNull();
     expect(state.activeOuting).toBeNull();
     expect(state.journalFieldRequest).toBeNull();
+    expect(state.fieldRequestHint).toBeNull();
     expect(state.routeMarkerLocationId).toBeNull();
     expect(state.routeReplayLabel).toBeNull();
   });
@@ -259,6 +1263,143 @@ describe('field requests', () => {
       id: 'beach-shore-shelter',
       progressLabel: 'Go To Sunny Beach',
     });
+  });
+
+  it('walks every live Route v2 notebook route through a deterministic route-state matrix', () => {
+    for (const routeCase of createRouteMatrixCases()) {
+      const context = routeCase.createContext();
+      context.save.selectedOutingSupportId = 'note-tabs';
+
+      const activeRequest = resolveActiveFieldRequest(context);
+      expect(activeRequest).toMatchObject({
+        id: routeCase.requestId,
+        title: routeCase.activeTitle,
+        progressLabel: routeCase.activeProgressLabel,
+        routeV2: {
+          status: 'gathering',
+          selectedSupportId: 'note-tabs',
+        },
+      });
+      expect(activeRequest?.routeV2?.evidenceSlots).toEqual([]);
+
+      if (routeCase.blockedProbe) {
+        setRouteMatrixZone(context, routeCase.blockedProbe.zoneId);
+        expect(advanceActiveFieldRequest(context, 'inspect', routeCase.blockedProbe.entryId)).toBeNull();
+        expect(context.save.routeV2Progress).toBeNull();
+      }
+
+      for (const [stepIndex, step] of routeCase.steps.entries()) {
+        const isFinalStep = stepIndex === routeCase.steps.length - 1;
+        setRouteMatrixZone(context, step.zoneId);
+
+        const result = advanceActiveFieldRequest(context, 'inspect', step.entryId);
+        if (isFinalStep) {
+          expect(result).toMatchObject({
+            requestId: routeCase.requestId,
+            status: 'ready-to-synthesize',
+            noticeTitle: 'NOTEBOOK READY',
+            noticeText: routeCase.readyText,
+          });
+        } else {
+          expect(result).toBeNull();
+        }
+
+        const progressedRequest = resolveActiveFieldRequest(context);
+        expect(progressedRequest).toMatchObject({
+          id: routeCase.requestId,
+          routeV2: {
+            status: isFinalStep ? 'ready-to-synthesize' : 'gathering',
+            selectedSupportId: 'note-tabs',
+          },
+        });
+        if (step.expectedSlots) {
+          expect(progressedRequest?.routeV2?.evidenceSlots).toEqual(step.expectedSlots);
+        }
+        if (step.expectedLandmarks) {
+          expect(progressedRequest?.routeV2?.landmarkEntryIds).toEqual(step.expectedLandmarks);
+        }
+      }
+
+      const readyRequest = resolveActiveFieldRequest(context);
+      expect(readyRequest).toMatchObject({
+        id: routeCase.requestId,
+        title: routeCase.activeTitle,
+        progressLabel: 'Ready To File',
+        routeV2: {
+          status: 'ready-to-synthesize',
+          selectedSupportId: 'note-tabs',
+        },
+      });
+      expectFiledTextIncludes(readyRequest?.routeV2?.filedText, routeCase.expectedFiledTextIncludes);
+
+      expect(fileReadyRouteV2FieldRequest(context.save)).toBe(routeCase.requestId);
+      expect(context.save.routeV2Progress).toBeNull();
+      expect(context.save.completedFieldRequestIds).toContain(routeCase.requestId);
+
+      const nextRequest = resolveActiveFieldRequest(context);
+      if (routeCase.expectedNextRequestId) {
+        expect(nextRequest).toMatchObject({ id: routeCase.expectedNextRequestId });
+      } else {
+        expect(nextRequest).toBeNull();
+      }
+    }
+  });
+
+  it('keeps process and world-state route variants live-only inside the route-state matrix', () => {
+    for (const variantCase of createRouteVariantMatrixCases()) {
+      const context = variantCase.createContext();
+      context.save.selectedOutingSupportId = 'hand-lens';
+      variantCase.activateWindow(context);
+
+      expect(resolveActiveFieldRequest(context)).toMatchObject({
+        id: variantCase.requestId,
+        title: variantCase.activeTitle,
+        routeV2: {
+          status: 'gathering',
+          selectedSupportId: 'hand-lens',
+        },
+      });
+
+      for (const step of variantCase.steps ?? []) {
+        setRouteMatrixZone(context, step.zoneId);
+        const result = advanceActiveFieldRequest(context, 'inspect', step.entryId);
+        const progressedRequest = resolveActiveFieldRequest(context);
+        if (step.expectedSlots && step.expectedSlots.length === variantCase.readyEvidenceSlots.length) {
+          expect(result).toMatchObject({
+            requestId: variantCase.requestId,
+            status: 'ready-to-synthesize',
+          });
+        } else {
+          expect(result).toBeNull();
+        }
+        if (step.expectedSlots) {
+          expect(progressedRequest?.routeV2?.evidenceSlots).toEqual(step.expectedSlots);
+        }
+      }
+
+      context.save.routeV2Progress = {
+        requestId: variantCase.requestId,
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: [],
+        evidenceSlots: variantCase.readyEvidenceSlots,
+      };
+
+      const readyRequest = resolveActiveFieldRequest(context);
+      expect(readyRequest).toMatchObject({
+        id: variantCase.requestId,
+        title: variantCase.readyTitle,
+        progressLabel: 'Ready To File',
+        routeV2: {
+          status: 'ready-to-synthesize',
+          selectedSupportId: 'hand-lens',
+        },
+      });
+      expectFiledTextIncludes(readyRequest?.routeV2?.filedText, variantCase.expectedFiledTextIncludes);
+      expectFiledTextIncludes(
+        resolveRouteV2FiledDisplayText(biomeRegistry, context.save, variantCase.requestId),
+        variantCase.expectedDisplayTextIncludes,
+      );
+    }
   });
 
   it('turns Shore Shelter into an ordered beach transect that waits for filing', () => {
@@ -512,9 +1653,9 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'beach-shore-shelter',
       title: 'Shore Shelter',
-      summary: 'Return to the field station and file the Shore Shelter note.',
+      summary: 'Use M -> Field station, then Enter to file the Shore Shelter note.',
       routeV2: {
-        filedText: 'American Dunegrass, Driftwood, and Beach Hopper mark how shelter grows from dune edge to tide line.',
+        filedText: 'American Dunegrass, Driftwood, and Beach Hopper mark shelter from dune edge to tide line.',
       },
     });
   });
@@ -667,7 +1808,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'treeline-stone-shelter',
       progressLabel: '0/3 clues',
-      summary: 'In Treeline Pass, log bent-cover, then stone-break, then lee-life through the last shelter.',
+      summary: 'In Treeline Pass, log bent cover, stone break, and lee life through the last shelter.',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -733,7 +1874,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       id: 'tundra-short-season',
       progressLabel: '0/3 clues',
-      summary: 'In Tundra Reach, log first-bloom, then wet-tuft, then brief-fruit through the thaw window.',
+      summary: 'In Tundra Reach, log first bloom, wet tuft, and brief fruit through the thaw window.',
       routeV2: {
         status: 'gathering',
         evidenceSlots: [],
@@ -1006,7 +2147,7 @@ describe('field requests', () => {
     expect(resolveActiveFieldRequest(forestContext)).toMatchObject({
       id: 'forest-cool-edge',
       title: 'Cool Edge',
-      summary: 'At Creek Bend, file edge-carrier, cool-floor, and wet-shade clues along the cooler forest side.',
+      summary: 'At Creek Bend, file edge carrier, cool floor, and wet shade clues along the cooler forest side.',
       progressLabel: '0/3 clues',
       routeV2: {
         status: 'gathering',
@@ -1107,6 +2248,53 @@ describe('field requests', () => {
     expect(fileReadyRouteV2FieldRequest(treelineContext.save)).toBe('treeline-low-fell');
   });
 
+  it('lets reindeer-lichen complete the Low Fell low-rest slot from the corridor blend', () => {
+    const context = createTreelineContext(
+      [...INLAND_COMPLETED, 'scrub-edge-pattern', 'forest-cool-edge'],
+      'lichen-fell',
+    );
+    context.save.routeV2Progress = {
+      requestId: 'treeline-low-fell',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+      ],
+    };
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'treeline-low-fell',
+      progressLabel: '3/4 clues',
+    });
+    expect(getHandLensNotebookFit(context, 'reindeer-lichen', 'center-blend')).toBe(
+      'Notebook fit: low rest',
+    );
+    expect(advanceActiveFieldRequest(context, 'inspect', 'reindeer-lichen', 'center-blend')).toMatchObject({
+      requestId: 'treeline-low-fell',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+    });
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'treeline-low-fell',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        filedText:
+          'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Reindeer Lichen now trace the full drop from treeline shelter into open fell.',
+        evidenceSlots: [
+          { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+          { slotId: 'low-wood', entryId: 'dwarf-birch' },
+          { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+          { slotId: 'low-rest', entryId: 'reindeer-lichen' },
+        ],
+      },
+    });
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('treeline-low-fell');
+  });
+
   it('turns forest-cool-edge into a process-backed outing during the moisture-hold window', () => {
     const context = createForestContext(
       [
@@ -1155,6 +2343,7 @@ describe('field requests', () => {
 
     expect(resolveActiveFieldRequest(treelineContext)).toMatchObject({
       id: 'treeline-high-pass',
+      summary: 'Start in Treeline Pass; log stone lift, lee watch, rime mark, and talus hold.',
       progressLabel: '0/4 clues',
       routeV2: {
         status: 'gathering',
@@ -1584,6 +2773,30 @@ describe('field requests', () => {
     );
   });
 
+  it('keeps the full-arc filed-note synthesis matrix compact and relationship-led', () => {
+    for (const routeCase of ROUTE_FILED_NOTE_MATRIX) {
+      const save = createNewSaveState(`field-request-filed-note-${routeCase.requestId}`);
+      save.routeV2Progress = routeCase.progress;
+
+      const filedText = resolveRouteV2FiledNoteText(biomeRegistry, save, routeCase.requestId);
+      const displayText = resolveRouteV2FiledDisplayText(biomeRegistry, save, routeCase.requestId);
+
+      expect(filedText).not.toBeNull();
+      expect(displayText).not.toBeNull();
+      expect(filedText?.length).toBeLessThanOrEqual(ROUTE_FILED_NOTE_MATRIX_MAX);
+      expect(displayText?.length).toBeLessThanOrEqual(ROUTE_FILED_NOTE_MATRIX_MAX);
+      expect(filedText?.toLowerCase()).toContain(routeCase.anchor);
+
+      if (routeCase.displayPrefix) {
+        expect(filedText?.startsWith(routeCase.displayPrefix)).toBe(false);
+        expect(displayText?.startsWith(routeCase.displayPrefix)).toBe(true);
+        continue;
+      }
+
+      expect(displayText).toBe(filedText);
+    }
+  });
+
   it('orders clue-backed expedition filed note text by the route slot order', () => {
     const context = createForestContext(
       [
@@ -1771,14 +2984,14 @@ describe('field requests', () => {
 
     expect(resolveActiveFieldRequest(context)).toMatchObject({
       title: 'Shore Shelter',
-      summary: 'Return to the field station and file the Shore Shelter note.',
+      summary: 'Use M -> Field station, then Enter to file the Shore Shelter note.',
       routeV2: {
         filedText:
-          'American Dunegrass, Driftwood, and Bull Kelp Wrack mark how shelter grows from dune edge to tide line.',
+          'American Dunegrass, Driftwood, and Bull Kelp Wrack mark shelter from dune edge to tide line.',
       },
     });
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'beach-shore-shelter')).toBe(
-      'American Dunegrass, Driftwood, and Bull Kelp Wrack mark how shelter grows from dune edge to tide line.',
+      'American Dunegrass, Driftwood, and Bull Kelp Wrack mark shelter from dune edge to tide line.',
     );
   });
 

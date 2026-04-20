@@ -1,7 +1,7 @@
 # Science Source Ledger
 
-Date: 2026-03-30
-Status: Updated after `ECO-20260330-main-102`
+Date: 2026-04-20
+Status: Updated after `ECO-20260420-main-387`
 
 ## Purpose
 
@@ -78,6 +78,7 @@ Beach process support:
 | `western-trillium` | `Verified` | `Trillium ovatum` is a real Pacific forest wildflower of moist conifer and mixed woods, so the shady-forest lesson is a good fit. | [USFS western white trillium](https://www.fs.usda.gov/wildflowers/plant-of-the-week/trillium_ovatum_ovatum.shtml), [Mount Rainier forest wildflowers](https://www.nps.gov/mora/learn/nature/forest-wildflowers-white.htm) |
 | `seep-stone` | `Verified` | USGS and NPS both support seeps as small groundwater discharges that keep rock or soil damp, so using one under-root stone as a slow-seep landmark is a safe teaching cue. | [USGS groundwater basics](https://www.usgs.gov/water-science-school/science/groundwater-what-groundwater), [Delaware Water Gap springs and seeps](https://www.nps.gov/dewa/learn/nature/springs.htm) |
 | `seep-moss-mat` | `Watch` | This is a habitat landmark rather than one named moss species. NPS seep guidance directly supports mosses clinging to rough rock and slope surfaces where tiny flows stay wet, so the copy should stay descriptive and general. | [Delaware Water Gap springs and seeps](https://www.nps.gov/dewa/learn/nature/springs.htm), [Olympic mosses](https://www.nps.gov/olym/learn/nature/mosses.htm) |
+| `fallen-giant-log` | `Watch` | This is a habitat landmark rather than a taxonomic entry. Existing nurse-log and moss guidance supports fallen old wood as a moisture-holding, shade-casting, seedbed-and-shelter structure, so the copy should stay broad rather than claim one exact log community. | [NPS old mine nurse logs](https://www.nps.gov/places/old-mine-tour-nurse-logs.htm), [Olympic mosses](https://www.nps.gov/olym/learn/nature/mosses.htm) |
 | `pileated-woodpecker` | `Verified` | NPS sources directly support the dead-wood, carpenter-ant, and cavity-digging teaching role. | [NPS pileated woodpecker](https://www.nps.gov/articles/pileated-woodpecker.htm), [Big Thicket pileated woodpecker](https://www.nps.gov/bith/learn/nature/pileated-woodpecker.htm) |
 | `woodpecker-cavity` | `Verified` | The landmark is a safe extension of the live pileated-woodpecker teaching role because the same NPS sources directly support cavity digging and later shelter use in old wood. | [NPS pileated woodpecker](https://www.nps.gov/articles/pileated-woodpecker.htm), [Big Thicket pileated woodpecker](https://www.nps.gov/bith/learn/nature/pileated-woodpecker.htm) |
 | `licorice-fern` | `Verified` | USFS and Olympic sources directly support `Polypodium glycyrrhiza` as an epiphytic Pacific forest fern on mossy trunks, logs, and branches. | [USFS fern structure](https://www.fs.usda.gov/wildflowers/beauty/ferns/structure.shtml), [Olympic mural plants](https://www.nps.gov/olym/learn/photosmultimedia/upload/MuralPlantsBlackBar-Final.pdf) |
@@ -87,6 +88,10 @@ Beach process support:
 | `old-mans-beard` | `Verified` | North Cascades directly identifies `Alectoria sarmentosa` as a green stringy lichen hanging from tree branches, and Olympic also treats Old Man's Beard as a draping branch lichen in moist forest canopies. | [North Cascades lichens](https://www.nps.gov/noca/learn/nature/lichens.htm), [Olympic mosses](https://www.nps.gov/olym/learn/nature/mosses.htm) |
 | `canopy-moss-bed` | `Watch` | This is a habitat landmark built from Olympic's canopy-moss description rather than one exact moss species. The branch-garden lesson is a cautious inference from mosses and lichens holding water and soil high on living trees, so the wording should stay broad. | [Olympic mosses](https://www.nps.gov/olym/learn/nature/mosses.htm), [Olympic mural plants](https://www.nps.gov/olym/learn/photosmultimedia/upload/MuralPlantsBlackBar-Final.pdf) |
 | `western-hemlock-seedling` | `Verified` | USFS western-hemlock silvics supports rotten logs and decayed wood as favorable seedbeds for `Tsuga heterophylla`, and NPS nurse-log guidance supports fallen wood as a damp nursery for new seedlings. | [USFS western hemlock](https://research.fs.usda.gov/silvics/western-hemlock), [NPS old mine nurse logs](https://www.nps.gov/places/old-mine-tour-nurse-logs.htm) |
+
+Forest process support:
+
+- `moisture-hold` | `Watch` | The late `mist-drip` process is a broad visual synthesis of source-backed moist forest-floor and edge plants plus seep guidance. It is safe when framed as damp shelter holding longer, not as plants creating groundwater or a guaranteed wetland. | [USFS sword fern FEIS](https://research.fs.usda.gov/feis/species-reviews/polmun), [USFS redwood sorrel](https://www.fs.usda.gov/wildflowers/plant-of-the-week/oxalis_oregana.shtml), [Delaware Water Gap springs and seeps](https://www.nps.gov/dewa/learn/nature/springs.htm), [USFS salmonberry](https://www.fs.usda.gov/wildflowers/plant-of-the-week/rubus_spectabilis.shtml) |
 
 ## Tundra
 
@@ -109,6 +114,10 @@ Beach process support:
 | `northern-collared-lemming` | `Verified` | FWS refuge planning directly supports the moist sedge-willow and sedge-tussock tundra habitat framing and its strong snow-and-cold adaptation. | [Arctic Refuge affected environment](https://www.fws.gov/sites/default/files/documents/2025-04/arccp_04_vol1_ch4_affectenv.pdf), [Gates of the Arctic small mammal inventory](https://www.nps.gov/gaar/learn/nature/small-mammal-inventory-report.htm) |
 | `frost-heave-hummock` | `Watch` | This is a habitat landmark rather than one named tundra community. Denali permafrost guidance directly supports freeze-thaw and permafrost movement creating hummocky ground, so the lesson is safe if the copy stays broad and landform-focused. | [Denali permafrost landscapes](https://www.nps.gov/articles/denali-permafrost-landscapes.htm), [Denali changing permafrost landscapes](https://home.nps.gov/articles/denali-changing-permafrost-landscapes.htm) |
 
+Tundra process support:
+
+- `thaw-fringe` | `Watch` | The peak `thaw-fringe` process is a broad visual synthesis of low tundra shrubs, early flowers, wet sedge or cottongrass ground, and thaw-channel guidance. Keep the copy about brief thaw edges and moist low ground rather than exact permafrost mechanics. | [NPS Bering Land Bridge shrubs](https://www.nps.gov/bela/learn/nature/shrubs.htm), [NPS Bering Land Bridge grasses](https://www.nps.gov/bela/learn/nature/grasses.htm), [Arctic Network ecosystems](https://www.nps.gov/im/arcn/ecosystems.htm) |
+
 ## Coastal Scrub
 
 Status note: this biome is live in the five-biome chain.
@@ -129,6 +138,10 @@ Status note: this biome is live in the five-biome chain.
 | `deer-mouse` | `Watch` | `Peromyscus maniculatus` is broad enough to work, but it does not resolve the branch geography by itself. | [Animal Diversity Web](https://animaldiversity.org/accounts/Peromyscus_maniculatus/), [USFS seed note](https://research.fs.usda.gov/treesearch/35206) |
 | `song-sparrow` | `Watch` | `Melospiza melodia` is broad enough to work in scrub, but it also does not settle the branch geography. | [NPS Presidio note](https://www.nps.gov/prsf/learn/nature/song-sparrow.htm), [Cornell Lab](https://www.allaboutbirds.org/guide/Song_Sparrow/lifehistory) |
 | `nurse-log` | `Watch` | The teaching role is sound near the forest-facing side, but it is a stronger forest-edge signal than a coast-specific one. | [NPS Bartlett Cove note](https://www.nps.gov/places/nurse-log-in-bartlett-cove.htm), [NPS old mine nurse logs](https://www.nps.gov/places/old-mine-tour-nurse-logs.htm) |
+
+Coastal Scrub process support:
+
+- `sand-capture` | `Watch` | The late back-dune/windbreak process is a broad visual synthesis of source-backed dune and scrub plants slowing wind, stabilizing sand, and building calmer cover. Keep the wording on wind-slowed sand and shelter, not instant soil creation. | [NPS Point Reyes dunes](https://home.nps.gov/pore/learn/nature/sanddunes.htm), [USFWS Ma-le'l foredunes](https://www.fws.gov/media/ma-lel-foredunes), [USFWS Crook Point story](https://www.fws.gov/story/2021-09/crook-point-invasives), [OSU Pacific wax myrtle](https://landscapeplants.oregonstate.edu/plants/myrica-californica) |
 
 ## Treeline
 
@@ -151,6 +164,10 @@ Status note: this biome is live in the five-biome chain.
 | `krummholz-spruce` | `Verified` | Wind-stunted tree growth near treeline is directly supported; keep the landmark wording generic rather than over-specific on species. | [Glacier NPS trees and shrubs](https://www.nps.gov/glac/learn/nature/treesandshrubs.htm) |
 | `frost-heave-boulder` | `Verified` | Freeze-thaw and permafrost-driven ground movement make this landmark concept sound. | [Denali permafrost landscapes](https://www.nps.gov/articles/denali-permafrost-landscapes.htm), [NPS changing permafrost landscapes](https://home.nps.gov/articles/denali-changing-permafrost-landscapes.htm) |
 | `talus-cushion-pocket` | `Watch` | This is a habitat landmark rather than one exact alpine species. Yukon-Charley directly supports cushion plants scattered through rocky alpine tundra and talus, so the sheltered-pocket lesson is a cautious, science-safe inference as long as the wording stays broad. | [Yukon-Charley plants](https://www.nps.gov/yuch/learn/nature/plants.htm) |
+
+Treeline process support:
+
+- `frost-rime` | `Watch` | The late `ridge-wind` rime process is a broad visual synthesis: official weather guidance supports rime forming on exposed objects, while the treeline rows support low shrubs, lichens, and frost-worked ground. Keep the copy broad and visual rather than teaching exact rime timing. | [NWS rime](https://www.weather.gov/otx/Rime), [NPS Bering Land Bridge shrubs](https://www.nps.gov/bela/learn/nature/shrubs.htm), [Bering Land Bridge lichens](https://www.nps.gov/bela/learn/nature/lichens.htm), [Denali permafrost landscapes](https://www.nps.gov/articles/denali-permafrost-landscapes.htm) |
 
 ## Immediate Follow-On Need
 

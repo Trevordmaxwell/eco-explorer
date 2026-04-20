@@ -14,6 +14,7 @@ export interface FieldStationGrowthInput {
   compostRate: number;
   loggedRouteCount: number;
   hasLateSeasonArchive?: boolean;
+  homecomingMilestoneRequestId?: string | null;
 }
 
 export interface FieldStationGrowthAccentState {
@@ -33,6 +34,8 @@ export interface FieldStationBackdropAccentState {
   showAccent: boolean;
   stageProgress: number;
   loggedRouteCount: number;
+  homecomingMilestoneRequestId: string | null;
+  hasHomecomingMemory: boolean;
   hasLeftBrace: boolean;
   hasRightBrace: boolean;
   hasCenterTie: boolean;
@@ -54,6 +57,7 @@ interface FieldStationHomecomingShellSource {
   loggedRouteCount: number;
   seasonWrap: FieldSeasonWrapState | null;
   routeBoard: Pick<FieldSeasonBoardState, 'launchCard'> | null;
+  homecoming?: { homecomingMilestoneRequestId: string } | null;
 }
 
 interface DrawFieldStationHomecomingShellOptions {
@@ -93,6 +97,7 @@ export function buildFieldStationGrowthInput({
   loggedRouteCount,
   seasonWrap,
   routeBoard,
+  homecoming = null,
 }: FieldStationHomecomingShellSource): FieldStationGrowthInput {
   return {
     teachingBedStage: nursery.activeProject?.state.stage ?? null,
@@ -101,6 +106,7 @@ export function buildFieldStationGrowthInput({
     compostRate: nursery.compostRate,
     loggedRouteCount,
     hasLateSeasonArchive: hasLateSeasonArchiveReturn(seasonWrap, routeBoard),
+    homecomingMilestoneRequestId: homecoming?.homecomingMilestoneRequestId ?? null,
   };
 }
 
@@ -145,10 +151,12 @@ export function resolveFieldStationBackdropAccentState({
   compostRate,
   loggedRouteCount,
   hasLateSeasonArchive = false,
+  homecomingMilestoneRequestId = null,
 }: FieldStationGrowthInput): FieldStationBackdropAccentState {
   const stageProgress = teachingBedStage ? getNurseryStageProgress(teachingBedStage) : 0;
   const hasCompostUpgrade = compostRate > 1;
   const safeLoggedRouteCount = Math.max(0, Math.min(3, loggedRouteCount));
+  const safeHomecomingMilestoneRequestId = homecomingMilestoneRequestId ?? null;
   const hasLeftBrace = safeLoggedRouteCount >= 1 || stageProgress >= 1 || hasLogPile;
   const hasRightBrace = safeLoggedRouteCount >= 2 || stageProgress >= 3 || hasPollinatorPatch;
   const hasCenterTie = safeLoggedRouteCount >= 3 || stageProgress >= 4 || hasCompostUpgrade;
@@ -158,6 +166,8 @@ export function resolveFieldStationBackdropAccentState({
     showAccent: hasLeftBrace || hasRightBrace || hasCenterTie,
     stageProgress,
     loggedRouteCount: safeLoggedRouteCount,
+    homecomingMilestoneRequestId: safeHomecomingMilestoneRequestId,
+    hasHomecomingMemory: Boolean(safeHomecomingMilestoneRequestId),
     hasLeftBrace,
     hasRightBrace,
     hasCenterTie,

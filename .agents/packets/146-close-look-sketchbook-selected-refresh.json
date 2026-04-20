@@ -1,0 +1,403 @@
+{
+  "packet_id": "ECO-PACKET-146",
+    "version": 8,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Close-look and sketchbook selected refresh",
+  "summary": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-close-look-sketchbook-state-handoff.md",
+    "docs/reports/2026-04-20-close-look-route-support-handoff.md",
+    "docs/reports/2026-04-20-close-look-route-support-implementation.md",
+    "docs/reports/2026-04-20-close-look-route-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-390",
+    "ECO-20260420-main-390",
+    "ECO-20260420-critic-390",
+    "ECO-20260420-scout-391",
+    "ECO-20260420-main-391",
+    "ECO-20260420-critic-391",
+    "ECO-20260420-scout-392",
+    "ECO-20260420-main-392",
+    "ECO-20260420-critic-392",
+    "ECO-20260420-scout-393",
+    "ECO-20260420-main-393",
+    "ECO-20260420-critic-393"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-386",
+    "ECO-20260420-critic-387",
+    "ECO-20260420-critic-388",
+    "ECO-20260420-critic-389"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-390",
+      "goal": "Prepare lane-1: Harden close-look/sketchbook opening/closing state only if existing tests reveal regression risk.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-390",
+      "goal": "Implement lane-1: Harden close-look/sketchbook opening/closing state only if existing tests reveal regression risk.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-390",
+      "goal": "Review lane-1: Harden close-look/sketchbook opening/closing state only if existing tests reveal regression risk.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-391",
+      "goal": "Prepare lane-2: Select one close-look or sketchbook carrier per need and write compact callouts tied to existing notes.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-391",
+      "goal": "Implement lane-2: Select one close-look or sketchbook carrier per need and write compact callouts tied to existing notes.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-391",
+      "goal": "Review lane-2: Select one close-look or sketchbook carrier per need and write compact callouts tied to existing notes.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-392",
+      "goal": "Prepare lane-3: Improve the visual silhouette or stamp placement for the selected carrier(s), not the whole system.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-392",
+      "goal": "Implement lane-3: Improve the visual silhouette or stamp placement for the selected carrier(s), not the whole system.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-392",
+      "goal": "Review lane-3: Improve the visual silhouette or stamp placement for the selected carrier(s), not the whole system.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-393",
+      "goal": "Prepare lane-4: Use selected close-look/sketchbook surfaces as optional route support context without making them mandatory.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-393",
+      "goal": "Implement lane-4: Use selected close-look/sketchbook surfaces as optional route support context without making them mandatory.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-393",
+      "goal": "Review lane-4: Use selected close-look/sketchbook surfaces as optional route support context without making them mandatory.",
+      "why_now": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth."
+    }
+  ],
+    "file_targets": [
+        ".agents/work-queue.md",
+        ".agents/project-memory.md",
+        "docs/reports/2026-04-20-alpha-runway-megapush.md",
+        "docs/reports/2026-04-20-close-look-sketchbook-selected-handoff.md",
+        "docs/reports/2026-04-20-close-look-sketchbook-selected-implementation.md",
+        "docs/reports/2026-04-20-close-look-sketchbook-selected-review.md",
+        "docs/reports/2026-04-20-close-look-sketchbook-state-handoff.md",
+        "src/engine/close-look.ts",
+        "src/test/close-look.test.ts",
+        "src/test/runtime-smoke.test.ts",
+        "docs/reports/2026-04-20-close-look-route-support-handoff.md",
+        "docs/reports/2026-04-20-close-look-route-support-implementation.md",
+        "docs/reports/2026-04-20-close-look-route-support-review.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "One or two close-look/sketchbook surfaces improve alpha memory without adding a bigger editor or copy burden.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Harden close-look/sketchbook opening/closing state only if existing tests reveal regression risk.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Select one close-look or sketchbook carrier per need and write compact callouts tied to existing notes.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Improve the visual silhouette or stamp placement for the selected carrier(s), not the whole system.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Use selected close-look/sketchbook surfaces as optional route support context without making them mandatory.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+        }
+    },
+    "lane_1_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-390",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-sketchbook-state-handoff.md",
+        "verdict": "no lane-1 implementation recommended",
+        "finding": [
+            "Lane 2 already completed the selected close-look carrier work for root-curtain and shore-pine.",
+            "The lane-1 contract only asks for close-look/sketchbook state hardening if existing tests reveal regression risk.",
+            "Existing close-look, sketchbook, and focused runtime smoke proofs are green.",
+            "The current runtime seams already clear close-look payloads, inspect bubbles, and sketchbook open/slot state across relevant close, journal-exit, biome-switch, menu, and reset paths."
+        ],
+        "action": [
+            "Park ECO-20260420-main-390 and ECO-20260420-critic-390.",
+            "Promote ECO-20260420-scout-394 for packet 147 so lane 1 can continue."
+        ],
+        "non_goals": [
+            "No runtime code, tests, selected carriers, content, station, save, route, map, UI, or geometry changes for lane 1 in packet 146."
+        ],
+        "verification": [
+            "npm test -- --run src/test/close-look.test.ts src/test/sketchbook.test.ts",
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"opens a close-look card|opens the surveyed-biome sketchbook\""
+        ]
+    },
+    "lane_2_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-391",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-sketchbook-selected-handoff.md",
+        "selected_carriers": [
+            {
+                "entry_id": "root-curtain",
+                "biome_id": "forest",
+                "surface": "close-look",
+                "why_selected": "Route-defining Root Hollow evidence carrier with an existing compact sketchbook memory note.",
+                "existing_memory_note": "Dim root shelter catching drips above the cave.",
+                "suggested_callouts": [
+                    "hanging roots",
+                    "drip shelter"
+                ],
+                "suggested_sentence": "Root tangles slow drips and make a dim shelter above the cave floor.",
+                "suggested_sprite_scale": 6
+            },
+            {
+                "entry_id": "shore-pine",
+                "biome_id": "coastal-scrub",
+                "surface": "close-look",
+                "why_selected": "Route-defining Open To Shelter evidence carrier with an existing compact sketchbook memory note.",
+                "existing_memory_note": "Wind-shaped pine holding the sheltered edge.",
+                "suggested_callouts": [
+                    "wind-shaped crown",
+                    "shelter edge"
+                ],
+                "suggested_sentence": "Wind-bent shore pines mark where open sand starts settling into cover.",
+                "suggested_sprite_scale": 6
+            }
+        ],
+        "implementation_scope": [
+            "Add close-look payload seeds for only root-curtain and shore-pine.",
+            "Reuse existing entry names and spriteIds.",
+            "Extend close-look tests for support and compact payload content.",
+            "Add a dated implementation report."
+        ],
+        "avoid": [
+            "new entries, sketchbook slots, journal layout, comparison rules, route behavior, station surfaces, world-map cues, or biome geometry",
+            "adding fallen-giant-log in this pass; it remains a future old-wood memory candidate but is weaker for packet 146's cross-lane selected-carrier handoff"
+        ],
+        "verification": [
+            "npm test -- --run src/test/close-look.test.ts",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ],
+        "shared_file_note": "src/engine/close-look.ts is outside packet 146's lane-2 preferred paths, but lane 2 owns close-look candidate expansion in .agents/lanes/lane-2.md and prior close-look passes have used this data-only allowlist seam."
+    },
+    "lane_2_main_result": {
+        "completed_by": "ECO-20260420-main-391",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-sketchbook-selected-implementation.md",
+        "implemented_carriers": [
+            "root-curtain",
+            "shore-pine"
+        ],
+        "changed_files": [
+            "src/engine/close-look.ts",
+            "src/test/close-look.test.ts",
+            "docs/reports/2026-04-20-close-look-sketchbook-selected-implementation.md"
+        ],
+        "scope_notes": [
+            "Added close-look seeds only for the two selected route/place-memory carriers.",
+            "Kept fallen-giant-log out of this pass as a future old-wood memory candidate.",
+            "Did not change entries, sketchbook slots, comparison rules, route behavior, station surfaces, world-map cues, or biome geometry."
+        ],
+        "verification": [
+            "npm test -- --run src/test/close-look.test.ts",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ],
+        "browser_proof": "Not added for this data-only lane-2 pass; lane 3 can use the selected carrier list for visual proof if needed."
+    },
+    "lane_2_critic_result": {
+        "completed_by": "ECO-20260420-critic-391",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-sketchbook-selected-review.md",
+        "verdict": "clean",
+        "confirmed": [
+            "Exactly root-curtain and shore-pine were added to close-look support.",
+            "The two payloads are compact, visual-first, and tied to existing route/place memory notes.",
+            "fallen-giant-log remains outside this pass.",
+            "No route, sketchbook, station, map, comparison, save, or geometry behavior changed in the scoped implementation diff."
+        ],
+        "verification_rechecked": [
+            "npm test -- --run src/test/close-look.test.ts",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ],
+        "promoted_next": "ECO-20260420-scout-395"
+    },
+    "lane_4_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-393",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-route-support-handoff.md",
+        "verdict": "implementation-ready",
+        "finding": [
+            "Lane 2 already added close-look cards for the selected route carriers root-curtain and shore-pine.",
+            "shore-pine is already the Open To Shelter pine-cover evidence carrier.",
+            "root-curtain is already the Root Hollow root-held evidence carrier.",
+            "Lane 4 should prove those cards are optional route context after the normal inspect claims evidence, not add a new route requirement."
+        ],
+        "main_scope": [
+            "Extend the existing Open To Shelter runtime smoke flow so inspecting shore-pine claims pine-cover before any close-look action, exposes a close-look bubble, opens the shore-pine payload, closes back to play, and leaves route progress unchanged.",
+            "Extend the existing Root Hollow runtime smoke flow so inspecting root-curtain claims root-held before any close-look action, exposes a close-look bubble, opens the root-curtain payload, closes back to play, and leaves route progress unchanged.",
+            "Keep the pass behavior-neutral unless the focused proof reveals a real bug.",
+            "Add a dated implementation report."
+        ],
+        "non_goals": [
+            "No route gates requiring close-look or sketchbook.",
+            "No new station pages, support ids, route frameworks, save fields, world-map cues, geometry, or broad copy rewrites.",
+            "No lane-2 selected-carrier copy or close-look seed edits unless fixing a proven regression."
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+            "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_4_critic_result": {
+        "completed_by": "ECO-20260420-critic-393",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-route-support-review.md",
+        "verdict": "clean",
+        "confirmed": [
+            "shore-pine still claims pine-cover on normal inspect before any close-look action.",
+            "root-curtain still claims root-held on normal inspect before any close-look action.",
+            "Opening and closing each selected close-look card leaves active route progress unchanged.",
+            "The scoped implementation is test-only in src/test/runtime-smoke.test.ts.",
+            "No route logic, close-look seed, support id, station page, save field, world-map cue, geometry, or player-facing copy changed for this lane-4 pass."
+        ],
+        "lane_4_status": "clear; promote ECO-20260420-scout-397",
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+            "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_4_main_result": {
+        "completed_by": "ECO-20260420-main-393",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-close-look-route-support-implementation.md",
+        "changed_files": [
+            "src/test/runtime-smoke.test.ts",
+            "docs/reports/2026-04-20-close-look-route-support-implementation.md"
+        ],
+        "result": [
+            "Extended the Open To Shelter runtime smoke flow so shore-pine claims pine-cover on normal inspect, exposes the selected close-look card, and keeps route progress unchanged after opening and closing the card.",
+            "Extended the Root Hollow runtime smoke flow so root-curtain claims root-held on normal inspect, exposes the selected close-look card, and keeps route progress unchanged after opening and closing the card.",
+            "Kept the pass behavior-neutral: no route logic, close-look seeds, support ids, station pages, save fields, world-map cues, geometry, or player-facing copy changed."
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+            "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

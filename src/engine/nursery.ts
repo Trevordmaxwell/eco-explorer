@@ -203,7 +203,7 @@ const NURSERY_PROJECT_DEFINITIONS: readonly NurseryProjectDefinition[] = [
       growing: 'The bed starts reading like the cooler forest return.',
       mature: 'The bed now carries a calm wet-edge thicket.',
     },
-    memorySummary: 'Cool wet edge tucked under taller cover.',
+    memorySummary: 'Cool forest edge where salmonberry thickets hold shade.',
     sourceEntryIds: ['salmonberry'],
     sourceModes: ['seed'],
     routeTags: ['edge-pattern-line'],
@@ -459,6 +459,49 @@ export function getNextNurseryProjectId(
   return unlockedProjects[nextIndex].id;
 }
 
+type NurseryRouteSupportRewardId =
+  | 'nursery:sand-verbena-support'
+  | 'nursery:dune-lupine-support'
+  | 'nursery:salmonberry-support'
+  | 'nursery:mountain-avens-support';
+
+function getRouteSupportRewardId(
+  routeBoard: Pick<FieldSeasonBoardState, 'routeId' | 'activeBeatId'>,
+): NurseryRouteSupportRewardId | null {
+  switch (routeBoard.routeId) {
+    case 'coastal-shelter-line':
+      switch (routeBoard.activeBeatId) {
+        case 'forest-study':
+          return 'nursery:sand-verbena-support';
+        case 'coastal-comparison':
+          return 'nursery:dune-lupine-support';
+        default:
+          return null;
+      }
+    case 'treeline-shelter-line':
+      return routeBoard.activeBeatId === 'tundra-short-season'
+        ? 'nursery:mountain-avens-support'
+        : null;
+    case 'edge-pattern-line':
+      switch (routeBoard.activeBeatId) {
+        case 'scrub-edge-pattern':
+          return 'nursery:dune-lupine-support';
+        case 'forest-cool-edge':
+          return 'nursery:salmonberry-support';
+        case 'treeline-low-fell':
+          return 'nursery:mountain-avens-support';
+        default:
+          return null;
+      }
+  }
+
+  return null;
+}
+
+function getNurseryRouteSupportSummary(rewardId: NurseryRouteSupportRewardId): string | null {
+  return NURSERY_PROJECT_DEFINITIONS.find((project) => project.rewardId === rewardId)?.rewardSummary ?? null;
+}
+
 export function resolveNurseryStateView(
   save: SaveState,
   routeBoard: Pick<FieldSeasonBoardState, 'routeId' | 'activeBeatId'>,
@@ -479,39 +522,13 @@ export function resolveNurseryStateView(
     ? getProjectDefinition(activeProjectState.projectId)
     : null;
   const rewardIds = new Set(save.nurseryClaimedRewardIds);
-  const routeSupportProject =
-    routeBoard.routeId === 'edge-pattern-line'
-      ? null
-      : projects.find(
-          (project) =>
-            project.definition.rewardKind === 'route-support' &&
-            project.definition.routeTags.includes(routeBoard.routeId) &&
-            rewardIds.has(project.definition.rewardId),
-        );
-  let edgePatternRewardId: string | null = null;
-  if (routeBoard.routeId === 'edge-pattern-line') {
-    switch (routeBoard.activeBeatId) {
-      case 'scrub-edge-pattern':
-        edgePatternRewardId = 'nursery:dune-lupine-support';
-        break;
-      case 'forest-cool-edge':
-        edgePatternRewardId = 'nursery:salmonberry-support';
-        break;
-      case 'treeline-low-fell':
-        edgePatternRewardId = 'nursery:mountain-avens-support';
-        break;
-      default:
-        edgePatternRewardId = null;
-    }
-  }
-  const edgePatternRouteSupport =
-    edgePatternRewardId && rewardIds.has(edgePatternRewardId)
-      ? NURSERY_PROJECT_DEFINITIONS.find((project) => project.rewardId === edgePatternRewardId)?.rewardSummary ?? null
-      : null;
+  const routeSupportRewardId = getRouteSupportRewardId(routeBoard);
   const routeSupportHint =
-    edgePatternRouteSupport
-    ?? routeSupportProject?.definition.rewardSummary
-    ?? resolveNurseryCapstoneSupportHint(save);
+    routeSupportRewardId && rewardIds.has(routeSupportRewardId)
+      ? getNurseryRouteSupportSummary(routeSupportRewardId)
+      : routeBoard.activeBeatId === null
+        ? resolveNurseryCapstoneSupportHint(save)
+        : null;
   const teachingBedFocusMode = resolveNurseryTeachingBedFocusMode(
     selectedCardId,
     activeProjectState?.stage ?? null,

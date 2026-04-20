@@ -146,17 +146,17 @@ These systems are designed to deepen pattern noticing without turning the game i
 
 ## Progression and Home-Base Systems
 
-### Field requests and guided season flow
+### Route outings and guided season flow
 
-Exploration is increasingly structured around routes and requests:
+Exploration is increasingly structured around Route v2 outings and a small guided-season loop. The player-facing shape is one current route, evidence gathering in the world, notebook filing back at the station, and tiny support/replay cues. Some code and save fields still use `field-request*` names for compatibility.
 
-- `src/engine/field-requests.ts`: authored request definitions and route-specific copy helpers
-- `src/engine/field-request-state.ts`: derived request context, outing locator, route-marker, and replay-label state
+- `src/engine/field-requests.ts`: authored Route v2 outing definitions, compatibility request definitions, and route-specific copy helpers
+- `src/engine/field-request-state.ts`: derived route context, outing locator, route-marker, and replay-label state
 - `src/engine/guided-field-season.ts`: onboarding and route guidance
 - `src/engine/progression.ts`: survey and completion state helpers
 - `src/engine/field-season-board.ts`: field-station route board, replay notes, and expedition-facing season summaries
 
-The field station uses these systems to present one current route, logged route progress, replay guidance, and expedition unlock cues.
+The field station uses these systems to present one current route, logged route progress, notebook-ready filing states, replay guidance, a tiny support slot, and expedition unlock cues.
 
 ### Field station
 

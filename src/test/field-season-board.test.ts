@@ -15,10 +15,95 @@ import {
   resolveFieldStationSubtitle,
   resolveFieldSeasonWrapState,
 } from '../engine/field-season-wrap';
-import { resolveHighPassChapterState } from '../engine/high-pass-chapter-state';
+import {
+  resolveDefaultHighPassFiledArcCopy,
+  resolveHighPassChapterState,
+  resolveHighPassFiledArcCopy,
+} from '../engine/high-pass-chapter-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
+import type { OutingSupportId, SaveState } from '../engine/types';
 
 describe('field season board', () => {
+  const genericSeasonNote = {
+    title: 'FIELD SEASON OPEN',
+    text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+  };
+
+  const coastalLineLoggedRequestIds = [
+    'beach-shore-shelter',
+    'forest-hidden-hollow',
+    'forest-moisture-holders',
+    'forest-survey-slice',
+    'coastal-shelter-shift',
+    'coastal-edge-moisture',
+  ];
+  const inlandLineLoggedRequestIds = [
+    ...coastalLineLoggedRequestIds,
+    'treeline-stone-shelter',
+    'tundra-short-season',
+    'tundra-survey-slice',
+  ];
+  const edgeLineLoggedRequestIds = [
+    ...inlandLineLoggedRequestIds,
+    'scrub-edge-pattern',
+    'forest-cool-edge',
+    'treeline-low-fell',
+  ];
+  const seasonThreadsFiledRequestIds = [
+    ...edgeLineLoggedRequestIds,
+    'forest-expedition-upper-run',
+    'forest-season-threads',
+  ];
+  const NOTEBOOK_READY_PREVIEW_LABEL_MAX = 24;
+  const NOTEBOOK_READY_PREVIEW_TEXT_MAX = 144;
+
+  function buildSave(
+    seed: string,
+    completedFieldRequestIds: string[] = [],
+    configure?: (save: SaveState) => void,
+  ): SaveState {
+    const save = createNewSaveState(seed);
+    save.completedFieldRequestIds = [...completedFieldRequestIds];
+    configure?.(save);
+    return save;
+  }
+
+  function expectCopyBudget(label: string, text: string | null | undefined, max: number): void {
+    if (!text) {
+      return;
+    }
+
+    expect(text.length, `${label} (${text.length}/${max}): ${text}`).toBeLessThanOrEqual(max);
+  }
+
+  function expectStationCopyBudgets(
+    label: string,
+    save: SaveState,
+    selectedOutingSupportId: OutingSupportId = 'hand-lens',
+  ): void {
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    const atlas = resolveFieldAtlasState(save);
+    const seasonWrap = resolveFieldSeasonWrapState(
+      biomeRegistry,
+      routeBoard,
+      genericSeasonNote,
+      atlas,
+      resolveFieldSeasonArchiveState(save),
+      selectedOutingSupportId,
+    );
+    const activeOuting = resolveSeasonOutingLocator(save);
+
+    expectCopyBudget(`${label} seasonWrap.label`, seasonWrap.label, 24);
+    expectCopyBudget(`${label} seasonWrap.text`, seasonWrap.text, 96);
+    expectCopyBudget(`${label} atlas.note`, atlas?.note, 64);
+    expectCopyBudget(`${label} routeBoard.summary`, routeBoard.summary, 96);
+    expectCopyBudget(`${label} launchCard.summary`, routeBoard.launchCard?.summary, 72);
+    expectCopyBudget(`${label} launchCard.detail`, routeBoard.launchCard?.detail, 72);
+    expectCopyBudget(`${label} activeOuting.summary`, activeOuting?.summary, 86);
+    expectCopyBudget(`${label} activeOuting.worldMapLabel`, activeOuting?.worldMapLabel, 32);
+    expectCopyBudget(`${label} activeOuting.atlasNote`, activeOuting?.atlasNote, 64);
+  }
+
   it('starts with the beach shore-shelter beat active and the coastal line queued behind it', () => {
     const save = createNewSaveState('field-season-board-starter-seed');
 
@@ -688,6 +773,54 @@ describe('field season board', () => {
     });
   });
 
+  it('keeps active thaw-window carriers in the short-season note-tabs preview', () => {
+    const save = createNewSaveState('field-season-board-active-thaw-window-preview-seed');
+    save.selectedOutingSupportId = 'note-tabs';
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'woolly-lousewort' },
+        { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+
+    const activeCarrierPreview =
+      "Thaw Window. Woolly Lousewort, Bigelow's Sedge, and Cloudberry trace the tundra's short thaw window.";
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+    expect(routeBoard.notebookReady).toMatchObject({
+      requestId: 'tundra-short-season',
+      previewLabel: 'SHORT SEASON',
+      previewText: activeCarrierPreview,
+    });
+    expect(
+      resolveFieldSeasonWrapState(
+        biomeRegistry,
+        routeBoard,
+        {
+          title: 'FIELD SEASON OPEN',
+          text: 'Keep comparing nearby habitats and checking the station between longer routes.',
+        },
+        resolveFieldAtlasState(save),
+        null,
+        'note-tabs',
+      ),
+    ).toEqual({
+      label: 'SHORT SEASON',
+      text: activeCarrierPreview,
+    });
+  });
+
   it('uses the four-leg low-fell note when note tabs previews a ready edge-line close', () => {
     const save = createNewSaveState('field-season-board-low-fell-preview-seed');
     save.completedFieldRequestIds = [
@@ -737,6 +870,198 @@ describe('field season board', () => {
       label: 'LOW FELL',
       text: 'Krummholz Spruce, Dwarf Birch, Mountain Avens, and Arctic Willow now trace the full drop from treeline shelter into open fell.',
     });
+  });
+
+  it('keeps notebook-ready route previews budgeted while note-tabs inherits filed-display text', () => {
+    const readyRouteCases: Array<{
+      requestId: string;
+      expectedPreviewLabel: string;
+      completedFieldRequestIds: string[];
+      evidenceSlots?: Array<{ slotId: string; entryId: string }>;
+      landmarkEntryIds?: string[];
+      expectedPreviewIncludes: string;
+      expectedPreviewPrefix?: string;
+      configure?: (save: SaveState) => void;
+    }> = [
+      {
+        requestId: 'beach-shore-shelter',
+        expectedPreviewLabel: 'SHORE SHELTER',
+        completedFieldRequestIds: [],
+        evidenceSlots: [
+          { slotId: 'dune-grass', entryId: 'beach-grass' },
+          { slotId: 'lee-cover', entryId: 'driftwood-log' },
+          { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+        ],
+        expectedPreviewIncludes: 'shelter from dune edge to tide line',
+      },
+      {
+        requestId: 'forest-hidden-hollow',
+        expectedPreviewLabel: 'HIDDEN HOLLOW',
+        completedFieldRequestIds: ['beach-shore-shelter'],
+        landmarkEntryIds: ['seep-stone'],
+        expectedPreviewIncludes: 'damp lower hollow under the roots',
+      },
+      {
+        requestId: 'forest-moisture-holders',
+        expectedPreviewLabel: 'MOISTURE HOLDERS',
+        completedFieldRequestIds: ['beach-shore-shelter', 'forest-hidden-hollow'],
+        evidenceSlots: [
+          { slotId: 'shelter', entryId: 'licorice-fern' },
+          { slotId: 'ground', entryId: 'seep-stone' },
+          { slotId: 'living', entryId: 'banana-slug' },
+        ],
+        expectedPreviewIncludes: 'hollow holding moisture',
+      },
+      {
+        requestId: 'coastal-shelter-shift',
+        expectedPreviewLabel: 'OPEN TO SHELTER',
+        completedFieldRequestIds: [
+          'beach-shore-shelter',
+          'forest-hidden-hollow',
+          'forest-moisture-holders',
+          'forest-survey-slice',
+        ],
+        evidenceSlots: [
+          { slotId: 'open-bloom', entryId: 'sand-verbena' },
+          { slotId: 'pine-cover', entryId: 'shore-pine' },
+          { slotId: 'edge-log', entryId: 'nurse-log' },
+        ],
+        expectedPreviewIncludes: 'forest-edge shelter',
+        configure: (save) => {
+          save.purchasedUpgradeIds = ['trail-stride'];
+        },
+      },
+      {
+        requestId: 'treeline-stone-shelter',
+        expectedPreviewLabel: 'STONE SHELTER',
+        completedFieldRequestIds: coastalLineLoggedRequestIds,
+        evidenceSlots: [
+          { slotId: 'lee-life', entryId: 'hoary-marmot' },
+          { slotId: 'stone-break', entryId: 'frost-heave-boulder' },
+          { slotId: 'bent-cover', entryId: 'krummholz-spruce' },
+        ],
+        expectedPreviewIncludes: 'sheltered treeline pocket',
+      },
+      {
+        requestId: 'tundra-short-season',
+        expectedPreviewLabel: 'SHORT SEASON',
+        completedFieldRequestIds: [...coastalLineLoggedRequestIds, 'treeline-stone-shelter'],
+        evidenceSlots: [
+          { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+          { slotId: 'wet-tuft', entryId: 'bigelows-sedge' },
+          { slotId: 'brief-fruit', entryId: 'cloudberry' },
+        ],
+        expectedPreviewIncludes: "tundra's short thaw window",
+        expectedPreviewPrefix: 'Thaw Window.',
+      },
+      {
+        requestId: 'scrub-edge-pattern',
+        expectedPreviewLabel: 'SCRUB PATTERN',
+        completedFieldRequestIds: inlandLineLoggedRequestIds,
+        evidenceSlots: [
+          { slotId: 'open-pioneer', entryId: 'dune-lupine' },
+          { slotId: 'holding-cover', entryId: 'pacific-wax-myrtle' },
+          { slotId: 'thicker-edge', entryId: 'salmonberry' },
+        ],
+        expectedPreviewIncludes: 'clear transition',
+      },
+      {
+        requestId: 'forest-cool-edge',
+        expectedPreviewLabel: 'COOL EDGE',
+        completedFieldRequestIds: [...inlandLineLoggedRequestIds, 'scrub-edge-pattern'],
+        evidenceSlots: [
+          { slotId: 'edge-carrier', entryId: 'salmonberry' },
+          { slotId: 'cool-floor', entryId: 'redwood-sorrel' },
+          { slotId: 'wet-shade', entryId: 'sword-fern' },
+        ],
+        expectedPreviewIncludes: 'cooler forest middle',
+      },
+      {
+        requestId: 'treeline-low-fell',
+        expectedPreviewLabel: 'LOW FELL',
+        completedFieldRequestIds: [
+          ...inlandLineLoggedRequestIds,
+          'scrub-edge-pattern',
+          'forest-cool-edge',
+        ],
+        evidenceSlots: [
+          { slotId: 'low-rest', entryId: 'arctic-willow' },
+          { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+          { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+          { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        ],
+        expectedPreviewIncludes: 'treeline shelter into open fell',
+      },
+    ];
+
+    for (const readyRouteCase of readyRouteCases) {
+      const save = buildSave(
+        `field-season-notebook-preview-budget-${readyRouteCase.requestId}`,
+        readyRouteCase.completedFieldRequestIds,
+        readyRouteCase.configure,
+      );
+      save.routeV2Progress = {
+        requestId: readyRouteCase.requestId,
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: readyRouteCase.landmarkEntryIds ?? [],
+        evidenceSlots: readyRouteCase.evidenceSlots ?? [],
+      };
+
+      const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+      const notebookReady = routeBoard.notebookReady;
+      expect(notebookReady, `${readyRouteCase.requestId} missing notebook-ready state`).not.toBeNull();
+      if (!notebookReady?.previewLabel || !notebookReady.previewText) {
+        throw new Error(`${readyRouteCase.requestId} missing notebook-ready preview`);
+      }
+
+      expect(notebookReady.requestId).toBe(readyRouteCase.requestId);
+      expect(notebookReady.previewLabel).toBe(readyRouteCase.expectedPreviewLabel);
+      expectCopyBudget(
+        `${readyRouteCase.requestId} notebookReady.previewLabel`,
+        notebookReady.previewLabel,
+        NOTEBOOK_READY_PREVIEW_LABEL_MAX,
+      );
+      expectCopyBudget(
+        `${readyRouteCase.requestId} notebookReady.previewText`,
+        notebookReady.previewText,
+        NOTEBOOK_READY_PREVIEW_TEXT_MAX,
+      );
+      expect(notebookReady.previewText).toContain(readyRouteCase.expectedPreviewIncludes);
+      if (readyRouteCase.expectedPreviewPrefix) {
+        expect(notebookReady.previewText.startsWith(readyRouteCase.expectedPreviewPrefix)).toBe(true);
+      }
+
+      expect(
+        resolveFieldSeasonWrapState(
+          biomeRegistry,
+          routeBoard,
+          genericSeasonNote,
+          resolveFieldAtlasState(save),
+          null,
+          'note-tabs',
+        ),
+      ).toEqual({
+        label: notebookReady.previewLabel,
+        text: notebookReady.previewText,
+      });
+      expectCopyBudget(
+        `${readyRouteCase.requestId} note-tabs ready wrap text`,
+        notebookReady.previewText,
+        NOTEBOOK_READY_PREVIEW_TEXT_MAX,
+      );
+
+      expect(
+        resolveFieldSeasonWrapState(
+          biomeRegistry,
+          routeBoard,
+          genericSeasonNote,
+          resolveFieldAtlasState(save),
+        ),
+      ).toEqual({
+        label: 'NOTEBOOK READY',
+        text: notebookReady.text,
+      });
+    }
   });
 
   it('builds a tiny field atlas once routes start logging', () => {
@@ -790,6 +1115,135 @@ describe('field season board', () => {
       ],
       note: 'Filed season: High Pass from Treeline Pass.',
     });
+  });
+
+  it('keeps station atlas and active outing copy inside compact resolver budgets', () => {
+    const budgetCases: Array<{
+      label: string;
+      save: SaveState;
+      selectedOutingSupportId?: OutingSupportId;
+    }> = [
+      {
+        label: 'fresh beach starter',
+        save: buildSave('field-season-copy-budget-fresh-seed'),
+      },
+      {
+        label: 'shore shelter logged note-tabs',
+        save: buildSave('field-season-copy-budget-shore-logged-seed', ['beach-shore-shelter']),
+        selectedOutingSupportId: 'note-tabs',
+      },
+      {
+        label: 'coastal line logged with atlas',
+        save: buildSave('field-season-copy-budget-coastal-line-seed', coastalLineLoggedRequestIds),
+      },
+      {
+        label: 'inland line logged note-tabs with atlas',
+        save: buildSave('field-season-copy-budget-inland-line-seed', inlandLineLoggedRequestIds),
+        selectedOutingSupportId: 'note-tabs',
+      },
+      {
+        label: 'edge line logged before Root Hollow',
+        save: buildSave('field-season-copy-budget-edge-line-seed', edgeLineLoggedRequestIds),
+      },
+      {
+        label: 'Root Hollow one clue',
+        save: buildSave('field-season-copy-budget-root-hollow-one-seed', edgeLineLoggedRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'forest-expedition-upper-run',
+            status: 'gathering',
+            landmarkEntryIds: [],
+            evidenceSlots: [{ slotId: 'seep-mark', entryId: 'seep-stone' }],
+          };
+        }),
+      },
+      {
+        label: 'Root Hollow two clues',
+        save: buildSave('field-season-copy-budget-root-hollow-two-seed', edgeLineLoggedRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'forest-expedition-upper-run',
+            status: 'gathering',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'seep-mark', entryId: 'seep-stone' },
+              { slotId: 'stone-pocket', entryId: 'banana-slug' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'Root Hollow three clues',
+        save: buildSave('field-season-copy-budget-root-hollow-three-seed', edgeLineLoggedRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'forest-expedition-upper-run',
+            status: 'gathering',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'seep-mark', entryId: 'seep-stone' },
+              { slotId: 'stone-pocket', entryId: 'banana-slug' },
+              { slotId: 'root-held', entryId: 'root-curtain' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'Root Hollow notebook-ready',
+        save: buildSave('field-season-copy-budget-root-hollow-ready-seed', edgeLineLoggedRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'forest-expedition-upper-run',
+            status: 'ready-to-synthesize',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'seep-mark', entryId: 'seep-stone' },
+              { slotId: 'stone-pocket', entryId: 'banana-slug' },
+              { slotId: 'root-held', entryId: 'root-curtain' },
+              { slotId: 'high-run', entryId: 'fir-cone' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'Root Hollow filed Season Threads active',
+        save: buildSave('field-season-copy-budget-season-threads-seed', [
+          ...edgeLineLoggedRequestIds,
+          'forest-expedition-upper-run',
+        ]),
+      },
+      {
+        label: 'Season Threads filed High Pass active',
+        save: buildSave('field-season-copy-budget-high-pass-active-seed', seasonThreadsFiledRequestIds),
+      },
+      {
+        label: 'High Pass ready-to-file',
+        save: buildSave('field-season-copy-budget-high-pass-ready-seed', seasonThreadsFiledRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'treeline-high-pass',
+            status: 'ready-to-synthesize',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+              { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+              { slotId: 'rime-mark', entryId: 'moss-campion' },
+              { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'High Pass filed',
+        save: buildSave('field-season-copy-budget-high-pass-filed-seed', [
+          ...seasonThreadsFiledRequestIds,
+          'treeline-high-pass',
+        ]),
+      },
+    ];
+
+    for (const budgetCase of budgetCases) {
+      expectStationCopyBudgets(
+        budgetCase.label,
+        budgetCase.save,
+        budgetCase.selectedOutingSupportId,
+      );
+    }
   });
 
   it('keeps the expedition slot locked until the season routes are logged', () => {
@@ -1023,6 +1477,8 @@ describe('field season board', () => {
       summary: 'High Pass filed from Treeline Pass.',
       nextDirection: 'High Pass filed. This field arc is complete.',
       targetBiomeId: null,
+      notebookReady: null,
+      replayNote: null,
       launchCard: {
         title: 'HIGH PASS',
         progressLabel: 'FILED',
@@ -1057,6 +1513,20 @@ describe('field season board', () => {
     ).toBe('High Pass is filed for this field arc.');
   });
 
+  it('keeps filed High Pass epilogue copy buckets explicit', () => {
+    const filedArcCopy = resolveHighPassFiledArcCopy('Treeline Pass');
+
+    expect(filedArcCopy).toEqual({
+      filedLocationText: 'High Pass filed from Treeline Pass.',
+      fieldArcCompleteText: 'High Pass filed. This field arc is complete.',
+      optionalRevisitText: 'Current field arc filed. Revisit when you want a quiet pass.',
+      filedExpeditionSubtitle: 'High Pass is filed for this field arc.',
+      noticeText:
+        'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+    });
+    expect(resolveDefaultHighPassFiledArcCopy()).toEqual(filedArcCopy);
+  });
+
   it('derives treeline as the next-field-season target once the season is filed', () => {
     const save = createNewSaveState('field-season-next-season-target-seed');
     expect(resolveNextFieldSeasonTargetBiomeId(save)).toBeNull();
@@ -1075,13 +1545,13 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Log dune grass, then lee cover, then wrack line from Dune Edge to Tide Line.',
+      text: 'Inspect dune grass, lee cover, and wrack line from Dune Edge to Tide Line.',
     });
   });
 
@@ -1097,7 +1567,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -1120,7 +1590,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -1171,7 +1641,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -1201,7 +1671,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -1354,7 +1824,7 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'What hints at a very short summer?',
+      text: 'What here races the short summer?',
     });
 
     expect(
@@ -1385,7 +1855,7 @@ describe('field season board', () => {
         routeBoard,
         {
           title: 'FIRST FIELD SEASON',
-          text: 'Start from the beach, follow shelter inland into Forest Trail, then return to the field station after the run.',
+          text: 'Start Shore Shelter on Sunny Beach. Use J for notebook and M for map or station.',
         },
         resolveFieldAtlasState(save),
         null,
@@ -1393,7 +1863,7 @@ describe('field season board', () => {
       ),
     ).toEqual({
       label: 'TODAY',
-      text: 'Log dune grass, then lee cover, then wrack line from Dune Edge to Tide Line.',
+      text: 'Inspect dune grass, lee cover, and wrack line from Dune Edge to Tide Line.',
     });
   });
 

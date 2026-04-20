@@ -148,7 +148,7 @@ describe('nursery growth and rewards', () => {
     expect(save.nurseryResources.compost).toBe(2);
   });
 
-  it('surfaces route support and habitat extras once mature nursery rewards are claimed', () => {
+  it('uses the active coastal route beat to pick the nursery support hint', () => {
     const save = createNewSaveState('nursery-route-support-seed');
     save.nurseryClaimedRewardIds = [
       'nursery:sand-verbena-support',
@@ -158,20 +158,48 @@ describe('nursery growth and rewards', () => {
 
     syncNurseryState(save);
 
+    const forestStudyView = resolveNurseryStateView(
+      save,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'forest-study' },
+      null,
+      'bench',
+    );
+    expect(forestStudyView.routeSupportHint).toBe(
+      'Low yellow blooms usually hold where the dune still feels open and dry.',
+    );
+    expect(forestStudyView.showRouteSupportHint).toBe(true);
+    expect(forestStudyView.extras.filter((extra) => extra.unlocked).map((extra) => extra.id)).toEqual([
+      'log-pile',
+      'pollinator-patch',
+    ]);
+
+    const coastalComparisonView = resolveNurseryStateView(
+      save,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      null,
+      'bench',
+    );
+    expect(coastalComparisonView.routeSupportHint).toBe(
+      'Pioneer flowers often thin out where shrubs start making steadier cover.',
+    );
+    expect(coastalComparisonView.showRouteSupportHint).toBe(true);
+  });
+
+  it('does not substitute another support when the active beat support is missing', () => {
+    const save = createNewSaveState('nursery-route-support-no-substitution');
+    save.nurseryClaimedRewardIds = ['nursery:sand-verbena-support'];
+
+    syncNurseryState(save);
+
     const view = resolveNurseryStateView(
       save,
       { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
       null,
       'bench',
     );
-    expect(view.routeSupportHint).toBe(
-      'Low yellow blooms usually hold where the dune still feels open and dry.',
-    );
-    expect(view.showRouteSupportHint).toBe(true);
-    expect(view.extras.filter((extra) => extra.unlocked).map((extra) => extra.id)).toEqual([
-      'log-pile',
-      'pollinator-patch',
-    ]);
+
+    expect(view.routeSupportHint).toBeNull();
+    expect(view.showRouteSupportHint).toBe(false);
   });
 
   it('suppresses the route-support strip while the selected bed owns the home-loop beat', () => {
@@ -184,7 +212,7 @@ describe('nursery growth and rewards', () => {
 
     const benchView = resolveNurseryStateView(
       save,
-      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      { routeId: 'coastal-shelter-line', activeBeatId: 'forest-study' },
       null,
       'bench',
     );
@@ -193,7 +221,7 @@ describe('nursery growth and rewards', () => {
 
     const bedView = resolveNurseryStateView(
       save,
-      { routeId: 'coastal-shelter-line', activeBeatId: 'coastal-comparison' },
+      { routeId: 'coastal-shelter-line', activeBeatId: 'forest-study' },
       null,
       'bed',
     );
@@ -214,6 +242,16 @@ describe('nursery growth and rewards', () => {
 
     syncNurseryState(save);
 
+    const scrubBeatView = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: 'scrub-edge-pattern' },
+      null,
+      'bench',
+    );
+    expect(scrubBeatView.routeSupportHint).toBe(
+      'Pioneer flowers often thin out where shrubs start making steadier cover.',
+    );
+
     const forestBeatView = resolveNurseryStateView(
       save,
       { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
@@ -233,6 +271,33 @@ describe('nursery growth and rewards', () => {
     expect(treelineBeatView.routeSupportHint).toBe(
       'Brief bright bloom often holds where the ground stays open but low.',
     );
+  });
+
+  it('keeps mountain avens for the short-season beat instead of early treeline shelter', () => {
+    const save = createNewSaveState('nursery-treeline-route-support-seed');
+    save.nurseryClaimedRewardIds = ['nursery:mountain-avens-support'];
+
+    syncNurseryState(save);
+
+    const shelterView = resolveNurseryStateView(
+      save,
+      { routeId: 'treeline-shelter-line', activeBeatId: 'treeline-shelter' },
+      null,
+      'bench',
+    );
+    expect(shelterView.routeSupportHint).toBeNull();
+    expect(shelterView.showRouteSupportHint).toBe(false);
+
+    const shortSeasonView = resolveNurseryStateView(
+      save,
+      { routeId: 'treeline-shelter-line', activeBeatId: 'tundra-short-season' },
+      null,
+      'bench',
+    );
+    expect(shortSeasonView.routeSupportHint).toBe(
+      'Brief bright bloom often holds where the ground stays open but low.',
+    );
+    expect(shortSeasonView.showRouteSupportHint).toBe(true);
   });
 
   it('keeps the salmonberry clue alive once the route is logged and the season moves into root hollow', () => {
@@ -281,9 +346,11 @@ describe('nursery growth and rewards', () => {
       'bench',
     );
 
-    expect(view.activeProject?.definition.memorySummary).toBe(
-      'Cool wet edge tucked under taller cover.',
-    );
+    const memorySummary = view.activeProject?.definition.memorySummary;
+    expect(memorySummary).toBe('Cool forest edge where salmonberry thickets hold shade.');
+    expect(memorySummary).toContain('forest edge');
+    expect(memorySummary).toContain('salmonberry');
+    expect(memorySummary).toContain('shade');
     expect(view.routeSupportHint).toBe(
       'Dense berry thickets often mark the cooler, wetter side of a transition.',
     );

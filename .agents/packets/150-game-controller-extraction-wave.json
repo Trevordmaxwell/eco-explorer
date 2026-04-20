@@ -1,0 +1,361 @@
+{
+  "packet_id": "ECO-PACKET-150",
+  "version": 7,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Game controller extraction wave",
+  "summary": "Reduce the biggest coordinator risk without changing player-facing scope.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-game-controller-extraction-guided-notice-handoff.md",
+    "docs/reports/2026-04-20-game-controller-extraction-guided-notice-implementation.md",
+    "docs/reports/2026-04-20-game-controller-extraction-guided-notice-review.md",
+    "docs/reports/2026-04-20-route-notice-priority-regression-handoff.md",
+    "docs/reports/2026-04-20-route-notice-priority-regression-implementation.md",
+    "docs/reports/2026-04-20-route-notice-priority-regression-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-406",
+    "ECO-20260420-main-406",
+    "ECO-20260420-critic-406",
+    "ECO-20260420-scout-407",
+    "ECO-20260420-main-407",
+    "ECO-20260420-critic-407",
+    "ECO-20260420-scout-408",
+    "ECO-20260420-main-408",
+    "ECO-20260420-critic-408",
+    "ECO-20260420-scout-409",
+    "ECO-20260420-main-409",
+    "ECO-20260420-critic-409"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-402",
+    "ECO-20260420-critic-403",
+    "ECO-20260420-critic-404",
+    "ECO-20260420-critic-405"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-406",
+      "goal": "Prepare lane-1: Extract one cohesive controller/helper from game.ts around notices, expedition activation, route filing, or overlay action dispatch.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-406",
+      "goal": "Implement lane-1: Extract one cohesive controller/helper from game.ts around notices, expedition activation, route filing, or overlay action dispatch.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-406",
+      "goal": "Review lane-1: Extract one cohesive controller/helper from game.ts around notices, expedition activation, route filing, or overlay action dispatch.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-407",
+      "goal": "Prepare lane-2: Avoid systems files; provide only copy/test fixtures needed by the extraction.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-407",
+      "goal": "Implement lane-2: Avoid systems files; provide only copy/test fixtures needed by the extraction.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-407",
+      "goal": "Review lane-2: Avoid systems files; provide only copy/test fixtures needed by the extraction.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-408",
+      "goal": "Prepare lane-3: Avoid controller files; run spatial smoke proof for any changed action dispatch touching traversal/inspect.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-408",
+      "goal": "Implement lane-3: Avoid controller files; run spatial smoke proof for any changed action dispatch touching traversal/inspect.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-408",
+      "goal": "Review lane-3: Avoid controller files; run spatial smoke proof for any changed action dispatch touching traversal/inspect.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-409",
+      "goal": "Prepare lane-4: Add route-loop regression tests around the extracted seam and confirm support/filing priority is unchanged.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-409",
+      "goal": "Implement lane-4: Add route-loop regression tests around the extracted seam and confirm support/filing priority is unchanged.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-409",
+      "goal": "Review lane-4: Add route-loop regression tests around the extracted seam and confirm support/filing priority is unchanged.",
+      "why_now": "Reduce the biggest coordinator risk without changing player-facing scope."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "src/engine/game.ts",
+    "src/engine/field-notices.ts",
+    "src/test/field-notices.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-20-route-notice-priority-regression-handoff.md",
+    "docs/reports/2026-04-20-route-notice-priority-regression-implementation.md",
+    "docs/reports/2026-04-20-route-notice-priority-regression-review.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "E / Maintainability",
+  "completion_gate": "One meaningful responsibility leaves game.ts, with behavior covered and no new runtime framework added.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Extract one cohesive controller/helper from game.ts around notices, expedition activation, route filing, or overlay action dispatch.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Avoid systems files; provide only copy/test fixtures needed by the extraction.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Avoid controller files; run spatial smoke proof for any changed action dispatch touching traversal/inspect.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Add route-loop regression tests around the extracted seam and confirm support/filing priority is unchanged.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-406",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-game-controller-extraction-guided-notice-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "The guided field-season notice policy in game.ts is pure enough to extract without changing runtime flow.",
+      "field-notices.ts already owns adjacent notice policy helpers, so the extraction has a natural home.",
+      "Existing focused runtime smoke covers the first field-season guidance and season-capstone notice flow that this policy gates."
+    ],
+    "main_scope": [
+      "Move guided notice title classification into src/engine/field-notices.ts.",
+      "Export a pure canShowGuidedFieldSeasonNotice(currentNotice, nextTitle) helper that mirrors current game.ts behavior.",
+      "Replace game.ts local helper calls with the exported helper and delete the local helper functions.",
+      "Add src/test/field-notices.test.ts coverage for guided-title stacking, empty-current-notice behavior, non-guided current notice blocking, filed-route current notice blocking, and non-guided next titles."
+    ],
+    "non_goals": [
+      "No notice text, notice duration, field-request completion, route filing, expedition activation, station behavior, support behavior, save schema, overlay render behavior, authored science/content, biome geometry, class, new controller framework, subscription, or global mutable notice state changes."
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/field-notices.test.ts",
+      "Passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|season capstone\""
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|season capstone\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-406",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-game-controller-extraction-guided-notice-implementation.md",
+    "changed_files": [
+      "src/engine/field-notices.ts",
+      "src/engine/game.ts",
+      "src/test/field-notices.test.ts",
+      "docs/reports/2026-04-20-game-controller-extraction-guided-notice-implementation.md"
+    ],
+    "result": [
+      "Moved guided field-season notice title classification into src/engine/field-notices.ts.",
+      "Added a pure canShowGuidedFieldSeasonNotice(currentNotice, nextTitle) helper and wired game.ts to use it.",
+      "Removed the local guided-notice helper functions from game.ts.",
+      "Added unit coverage for guided title recognition and guided notice stacking/replacement rules."
+    ],
+    "scope_notes": [
+      "No notice copy, notice duration, field-request completion, route filing, expedition activation, station behavior, support behavior, save schema, overlay rendering, authored science/content, biome geometry, class, new framework, subscription, or global mutable notice controller changed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|season capstone\"",
+      "npm run build"
+    ]
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-406",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-game-controller-extraction-guided-notice-review.md",
+    "verdict": "clean",
+    "findings": [
+      "The extracted helper mirrors the old guided notice behavior.",
+      "game.ts now delegates guided notice title policy to field-notices.ts at every previous call site.",
+      "Focused unit and runtime-smoke coverage protect the extracted seam."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|season capstone\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_1_status": "clear; promote ECO-20260420-scout-410"
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-409",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-notice-priority-regression-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 1 already extracted guided field-season notice policy into src/engine/field-notices.ts.",
+      "Focused baseline coverage for field-notices plus field-season guidance/season-capstone runtime smoke passes.",
+      "Existing tests cover guided notice blocking and station support priority separately, but no single route-critical matrix ties both extracted helper seams together."
+    ],
+    "main_scope": [
+      "Add one focused test in src/test/field-notices.test.ts that treats notebook-ready and filed-route as route-critical notices across canShowGuidedFieldSeasonNotice(...) and shouldReplaceFieldNotice(...).",
+      "Cover guided notice blocking for at least one guided next title.",
+      "Cover station default/support blocking and filed-over-ready replacement.",
+      "Keep the pass test-only unless the new test exposes a real helper bug."
+    ],
+    "non_goals": [
+      "No game.ts, controller extraction, runtime behavior, notice copy, notice durations, route definitions, support behavior, save schema, station layout/state, overlay rendering, authored science/content, biome geometry, new framework, or broad runtime-smoke scenario changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts -t \"route-critical|guided|station support|filed-route\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/field-notices.test.ts src/test/runtime-smoke.test.ts -t \"field-season guidance|season capstone|station support|guided notices|filed-route\""
+    ]
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-409",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-notice-priority-regression-implementation.md",
+    "changed_files": [
+      "src/test/field-notices.test.ts",
+      "docs/reports/2026-04-20-route-notice-priority-regression-implementation.md"
+    ],
+    "result": [
+      "Added a focused route-critical notice-priority regression across canShowGuidedFieldSeasonNotice(...) and shouldReplaceFieldNotice(...).",
+      "Confirmed guided notices cannot replace notebook-ready or filed-route notices.",
+      "Confirmed station support/default toasts cannot replace notebook-ready or filed-route while the field-station overlay is open.",
+      "Confirmed filed-route can still replace notebook-ready when the route is filed."
+    ],
+    "scope_notes": [
+      "Test-only for runtime behavior.",
+      "No game.ts, controller extraction, runtime behavior, notice copy, notice duration, route definition, support behavior, save schema, station layout/state, overlay rendering, authored science/content, biome geometry, new framework, or broad runtime-smoke changes."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/field-notices.test.ts -t \"route-critical|guided|station support|filed-route\"",
+      "Passed: npm run build",
+      "Passed: npm run validate:agents with the known work-queue-size warning",
+      "Passed: git diff --check"
+    ]
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-409",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-notice-priority-regression-review.md",
+    "verdict": "clean",
+    "findings": [
+      "The new route-critical regression ties notebook-ready and filed-route notices to both canShowGuidedFieldSeasonNotice(...) and shouldReplaceFieldNotice(...).",
+      "Guided FIELD STATION / SEASON THREADS notices cannot replace route-critical notices.",
+      "Station support/default notices cannot replace notebook-ready or filed-route while the field-station overlay is open.",
+      "Filed-route can still replace notebook-ready when the route is filed.",
+      "The implementation stayed test-only for runtime behavior with no route, support, save, station, overlay, content, geometry, framework, or broad runtime-smoke drift."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/field-notices.test.ts -t \"route-critical|guided|station support|filed-route\"",
+      "Passed: npm run build",
+      "Passed: npm run validate:agents with the known work-queue-size warning",
+      "Passed: git diff --check"
+    ],
+    "lane_4_status": "clear; promote ECO-20260420-scout-413"
+  }
+}

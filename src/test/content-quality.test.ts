@@ -15,11 +15,16 @@ const authoredBiomes = [beachBiome, coastalScrubBiome, forestBiome, treelineBiom
 
 const SHORT_FACT_MAX = 100;
 const NOTE_TITLE_MAX = 20;
-const NOTE_SUMMARY_MAX = 110;
+const NOTE_SUMMARY_MAX = 96;
 const NOTE_PROMPT_MAX = 52;
 const OBSERVATION_PROMPT_MAX = 60;
 const FIELD_REQUEST_TITLE_MAX = 18;
 const FIELD_REQUEST_SUMMARY_MAX = 96;
+const ROUTE_NOTE_READY_MAX = 72;
+const ROUTE_NOTE_FILED_MAX = 120;
+const ROUTE_NOTE_TAIL_MAX = 76;
+const ROUTE_NOTE_DISPLAY_PREFIX_MAX = 16;
+const ROUTE_NOTE_OVERCLAIM_PHRASES = ['shelter grows', 'coast settling'] as const;
 const SKETCHBOOK_NOTE_MAX = 56;
 const NURSERY_SUMMARY_MAX = 56;
 const NURSERY_STAGE_SUMMARY_MAX = 56;
@@ -33,12 +38,31 @@ const ALPINE_MICROHABITAT_LEDGER_MARKERS = ['talus-cushion-pocket', 'tussock-tha
 const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'dune-lupine', 'beach-strawberry', 'beach-hopper', 'kinnikinnick'] as const;
 const MIDDLE_COMPARISON_LEDGER_MARKERS = ['bunchberry'] as const;
 const TUNDRA_PARITY_LEDGER_MARKERS = ['moss-campion', 'reindeer-lichen', 'white-tailed-ptarmigan', 'frost-heave-hummock'] as const;
+const ROUTE_NOTE_QUALITY_CASES = [
+  { id: 'beach-shore-shelter', anchors: ['mark shelter', 'dune edge', 'tide line'] },
+  { id: 'forest-hidden-hollow', anchors: ['damp lower hollow', 'roots'] },
+  { id: 'forest-moisture-holders', anchors: ['hollow holding moisture'] },
+  { id: 'coastal-shelter-shift', anchors: ['open coast', 'forest-edge shelter'] },
+  { id: 'treeline-stone-shelter', anchors: ['sheltered treeline pocket'] },
+  { id: 'tundra-short-season', anchors: ['short thaw window'] },
+  { id: 'scrub-edge-pattern', anchors: ['clear transition'] },
+  { id: 'forest-cool-edge', anchors: ['cooler forest middle'] },
+  { id: 'treeline-low-fell', anchors: ['treeline shelter', 'open fell'] },
+  { id: 'forest-expedition-upper-run', anchors: ['whole hollow return'] },
+  { id: 'treeline-high-pass', anchors: ['shelter pockets', 'exposed high pass'] },
+] as const;
 
 function countSentences(text: string): number {
   return text
     .split(/[.!?]+/)
     .map((chunk) => chunk.trim())
     .filter(Boolean).length;
+}
+
+function getEvidenceSlots(
+  request: (typeof FIELD_REQUEST_DEFINITIONS)[number],
+): readonly { id: string }[] {
+  return 'evidenceSlots' in request ? request.evidenceSlots : [];
 }
 
 describe('content quality guardrails', () => {
@@ -51,7 +75,7 @@ describe('content quality guardrails', () => {
     }
   });
 
-  it('keeps ecosystem-note copy within the journal layout budget', () => {
+  it('keeps ecosystem-note copy within the journal and comparison-card budget', () => {
     for (const biome of authoredBiomes) {
       for (const note of biome.ecosystemNotes) {
         expect(note.title.length).toBeLessThanOrEqual(NOTE_TITLE_MAX);
@@ -79,6 +103,64 @@ describe('content quality guardrails', () => {
       expect(request.title.length).toBeLessThanOrEqual(FIELD_REQUEST_TITLE_MAX);
       expect(request.summary.length).toBeLessThanOrEqual(FIELD_REQUEST_SUMMARY_MAX);
       expect(countSentences(request.summary)).toBe(1);
+    }
+  });
+
+  it('keeps field-request summaries free of internal evidence slot ids', () => {
+    for (const request of FIELD_REQUEST_DEFINITIONS) {
+      for (const slot of getEvidenceSlots(request)) {
+        if (!slot.id.includes('-')) {
+          continue;
+        }
+
+        expect(request.summary).not.toContain(slot.id);
+      }
+    }
+  });
+
+  it('keeps Route v2 filed-note copy compact and relationship-led', () => {
+    const routeNoteDefinitions = FIELD_REQUEST_DEFINITIONS.filter((request) => 'routeV2Note' in request);
+
+    expect(routeNoteDefinitions.map((request) => request.id)).toEqual(
+      ROUTE_NOTE_QUALITY_CASES.map((routeCase) => routeCase.id),
+    );
+
+    for (const routeCase of ROUTE_NOTE_QUALITY_CASES) {
+      const request = routeNoteDefinitions.find((candidate) => candidate.id === routeCase.id);
+      expect(request).toBeDefined();
+      if (!request || !('routeV2Note' in request)) {
+        continue;
+      }
+
+      const note = request.routeV2Note;
+      expect(note.readyText.length).toBeLessThanOrEqual(ROUTE_NOTE_READY_MAX);
+      expect(countSentences(note.readyText)).toBe(1);
+      expect(note.filedText.length).toBeLessThanOrEqual(ROUTE_NOTE_FILED_MAX);
+      expect(countSentences(note.filedText)).toBe(1);
+
+      if (note.clueBackedTail) {
+        expect(note.clueBackedTail.length).toBeLessThanOrEqual(ROUTE_NOTE_TAIL_MAX);
+        expect(countSentences(note.clueBackedTail)).toBe(1);
+      }
+
+      if (note.displayPrefix) {
+        expect(note.displayPrefix.length).toBeLessThanOrEqual(ROUTE_NOTE_DISPLAY_PREFIX_MAX);
+        expect(countSentences(note.displayPrefix)).toBe(1);
+        expect(countSentences(`${note.displayPrefix} ${note.filedText}`)).toBeLessThanOrEqual(2);
+      }
+
+      const relationshipText = [
+        note.filedText,
+        note.clueBackedTail ?? '',
+        note.displayPrefix ?? '',
+      ].join(' ').toLowerCase();
+      for (const overclaimPhrase of ROUTE_NOTE_OVERCLAIM_PHRASES) {
+        expect(relationshipText).not.toContain(overclaimPhrase);
+      }
+
+      for (const anchor of routeCase.anchors) {
+        expect(relationshipText).toContain(anchor);
+      }
     }
   });
 
@@ -162,6 +244,22 @@ describe('content quality guardrails', () => {
   it('keeps the close-look allowlist backed by the science source ledger', () => {
     for (const entryId of CLOSE_LOOK_ENTRY_IDS) {
       expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps every live inspectable entry backed by the science source ledger', () => {
+    for (const biome of authoredBiomes) {
+      for (const entryId of Object.keys(biome.entries)) {
+        expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+      }
+    }
+  });
+
+  it('keeps every live habitat process backed by the science source ledger', () => {
+    for (const biome of authoredBiomes) {
+      for (const processMoment of biome.processMoments ?? []) {
+        expect(scienceLedgerMarkdown).toContain(`\`${processMoment.id}\``);
+      }
     }
   });
 

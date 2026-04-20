@@ -189,6 +189,28 @@ describe('observation prompt resolution', () => {
     });
   });
 
+  it('uses the treeline open-ground shelter seed once low fell carriers are present', () => {
+    const prompt = resolveObservationPrompt({
+      biome: treelineBiome,
+      zoneId: 'lichen-fell',
+      nearbyDiscoveredEntryIds: ['moss-campion', 'arctic-willow', 'reindeer-lichen'],
+      worldState: {
+        worldAge: 5,
+        dayPart: 'day',
+        weather: 'ridge-wind',
+        phenologyPhase: 'peak',
+      },
+    });
+
+    expect(prompt).toEqual({
+      id: 'treeline-lowest-wind',
+      family: 'shelter',
+      source: 'seed',
+      text: 'Where does shelter shrink into open ground?',
+      evidenceKey: 'treeline-lowest-wind|lichen-fell|day|ridge-wind|moss-campion,arctic-willow,reindeer-lichen',
+    });
+  });
+
   it('uses the short-season thaw-edge seed once thaw-edge bloom and tuft clues are present', () => {
     const prompt = resolveObservationPrompt({
       biome: tundraBiome,

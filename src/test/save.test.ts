@@ -272,6 +272,43 @@ describe('reset save progress', () => {
     expect(migrated.nurseryLastProcessedWorldStep).toBe(5);
   });
 
+  it('normalizes persisted biome visit counts and last biome safely', () => {
+    const migrated = normalizeSaveState({
+      worldSeed: 'legacy-visit-count-seed',
+      worldStateVersion: 2,
+      biomeVisits: {
+        beach: 2.8,
+        forest: -1,
+        tundra: Number.POSITIVE_INFINITY,
+        'coastal-scrub': 'many' as unknown as number,
+        treeline: 3,
+        '': 4,
+      },
+      lastBiomeId: 42 as unknown as string,
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(migrated.biomeVisits).toEqual({
+      beach: 2,
+      forest: 0,
+      treeline: 3,
+    });
+    expect(migrated.lastBiomeId).toBe('beach');
+
+    const compatibleFutureBiome = normalizeSaveState({
+      worldSeed: 'future-biome-seed',
+      lastBiomeId: 'future-alder-stand',
+    });
+
+    expect(compatibleFutureBiome.lastBiomeId).toBe('future-alder-stand');
+
+    const emptyLastBiome = normalizeSaveState({
+      worldSeed: 'empty-last-biome-seed',
+      lastBiomeId: '   ',
+    });
+
+    expect(emptyLastBiome.lastBiomeId).toBe('beach');
+  });
+
   it('normalizes Route v2 progress and outing support safely', () => {
     const migrated = normalizeSaveState({
       worldSeed: 'legacy-route-v2-seed',

@@ -1,0 +1,455 @@
+{
+  "packet_id": "ECO-PACKET-139",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Forest tactile identity pass",
+  "summary": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-handoff.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-implementation.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-review.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-handoff.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-implementation.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-review.md",
+    "docs/reports/2026-04-20-forest-route-process-support-handoff.md",
+    "docs/reports/2026-04-20-forest-route-process-support-implementation.md",
+    "docs/reports/2026-04-20-forest-route-process-support-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-362",
+    "ECO-20260420-main-362",
+    "ECO-20260420-critic-362",
+    "ECO-20260420-scout-363",
+    "ECO-20260420-main-363",
+    "ECO-20260420-critic-363",
+    "ECO-20260420-scout-364",
+    "ECO-20260420-main-364",
+    "ECO-20260420-critic-364",
+    "ECO-20260420-scout-365",
+    "ECO-20260420-main-365",
+    "ECO-20260420-critic-365"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-358",
+    "ECO-20260420-critic-359",
+    "ECO-20260420-critic-360",
+    "ECO-20260420-critic-361"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-362",
+      "goal": "Prepare lane-1: Protect station/map/request transitions into forest routes after edits; no new chapter shell.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-362",
+      "goal": "Implement lane-1: Protect station/map/request transitions into forest routes after edits; no new chapter shell.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-362",
+      "goal": "Review lane-1: Protect station/map/request transitions into forest routes after edits; no new chapter shell.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-363",
+      "goal": "Prepare lane-2: Deepen one forest note or prompt around moisture, shade, nurse wood, or root shelter in a compact relation-first way.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-363",
+      "goal": "Implement lane-2: Deepen one forest note or prompt around moisture, shade, nurse wood, or root shelter in a compact relation-first way.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-363",
+      "goal": "Review lane-2: Deepen one forest note or prompt around moisture, shade, nurse wood, or root shelter in a compact relation-first way.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-364",
+      "goal": "Prepare lane-3: Polish one forest traversal/readability beat such as root-hollow/log-run/cool-edge without adding cave-system breadth.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-364",
+      "goal": "Implement lane-3: Polish one forest traversal/readability beat such as root-hollow/log-run/cool-edge without adding cave-system breadth.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-364",
+      "goal": "Review lane-3: Polish one forest traversal/readability beat such as root-hollow/log-run/cool-edge without adding cave-system breadth.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-365",
+      "goal": "Prepare lane-4: Strengthen an existing forest route clue or replay consequence tied to weather/process state.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-365",
+      "goal": "Implement lane-4: Strengthen an existing forest route clue or replay consequence tied to weather/process state.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-365",
+      "goal": "Review lane-4: Strengthen an existing forest route clue or replay consequence tied to weather/process state.",
+      "why_now": "Make the forest middle feel as memorable as High Pass through place, shelter, moisture, and root/wood relationships."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/139-forest-tactile-identity-pass.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-handoff.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-implementation.md",
+    "docs/reports/2026-04-20-forest-root-shelter-copy-review.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-handoff.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-implementation.md",
+    "docs/reports/2026-04-20-forest-route-transition-state-review.md",
+    "docs/save-snapshot-states.md",
+    "src/engine/debug-save-snapshots.ts",
+    "src/content/biomes/forest.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/content-quality.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "C / World feel",
+  "completion_gate": "Forest route and spatial proof show one clearer cool/moist/sheltered relationship without more route count.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Protect station/map/request transitions into forest routes after edits; no new chapter shell.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Deepen one forest note or prompt around moisture, shade, nurse wood, or root shelter in a compact relation-first way.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Polish one forest traversal/readability beat such as root-hollow/log-run/cool-edge without adding cave-system breadth.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Strengthen an existing forest route clue or replay consequence tied to weather/process state.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "queue_id": "ECO-20260420-scout-365",
+        "source_report": "docs/reports/2026-04-20-forest-route-process-support-handoff.md",
+        "status": "DONE",
+        "focus": "Make the forest process-backed route support behavior explicit without changing route behavior: prove `Moist Edge` controller targeting and repair the stale `Moist Hollow` note-tabs chip expectation.",
+        "recommended_files": [
+          "src/test/field-request-controller.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-forest-route-process-support-implementation.md"
+        ],
+        "current_state": [
+          "`forest-cool-edge` already becomes `Moist Edge` during the late wet `moisture-hold` process window",
+          "`forest-moisture-holders` already becomes `Moist Hollow` during the same process window",
+          "field-request tests already protect active process titles and stable filed identities",
+          "runtime smoke already covers forest replay notices and the live `Moist Hollow` shelf, but the note-tabs chip assertion is stale"
+        ],
+        "main_acceptance": [
+          "controller-level proof shows `hand-lens` can retarget active `Moist Edge` creek-bend inspection from a nearer non-fit candidate to a farther route-fit clue such as `salmonberry`",
+          "the `Moist Edge` proof stays ordinary notebook-fit behavior, not an active-clue alternate: `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: edge carrier`, and no `LENS CLUE` label",
+          "paired `note-tabs` coverage leaves the physical nearest inspectable alone while keeping the in-field chip progress-facing with `0/3 clues`",
+          "the existing `Moist Hollow` runtime smoke expectation is refreshed from the stale default chip to the current note-tabs progress chip",
+          "no route definitions, process-focus copy, filed-note text, lane-2 forest copy, station pages, support order, save schema, world-map focus priority, route-marker behavior, geometry, science copy, new UI, replay system, loadout, planner, or quest surface changes"
+        ],
+        "baseline_verification": [
+          "PASS npm test -- --run src/test/field-requests.test.ts -t \"Moist Edge|Moist Hollow|forest-cool-edge|forest-moisture-holders\"",
+          "PASS npm test -- --run src/test/field-request-controller.test.ts -t \"Moisture Holders|Moist Edge|retarget|non-hand-lens\"",
+          "FAIL npm test -- --run src/test/runtime-smoke.test.ts -t \"Moist Hollow\" on the stale note-tabs chip expectation"
+        ],
+        "main_verification": [
+          "npm test -- --run src/test/field-request-controller.test.ts",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"Moist Hollow|Moisture Holders\"",
+          "npm test -- --run src/test/field-requests.test.ts -t \"Moist Edge|Moist Hollow|forest-cool-edge|forest-moisture-holders\"",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-365",
+        "status": "complete",
+        "implementation_report": "docs/reports/2026-04-20-forest-route-process-support-implementation.md",
+        "changed_files": [
+          "src/test/field-request-controller.test.ts",
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-forest-route-process-support-implementation.md"
+        ],
+        "result": [
+          "Added controller proof that `hand-lens` retargets active `Moist Edge` creek-bend inspection from a nearer non-fit `fir-cone` candidate to the farther `salmonberry` `edge-carrier` clue.",
+          "Confirmed the `Moist Edge` retarget is ordinary notebook-fit behavior: `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: edge carrier`, and no `LENS CLUE` label.",
+          "Added paired `note-tabs` coverage proving non-hand-lens support leaves the physical nearest inspectable alone while the in-field chip stays progress-facing with `0/3 clues`.",
+          "Refreshed the existing `Moist Hollow` runtime-smoke expectation from the stale default route-title chip to the current `0/3 clues` support-biased chip."
+        ],
+        "preserved": [
+          "route definitions",
+          "process-focus copy",
+          "filed-note text",
+          "lane-2 forest copy",
+          "station pages",
+          "support order",
+          "save schema",
+          "world-map focus priority",
+          "route-marker behavior",
+          "geometry",
+          "science copy",
+          "new UI, replay, loadout, planner, or quest surfaces"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/field-request-controller.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"Moist Hollow|Moisture Holders\"",
+          "PASS npm test -- --run src/test/field-requests.test.ts -t \"Moist Edge|Moist Hollow|forest-cool-edge|forest-moisture-holders\"",
+          "PASS npm run build"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-365",
+        "status": "clean",
+        "review_report": "docs/reports/2026-04-20-forest-route-process-support-review.md",
+        "confirmed": [
+          "the `Moist Edge` controller proof stays behavior-neutral and test/report scoped",
+          "`hand-lens` retargets active `Moist Edge` creek-bend inspection from nearer non-fit `fir-cone` to farther `salmonberry` `edge-carrier`",
+          "the retarget is ordinary notebook-fit behavior, with `supportRetargetsInspect` true, `supportPrefersActiveClue` false, `Notebook fit: edge carrier`, and no `LENS CLUE` label",
+          "`note-tabs` leaves the physical nearest inspectable alone while keeping the progress-facing `0/3 clues` chip",
+          "the stale `Moist Hollow` runtime expectation now matches the current note-tabs support chip"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/field-request-controller.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"Moist Hollow|Moisture Holders\"",
+          "PASS npm test -- --run src/test/field-requests.test.ts -t \"Moist Edge|Moist Hollow|forest-cool-edge|forest-moisture-holders\"",
+          "PASS npm run build"
+        ],
+        "promoted_next": "ECO-20260420-scout-369"
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-362",
+    "report": "docs/reports/2026-04-20-forest-route-transition-state-handoff.md",
+    "recommended_snapshot": {
+      "id": "forest-moisture-holders",
+      "reason": "A debug-only loadable state after Hidden Hollow but before Moisture Holders is complete lets reviewers prove the forest station/map/request seam still points at Root Hollow after lane-2 copy refreshes."
+    },
+    "expected_state": [
+      "completed beach-shore-shelter",
+      "completed forest-hidden-hollow",
+      "active incomplete forest-moisture-holders",
+      "lastBiomeId forest",
+      "default support hand-lens",
+      "no Trail Stride, Route Marker, Coastal Scrub, High Pass, route filing, save-schema, or station-shell change"
+    ],
+    "expected_assertions": [
+      "guidedFieldSeason.stage forest-study with MOISTURE HOLDERS station note",
+      "activeFieldRequest id forest-moisture-holders in forest",
+      "world map current and focused locations remain forest",
+      "routeMarkerLocationId remains null",
+      "field station routes page keeps hand-lens / HAND LENS selected",
+      "route board remains COASTAL SHELTER LINE targeting forest with forest-study active and the existing Moisture Holders summary",
+      "journal field request matches forest-moisture-holders"
+    ],
+    "preserve": [
+      "player-facing station behavior",
+      "route definitions",
+      "lane-2 forest copy",
+      "support-choice behavior",
+      "world-map focus priority",
+      "save schema",
+      "forest geometry",
+      "route controller behavior"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Moisture Holders|first field-season guidance\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "queue_id": "ECO-20260420-main-362",
+    "report": "docs/reports/2026-04-20-forest-route-transition-state-implementation.md",
+    "changed_files": [
+      "src/engine/debug-save-snapshots.ts",
+      "docs/save-snapshot-states.md",
+      "src/test/save-snapshots.test.ts",
+      "docs/reports/2026-04-20-forest-route-transition-state-implementation.md"
+    ],
+    "summary": "Added the debug-only forest-moisture-holders save snapshot plus resolver, runtime, journal, map, station, and browser proof that the mid-forest seam still points at Root Hollow.",
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Moisture Holders|first field-season guidance\"",
+      "npm run build",
+      "web-game client smoke under output/web-game/forest-main-362-client",
+      "direct Playwright forest-moisture-holders snapshot proof under output/web-game/forest-main-362-snapshot with no console errors"
+    ],
+    "scope_preserved": [
+      "no player-facing station behavior change",
+      "no route definition change",
+      "no lane-2 copy change",
+      "no support-choice behavior change",
+      "no world-map focus priority change",
+      "no save schema change",
+      "no forest geometry or route controller change"
+    ]
+  },
+  "lane_1_critic_result": {
+    "queue_id": "ECO-20260420-critic-362",
+    "report": "docs/reports/2026-04-20-forest-route-transition-state-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "The forest-moisture-holders debug snapshot stays debug/test/docs only, serializes as a plain current SaveState, and proves the mid-forest station/map/journal seam without touching player-facing behavior.",
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "implementation already passed npm test -- --run src/test/runtime-smoke.test.ts -t \"Moisture Holders|first field-season guidance\"",
+      "implementation already passed npm run build",
+      "git diff --check passed",
+      "npm run validate:agents passed with the known work-queue size warning only"
+    ],
+    "promoted_next_lane_1_item": "ECO-20260420-scout-366"
+  },
+  "lane_2_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-363",
+    "report": "docs/reports/2026-04-20-forest-root-shelter-copy-handoff.md",
+    "recommended_target": {
+      "biome": "forest",
+      "ecosystem_note_id": "root-held-shelter",
+      "reason": "This existing note already ties Root Hollow / filtered-return discoveries to roots, bark, damp shelter, and seep-floor layering, so it can carry forest tactile identity without adding breadth."
+    },
+    "recommended_copy": {
+      "summary": "Root curtains catch drips and shade, keeping damp shelter above the seep floor.",
+      "observationPrompt": "Where do roots keep damp shelter above the seep?"
+    },
+    "preserve": [
+      "root-held-shelter id/title/entryIds/minimumDiscoveries/zoneId",
+      "existing forest route definitions and route controller behavior",
+      "station/progression/save/schema behavior",
+      "forest spatial bands and traversal geometry"
+    ],
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "queue_id": "ECO-20260420-main-363",
+    "report": "docs/reports/2026-04-20-forest-root-shelter-copy-implementation.md",
+    "changed_files": [
+      "src/content/biomes/forest.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "docs/reports/2026-04-20-forest-root-shelter-copy-implementation.md"
+    ],
+    "summary": "Refreshed the existing forest root-held shelter ecosystem-note copy around root curtains catching drips and shade above the seep floor, with focused resolver coverage.",
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check",
+      "node -e copy budget check printed summary 79 / prompt 48"
+    ],
+    "scope_preserved": [
+      "no new species, routes, science-ledger rows, close-look entries, station/state/save behavior, route-controller behavior, or forest geometry",
+      "root-held-shelter metadata and unlock behavior preserved"
+    ]
+  },
+  "lane_2_critic_result": {
+    "queue_id": "ECO-20260420-critic-363",
+    "report": "docs/reports/2026-04-20-forest-root-shelter-copy-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "The root-held shelter copy refresh stays science-safe, budget-safe, and lane-2 scoped while preserving stable note metadata and resolver behavior.",
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/content-quality.test.ts",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_2_item": "ECO-20260420-scout-367"
+  }
+}

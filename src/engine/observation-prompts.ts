@@ -146,7 +146,7 @@ export const OBSERVATION_PROMPT_SEEDS: readonly ObservationPromptSeed[] = [
     id: 'treeline-lowest-wind',
     biomeId: 'treeline',
     family: 'shelter',
-    text: 'What stays lowest where the wind has the longest reach?',
+    text: 'Where does shelter shrink into open ground?',
     zoneIds: ['lichen-fell'],
     weatherProfiles: ['ridge-wind'],
     requiredEntryIds: ['moss-campion', 'arctic-willow', 'reindeer-lichen'],

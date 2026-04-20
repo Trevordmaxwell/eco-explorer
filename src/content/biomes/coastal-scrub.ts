@@ -483,7 +483,7 @@ export const coastalScrubBiome: BiomeDefinition = {
       entryIds: ['shore-pine', 'kinnikinnick', 'song-sparrow'],
       minimumDiscoveries: 2,
       summary:
-        'Under shore pines, low mats and quiet cover show sand that stays steadier than the open scrub behind.',
+        'Under shore pines, low mats and quiet cover show steadier sand than open scrub.',
       observationPrompt:
         'Where does the scrub start feeling quieter?',
       zoneId: 'shore-pine-stand',
@@ -515,9 +515,9 @@ export const coastalScrubBiome: BiomeDefinition = {
       title: 'Shelter Builds Here',
       entryIds: ['beach-grass', 'sand-verbena', 'dune-lupine'],
       summary:
-        'Dune plants slow wind and help harsh sand start holding more life.',
+        'Grass, verbena, and lupine slow wind so back-dune sand starts holding calmer life.',
       observationPrompt:
-        'Where does the scrub start looking calmer?',
+        'Where does wind-slowed sand start feeling calmer?',
       zoneId: 'back-dune',
     },
     {

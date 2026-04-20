@@ -1,0 +1,426 @@
+{
+  "packet_id": "ECO-PACKET-148",
+  "version": 11,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Sound, feedback, and subtle juice",
+  "summary": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-kid-readability-copy-review.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-handoff.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-implementation.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-review.md",
+    "docs/reports/2026-04-20-sound-feedback-lifecycle-handoff.md",
+    "docs/reports/2026-04-20-sound-feedback-lifecycle-implementation.md",
+    "docs/reports/2026-04-20-sound-feedback-lifecycle-review.md",
+    "docs/reports/2026-04-20-route-feedback-priority-handoff.md",
+    "docs/reports/2026-04-20-route-feedback-priority-implementation.md",
+    "docs/reports/2026-04-20-route-feedback-priority-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-398",
+    "ECO-20260420-main-398",
+    "ECO-20260420-critic-398",
+    "ECO-20260420-scout-399",
+    "ECO-20260420-main-399",
+    "ECO-20260420-critic-399",
+    "ECO-20260420-scout-400",
+    "ECO-20260420-main-400",
+    "ECO-20260420-critic-400",
+    "ECO-20260420-scout-401",
+    "ECO-20260420-main-401",
+    "ECO-20260420-critic-401"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-394",
+    "ECO-20260420-critic-395",
+    "ECO-20260420-critic-396",
+    "ECO-20260420-critic-397"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-398",
+      "goal": "Prepare lane-1: Protect sound toggle persistence and feedback dispatch from overlay/transition edge cases.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-398",
+      "goal": "Implement lane-1: Protect sound toggle persistence and feedback dispatch from overlay/transition edge cases.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-398",
+      "goal": "Review lane-1: Protect sound toggle persistence and feedback dispatch from overlay/transition edge cases.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-399",
+      "goal": "Prepare lane-2: Tune text/sound naming and feedback descriptions so they stay naturalist-notebook toned.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-399",
+      "goal": "Implement lane-2: Tune text/sound naming and feedback descriptions so they stay naturalist-notebook toned.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-399",
+      "goal": "Review lane-2: Tune text/sound naming and feedback descriptions so they stay naturalist-notebook toned.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-400",
+      "goal": "Prepare lane-3: Add or tune one tiny visual feedback accent for discovery/filing/homecoming if proof shows it helps.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-400",
+      "goal": "Implement lane-3: Add or tune one tiny visual feedback accent for discovery/filing/homecoming if proof shows it helps.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-400",
+      "goal": "Review lane-3: Add or tune one tiny visual feedback accent for discovery/filing/homecoming if proof shows it helps.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-401",
+      "goal": "Prepare lane-4: Make filed-route/support feedback priority consistent so important route moments are not swallowed.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-401",
+      "goal": "Implement lane-4: Make filed-route/support feedback priority consistent so important route moments are not swallowed.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-401",
+      "goal": "Review lane-4: Make filed-route/support feedback priority consistent so important route moments are not swallowed.",
+      "why_now": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-handoff.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-implementation.md",
+    "docs/reports/2026-04-20-sound-feedback-tone-review.md",
+    "docs/reports/2026-04-20-route-feedback-priority-handoff.md",
+    "docs/reports/2026-04-20-route-feedback-priority-implementation.md",
+    "docs/reports/2026-04-20-route-feedback-priority-review.md",
+    "src/engine/field-notices.ts",
+    "src/test/field-notices.test.ts",
+    "src/engine/overlay-render.ts",
+    "src/test/overlay-copy.test.ts",
+    "src/test/audio.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "D / Notebook and content",
+  "completion_gate": "Core actions have calm, consistent feedback; sound remains optional and sparse.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Protect sound toggle persistence and feedback dispatch from overlay/transition edge cases.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Tune text/sound naming and feedback descriptions so they stay naturalist-notebook toned.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Add or tune one tiny visual feedback accent for discovery/filing/homecoming if proof shows it helps.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Make filed-route/support feedback priority consistent so important route moments are not swallowed.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-398",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-sound-feedback-lifecycle-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "The audio engine already keeps sound optional and no-op safe when Web Audio is unavailable.",
+      "Existing runtime smoke verifies sound arms after input and the menu toggle updates both saved settings and debug audio state.",
+      "The active lifecycle gap is field-request notice timing: the timer decrements every update even when the notice is hidden behind menu/station/journal/close-look/title overlays or transition scenes."
+    ],
+    "main_scope": [
+      "Add a tiny pure helper, preferably in src/engine/field-notices.ts, that returns whether a field-request notice timer should advance.",
+      "Use the helper in src/engine/game.ts so fieldRequestNoticeTimer advances only when the notice is eligible to display: overlayMode is playing, sceneMode is not transition, and no field-guide notice is occupying the toast slot.",
+      "Add unit coverage in src/test/field-notices.test.ts for visible play, hidden overlay, transition, and field-guide-hidden cases.",
+      "Add a focused runtime-smoke regression proving a route replay or notebook notice survives a long menu hide and then clears after visible play time."
+    ],
+    "non_goals": [
+      "No audio profile id, UI cue id, createAudioEngine, ambience tuning, music, mixer, particle, visual accent, save schema, route definition, route copy, station layout, menu action, field-season board copy, science content, or biome geometry changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-request notice\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/audio.test.ts src/test/runtime-smoke.test.ts -t \"audio|arms sound\"",
+      "Passed: npm test -- --run src/test/field-notices.test.ts"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-398",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-sound-feedback-lifecycle-implementation.md",
+    "changed_files": [
+      "src/engine/field-notices.ts",
+      "src/engine/game.ts",
+      "src/test/field-notices.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-sound-feedback-lifecycle-implementation.md"
+    ],
+    "result": [
+      "Added a pure shouldAdvanceFieldRequestNoticeTimer helper for notice lifecycle timing.",
+      "Paused fieldRequestNoticeTimer while the notice is hidden by non-playing overlays, transition scenes, or a visible field-guide notice.",
+      "Added unit coverage for visible play, world-map play, hidden overlays, transitions, and field-guide-hidden cases.",
+      "Added focused runtime-smoke coverage proving a route replay notice survives a long hidden menu period and clears after visible play time."
+    ],
+    "scope_notes": [
+      "No audio profile id, UI cue id, createAudioEngine, ambience tuning, music, mixer, particle, visual accent, save schema, route definition, route copy, station layout, menu action, field-season board copy, science content, or biome geometry changed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-request notice\"",
+      "npm run build"
+    ]
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-398",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-sound-feedback-lifecycle-review.md",
+    "verdict": "clean",
+    "lane_1_status": "clear; promote ECO-20260420-scout-402",
+    "confirmed": [
+      "Field-request notice timers now pause while feedback is hidden by overlays, transition scenes, or a visible field-guide notice.",
+      "Timers still advance during visible play and visible world-map states.",
+      "Focused runtime-smoke coverage proves a route replay notice survives a long menu hide and clears after visible play time.",
+      "Audio profile ids, UI cue ids, audio graph behavior, ambience tuning, save schema, route definitions, route copy, station layout, menu actions, field-season board copy, authored science content, and geometry were not changed by this lane-1 pass."
+    ],
+    "promoted_next": "ECO-20260420-scout-402",
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-request notice\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-399",
+    "report": "docs/reports/2026-04-20-sound-feedback-tone-handoff.md",
+    "recommendation": "Promote a copy-only overlay helper pass instead of touching runtime audio.",
+    "implementation_focus": "Replace the player-facing menu fallback helper copy `Sound wakes after your first key or click.` with `Quiet sounds start after a key or click.` in both fallback branches of `getMenuOverlayHelperText`.",
+    "shared_file_note": "`src/engine/overlay-render.ts` is normally a lane-1/shared render surface, but the lane-2 pass is limited to helper copy only. Do not change render coordinates, menu actions, settings behavior, or runtime dispatch.",
+    "must_not_touch": [
+      "audio profile ids",
+      "UI cue ids",
+      "save fields",
+      "sound settings behavior",
+      "route notices",
+      "station pages",
+      "field-season board copy",
+      "visual feedback accents"
+    ],
+    "test_contract": [
+      "Add exact overlay-copy coverage for the field-guide-only case.",
+      "Add exact overlay-copy coverage for the no-primary-action fallback case.",
+      "Run focused overlay/audio tests, build, agent validation, and diff whitespace checks."
+    ]
+  },
+  "lane_2_main_result": {
+    "completed_by": "ECO-20260420-main-399",
+    "report": "docs/reports/2026-04-20-sound-feedback-tone-implementation.md",
+    "changed_files": [
+      "src/engine/overlay-render.ts",
+      "src/test/overlay-copy.test.ts"
+    ],
+    "summary": "Softened the menu sound helper fallback copy while preserving the required key/click browser-audio gesture cue.",
+    "guardrails_held": [
+      "No runtime audio engine, profile id, UI cue id, save setting, menu action, render coordinate, route notice, station page, field-season board copy, or visual accent changed.",
+      "`src/engine/overlay-render.ts` remained a copy-only shared-file exception."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/overlay-copy.test.ts src/test/audio.test.ts -t \"sound|menu|overlay|audio\"",
+      "Passed: npm run build",
+      "Passed: npm run validate:agents with the known work-queue-size warning",
+      "Passed: git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "completed_by": "ECO-20260420-critic-399",
+    "report": "docs/reports/2026-04-20-sound-feedback-tone-review.md",
+    "verdict": "Clean. No blocker found.",
+    "confirmed": [
+      "Both menu helper fallback branches use `Quiet sounds start after a key or click.`",
+      "The old `Sound wakes after your first key or click.` string is absent from the touched source/test files.",
+      "Exact overlay-copy coverage protects both fallback cases.",
+      "Runtime audio behavior, profile ids, UI cue ids, save settings, menu actions, render coordinates, route notices, station pages, field-season board copy, and visual accents were not changed by this lane-2 pass."
+    ],
+    "residual_context": "The wider dirty tree includes unrelated lane changes, including other edits in `src/engine/overlay-render.ts` and `src/test/overlay-copy.test.ts`; this review clears only the lane-2 sound-helper tone pass.",
+    "verification": [
+      "Passed: npm test -- --run src/test/overlay-copy.test.ts src/test/audio.test.ts -t \"sound|menu|overlay|audio\"",
+      "Passed: npm run build",
+      "Passed: npm run validate:agents with the known work-queue-size warning",
+      "Passed: git diff --check"
+    ]
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-401",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-feedback-priority-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 1 already fixed hidden-toast lifecycle timing, so lane 4 should not reopen notice timers.",
+      "shouldReplaceFieldNotice(...) already protects filed-route notices from station support toasts.",
+      "notebook-ready route notices are not yet protected by the same station support-toast priority rule."
+    ],
+    "main_scope": [
+      "Update shouldReplaceFieldNotice(...) in src/engine/field-notices.ts so default station toasts cannot replace notebook-ready or filed-route notices.",
+      "Allow filed-route notices to replace notebook-ready notices when the route is filed.",
+      "Keep notice replacement outside the field-station overlay unchanged.",
+      "Extend the existing field-notices unit test for station support-toasts to cover notebook-ready and filed-over-ready behavior.",
+      "Add a dated implementation report."
+    ],
+    "non_goals": [
+      "No audio profile id, UI cue id, audio engine, music, mixer, particle, visual accent, save schema, route definition, route copy, station layout, field-season board copy, field notice rendering, notice timer, authored science content, support-toast copy, or biome geometry changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts -t \"station support|field notice|filed-route\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-401",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-feedback-priority-implementation.md",
+    "changed_files": [
+      "src/engine/field-notices.ts",
+      "src/test/field-notices.test.ts",
+      "docs/reports/2026-04-20-route-feedback-priority-implementation.md"
+    ],
+    "result": [
+      "Updated shouldReplaceFieldNotice(...) so station support/default toasts cannot replace notebook-ready or filed-route notices.",
+      "Preserved filed-route replacement of notebook-ready notices when the route is filed.",
+      "Extended focused field-notices coverage for notebook-ready protection, filed-route protection, outside-station replacement, and filed-over-ready replacement."
+    ],
+    "scope_notes": [
+      "No audio engine/profile/cue, route definition/copy, save schema, station layout, rendering, notice timer, support-toast copy, visual accent, science content, geometry, or hidden-notice lifecycle change."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts -t \"station support|field notice|filed-route\"",
+      "npm run build"
+    ]
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-401",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-route-feedback-priority-review.md",
+    "verdict": "clean",
+    "scope_notes": [
+      "Confirmed station support/default toasts cannot replace notebook-ready or filed-route notices while the field-station overlay is open.",
+      "Confirmed filed-route can still replace notebook-ready when the route is filed.",
+      "Confirmed replacement behavior outside field-station remains unchanged for the reviewed route-critical notices.",
+      "Confirmed the hidden-notice lifecycle helper and notice timer behavior were not changed.",
+      "Confirmed no audio engine/profile/cue, route definition/copy, save schema, station layout, rendering, notice timer, support-toast copy, visual accent, science content, or geometry changed."
+    ],
+    "promoted_next": "ECO-20260420-scout-405",
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts -t \"station support|field notice|filed-route\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  }
+}

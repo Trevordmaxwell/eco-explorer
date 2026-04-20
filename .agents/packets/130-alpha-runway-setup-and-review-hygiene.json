@@ -1,0 +1,379 @@
+{
+  "packet_id": "ECO-PACKET-130",
+  "version": 11,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Alpha runway setup and review-drop hygiene",
+  "summary": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-lane-1-review-drop-hygiene-handoff.md",
+    "docs/reports/2026-04-20-alpha-runway-lane-2-doc-sync-handoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-playthrough-checklist-handoff.md",
+    "docs/reports/2026-04-20-lane-3-alpha-screenshot-manifest-handoff.md",
+    "docs/reports/2026-04-20-lane-3-alpha-screenshot-manifest-implementation.md",
+    "docs/reports/2026-04-20-alpha-route-playthrough-checklist.md",
+    "docs/reports/2026-04-20-alpha-route-playthrough-checklist-review.md",
+    "docs/reports/2026-04-20-lane-1-review-drop-hygiene-implementation.md",
+    "docs/reports/2026-04-20-lane-3-alpha-screenshot-manifest-review.md",
+    "docs/reports/2026-04-20-lane-1-review-drop-hygiene-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-326",
+    "ECO-20260420-main-326",
+    "ECO-20260420-critic-326",
+    "ECO-20260420-scout-327",
+    "ECO-20260420-main-327",
+    "ECO-20260420-critic-327",
+    "ECO-20260420-scout-328",
+    "ECO-20260420-main-328",
+    "ECO-20260420-critic-328",
+    "ECO-20260420-scout-329",
+    "ECO-20260420-main-329",
+    "ECO-20260420-critic-329"
+  ],
+  "depends_on": [],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-326",
+      "goal": "Prepare lane-1: Create the clean review-drop checklist, add/refresh package-ignore guidance, and prove build/test/validate from a source-complete archive.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-326",
+      "goal": "Implement lane-1: Create the clean review-drop checklist, add/refresh package-ignore guidance, and prove build/test/validate from a source-complete archive.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-326",
+      "goal": "Review lane-1: Create the clean review-drop checklist, add/refresh package-ignore guidance, and prove build/test/validate from a source-complete archive.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-327",
+      "goal": "Prepare lane-2: Sync README/progress/project-memory language to the completed High Pass alpha arc without inflating product promises.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-327",
+      "goal": "Implement lane-2: Sync README/progress/project-memory language to the completed High Pass alpha arc without inflating product promises.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-327",
+      "goal": "Review lane-2: Sync README/progress/project-memory language to the completed High Pass alpha arc without inflating product promises.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-328",
+      "goal": "Prepare lane-3: Build a screenshot-proof manifest for the current alpha arc so spatial regressions have named comparison frames.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-328",
+      "goal": "Implement lane-3: Build a screenshot-proof manifest for the current alpha arc so spatial regressions have named comparison frames.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-328",
+      "goal": "Review lane-3: Build a screenshot-proof manifest for the current alpha arc so spatial regressions have named comparison frames.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-329",
+      "goal": "Prepare lane-4: Draft the full alpha playthrough checklist from first beach outing through filed High Pass and identify route-state proof gaps.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-329",
+      "goal": "Implement lane-4: Draft the full alpha playthrough checklist from first beach outing through filed High Pass and identify route-state proof gaps.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-329",
+      "goal": "Review lane-4: Draft the full alpha playthrough checklist from first beach outing through filed High Pass and identify route-state proof gaps.",
+      "why_now": "Repair the handoff surface, review archive shape, and alpha-runway operating model before a long campaign starts."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/review-drop-checklist.md",
+    "scripts/create-review-drop.mjs",
+    "scripts/verify-review-drop.mjs",
+    "package.json"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "A / Preflight",
+  "completion_gate": "A clean source review drop exists without node_modules; queue/packets validate on a complete repo; the four lane chains are ready without cross-lane collisions.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Create the clean review-drop checklist, add/refresh package-ignore guidance, and prove build/test/validate from a source-complete archive.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Sync README/progress/project-memory language to the completed High Pass alpha arc without inflating product promises.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-alpha-runway-lane-2-doc-sync-handoff.md",
+        "main_327_target": "Make current public/project language acknowledge the completed alpha arc through filed High Pass while keeping the alpha runway framed as hardening and feedback readiness.",
+        "recommended_files": [
+          "README.md",
+          ".agents/project-memory.md if a current summary sentence needs the same completed-arc wording",
+          "progress.md"
+        ],
+        "search_terms": [
+          "High Pass",
+          "completed alpha",
+          "current build",
+          "season three",
+          "biome six",
+          "planner",
+          "crafting",
+          "combat",
+          "inventory"
+        ],
+        "non_goals": [
+          "runtime code",
+          "route behavior",
+          "station state",
+          "movement geometry",
+          "content packs",
+          "rewriting dated historical reports",
+          "new roadmap table"
+        ],
+        "verification": [
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      }
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Build a screenshot-proof manifest for the current alpha arc so spatial regressions have named comparison frames.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Draft the full alpha playthrough checklist from first beach outing through filed High Pass and identify route-state proof gaps.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-lane-4-alpha-playthrough-checklist-handoff.md",
+        "main_329_target": "Create one reviewer-facing alpha route playthrough checklist from fresh `Shore Shelter` through filed `High Pass`, with route-state proof gaps separated from later instrumentation and smoke-matrix packets.",
+        "recommended_files": [
+          "docs/reports/2026-04-20-alpha-route-playthrough-checklist.md"
+        ],
+        "non_goals": [
+          "runtime code",
+          "station UI",
+          "broad science copy",
+          "biome geometry",
+          "new tests",
+          "support-system behavior"
+        ],
+        "verification": [
+          "npm run validate:agents"
+        ]
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "main_326_focus": {
+    "target": "Create a reproducible lane-1 review-drop path that proves a source-complete archive can install, validate agents, run tests, and build without `node_modules` or generated browser-output folders.",
+    "preferred_files": [
+      "docs/review-drop-checklist.md",
+      "scripts/create-review-drop.mjs",
+      "scripts/verify-review-drop.mjs",
+      "package.json",
+      ".gitignore"
+    ],
+    "archive_includes": [
+      "package.json",
+      "package-lock.json",
+      "tsconfig.json",
+      "vitest.config.ts",
+      "index.html",
+      "README.md",
+      "AGENTS.md",
+      "src/",
+      "public/",
+      "scripts/",
+      "docs/",
+      ".agents/",
+      "progress.md"
+    ],
+    "archive_excludes": [
+      "node_modules/",
+      "dist/",
+      "output/",
+      "test-results/",
+      ".git/",
+      ".tmp/",
+      ".DS_Store",
+      "work-queue.additions-130-157.md",
+      "generated review archives"
+    ],
+    "verification_targets": [
+      "`npm run review:pack` creates a timestamped archive under ignored output",
+      "`npm run review:verify -- <archive>` extracts into an ignored temp folder, runs `npm ci`, then runs `npm run validate:agents`, `npm test`, and `npm run build`",
+      "the archive contains `package-lock.json` and all source paths needed by agent validation",
+      "the archive does not contain `node_modules`, `dist`, `output`, `test-results`, `.git`, or local generated bulk"
+    ],
+    "non_goals": [
+      "Do not change runtime gameplay, station state, route behavior, or content copy.",
+      "Do not package external dependency folders.",
+      "Do not use `npm pack` as the final proof path unless it is made to include `package-lock.json` and all validation paths."
+    ]
+  },
+  "main_328_focus": {
+    "target": "Create a source-tracked alpha screenshot-proof manifest so lane-3 spatial review has stable named comparison frames without committing generated browser screenshots.",
+    "preferred_files": [
+      "docs/alpha-screenshot-proof-manifest.md"
+    ],
+    "existing_reference_frames": [
+      "output/main-268-browser/beach-opening-shoulder.png",
+      "output/main-192-browser/lee-pocket.png",
+      "output/main-192-browser/tidepool-approach.png",
+      "output/main-192-browser/tidepool-return.png",
+      "output/main-46-corridor-browser/corridor-threshold.png",
+      "output/main-150-browser/giant-tree-entry.png",
+      "output/main-150-browser/log-run-trunk.png",
+      "output/main-150-browser/cave-trunk.png",
+      "output/main-150-browser/upper-return.png",
+      "output/main-267-browser/treeline-last-tree-shelter.png",
+      "output/main-309-browser/stone-shelter-basin.png",
+      "output/main-313-browser/rime-brow-overlook.png",
+      "output/web-game/high-pass-closure-main-320/shot-2.png",
+      "output/main-259-browser/tundra-drift-hold.png",
+      "output/main-317-browser/thaw-bench.png"
+    ],
+    "fresh_capture_root": "output/alpha-screenshot-proof/",
+    "verification_targets": [
+      "`npm run validate:agents` passes after queue and packet updates",
+      "the manifest names stable frame ids, purpose, existing proof path, fresh capture path, state fields, and pass/fail criteria for each representative spatial frame",
+      "every referenced existing proof path in the manifest is checked against the local workspace",
+      "generated screenshots remain under ignored `output/` paths instead of being committed"
+    ],
+    "non_goals": [
+      "Do not change biome geometry, traversal behavior, route state, station chrome, save schema, or science copy.",
+      "Do not create a broad visual QA framework or all-surface screenshot matrix.",
+      "Do not commit generated screenshots, browser output, or state dumps."
+    ]
+  },
+  "main_329_focus": {
+    "target": "Create the lane-4 alpha route playthrough checklist that lets reviewers follow the current arc from fresh `Shore Shelter` through filed `High Pass` while seeing which route-state proofs already exist and which are deferred to later preflight packets.",
+    "preferred_files": [
+      "docs/reports/2026-04-20-alpha-route-playthrough-checklist.md"
+    ],
+    "checklist_must_cover": [
+      "fresh-save starter guidance into `beach-shore-shelter` / `Shore Shelter`",
+      "`forest-hidden-hollow`, `forest-moisture-holders`, and `forest-survey-slice` through the first station return",
+      "`coastal-shelter-shift` and `coastal-edge-moisture` through the coast-to-forest chapter",
+      "`treeline-stone-shelter`, `tundra-short-season`, and `tundra-survey-slice` through the inland chapter",
+      "`scrub-edge-pattern`, `forest-cool-edge`, `treeline-low-fell`, `forest-expedition-upper-run`, and `forest-season-threads` through season close",
+      "`treeline-high-pass` active, ready-to-file, filed notice, and post-filed cleared route state"
+    ],
+    "route_state_columns": [
+      "route id and public title",
+      "biome and route type",
+      "required route slots or completion condition",
+      "active-window or replay label if any",
+      "support wrinkle to check",
+      "existing automated proof",
+      "proof gap or later-packet handoff"
+    ],
+    "known_proof_gaps_to_record": [
+      "the full fresh-save-to-filed-High-Pass route path is not documented in one human-readable checklist yet",
+      "existing route-state proof is scattered across `field-requests.test.ts`, `field-request-controller.test.ts`, `field-season-board.test.ts`, `guided-field-season.test.ts`, and `runtime-smoke.test.ts`",
+      "packet `131` should own debug instrumentation/save snapshots rather than this documentation pass",
+      "packet `133` should own the deterministic route-state progression matrix rather than this documentation pass"
+    ],
+    "verification_targets": [
+      "`npm run validate:agents` passes after packet and queue updates",
+      "the new checklist is docs-only and does not edit route runtime, station UI, broad science copy, geometry, or support behavior"
+    ],
+    "non_goals": [
+      "Do not add or change Route v2 behavior.",
+      "Do not add new station pages, support UI, route frameworks, or tests in packet `130` lane 4.",
+      "Do not reopen High Pass density, season three, biome six, or a broader planner shell."
+    ]
+  }
+}

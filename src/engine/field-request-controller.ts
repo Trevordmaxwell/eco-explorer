@@ -15,6 +15,7 @@ import type { BiomeDefinition, OutingSupportId, SaveState } from './types';
 
 export interface FieldRequestControllerState {
   context: FieldRequestContext;
+  selectedSupportId: OutingSupportId;
   activeFieldRequest: ActiveFieldRequest | null;
   journalFieldRequest: ActiveFieldRequest | null;
   fieldRequestHint: FieldRequestHintState | null;
@@ -57,6 +58,7 @@ export function resolveFieldRequestController(
 
   return {
     context: fieldRequestState.context,
+    selectedSupportId,
     activeFieldRequest: fieldRequestState.activeFieldRequest,
     journalFieldRequest: fieldRequestState.journalFieldRequest,
     fieldRequestHint: fieldRequestState.fieldRequestHint,
@@ -110,15 +112,33 @@ export function getFieldRequestHintState<TCandidate extends InspectTargetCandida
   ) {
     return controller.fieldRequestHint
       ? { ...controller.fieldRequestHint, variant: 'support-biased' }
-      : (
-      controller.activeFieldRequest
+      : controller.activeFieldRequest
         ? {
             label: 'NOTEBOOK J',
             title: controller.activeFieldRequest.title,
             variant: 'support-biased',
           }
-        : null
-    );
+        : null;
+  }
+
+  if (!controller.fieldRequestHint || !controller.activeFieldRequest?.routeV2) {
+    return controller.fieldRequestHint;
+  }
+
+  if (controller.selectedSupportId === 'note-tabs') {
+    return {
+      ...controller.fieldRequestHint,
+      title: controller.activeFieldRequest.progressLabel,
+      variant: 'support-biased',
+    };
+  }
+
+  if (controller.selectedSupportId === 'place-tab') {
+    return {
+      ...controller.fieldRequestHint,
+      title: 'Place Question',
+      variant: 'support-biased',
+    };
   }
 
   return controller.fieldRequestHint;
@@ -232,12 +252,12 @@ export function resolveInspectTargetProjection<TCandidate extends InspectTargetC
 export function getOutingSupportNoticeText(selectedSupportId: OutingSupportId): string {
   switch (selectedSupportId) {
     case 'route-marker':
-      return 'Route Marker will guide this outing on the world map.';
+      return 'Marks next map stop.';
     case 'place-tab':
-      return 'Place Tab will keep one place-reading question on the season strip.';
+      return 'Keeps one place question.';
     case 'note-tabs':
-      return 'Note Tabs will keep the notebook aim on the season strip.';
+      return 'Keeps route aim visible.';
     default:
-      return 'Hand Lens will tag notebook-fit clues in inspect bubbles.';
+      return 'Highlights notebook clues.';
   }
 }

@@ -134,6 +134,39 @@ describe('field-station nursery page layout', () => {
     );
 
     expect(resolveActiveBedBodyCopy(nursery)).toBe('The bed now carries a calm wet-edge thicket.');
-    expect(resolveMatureBedFooterCopy(nursery)).toBe('Cool wet edge tucked under taller cover.');
+    expect(resolveMatureBedFooterCopy(nursery)).toBe(
+      'Cool forest edge where salmonberry thickets hold shade.',
+    );
+  });
+
+  it('keeps mature habitat memory ahead of route-support hints when another nursery card is selected', () => {
+    const save = createNewSaveState('nursery-mature-memory-priority');
+    save.nurseryProjects.teachingBed = {
+      projectId: 'salmonberry-bed',
+      stage: 'mature',
+    };
+    save.nurseryClaimedRewardIds = ['nursery:salmonberry-support'];
+
+    const nursery = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
+      null,
+      'bench',
+    );
+    const layout = resolveFieldStationNurseryPageLayout(NURSERY_PAGE_RECT, nursery);
+
+    expect(nursery.routeSupportHint).toBe(
+      'Dense berry thickets often mark the cooler, wetter side of a transition.',
+    );
+    expect(nursery.showRouteSupportHint).toBe(false);
+    expect(resolveMatureBedFooterCopy(nursery)).toBe(
+      'Cool forest edge where salmonberry thickets hold shade.',
+    );
+    expect(layout).toMatchObject({
+      kind: 'mature',
+      showRouteSupportHint: false,
+      showHomePlaceStrip: true,
+    });
+    expect(layout.bedRect.h).toBe(56);
   });
 });

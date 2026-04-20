@@ -14,6 +14,11 @@ import {
   resolveFieldSeasonWrapState,
 } from './field-season-wrap';
 import {
+  resolveFieldStationHomecomingCopy,
+  type FieldStationHomecomingCopy,
+} from './field-station-homecoming-copy';
+import type { FieldStationArrivalMode } from './field-station-session';
+import {
   getFieldUpgradeStates,
   getRecentFieldCreditSources,
   getSelectedFieldUpgradeId,
@@ -29,6 +34,10 @@ import {
   type NurseryCardId,
   type NurseryStateView,
 } from './nursery';
+import {
+  getOutingSupportStationLabel,
+  type OutingSupportStationLabel,
+} from './outing-support';
 import { resolveSelectedOutingSupportId } from './save';
 import type {
   BiomeDefinition,
@@ -47,12 +56,21 @@ export interface FieldStationSelections {
   selectedNurseryProjectId: string | null;
 }
 
+export interface FieldStationStateOptions {
+  arrivalMode?: FieldStationArrivalMode;
+}
+
+export interface FieldStationHomecomingState extends FieldStationHomecomingCopy {
+  homecomingMilestoneRequestId: FieldStationHomecomingCopy['requestId'];
+}
+
 export interface FieldStationStateView {
   view: FieldStationView;
   seasonPage: FieldStationSeasonPage;
   subtitle: string;
   credits: number;
   selectedOutingSupportId: OutingSupportId;
+  selectedOutingSupportLabel: OutingSupportStationLabel;
   outingSupportSelected: boolean;
   recentSources: FieldCreditSource[];
   upgrades: FieldUpgradeState[];
@@ -66,12 +84,31 @@ export interface FieldStationStateView {
   expedition: FieldSeasonExpeditionState;
   selectedNurseryCardId: NurseryCardId;
   nursery: NurseryStateView;
+  homecoming: FieldStationHomecomingState | null;
+}
+
+export function resolveFieldStationHomecomingState(
+  save: Pick<SaveState, 'completedFieldRequestIds'>,
+  arrivalMode: FieldStationArrivalMode,
+): FieldStationHomecomingState | null {
+  if (arrivalMode !== 'homecoming') {
+    return null;
+  }
+
+  const copy = resolveFieldStationHomecomingCopy(save);
+  return copy
+    ? {
+        ...copy,
+        homecomingMilestoneRequestId: copy.requestId,
+      }
+    : null;
 }
 
 export function resolveFieldStationState(
   biomes: Record<string, BiomeDefinition>,
   save: SaveState,
   selections: FieldStationSelections,
+  options: FieldStationStateOptions = {},
 ): FieldStationStateView {
   const guidedFieldSeason = resolveGuidedFieldSeasonState(biomes, save);
   const routeBoard = resolveFieldSeasonBoardState(biomes, save);
@@ -96,6 +133,7 @@ export function resolveFieldStationState(
   );
   const selectedUpgradeId = getSelectedFieldUpgradeId(save, selections.selectedFieldStationUpgradeId);
   const selectedProjectId = getSelectedNurseryProjectId(save, selections.selectedNurseryProjectId);
+  const homecoming = resolveFieldStationHomecomingState(save, options.arrivalMode ?? 'default');
 
   return {
     view: selections.selectedFieldStationView,
@@ -103,6 +141,7 @@ export function resolveFieldStationState(
     subtitle,
     credits: save.fieldCredits,
     selectedOutingSupportId,
+    selectedOutingSupportLabel: getOutingSupportStationLabel(selectedOutingSupportId),
     outingSupportSelected: selections.outingSupportSelected,
     recentSources: getRecentFieldCreditSources(biomes, save),
     upgrades: getFieldUpgradeStates(save),
@@ -121,5 +160,6 @@ export function resolveFieldStationState(
       selectedProjectId,
       selections.selectedNurseryCardId,
     ),
+    homecoming,
   };
 }

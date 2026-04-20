@@ -1,0 +1,453 @@
+{
+  "packet_id": "ECO-PACKET-142",
+  "version": 10,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "Single adjacent-corridor prototype",
+  "summary": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-review.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-review.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-route-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-route-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-route-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-374",
+    "ECO-20260420-main-374",
+    "ECO-20260420-critic-374",
+    "ECO-20260420-scout-375",
+    "ECO-20260420-main-375",
+    "ECO-20260420-critic-375",
+    "ECO-20260420-scout-376",
+    "ECO-20260420-main-376",
+    "ECO-20260420-critic-376",
+    "ECO-20260420-scout-377",
+    "ECO-20260420-main-377",
+    "ECO-20260420-critic-377"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-370",
+    "ECO-20260420-critic-371",
+    "ECO-20260420-critic-372",
+    "ECO-20260420-critic-373"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-374",
+      "goal": "Prepare lane-1: Protect corridor threshold accounting, biome ownership, worldStep, and save behavior for the chosen adjacent pair.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-374",
+      "goal": "Implement lane-1: Protect corridor threshold accounting, biome ownership, worldStep, and save behavior for the chosen adjacent pair.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-374",
+      "goal": "Review lane-1: Protect corridor threshold accounting, biome ownership, worldStep, and save behavior for the chosen adjacent pair.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-375",
+      "goal": "Prepare lane-2: Author one threshold note/prompt that teaches the gradient rather than naming a new biome.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-375",
+      "goal": "Implement lane-2: Author one threshold note/prompt that teaches the gradient rather than naming a new biome.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-375",
+      "goal": "Review lane-2: Author one threshold note/prompt that teaches the gradient rather than naming a new biome.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-376",
+      "goal": "Prepare lane-3: Build the physical corridor proof for the chosen adjacent pair with visible carriers and a recoverable path.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-376",
+      "goal": "Implement lane-3: Build the physical corridor proof for the chosen adjacent pair with visible carriers and a recoverable path.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-376",
+      "goal": "Review lane-3: Build the physical corridor proof for the chosen adjacent pair with visible carriers and a recoverable path.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-377",
+      "goal": "Prepare lane-4: Let one existing route recognize the corridor cue as optional evidence without adding another route framework.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-377",
+      "goal": "Implement lane-4: Let one existing route recognize the corridor cue as optional evidence without adding another route framework.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-377",
+      "goal": "Review lane-4: Let one existing route recognize the corridor cue as optional evidence without adding another route framework.",
+      "why_now": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/142-single-adjacent-corridor-prototype.json",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-review.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-review.md",
+    "src/test/runtime-smoke.test.ts",
+    "src/engine/observation-prompts.ts",
+    "src/test/observation-prompts.test.ts"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "C / World feel",
+  "completion_gate": "One adjacent pair feels more continuous in place, state, and route use; no chain-wide travel rewrite begins.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Protect corridor threshold accounting, biome ownership, worldStep, and save behavior for the chosen adjacent pair.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Author one threshold note/prompt that teaches the gradient rather than naming a new biome.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Build the physical corridor proof for the chosen adjacent pair with visible carriers and a recoverable path.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Let one existing route recognize the corridor cue as optional evidence without adding another route framework.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ],
+  "lane_1_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-374",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-handoff.md",
+    "chosen_adjacent_pair": "treeline <-> tundra",
+    "recommended_scope": [
+      "Add one focused runtime-smoke case for treeline-tundra-corridor accounting.",
+      "Prove threshold owner changes between treeline / lichen-fell and tundra / wind-bluff without changing worldStep, lastBiomeId, or either biome visit count.",
+      "Prove a full far-edge exit into tundra advances worldStep by exactly one, increments only biomeVisits.tundra, clears corridor state, and updates lastBiomeId to tundra."
+    ],
+    "why_this_slice": [
+      "Existing tests already protect the first beach/scrub corridor and full chain traversal.",
+      "Packet 142's chosen continuity seam is treeline-to-tundra after the lane-2 prompt pass, so lane 1 should isolate the high-country accounting risk before lane 3/4 deepen physical or route use.",
+      "The proof can stay test-first and likely test-only; no new corridor system is needed unless the regression fails."
+    ],
+    "preserve": [
+      "src/engine/corridor.ts definitions and threshold ownership unless the new test reveals a systems bug",
+      "src/content/world-map.ts corridor-door positions and map nodes",
+      "src/engine/observation-prompts.ts and lane-2 threshold prompt copy",
+      "Route v2 definitions and support behavior",
+      "station layout, season board copy, High Pass copy, and save schema",
+      "existing beach/scrub corridor tests and full-chain traversal test"
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_1_main_result": {
+    "completed_by": "ECO-20260420-main-374",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-implementation.md",
+    "changed_files": [
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-implementation.md"
+    ],
+    "result": [
+      "Added a focused treeline-tundra-corridor runtime-smoke accounting proof.",
+      "Confirmed threshold owner and zone changes between treeline / lichen-fell and tundra / wind-bluff do not mutate worldStep, lastBiomeId, or either biome visit count.",
+      "Confirmed a full far-edge exit into tundra clears corridor state, advances worldStep by exactly one, increments only biomeVisits.tundra, and updates lastBiomeId to tundra.",
+      "Preserved corridor definitions, world-map doors/nodes, threshold prompt copy, Route v2/support behavior, station/season/High Pass copy, save schema, and existing beach/scrub plus full-chain coverage."
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "npm run build",
+      "node /Users/trevormaxwell/.codex/skills/develop-web-game/scripts/web_game_playwright_client.js --url http://127.0.0.1:5173/ --actions-json '{\"steps\":[{\"buttons\":[\"enter\"],\"frames\":6},{\"buttons\":[],\"frames\":12}]}' --iterations 2 --pause-ms 250 --screenshot-dir output/web-game/corridor-main-374-client"
+    ],
+    "browser_proof": {
+      "screenshot": "output/web-game/corridor-main-374-client/shot-1.png",
+      "state": "output/web-game/corridor-main-374-client/state-1.json"
+    },
+    "promoted_next_lane_1_item": "ECO-20260420-critic-374"
+  },
+  "lane_1_critic_result": {
+    "completed_by": "ECO-20260420-critic-374",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-accounting-review.md",
+    "status": "clean",
+    "findings": [],
+    "result": [
+      "Confirmed the new treeline-tundra-corridor runtime-smoke case covers threshold owner and zone changes without save-pacing churn.",
+      "Confirmed the full far-edge exit into tundra advances worldStep exactly once, increments only biomeVisits.tundra, clears corridor state, and updates lastBiomeId.",
+      "Confirmed the implementation stayed test-only for runtime source and did not change corridor definitions, world-map doors/nodes, prompt copy, route/support behavior, station/season/High Pass copy, save schema, or geometry."
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "npm run build"
+    ],
+    "lane_1_status": "clear",
+    "coordination_note": "Packet 142 still has non-lane-1 workstreams, and the workspace has unrelated dirty files, so no lane-clear commit or push was attempted."
+  },
+  "lane_2_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-375",
+    "report": "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-handoff.md",
+    "chosen_adjacent_pair": "treeline <-> tundra",
+    "target_seed": {
+      "file": "src/engine/observation-prompts.ts",
+      "id": "treeline-lowest-wind",
+      "biomeId": "treeline",
+      "family": "shelter",
+      "zoneIds": [
+        "lichen-fell"
+      ],
+      "weatherProfiles": [
+        "ridge-wind"
+      ],
+      "requiredEntryIds": [
+        "moss-campion",
+        "arctic-willow",
+        "reindeer-lichen"
+      ],
+      "recommended_text": "Where does shelter shrink into open ground?"
+    },
+    "rationale": [
+      "The live continuity docs mark treeline-to-tundra as a strong seam with shared low-growth and open-ground carriers.",
+      "Project memory says forest-to-treeline should stay mostly silent, while treeline-to-tundra can carry one quiet prompt-linked shelter cue.",
+      "Refreshing one existing prompt seed teaches the gradient without adding a new transition biome, route, map node, or corridor state."
+    ],
+    "main_agent_scope": [
+      "Update only the authored text for the existing treeline-lowest-wind seed.",
+      "Preserve the seed id, biome id, family, zone ids, weather profile, required entry ids, resolver scoring, route behavior, save behavior, world-map behavior, and corridor geometry.",
+      "Add focused observation-prompt coverage for the exact text and evidence key."
+    ],
+    "verification": [
+      "npm test -- --run src/test/observation-prompts.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_main_result": {
+    "completed_by": "ECO-20260420-main-375",
+    "report": "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-implementation.md",
+    "changed_files": [
+      "src/engine/observation-prompts.ts",
+      "src/test/observation-prompts.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-implementation.md"
+    ],
+    "result": [
+      "Updated only the existing treeline-lowest-wind prompt text to Where does shelter shrink into open ground?",
+      "Added exact prompt and evidence-key coverage for the lichen-fell ridge-wind carrier set.",
+      "Preserved seed metadata, resolver/scoring behavior, route/support/save/world-map behavior, corridor geometry, ecosystem-note metadata, and biome rosters."
+    ],
+    "verification": [
+      "npm test -- --run src/test/observation-prompts.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_2_critic_result": {
+    "completed_by": "ECO-20260420-critic-375",
+    "report": "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-review.md",
+    "status": "clean",
+    "findings": [],
+    "result": [
+      "Confirmed the runtime source diff only refreshed the existing treeline-lowest-wind prompt text.",
+      "Confirmed seed metadata, resolver/scoring behavior, route/support/save/world-map behavior, corridor geometry, ecosystem-note metadata, and biome rosters stayed unchanged.",
+      "Confirmed the wording is short, kid-readable, science-safe, gradient-focused, and does not name a new biome or add route objective behavior."
+    ],
+    "verification": [
+      "npm test -- --run src/test/observation-prompts.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "coordination_note": "Lane 2 is clean for packet 142, but unrelated dirty files from other lanes and remaining packet lanes make this unsafe for a lane-clear commit or push."
+  },
+  "lane_4_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-377",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-route-handoff.md",
+    "chosen_adjacent_pair": "treeline <-> tundra",
+    "focus": "Let the existing Low Fell route recognize the treeline-to-tundra corridor cue as optional evidence without adding another route framework.",
+    "recommended_file_targets": [
+      "src/engine/field-requests.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-corridor-route-implementation.md"
+    ],
+    "recommended_route_change": {
+      "request_id": "treeline-low-fell",
+      "slot_id": "low-rest",
+      "current_entry_ids": [
+        "arctic-willow"
+      ],
+      "recommended_entry_ids": [
+        "arctic-willow",
+        "reindeer-lichen"
+      ],
+      "reason": "The treeline-tundra corridor already places reindeer-lichen on the treeline-side blend, and lane 2's threshold prompt uses reindeer-lichen with moss-campion and arctic-willow to teach shelter shrinking into open ground."
+    },
+    "main_acceptance": [
+      "`treeline-low-fell` accepts `reindeer-lichen` as an optional `low-rest` clue while preserving the ordered `last-tree-shape -> low-wood -> fell-bloom -> low-rest` route shape",
+      "field-request coverage proves a `3/4 clues` Low Fell route can complete from `reindeer-lichen` when `currentBiomeId` is `treeline`, `currentZoneId` is `lichen-fell`, and the observed entity zone is a corridor blend zone such as `center-blend`",
+      "controller coverage proves `hand-lens` reads corridor `reindeer-lichen` as `Notebook fit: low rest` and may retarget to it as an ordinary notebook-fit clue",
+      "paired non-hand-lens coverage keeps `note-tabs` on the physical nearest inspectable and the progress chip instead of retargeting",
+      "clue-backed Low Fell filing identity remains canonical; if `reindeer-lichen` was used, only the clue name changes in the existing filed-tail sentence"
+    ],
+    "preserve": [
+      "no new route, route type, field-station page, support type, planner layer, prompt seed, corridor state, corridor geometry, save schema, world-map node, or map-marker behavior",
+      "do not edit src/engine/corridor.ts, src/engine/game.ts, src/engine/observation-prompts.ts, biome geometry/content, station layout, High Pass behavior, Tundra route behavior, or lane-2 prompt copy",
+      "Brief Bloom fell-bloom behavior stays intact: moss-campion remains the active bloom alternate and reindeer-lichen does not become an active LENS CLUE winner for Low Fell"
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Low Fell|treeline-low-fell|reindeer-lichen\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Low Fell|Brief Bloom|reindeer-lichen|target-selection\""
+    ],
+    "main_verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Low Fell|treeline-low-fell|reindeer-lichen\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Low Fell|Brief Bloom|reindeer-lichen|target-selection\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-main-377"
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-377",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-route-implementation.md",
+    "changed_files": [
+      "src/engine/field-requests.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-corridor-route-implementation.md"
+    ],
+    "result": [
+      "Added reindeer-lichen as an optional low-rest clue for treeline-low-fell while preserving the ordered last-tree-shape -> low-wood -> fell-bloom -> low-rest route shape.",
+      "Added field-request coverage proving a 3/4 clues Low Fell route can complete from reindeer-lichen when the route context is treeline / lichen-fell and the observed entity zone is center-blend.",
+      "Added controller coverage proving hand-lens can retarget to corridor reindeer-lichen as ordinary Notebook fit: low rest while note-tabs stays on the physical nearest inspectable and 3/4 clues chip.",
+      "Preserved route identity, Brief Bloom active moss-campion behavior, corridor state and geometry, station/support surfaces, save schema, world-map behavior, High Pass behavior, Tundra route behavior, and lane-2 prompt copy."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Low Fell|treeline-low-fell|reindeer-lichen\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Low Fell|Brief Bloom|reindeer-lichen|target-selection\"",
+      "npm run build"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-critic-377"
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-377",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-route-review.md",
+    "status": "clean",
+    "findings": [],
+    "result": [
+      "Confirmed reindeer-lichen is limited to ordinary low-rest evidence on treeline-low-fell.",
+      "Confirmed Brief Bloom active moss-campion behavior remains unchanged and reindeer-lichen is not a Low Fell LENS CLUE winner.",
+      "Confirmed hand-lens and note-tabs behavior match the implementation report.",
+      "Confirmed no route framework, corridor state or geometry, support surface, station page, save schema, world-map behavior, High Pass behavior, Tundra route behavior, or lane-2 prompt copy drift."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Low Fell|treeline-low-fell|reindeer-lichen\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Low Fell|Brief Bloom|reindeer-lichen|target-selection\"",
+      "npm run build"
+    ],
+    "promoted_next_lane_4_item": "ECO-20260420-scout-381"
+  }
+}

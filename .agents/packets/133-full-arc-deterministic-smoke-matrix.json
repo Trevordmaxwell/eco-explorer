@@ -1,0 +1,513 @@
+{
+  "packet_id": "ECO-PACKET-133",
+  "version": 14,
+  "created_at": "2026-04-20",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Full-arc deterministic smoke matrix",
+  "summary": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth.",
+  "source_reports": [
+    "docs/reports/2026-04-20-alpha-runway-megapush.md",
+    "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-handoff.md",
+    "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-implementation.md",
+    "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-review.md",
+    "docs/reports/2026-04-20-full-arc-route-state-matrix-handoff.md",
+    "docs/reports/2026-04-20-filed-note-synthesis-matrix-handoff.md",
+    "docs/reports/2026-04-20-filed-note-synthesis-matrix-implementation.md",
+    "docs/reports/2026-04-20-full-arc-route-state-matrix-implementation.md",
+    "docs/reports/2026-04-20-full-arc-route-state-matrix-review.md",
+    "docs/reports/2026-04-20-filed-note-synthesis-matrix-review.md",
+    "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-handoff.md",
+    "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-implementation.md",
+    "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260420-scout-338",
+    "ECO-20260420-main-338",
+    "ECO-20260420-critic-338",
+    "ECO-20260420-scout-339",
+    "ECO-20260420-main-339",
+    "ECO-20260420-critic-339",
+    "ECO-20260420-scout-340",
+    "ECO-20260420-main-340",
+    "ECO-20260420-critic-340",
+    "ECO-20260420-scout-341",
+    "ECO-20260420-main-341",
+    "ECO-20260420-critic-341"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-334",
+    "ECO-20260420-critic-335",
+    "ECO-20260420-critic-336",
+    "ECO-20260420-critic-337"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260420-scout-338",
+      "goal": "Prepare lane-1: Assemble seeded save/test helpers and ensure station/map/journal state can be asserted without brittle UI timing assumptions.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260420-main-338",
+      "goal": "Implement lane-1: Assemble seeded save/test helpers and ensure station/map/journal state can be asserted without brittle UI timing assumptions.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260420-critic-338",
+      "goal": "Review lane-1: Assemble seeded save/test helpers and ensure station/map/journal state can be asserted without brittle UI timing assumptions.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260420-scout-339",
+      "goal": "Prepare lane-2: Assert key filed-note and synthesis strings stay under budget and retain the intended ecology relationship in each arc segment.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260420-main-339",
+      "goal": "Implement lane-2: Assert key filed-note and synthesis strings stay under budget and retain the intended ecology relationship in each arc segment.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260420-critic-339",
+      "goal": "Review lane-2: Assert key filed-note and synthesis strings stay under budget and retain the intended ecology relationship in each arc segment.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260420-scout-340",
+      "goal": "Prepare lane-3: Attach browser/screenshot proof points for the spatial endpoints used in the smoke matrix without adding new places.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260420-main-340",
+      "goal": "Implement lane-3: Attach browser/screenshot proof points for the spatial endpoints used in the smoke matrix without adding new places.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260420-critic-340",
+      "goal": "Review lane-3: Attach browser/screenshot proof points for the spatial endpoints used in the smoke matrix without adding new places.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260420-scout-341",
+      "goal": "Prepare lane-4: Build the route-state progression matrix across all live Route v2 outings, supports, active windows, and post-filed states.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260420-main-341",
+      "goal": "Implement lane-4: Build the route-state progression matrix across all live Route v2 outings, supports, active windows, and post-filed states.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260420-critic-341",
+      "goal": "Review lane-4: Build the route-state progression matrix across all live Route v2 outings, supports, active windows, and post-filed states.",
+      "why_now": "Turn the completed alpha arc into a reliable internal regression target before expanding polish breadth."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    "docs/reports/2026-04-20-alpha-runway-megapush.md"
+  ],
+  "guardrails": [
+    "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
+    "First stabilize feedback, review hygiene, deterministic proof, and player comprehension; content polish must be evidence-led or tightly scoped to existing surfaces.",
+    "Preserve the 256x160 handheld readability budget; prefer cuts, visual payoff, and existing seams over new pages or longer copy.",
+    "Respect lane ownership: lane 1 state/tooling, lane 2 science/copy, lane 3 spatial/visual, lane 4 route/support/replay. Shared-file edits need handoff notes.",
+    "Every main item must leave tests, browser proof, or a clear dated report; every critic item must either clear the lane or queue a narrow follow-up.",
+    "Avoid source-control conflicts by advancing each lane on its own dependency chain and using the scout report to name exact files before implementation."
+  ],
+  "phase": "A / Preflight",
+  "completion_gate": "A deterministic suite covers first outing, station loop, routes, nursery touch, Root Hollow, Season Threads, High Pass, filing, and filed return.",
+  "lane_contracts": {
+    "lane-1": {
+      "name": "Systems / station / progression / tooling",
+      "focus": "Assemble seeded save/test helpers and ensure station/map/journal state can be asserted without brittle UI timing assumptions.",
+      "owns": "runtime state, station surfaces, save safety, validation, packaging, and release tooling",
+      "avoids": "authored science copy, biome geometry density, and route prose unless a packet explicitly calls for a systems seam",
+      "preferred_paths": [
+        "src/engine/game.ts",
+        "src/engine/field-season-board.ts",
+        "src/engine/overlay-render.ts",
+        "src/engine/field-station*.ts",
+        "src/engine/save.ts",
+        "scripts/",
+        "src/test/runtime-smoke.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-handoff.md",
+        "main_338_target": "Add a test-only runtime surface matrix for the six debug save snapshots so full-arc station/map/journal states can be asserted through render_game_to_text without browser traversal.",
+        "recommended_files": [
+          "src/test/save-snapshots.test.ts"
+        ],
+        "snapshot_ids": [
+          "first-session",
+          "station-return",
+          "season-close-return",
+          "high-pass-active",
+          "high-pass-ready-to-file",
+          "high-pass-filed"
+        ],
+        "systems_targets": [
+          "boot each debug save snapshot through createGame and fake DOM helpers",
+          "assert first-session starter request and beach route-board target",
+          "assert station-return world-map to field-station default flow and station-return beat state",
+          "assert season-close-return station open clears the pending close and exposes the next field-season High Pass shell",
+          "assert high-pass-active journal/map/station surfaces point at treeline-high-pass without walking the route",
+          "assert high-pass-ready-to-file station route board exposes treeline-high-pass notebookReady state",
+          "assert high-pass-filed station and journal surfaces are settled with no active outing/request"
+        ],
+        "non_goals": [
+          "Route v2 route-state progression matrix duplication",
+          "filed-note or copy-budget matrix duplication",
+          "screenshot manifest or browser proof work",
+          "new save snapshots unless a real gap is found",
+          "save schema or migration changes",
+          "player-facing copy, station redesign, tutorial UI, telemetry, geometry, or content additions",
+          "fixing current src/test/field-requests.test.ts build blockers from another lane"
+        ],
+        "verification": [
+          "npm test -- --run src/test/save-snapshots.test.ts",
+          "npm run validate:agents",
+          "git diff --check",
+          "npm run build attempted only to record whether the current field-requests.test.ts blocker remains"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-implementation.md",
+        "implemented_files": [
+          "src/test/save-snapshots.test.ts"
+        ],
+        "runtime_matrix": [
+          "first-session starter request and beach route-board target",
+          "station-return menu-to-map-to-field-station defaults and active station-return beat",
+          "season-close-return station open into next-season High Pass routes shell and treeline map focus",
+          "high-pass-active active request, journal card, route board, world-map focus, and Rimed Pass replay label",
+          "high-pass-ready-to-file active request and High Pass filing route-board state",
+          "high-pass-filed settled station, route board, and journal state with no active outing/request"
+        ],
+        "verification": [
+          "npm test -- --run src/test/save-snapshots.test.ts",
+          "npm run build",
+          "git diff --check"
+        ],
+        "notes": [
+          "The scout shorthand called out notebookReady for High Pass ready-to-file; the live High Pass route-board surface represents that state through the existing launchCard progressLabel NOTE plus ready-to-file nextDirection instead of a notebookReady beat property.",
+          "The prior field-requests TypeScript build blocker is no longer present in this worktree; full build passed."
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-lane-1-full-arc-snapshot-runtime-review.md",
+        "result": "clean",
+        "blocking_findings": [],
+        "verified": [
+          "test-only matrix uses existing debug save snapshots and fake DOM helpers",
+          "six lane-1 snapshot states cover station, map, journal, active request, ready-to-file, and filed High Pass surfaces",
+          "lane-1 matrix does not duplicate lane-2 filed-note copy, lane-3 screenshot proof, or lane-4 route-state progression work",
+          "npm test -- --run src/test/save-snapshots.test.ts",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ],
+        "promoted_next": "ECO-20260420-scout-342"
+      }
+    },
+    "lane-2": {
+      "name": "Content / journal / science / copy budgets",
+      "focus": "Assert key filed-note and synthesis strings stay under budget and retain the intended ecology relationship in each arc segment.",
+      "owns": "science-safe content, notebook/atlas language, source-ledger coverage, content-quality tests, and kid-readable synthesis",
+      "avoids": "movement geometry, station state machines, and route controller behavior",
+      "preferred_paths": [
+        "src/content/",
+        "src/engine/ecosystem-notes.ts",
+        "src/engine/observation-prompts.ts",
+        "src/engine/field-requests.ts copy-only sections",
+        "src/test/content-quality.test.ts",
+        "docs/science-source-ledger.md"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-filed-note-synthesis-matrix-handoff.md",
+        "main_339_target": "Add a lane-2, test-only filed-note synthesis matrix for every live Route v2 filed-note route in the completed alpha arc.",
+        "recommended_files": [
+          "src/test/content-quality.test.ts",
+          "src/test/field-requests.test.ts",
+          "docs/reports/2026-04-20-filed-note-synthesis-matrix-implementation.md"
+        ],
+        "route_note_ids": [
+          "beach-shore-shelter",
+          "forest-hidden-hollow",
+          "forest-moisture-holders",
+          "coastal-shelter-shift",
+          "treeline-stone-shelter",
+          "tundra-short-season",
+          "scrub-edge-pattern",
+          "forest-cool-edge",
+          "treeline-low-fell",
+          "forest-expedition-upper-run",
+          "treeline-high-pass"
+        ],
+        "copy_contract": [
+          "assert all live Route v2 note ids are present and no new route-note id appears without choosing a budget/anchor",
+          "protect routeV2Note readyText, filedText, clueBackedTail, and displayPrefix budgets in content-quality coverage",
+          "add a table-driven resolved-note matrix that checks filed-note and display-text lengths, relationship anchors, and the display-only Thaw Window prefix",
+          "use a current-safe generated filed-note ceiling near 144 characters unless implementation deliberately tightens copy first"
+        ],
+        "non_goals": [
+          "route progression, route controller behavior, support behavior, station filing, map travel, save schema, or geometry changes",
+          "new discoveries, new facts, new route objectives, broad ecosystem-note prose, or player-facing UI",
+          "duplicating lane 4's route-state progression matrix or lane 1's seeded save snapshot work"
+        ],
+        "verification": [
+          "`npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"route|filed|content quality|synthesis\"`",
+          "`npm run build` if TypeScript test edits need a compiler-wide check",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-filed-note-synthesis-matrix-implementation.md",
+        "changed_files": [
+          "src/test/content-quality.test.ts",
+          "src/test/field-requests.test.ts",
+          "docs/reports/2026-04-20-filed-note-synthesis-matrix-implementation.md"
+        ],
+        "summary": "Added test-only Route v2 note-copy and resolved filed/display synthesis matrices across the 11 completed-alpha route-note ids.",
+        "boundaries_kept": [
+          "no route progression, route controller behavior, support behavior, station filing, map travel, save schema, geometry, new discoveries, new facts, or player-facing UI changes",
+          "kept the lane-2 pass limited to content/copy budgets and relationship anchors"
+        ],
+        "verification": [
+          "`npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"route|filed|content quality|synthesis\"`",
+          "`npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts`",
+          "`npm run build` attempted but currently blocked by unrelated in-progress lane edits documented in the implementation report"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-filed-note-synthesis-matrix-review.md",
+        "status": "clean",
+        "summary": "No lane-2 blocker found; the filed-note matrix stays test-only, content-facing, and bounded to copy budgets plus ecology anchors.",
+        "verification": [
+          "`npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts -t \"route|filed|content quality|synthesis\"`",
+          "`npx vitest run src/test/content-quality.test.ts src/test/field-requests.test.ts`",
+          "`npm run build` remains blocked by a lane-4 route-state matrix type mismatch outside this lane-2 change"
+        ],
+        "promotes": "ECO-20260420-scout-343"
+      }
+    },
+    "lane-3": {
+      "name": "Spatial / traversal / visual-place feel",
+      "focus": "Attach browser/screenshot proof points for the spatial endpoints used in the smoke matrix without adding new places.",
+      "owns": "world-space readability, traversal beats, environmental silhouettes, screenshot proof, and biome physical memory",
+      "avoids": "route state, copy-heavy notebook changes, station chrome, and save schema changes",
+      "preferred_paths": [
+        "src/content/biomes/* spatial bands",
+        "src/assets/*",
+        "src/engine/biome-scene-render.ts",
+        "src/test/*-biome.test.ts",
+        "output/ browser proofs"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-handoff.md",
+        "main_340_target": "Bridge the screenshot-proof manifest to packet 133 by naming full-arc spatial checkpoints and crediting existing forest frame state JSON, without generating screenshots or adding places.",
+        "recommended_files": [
+          "docs/alpha-screenshot-proof-manifest.md",
+          "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-implementation.md"
+        ],
+        "spatial_checkpoints": [
+          "first beach objective -> first-session-beach-objective / beach-opening-shoulder",
+          "beach route shelter shape -> beach-lee-pocket",
+          "forest expedition start/vertical read -> forest-giant-tree-entry",
+          "Root Hollow cave/trunk relation -> forest-cave-trunk",
+          "Root Hollow upper return -> forest-upper-return",
+          "High Pass middle -> treeline-stone-shelter",
+          "High Pass crest -> treeline-rime-brow",
+          "High Pass ready-to-file endpoint -> treeline-talus-hold",
+          "Tundra process support -> tundra-drift-hold and tundra-thaw-bench"
+        ],
+        "existing_forest_state_paths": [
+          "output/main-150-browser/giant-tree-entry.json",
+          "output/main-150-browser/log-run-trunk.json",
+          "output/main-150-browser/cave-trunk.json",
+          "output/main-150-browser/upper-return.json"
+        ],
+        "non_goals": [
+          "new places, platforms, inspectables, carriers, terrain, climbables, or biome geometry",
+          "route behavior, route state, support behavior, station/menu behavior, save snapshots, save schema, science copy, journal copy, or player-facing UI",
+          "committed screenshot output, committed state dumps, committed browser-error JSON, or a new screenshot automation framework",
+          "duplicating lane 1 debug save snapshots or lane 4 route-state matrix assertions"
+        ],
+        "verification": [
+          "check updated manifest reference paths exist locally",
+          "`npm run validate:agents`",
+          "`git diff --check`",
+          "runtime tests and `npm run build` only if runtime or test code changes"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-implementation.md",
+        "changed_files": [
+          "docs/alpha-screenshot-proof-manifest.md",
+          "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-implementation.md"
+        ],
+        "summary": "Added the manifest bridge from packet 133's full-arc smoke matrix to existing spatial proof frames and credited the existing forest frame state JSON.",
+        "boundaries_kept": [
+          "no geometry, route behavior, route state, support behavior, station/menu behavior, save snapshots, save schema, science copy, journal copy, or player-facing UI changes",
+          "no committed screenshots, state dumps, browser-error JSON, or screenshot automation framework"
+        ],
+        "verification": [
+          "checked referenced existing forest state paths locally",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-lane-3-full-arc-spatial-proof-review.md",
+        "status": "cleared",
+        "summary": "The manifest bridge stays docs-only, maps the required full-arc spatial checkpoints to existing frame ids and ignored proof targets, and leaves route-state, save, UI, geometry, and committed-output ownership untouched.",
+        "watch_items": [
+          "If later agents turn more non-forest rows into strict state baselines, add those state JSON paths to the quick path-check snippet at the same time."
+        ],
+        "verification": [
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      }
+    },
+    "lane-4": {
+      "name": "Route loop / support / replay / full-arc proof",
+      "focus": "Build the route-state progression matrix across all live Route v2 outings, supports, active windows, and post-filed states.",
+      "owns": "Route v2 behavior, support differentiation, notebook filing loops, route notices, replay windows, and deterministic route smoke tests",
+      "avoids": "new station pages, broad copy rewrites, raw biome geometry, and new route frameworks",
+      "preferred_paths": [
+        "src/engine/field-request-controller.ts",
+        "src/engine/field-request-state.ts",
+        "src/engine/field-notices.ts",
+        "src/engine/field-requests.ts route-structure only",
+        "src/test/field-request*.test.ts"
+      ],
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-full-arc-route-state-matrix-handoff.md",
+        "main_341_target": "Add one compact deterministic Route v2 matrix in field-request tests that walks every live notebook route from active state through clue progress, ready-to-file, filing, and next-state handoff.",
+        "recommended_files": [
+          "src/test/field-requests.test.ts",
+          "docs/reports/2026-04-20-full-arc-route-state-matrix-implementation.md"
+        ],
+        "route_matrix_ids": [
+          "beach-shore-shelter",
+          "forest-hidden-hollow",
+          "forest-moisture-holders",
+          "coastal-shelter-shift",
+          "treeline-stone-shelter",
+          "tundra-short-season",
+          "scrub-edge-pattern",
+          "forest-cool-edge",
+          "treeline-low-fell",
+          "forest-expedition-upper-run",
+          "treeline-high-pass"
+        ],
+        "handoff_only_ids": [
+          "forest-survey-slice",
+          "coastal-edge-moisture",
+          "tundra-survey-slice",
+          "forest-season-threads"
+        ],
+        "matrix_assertions": [
+          "active route id, title, progress label, routeV2 status, selected support id, and starting evidence state",
+          "expected slot ids and entry ids as each clue is gathered, including ordered gates for ordered routes",
+          "ready-to-synthesize result, NOTEBOOK READY notice, Ready To File active state, and clue-backed filed text where applicable",
+          "fileReadyRouteV2FieldRequest clears routeV2Progress, records the completed request id, and hands off to the next request or final filed state",
+          "process/world-state variants stay live-only while canonical ready/filed identity remains stable"
+        ],
+        "variant_coverage": [
+          "Wrack Shelter / wrack-hold beach-hopper",
+          "Moist Hollow / tree-lungwort and seep-moss-mat",
+          "Held Sand / beach-grass",
+          "Moist Edge active title",
+          "Thaw Window / woolly-lousewort and bigelows-sedge",
+          "Brief Bloom / moss-campion",
+          "Rimed Pass / reindeer-lichen"
+        ],
+        "non_goals": [
+          "new route framework",
+          "station page or station layout changes",
+          "browser automation flow",
+          "committed screenshots or state dumps",
+          "save schema changes",
+          "science copy changes",
+          "broad onboarding copy changes",
+          "geometry or biome placement changes",
+          "duplicating lane 1 debug save snapshots",
+          "duplicating lane 3 screenshot proof"
+        ],
+        "verification": [
+          "`npm test -- src/test/field-requests.test.ts`",
+          "`npm run validate:agents`",
+          "`git diff --check`",
+          "`npm run build` only if runtime TypeScript changes"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-full-arc-route-state-matrix-implementation.md",
+        "changed_files": [
+          "src/test/field-requests.test.ts",
+          "docs/reports/2026-04-20-full-arc-route-state-matrix-implementation.md"
+        ],
+        "summary": "Added a test-only, table-driven Route v2 matrix across all 11 live notebook routes, including clue progression, ready-to-file state, filing handoffs, and live-only process/world-state variants.",
+        "boundaries_kept": [
+          "no runtime route behavior, save schema, station page, browser automation, screenshot output, science/copy rewrite, geometry, new route framework, lane-1 save snapshot duplication, or lane-3 screenshot-proof duplication",
+          "kept forest-survey-slice, coastal-edge-moisture, tundra-survey-slice, and forest-season-threads as handoff-only states"
+        ],
+        "verification": [
+          "`npm test -- src/test/field-requests.test.ts`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-full-arc-route-state-matrix-review.md",
+        "status": "cleared",
+        "summary": "The lane-4 route-state matrix covers all 11 live Route v2 notebook routes, keeps handoff-only ids out of the route list, preserves canonical ready/filed identity for live-only variants, and stays test-only.",
+        "watch_items": [
+          "Future Route v2 additions should add a route-state matrix row alongside the route definition."
+        ],
+        "verification": [
+          "`npm test -- src/test/field-requests.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      }
+    }
+  },
+  "collision_rules": [
+    "Lane 1 may touch large coordinator and station files; other lanes should not edit those files in the same packet unless a scout report queues the dependency.",
+    "Lane 2 may touch authored content and copy; lane 4 should not rewrite lane-2 prose while route behavior is in flight.",
+    "Lane 3 may touch physical placement and visual proof; it should not add route objectives or journal copy as part of geometry work.",
+    "Lane 4 may touch route/support/replay behavior; it should not create new station pages, broad content facts, or unrelated geometry.",
+    "If two lanes need the same mixed content module, the earlier scout must either sequence the edits or ask lane 1 for a data split before both mains proceed."
+  ],
+  "proof_expectations": [
+    "At least one automated test, browser proof, or dated report for every main item.",
+    "Critic must record whether handheld readability, source accuracy, and lane ownership stayed intact.",
+    "Any follow-up must be narrow, named, and assigned to the owning lane rather than left as general polish."
+  ]
+}

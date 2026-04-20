@@ -52,18 +52,19 @@ describe('field request controller', () => {
   });
 
   it('returns the support notice copy from one helper seam', () => {
-    expect(getOutingSupportNoticeText('route-marker')).toBe(
-      'Route Marker will guide this outing on the world map.',
-    );
-    expect(getOutingSupportNoticeText('place-tab')).toBe(
-      'Place Tab will keep one place-reading question on the season strip.',
-    );
-    expect(getOutingSupportNoticeText('note-tabs')).toBe(
-      'Note Tabs will keep the notebook aim on the season strip.',
-    );
-    expect(getOutingSupportNoticeText('hand-lens')).toBe(
-      'Hand Lens will tag notebook-fit clues in inspect bubbles.',
-    );
+    const supportNoticeCases = [
+      ['route-marker', 'Marks next map stop.'],
+      ['place-tab', 'Keeps one place question.'],
+      ['note-tabs', 'Keeps route aim visible.'],
+      ['hand-lens', 'Highlights notebook clues.'],
+    ] as const;
+
+    for (const [supportId, expectedNotice] of supportNoticeCases) {
+      const notice = getOutingSupportNoticeText(supportId);
+      expect(notice).toBe(expectedNotice);
+      expect(notice.trim().split(/\s+/).length).toBeLessThanOrEqual(5);
+      expect(notice).not.toMatch(/notebook-fit|[a-z]+-[a-z]+/i);
+    }
   });
 
   it('prefers active process-only alternates for hand lens without widening other supports', () => {
@@ -256,6 +257,287 @@ describe('field request controller', () => {
     expect(getFieldRequestHintState(controller, selection)).toMatchObject({
       label: 'NOTEBOOK J',
       title: 'Rimed Pass',
+      variant: 'support-biased',
+    });
+  });
+
+  it('marks the Low Fell bloom pocket as an active-clue retarget during Brief Bloom', () => {
+    const completedRouteRequests = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+    ];
+    const createLowFellProgress = () => ({
+      requestId: 'treeline-low-fell',
+      status: 'gathering' as const,
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+      ],
+    });
+    const inspectCandidates = [
+      {
+        entityId: 'near-avens',
+        entryId: 'mountain-avens',
+        x: 556,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+      {
+        entityId: 'far-campion',
+        entryId: 'moss-campion',
+        x: 572,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+    ];
+
+    const handLensSave = createNewSaveState('field-request-controller-brief-bloom-preference');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = completedRouteRequests.slice();
+    handLensSave.worldStep = 4;
+    handLensSave.biomeVisits.treeline = 2;
+    handLensSave.routeV2Progress = createLowFellProgress();
+
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'lichen-fell',
+      scenePlayerX: 560,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(handLensController.activeFieldRequest).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Brief Bloom',
+      progressLabel: '2/4 clues',
+    });
+    expect(getHandLensNotebookFitForEntry(handLensController, 'mountain-avens', 'lichen-fell')).toBe(
+      'Notebook fit: fell bloom',
+    );
+    expect(getHandLensNotebookFitForEntry(handLensController, 'moss-campion', 'lichen-fell')).toBe(
+      'Notebook fit: fell bloom',
+    );
+    expect(getInspectBubbleResourceNote(handLensController, 'mountain-avens', 'lichen-fell')).toBe(
+      'Notebook fit: fell bloom',
+    );
+    expect(getInspectBubbleResourceNote(handLensController, 'moss-campion', 'lichen-fell')).toBe(
+      'LENS CLUE: fell bloom',
+    );
+    expect(prefersHandLensActiveEntry(handLensController, 'mountain-avens', 'lichen-fell')).toBe(false);
+    expect(prefersHandLensActiveEntry(handLensController, 'moss-campion', 'lichen-fell')).toBe(true);
+
+    const handLensSelection = resolveInspectTargetSelection(
+      handLensController,
+      inspectCandidates,
+      { x: 560, y: 104 },
+      22,
+      () => 'lichen-fell',
+    );
+
+    expect(handLensSelection.nearestInspectableEntityId).toBe('far-campion');
+    expect(handLensSelection.nearestInspectable?.entryId).toBe('moss-campion');
+    expect(handLensSelection.supportRetargetsInspect).toBe(true);
+    expect(handLensSelection.supportPrefersActiveClue).toBe(true);
+    expect(getFieldRequestHintState(handLensController, handLensSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Brief Bloom',
+      variant: 'support-biased',
+    });
+
+    const noteTabsSave = createNewSaveState('field-request-controller-brief-bloom-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = completedRouteRequests.slice();
+    noteTabsSave.worldStep = 4;
+    noteTabsSave.biomeVisits.treeline = 2;
+    noteTabsSave.routeV2Progress = createLowFellProgress();
+
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'lichen-fell',
+      scenePlayerX: 560,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(noteTabsController.selectedSupportId).toBe('note-tabs');
+    expect(noteTabsController.activeFieldRequest).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Brief Bloom',
+      progressLabel: '2/4 clues',
+    });
+    expect(getHandLensNotebookFitForEntry(noteTabsController, 'moss-campion', 'lichen-fell')).toBeNull();
+    expect(prefersHandLensActiveEntry(noteTabsController, 'moss-campion', 'lichen-fell')).toBe(false);
+
+    const noteTabsSelection = resolveInspectTargetSelection(
+      noteTabsController,
+      inspectCandidates,
+      { x: 560, y: 104 },
+      22,
+      () => 'lichen-fell',
+    );
+
+    expect(noteTabsSelection.nearestInspectableEntityId).toBe('near-avens');
+    expect(noteTabsSelection.nearestInspectable?.entryId).toBe('mountain-avens');
+    expect(noteTabsSelection.supportRetargetsInspect).toBe(false);
+    expect(noteTabsSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(noteTabsController, noteTabsSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '2/4 clues',
+      variant: 'support-biased',
+    });
+  });
+
+  it('retargets Low Fell low rest to the corridor reindeer-lichen cue only for hand lens', () => {
+    const completedRouteRequests = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+      'forest-cool-edge',
+    ];
+    const createLowFellLowRestProgress = () => ({
+      requestId: 'treeline-low-fell',
+      status: 'gathering' as const,
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'last-tree-shape', entryId: 'krummholz-spruce' },
+        { slotId: 'low-wood', entryId: 'dwarf-birch' },
+        { slotId: 'fell-bloom', entryId: 'mountain-avens' },
+      ],
+    });
+    const inspectCandidates = [
+      {
+        entityId: 'near-avens',
+        entryId: 'mountain-avens',
+        x: 556,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+      {
+        entityId: 'corridor-lichen',
+        entryId: 'reindeer-lichen',
+        x: 572,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+    ];
+    const getObservedZoneId = (entity: (typeof inspectCandidates)[number]) =>
+      entity.entryId === 'reindeer-lichen' ? 'center-blend' : 'lichen-fell';
+
+    const handLensSave = createNewSaveState('field-request-controller-low-fell-corridor-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = completedRouteRequests.slice();
+    handLensSave.routeV2Progress = createLowFellLowRestProgress();
+
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'lichen-fell',
+      scenePlayerX: 560,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(handLensController.activeFieldRequest).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Low Fell',
+      progressLabel: '3/4 clues',
+    });
+    expect(getHandLensNotebookFitForEntry(handLensController, 'reindeer-lichen', 'center-blend')).toBe(
+      'Notebook fit: low rest',
+    );
+    expect(getInspectBubbleResourceNote(handLensController, 'reindeer-lichen', 'center-blend')).toBe(
+      'Notebook fit: low rest',
+    );
+    expect(prefersHandLensActiveEntry(handLensController, 'reindeer-lichen', 'center-blend')).toBe(false);
+
+    const handLensSelection = resolveInspectTargetSelection(
+      handLensController,
+      inspectCandidates,
+      { x: 560, y: 104 },
+      22,
+      getObservedZoneId,
+    );
+
+    expect(handLensSelection.nearestInspectableEntityId).toBe('corridor-lichen');
+    expect(handLensSelection.nearestInspectable?.entryId).toBe('reindeer-lichen');
+    expect(handLensSelection.supportRetargetsInspect).toBe(true);
+    expect(handLensSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(handLensController, handLensSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Low Fell',
+      variant: 'support-biased',
+    });
+
+    const noteTabsSave = createNewSaveState('field-request-controller-low-fell-corridor-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = completedRouteRequests.slice();
+    noteTabsSave.routeV2Progress = createLowFellLowRestProgress();
+
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'lichen-fell',
+      scenePlayerX: 560,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(noteTabsController.selectedSupportId).toBe('note-tabs');
+    expect(noteTabsController.activeFieldRequest).toMatchObject({
+      id: 'treeline-low-fell',
+      title: 'Low Fell',
+      progressLabel: '3/4 clues',
+    });
+    expect(getHandLensNotebookFitForEntry(noteTabsController, 'reindeer-lichen', 'center-blend')).toBeNull();
+
+    const noteTabsSelection = resolveInspectTargetSelection(
+      noteTabsController,
+      inspectCandidates,
+      { x: 560, y: 104 },
+      22,
+      getObservedZoneId,
+    );
+
+    expect(noteTabsSelection.nearestInspectableEntityId).toBe('near-avens');
+    expect(noteTabsSelection.nearestInspectable?.entryId).toBe('mountain-avens');
+    expect(noteTabsSelection.supportRetargetsInspect).toBe(false);
+    expect(noteTabsSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(noteTabsController, noteTabsSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '3/4 clues',
       variant: 'support-biased',
     });
   });
@@ -516,6 +798,236 @@ describe('field request controller', () => {
     });
   });
 
+  it('retargets Open To Shelter to the back-dune bloom clue only for hand lens', () => {
+    const completedForestRequests = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+    ];
+    const inspectCandidates = [
+      {
+        entityId: 'near-beach-pea',
+        entryId: 'beach-pea',
+        x: 58,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+      {
+        entityId: 'far-verbena',
+        entryId: 'sand-verbena',
+        x: 72,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+    ];
+
+    const handLensSave = createNewSaveState('field-request-controller-open-to-shelter-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = completedForestRequests.slice();
+
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'coastal-scrub',
+      lastBiomeId: 'coastal-scrub',
+      sceneZoneId: 'back-dune',
+      scenePlayerX: 64,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getHandLensNotebookFitForEntry(handLensController, 'sand-verbena', 'back-dune')).toBe(
+      'Notebook fit: open bloom',
+    );
+    expect(getInspectBubbleResourceNote(handLensController, 'sand-verbena', 'back-dune')).toBe(
+      'Notebook fit: open bloom',
+    );
+    expect(prefersHandLensActiveEntry(handLensController, 'sand-verbena', 'back-dune')).toBe(false);
+
+    const handLensSelection = resolveInspectTargetSelection(
+      handLensController,
+      inspectCandidates,
+      { x: 64, y: 104 },
+      20,
+      () => 'back-dune',
+    );
+
+    expect(handLensSelection.nearestInspectableEntityId).toBe('far-verbena');
+    expect(handLensSelection.nearestInspectable?.entryId).toBe('sand-verbena');
+    expect(handLensSelection.supportRetargetsInspect).toBe(true);
+    expect(handLensSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(handLensController, handLensSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Open To Shelter',
+      variant: 'support-biased',
+    });
+
+    const noteTabsSave = createNewSaveState('field-request-controller-open-to-shelter-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = completedForestRequests.slice();
+
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'coastal-scrub',
+      lastBiomeId: 'coastal-scrub',
+      sceneZoneId: 'back-dune',
+      scenePlayerX: 64,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(noteTabsController.selectedSupportId).toBe('note-tabs');
+    expect(getHandLensNotebookFitForEntry(noteTabsController, 'sand-verbena', 'back-dune')).toBeNull();
+
+    const noteTabsSelection = resolveInspectTargetSelection(
+      noteTabsController,
+      inspectCandidates,
+      { x: 64, y: 104 },
+      20,
+      () => 'back-dune',
+    );
+
+    expect(noteTabsSelection.nearestInspectableEntityId).toBe('near-beach-pea');
+    expect(noteTabsSelection.nearestInspectable?.entryId).toBe('beach-pea');
+    expect(noteTabsSelection.supportRetargetsInspect).toBe(false);
+    expect(noteTabsSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(noteTabsController, noteTabsSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '0/3 stages',
+      variant: 'support-biased',
+    });
+  });
+
+  it('retargets Moist Edge to the creek-bend edge carrier only for hand lens', () => {
+    const completedRouteRequests = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+      'tundra-short-season',
+      'tundra-survey-slice',
+      'scrub-edge-pattern',
+    ];
+    const inspectCandidates = [
+      {
+        entityId: 'near-fir-cone',
+        entryId: 'fir-cone',
+        x: 58,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+      {
+        entityId: 'far-salmonberry',
+        entryId: 'salmonberry',
+        x: 72,
+        y: 100,
+        w: 8,
+        h: 8,
+        removed: false,
+      },
+    ];
+
+    const handLensSave = createNewSaveState('field-request-controller-moist-edge-retarget');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = completedRouteRequests.slice();
+    handLensSave.worldStep = 6;
+    handLensSave.biomeVisits.forest = 2;
+
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'creek-bend',
+      scenePlayerX: 64,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(handLensController.activeFieldRequest).toMatchObject({
+      id: 'forest-cool-edge',
+      title: 'Moist Edge',
+    });
+    expect(getHandLensNotebookFitForEntry(handLensController, 'fir-cone', 'creek-bend')).toBeNull();
+    expect(getHandLensNotebookFitForEntry(handLensController, 'salmonberry', 'creek-bend')).toBe(
+      'Notebook fit: edge carrier',
+    );
+    expect(getInspectBubbleResourceNote(handLensController, 'salmonberry', 'creek-bend')).toBe(
+      'Notebook fit: edge carrier',
+    );
+    expect(prefersHandLensActiveEntry(handLensController, 'salmonberry', 'creek-bend')).toBe(false);
+
+    const handLensSelection = resolveInspectTargetSelection(
+      handLensController,
+      inspectCandidates,
+      { x: 64, y: 104 },
+      20,
+      () => 'creek-bend',
+    );
+
+    expect(handLensSelection.nearestInspectableEntityId).toBe('far-salmonberry');
+    expect(handLensSelection.nearestInspectable?.entryId).toBe('salmonberry');
+    expect(handLensSelection.supportRetargetsInspect).toBe(true);
+    expect(handLensSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(handLensController, handLensSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Moist Edge',
+      variant: 'support-biased',
+    });
+
+    const noteTabsSave = createNewSaveState('field-request-controller-moist-edge-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = completedRouteRequests.slice();
+    noteTabsSave.worldStep = 6;
+    noteTabsSave.biomeVisits.forest = 2;
+
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: 'creek-bend',
+      scenePlayerX: 64,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(noteTabsController.selectedSupportId).toBe('note-tabs');
+    expect(noteTabsController.activeFieldRequest).toMatchObject({
+      id: 'forest-cool-edge',
+      title: 'Moist Edge',
+      progressLabel: '0/3 clues',
+    });
+    expect(getHandLensNotebookFitForEntry(noteTabsController, 'salmonberry', 'creek-bend')).toBeNull();
+
+    const noteTabsSelection = resolveInspectTargetSelection(
+      noteTabsController,
+      inspectCandidates,
+      { x: 64, y: 104 },
+      20,
+      () => 'creek-bend',
+    );
+
+    expect(noteTabsSelection.nearestInspectableEntityId).toBe('near-fir-cone');
+    expect(noteTabsSelection.nearestInspectable?.entryId).toBe('fir-cone');
+    expect(noteTabsSelection.supportRetargetsInspect).toBe(false);
+    expect(noteTabsSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(noteTabsController, noteTabsSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '0/3 clues',
+      variant: 'support-biased',
+    });
+  });
+
   it('marks an ordinary Moisture Holders retarget as support-readable without treating it as an active-clue alternate', () => {
     const handLensSave = createNewSaveState('field-request-controller-moisture-holders-retarget');
     handLensSave.selectedOutingSupportId = 'hand-lens';
@@ -672,6 +1184,151 @@ describe('field request controller', () => {
       scenePlayerY: 120,
       hasFieldRequestNotice: false,
     });
+
+    expect(controller.selectedSupportId).toBe('note-tabs');
+    expect(getHandLensNotebookFitForEntry(controller, 'woolly-lousewort', 'thaw-skirt')).toBeNull();
+    expect(getInspectBubbleResourceNote(controller, 'woolly-lousewort', 'thaw-skirt', 'Nearby clue')).toBe(
+      'Nearby clue',
+    );
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-sedge',
+          entryId: 'bigelows-sedge',
+          x: 344,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lousewort',
+          entryId: 'woolly-lousewort',
+          x: 360,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 354, y: 125 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('near-sedge');
+    expect(selection.nearestInspectable?.entryId).toBe('bigelows-sedge');
+    expect(selection.supportRetargetsInspect).toBe(false);
+    expect(selection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '0/3 clues',
+      variant: 'support-biased',
+    });
+  });
+
+  it('uses a compact place-tab chip on active Route v2 without retargeting inspectables', () => {
+    const placeTabSave = createNewSaveState('field-request-controller-place-tab-chip');
+    placeTabSave.selectedOutingSupportId = 'place-tab';
+    placeTabSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    placeTabSave.worldStep = 4;
+    placeTabSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, placeTabSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 349,
+      scenePlayerY: 120,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(controller.selectedSupportId).toBe('place-tab');
+    expect(controller.handLensContext).toBeNull();
+    expect(getHandLensNotebookFitForEntry(controller, 'woolly-lousewort', 'thaw-skirt')).toBeNull();
+    expect(getInspectBubbleResourceNote(controller, 'woolly-lousewort', 'thaw-skirt')).toBeNull();
+
+    const selection = resolveInspectTargetSelection(
+      controller,
+      [
+        {
+          entityId: 'near-sedge',
+          entryId: 'bigelows-sedge',
+          x: 344,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+        {
+          entityId: 'far-lousewort',
+          entryId: 'woolly-lousewort',
+          x: 360,
+          y: 120,
+          w: 8,
+          h: 8,
+          removed: false,
+        },
+      ],
+      { x: 354, y: 125 },
+      22,
+      () => 'thaw-skirt',
+    );
+
+    expect(selection.nearestInspectableEntityId).toBe('near-sedge');
+    expect(selection.nearestInspectable?.entryId).toBe('bigelows-sedge');
+    expect(selection.supportRetargetsInspect).toBe(false);
+    expect(selection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(controller, selection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Place Question',
+      variant: 'support-biased',
+    });
+  });
+
+  it('keeps route-marker map-facing during active Route v2 without notebook-chip bias', () => {
+    const routeMarkerSave = createNewSaveState('field-request-controller-route-marker-chip');
+    routeMarkerSave.selectedOutingSupportId = 'route-marker';
+    routeMarkerSave.purchasedUpgradeIds.push('route-marker');
+    routeMarkerSave.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    routeMarkerSave.worldStep = 4;
+    routeMarkerSave.biomeVisits.tundra = 2;
+
+    const controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, routeMarkerSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'tundra',
+      lastBiomeId: 'tundra',
+      sceneZoneId: 'thaw-skirt',
+      scenePlayerX: 349,
+      scenePlayerY: 120,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(controller.selectedSupportId).toBe('route-marker');
+    expect(controller.handLensContext).toBeNull();
+    expect(getHandLensNotebookFitForEntry(controller, 'woolly-lousewort', 'thaw-skirt')).toBeNull();
+    expect(getInspectBubbleResourceNote(controller, 'woolly-lousewort', 'thaw-skirt', 'Nearby clue')).toBe(
+      'Nearby clue',
+    );
 
     const selection = resolveInspectTargetSelection(
       controller,
