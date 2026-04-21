@@ -123,6 +123,12 @@ export function drawInteractMarker(
   const width = 9;
   const x = Math.max(minX, Math.min(Math.round(centerX - width / 2), maxX - width));
 
+  context.fillStyle = '#395f56';
+  context.fillRect(x + 2, topY, 5, 1);
+  context.fillRect(x + 1, topY + 2, 7, 1);
+  context.fillRect(x, topY + 4, 9, 1);
+  context.fillRect(x + 3, topY + 6, 3, 3);
+
   context.fillStyle = '#c98a4f';
   context.fillRect(x + 3, topY, 3, 2);
   context.fillRect(x + 2, topY + 2, 5, 2);

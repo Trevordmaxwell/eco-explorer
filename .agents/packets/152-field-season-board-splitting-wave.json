@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-152",
-  "version": 4,
+  "version": 11,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -11,7 +11,13 @@
     "docs/reports/2026-04-20-overlay-render-notice-review.md",
     "docs/reports/2026-04-20-field-season-board-outing-locator-handoff.md",
     "docs/reports/2026-04-20-field-season-board-outing-locator-implementation.md",
-    "docs/reports/2026-04-20-field-season-board-outing-locator-review.md"
+    "docs/reports/2026-04-20-field-season-board-outing-locator-review.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-handoff.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-implementation.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-review.md",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-handoff.md",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-414",
@@ -118,11 +124,18 @@
     "docs/reports/2026-04-20-field-season-board-outing-locator-handoff.md",
     "docs/reports/2026-04-20-field-season-board-outing-locator-implementation.md",
     "docs/reports/2026-04-20-field-season-board-outing-locator-review.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-handoff.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-implementation.md",
+    "docs/reports/2026-04-20-field-season-board-route-state-review.md",
     "src/engine/field-season-board.ts",
     "src/engine/field-season-outing-locator.ts",
     "src/engine/field-request-state.ts",
+    "src/test/field-requests.test.ts",
     "src/test/field-season-board.test.ts",
-    "src/test/save-snapshots.test.ts"
+    "src/test/save-snapshots.test.ts",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-handoff.md",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md",
+    "docs/reports/2026-04-20-field-season-board-placement-proof-review.md"
   ],
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
@@ -280,5 +293,162 @@
       "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|season-close|route-marker\"",
       "Passed: npm run build"
     ]
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-416",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-placement-proof-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 1 already extracted the active outing locator family into src/engine/field-season-outing-locator.ts and reviewed the split as behavior-preserving.",
+      "Lane 4 already added route-state alignment coverage after the split.",
+      "Lane 3 should stay visual-proof-only for this packet unless station board placement screenshots expose a real regression."
+    ],
+    "main_scope": [
+      "Capture current browser screenshots under ignored output/lane-3-main-416-board-placement-proof/.",
+      "Use window.get_debug_save_snapshots() to stage existing station board save states instead of hand-authoring saves.",
+      "Capture season-close-return, high-pass-ready-to-file, and high-pass-filed station route-board states with matching render_game_to_text JSON.",
+      "Add docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md summarizing whether the split caused any visual placement delta."
+    ],
+    "non_goals": [
+      "No changes to src/engine/field-season-board.ts, src/engine/field-season-outing-locator.ts, route definitions, save schema, station pages, authored copy, rendering, biome geometry, broad smoke coverage, route copy, or new screenshot framework unless visual proof exposes a real defect."
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|season-close|route-marker\""
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|season-close|route-marker\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-416",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md",
+    "changed_files": [
+      "docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md"
+    ],
+    "browser_artifacts": [
+      "output/lane-3-main-416-board-placement-proof/season-close-return-station.png",
+      "output/lane-3-main-416-board-placement-proof/season-close-return-station-state.json",
+      "output/lane-3-main-416-board-placement-proof/high-pass-ready-to-file-station.png",
+      "output/lane-3-main-416-board-placement-proof/high-pass-ready-to-file-station-state.json",
+      "output/lane-3-main-416-board-placement-proof/high-pass-filed-station.png",
+      "output/lane-3-main-416-board-placement-proof/high-pass-filed-station-state.json",
+      "output/lane-3-main-416-board-placement-proof/errors.json"
+    ],
+    "result": [
+      "Captured the required season-close-return, high-pass-ready-to-file, and high-pass-filed station route-board screenshots from existing debug save snapshots.",
+      "Saved matching render_game_to_text JSON beside each screenshot and confirmed the browser error artifact is empty.",
+      "Found no station board placement regression from the active outing locator split; no production source changes were needed."
+    ],
+    "scope_notes": [
+      "No field-season-board.ts, field-season-outing-locator.ts, route definition, save schema, station page, authored copy, rendering, biome geometry, or screenshot framework changes."
+    ],
+    "verification": [
+      "Passed: web-game client smoke against http://127.0.0.1:4174 with output/lane-3-main-416-board-placement-proof/client-basic/shot-0.png and state-0.json",
+      "Captured and visually inspected season-close-return, high-pass-ready-to-file, and high-pass-filed station screenshots",
+      "Passed: jq length output/lane-3-main-416-board-placement-proof/errors.json => 0",
+      "Passed: npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|season-close|route-marker\"",
+      "Passed: npm run validate:agents with known work-queue-size warning",
+      "Passed: jq empty .agents/packets/152-field-season-board-splitting-wave.json",
+      "Passed: git diff --check"
+    ],
+    "lane_3_status": "promote ECO-20260420-critic-416"
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-416",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-placement-proof-review.md",
+    "verdict": "clean",
+    "finding": [
+      "The lane-3 implementation stayed visual-proof-only and used existing debug save snapshots.",
+      "The season-close-return, high-pass-ready-to-file, and high-pass-filed station screenshots match their render_game_to_text states and show no new station board placement regression.",
+      "No production source, geometry, station page, route, save, copy, rendering, or science-content drift occurred."
+    ],
+    "verification": [
+      "Reviewed output/lane-3-main-416-board-placement-proof/ screenshots and matching JSON",
+      "Reviewed empty output/lane-3-main-416-board-placement-proof/errors.json",
+      "Reviewed passed focused field-season-board and save-snapshot tests from ECO-20260420-main-416",
+      "Reviewed npm run validate:agents result with known work-queue-size warning",
+      "Passed: jq empty .agents/packets/152-field-season-board-splitting-wave.json",
+      "Passed: git diff --check"
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-420"
+  },
+  "lane_4_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-417",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-route-state-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "The lane-1 extraction is complete and reviewed: field-season-board.ts keeps a compatibility re-export while field-request-state.ts imports resolveSeasonOutingLocator directly from field-season-outing-locator.ts.",
+      "Existing coverage protects the individual High Pass active, ready-to-file, filed, route-marker, and replay paths, but lane 4 should add one route-owned regression that compares request-state and board-state outputs together after the split.",
+      "The main pass should stay test-only unless the new regression exposes a real state mismatch."
+    ],
+    "main_scope": [
+      "Extend src/test/field-requests.test.ts with a focused board-split route-state regression.",
+      "Assert active High Pass with selected route-marker still exposes active request, active outing, journal request, treeline marker, and Today: High Pass.",
+      "Assert ready-to-file High Pass keeps journal filing state while active outing, route marker, and replay label stay suppressed.",
+      "Assert filed High Pass suppresses active request, active outing, journal request, route marker, and replay label while the board remains filed.",
+      "Assert one replay window derives routeReplayLabel from routeBoard.replayNote for the focused target before falling back to active outing copy."
+    ],
+    "non_goals": [
+      "No changes to field-season-board.ts, field-season-outing-locator.ts, route definitions, save schema, station pages, authored copy, geometry, rendering, framework code, or broad smoke coverage unless the focused regression finds a real defect.",
+      "No High Pass canonical filing identity, replay-title, support, or map-marker behavior changes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route-marker and replay state aligned|board split\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_4_status": "promote ECO-20260420-main-417"
+  },
+  "lane_4_main_result": {
+    "completed_by": "ECO-20260420-main-417",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-route-state-implementation.md",
+    "changed_files": [
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-field-season-board-route-state-implementation.md"
+    ],
+    "result": [
+      "Extended the route-owned field-request state regression so it compares resolveFieldRequestState output with resolveFieldSeasonBoardState output after the active outing locator split.",
+      "Added a board-only beach replay assertion proving routeReplayLabel follows routeBoard.replayNote for the focused target before falling back to active outing copy.",
+      "Covered active High Pass with route-marker selected, ready-to-file High Pass, calm season-close locator fallback, and filed High Pass suppression against board state."
+    ],
+    "scope_notes": [
+      "Test-only for runtime behavior.",
+      "No field-season-board.ts, field-season-outing-locator.ts, route definition, save schema, station page, authored copy, geometry, rendering, framework, support behavior, or canonical High Pass filing identity changes."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/field-requests.test.ts -t \"board split|High Pass dormant|Rimed Pass\"",
+      "Passed: npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "Passed: npm run build"
+    ],
+    "lane_4_status": "promote ECO-20260420-critic-417"
+  },
+  "lane_4_critic_result": {
+    "completed_by": "ECO-20260420-critic-417",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-field-season-board-route-state-review.md",
+    "verdict": "clean",
+    "finding": [
+      "The implementation stayed test-only for runtime behavior, with no lane-4 changes to board, locator, request-state, route-definition, save, station, authored-copy, geometry, rendering, support, or canonical High Pass identity code.",
+      "The board-only beach replay case proves routeReplayLabel follows routeBoard.replayNote for the focused target before active outing fallback.",
+      "Active High Pass, ready-to-file High Pass, season-close locator fallback, and filed High Pass suppression remain aligned with board state."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/field-requests.test.ts -t \"board split|High Pass dormant|Rimed Pass\"",
+      "Passed: npm test -- --run src/test/field-season-board.test.ts -t \"High Pass chapter helper|keeps High Pass filed|rime-shelter replay\"",
+      "Passed: npm run build"
+    ],
+    "lane_4_status": "clear; promote ECO-20260420-scout-421"
   }
 }

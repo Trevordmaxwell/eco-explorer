@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-153",
-  "version": 4,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -11,7 +11,13 @@
     "docs/reports/2026-04-20-field-season-board-outing-locator-review.md",
     "docs/reports/2026-04-20-save-normalization-hardening-handoff.md",
     "docs/reports/2026-04-20-save-normalization-hardening-implementation.md",
-    "docs/reports/2026-04-20-save-normalization-hardening-review.md"
+    "docs/reports/2026-04-20-save-normalization-hardening-review.md",
+    "docs/reports/2026-04-20-route-save-migration-handoff.md",
+    "docs/reports/2026-04-20-route-save-migration-implementation.md",
+    "docs/reports/2026-04-20-route-save-migration-review.md",
+    "docs/reports/2026-04-20-spatial-save-id-stability-handoff.md",
+    "docs/reports/2026-04-20-spatial-save-id-stability-implementation.md",
+    "docs/reports/2026-04-20-spatial-save-id-stability-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-418",
@@ -119,9 +125,16 @@
     "docs/reports/2026-04-20-save-normalization-hardening-handoff.md",
     "docs/reports/2026-04-20-save-normalization-hardening-implementation.md",
     "docs/reports/2026-04-20-save-normalization-hardening-review.md",
+    "docs/reports/2026-04-20-route-save-migration-handoff.md",
+    "docs/reports/2026-04-20-route-save-migration-implementation.md",
+    "docs/reports/2026-04-20-route-save-migration-review.md",
     "src/engine/save.ts",
     "src/test/save.test.ts",
-    "src/test/save-snapshots.test.ts"
+    "src/test/save-snapshots.test.ts",
+    "src/test/field-requests.test.ts",
+    "docs/reports/2026-04-20-spatial-save-id-stability-handoff.md",
+    "docs/reports/2026-04-20-spatial-save-id-stability-implementation.md",
+    "docs/reports/2026-04-20-spatial-save-id-stability-review.md"
   ],
   "lane_1_scout_refinement": {
     "queue_id": "ECO-20260420-scout-418",
@@ -190,6 +203,149 @@
     ],
     "promote_next": "ECO-20260420-scout-422",
     "review_report": "docs/reports/2026-04-20-save-normalization-hardening-review.md"
+  },
+  "lane_4_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-421",
+    "status": "complete",
+    "result": "Narrowed lane 4 to route-facing runtime regressions for normalized mixed High Pass saves, without adding a new migration layer.",
+    "main_scope": [
+      "Add focused src/test/field-requests.test.ts coverage for a malformed persisted High Pass ready save after normalizeSaveState().",
+      "Prove seasonCloseReturnPending keeps the normalized ready High Pass progress in the dormant locator state until the calm close beat clears.",
+      "Prove clearing seasonCloseReturnPending turns the same normalized save into the ready-to-file High Pass note while suppressing active outing, route marker, and replay labels.",
+      "Prove stale High Pass progress cannot rehydrate active route, outing, journal, marker, or replay state after treeline-high-pass is already completed."
+    ],
+    "out_of_scope": [
+      "save schema version bumps",
+      "normalizeRouteV2Progress behavior changes unless the test exposes a real bug",
+      "High Pass route-definition, station page, map, support-choice, copy, or geometry changes",
+      "new route history, replay, planner, or migration systems"
+    ],
+    "baseline_checks": [
+      "npm test -- --run src/test/save.test.ts -t \"Route v2 progress|Low Fell|Root Hollow|outing support\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"High Pass|legacy notebook-ready Root Hollow\""
+    ],
+    "handoff_report": "docs/reports/2026-04-20-route-save-migration-handoff.md",
+    "promote_next": "ECO-20260420-main-421"
+  },
+  "lane_4_main_result": {
+    "queue_id": "ECO-20260420-main-421",
+    "status": "implemented",
+    "result": "Added test-only route-facing regression coverage for normalized mixed old High Pass saves.",
+    "changed_files": [
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-route-save-migration-implementation.md"
+    ],
+    "behavior_notes": [
+      "Malformed persisted High Pass ready saves are normalized before route-state assertions.",
+      "seasonCloseReturnPending keeps ready High Pass progress in the dormant locator state until the calm close beat clears.",
+      "Clearing the close flag turns the same save into ready-to-file High Pass while suppressing active outing, route marker, and replay labels.",
+      "Filed High Pass wins over stale ready progress and selected route-marker support, so active request, outing, journal, marker, and replay state stay suppressed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"mixed old High Pass|High Pass|legacy notebook-ready Root Hollow\"",
+      "npm test -- --run src/test/save.test.ts -t \"Route v2 progress|Low Fell|Root Hollow|outing support\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "critic_focus": [
+      "Confirm the implementation is test-only and did not change save normalization, route definitions, support behavior, station, map, copy, or geometry.",
+      "Confirm dormant, ready-to-file, and filed High Pass phase expectations match the current helper contract.",
+      "Confirm stale routeV2Progress is asserted as harmless after High Pass is filed rather than silently migrated away."
+    ],
+    "handoff_report": "docs/reports/2026-04-20-route-save-migration-implementation.md",
+    "promote_next": "ECO-20260420-critic-421"
+  },
+  "lane_4_critic_result": {
+    "queue_id": "ECO-20260420-critic-421",
+    "status": "clear",
+    "result": "No blocker found; lane-4 old-save regression coverage is test-only and scoped.",
+    "verification": [
+      "npm test -- --run src/test/save.test.ts -t \"Route v2 progress|Low Fell|Root Hollow|outing support\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"mixed old High Pass|High Pass|legacy notebook-ready Root Hollow\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "notes": [
+      "The implementation changed lane-4 route-state tests, not save normalization or runtime route helpers.",
+      "Dormant, ready-to-file, and filed High Pass phase contracts are explicitly covered for normalized mixed old saves.",
+      "Stale treeline-high-pass routeV2Progress after completion is asserted as harmless runtime state rather than silently migrated away.",
+      "Parallel dirty lane-3 files are present in the shared tree and are unrelated to this lane-4 review."
+    ],
+    "promote_next": "ECO-20260420-scout-425",
+    "review_report": "docs/reports/2026-04-20-route-save-migration-review.md"
+  },
+  "lane_3_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-420",
+    "status": "complete",
+    "result": "Narrowed lane 3 to a test-only saved spatial entry-id stability guard for debug snapshots.",
+    "main_scope": [
+      "Add a focused src/test/save-snapshots.test.ts regression that builds all debug snapshots and collects save-backed entry ids from discoveredEntries, sketchbook slots, routeV2Progress.landmarkEntryIds, and routeV2Progress.evidenceSlots.",
+      "Assert every collected entry id exists in the live biomeRegistry entry maps.",
+      "Assert discovered entry biomeIds still point to live biomes that contain that entry id, preserving shared-species sighting locality."
+    ],
+    "out_of_scope": [
+      "src/engine/save.ts changes",
+      "save schema version or SAVE_STORAGE_KEY changes",
+      "route definitions, High Pass phase behavior, station, map, copy, facts, geometry, rendering, or migration behavior changes unless the focused guard exposes a real broken reference",
+      "browser proof unless the test exposes a real spatial/content drift"
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"debug save snapshots|High Pass|route-marker\"",
+      "Passed: npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave\""
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"spatial entry ids|debug save snapshots|High Pass|route-marker\"",
+      "npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-save-id-stability-handoff.md",
+    "promote_next": "ECO-20260420-main-420"
+  },
+  "lane_3_main_result": {
+    "queue_id": "ECO-20260420-main-420",
+    "status": "implemented",
+    "result": "Added a test-only debug snapshot guard for saved spatial entry-id stability.",
+    "changed_files": [
+      "src/test/save-snapshots.test.ts",
+      "docs/reports/2026-04-20-spatial-save-id-stability-implementation.md"
+    ],
+    "behavior_notes": [
+      "The new save-snapshot regression collects save-backed entry ids from discoveredEntries, sketchbook slots, routeV2Progress.landmarkEntryIds, and routeV2Progress.evidenceSlots.",
+      "Every collected entry id must exist in the live biomeRegistry entry maps.",
+      "Discovered entry biomeIds must still point to live biomes that contain that entry id."
+    ],
+    "scope_notes": [
+      "Test-only for snapshot and content integrity.",
+      "No save normalization, save schema, migration, route definition, High Pass phase, station, map, copy, fact, geometry, rendering, or browser-proof changes."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"spatial entry ids|debug save snapshots|High Pass|route-marker\"",
+      "Passed: npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave\""
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-save-id-stability-implementation.md",
+    "promote_next": "ECO-20260420-critic-420"
+  },
+  "lane_3_critic_result": {
+    "queue_id": "ECO-20260420-critic-420",
+    "status": "clear",
+    "result": "No blocker found; the saved spatial entry-id guard is test-only, scoped, and verified.",
+    "verification": [
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"spatial entry ids|debug save snapshots|High Pass|route-marker\"",
+      "Passed: npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave\"",
+      "Passed: npm run validate:agents",
+      "Passed: jq empty .agents/packets/153-save-schema-and-migration-hardening.json",
+      "Passed: git diff --check"
+    ],
+    "notes": [
+      "The guard covers discovered-entry keys, discovered entryId values, sketchbook slots, route landmark ids, and route evidence-slot ids.",
+      "Discovered entry biomeIds are checked against the specific live biome entry maps, protecting shared-entry sighting locality.",
+      "No save normalization, schema, migration, route, station, map, copy, fact, geometry, rendering, browser-proof, or player-facing behavior changed."
+    ],
+    "promote_next": "ECO-20260420-scout-424",
+    "review_report": "docs/reports/2026-04-20-spatial-save-id-stability-review.md"
   },
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",

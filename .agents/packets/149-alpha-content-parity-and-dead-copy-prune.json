@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-149",
-  "version": 7,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -277,6 +277,71 @@
       "git diff --check"
     ],
     "lane_1_status": "clear; promote ECO-20260420-scout-406"
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-404",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-contact-sheet-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "docs/alpha-screenshot-proof-manifest.md already owns the lane-3 screenshot-proof surface with stable frame ids, ignored fresh capture targets, state fields, pass criteria, and non-goals.",
+      "The remaining packet-149 lane-3 gap is a top-level contact-sheet parity index so reviewers can quickly see the current five-biome alpha representative set without inferring it from the longer tables.",
+      "No new browser automation, generated screenshot commit, runtime code, geometry, route-state assertion, or content-copy edit is needed for this pass."
+    ],
+    "main_scope": [
+      "Update docs/alpha-screenshot-proof-manifest.md with a compact Representative Five-Biome Contact Sheet section near the top.",
+      "Name beach/coast, coastal scrub, forest/Root Hollow, treeline/High Pass, and tundra relief rows and point each row at existing detailed frame ids.",
+      "State that the section is a recapture recipe for the completed alpha arc, not a promise of more biomes, committed screenshots, route-state proof, or new content.",
+      "Preserve the existing detailed frame tables, state-field checklist, quick path check, and non-goals."
+    ],
+    "non_goals": [
+      "No runtime code, biome geometry, route behavior, station/menu behavior, save schema, authored science facts, journal/notebook copy, package scripts, screenshot automation, tests, generated output commits, lane-1 command docs, lane-2 content-copy surfaces, or lane-4 route/support wording."
+    ],
+    "verification": [
+      "rg -n \"Representative Five-Biome Contact Sheet|beach|coastal scrub|forest|treeline|tundra|output/alpha-screenshot-proof\" docs/alpha-screenshot-proof-manifest.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-404",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-contact-sheet-implementation.md",
+    "changed_files": [
+      "docs/alpha-screenshot-proof-manifest.md",
+      "docs/reports/2026-04-20-alpha-contact-sheet-implementation.md"
+    ],
+    "result": [
+      "Added a compact Representative Five-Biome Contact Sheet section near the top of the alpha screenshot proof manifest.",
+      "Mapped beach/coast, coastal scrub, forest/Root Hollow, treeline/High Pass, and tundra relief contact-sheet rows to the existing detailed frame ids and ignored fresh capture stems.",
+      "Clarified that the contact sheet is a recapture recipe for the completed alpha arc, not a promise of new biomes, committed screenshots, route-state assertions, or new content."
+    ],
+    "scope_notes": [
+      "No runtime code, biome geometry, route behavior, station/menu behavior, save schema, authored science facts, notebook/journal copy, package scripts, screenshot automation, tests, generated output, or lane-1/lane-2/lane-4 docs changed."
+    ],
+    "verification": [
+      "rg -n \"Representative Five-Biome Contact Sheet|beach|coastal scrub|forest|treeline|tundra|output/alpha-screenshot-proof\" docs/alpha-screenshot-proof-manifest.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-404",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-alpha-contact-sheet-review.md",
+    "verdict": "clean",
+    "scope_notes": [
+      "Confirmed the Representative Five-Biome Contact Sheet covers beach/coast, coastal scrub, forest/Root Hollow, treeline/High Pass, and tundra relief.",
+      "Confirmed every contact-sheet row points to existing detailed frame ids and ignored output/alpha-screenshot-proof fresh capture stems.",
+      "Confirmed the new section is framed as a recapture recipe, not a promise of new biomes, committed screenshot assets, route-state assertions, or new content.",
+      "Confirmed no runtime, geometry, route, station/menu, save, science-copy, journal/notebook, package-script, screenshot-automation, test, generated-output, or other-lane docs drift was introduced."
+    ],
+    "verification": [
+      "rg -n \"Representative Five-Biome Contact Sheet|beach|coastal scrub|forest|treeline|tundra|output/alpha-screenshot-proof\" docs/alpha-screenshot-proof-manifest.md",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-408"
   },
   "lane_4_scout_refinement": {
     "completed_by": "ECO-20260420-scout-405",

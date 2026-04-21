@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-134",
-  "version": 11,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Station homecoming evolution pass",
   "summary": "Make return-to-station feel more earned through calm visible changes instead of a larger dashboard or copy stack.",
   "source_reports": [
@@ -15,6 +15,8 @@
     "docs/reports/2026-04-20-station-homecoming-lane-1-handoff.md",
     "docs/reports/2026-04-20-station-homecoming-lane-1-implementation.md",
     "docs/reports/2026-04-20-station-homecoming-lane-1-review.md",
+    "docs/reports/2026-04-20-station-homecoming-visual-accent-implementation.md",
+    "docs/reports/2026-04-20-station-homecoming-visual-accent-review.md",
     "docs/reports/2026-04-20-station-homecoming-route-notice-implementation.md",
     "docs/reports/2026-04-20-station-homecoming-route-notice-review.md"
   ],
@@ -242,6 +244,30 @@
           "`npm run validate:agents`",
           "`git diff --check`"
         ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-visual-accent-review.md",
+        "verdict": "no blocker",
+        "confirmed": [
+          "hasHomecomingFrameAccent is derived from the reviewed station-owned homecomingMilestoneRequestId seam and exposed through fieldStation.backdropAccent",
+          "visible treatment stays to two tiny upper-frame cap beads without lower-sill growth, side-gutter bulk, another full-width lintel, panel, or text",
+          "growth accent state still ignores homecomingMilestoneRequestId",
+          "archived High Pass keeps its existing late-season lintel while homecoming only adds cap memory",
+          "focused runtime and browser proof confirm the representative homecoming return exposes the cap without lighting right brace, center tie, or late-season lintel"
+        ],
+        "watch_item": "If playtesting says the cap is too subtle, tune contrast or placement inside this same cap seam instead of adding more lower sill, side gutter, lintel, copy, or panels.",
+        "unblocks": [
+          "ECO-20260420-scout-348"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/overlay-copy.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"homecoming copy state\"`",
+          "`npm run build`",
+          "`$WEB_GAME_CLIENT` smoke under `output/lane-3-main-344-client/`",
+          "seeded browser proof under `output/lane-3-main-344-browser/`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
       }
     },
     "lane-2": {
@@ -361,7 +387,30 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "main_result": {
+        "source": "docs/reports/2026-04-20-station-homecoming-visual-accent-implementation.md",
+        "implemented_files": [
+          "src/engine/field-station-homecoming-shell.ts",
+          "src/test/overlay-copy.test.ts",
+          "src/test/runtime-smoke.test.ts"
+        ],
+        "summary": "Added one tiny upper-frame homecoming memory cap driven by lane 1's reviewed fieldStation.homecoming / homecomingMilestoneRequestId seam, exposed as hasHomecomingFrameAccent in the existing backdropAccent debug state.",
+        "guardrails_kept": [
+          "no route, station, save, copy, support-notice, science, journal, panel, or station-page state added",
+          "no lower-sill growth, side-gutter bulk, or second full lintel",
+          "archived High Pass keeps its existing lintel while homecoming only adds frame-cap beads"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/overlay-copy.test.ts`",
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"homecoming copy state\"`",
+          "`npm run build`",
+          "`$WEB_GAME_CLIENT` smoke under `output/lane-3-main-344-client/`",
+          "seeded browser proof under `output/lane-3-main-344-browser/`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

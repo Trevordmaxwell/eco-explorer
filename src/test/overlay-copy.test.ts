@@ -146,6 +146,7 @@ describe('first-session overlay copy', () => {
       hasLeftBrace: false,
       hasRightBrace: false,
       hasCenterTie: false,
+      hasHomecomingFrameAccent: false,
       hasLateSeasonLintel: false,
     });
 
@@ -164,6 +165,7 @@ describe('first-session overlay copy', () => {
       hasLeftBrace: true,
       hasRightBrace: false,
       hasCenterTie: false,
+      hasHomecomingFrameAccent: false,
       hasLateSeasonLintel: false,
     });
 
@@ -185,6 +187,7 @@ describe('first-session overlay copy', () => {
       hasLogPile: true,
       hasPollinatorPatch: true,
       hasCompostUpgrade: true,
+      hasHomecomingFrameAccent: false,
       hasLateSeasonLintel: false,
     });
 
@@ -202,6 +205,7 @@ describe('first-session overlay copy', () => {
       hasLeftBrace: true,
       hasRightBrace: true,
       hasCenterTie: true,
+      hasHomecomingFrameAccent: false,
       hasLateSeasonLintel: true,
     });
   });
@@ -220,6 +224,7 @@ describe('first-session overlay copy', () => {
       renderRightBrace: false,
       renderCenterTie: false,
       renderLateSeasonLintel: false,
+      renderHomecomingFrameAccent: false,
     });
 
     expect(resolveFieldStationBackdropPulseState(noAccent, 'homecoming', 1)).toMatchObject({
@@ -227,6 +232,7 @@ describe('first-session overlay copy', () => {
       renderRightBrace: true,
       renderCenterTie: true,
       renderLateSeasonLintel: false,
+      renderHomecomingFrameAccent: false,
     });
 
     const archivedReturn = resolveFieldStationBackdropAccentState({
@@ -243,10 +249,11 @@ describe('first-session overlay copy', () => {
       renderRightBrace: true,
       renderCenterTie: true,
       renderLateSeasonLintel: true,
+      renderHomecomingFrameAccent: false,
     });
   });
 
-  it('exposes homecoming memory as a non-drawing backdrop seam for later accent work', () => {
+  it('keeps homecoming memory as a tiny upper-frame accent without growing sill or braces', () => {
     const accent = resolveFieldStationBackdropAccentState({
       teachingBedStage: null,
       hasLogPile: false,
@@ -257,13 +264,37 @@ describe('first-session overlay copy', () => {
     });
 
     expect(accent).toMatchObject({
-      showAccent: false,
+      showAccent: true,
       homecomingMilestoneRequestId: 'coastal-edge-moisture',
       hasHomecomingMemory: true,
+      hasHomecomingFrameAccent: true,
       hasLeftBrace: false,
       hasRightBrace: false,
       hasCenterTie: false,
       hasLateSeasonLintel: false,
+    });
+
+    expect(resolveFieldStationBackdropPulseState(accent, 'default', 0)).toMatchObject({
+      renderLeftBrace: false,
+      renderRightBrace: false,
+      renderCenterTie: false,
+      renderLateSeasonLintel: false,
+      renderHomecomingFrameAccent: true,
+    });
+
+    expect(resolveFieldStationGrowthAccentState({
+      teachingBedStage: null,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+      compostRate: 1,
+      loggedRouteCount: 0,
+      homecomingMilestoneRequestId: 'coastal-edge-moisture',
+    })).toMatchObject({
+      showAccent: false,
+      planterWidth: 0,
+      hasLeftRouteAccent: false,
+      hasRightRouteAccent: false,
+      hasConnectedThreshold: false,
     });
 
     expect(
@@ -277,6 +308,39 @@ describe('first-session overlay copy', () => {
     ).toMatchObject({
       homecomingMilestoneRequestId: null,
       hasHomecomingMemory: false,
+      hasHomecomingFrameAccent: false,
+    });
+  });
+
+  it('lets archived High Pass keep its lintel while homecoming adds only frame-cap memory', () => {
+    const accent = resolveFieldStationBackdropAccentState({
+      teachingBedStage: null,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+      compostRate: 1,
+      loggedRouteCount: 3,
+      hasLateSeasonArchive: true,
+      homecomingMilestoneRequestId: 'treeline-high-pass',
+    });
+
+    expect(accent).toMatchObject({
+      showAccent: true,
+      loggedRouteCount: 3,
+      homecomingMilestoneRequestId: 'treeline-high-pass',
+      hasHomecomingMemory: true,
+      hasHomecomingFrameAccent: true,
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLateSeasonLintel: true,
+    });
+
+    expect(resolveFieldStationBackdropPulseState(accent, 'homecoming', 1)).toMatchObject({
+      renderLeftBrace: true,
+      renderRightBrace: true,
+      renderCenterTie: true,
+      renderLateSeasonLintel: true,
+      renderHomecomingFrameAccent: true,
     });
   });
 });

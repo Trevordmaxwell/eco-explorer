@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-151",
-  "version": 7,
+  "version": 11,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "DONE",
@@ -14,7 +14,10 @@
     "docs/reports/2026-04-20-overlay-render-notice-review.md",
     "docs/reports/2026-04-20-overlay-render-route-notice-handoff.md",
     "docs/reports/2026-04-20-overlay-render-route-notice-implementation.md",
-    "docs/reports/2026-04-20-overlay-render-route-notice-review.md"
+    "docs/reports/2026-04-20-overlay-render-route-notice-review.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-handoff.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-410",
@@ -129,7 +132,10 @@
     "src/test/runtime-smoke.test.ts",
     "docs/reports/2026-04-20-overlay-render-route-notice-handoff.md",
     "docs/reports/2026-04-20-overlay-render-route-notice-implementation.md",
-    "docs/reports/2026-04-20-overlay-render-route-notice-review.md"
+    "docs/reports/2026-04-20-overlay-render-route-notice-review.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-handoff.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md",
+    "docs/reports/2026-04-20-overlay-notice-visual-proof-review.md"
   ],
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
@@ -288,6 +294,84 @@
       "git diff --check"
     ],
     "lane_1_status": "clear; promote ECO-20260420-scout-414"
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-412",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-overlay-notice-visual-proof-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 1 already moved the field-guide, field-request, hint-chip, and field-partner notice renderers into src/engine/field-notice-overlays.ts and reviewed the move as behavior-preserving.",
+      "Lane 4 has already hardened the route-notice priority path in runtime smoke, so lane 3 should not change route state, support behavior, or notice policy for this packet.",
+      "The remaining lane-3 value is visual proof: capture current after-extraction notice-family screenshots and mark expected visual deltas as none unless a real readability regression appears."
+    ],
+    "main_scope": [
+      "Capture current after-extraction browser screenshots under ignored output/lane-3-main-412-overlay-proof/.",
+      "Include at least two representative notice-family states: guided field-season or field-request notice in play/world-map context, plus the calm in-biome field-partner strip when browser-reachable without broad setup.",
+      "Save matching render_game_to_text JSON or text artifacts beside the screenshots when possible.",
+      "Add docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md summarizing captures and visual-delta status."
+    ],
+    "non_goals": [
+      "No changes to src/engine/field-notice-overlays.ts, src/engine/overlay-render.ts, src/engine/game.ts, notice copy, dimensions, y positions, badge pixels, pulse timing, hint-chip placement, partner-strip placement, palette, route/support behavior, station state, save schema, authored content, biome geometry, screenshot framework, or broad runtime-smoke scenario unless a real visual regression is found."
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/overlay-copy.test.ts src/test/field-notices.test.ts",
+      "Passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|field-request notice timers|field-partner strip\""
+    ],
+    "verification": [
+      "npm test -- --run src/test/overlay-copy.test.ts src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|field-request notice timers|field-partner strip\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-412",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md",
+    "changed_files": [
+      "docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md"
+    ],
+    "output_artifacts": [
+      "output/lane-3-main-412-overlay-proof/guided-field-request-notice.png",
+      "output/lane-3-main-412-overlay-proof/guided-field-request-notice-state.json",
+      "output/lane-3-main-412-overlay-proof/field-partner-strip.png",
+      "output/lane-3-main-412-overlay-proof/field-partner-strip-state.json",
+      "output/lane-3-main-412-overlay-proof/errors.json",
+      "output/lane-3-main-412-overlay-proof/client-basic/"
+    ],
+    "result": [
+      "Captured after-extraction browser proof for the guided field-request notice and the calm field-partner strip at the raw handheld canvas.",
+      "Confirmed the custom capture pass had an empty console/page-error list.",
+      "Marked expected visual deltas from the extraction as none."
+    ],
+    "scope_notes": [
+      "No runtime source, copy, layout, route, station, save, authored content, or biome geometry files changed."
+    ],
+    "verification": [
+      "node /Users/trevormaxwell/.codex/skills/develop-web-game/scripts/web_game_playwright_client.js --url http://127.0.0.1:4174 --screenshot-dir output/lane-3-main-412-overlay-proof/client-basic --actions-json '{\"steps\":[{\"buttons\":[\"enter\"],\"frames\":8},{\"buttons\":[],\"frames\":30}]}' --iterations 2 --pause-ms 250",
+      "npm test -- --run src/test/overlay-copy.test.ts src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|field-request notice timers|field-partner strip\""
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-412",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-overlay-notice-visual-proof-review.md",
+    "verdict": "no blocker",
+    "checks": [
+      "Confirmed the guided field-request notice screenshot and state match a beach play state with fieldRequestNotice.variant default.",
+      "Confirmed the field-partner strip screenshot and state match a coastal-scrub play state with fieldPartner.active.cueId scrub-back-dune-timing and fieldRequestNotice null.",
+      "Confirmed the custom browser capture errors artifact is empty.",
+      "Confirmed the lane-3 pass stayed output/report-only with no source, copy, layout, route/support, station, save, content, or geometry drift."
+    ],
+    "verification": [
+      "npm test -- --run src/test/overlay-copy.test.ts src/test/field-notices.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"field-season guidance|field-request notice timers|field-partner strip\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-416"
   },
   "lane_4_scout_refinement": {
     "completed_by": "ECO-20260420-scout-413",

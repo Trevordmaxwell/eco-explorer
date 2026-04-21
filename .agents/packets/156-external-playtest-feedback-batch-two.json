@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-156",
-  "version": 4,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -10,7 +10,13 @@
     "docs/reports/2026-04-20-alpha-runway-megapush.md",
     "docs/reports/2026-04-20-runtime-smoke-navigation-proof-handoff.md",
     "docs/reports/2026-04-20-runtime-smoke-navigation-proof-implementation.md",
-    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md"
+    "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md",
+    "docs/reports/2026-04-20-open-to-shelter-route-state-handoff.md",
+    "docs/reports/2026-04-20-open-to-shelter-route-state-implementation.md",
+    "docs/reports/2026-04-20-open-to-shelter-route-state-review.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-handoff.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-implementation.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-430",
@@ -119,7 +125,16 @@
     "docs/reports/2026-04-20-runtime-smoke-navigation-proof-handoff.md",
     "docs/reports/2026-04-20-runtime-smoke-navigation-proof-implementation.md",
     "docs/reports/2026-04-20-runtime-smoke-navigation-proof-review.md",
-    "src/test/runtime-smoke.test.ts"
+    "docs/reports/2026-04-20-open-to-shelter-route-state-handoff.md",
+    "docs/reports/2026-04-20-open-to-shelter-route-state-implementation.md",
+    "docs/reports/2026-04-20-open-to-shelter-route-state-review.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-handoff.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-implementation.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-two-review.md",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/test/coastal-scrub-biome.test.ts"
   ],
   "lane_1_scout_refinement": {
     "status": "READY_FOR_MAIN",
@@ -178,6 +193,142 @@
       "npm run build",
       "npm test -- --run src/test/runtime-smoke.test.ts (expected remaining lane-2 High Pass copy mismatch only)"
     ]
+  },
+  "lane_4_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "Repeated route-ready replay confusion surfaced through Open To Shelter; protect the ready-to-file suppression rule at the route-state seam instead of retouching runtime smoke.",
+    "evidence": [
+      "Lane 1 already refreshed src/test/runtime-smoke.test.ts so Open To Shelter ready-to-file map state expects routeReplayLabel to be null.",
+      "Shore Shelter and High Pass have explicit field-requests guards for active route-marker labels versus ready-to-file active outing / marker / replay suppression.",
+      "Open To Shelter is the front-half route that triggered the stale replay expectation, so it should get the same behavior-neutral route-state coverage."
+    ],
+    "main_contract": [
+      "Add a focused behavior-neutral test in src/test/field-requests.test.ts for Open To Shelter active versus ready-to-file route-state behavior.",
+      "Assert active Open To Shelter can expose Today: Open To Shelter and a Coastal Scrub route marker when route-marker support is selected.",
+      "Assert ready-to-file Open To Shelter keeps the station filing summary and journal task, while activeOuting, routeMarkerLocationId, and routeReplayLabel are null.",
+      "Assert filing the note still advances into coastal-edge-moisture."
+    ],
+    "non_goals": [
+      "No runtime-smoke edits; lane 1 already refreshed that proof.",
+      "No runtime behavior, route definitions, station pages, world-map rendering, guided-season copy, save schema, science content, geometry, support UI, quest shell, or lane-2 High Pass copy changes."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Open To Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/156-external-playtest-feedback-batch-two.json','utf8')); console.log('packet 156 ok')\"",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "changed_files": [
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-open-to-shelter-route-state-implementation.md"
+    ],
+    "summary": "Added a behavior-neutral Open To Shelter route-state guard proving active route-marker labels remain possible while ready-to-file clears active outing, marker, and replay pressure.",
+    "behavior_notes": [
+      "Active coastal-shelter-shift with route-marker selected resolves Today: Open To Shelter and the Coastal Scrub route marker.",
+      "Ready-to-file coastal-shelter-shift keeps the station filing summary and Ready To File journal task.",
+      "Ready-to-file coastal-shelter-shift clears activeOuting, routeMarkerLocationId, and routeReplayLabel.",
+      "Filing the note still advances into coastal-edge-moisture."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Open To Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts"
+    ]
+  },
+  "lane_4_critic_result": {
+    "status": "CLEAR",
+    "review_report": "docs/reports/2026-04-20-open-to-shelter-route-state-review.md",
+    "findings": [],
+    "notes": [
+      "The change is test/report/metadata only and does not alter runtime behavior.",
+      "The new route-state guard covers active Open To Shelter route-marker labels and ready-to-file active outing / marker / replay suppression.",
+      "Filing still advances to coastal-edge-moisture, preserving the route chain."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Open To Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/156-external-playtest-feedback-batch-two.json','utf8')); console.log('packet 156 ok')\"",
+      "git diff --check"
+    ]
+  },
+  "lane_3_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "Repeated Open To Shelter map/replay confusion is now covered by lane 1 and lane 4; lane 3 should prove the existing Coastal Scrub back-dune physical anchor still carries the route handoff before adding geometry.",
+    "evidence": [
+      "Lane 1 refreshed stale Open To Shelter runtime-smoke navigation/replay expectations without runtime behavior changes.",
+      "Lane 4 added and cleared an Open To Shelter active-versus-ready route-state guard.",
+      "The prior front-half tactile identity pass already added a low back-dune shelf plus beach-grass and sand-verbena carriers for the Open To Shelter opening.",
+      "Focused Coastal Scrub biome and runtime-smoke slices pass for the back-dune shelf, windbreak swale, shore-pine rest, Open To Shelter route path, and front-half state."
+    ],
+    "main_contract": [
+      "Capture fresh ignored browser proof under output/lane-3-main-432-spatial-feedback/ for open-to-shelter-back-dune-shelf.png, open-to-shelter-back-dune-shelf.json, and console-errors.json.",
+      "Assert or record that the frame is playing coastal-scrub, activeFieldRequest.id is coastal-shelter-shift, the player is in the back-dune shelf area, local beach-grass or sand-verbena carriers are nearby/visible, nearbyTravelTarget is null, and nearbyDoor.inRange is false.",
+      "Optionally capture a second windbreak-swale frame if reachable without brittle input timing.",
+      "If the proof is clean, make no runtime or geometry change and add an implementation report.",
+      "Only if the proof fails, make one tiny lane-3-owned adjustment inside the existing back-dune-shelter-* or windbreak-* Coastal Scrub family and extend focused coverage."
+    ],
+    "non_goals": [
+      "No route-state logic, station pages, support behavior, world-map focus, save schema, authored science facts, journal copy, or broader UI.",
+      "No new route object, tutorial cue, support mechanic, corridor rewrite, or wider Coastal Scrub traversal branch.",
+      "No committed browser output.",
+      "No geometry change unless the fresh proof shows the current physical anchor fails."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/coastal-scrub-biome.test.ts -t \"back-dune shelter|windbreak swale|shore-pine rest|gradient anchors\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf|coastal-scrub family|shore-pine rest\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-feedback-batch-two-handoff.md",
+    "promote_next": "ECO-20260420-main-432"
+  },
+  "lane_3_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "changed_files": [
+      "docs/reports/2026-04-20-spatial-feedback-batch-two-implementation.md"
+    ],
+    "summary": "Captured fresh Open To Shelter Coastal Scrub back-dune browser proof plus an optional windbreak-swale frame; no runtime or geometry change was needed.",
+    "proof_artifacts": [
+      "output/lane-3-main-432-spatial-feedback/open-to-shelter-back-dune-shelf.png",
+      "output/lane-3-main-432-spatial-feedback/open-to-shelter-back-dune-shelf.json",
+      "output/lane-3-main-432-spatial-feedback/open-to-shelter-windbreak-swale.png",
+      "output/lane-3-main-432-spatial-feedback/open-to-shelter-windbreak-swale.json",
+      "output/lane-3-main-432-spatial-feedback/assertions.json",
+      "output/lane-3-main-432-spatial-feedback/console-errors.json"
+    ],
+    "verification": [
+      "one-off Playwright Open To Shelter Coastal Scrub back-dune proof against production preview",
+      "visual inspection of open-to-shelter-back-dune-shelf.png",
+      "visual inspection of open-to-shelter-windbreak-swale.png",
+      "npm test -- --run src/test/coastal-scrub-biome.test.ts -t \"back-dune shelter|windbreak swale|shore-pine rest|gradient anchors\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf|coastal-scrub family|shore-pine rest\""
+    ],
+    "runtime_changes": "None; proof passed and no geometry/source change was needed.",
+    "handoff_report": "docs/reports/2026-04-20-spatial-feedback-batch-two-implementation.md",
+    "promote_next": "ECO-20260420-critic-432"
+  },
+  "lane_3_critic_result": {
+    "status": "CLEAR",
+    "review_report": "docs/reports/2026-04-20-spatial-feedback-batch-two-review.md",
+    "findings": [],
+    "notes": [
+      "The proof satisfied the lane-3 contract without runtime or geometry changes.",
+      "Back-dune state shows active Open To Shelter, visible/nearby beach-grass and sand-verbena carriers, no nearby travel target, and no in-range door.",
+      "Optional windbreak-swale proof also stays readable and free of large overlay competition.",
+      "Packet 156 still has lane-2 work parked behind its own dependency chain, so this clears the lane-3 portion only."
+    ],
+    "verification": [
+      "proof JSON review: 8 assertions passed and console-errors.json is empty",
+      "visual inspection of open-to-shelter-back-dune-shelf.png",
+      "visual inspection of open-to-shelter-windbreak-swale.png",
+      "npm test -- --run src/test/coastal-scrub-biome.test.ts -t \"back-dune shelter|windbreak swale|shore-pine rest|gradient anchors\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf|coastal-scrub family|shore-pine rest\""
+    ],
+    "promote_next": "ECO-20260420-scout-436"
   },
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",

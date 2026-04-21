@@ -30,6 +30,15 @@ interface PlayerRenderState {
   climbing: boolean;
 }
 
+export interface DiscoveryFeedbackRenderState {
+  entryId: string;
+  entityId: string;
+  x: number;
+  y: number;
+  age: number;
+  duration: number;
+}
+
 interface BiomeSceneRenderOptions {
   context: CanvasRenderingContext2D;
   width: number;
@@ -46,6 +55,7 @@ interface BiomeSceneRenderOptions {
   player: PlayerRenderState;
   playerHeight: number;
   worldState: WorldState;
+  discoveryFeedback?: DiscoveryFeedbackRenderState | null;
   transitionSnapshot?: DoorTransitionSnapshot | null;
 }
 
@@ -780,6 +790,55 @@ function drawClimbable(
   }
 }
 
+function drawTinyDiscoverySparkle(
+  context: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  color: string,
+): void {
+  context.fillStyle = '#395f56';
+  context.fillRect(x, y - 2, 1, 5);
+  context.fillRect(x - 2, y, 5, 1);
+  context.fillStyle = color;
+  context.fillRect(x, y - 1, 1, 3);
+  context.fillRect(x - 1, y, 3, 1);
+}
+
+function drawDiscoveryFeedbackAccent(
+  context: CanvasRenderingContext2D,
+  feedback: DiscoveryFeedbackRenderState | null | undefined,
+  cameraX: number,
+  cameraY: number,
+  width: number,
+  height: number,
+): void {
+  if (!feedback || feedback.duration <= 0) {
+    return;
+  }
+
+  const progress = Math.max(0, Math.min(1, feedback.age / feedback.duration));
+  const centerX = Math.round(feedback.x - cameraX);
+  const centerY = Math.round(feedback.y - cameraY - 4 - progress * 5);
+  if (centerX < -12 || centerX > width + 12 || centerY < -12 || centerY > height + 12) {
+    return;
+  }
+
+  const color = progress < 0.5 ? '#fff7de' : '#f2c572';
+  const offsets = [
+    { x: 0, y: -8 },
+    { x: -7, y: -3 },
+    { x: 7, y: -4 },
+    { x: -4, y: 4 },
+    { x: 5, y: 3 },
+  ];
+  const visibleCount = progress < 0.75 ? 5 : 3;
+
+  for (let index = 0; index < visibleCount; index += 1) {
+    const offset = offsets[index];
+    drawTinyDiscoverySparkle(context, centerX + offset.x, centerY + offset.y, color);
+  }
+}
+
 function getClimbHintTarget(
   biomeInstance: BiomeInstance,
   player: PlayerRenderState,
@@ -812,6 +871,7 @@ export function drawBiomeScene({
   player,
   playerHeight,
   worldState,
+  discoveryFeedback = null,
   transitionSnapshot = null,
 }: BiomeSceneRenderOptions): void {
   const corridorVisuals = getCorridorVisuals(biomeDefinition.id);
@@ -1019,6 +1079,8 @@ export function drawBiomeScene({
       drawInteractMarker(context, screenX + entity.w / 2, Math.round(screenY - 12), 4, width - 4);
     }
   }
+
+  drawDiscoveryFeedbackAccent(context, discoveryFeedback, cameraX, cameraY, width, height);
 
   const climbHintTarget = getClimbHintTarget(biomeInstance, player);
 

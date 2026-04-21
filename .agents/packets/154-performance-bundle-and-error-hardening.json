@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-154",
-  "version": 4,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -11,7 +11,13 @@
     "docs/reports/2026-04-20-save-normalization-hardening-review.md",
     "docs/reports/2026-04-20-review-drop-scratch-ignore-handoff.md",
     "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md",
-    "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md"
+    "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md",
+    "docs/reports/2026-04-20-route-loop-browser-proof-handoff.md",
+    "docs/reports/2026-04-20-route-loop-browser-proof-implementation.md",
+    "docs/reports/2026-04-20-route-loop-browser-proof-review.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-handoff.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-implementation.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-422",
@@ -120,7 +126,13 @@
     "docs/reports/2026-04-20-review-drop-scratch-ignore-implementation.md",
     "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md",
     ".gitignore",
-    "src/test/review-drop-hygiene.test.ts"
+    "src/test/review-drop-hygiene.test.ts",
+    "docs/reports/2026-04-20-route-loop-browser-proof-handoff.md",
+    "docs/reports/2026-04-20-route-loop-browser-proof-implementation.md",
+    "docs/reports/2026-04-20-route-loop-browser-proof-review.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-handoff.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-implementation.md",
+    "docs/reports/2026-04-20-spatial-browser-proof-review.md"
   ],
   "lane_1_scout_refinement": {
     "queue_id": "ECO-20260420-scout-422",
@@ -188,6 +200,178 @@
     ],
     "promote_next": "ECO-20260420-scout-426",
     "review_report": "docs/reports/2026-04-20-review-drop-scratch-ignore-review.md"
+  },
+  "lane_4_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-425",
+    "status": "complete",
+    "result": "Narrowed lane 4 to a browser-proof pass across seeded Route v2 loop states, with console/page error capture and no planned runtime changes.",
+    "main_scope": [
+      "Run a real browser proof at the handheld viewport baseline using the debug save snapshots for high-pass-active, high-pass-ready-to-file, and high-pass-filed.",
+      "Capture PNG plus render_game_to_text JSON or equivalent state for each seeded route state under output/lane-4-main-425-browser/.",
+      "Capture console/page errors to output/lane-4-main-425-browser/console-errors.json even when empty.",
+      "Summarize active/replay labels, ready station filing state, and filed route suppression in docs/reports/2026-04-20-route-loop-browser-proof-implementation.md."
+    ],
+    "out_of_scope": [
+      "New route types, support ids, station pages, inventory/loadout UI, content density, geometry, or save fields.",
+      "Broad station chrome, spatial frame, science-copy, or route-definition rewrites.",
+      "Committed browser output from output/.",
+      "Runtime changes unless the browser proof exposes a real lane-4 route/support/replay blocker."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|snapshot\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"files High Pass from the live talus-hold loop and settles the completed field arc\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-route-loop-browser-proof-handoff.md"
+  },
+  "lane_4_main_result": {
+    "queue_id": "ECO-20260420-main-425",
+    "status": "implemented",
+    "result": "Completed the lane-4 browser proof across seeded High Pass active, ready-to-file, filed, and replay-facing surfaces with no runtime changes.",
+    "changed_files": [
+      "docs/reports/2026-04-20-route-loop-browser-proof-implementation.md"
+    ],
+    "proof_artifacts": [
+      "output/lane-4-main-425-browser/client-boot/shot-0.png",
+      "output/lane-4-main-425-browser/high-pass-active-world-map.png",
+      "output/lane-4-main-425-browser/high-pass-ready-to-file-station.png",
+      "output/lane-4-main-425-browser/high-pass-filed-world-map.png",
+      "output/lane-4-main-425-browser/high-pass-filed-station.png",
+      "output/lane-4-main-425-browser/assertions.json",
+      "output/lane-4-main-425-browser/console-errors.json"
+    ],
+    "behavior_notes": [
+      "Active High Pass shows Rimed Pass in the journal and Today: Rimed Pass on the world map.",
+      "Ready-to-file High Pass keeps Ready To File route state while the world-map replay and marker are cleared, then reaches the station NOTE card through the world map.",
+      "Filed High Pass clears active request, world-map marker, world-map replay, and journal request while keeping the station FILED card.",
+      "console-errors.json is an empty array."
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"High Pass|snapshot\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"files High Pass from the live talus-hold loop and settles the completed field arc\"",
+      "npm run build",
+      "shared web-game client boot smoke against production preview",
+      "one-off Playwright seeded snapshot proof against production preview",
+      "visual inspection of active world-map, ready station, filed world-map, and filed station screenshots"
+    ],
+    "critic_focus": [
+      "Confirm no runtime, route-definition, station-shell, save-schema, content, or geometry files changed for this proof item.",
+      "Confirm the browser artifacts include active, ready-to-file, and filed states plus empty console/page error capture.",
+      "Confirm the first transition-capture false start was harness-only and the final proof waits until world-map transition completion before asserting replay labels."
+    ],
+    "handoff_report": "docs/reports/2026-04-20-route-loop-browser-proof-implementation.md"
+  },
+  "lane_4_critic_result": {
+    "queue_id": "ECO-20260420-critic-425",
+    "status": "clear",
+    "result": "No lane-4 blocker found in the route-loop browser proof.",
+    "verification": [
+      "Reviewed output/lane-4-main-425-browser/assertions.json: 18 assertions passed.",
+      "Reviewed output/lane-4-main-425-browser/console-errors.json: empty array.",
+      "Visually inspected active world-map, ready station, filed world-map, and filed station screenshots.",
+      "npm run validate:agents",
+      "packet 154 JSON parse",
+      "git diff --check"
+    ],
+    "notes": [
+      "Active High Pass carries Rimed Pass into journal and world-map replay surfaces.",
+      "Ready-to-file High Pass clears world-map replay/marker state and reaches the station NOTE filing card through the world map.",
+      "Filed High Pass clears active request, world-map marker, world-map replay, and journal request while preserving the station FILED card.",
+      "The initial transition-capture mismatch was harness-only; the final proof waits until world-map transition completion before asserting replay labels.",
+      "No runtime, route-definition, station-shell, save-schema, content, or geometry files changed for this proof item."
+    ],
+    "promote_next": "ECO-20260420-scout-429",
+    "review_report": "docs/reports/2026-04-20-route-loop-browser-proof-review.md"
+  },
+  "lane_3_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-424",
+    "status": "complete",
+    "result": "Narrowed lane 3 to a proof-first browser pass across representative spatial frames with console/page error capture.",
+    "main_scope": [
+      "Capture ignored browser screenshots and render_game_to_text JSON under output/lane-3-main-424-spatial-proof/.",
+      "Seed first-session, forest-moisture-holders, high-pass-active, and tundra-thaw-window from window.get_debug_save_snapshots(), then capture the corresponding field views.",
+      "Capture console-errors.json even when empty.",
+      "Optionally add deeper forest-cave-trunk, treeline-rime-brow or treeline-talus-hold, and tundra-thaw-bench frames if the traversal harness remains stable.",
+      "Summarize screenshots, JSON state, console/page errors, visual inspection, and whether any lane-3 rendering or asset blocker was found."
+    ],
+    "out_of_scope": [
+      "route-state, support-choice, station, save-schema, journal, content-fact, or authored-copy changes",
+      "new screenshot framework or committed output artifacts",
+      "new geometry or asset edits unless browser proof exposes a concrete lane-3 blocker",
+      "lane-4 route-loop assertions, which are already covered by ECO-20260420-main-425"
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"debug save snapshots|High Pass|tundra|treeline\"",
+      "Passed: npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts src/test/tundra-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave|thaw|frost\"",
+      "Passed: npm run build"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-browser-proof-handoff.md",
+    "promote_next": "ECO-20260420-main-424"
+  },
+  "lane_3_main_result": {
+    "queue_id": "ECO-20260420-main-424",
+    "status": "implemented",
+    "result": "Completed the lane-3 browser proof across representative seeded spatial frames with no runtime changes.",
+    "changed_files": [
+      "docs/reports/2026-04-20-spatial-browser-proof-implementation.md"
+    ],
+    "proof_artifacts": [
+      "output/lane-3-main-424-spatial-proof/client-boot/shot-0.png",
+      "output/lane-3-main-424-spatial-proof/client-boot/state-0.json",
+      "output/lane-3-main-424-spatial-proof/first-session-beach-field.png",
+      "output/lane-3-main-424-spatial-proof/first-session-beach-field.json",
+      "output/lane-3-main-424-spatial-proof/forest-moisture-holders-field.png",
+      "output/lane-3-main-424-spatial-proof/forest-moisture-holders-field.json",
+      "output/lane-3-main-424-spatial-proof/high-pass-active-treeline-field.png",
+      "output/lane-3-main-424-spatial-proof/high-pass-active-treeline-field.json",
+      "output/lane-3-main-424-spatial-proof/tundra-thaw-window-field.png",
+      "output/lane-3-main-424-spatial-proof/tundra-thaw-window-field.json",
+      "output/lane-3-main-424-spatial-proof/assertions.json",
+      "output/lane-3-main-424-spatial-proof/console-errors.json",
+      "output/lane-3-main-424-spatial-proof/optional-notes.json"
+    ],
+    "behavior_notes": [
+      "The seeded beach, forest, treeline/high-country, and tundra field frames render as playing biome scenes with expected biome ids and no blocking overlays.",
+      "The proof recorded 20 passing assertions and an empty console/page error capture.",
+      "Optional deeper traversal frames were not used for the pass because the quick browser movement path did not land on exact manifest frame bands."
+    ],
+    "scope_notes": [
+      "No runtime source, route state, support choice, station, save schema, journal, content fact, authored copy, geometry, or asset edits landed.",
+      "Generated browser screenshots/state stay under ignored output/."
+    ],
+    "verification": [
+      "Passed: shared web-game client boot smoke against production preview",
+      "Passed: one-off Playwright seeded snapshot proof against production preview",
+      "Passed: visual inspection of first-session beach, forest moisture holders, high-pass active treeline, and tundra thaw-window screenshots",
+      "Passed: npm test -- --run src/test/save-snapshots.test.ts -t \"debug save snapshots|High Pass|tundra|treeline\"",
+      "Passed: npm test -- --run src/test/forest-biome.test.ts src/test/treeline-biome.test.ts src/test/tundra-biome.test.ts -t \"Root Hollow|root-hollow|High Pass|talus|stone|canopy|cave|thaw|frost\"",
+      "Passed: npm run build"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-browser-proof-implementation.md",
+    "promote_next": "ECO-20260420-critic-424"
+  },
+  "lane_3_critic_result": {
+    "queue_id": "ECO-20260420-critic-424",
+    "status": "clear",
+    "result": "No lane-3 blocker found in the representative spatial browser proof.",
+    "verification": [
+      "Reviewed output/lane-3-main-424-spatial-proof/assertions.json: 20 assertions passed.",
+      "Reviewed output/lane-3-main-424-spatial-proof/console-errors.json: empty array.",
+      "Visually inspected first-session beach, forest moisture holders, high-pass active treeline, and tundra thaw-window screenshots.",
+      "Reviewed optional-notes.json and confirmed optional deeper traversal misses were documented as non-pass evidence.",
+      "npm run validate:agents",
+      "packet 154 JSON parse",
+      "git diff --check"
+    ],
+    "notes": [
+      "The required seeded beach, forest, treeline/high-country, and tundra field frames render as playing biome scenes with expected biome ids and no blocking overlays.",
+      "No runtime source, route state, support choice, station, save schema, journal, content fact, authored copy, geometry, or asset change was needed for this proof item.",
+      "The mixed working tree contains unrelated dirty files from other lane work, so lane-clear commit/push is not recommended from this workspace."
+    ],
+    "promote_next": "ECO-20260420-scout-428",
+    "review_report": "docs/reports/2026-04-20-spatial-browser-proof-review.md"
   },
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",

@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-146",
-    "version": 8,
+  "version": 11,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Close-look and sketchbook selected refresh",
   "summary": "Refresh only the highest-value visual-authoring surfaces so they support memory, not breadth.",
   "source_reports": [
@@ -297,7 +297,7 @@
         ],
         "browser_proof": "Not added for this data-only lane-2 pass; lane 3 can use the selected carrier list for visual proof if needed."
     },
-    "lane_2_critic_result": {
+  "lane_2_critic_result": {
         "completed_by": "ECO-20260420-critic-391",
         "completed_at": "2026-04-20",
         "report": "docs/reports/2026-04-20-close-look-sketchbook-selected-review.md",
@@ -314,9 +314,84 @@
             "npm run validate:agents",
             "git diff --check"
         ],
-        "promoted_next": "ECO-20260420-scout-395"
-    },
-    "lane_4_scout_refinement": {
+    "promoted_next": "ECO-20260420-scout-395"
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-392",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-close-look-selected-visual-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 2 selected exactly root-curtain and shore-pine as compact close-look memory carriers.",
+      "Lane 4 already proved those cards remain optional route context after normal inspect claims route evidence.",
+      "Lane 3 should not add new close-look entries, sketchbook slots, route requirements, station surfaces, or geometry in this packet.",
+      "The remaining lane-3 value is a handheld visual proof of the selected close-look cards, with seed-only spriteScale adjustment only if screenshots show a real crop or weak silhouette."
+    ],
+    "main_scope": [
+      "Capture ignored browser proof for the root-curtain close-look card at 256x160; capture shore-pine too if practical.",
+      "Inspect screenshots manually and compare render_game_to_text() state for the selected close-look payload.",
+      "If a selected card is cropped or unreadable, make the smallest selected-carrier spriteScale seed adjustment in src/engine/close-look.ts and update src/test/close-look.test.ts.",
+      "If both selected cards read cleanly, keep the pass output/report-only and do not touch production code."
+    ],
+    "non_goals": [
+      "No new close-look support entries, sketchbook slots, journal layout, route behavior, station pages, world-map cues, save fields, content facts, or biome geometry.",
+      "No broad close-look overlay redesign and no lane-2 copy edits unless a concrete selected-card visual failure appears."
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-392",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-close-look-selected-visual-implementation.md",
+    "browser_proof": [
+      "output/lane-3-main-392-browser/root-curtain-close-look.png",
+      "output/lane-3-main-392-browser/root-curtain-state.json",
+      "output/lane-3-main-392-browser/shore-pine-close-look.png",
+      "output/lane-3-main-392-browser/shore-pine-state.json"
+    ],
+    "result": [
+      "Captured browser proof for the selected root-curtain and shore-pine close-look cards at the live handheld canvas scale.",
+      "Confirmed both selected sprite silhouettes are centered, uncropped, and readable with their current spriteScale values.",
+      "Compared screenshots with render_game_to_text() payload state for each selected card.",
+      "Made no production code, art, copy, route, station, save, journal, or geometry edits because the proof did not show a real visual failure."
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-392",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-close-look-selected-visual-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "The implementation captured browser proof for both selected close-look carriers: root-curtain and shore-pine.",
+      "The screenshots and render_game_to_text() payloads match the selected close-look cards.",
+      "Both selected sprites are centered, uncropped, and readable at the current handheld scale.",
+      "No production code, art, copy, route behavior, station surface, save field, journal layout, or geometry changed for this proof-only lane-3 pass.",
+      "The root-curtain lower-climb inspect position is documented as a traversal nuance, not a blocker."
+    ],
+    "lane_3_status": "clear; packet 146 complete for lane 3; promote ECO-20260420-scout-396",
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts -t \"shore-pine|root-curtain|supported entries|compact payload\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check",
+      "jq state checks for root-curtain and shore-pine browser proof artifacts"
+    ]
+  },
+  "lane_4_scout_refinement": {
         "completed_by": "ECO-20260420-scout-393",
         "completed_at": "2026-04-20",
         "report": "docs/reports/2026-04-20-close-look-route-support-handoff.md",

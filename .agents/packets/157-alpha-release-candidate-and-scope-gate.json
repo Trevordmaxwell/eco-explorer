@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-157",
-  "version": 2,
+  "version": 8,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -8,7 +8,13 @@
   "summary": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion.",
   "source_reports": [
     "docs/reports/2026-04-20-alpha-runway-megapush.md",
-    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md"
+    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-handoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-review.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-handoff.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-434",
@@ -117,7 +123,16 @@
     "README.md",
     "docs/review-drop-checklist.md",
     "docs/reports/2026-04-20-alpha-runway-megapush.md",
-    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md"
+    "docs/reports/2026-04-20-alpha-rc-packaging-handoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-handoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md",
+    "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-review.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-handoff.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md",
+    "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-review.md",
+    "docs/alpha-screenshot-proof-manifest.md",
+    "src/test/field-requests.test.ts",
+    "src/test/runtime-smoke.test.ts"
   ],
   "lane_1_scout_refinement": {
     "status": "BLOCKED_UNTIL_CROSS_LANE_GATES_CLEAR",
@@ -151,6 +166,167 @@
       "node --check scripts/create-alpha-rc.mjs passes.",
       "npm run validate:agents, npm run science:check, npm test, npm run build, npm run alpha:rc, and git diff --check pass when blockers are clear."
     ]
+  },
+  "lane_4_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_scope": "Create a final lane-4 route/support RC signoff report using existing full-arc proof and focused route smoke, without changing route behavior.",
+    "evidence": [
+      "The alpha route playthrough checklist already maps the reviewer-facing route spine from Shore Shelter through filed High Pass.",
+      "The full-arc route-state matrix already covers all 11 live Route v2 notebook routes through active, clue progress, ready-to-file, filing, and next-state handoff.",
+      "Runtime smoke already files High Pass from the live talus-hold loop and verifies the filed notice plus cleared active request, route marker/replay label, and journal request.",
+      "Packet 156 lane 4 just closed the remaining Shore/Open ready-to-file marker and replay suppression proof."
+    ],
+    "recommended_files": [
+      "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md"
+    ],
+    "main_contract": [
+      "Add a lane-4 signoff report that cites the checklist, full-arc route-state matrix, High Pass live filing smoke, and packet 156 ready-to-file suppression guards.",
+      "Record the focused route/state/runtime verification commands and results.",
+      "Include a narrow post-alpha route/support opportunity list, explicitly deferred until after the RC.",
+      "Do not change route runtime, route definitions, station UI, world-map behavior, save schema, support UI, science copy, geometry, review packaging, or alpha:rc scripts.",
+      "Promote ECO-20260420-critic-437 only if the focused route/support checks pass."
+    ],
+    "non_goals": [
+      "No new route behavior, new route framework, new station page, new HUD, broad copy rewrite, lane-2 High Pass copy change, lane-3 screenshot work, packaging script, generated archive, or full npm test gate.",
+      "Full npm test and alpha:rc remain lane-1 RC gates after cross-lane blockers clear."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Route v2|High Pass|Open To Shelter|Shore Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"High Pass|Open To Shelter|Shore Shelter|Route|routes page|filed\"",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/157-alpha-release-candidate-and-scope-gate.json','utf8')); console.log('packet 157 ok')\"",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "changed_files": [
+      "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md"
+    ],
+    "summary": "Added the final lane-4 route/support RC signoff report without changing route behavior.",
+    "behavior_notes": [
+      "The signoff cites the alpha route playthrough checklist, full-arc route-state matrix, live High Pass filing smoke, and packet 156 ready-to-file suppression guards.",
+      "The report records focused route-state, full field-request matrix, and focused runtime route-smoke verification results.",
+      "Post-alpha route/support opportunities are deferred until after the RC and stay within existing route/support seams."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Route v2|High Pass|Open To Shelter|Shore Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"High Pass|Open To Shelter|Shore Shelter|Route|routes page|filed\"",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/157-alpha-release-candidate-and-scope-gate.json','utf8')); console.log('packet 157 ok')\"",
+      "git diff --check"
+    ]
+  },
+  "lane_4_critic_result": {
+    "status": "CLEAR",
+    "review_report": "docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-review.md",
+    "findings": [],
+    "summary": "Reviewed the final lane-4 route/support RC signoff cleanly.",
+    "behavior_notes": [
+      "The review found the signoff accurately cites existing route proof without adding behavior.",
+      "The post-alpha route/support opportunity list remains deferred and uses existing route/support seams.",
+      "Full npm test and alpha:rc remain lane-1 RC gates after cross-lane blockers clear."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Route v2|High Pass|Open To Shelter|Shore Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"High Pass|Open To Shelter|Shore Shelter|Route|routes page|filed\""
+    ]
+  },
+  "lane_3_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_scope": "Create the final lane-3 alpha spatial contact-sheet/signoff report using the existing manifest and recent ignored browser proofs; add a short deferred post-alpha spatial opportunity list.",
+    "evidence": [
+      "docs/alpha-screenshot-proof-manifest.md already names the representative five-biome contact-sheet recipe and capture rules.",
+      "The manifest quick-path check currently finds all listed existing reference screenshots/state pairs.",
+      "Packet 154 lane-3 representative browser proof cleared with 20 passing assertions and empty console errors.",
+      "Packet 155 and 156 lane-3 feedback proofs cleared the first-session beach objective and Coastal Scrub Open To Shelter opener.",
+      "No geometry or runtime source change is needed for the RC signoff unless a required local artifact is missing during main."
+    ],
+    "recommended_files": [
+      "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md"
+    ],
+    "ignored_artifacts": [
+      "output/lane-3-main-436-alpha-contact-sheet/contact-sheet.png",
+      "output/lane-3-main-436-alpha-contact-sheet/contact-sheet.html",
+      "output/lane-3-main-436-alpha-contact-sheet/source-index.json"
+    ],
+    "main_contract": [
+      "Create a lane-3 RC signoff report that maps final spatial rows to existing or freshly assembled ignored screenshot artifacts.",
+      "Use the manifest's five representative rows: beach/coast, Coastal Scrub handoff, forest/Root Hollow, Treeline/High Pass, and tundra relief.",
+      "If producing a visual contact sheet, keep it under ignored output/lane-3-main-436-alpha-contact-sheet/ and build it with a one-off output-local HTML/Playwright or browser composition rather than adding source dependencies.",
+      "Record whether each row is fresh proof, current reference proof, or older manifest reference, and do not promote older references to hard baselines when paired state is missing.",
+      "Add a compact post-alpha spatial opportunity list deferred until after RC.",
+      "Promote ECO-20260420-critic-436 only if the signoff report is clear and metadata validation passes."
+    ],
+    "post_alpha_opportunities": [
+      "Fresh recapture all manifest frames after RC if reviewers need a visual bundle.",
+      "Add exact Root Hollow cave/trunk and upper-return debug save snapshots if repeated visual recapture stays brittle.",
+      "Add lightweight contact-sheet tooling only if reviewers repeatedly need regenerated visual bundles.",
+      "Deepen current five-biome spatial memory before opening a new biome, with forest cave/canopy and high-country relief as the strongest lane-3 candidates."
+    ],
+    "non_goals": [
+      "No runtime/gameplay behavior changes unless a required proof artifact is missing and a tiny local capture helper is unavoidable.",
+      "No new geometry, route objectives, station UI, route/support behavior, save schema, science copy, journal copy, new biome, screenshot baseline system, committed generated images, npm dependency, or alpha:rc gate work.",
+      "Do not turn older manifest references into hard regression baselines without fresh paired state."
+    ],
+    "recommended_checks": [
+      "rg -n \"Representative Five-Biome Contact Sheet|alpha-spatial|post-alpha|output/lane-3-main-436-alpha-contact-sheet\" docs/alpha-screenshot-proof-manifest.md docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/157-alpha-release-candidate-and-scope-gate.json','utf8')); console.log('packet 157 ok')\"",
+      "git diff --check"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-handoff.md",
+    "promote_next": "ECO-20260420-main-436"
+  },
+  "lane_3_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "changed_files": [
+      "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md"
+    ],
+    "summary": "Added the final lane-3 alpha spatial RC contact-sheet/signoff report and generated ignored local contact-sheet artifacts without runtime or geometry changes.",
+    "ignored_artifacts": [
+      "output/lane-3-main-436-alpha-contact-sheet/contact-sheet.png",
+      "output/lane-3-main-436-alpha-contact-sheet/contact-sheet.html",
+      "output/lane-3-main-436-alpha-contact-sheet/source-index.json"
+    ],
+    "behavior_notes": [
+      "The contact sheet mixes fresh beach/Coastal Scrub proof with older manifest references for forest, High Pass, and tundra.",
+      "Older manifest references are explicitly review aids, not hard baselines without future fresh paired state.",
+      "The post-alpha spatial opportunity list is deferred until after RC and favors fresh recapture, exact Root Hollow snapshots, optional tooling, and deeper current-biome spatial memory."
+    ],
+    "verification": [
+      "generated ignored contact-sheet.png/html/source-index.json",
+      "visual inspection of output/lane-3-main-436-alpha-contact-sheet/contact-sheet.png",
+      "source-index generation preflight confirmed every referenced source image/state exists locally"
+    ],
+    "runtime_changes": "None; this was a report/contact-sheet-only RC signoff.",
+    "handoff_report": "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md",
+    "promote_next": "ECO-20260420-critic-436"
+  },
+  "lane_3_critic_result": {
+    "status": "CLEAR",
+    "review_report": "docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-review.md",
+    "findings": [],
+    "summary": "Reviewed the final lane-3 alpha spatial RC contact-sheet/signoff cleanly.",
+    "notes": [
+      "The signoff report maps the final spatial rows to ignored contact-sheet artifacts and source paths.",
+      "The visual contact sheet covers beach, Coastal Scrub, forest / Root Hollow, Treeline / High Pass, and tundra relief.",
+      "Older manifest references remain review aids, not hard baselines without future fresh paired state.",
+      "No runtime source, geometry, route state, station UI, save schema, science copy, journal copy, new biome work, screenshot baseline system, new dependency, or lane-1 RC packaging drifted into lane 3."
+    ],
+    "verification": [
+      "visual inspection of output/lane-3-main-436-alpha-contact-sheet/contact-sheet.png",
+      "source-index path existence check",
+      "rg -n \"Representative Five-Biome Contact Sheet|alpha-spatial|post-alpha|output/lane-3-main-436-alpha-contact-sheet\" docs/alpha-screenshot-proof-manifest.md docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-review.md",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/157-alpha-release-candidate-and-scope-gate.json','utf8')); console.log('packet 157 ok')\"",
+      "git diff --check"
+    ],
+    "lane_3_status": "COMPLETE_FOR_PACKET_157",
+    "promote_next": null
   },
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",

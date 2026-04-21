@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-141",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Tundra thaw-window payoff pass",
   "summary": "Make Tundra short-season play feel observable and consequential after the late-season north-end pass.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-tundra-short-summer-rush-copy-review.md",
     "docs/reports/2026-04-20-tundra-thaw-window-payoff-handoff.md",
     "docs/reports/2026-04-20-tundra-thaw-window-payoff-implementation.md",
-    "docs/reports/2026-04-20-tundra-thaw-window-payoff-review.md"
+    "docs/reports/2026-04-20-tundra-thaw-window-payoff-review.md",
+    "docs/reports/2026-04-20-tundra-thaw-window-spatial-handoff.md",
+    "docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md",
+    "docs/reports/2026-04-20-tundra-thaw-window-spatial-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-370",
@@ -135,7 +138,8 @@
     "src/test/ecosystem-notes.test.ts",
     "src/test/field-season-board.test.ts",
     "src/test/runtime-smoke.test.ts",
-    "src/test/content-quality.test.ts"
+    "src/test/content-quality.test.ts",
+    "src/test/tundra-biome.test.ts"
   ],
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
@@ -396,6 +400,80 @@
     ],
     "coordination_note": "The shared worktree contains unrelated dirty runtime files from other lane work, so do not bundle this packet into a lane-clear commit unless the tree is cleaned or coordinated.",
     "promoted_next_lane_2_item": "ECO-20260420-scout-375"
+  },
+  "lane_3_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-372",
+    "report": "docs/reports/2026-04-20-tundra-thaw-window-spatial-handoff.md",
+    "recommended_scope": "Proof-first guard for the existing Tundra thaw-aware movement and recovery chain.",
+    "current_state": [
+      "Tundra already has authored snow-meadow drift, thaw-skirt shelf/bench/channel, frost-ridge drift, and meltwater-bank recovery pieces.",
+      "Lane 1, lane 2, and lane 4 have already proved the active Thaw Window state, copy, and note-tabs payoff without needing more geometry.",
+      "The best lane-3 value is to connect the existing platforms and wet-ground carriers into one explicit physical-memory guard before adding density."
+    ],
+    "recommended_file_targets": [
+      "src/test/tundra-biome.test.ts",
+      "docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md"
+    ],
+    "main_acceptance": [
+      "add one test-only guard in `src/test/tundra-biome.test.ts` that pins `snow-meadow-drift-rest`, `thaw-skirt-entry-heave`, `thaw-skirt-upper-shelf`, `thaw-skirt-bench-rest`, `thaw-skirt-bank-shoulder`, `thaw-skirt-exit-heave`, `frost-ridge-drift-rest`, `meltwater-snow-lip`, and `meltwater-bank-rest` as one thaw-aware movement/recovery chain",
+      "assert the upper shelf sits above entry/bench, the thaw-skirt bench/shoulder/exit form a forgiving descending recovery lane, and the frost-ridge/meltwater pieces remain an existing north-end handoff rather than a new branch",
+      "pin authored carriers `snow-meadow-drift-sedge`, `thaw-skirt-entry-willow`, `thaw-skirt-channel`, `thaw-skirt-upper-sedge`, `meltwater-channel`, `meltwater-bank-willow`, and `meltwater-bank-cottongrass`",
+      "keep the north-end proof inside the existing pocket by preserving `meltwater-bank-rest` before `x 604`",
+      "do not change Tundra geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, science copy, journal/atlas copy, player physics, High Pass copy, or new UI surfaces unless a real failing proof is found"
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/tundra-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra process|thaw fringe|thaw-hold|tundra survey place-tab\""
+    ],
+    "main_verification": [
+      "npm test -- --run src/test/tundra-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra process|thaw fringe|thaw-hold|tundra survey place-tab\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "browser_proof_rule": "No browser proof is required if the main pass stays test/report-only. If any geometry, placement, renderer, or visual-position change lands, capture a 256x160 proof and state export before review.",
+    "promoted_next_lane_3_item": "ECO-20260420-main-372"
+  },
+  "lane_3_main_result": {
+    "queue_id": "ECO-20260420-main-372",
+    "report": "docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md",
+    "changed_files": [
+      "src/test/tundra-biome.test.ts",
+      "docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md"
+    ],
+    "summary": "Added a test-only Tundra biome guard that pins the existing snow-meadow drift, thaw-skirt shelf/bench/channel, frost-ridge drift, and meltwater-bank recovery chain plus its authored wet-ground carriers.",
+    "verification": [
+      "npm test -- --run src/test/tundra-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra process|thaw fringe|thaw-hold|tundra survey place-tab\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "scope_preserved": [
+      "no Tundra geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, science copy, journal/atlas copy, player physics, High Pass copy, or new UI surface changed",
+      "no browser proof was required because the implementation stayed test/report-only"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-critic-372"
+  },
+  "lane_3_critic_result": {
+    "queue_id": "ECO-20260420-critic-372",
+    "report": "docs/reports/2026-04-20-tundra-thaw-window-spatial-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "Confirmed the Tundra thaw-window spatial guard is test/report-only, pins the existing movement and recovery chain plus authored wet-ground carriers, and preserves lane boundaries without geometry, route, station, save, copy, or UI drift.",
+    "verification": [
+      "npm test -- --run src/test/tundra-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra process|thaw fringe|thaw-hold|tundra survey place-tab\"",
+      "implementation already passed npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "scope_preserved": [
+      "no Tundra geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, science copy, journal/atlas copy, player physics, High Pass copy, or new UI surface changed",
+      "no browser proof was required because the pass stayed test/report-only"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-scout-376"
   },
   "lane_4_scout_refinement": {
     "queue_id": "ECO-20260420-scout-373",

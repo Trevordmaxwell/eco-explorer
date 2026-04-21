@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-136",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Support choice in-field differentiation",
   "summary": "Make support choice felt during outings rather than mostly visible on map/station chrome.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-support-choice-station-echo-review.md",
     "docs/reports/2026-04-20-support-choice-in-field-handoff.md",
     "docs/reports/2026-04-20-support-choice-in-field-implementation.md",
-    "docs/reports/2026-04-20-support-choice-in-field-review.md"
+    "docs/reports/2026-04-20-support-choice-in-field-review.md",
+    "docs/reports/2026-04-20-support-choice-physical-cue-proof-handoff.md",
+    "docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md",
+    "docs/reports/2026-04-20-support-choice-physical-cue-proof-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-350",
@@ -233,7 +236,71 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-support-choice-physical-cue-proof-handoff.md",
+        "main_352_target": "Run a lane-3 proof-first pass around existing support-readable physical clue carriers before adding any new geometry.",
+        "current_read": [
+          "Lane 4 already differentiates support choice in the field through existing Route v2 seams: hand-lens changes inspect targeting, note-tabs and place-tab alter the existing notebook chip, and route-marker stays map-facing.",
+          "Existing runtime-smoke coverage already proves several live physical carriers and nearby ordinary/decoy inspectables across front-half, forest, high-country, and tundra contexts.",
+          "Lane 3 should therefore consolidate the spatial proof first and add geometry only if the proof exposes a real missing carrier or missing nearby non-fit object."
+        ],
+        "recommended_files": [
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md"
+        ],
+        "main_acceptance": [
+          "prove at least three support-relevant physical cue families across different parts of the world: one front-half cue, one forest cue, and one alpine or tundra cue",
+          "each proof should include a route-fit physical carrier plus a nearby ordinary or non-fit inspectable so hand-lens targeting reads spatially",
+          "paired non-hand-lens coverage should still prove normal nearest-inspect behavior or chip-only support behavior",
+          "if existing smoke tests already cover the matrix, main may consolidate or name that proof without changing geometry",
+          "no station surfaces, support state, save schema, route definitions, filed-note behavior, authored science copy, nursery behavior, new HUD, inventory, loadout, or notebook panel changes"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"Held Sand|Moisture Holders|Brief Bloom|High Pass|Thaw Window\"`",
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "packet `136` JSON parse",
+          "`git diff --check`"
+        ],
+        "validation_note": "If `npm run validate:agents` still fails on unrelated lane-4 packet `154` browser-proof references, report it without fixing it from lane 3."
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-352",
+        "source": "docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md",
+        "status": "DONE",
+        "summary": "Added a test-only support-readable physical cue proof matrix in runtime smoke coverage, naming the existing front-half, forest, high-country, and tundra carrier/nearby-non-fit proof families without adding new geometry.",
+        "changed_files": [
+          "src/test/runtime-smoke.test.ts",
+          "docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md"
+        ],
+        "guardrails_preserved": [
+          "no world geometry, station surface, support selection state, save schema, route definition, filed-note behavior, authored science copy, nursery behavior, HUD, inventory, loadout, or notebook panel changes"
+        ],
+        "verified": [
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"Held Sand|Moisture Holders|Brief Bloom|High Pass|Thaw Window\"`",
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-352",
+        "source": "docs/reports/2026-04-20-support-choice-physical-cue-proof-review.md",
+        "status": "DONE",
+        "verdict": "no_blocker",
+        "summary": "Confirmed the lane-3 pass stays test-only and makes the existing support-readable physical cue proof explicit across front-half, forest, high-country, and tundra families without geometry, support-state, route, save, copy, nursery, HUD, inventory, loadout, or notebook drift.",
+        "verified": [
+          "`npm test -- --run src/test/runtime-smoke.test.ts -t \"Held Sand|Moisture Holders|Brief Bloom|High Pass|Thaw Window\"`",
+          "`npm test -- --run src/test/field-request-controller.test.ts`",
+          "`npm run build`",
+          "focused matrix-only runtime smoke",
+          "`npm run validate:agents`",
+          "packet `136` JSON parse",
+          "`git diff --check`"
+        ],
+        "promoted": "ECO-20260420-scout-356"
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-145",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Science source-ledger audit",
   "summary": "Turn science accuracy into a documented alpha gate for all live organisms, landmarks, and relationship claims.",
   "source_reports": [
@@ -372,6 +372,72 @@
     "scope_note": "The shared dirty worktree includes earlier lane edits in src/test/content-quality.test.ts; this review is scoped to packet 145 ledger rows and the two new generalized source-ledger tests.",
     "verification": [
       "npm test -- --run src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-388",
+    "report": "docs/reports/2026-04-20-science-ledger-spatial-audit-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 2 already closed packet 145 source-ledger coverage for live entries and process moments.",
+      "Lane 4 already softened the two route-filed phrases that over-implied causal or developmental evidence.",
+      "Lane 3's remaining risk is physical honesty: process-moment visuals should only apply to carriers that are actually authored into matching habitat zones.",
+      "The current habitat-process tests sample several correct and incorrect x positions, but they do not guard every processMoments entry carrier against future spawn-table drift."
+    ],
+    "main_scope": [
+      "Extend src/test/habitat-process.test.ts with a data-driven guard over wrack-hold, sand-capture, moisture-hold, frost-rime, and thaw-fringe.",
+      "For every live process moment, prove each linked entryId appears in at least one authored spawn table or planned placement whose zoneId is included by that process.",
+      "Keep the pass test-only unless the new guard exposes a real failing carrier.",
+      "Add a dated implementation report."
+    ],
+    "non_goals": [
+      "No docs/science-source-ledger.md changes, new source rows, route filed-note rewrites, support/station/world-map/save changes, notebook copy changes, or production geometry changes unless the new spatial guard reveals a blocker.",
+      "No browser proof required if the implementation remains test-only and changes no runtime rendering or content data."
+    ],
+    "verification": [
+      "npm test -- --run src/test/habitat-process.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-388",
+    "report": "docs/reports/2026-04-20-science-ledger-spatial-audit-implementation.md",
+    "changed_files": [
+      "src/test/habitat-process.test.ts",
+      "docs/reports/2026-04-20-science-ledger-spatial-audit-implementation.md"
+    ],
+    "result": [
+      "Added a data-driven habitat-process spatial guard covering wrack-hold, sand-capture, moisture-hold, frost-rime, and thaw-fringe.",
+      "The guard proves every process-moment carrier appears in at least one matching authored spawn table or authored placement zone.",
+      "Pinned the current live process id list so future process moments must be added deliberately to this spatial honesty coverage.",
+      "Preserved production biome geometry, rendering, route, station, save/schema, notebook copy, field-request copy, and science-ledger rows."
+    ],
+    "verification": [
+      "npm test -- --run src/test/habitat-process.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-388",
+    "report": "docs/reports/2026-04-20-science-ledger-spatial-audit-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "The new habitat-process guard covers wrack-hold, sand-capture, moisture-hold, frost-rime, and thaw-fringe.",
+      "Every process-moment carrier must appear in at least one matching authored spawn table or authored placement zone.",
+      "Authored entity zones are derived from x-position against biome zones, matching the process resolver's x-position reasoning.",
+      "No production biome geometry, rendering, route behavior, station behavior, save/schema, notebook copy, field-request copy, or science-ledger rows changed.",
+      "Packet 145 is complete across lanes 1, 2, 3, and 4."
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-392",
+    "verification": [
+      "npm test -- --run src/test/habitat-process.test.ts",
       "npm run build",
       "npm run validate:agents",
       "git diff --check"

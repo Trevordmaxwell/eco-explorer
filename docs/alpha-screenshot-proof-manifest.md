@@ -8,6 +8,18 @@ This manifest gives reviewers a stable set of named comparison frames for the cu
 
 Use this when a spatial, traversal, or visual-place regression is suspected: recapture the named frame, pair it with `render_game_to_text()` state, and compare it against the existing reference path and the pass criteria below.
 
+## Representative Five-Biome Contact Sheet
+
+Use this compact index when a reviewer needs one current-alpha contact sheet before digging into the detailed frame tables. It represents the completed alpha arc across beach, coastal scrub, forest, treeline, and tundra. It is a recapture recipe only: keep fresh screenshots and state under ignored `output/alpha-screenshot-proof/` paths, and do not treat this table as a promise of new biomes, committed screenshot assets, route-state assertions, or new content.
+
+| Contact-sheet row | Detailed frame ids | Fresh target stems | What the row proves |
+| --- | --- | --- | --- |
+| Beach and coast opener | `beach-opening-shoulder`, `beach-lee-pocket`, `beach-tidepool-approach`, `beach-tidepool-return` | `output/alpha-screenshot-proof/beach-opening-shoulder.*`, `output/alpha-screenshot-proof/beach-lee-pocket.*`, `output/alpha-screenshot-proof/beach-tidepool-approach.*`, `output/alpha-screenshot-proof/beach-tidepool-return.*` | The opening shore, lee shelter, and tidepool recovery beats still read as one gentle coastal progression. |
+| Coastal scrub handoff | `scrub-corridor-threshold` | `output/alpha-screenshot-proof/scrub-corridor-threshold.*` | The beach-to-scrub seam reads as a walking handoff, not a new disconnected place or hidden route objective. |
+| Forest and Root Hollow | `forest-giant-tree-entry`, `forest-log-run-trunk`, `forest-cave-trunk`, `forest-upper-return` | `output/alpha-screenshot-proof/forest-giant-tree-entry.*`, `output/alpha-screenshot-proof/forest-log-run-trunk.*`, `output/alpha-screenshot-proof/forest-cave-trunk.*`, `output/alpha-screenshot-proof/forest-upper-return.*` | Giant-tree scale, log-run carry, cave/trunk relation, and upper-return rest still feel like one connected vertical sub-ecosystem. |
+| Treeline and High Pass | `treeline-last-tree-shelter`, `treeline-stone-shelter`, `treeline-rime-brow`, `treeline-talus-hold` | `output/alpha-screenshot-proof/treeline-last-tree-shelter.*`, `output/alpha-screenshot-proof/treeline-stone-shelter.*`, `output/alpha-screenshot-proof/treeline-rime-brow.*`, `output/alpha-screenshot-proof/treeline-talus-hold.*` | Shelter, exposure, crest, and final talus hold remain readable across the high-country chapter. |
+| Tundra relief | `tundra-drift-hold`, `tundra-thaw-bench` | `output/alpha-screenshot-proof/tundra-drift-hold.*`, `output/alpha-screenshot-proof/tundra-thaw-bench.*` | Snow-meadow rest, thaw-skirt relief, and recovery lanes still carry the short-season tundra shape. |
+
 ## Capture Rules
 
 - Keep the game at the internal `256x160` handheld viewport.

@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-147",
-    "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Kid readability and input accessibility",
   "summary": "Make controls, focus, copy, and readable pixels friendlier without changing the core handheld identity.",
     "source_reports": [
@@ -353,6 +353,88 @@
             "npm run build",
             "npm run validate:agents",
             "git diff --check"
+        ]
+    },
+    "lane_3_scout_refinement": {
+        "completed_by": "ECO-20260420-scout-396",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-marker-handoff.md",
+        "verdict": "implementation-ready",
+        "finding": [
+            "The lane-3 packet slice should focus on world-space readability, not copy or station/input systems owned by other lanes.",
+            "root-curtain is the highest-risk frame because it is route-critical, vertical, and becomes keyboard-nearest only in a small lower-climb band.",
+            "shore-pine is the useful front-half comparison frame because it is route-critical but approached from ordinary ground movement.",
+            "The existing tan/cream inspect marker reads, but it is soft on both dense forest and bright scrub/sand backgrounds."
+        ],
+        "main_scope": [
+            "Add a one-pixel dark outline or shadow to drawInteractMarker(...) in src/engine/pixel-ui.ts while preserving its compact footprint.",
+            "Add or extend focused runtime smoke coverage proving root-curtain becomes the keyboard-nearest inspectable in the lower Root Hollow climb band before inspection.",
+            "Capture ignored browser proof for root-curtain and shore-pine marker frames after the contrast change.",
+            "Add a dated implementation report."
+        ],
+        "non_goals": [
+            "No route state, route copy, station UI, journal UI, save schema, content facts, field-request targeting, support behavior, world-map behavior, or biome geometry changes.",
+            "No inspect-range widening, target-priority rewrite, vertical-cue redesign, climb-hint redesign, NOTEBOOK J chip redesign, new text labels, arrows, animations, or second marker language."
+        ],
+        "baseline_artifacts": [
+            "output/lane-3-scout-396-readability/root-curtain-marker.png",
+            "output/lane-3-scout-396-readability/root-curtain-marker-state.json",
+            "output/lane-3-scout-396-readability/shore-pine-marker.png",
+            "output/lane-3-scout-396-readability/shore-pine-marker-state.json"
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot|shows climb hints\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_3_main_result": {
+        "completed_by": "ECO-20260420-main-396",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-marker-implementation.md",
+        "changed_files": [
+            "src/engine/pixel-ui.ts",
+            "src/test/runtime-smoke.test.ts",
+            "docs/reports/2026-04-20-kid-readability-marker-implementation.md"
+        ],
+        "browser_proof": [
+            "output/lane-3-main-396-readability/root-curtain-marker.png",
+            "output/lane-3-main-396-readability/root-curtain-marker-state.json",
+            "output/lane-3-main-396-readability/shore-pine-marker.png",
+            "output/lane-3-main-396-readability/shore-pine-marker-state.json"
+        ],
+        "result": [
+            "Added a dark in-footprint outline to the existing drawInteractMarker(...) shape while preserving its compact 9x9 handheld footprint.",
+            "Extended the Root Hollow runtime smoke path to prove root-curtain becomes the keyboard-nearest inspectable in the lower climb band before inspection.",
+            "Captured browser proof for root-curtain and shore-pine marker frames after the marker contrast change.",
+            "Kept route state, route copy, station UI, journal UI, save schema, content facts, field-request targeting, support behavior, world-map behavior, inspect range, target priority, and biome geometry unchanged."
+        ],
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot|shows climb hints\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check"
+        ]
+    },
+    "lane_3_critic_result": {
+        "completed_by": "ECO-20260420-critic-396",
+        "completed_at": "2026-04-20",
+        "report": "docs/reports/2026-04-20-kid-readability-marker-review.md",
+        "verdict": "clean",
+        "confirmed": [
+            "drawInteractMarker(...) keeps its compact 9x9 footprint and only adds a dark in-footprint outline.",
+            "The Root Hollow runtime smoke path proves root-curtain can become the keyboard-nearest inspectable in the lower climb band before inspection.",
+            "Browser proof state snapshots confirm the selected root-curtain and shore-pine marker frames target the intended inspectables.",
+            "No route state, route copy, station UI, journal UI, save schema, content facts, field-request targeting, support behavior, world-map behavior, inspect range, target priority, vertical cue, climb hint, or biome geometry changed."
+        ],
+        "lane_3_status": "clear; packet 147 complete for lane 3; promote ECO-20260420-scout-400",
+        "verification": [
+            "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter outing|forest expedition slot|shows climb hints\"",
+            "npm run build",
+            "npm run validate:agents",
+            "git diff --check",
+            "jq state checks for root-curtain and shore-pine marker browser proof artifacts"
         ]
     },
     "lane_4_scout_refinement": {

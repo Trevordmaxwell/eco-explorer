@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-137",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Filed arc epilogue and replay intent",
   "summary": "After High Pass is filed, give the player a calm reason to revisit without undoing the completed-arc feeling.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-filed-arc-epilogue-copy-review.md",
     "docs/reports/2026-04-20-filed-arc-replay-intent-handoff.md",
     "docs/reports/2026-04-20-filed-arc-replay-intent-implementation.md",
-    "docs/reports/2026-04-20-filed-arc-replay-intent-review.md"
+    "docs/reports/2026-04-20-filed-arc-replay-intent-review.md",
+    "docs/reports/2026-04-20-filed-arc-final-frame-proof-handoff.md",
+    "docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md",
+    "docs/reports/2026-04-20-filed-arc-final-frame-proof-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-354",
@@ -176,7 +179,75 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "queue_id": "ECO-20260420-scout-356",
+        "source_report": "docs/reports/2026-04-20-filed-arc-final-frame-proof-handoff.md",
+        "status": "DONE",
+        "focus": "Make the filed High Pass final station-frame proof explicit without adding new visuals, station chrome, route state, replay UI, save schema, or copy.",
+        "recommended_files": [
+          "src/test/save-snapshots.test.ts",
+          "docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md"
+        ],
+        "current_state": [
+          "filed High Pass already suppresses active field request, active outing, route marker, world-map replay label, and journal field request",
+          "filed High Pass snapshot coverage already locks the settled station copy and route-board filed state",
+          "homecoming and archived High Pass overlay tests already prove the existing frame-cap and late-season-lintel accent families",
+          "the remaining lane-3 gap is that the high-pass-filed station snapshot does not explicitly assert its final backdropAccent state"
+        ],
+        "main_acceptance": [
+          "the high-pass-filed snapshot explicitly asserts hasLeftBrace, hasRightBrace, hasCenterTie, and hasLateSeasonLintel are true",
+          "the same snapshot explicitly asserts hasHomecomingFrameAccent is false and homecomingMilestoneRequestId is null",
+          "no player-facing copy, route state, route definitions, support behavior, world-map behavior, journal behavior, save schema, nursery behavior, science content, station panel, HUD chip, replay prompt, season-three promise, geometry, or traversal change unless the new guard exposes a real existing mismatch",
+          "if runtime rendering or station accent logic changes are required, keep them on the existing field-station-homecoming-shell seam and capture browser proof"
+        ],
+        "baseline_verification": [
+          "npm test -- --run src/test/save-snapshots.test.ts -t \"filed High Pass\"",
+          "npm test -- --run src/test/overlay-copy.test.ts -t \"archived High Pass|homecoming memory\""
+        ],
+        "main_verification": [
+          "npm test -- --run src/test/save-snapshots.test.ts -t \"filed High Pass\"",
+          "npm test -- --run src/test/overlay-copy.test.ts -t \"archived High Pass|homecoming memory\"",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-356",
+        "source_report": "docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md",
+        "status": "DONE",
+        "summary": "Added a test-only filed High Pass final-frame guard in save snapshot coverage, proving the existing endcap keeps left/right braces, center tie, and late-season lintel while leaving the homecoming frame-cap memory off.",
+        "changed_files": [
+          "src/test/save-snapshots.test.ts",
+          "docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md"
+        ],
+        "guardrails_preserved": [
+          "no runtime rendering or station accent logic changed",
+          "no player-facing copy, route state, route definitions, support behavior, world-map behavior, journal behavior, save schema, nursery behavior, science content, station panel, HUD chip, replay prompt, season-three promise, geometry, or traversal changed",
+          "no browser proof was needed because the change was test-only and the new assertion passed against existing state"
+        ],
+        "verified": [
+          "npm test -- --run src/test/save-snapshots.test.ts -t \"filed High Pass\"",
+          "npm test -- --run src/test/overlay-copy.test.ts -t \"archived High Pass|homecoming memory\"",
+          "npm run build"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-356",
+        "source_report": "docs/reports/2026-04-20-filed-arc-final-frame-proof-review.md",
+        "status": "DONE",
+        "verdict": "no blocker",
+        "summary": "Confirmed the lane-3 pass is test-only, locks the filed High Pass completed-frame accent state, keeps homecoming frame-cap memory off, and does not change rendering, station chrome, route behavior, replay UI, copy, save schema, support behavior, nursery behavior, science content, geometry, or traversal.",
+        "promoted_next": "ECO-20260420-scout-360",
+        "verified": [
+          "npm test -- --run src/test/save-snapshots.test.ts -t \"filed High Pass\"",
+          "npm test -- --run src/test/overlay-copy.test.ts -t \"archived High Pass|homecoming memory\"",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

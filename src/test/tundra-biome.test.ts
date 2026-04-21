@@ -390,6 +390,86 @@ describe('tundra biome generation', () => {
     expect(channels.some((entity) => entity.x === 544 && entity.y === 112)).toBe(true);
   });
 
+  it('keeps the tundra thaw-window movement chain readable from drift hold to meltwater bank', () => {
+    const save = createNewSaveState('tundra-thaw-window-spatial-seed');
+    const instance = generateBiomeInstance(tundraBiome, save, 1);
+    const platformById = new Map(instance.platforms.map((platform) => [platform.id, platform]));
+    const entityById = new Map(instance.entities.map((entity) => [entity.entityId, entity]));
+    const platform = (platformId: string) => {
+      const found = platformById.get(platformId);
+      expect(found, `Expected platform ${platformId} in thaw-window chain.`).toBeDefined();
+      return found!;
+    };
+    const entity = (entityId: string) => {
+      const found = entityById.get(entityId);
+      expect(found, `Expected authored carrier ${entityId} in thaw-window chain.`).toBeDefined();
+      return found!;
+    };
+
+    const driftRest = platform('snow-meadow-drift-rest');
+    const entryHeave = platform('thaw-skirt-entry-heave');
+    const upperShelf = platform('thaw-skirt-upper-shelf');
+    const benchRest = platform('thaw-skirt-bench-rest');
+    const bankShoulder = platform('thaw-skirt-bank-shoulder');
+    const exitHeave = platform('thaw-skirt-exit-heave');
+    const frostDrift = platform('frost-ridge-drift-rest');
+    const snowLip = platform('meltwater-snow-lip');
+    const bankRest = platform('meltwater-bank-rest');
+
+    expect(driftRest.x + driftRest.w).toBeLessThan(entryHeave.x);
+    expect(entryHeave.x + entryHeave.w).toBeLessThanOrEqual(upperShelf.x);
+    expect(upperShelf.y).toBeLessThan(entryHeave.y);
+    expect(upperShelf.y).toBeLessThan(benchRest.y);
+    expect(benchRest.x - (upperShelf.x + upperShelf.w)).toBeLessThanOrEqual(4);
+    expect(bankShoulder.x - (benchRest.x + benchRest.w)).toBeLessThanOrEqual(4);
+    expect(exitHeave.x - (bankShoulder.x + bankShoulder.w)).toBeLessThanOrEqual(4);
+    expect(benchRest.y).toBeGreaterThan(upperShelf.y);
+    expect(bankShoulder.y).toBeGreaterThanOrEqual(benchRest.y);
+    expect(exitHeave.y).toBeLessThanOrEqual(bankShoulder.y);
+    expect(frostDrift.x).toBeGreaterThan(exitHeave.x + exitHeave.w);
+    expect(snowLip.x).toBeGreaterThan(frostDrift.x + frostDrift.w);
+    expect(bankRest.x).toBeGreaterThan(snowLip.x + snowLip.w);
+    expect(snowLip.y).toBeGreaterThan(frostDrift.y);
+    expect(bankRest.y).toBeGreaterThanOrEqual(snowLip.y);
+    expect(bankRest.x + bankRest.w).toBeLessThan(604);
+
+    expect(entity('authored-snow-meadow-drift-sedge-bigelows-sedge')).toMatchObject({
+      entryId: 'bigelows-sedge',
+      x: 258,
+      y: 103,
+    });
+    expect(entity('authored-thaw-skirt-entry-willow-arctic-willow')).toMatchObject({
+      entryId: 'arctic-willow',
+      x: 332,
+      y: 101,
+    });
+    expect(entity('authored-thaw-skirt-channel-tussock-thaw-channel')).toMatchObject({
+      entryId: 'tussock-thaw-channel',
+      x: 398,
+      y: 100,
+    });
+    expect(entity('authored-thaw-skirt-upper-sedge-bigelows-sedge')).toMatchObject({
+      entryId: 'bigelows-sedge',
+      x: 410,
+      y: 99,
+    });
+    expect(entity('authored-meltwater-channel-tussock-thaw-channel')).toMatchObject({
+      entryId: 'tussock-thaw-channel',
+      x: 544,
+      y: 112,
+    });
+    expect(entity('authored-meltwater-bank-willow-arctic-willow')).toMatchObject({
+      entryId: 'arctic-willow',
+      x: 582,
+      y: 109,
+    });
+    expect(entity('authored-meltwater-bank-cottongrass-cottongrass')).toMatchObject({
+      entryId: 'cottongrass',
+      x: 592,
+      y: 109,
+    });
+  });
+
   it('keeps the meltwater-bank-rest pocket unchanged', () => {
     const authoredWetEdge = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
       ['meltwater-channel', 'meltwater-bank-willow', 'meltwater-bank-cottongrass'].includes(entity.id),

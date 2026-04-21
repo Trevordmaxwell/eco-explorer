@@ -18,6 +18,13 @@ export interface FieldStationNurseryPageLayout {
   showHomePlaceStrip: boolean;
 }
 
+export interface NurseryHomePlaceStripState {
+  showStrip: boolean;
+  stageProgress: number;
+  hasLogPile: boolean;
+  hasPollinatorPatch: boolean;
+}
+
 interface FieldStationNurseryPageOptions {
   context: CanvasRenderingContext2D;
   palette: BiomeDefinition['palette'];
@@ -56,6 +63,20 @@ function getNurseryStageProgress(stage: string): number {
     default:
       return 0;
   }
+}
+
+export function resolveNurseryHomePlaceStripState(
+  nursery: NurseryStateView,
+): NurseryHomePlaceStripState {
+  const activeProject = nursery.activeProject;
+  return {
+    showStrip: Boolean(activeProject),
+    stageProgress: activeProject ? getNurseryStageProgress(activeProject.state.stage) : 0,
+    hasLogPile: nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked),
+    hasPollinatorPatch: nursery.extras.some(
+      (extra) => extra.id === 'pollinator-patch' && extra.unlocked,
+    ),
+  };
 }
 
 function drawNurseryCardFrame(
@@ -297,10 +318,7 @@ export function drawFieldStationNurseryPage({
   const layout = resolveFieldStationNurseryPageLayout(pageRect, nursery);
   const selectedProject = nursery.selectedProject;
   const activeProject = nursery.activeProject;
-  const hasLogPile = nursery.extras.some((extra) => extra.id === 'log-pile' && extra.unlocked);
-  const hasPollinatorPatch = nursery.extras.some(
-    (extra) => extra.id === 'pollinator-patch' && extra.unlocked,
-  );
+  const homePlaceStrip = resolveNurseryHomePlaceStripState(nursery);
 
   const benchBodyRect = drawNurseryCardFrame(
     context,
@@ -515,14 +533,14 @@ export function drawFieldStationNurseryPage({
     }
   }
 
-  if (footerRect && activeProject) {
+  if (footerRect && homePlaceStrip.showStrip) {
     drawNurseryHomePlaceStrip(
       context,
       footerRect,
       palette,
-      getNurseryStageProgress(activeProject.state.stage),
-      hasLogPile,
-      hasPollinatorPatch,
+      homePlaceStrip.stageProgress,
+      homePlaceStrip.hasLogPile,
+      homePlaceStrip.hasPollinatorPatch,
     );
   }
 }

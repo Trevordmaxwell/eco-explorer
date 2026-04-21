@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-150",
-  "version": 7,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -283,6 +283,69 @@
       "git diff --check"
     ],
     "lane_1_status": "clear; promote ECO-20260420-scout-410"
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-408",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-spatial-action-dispatch-audit-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Packet 150 lane 1 extracted guided field-season notice title policy into field-notices.ts.",
+      "Packet 150 lane 4 added route-critical notice-priority coverage in field-notices.test.ts.",
+      "Neither completed pass intentionally touched movement, climb, travel-target, or inspect selection dispatch, so lane 3 should stay no-code and leave a focused spatial audit/proof report instead of editing controller files."
+    ],
+    "main_scope": [
+      "Do not edit src/engine/game.ts, src/engine/field-notices.ts, traversal helpers, biome geometry, renderer code, route state, station surfaces, save schema, or authored content.",
+      "Add a short implementation/report note confirming no traversal or inspect action-dispatch change landed in packet 150.",
+      "Rerun the focused existing runtime smoke slice: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\".",
+      "Update packet/queue/progress metadata and promote ECO-20260420-critic-408 if the proof is clean."
+    ],
+    "non_goals": [
+      "No controller extraction, helper movement, test rewrite, browser screenshot, generated output, route/support behavior, notice policy change, geometry change, inspect-target algorithm change, climb/travel behavior change, station/menu change, save migration, or content-copy edit."
+    ],
+    "baseline_checks": [
+      "Passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\""
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-408",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-spatial-action-dispatch-audit-implementation.md",
+    "changed_files": [
+      "docs/reports/2026-04-20-spatial-action-dispatch-audit-implementation.md"
+    ],
+    "result": [
+      "Confirmed packet 150 did not require traversal or inspect action-dispatch edits for lane 3.",
+      "Left controller files, traversal helpers, biome geometry, renderer code, route/support behavior, notice policy, inspect-target algorithms, climb/travel behavior, station/menu behavior, save schema, tests, generated output, and authored content unchanged.",
+      "Reran the focused existing runtime smoke slice covering title/play/inspect behavior."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-408",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-spatial-action-dispatch-audit-review.md",
+    "verdict": "clean",
+    "findings": [
+      "The lane-3 packet-150 response stayed appropriately no-code because the completed extraction/test work did not touch traversal or inspect action dispatch.",
+      "The existing title/play/inspect runtime-smoke slice still passes after packet-150 notice policy work.",
+      "No controller files, traversal helpers, biome geometry, renderer code, route/support behavior, notice policy, inspect-target algorithms, climb/travel behavior, station/menu behavior, save schema, tests, generated output, or authored content changed in this lane-3 main step."
+    ],
+    "verification": [
+      "Passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-412"
   },
   "lane_4_scout_refinement": {
     "completed_by": "ECO-20260420-scout-409",

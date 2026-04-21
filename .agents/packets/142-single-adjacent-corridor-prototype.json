@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-142",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Single adjacent-corridor prototype",
   "summary": "Prototype one richer adjacent-pair corridor read without rewriting the whole continuous chain.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-review.md",
     "docs/reports/2026-04-20-treeline-tundra-corridor-route-handoff.md",
     "docs/reports/2026-04-20-treeline-tundra-corridor-route-implementation.md",
-    "docs/reports/2026-04-20-treeline-tundra-corridor-route-review.md"
+    "docs/reports/2026-04-20-treeline-tundra-corridor-route-review.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-physical-handoff.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-physical-implementation.md",
+    "docs/reports/2026-04-20-treeline-tundra-corridor-physical-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-374",
@@ -128,6 +131,8 @@
     "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-handoff.md",
     "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-implementation.md",
     "docs/reports/2026-04-20-treeline-tundra-threshold-prompt-review.md",
+    "src/engine/corridor.ts",
+    "src/test/corridor.test.ts",
     "src/test/runtime-smoke.test.ts",
     "src/engine/observation-prompts.ts",
     "src/test/observation-prompts.test.ts"
@@ -361,6 +366,105 @@
       "git diff --check"
     ],
     "coordination_note": "Lane 2 is clean for packet 142, but unrelated dirty files from other lanes and remaining packet lanes make this unsafe for a lane-clear commit or push."
+  },
+  "lane_3_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-376",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-physical-handoff.md",
+    "chosen_adjacent_pair": "treeline <-> tundra",
+    "recommended_scope": "Add one tiny recoverable threshold shelf pair to the existing treeline-tundra corridor so the lane-2 prompt and lane-4 optional route evidence have a visible physical beat.",
+    "recommended_file_targets": [
+      "src/engine/corridor.ts",
+      "src/test/corridor.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-corridor-physical-implementation.md",
+      "output/lane-3-main-376-browser/"
+    ],
+    "recommended_geometry": [
+      {
+        "id": "open-fell-threshold-lip",
+        "spriteId": "granite-platform",
+        "x": 108,
+        "y": 102,
+        "w": 16,
+        "h": 4
+      },
+      {
+        "id": "open-fell-snow-rest",
+        "spriteId": "ice-platform",
+        "x": 136,
+        "y": 99,
+        "w": 24,
+        "h": 4
+      }
+    ],
+    "main_acceptance": [
+      "add only the two recommended platforms to the `TREELINE_TO_TUNDRA_CORRIDOR_ID` authored platform list",
+      "preserve the existing corridor roster and placement order; do not move `reindeer-lichen`, `mountain-avens`, `purple-saxifrage`, `woolly-lousewort`, or `cottongrass` unless a real proof failure appears",
+      "`src/test/corridor.test.ts` asserts the lip sits left of `thresholdX`, the snow rest sits right of `thresholdX`, the pair ends before `x 168`, and nearby carriers include `reindeer-lichen`, `mountain-avens`, and `purple-saxifrage` but not immediate `cottongrass`",
+      "focused runtime smoke proves the player can enter `treeline-tundra-corridor`, reach the threshold shelf / nearby carrier window, and still fully exit into `tundra`",
+      "capture a real 256x160 browser proof and state/error export under ignored `output/lane-3-main-376-browser/` because corridor geometry changes"
+    ],
+    "preserve": [
+      "no new route, route objective, prompt seed, field-station surface, support behavior, save field, map node, corridor id, chain-wide travel rewrite, climbable, vertical cue, third platform, or wider corridor",
+      "do not edit src/engine/game.ts, src/engine/field-requests.ts, src/engine/observation-prompts.ts, src/content/world-map.ts, station layout, save schema, High Pass behavior, Tundra route behavior, lane-2 prompt copy, or lane-4 route logic"
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/corridor.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "npm test -- --run src/test/field-requests.test.ts -t \"Low Fell|treeline-low-fell|reindeer-lichen\""
+    ],
+    "main_verification": [
+      "npm test -- --run src/test/corridor.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"treeline-tundra-corridor|full adjacent corridor chain|corridor threshold|open-fell\"",
+      "npm run build",
+      "browser proof under output/lane-3-main-376-browser/",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-main-376"
+  },
+  "lane_3_main_result": {
+    "queue_id": "ECO-20260420-main-376",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-physical-implementation.md",
+    "changed_files": [
+      "src/engine/corridor.ts",
+      "src/test/corridor.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-treeline-tundra-corridor-physical-implementation.md",
+      "output/lane-3-main-376-browser/"
+    ],
+    "result": [
+      "Added only the two recommended authored platforms to the treeline-tundra Open Fell corridor.",
+      "Preserved the existing corridor roster and placement order.",
+      "Added corridor coverage for platform placement and immediate carriers.",
+      "Added runtime coverage proving the player reaches the threshold shelf window and still exits cleanly into Tundra.",
+      "Captured ignored 256x160 browser proof, state export, and empty error export under output/lane-3-main-376-browser/."
+    ],
+    "verification": [
+      "npm test -- --run src/test/corridor.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"open-fell|treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "npm run build",
+      "web-game client smoke under output/lane-3-main-376-browser/client/",
+      "direct Playwright threshold capture under output/lane-3-main-376-browser/"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-critic-376"
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-376",
+    "report": "docs/reports/2026-04-20-treeline-tundra-corridor-physical-review.md",
+    "status": "clean",
+    "result": [
+      "Found no blocker in the treeline-tundra Open Fell threshold shelf implementation.",
+      "Confirmed the implementation stayed to the two requested platforms and preserved the existing corridor carrier roster and order.",
+      "Confirmed focused corridor/runtime tests and browser proof cover platform placement, nearby carriers, shelf-window reachability, clean Tundra exit, and empty browser errors.",
+      "Marked packet 142 done and promoted packet 143's lane-3 scout item."
+    ],
+    "verification": [
+      "npm test -- --run src/test/corridor.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"open-fell|treeline-tundra-corridor|full adjacent corridor chain|corridor threshold\"",
+      "implementation had already passed npm run build, browser proof, npm run validate:agents, and git diff --check"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-scout-380"
   },
   "lane_4_scout_refinement": {
     "queue_id": "ECO-20260420-scout-377",

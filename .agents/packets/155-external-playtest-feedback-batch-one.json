@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-155",
-  "version": 4,
+  "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "READY",
@@ -10,7 +10,13 @@
     "docs/reports/2026-04-20-alpha-runway-megapush.md",
     "docs/reports/2026-04-20-first-session-menu-focus-feedback-handoff.md",
     "docs/reports/2026-04-20-first-session-menu-focus-feedback-implementation.md",
-    "docs/reports/2026-04-20-first-session-menu-focus-feedback-review.md"
+    "docs/reports/2026-04-20-first-session-menu-focus-feedback-review.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-handoff.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-implementation.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-review.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-handoff.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-implementation.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-426",
@@ -119,8 +125,16 @@
     "docs/reports/2026-04-20-first-session-menu-focus-feedback-handoff.md",
     "docs/reports/2026-04-20-first-session-menu-focus-feedback-implementation.md",
     "docs/reports/2026-04-20-first-session-menu-focus-feedback-review.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-handoff.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-implementation.md",
+    "docs/reports/2026-04-20-route-feedback-batch-one-review.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-handoff.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-implementation.md",
+    "docs/reports/2026-04-20-spatial-feedback-batch-one-review.md",
     "src/engine/game.ts",
-    "src/test/runtime-smoke.test.ts"
+    "src/test/runtime-smoke.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/beach-biome.test.ts"
   ],
   "lane_1_scout_refinement": {
     "status": "READY_FOR_MAIN",
@@ -167,6 +181,126 @@
       "npm run build"
     ],
     "follow_up": "No lane-1 follow-up needed for this packet item."
+  },
+  "lane_4_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "After the first-session menu-focus fix, prove the first Route v2 ready-to-file state still teaches the station filing path without keeping map/replay pressure active.",
+    "evidence": [
+      "Lane 1 already fixed the fresh/current-biome menu default in packet 155, so lane 4 should avoid retouching game.ts or broad runtime-smoke expectations.",
+      "src/test/field-requests.test.ts already covers the ordered Shore Shelter transect and ready copy, while High Pass coverage proves ready-to-file map/replay suppression late in the arc.",
+      "The missing feedback-facing guard is the first-session Shore Shelter route-state split: active world-map cue is allowed, ready-to-file keeps the notebook task but clears active outing, route marker, and replay label."
+    ],
+    "main_contract": [
+      "Add a focused behavior-neutral test in src/test/field-requests.test.ts for Shore Shelter active versus ready-to-file route-state behavior.",
+      "Assert active Shore Shelter can expose Today: Shore Shelter and a route marker when route-marker support is selected.",
+      "Assert ready-to-file Shore Shelter keeps the M -> Field station -> Enter summary and journal task, while activeOuting, routeMarkerLocationId, and routeReplayLabel are null.",
+      "Assert filing the note still advances to forest-hidden-hollow."
+    ],
+    "non_goals": [
+      "No first-session menu-focus changes; lane 1 already completed that.",
+      "No edits to game.ts, station pages, world-map rendering, guided-season copy, save schema, route definitions, science content, geometry, runtime-smoke, tutorial UI, route HUD, or support framework.",
+      "No broad feedback batching beyond this high-confidence route-state guard."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Shore Shelter|route-marker|replay\"",
+      "npm run validate:agents",
+      "node -e \"JSON.parse(require('fs').readFileSync('.agents/packets/155-external-playtest-feedback-batch-one.json','utf8')); console.log('packet 155 ok')\"",
+      "git diff --check"
+    ]
+  },
+  "lane_4_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "summary": "Added behavior-neutral Shore Shelter route-state coverage proving active route-marker/world-map cue behavior, ready-to-file station filing copy, ready journal task, ready marker/replay/outing suppression, and the post-file move to forest-hidden-hollow.",
+    "changed_paths": [
+      "src/test/field-requests.test.ts",
+      "docs/reports/2026-04-20-route-feedback-batch-one-implementation.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Shore Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts"
+    ],
+    "runtime_changes": "None; this pass is test-only for Route v2 state behavior."
+  },
+  "lane_4_critic_result": {
+    "status": "CLEAR",
+    "summary": "No blocker found. The Shore Shelter guard covers active route-marker/world-map cue behavior, ready-to-file station filing copy, ready journal task, ready active-outing/marker/replay suppression, and post-file advancement without runtime drift.",
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Shore Shelter|route-marker|replay\"",
+      "npm test -- --run src/test/field-requests.test.ts"
+    ],
+    "follow_up": "No lane-4 follow-up needed for packet 155."
+  },
+  "lane_3_scout_refinement": {
+    "status": "READY_FOR_MAIN",
+    "selected_feedback": "After the fresh/current-biome menu-focus fix, prove the beach opener itself still carries the first Shore Shelter objective without competing travel prompts.",
+    "evidence": [
+      "Lane 1 fixed the fresh starter menu so nextBiomeId: beach no longer defaults to world-map.",
+      "docs/alpha-screenshot-proof-manifest.md already treats first-session-beach-objective as a proof-first spatial checkpoint.",
+      "The latest first-session beach browser state shows active beach-shore-shelter, guided nextBiomeId: beach, dune-edge, nearby sand-verbena, nearbyDoor.inRange false, and nearbyTravelTarget null.",
+      "Focused beach and runtime-smoke slices already protect the opening shoulder carriers and local no-travel-target read."
+    ],
+    "main_contract": [
+      "Capture fresh ignored browser proof under output/lane-3-main-428-spatial-feedback/ for first-session-beach-objective.png, first-session-beach-objective.json, and console-errors.json.",
+      "Assert or record that the frame is playing beach/dune-edge, activeFieldRequest.id is beach-shore-shelter, guidedFieldSeason.nextBiomeId is beach, a local opener carrier is nearby/visible, nearbyTravelTarget is null, and nearbyDoor.inRange is false.",
+      "If the proof is clean, make no runtime or geometry change and add an implementation report.",
+      "Only if the proof fails, make one tiny lane-3-owned reinforcement near the existing dune-shoulder-grass / dune-shoulder-entry-lip family and extend focused beach/opening-shoulder coverage."
+    ],
+    "non_goals": [
+      "No first-session menu-focus change, route-state logic, field station, world-map focus, save schema, support behavior, route definitions, authored science facts, journal copy, or broader UI.",
+      "No committed browser output.",
+      "No new geometry unless the fresh proof shows the local beach objective cue no longer carries the opener.",
+      "No broad runtime-smoke rewrite."
+    ],
+    "recommended_checks": [
+      "npm test -- --run src/test/beach-biome.test.ts -t \"opening dune shoulder|authored beach clues|upper beach\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|opening dune shoulder\"",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "handoff_report": "docs/reports/2026-04-20-spatial-feedback-batch-one-handoff.md",
+    "promote_next": "ECO-20260420-main-428"
+  },
+  "lane_3_main_result": {
+    "status": "READY_FOR_CRITIC",
+    "summary": "Captured fresh first-session beach objective browser proof after the menu-focus fix; no lane-3 geometry or runtime change was needed.",
+    "changed_paths": [
+      "docs/reports/2026-04-20-spatial-feedback-batch-one-implementation.md"
+    ],
+    "proof_artifacts": [
+      "output/lane-3-main-428-spatial-feedback/first-session-beach-objective.png",
+      "output/lane-3-main-428-spatial-feedback/first-session-beach-objective.json",
+      "output/lane-3-main-428-spatial-feedback/assertions.json",
+      "output/lane-3-main-428-spatial-feedback/console-errors.json"
+    ],
+    "verification": [
+      "one-off Playwright first-session beach objective proof against production preview",
+      "visual inspection of first-session-beach-objective.png",
+      "npm test -- --run src/test/beach-biome.test.ts -t \"opening dune shoulder|authored beach clues|upper beach\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|opening dune shoulder\""
+    ],
+    "runtime_changes": "None; the proof passed and no geometry or source change was needed.",
+    "handoff_report": "docs/reports/2026-04-20-spatial-feedback-batch-one-implementation.md",
+    "promote_next": "ECO-20260420-critic-428"
+  },
+  "lane_3_critic_result": {
+    "status": "CLEAR",
+    "summary": "No blocker found. The first-session beach objective proof confirms Shore Shelter remains readable from the local dune-edge space without a competing travel prompt or geometry fix.",
+    "reviewed_artifacts": [
+      "output/lane-3-main-428-spatial-feedback/first-session-beach-objective.png",
+      "output/lane-3-main-428-spatial-feedback/first-session-beach-objective.json",
+      "output/lane-3-main-428-spatial-feedback/assertions.json",
+      "output/lane-3-main-428-spatial-feedback/console-errors.json"
+    ],
+    "verification": [
+      "visual inspection of first-session-beach-objective.png",
+      "reviewed assertions.json: 7 passed, 0 failed",
+      "reviewed console-errors.json: empty array",
+      "npm test -- --run src/test/beach-biome.test.ts -t \"opening dune shoulder|authored beach clues|upper beach\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"first field-season guidance|opening dune shoulder\""
+    ],
+    "follow_up": "No packet 155 lane-3 follow-up needed.",
+    "handoff_report": "docs/reports/2026-04-20-spatial-feedback-batch-one-review.md",
+    "promote_next": "ECO-20260420-scout-432"
   },
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",

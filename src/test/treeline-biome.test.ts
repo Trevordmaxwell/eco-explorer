@@ -454,6 +454,84 @@ describe('treeline biome generation', () => {
     expect(talusCarriers.some((entity) => entity.x === 572 && entity.y === 102)).toBe(true);
   });
 
+  it('keeps the lower treeline shelter and exposure chain distinct from High Pass', () => {
+    const save = createNewSaveState('treeline-shelter-exposure-seed');
+    const instance = generateBiomeInstance(treelineBiome, save, 1);
+    const platformById = new Map(instance.platforms.map((platform) => [platform.id, platform]));
+    const entityById = new Map(instance.entities.map((entity) => [entity.entityId, entity]));
+    const platform = (platformId: string) => {
+      const found = platformById.get(platformId);
+      expect(found, `Expected platform ${platformId} in lower treeline chain.`).toBeDefined();
+      return found!;
+    };
+    const entity = (entityId: string) => {
+      const found = entityById.get(entityId);
+      expect(found, `Expected authored carrier ${entityId} in lower treeline chain.`).toBeDefined();
+      return found!;
+    };
+
+    const lastTreeShelter = platform('last-tree-shelter-rest');
+    const stoneBasin = platform('stone-shelter-basin-rest');
+    const stoneBreakStep = platform('stone-shelter-break-step');
+    const upperShelf = platform('lee-pocket-upper-shelf');
+    const rimeRest = platform('lee-pocket-rime-rest');
+    const rimeCap = platform('lee-pocket-rime-cap');
+    const crestBrow = platform('lee-pocket-crest-brow');
+    const fellReturn = platform('lee-pocket-fell-return');
+    const leeRest = platform('lee-pocket-lee-rest');
+    const fellIslandRest = platform('fell-island-rest');
+
+    expect(lastTreeShelter.x).toBeLessThan(stoneBasin.x);
+    expect(stoneBasin.x).toBeLessThan(rimeRest.x);
+    expect(rimeRest.x).toBeLessThan(crestBrow.x);
+    expect(stoneBasin.y).toBeGreaterThan(upperShelf.y);
+    expect(stoneBreakStep.y).toBeLessThan(stoneBasin.y);
+    expect(stoneBreakStep.y).toBeGreaterThan(upperShelf.y);
+    expect(rimeRest.y).toBeLessThan(upperShelf.y);
+    expect(rimeCap.y).toBe(rimeRest.y);
+    expect(crestBrow.y).toBeLessThan(rimeCap.y);
+    expect(fellReturn.y).toBeGreaterThan(crestBrow.y);
+    expect(fellReturn.x).toBeLessThan(leeRest.x);
+    expect(fellReturn.x + fellReturn.w).toBe(leeRest.x);
+    expect(fellIslandRest.x + fellIslandRest.w).toBeLessThan(584);
+
+    expect(entity('authored-last-tree-spruce-krummholz-spruce')).toMatchObject({
+      entryId: 'krummholz-spruce',
+      x: 240,
+      y: 102,
+    });
+    expect(entity('authored-stone-shelter-boulder-frost-heave-boulder')).toMatchObject({
+      entryId: 'frost-heave-boulder',
+      x: 334,
+      y: 114,
+    });
+    expect(entity('authored-stone-shelter-marmot-hoary-marmot')).toMatchObject({
+      entryId: 'hoary-marmot',
+      x: 356,
+      y: 108,
+    });
+    expect(entity('authored-lee-pocket-rime-talus-talus-cushion-pocket')).toMatchObject({
+      entryId: 'talus-cushion-pocket',
+      x: 448,
+      y: 90,
+    });
+    expect(entity('authored-rime-brow-lichen-reindeer-lichen')).toMatchObject({
+      entryId: 'reindeer-lichen',
+      x: 512,
+      y: 84,
+    });
+    expect(entity('authored-fell-return-talus-talus-cushion-pocket')).toMatchObject({
+      entryId: 'talus-cushion-pocket',
+      x: 500,
+      y: 102,
+    });
+    expect(entity('authored-lee-pocket-crest-avens-mountain-avens')).toMatchObject({
+      entryId: 'mountain-avens',
+      x: 514,
+      y: 76,
+    });
+  });
+
   it('adds heath and berry mats across the open alpine half', () => {
     const save = createNewSaveState('treeline-heath-berry-seed');
     const visits = [1, 2, 3, 4].map((visitCount) => generateBiomeInstance(treelineBiome, save, visitCount));

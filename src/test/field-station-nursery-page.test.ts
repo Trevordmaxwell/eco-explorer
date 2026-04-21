@@ -6,10 +6,12 @@ import {
   resolveActiveBedBodyCopy,
   resolveFieldStationNurseryPageLayout,
   resolveMatureBedFooterCopy,
+  resolveNurseryHomePlaceStripState,
   resolveReadyBedCopy,
 } from '../engine/field-station-nursery-page';
-import { resolveNurseryStateView } from '../engine/nursery';
+import { resolveNurseryStateView, syncNurseryState } from '../engine/nursery';
 import { createNewSaveState, recordDiscovery } from '../engine/save';
+import type { NurseryGrowthStage } from '../engine/types';
 import { makeRect } from '../engine/ui-layout';
 
 const NURSERY_PAGE_RECT = makeRect(0, 0, 184, 98);
@@ -158,6 +160,109 @@ describe('field-station nursery page layout', () => {
     expect(nursery.routeSupportHint).toBe(
       'Dense berry thickets often mark the cooler, wetter side of a transition.',
     );
+    expect(nursery.showRouteSupportHint).toBe(false);
+    expect(resolveMatureBedFooterCopy(nursery)).toBe(
+      'Cool forest edge where salmonberry thickets hold shade.',
+    );
+    expect(layout).toMatchObject({
+      kind: 'mature',
+      showRouteSupportHint: false,
+      showHomePlaceStrip: true,
+    });
+    expect(layout.bedRect.h).toBe(56);
+  });
+
+  it('keeps the home-place strip hidden before a teaching bed is active', () => {
+    const lockedSave = createNewSaveState('nursery-strip-locked');
+    const lockedNursery = resolveNurseryStateView(
+      lockedSave,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'forest-study' },
+      null,
+      'bed',
+    );
+
+    expect(resolveNurseryHomePlaceStripState(lockedNursery)).toEqual({
+      showStrip: false,
+      stageProgress: 0,
+      hasLogPile: false,
+      hasPollinatorPatch: false,
+    });
+
+    const readySave = createNewSaveState('nursery-strip-ready');
+    recordDiscovery(readySave, coastalScrubBiome.entries['sand-verbena'], 'coastal-scrub');
+    readySave.completedFieldRequestIds = ['coastal-shelter-shift'];
+    readySave.nurseryResources.cuttings = 1;
+
+    const readyNursery = resolveNurseryStateView(
+      readySave,
+      { routeId: 'coastal-shelter-line', activeBeatId: 'station-return' },
+      null,
+      'bed',
+    );
+
+    expect(readyNursery.selectedProject?.definition.id).toBe('sand-verbena-bed');
+    expect(resolveNurseryHomePlaceStripState(readyNursery)).toMatchObject({
+      showStrip: false,
+      stageProgress: 0,
+    });
+  });
+
+  it('maps teaching-bed growth stages to four visual progress pips', () => {
+    const stages: Array<[NurseryGrowthStage, number]> = [
+      ['stocked', 1],
+      ['rooting', 2],
+      ['growing', 3],
+      ['mature', 4],
+    ];
+
+    for (const [stage, stageProgress] of stages) {
+      const save = createNewSaveState(`nursery-strip-${stage}`);
+      save.nurseryProjects.teachingBed = {
+        projectId: 'sand-verbena-bed',
+        stage,
+      };
+
+      const nursery = resolveNurseryStateView(
+        save,
+        { routeId: 'coastal-shelter-line', activeBeatId: 'forest-study' },
+        null,
+        'bed',
+      );
+
+      expect(resolveNurseryHomePlaceStripState(nursery)).toMatchObject({
+        showStrip: true,
+        stageProgress,
+      });
+    }
+  });
+
+  it('uses existing nursery extras to light strip motifs without changing page priority', () => {
+    const save = createNewSaveState('nursery-strip-extras');
+    save.nurseryProjects.teachingBed = {
+      projectId: 'salmonberry-bed',
+      stage: 'mature',
+    };
+    save.nurseryClaimedRewardIds = [
+      'nursery:salmonberry-support',
+      'nursery:sand-verbena-support',
+      'nursery:dune-lupine-support',
+    ];
+    expect(syncNurseryState(save)).toBe(true);
+
+    const nursery = resolveNurseryStateView(
+      save,
+      { routeId: 'edge-pattern-line', activeBeatId: 'forest-cool-edge' },
+      null,
+      'bench',
+    );
+    const layout = resolveFieldStationNurseryPageLayout(NURSERY_PAGE_RECT, nursery);
+
+    expect(resolveNurseryHomePlaceStripState(nursery)).toEqual({
+      showStrip: true,
+      stageProgress: 4,
+      hasLogPile: true,
+      hasPollinatorPatch: true,
+    });
     expect(nursery.showRouteSupportHint).toBe(false);
     expect(resolveMatureBedFooterCopy(nursery)).toBe(
       'Cool forest edge where salmonberry thickets hold shade.',

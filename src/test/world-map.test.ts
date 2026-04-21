@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { beachBiome } from '../content/biomes/beach';
 import { coastalScrubBiome } from '../content/biomes/coastal-scrub';
+import { treelineBiome } from '../content/biomes/treeline';
 import { ecoWorldMap } from '../content/world-map';
 import { createDoorTransitionPlan, sampleDoorTransition } from '../engine/door-transition';
 import {
@@ -122,6 +123,35 @@ describe('world map travel scaffold', () => {
     }
 
     expect(gatherLog.x - (coastalScrubLocation.mapReturnPost.x + 4)).toBeGreaterThan(28);
+  });
+
+  it('keeps the treeline map-return post before the High Pass shelter shelf', () => {
+    const treelineLocation = getWorldMapLocation(ecoWorldMap, 'treeline');
+    const platforms = treelineBiome.terrainRules.authoredPlatforms ?? [];
+    const lastTreeApproach = platforms.find((platform) => platform.id === 'last-tree-approach-stone');
+    const upperShelf = platforms.find((platform) => platform.id === 'lee-pocket-upper-shelf');
+    const exitStone = platforms.find((platform) => platform.id === 'lee-pocket-exit-stone');
+
+    expect(treelineLocation.mapReturnPost).toBeDefined();
+    expect(lastTreeApproach).toBeDefined();
+    expect(upperShelf).toBeDefined();
+    expect(exitStone).toBeDefined();
+    if (!treelineLocation.mapReturnPost || !lastTreeApproach || !upperShelf || !exitStone) {
+      throw new Error('expected treeline map-return post and High Pass shelter platforms to exist');
+    }
+
+    const postInteractX = treelineLocation.mapReturnPost.x + 4;
+    expect(treelineLocation.mapReturnPost).toMatchObject({
+      x: 148,
+      y: 92,
+      facing: 'right',
+      spriteId: 'map-post',
+    });
+    expect(lastTreeApproach.x - postInteractX).toBeGreaterThan(28);
+    expect(upperShelf.x - postInteractX).toBeGreaterThan(28);
+    expect(Math.abs(exitStone.x - postInteractX)).toBeGreaterThan(28);
+    expect(postInteractX).toBeLessThan(upperShelf.x);
+    expect(postInteractX).toBeLessThan(exitStone.x);
   });
 
   it('authors compact regional labels for map-return posts and walking approaches', () => {

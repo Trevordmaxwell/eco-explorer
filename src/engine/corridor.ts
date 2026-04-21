@@ -411,6 +411,24 @@ const corridorSpecs: CorridorSpec[] = [
       { entryId: 'woolly-lousewort', x: 220, jitter: 2 },
       { entryId: 'cottongrass', x: 236, jitter: 2 },
     ],
+    authoredPlatforms: [
+      {
+        id: 'open-fell-threshold-lip',
+        spriteId: 'granite-platform',
+        x: 108,
+        y: 102,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'open-fell-snow-rest',
+        spriteId: 'ice-platform',
+        x: 136,
+        y: 99,
+        w: 24,
+        h: 4,
+      },
+    ],
     entryPoints: {
       treeline: { x: 20, y: 94, facing: 'right' },
       tundra: { x: 226, y: 94, facing: 'left' },

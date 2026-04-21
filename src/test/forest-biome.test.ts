@@ -443,6 +443,119 @@ describe('forest biome generation', () => {
     expect(rootHollowLife.some((entity) => entity.entryId === 'seep-stone')).toBe(true);
   });
 
+  it('keeps the forest moisture-shelter physical memory chain readable from lower pocket to log run', () => {
+    const save = createNewSaveState('forest-tactile-chain-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+    const platformById = new Map(instance.platforms.map((platform) => [platform.id, platform]));
+    const depthFeatureById = new Map(instance.depthFeatures.map((feature) => [feature.id, feature]));
+    const climbableById = new Map(instance.climbables.map((climbable) => [climbable.id, climbable]));
+    const entityById = new Map(instance.entities.map((entity) => [entity.entityId, entity]));
+
+    const lowerRest = platformById.get('root-hollow-under-basin-rest');
+    const filteredMouth = platformById.get('filtered-return-mouth-sill');
+    const exitLog = platformById.get('root-hollow-exit-log');
+    const highRun = platformById.get('log-run-high-run-log');
+    const logRunTrunk = climbableById.get('log-run-fir-trunk');
+
+    expect(lowerRest).toMatchObject({ id: 'root-hollow-under-basin-rest', x: 358, y: 218, w: 20 });
+    expect(depthFeatureById.get('root-hollow-under-basin-pocket')).toMatchObject({
+      id: 'root-hollow-under-basin-pocket',
+      style: 'stone-pocket',
+      x: 356,
+      y: 208,
+      w: 32,
+      h: 40,
+    });
+    expect(filteredMouth).toMatchObject({ id: 'filtered-return-mouth-sill', x: 406, y: 104, w: 18 });
+    expect(exitLog).toMatchObject({ id: 'root-hollow-exit-log', x: 430, y: 116, w: 24 });
+    expect(highRun).toMatchObject({ id: 'log-run-high-run-log', x: 444, y: 100, w: 68 });
+    expect(logRunTrunk).toMatchObject({
+      id: 'log-run-fir-trunk',
+      x: 446,
+      y: 56,
+      h: 74,
+      topExitY: 96,
+    });
+
+    expect(lowerRest?.y).toBeGreaterThan(filteredMouth?.y ?? 0);
+    expect(filteredMouth?.x).toBeGreaterThan(lowerRest?.x ?? 0);
+    expect(filteredMouth?.y).toBeLessThan(exitLog?.y ?? 999);
+    expect(highRun?.x).toBeGreaterThanOrEqual(exitLog?.x ?? 0);
+    expect(highRun?.y).toBeLessThan(exitLog?.y ?? 999);
+    expect(logRunTrunk?.x).toBeGreaterThanOrEqual(highRun?.x ?? 0);
+    expect(logRunTrunk?.x).toBeLessThanOrEqual((highRun?.x ?? 0) + (highRun?.w ?? 0));
+
+    expect([
+      'authored-root-hollow-basin-ensatina-ensatina',
+      'authored-root-hollow-basin-slug-banana-slug',
+      'authored-root-hollow-under-basin-moss-seep-moss-mat',
+      'authored-filtered-return-root-curtain-root-curtain',
+      'authored-filtered-return-seep-moss-seep-moss-mat',
+      'authored-filtered-return-mouth-moss-seep-moss-mat',
+      'authored-log-run-licorice-trunk-licorice-fern',
+    ].map((id) => {
+      const entity = entityById.get(id);
+
+      return {
+        entityId: entity?.entityId,
+        entryId: entity?.entryId,
+        x: entity?.x,
+        y: entity?.y,
+        castsShadow: entity?.castsShadow ?? true,
+      };
+    })).toEqual([
+      {
+        entityId: 'authored-root-hollow-basin-ensatina-ensatina',
+        entryId: 'ensatina',
+        x: 380,
+        y: 220,
+        castsShadow: true,
+      },
+      {
+        entityId: 'authored-root-hollow-basin-slug-banana-slug',
+        entryId: 'banana-slug',
+        x: 394,
+        y: 218,
+        castsShadow: true,
+      },
+      {
+        entityId: 'authored-root-hollow-under-basin-moss-seep-moss-mat',
+        entryId: 'seep-moss-mat',
+        x: 374,
+        y: 194,
+        castsShadow: false,
+      },
+      {
+        entityId: 'authored-filtered-return-root-curtain-root-curtain',
+        entryId: 'root-curtain',
+        x: 414,
+        y: 124,
+        castsShadow: false,
+      },
+      {
+        entityId: 'authored-filtered-return-seep-moss-seep-moss-mat',
+        entryId: 'seep-moss-mat',
+        x: 394,
+        y: 136,
+        castsShadow: false,
+      },
+      {
+        entityId: 'authored-filtered-return-mouth-moss-seep-moss-mat',
+        entryId: 'seep-moss-mat',
+        x: 408,
+        y: 104,
+        castsShadow: false,
+      },
+      {
+        entityId: 'authored-log-run-licorice-trunk-licorice-fern',
+        entryId: 'licorice-fern',
+        x: 438,
+        y: 90,
+        castsShadow: false,
+      },
+    ]);
+  });
+
   it('authors niche species onto trunks, ledges, and the damp cave shelf', () => {
     const save = createNewSaveState('forest-niche-species-seed');
     const instance = generateBiomeInstance(forestBiome, save, 1);

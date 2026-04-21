@@ -157,6 +157,22 @@ export const coastalScrubBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'back-dune-shelter-lip',
+        spriteId: 'drift-platform',
+        x: 80,
+        y: 101,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'back-dune-shelter-rest',
+        spriteId: 'drift-platform',
+        x: 106,
+        y: 97,
+        w: 26,
+        h: 4,
+      },
+      {
         id: 'windbreak-gather-log',
         spriteId: 'drift-platform',
         x: 206,
@@ -254,6 +270,18 @@ export const coastalScrubBiome: BiomeDefinition = {
       },
     ],
     authoredEntities: [
+      {
+        id: 'back-dune-shelter-grass',
+        entryId: 'beach-grass',
+        x: 88,
+        y: 108,
+      },
+      {
+        id: 'back-dune-shelter-verbena',
+        entryId: 'sand-verbena',
+        x: 122,
+        y: 104,
+      },
       {
         id: 'windbreak-gather-rose',
         entryId: 'nootka-rose',

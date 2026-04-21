@@ -84,6 +84,47 @@ function openJournal(fakeWindow: FakeWindow): any {
   return state;
 }
 
+function getEntryIdsByBiome(): Map<string, Set<string>> {
+  return new Map(
+    Object.entries(biomeRegistry).map(([biomeId, biome]) => [
+      biomeId,
+      new Set(Object.keys(biome.entries)),
+    ]),
+  );
+}
+
+function collectSaveBackedEntryIds(save: SaveState): string[] {
+  const entryIds = new Set<string>();
+  const addEntryId = (entryId: string | null | undefined): void => {
+    if (entryId) {
+      entryIds.add(entryId);
+    }
+  };
+
+  for (const [entryId, entryState] of Object.entries(save.discoveredEntries)) {
+    addEntryId(entryId);
+    addEntryId(entryState.entryId);
+  }
+
+  for (const sketchbookPage of Object.values(save.sketchbookPages)) {
+    for (const entryId of Object.values(sketchbookPage.slots)) {
+      addEntryId(entryId);
+    }
+  }
+
+  if (save.routeV2Progress) {
+    for (const entryId of save.routeV2Progress.landmarkEntryIds) {
+      addEntryId(entryId);
+    }
+
+    for (const slot of save.routeV2Progress.evidenceSlots) {
+      addEntryId(slot.entryId);
+    }
+  }
+
+  return [...entryIds].sort();
+}
+
 describe('debug save snapshots', () => {
   it('keeps every snapshot as plain save JSON that round-trips through normalization', () => {
     const snapshots = buildDebugSaveSnapshots();
@@ -95,6 +136,36 @@ describe('debug save snapshots', () => {
       expect(snapshot.localStorageValue).toBe(JSON.stringify(snapshot.save));
       expect(snapshot.pasteCommand).toContain('localStorage.setItem');
       expect(normalizeSaveState(JSON.parse(snapshot.localStorageValue))).toEqual(snapshot.save);
+    }
+  });
+
+  it('keeps save-backed spatial entry ids tied to live biome content', () => {
+    const entryIdsByBiome = getEntryIdsByBiome();
+    const liveEntryIds = new Set(
+      [...entryIdsByBiome.values()].flatMap((entryIds) => [...entryIds]),
+    );
+
+    for (const snapshot of buildDebugSaveSnapshots()) {
+      for (const entryId of collectSaveBackedEntryIds(snapshot.save)) {
+        expect(
+          liveEntryIds.has(entryId),
+          `${snapshot.id} references missing entry id ${entryId}`,
+        ).toBe(true);
+      }
+
+      for (const entryState of Object.values(snapshot.save.discoveredEntries)) {
+        for (const biomeId of entryState.biomeIds) {
+          const biomeEntryIds = entryIdsByBiome.get(biomeId);
+          expect(
+            biomeEntryIds,
+            `${snapshot.id} references unknown biome id ${biomeId}`,
+          ).toBeDefined();
+          expect(
+            biomeEntryIds?.has(entryState.entryId),
+            `${snapshot.id} records ${entryState.entryId} in ${biomeId}, but that biome no longer contains the entry`,
+          ).toBe(true);
+        }
+      }
     }
   });
 
@@ -675,6 +746,14 @@ describe('debug save snapshots', () => {
     expect(state.activeFieldRequest).toBeNull();
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.subtitle).toBe('High Pass filed from Treeline Pass.');
+    expect(state.fieldStation?.backdropAccent).toMatchObject({
+      hasLeftBrace: true,
+      hasRightBrace: true,
+      hasCenterTie: true,
+      hasLateSeasonLintel: true,
+      hasHomecomingFrameAccent: false,
+      homecomingMilestoneRequestId: null,
+    });
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'High Pass filed from Treeline Pass.',

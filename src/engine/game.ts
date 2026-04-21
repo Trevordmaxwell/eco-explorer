@@ -83,7 +83,7 @@ import {
 import { resolveGuidedFieldSeasonState } from './guided-field-season';
 import { createAudioEngine, resolveAmbientProfileId } from './audio';
 import { serializeDebugSaveSnapshots } from './debug-save-snapshots';
-import { drawBiomeScene } from './biome-scene-render';
+import { drawBiomeScene, type DiscoveryFeedbackRenderState } from './biome-scene-render';
 import { buildCloseLookPayload } from './close-look';
 import { findClimbGrabTarget, findClimbHintTarget } from './climb-navigation';
 import { generateBiomeInstance, sampleTerrainY } from './generation';
@@ -199,6 +199,7 @@ const FIELD_PARTNER_NOTICE_SECONDS = 3.2;
 const FIELD_PARTNER_GLOBAL_COOLDOWN_SECONDS = 20;
 const FIELD_PARTNER_POST_OVERLAY_QUIET_SECONDS = 2.4;
 const FIELD_PARTNER_BIOME_ENTER_QUIET_SECONDS = 2.2;
+const DISCOVERY_FEEDBACK_SECONDS = 0.72;
 
 interface PlayerState {
   x: number;
@@ -209,6 +210,10 @@ interface PlayerState {
   facing: Facing;
   climbing: boolean;
   activeClimbableId: string | null;
+}
+
+interface DiscoveryFeedbackState extends DiscoveryFeedbackRenderState {
+  age: number;
 }
 
 interface TextRenderableWindow extends Window {
@@ -320,6 +325,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   let sceneMode: SceneMode = 'biome';
   let bubble: FactBubblePayload | null = null;
   let bubbleTimer = 0;
+  let discoveryFeedback: DiscoveryFeedbackState | null = null;
   let closeLook: CloseLookPayload | null = null;
   let selectedJournalBiomeId = save.lastBiomeId || 'beach';
   let selectedJournalEntryId: string | null = null;
@@ -460,6 +466,32 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     bubble = null;
     bubbleTimer = 0;
     closeLook = null;
+  }
+
+  function clearDiscoveryFeedback(): void {
+    discoveryFeedback = null;
+  }
+
+  function startDiscoveryFeedback(entity: BiomeEntity): void {
+    discoveryFeedback = {
+      entryId: entity.entryId,
+      entityId: entity.entityId,
+      x: entity.x + entity.w / 2,
+      y: entity.y,
+      age: 0,
+      duration: DISCOVERY_FEEDBACK_SECONDS,
+    };
+  }
+
+  function updateDiscoveryFeedback(dt: number): void {
+    if (!discoveryFeedback || overlayMode !== 'playing' || sceneMode !== 'biome') {
+      return;
+    }
+
+    discoveryFeedback.age += dt;
+    if (discoveryFeedback.age >= discoveryFeedback.duration) {
+      clearDiscoveryFeedback();
+    }
   }
 
   function openCloseLookFromBubble(): void {
@@ -1686,6 +1718,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
 
   function syncSceneBookkeeping(biomeId: string): void {
     clearInspectSurface();
+    clearDiscoveryFeedback();
     resetNurseryClaimedEntities();
     fieldPartnerGlobalCooldownTimer = 0;
     fieldPartnerPendingTrigger = null;
@@ -1961,6 +1994,9 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     persistSave(save);
     setSelectedJournalEntry(true);
     const notebookReadyNoticeShown = maybeCompleteActiveFieldRequest('inspect', entry.id, entityZoneId);
+    if (isNewEntry) {
+      startDiscoveryFeedback(entity);
+    }
 
     const payload: FactBubblePayload = {
       entryId: entry.id,
@@ -2097,6 +2133,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     sceneMode = 'biome';
     transitionState = null;
     clearInspectSurface();
+    clearDiscoveryFeedback();
     fieldGuideNotice = null;
     fieldGuideNoticeTimer = 0;
     fieldRequestNotice = null;
@@ -2236,6 +2273,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     };
     sceneMode = 'transition';
     clearInspectSurface();
+    clearDiscoveryFeedback();
     startFieldPartnerQuiet();
   }
 
@@ -2258,6 +2296,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     };
     sceneMode = 'transition';
     clearInspectSurface();
+    clearDiscoveryFeedback();
     startFieldPartnerQuiet();
   }
 
@@ -3066,6 +3105,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       }
     }
 
+    updateDiscoveryFeedback(dt);
+
     if (fieldStationArrivalPulseTimer > 0) {
       fieldStationArrivalPulseTimer = Math.max(0, fieldStationArrivalPulseTimer - dt);
     }
@@ -3327,6 +3368,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             },
             playerHeight: PLAYER_HEIGHT,
             worldState,
+            discoveryFeedback: null,
             transitionSnapshot,
           },
         );
@@ -3369,6 +3411,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           },
           playerHeight: PLAYER_HEIGHT,
           worldState,
+          discoveryFeedback,
         },
       );
       bubbleActionHitTargets = drawBubbleOverlay({
@@ -3774,6 +3817,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
             isNewEntry: bubble.isNewEntry,
             closeLookAvailable: bubble.closeLookAvailable,
             resourceNote: bubble.resourceNote,
+        }
+        : null,
+      discoveryFeedback: discoveryFeedback
+        ? {
+            entryId: discoveryFeedback.entryId,
+            entityId: discoveryFeedback.entityId,
+            x: Math.round(discoveryFeedback.x),
+            y: Math.round(discoveryFeedback.y),
+            remaining: Number(Math.max(0, discoveryFeedback.duration - discoveryFeedback.age).toFixed(2)),
           }
         : null,
       closeLook: closeLook

@@ -162,6 +162,43 @@ describe('beach to coastal-scrub corridor proof', () => {
     expect(tundraBriefThaw?.x).toBeGreaterThanOrEqual(treelineTundra.thresholdX);
   });
 
+  it('adds one recoverable open-fell threshold shelf beside the alpine carriers', () => {
+    const save = createNewSaveState('corridor-open-fell-threshold-seed');
+    const corridor = createCorridorScene(save, 'treeline', 'tundra');
+    const platformIds = corridor.instance.platforms.map((platform) => platform.id);
+    const lip = corridor.instance.platforms.find((platform) => platform.id === 'open-fell-threshold-lip');
+    const snowRest = corridor.instance.platforms.find((platform) => platform.id === 'open-fell-snow-rest');
+    const nearbyCarriers = corridor.instance.entities
+      .filter((entity) => entity.x >= 104 && entity.x <= 184)
+      .map((entity) => entity.entryId);
+
+    expect(platformIds).toEqual(['open-fell-threshold-lip', 'open-fell-snow-rest']);
+    expect(lip).toEqual({
+      id: 'open-fell-threshold-lip',
+      spriteId: 'granite-platform',
+      x: 108,
+      y: 102,
+      w: 16,
+      h: 4,
+    });
+    expect(snowRest).toEqual({
+      id: 'open-fell-snow-rest',
+      spriteId: 'ice-platform',
+      x: 136,
+      y: 99,
+      w: 24,
+      h: 4,
+    });
+    expect(lip?.x).toBeLessThan(corridor.thresholdX);
+    expect(snowRest?.x).toBeGreaterThanOrEqual(corridor.thresholdX);
+    expect((snowRest?.x ?? 0) + (snowRest?.w ?? 0)).toBeLessThan(168);
+    expect(lip?.y).toBeGreaterThan(snowRest?.y ?? 0);
+    expect(nearbyCarriers).toContain('reindeer-lichen');
+    expect(nearbyCarriers).toContain('mountain-avens');
+    expect(nearbyCarriers).toContain('purple-saxifrage');
+    expect(nearbyCarriers).not.toContain('cottongrass');
+  });
+
   it('adds quieter coastal carriers without turning either seam into a mixed-roster wall', () => {
     const save = createNewSaveState('corridor-coastal-route-carriers-seed');
     const beachScrub = createBeachToScrubCorridorScene(save, 'beach');

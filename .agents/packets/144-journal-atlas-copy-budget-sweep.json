@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-144",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Journal and atlas copy-budget sweep",
   "summary": "Keep the notebook rich but below the handheld text ceiling by pruning, not adding panels.",
   "source_reports": [
@@ -14,6 +14,9 @@
     "docs/reports/2026-04-20-journal-atlas-copy-budget-handoff.md",
     "docs/reports/2026-04-20-journal-atlas-copy-budget-implementation.md",
     "docs/reports/2026-04-20-journal-atlas-copy-budget-review.md",
+    "docs/reports/2026-04-20-journal-atlas-visual-proof-handoff.md",
+    "docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md",
+    "docs/reports/2026-04-20-journal-atlas-visual-proof-review.md",
     "docs/reports/2026-04-20-journal-atlas-route-preview-handoff.md",
     "docs/reports/2026-04-20-journal-atlas-route-preview-implementation.md",
     "docs/reports/2026-04-20-journal-atlas-route-preview-review.md"
@@ -365,6 +368,98 @@
       "npm run validate:agents",
       "git diff --check"
     ]
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-384",
+    "report": "docs/reports/2026-04-20-journal-atlas-visual-proof-handoff.md",
+    "target": "Provide visual proof, not new notebook code: capture the most text-stressed journal comparison/detail and field-station atlas states at the live 256x160 viewport.",
+    "recommended_paths": [
+      "output/lane-3-main-384-browser/",
+      "docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md"
+    ],
+    "recommended_surfaces": [
+      {
+        "id": "journal-alpine-detail",
+        "setup": "Custom Treeline journal save with mountain-avens sighted in treeline+tundra, moss-campion in treeline, and woolly-lousewort in tundra.",
+        "expected_state": "journal.selectedBiomeId treeline; journal.selectedEntryId mountain-avens; ecosystem note Fell Bloom Window; comparison available but closed"
+      },
+      {
+        "id": "journal-alpine-comparison",
+        "setup": "Same save, then open comparison with C/Enter.",
+        "expected_state": "comparison open with Fell Bloom Window and Brief Thaw Bloom cards"
+      },
+      {
+        "id": "station-atlas-high-pass",
+        "setup": "Existing high-pass-ready-to-file debug snapshot opened to field station SEASON routes page.",
+        "expected_state": "fieldStation.view season; atlas non-null; route board and atlas strip readable together"
+      }
+    ],
+    "preserve": [
+      "No authored science copy, route filed-note synthesis, station state, save schema, world-map behavior, corridor behavior, traversal geometry, High Pass route logic, or new UI panels.",
+      "If screenshots reveal copy overflow, hand off to lane 2; if station layout or route-preview behavior is at fault, hand off to lane 1 or lane 4."
+    ],
+    "verification": [
+      "Run the required web-game client at least once.",
+      "Capture screenshots plus render_game_to_text JSON states under output/lane-3-main-384-browser/.",
+      "Open and inspect the screenshots.",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "next": "Promote ECO-20260420-main-384."
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-384",
+    "report": "docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md",
+    "changed_files": [
+      "docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md"
+    ],
+    "artifacts": [
+      "output/lane-3-main-384-browser/client/shot-0.png",
+      "output/lane-3-main-384-browser/client/state-0.json",
+      "output/lane-3-main-384-browser/journal-alpine-detail.png",
+      "output/lane-3-main-384-browser/journal-alpine-detail.json",
+      "output/lane-3-main-384-browser/journal-alpine-comparison.png",
+      "output/lane-3-main-384-browser/journal-alpine-comparison.json",
+      "output/lane-3-main-384-browser/station-atlas-high-pass-ready.png",
+      "output/lane-3-main-384-browser/station-atlas-high-pass-ready.json",
+      "output/lane-3-main-384-browser/station-atlas-high-pass-filed.png",
+      "output/lane-3-main-384-browser/station-atlas-high-pass-filed.json",
+      "output/lane-3-main-384-browser/errors.json"
+    ],
+    "result": [
+      "Completed the lane-3 visual proof with no production source changes.",
+      "Confirmed the alpine Mountain Avens journal detail state remains contained, while the comparison-open state presents Fell Bloom Window and Brief Thaw Bloom cards without overlap.",
+      "Confirmed both High Pass ready-to-file and filed station atlas states keep the route board plus FIELD ATLAS strip readable at 256x160.",
+      "Browser errors were empty."
+    ],
+    "preserved": [
+      "No authored science copy, route filed-note synthesis, station state, save schema, world-map behavior, corridor behavior, traversal geometry, High Pass route logic, or new UI panel changed."
+    ],
+    "verification": [
+      "Required web-game client run against http://127.0.0.1:4174",
+      "Focused Playwright screenshots plus render_game_to_text states under output/lane-3-main-384-browser/",
+      "Manual screenshot inspection",
+      "output/lane-3-main-384-browser/errors.json is []"
+    ],
+    "next": "Promote ECO-20260420-critic-384."
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-384",
+    "report": "docs/reports/2026-04-20-journal-atlas-visual-proof-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "The lane-3 pass is proof-only and did not change production runtime, content, station, route, save, corridor, traversal, High Pass, or UI-panel behavior.",
+      "The alpine journal detail state is tight but contained, and the comparison-open state presents Fell Bloom Window and Brief Thaw Bloom cards without visible overlap.",
+      "High Pass ready-to-file and filed station atlas states keep the route board plus FIELD ATLAS strip readable at 256x160.",
+      "Companion render_game_to_text states match the expected journal selection, comparison cards, field-station route page, and atlas notes.",
+      "Browser errors are empty."
+    ],
+    "verification": [
+      "jq state checks for journal detail, journal comparison, station ready atlas, station filed atlas, and empty browser errors",
+      "Manual screenshot review",
+      "Prior implementation proof includes required web-game client and focused Playwright captures"
+    ],
+    "lane_3_status": "clear; promote ECO-20260420-scout-388"
   },
   "lane_4_scout_refinement": {
     "completed_by": "ECO-20260420-scout-385",

@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-135",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "DONE",
@@ -14,6 +14,9 @@
     "docs/reports/2026-04-20-nursery-page-memory-priority-handoff.md",
     "docs/reports/2026-04-20-nursery-page-memory-priority-implementation.md",
     "docs/reports/2026-04-20-nursery-page-memory-priority-review.md",
+    "docs/reports/2026-04-20-nursery-visual-growth-proof-handoff.md",
+    "docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md",
+    "docs/reports/2026-04-20-nursery-visual-growth-proof-review.md",
     "docs/reports/2026-04-20-nursery-route-support-hint-handoff.md",
     "docs/reports/2026-04-20-nursery-route-support-hint-implementation.md",
     "docs/reports/2026-04-20-nursery-route-support-hint-review.md"
@@ -226,7 +229,71 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "source": "docs/reports/2026-04-20-nursery-visual-growth-proof-handoff.md",
+        "main_348_target": "Expose and test the existing nursery home-place strip state so active teaching-bed growth reads visually before copy is read, without changing nursery layout or adding another surface.",
+        "recommended_files": [
+          "src/engine/field-station-nursery-page.ts",
+          "src/test/field-station-nursery-page.test.ts",
+          "docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md"
+        ],
+        "existing_seam": [
+          "`drawNurseryHomePlaceStrip(...)` already draws the bottom strip on active/mature beds.",
+          "The strip already has four stage pips plus log-pile and pollinator-patch motifs from existing nursery extras.",
+          "The visual contract is currently implicit inside drawing code and needs a small pure seam/test proof."
+        ],
+        "main_acceptance": [
+          "add or expose a tiny tested nursery home-place strip state seam using existing NurseryStateView data",
+          "prove locked/ready teaching-bed states do not show the strip",
+          "prove stocked/rooting/growing/mature bed states map to visual progress 1/2/3/4",
+          "prove existing nursery extras can light the log-pile and pollinator-patch motifs without changing reward or route-support behavior",
+          "keep mature-bed memory priority and existing nursery page dimensions intact",
+          "no nursery copy, route-support resolver, station page, save schema, route definition, route filing behavior, geometry, or science content changes",
+          "if drawing itself changes, add ignored 256x160 browser proof under output/lane-3-main-348-browser; helper/test-only visual-equivalent work does not require browser proof"
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ]
+      },
+      "main_result": {
+        "source": "docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md",
+        "status": "DONE",
+        "summary": "Exposed the existing nursery home-place strip as a tiny pure state seam and wired the current strip drawing through it without changing the visual recipe.",
+        "changed_files": [
+          "src/engine/field-station-nursery-page.ts",
+          "src/test/field-station-nursery-page.test.ts",
+          "docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md"
+        ],
+        "guardrails": [
+          "No nursery copy, layout, route-support resolver, station page, save schema, route definition, route filing, world geometry, or science content changes.",
+          "Locked and ready beds keep the strip hidden; active and mature beds keep the existing bottom-strip visual family.",
+          "Existing reward-backed nursery extras continue to light the log-pile and pollinator-patch motifs through the same saved extra state."
+        ],
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`"
+        ]
+      },
+      "critic_result": {
+        "source": "docs/reports/2026-04-20-nursery-visual-growth-proof-review.md",
+        "status": "DONE",
+        "verdict": "no_blocker",
+        "summary": "The nursery home-place strip seam is behavior-equivalent, test-backed, and preserves the existing mature-memory, route-support, layout, save, station, geometry, copy, and science boundaries.",
+        "packet_hygiene": "Moved the lane-3 visual-growth scout refinement out of the lane-2 contract block and into lane-3 so future agents read the handoff in the correct lane.",
+        "verification": [
+          "`npm test -- --run src/test/field-station-nursery-page.test.ts`",
+          "`npm run build`",
+          "`npm run validate:agents`",
+          "`git diff --check`"
+        ],
+        "promoted": [
+          "ECO-20260420-scout-352"
+        ]
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

@@ -42,692 +42,7 @@ This is the shared queue for all agents working in this repo.
 
 ## Ready
 
-### ECO-20260420-main-344
-
-- Status: `READY`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 implement: Station homecoming evolution pass`
-- Source: `docs/reports/2026-04-20-station-homecoming-visual-accent-handoff.md`
-- Packet: `.agents/packets/134-station-homecoming-evolution-pass.json`
-- Depends on: `ECO-20260420-scout-344`, `ECO-20260420-critic-342`
-
-Goal:
-
-- Add the smallest upper-frame visual accent family for lane 1's reviewed station-owned homecoming seam and prove it does not crowd the existing lower sill, side-gutter brace, or late-season lintel accents.
-
-Acceptance:
-
-- uses lane 1's reviewed `fieldStation.homecoming` / `homecomingMilestoneRequestId` seam instead of inventing a separate route, station, save, or copy state
-- keeps the visible accent in the upper-frame / roofline / brace-cap family without lower-sill growth, side-gutter bulk, another full lintel, a new panel, or new text
-- unit coverage protects default, mid-progress, archived High Pass, and new-seam accent states
-- focused runtime smoke proves the representative station return exposes the accent through `render_game_to_text()` without crowding existing sill/gutter/lintel state
-- if runtime drawing changes land, an ignored browser proof under `output/` captures the station shell at `256x160`
-- adds `docs/reports/2026-04-20-station-homecoming-visual-accent-implementation.md`
-- `npm test -- --run src/test/overlay-copy.test.ts`, a focused station-shell `runtime-smoke` slice, `npm run build`, `npm run validate:agents`, and `git diff --check` pass
-
-### ECO-20260420-scout-417
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-critic-413`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 152; details live in the packet.
-
 ## Blocked
-
-### ECO-20260420-critic-344
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 review: Station homecoming evolution pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/134-station-homecoming-evolution-pass.json`
-- Depends on: `ECO-20260420-main-344`
-
-Goal:
-
-- Review the lane-3 contract for packet 134; details live in the packet.
-
-### ECO-20260420-scout-348
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Nursery memory and teaching-bed readability`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
-- Depends on: `ECO-20260420-critic-344`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 135; details live in the packet.
-
-### ECO-20260420-main-348
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 implement: Nursery memory and teaching-bed readability`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
-- Depends on: `ECO-20260420-scout-348`
-
-Goal:
-
-- Implement the lane-3 contract for packet 135; details live in the packet.
-
-### ECO-20260420-critic-348
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 review: Nursery memory and teaching-bed readability`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
-- Depends on: `ECO-20260420-main-348`
-
-Goal:
-
-- Review the lane-3 contract for packet 135; details live in the packet.
-
-### ECO-20260420-scout-352
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Support choice in-field differentiation`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
-- Depends on: `ECO-20260420-critic-348`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 136; details live in the packet.
-
-### ECO-20260420-main-352
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 implement: Support choice in-field differentiation`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
-- Depends on: `ECO-20260420-scout-352`
-
-Goal:
-
-- Implement the lane-3 contract for packet 136; details live in the packet.
-
-### ECO-20260420-critic-352
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 review: Support choice in-field differentiation`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
-- Depends on: `ECO-20260420-main-352`
-
-Goal:
-
-- Review the lane-3 contract for packet 136; details live in the packet.
-
-### ECO-20260420-scout-356
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Filed arc epilogue and replay intent`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
-- Depends on: `ECO-20260420-critic-352`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 137; details live in the packet.
-
-### ECO-20260420-main-356
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 implement: Filed arc epilogue and replay intent`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
-- Depends on: `ECO-20260420-scout-356`
-
-Goal:
-
-- Implement the lane-3 contract for packet 137; details live in the packet.
-
-### ECO-20260420-critic-356
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 review: Filed arc epilogue and replay intent`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
-- Depends on: `ECO-20260420-main-356`
-
-Goal:
-
-- Review the lane-3 contract for packet 137; details live in the packet.
-
-### ECO-20260420-scout-360
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Front-half tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-critic-356`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 138; details live in the packet.
-
-### ECO-20260420-main-360
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Front-half tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-scout-360`
-
-Goal:
-
-- Implement the lane-3 contract for packet 138; details live in the packet.
-
-### ECO-20260420-critic-360
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Front-half tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-main-360`
-
-Goal:
-
-- Review the lane-3 contract for packet 138; details live in the packet.
-
-### ECO-20260420-scout-364
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Forest tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-critic-360`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 139; details live in the packet.
-
-### ECO-20260420-main-364
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Forest tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-scout-364`
-
-Goal:
-
-- Implement the lane-3 contract for packet 139; details live in the packet.
-
-### ECO-20260420-critic-364
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Forest tactile identity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
-- Depends on: `ECO-20260420-main-364`
-
-Goal:
-
-- Review the lane-3 contract for packet 139; details live in the packet.
-
-### ECO-20260420-scout-368
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Treeline shelter and exposure pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
-- Depends on: `ECO-20260420-critic-364`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 140; details live in the packet.
-
-### ECO-20260420-main-368
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Treeline shelter and exposure pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
-- Depends on: `ECO-20260420-scout-368`
-
-Goal:
-
-- Implement the lane-3 contract for packet 140; details live in the packet.
-
-### ECO-20260420-critic-368
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Treeline shelter and exposure pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
-- Depends on: `ECO-20260420-main-368`
-
-Goal:
-
-- Review the lane-3 contract for packet 140; details live in the packet.
-
-### ECO-20260420-scout-372
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Tundra thaw-window payoff pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
-- Depends on: `ECO-20260420-critic-368`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 141; details live in the packet.
-
-### ECO-20260420-main-372
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Tundra thaw-window payoff pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
-- Depends on: `ECO-20260420-scout-372`
-
-Goal:
-
-- Implement the lane-3 contract for packet 141; details live in the packet.
-
-### ECO-20260420-critic-372
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Tundra thaw-window payoff pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
-- Depends on: `ECO-20260420-main-372`
-
-Goal:
-
-- Review the lane-3 contract for packet 141; details live in the packet.
-
-### ECO-20260420-scout-376
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Single adjacent-corridor prototype`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
-- Depends on: `ECO-20260420-critic-372`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 142; details live in the packet.
-
-### ECO-20260420-main-376
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Single adjacent-corridor prototype`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
-- Depends on: `ECO-20260420-scout-376`
-
-Goal:
-
-- Implement the lane-3 contract for packet 142; details live in the packet.
-
-### ECO-20260420-critic-376
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Single adjacent-corridor prototype`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
-- Depends on: `ECO-20260420-main-376`
-
-Goal:
-
-- Review the lane-3 contract for packet 142; details live in the packet.
-
-### ECO-20260420-scout-380
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Map and station travel clarity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
-- Depends on: `ECO-20260420-critic-376`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 143; details live in the packet.
-
-### ECO-20260420-main-380
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Map and station travel clarity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
-- Depends on: `ECO-20260420-scout-380`
-
-Goal:
-
-- Implement the lane-3 contract for packet 143; details live in the packet.
-
-### ECO-20260420-critic-380
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Map and station travel clarity pass`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
-- Depends on: `ECO-20260420-main-380`
-
-Goal:
-
-- Review the lane-3 contract for packet 143; details live in the packet.
-
-### ECO-20260420-scout-384
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Journal and atlas copy-budget sweep`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
-- Depends on: `ECO-20260420-critic-380`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 144; details live in the packet.
-
-### ECO-20260420-main-384
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Journal and atlas copy-budget sweep`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
-- Depends on: `ECO-20260420-scout-384`
-
-Goal:
-
-- Implement the lane-3 contract for packet 144; details live in the packet.
-
-### ECO-20260420-critic-384
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Journal and atlas copy-budget sweep`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
-- Depends on: `ECO-20260420-main-384`
-
-Goal:
-
-- Review the lane-3 contract for packet 144; details live in the packet.
-
-### ECO-20260420-scout-388
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Science source-ledger audit`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/145-science-source-ledger-audit.json`
-- Depends on: `ECO-20260420-critic-384`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 145; details live in the packet.
-
-### ECO-20260420-main-388
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Science source-ledger audit`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/145-science-source-ledger-audit.json`
-- Depends on: `ECO-20260420-scout-388`
-
-Goal:
-
-- Implement the lane-3 contract for packet 145; details live in the packet.
-
-### ECO-20260420-critic-388
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Science source-ledger audit`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/145-science-source-ledger-audit.json`
-- Depends on: `ECO-20260420-main-388`
-
-Goal:
-
-- Review the lane-3 contract for packet 145; details live in the packet.
-
-### ECO-20260420-scout-392
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Close-look and sketchbook selected refresh`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
-- Depends on: `ECO-20260420-critic-388`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 146; details live in the packet.
-
-### ECO-20260420-main-392
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Close-look and sketchbook selected refresh`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
-- Depends on: `ECO-20260420-scout-392`
-
-Goal:
-
-- Implement the lane-3 contract for packet 146; details live in the packet.
-
-### ECO-20260420-critic-392
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Close-look and sketchbook selected refresh`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
-- Depends on: `ECO-20260420-main-392`
-
-Goal:
-
-- Review the lane-3 contract for packet 146; details live in the packet.
-
-### ECO-20260420-scout-396
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Kid readability and input accessibility`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
-- Depends on: `ECO-20260420-critic-392`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 147; details live in the packet.
-
-### ECO-20260420-main-396
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Kid readability and input accessibility`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
-- Depends on: `ECO-20260420-scout-396`
-
-Goal:
-
-- Implement the lane-3 contract for packet 147; details live in the packet.
-
-### ECO-20260420-critic-396
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Kid readability and input accessibility`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
-- Depends on: `ECO-20260420-main-396`
-
-Goal:
-
-- Review the lane-3 contract for packet 147; details live in the packet.
-
-### ECO-20260420-scout-400
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Sound, feedback, and subtle juice`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
-- Depends on: `ECO-20260420-critic-396`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 148; details live in the packet.
-
-### ECO-20260420-main-400
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Sound, feedback, and subtle juice`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
-- Depends on: `ECO-20260420-scout-400`
-
-Goal:
-
-- Implement the lane-3 contract for packet 148; details live in the packet.
-
-### ECO-20260420-critic-400
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Sound, feedback, and subtle juice`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
-- Depends on: `ECO-20260420-main-400`
-
-Goal:
-
-- Review the lane-3 contract for packet 148; details live in the packet.
 
 ### ECO-20260420-scout-403
 
@@ -774,51 +89,6 @@ Goal:
 
 - Review the lane-2 contract for packet 149; details live in the packet.
 
-### ECO-20260420-scout-404
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P1`
-- Title: `L3 scout: Alpha content parity and dead-copy prune`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
-- Depends on: `ECO-20260420-critic-400`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 149; details live in the packet.
-
-### ECO-20260420-main-404
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Alpha content parity and dead-copy prune`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
-- Depends on: `ECO-20260420-scout-404`
-
-Goal:
-
-- Implement the lane-3 contract for packet 149; details live in the packet.
-
-### ECO-20260420-critic-404
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Alpha content parity and dead-copy prune`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
-- Depends on: `ECO-20260420-main-404`
-
-Goal:
-
-- Review the lane-3 contract for packet 149; details live in the packet.
-
 ### ECO-20260420-scout-407
 
 - Status: `BLOCKED`
@@ -863,51 +133,6 @@ Goal:
 Goal:
 
 - Review the lane-2 contract for packet 150; details live in the packet.
-
-### ECO-20260420-scout-408
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Game controller extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
-- Depends on: `ECO-20260420-critic-404`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 150; details live in the packet.
-
-### ECO-20260420-main-408
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Game controller extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
-- Depends on: `ECO-20260420-scout-408`
-
-Goal:
-
-- Implement the lane-3 contract for packet 150; details live in the packet.
-
-### ECO-20260420-critic-408
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Game controller extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
-- Depends on: `ECO-20260420-main-408`
-
-Goal:
-
-- Review the lane-3 contract for packet 150; details live in the packet.
 
 ### ECO-20260420-scout-411
 
@@ -954,51 +179,6 @@ Goal:
 
 - Review the lane-2 contract for packet 151; details live in the packet.
 
-### ECO-20260420-scout-412
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Overlay render extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
-- Depends on: `ECO-20260420-critic-408`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 151; details live in the packet.
-
-### ECO-20260420-main-412
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Overlay render extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
-- Depends on: `ECO-20260420-scout-412`
-
-Goal:
-
-- Implement the lane-3 contract for packet 151; details live in the packet.
-
-### ECO-20260420-critic-412
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Overlay render extraction wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
-- Depends on: `ECO-20260420-main-412`
-
-Goal:
-
-- Review the lane-3 contract for packet 151; details live in the packet.
-
 ### ECO-20260420-scout-415
 
 - Status: `BLOCKED`
@@ -1043,81 +223,6 @@ Goal:
 Goal:
 
 - Review the lane-2 contract for packet 152; details live in the packet.
-
-### ECO-20260420-scout-416
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-critic-412`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 152; details live in the packet.
-
-### ECO-20260420-main-416
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-scout-416`
-
-Goal:
-
-- Implement the lane-3 contract for packet 152; details live in the packet.
-
-### ECO-20260420-critic-416
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-main-416`
-
-Goal:
-
-- Review the lane-3 contract for packet 152; details live in the packet.
-
-### ECO-20260420-main-417
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-scout-417`
-
-Goal:
-
-- Implement the lane-4 contract for packet 152; details live in the packet.
-
-### ECO-20260420-critic-417
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: Field-season-board splitting wave`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
-- Depends on: `ECO-20260420-main-417`
-
-Goal:
-
-- Review the lane-4 contract for packet 152; details live in the packet.
 
 ### ECO-20260420-scout-419
 
@@ -1164,96 +269,6 @@ Goal:
 
 - Review the lane-2 contract for packet 153; details live in the packet.
 
-### ECO-20260420-scout-420
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-critic-416`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 153; details live in the packet.
-
-### ECO-20260420-main-420
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-scout-420`
-
-Goal:
-
-- Implement the lane-3 contract for packet 153; details live in the packet.
-
-### ECO-20260420-critic-420
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-main-420`
-
-Goal:
-
-- Review the lane-3 contract for packet 153; details live in the packet.
-
-### ECO-20260420-scout-421
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-critic-417`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 153; details live in the packet.
-
-### ECO-20260420-main-421
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-scout-421`
-
-Goal:
-
-- Implement the lane-4 contract for packet 153; details live in the packet.
-
-### ECO-20260420-critic-421
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: Save schema and migration hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
-- Depends on: `ECO-20260420-main-421`
-
-Goal:
-
-- Review the lane-4 contract for packet 153; details live in the packet.
-
 ### ECO-20260420-scout-423
 
 - Status: `BLOCKED`
@@ -1298,96 +313,6 @@ Goal:
 Goal:
 
 - Review the lane-2 contract for packet 154; details live in the packet.
-
-### ECO-20260420-scout-424
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-critic-420`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 154; details live in the packet.
-
-### ECO-20260420-main-424
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-scout-424`
-
-Goal:
-
-- Implement the lane-3 contract for packet 154; details live in the packet.
-
-### ECO-20260420-critic-424
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-main-424`
-
-Goal:
-
-- Review the lane-3 contract for packet 154; details live in the packet.
-
-### ECO-20260420-scout-425
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-critic-421`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 154; details live in the packet.
-
-### ECO-20260420-main-425
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-scout-425`
-
-Goal:
-
-- Implement the lane-4 contract for packet 154; details live in the packet.
-
-### ECO-20260420-critic-425
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: Performance, bundle, and error hardening`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
-- Depends on: `ECO-20260420-main-425`
-
-Goal:
-
-- Review the lane-4 contract for packet 154; details live in the packet.
 
 ### ECO-20260420-scout-427
 
@@ -1434,96 +359,6 @@ Goal:
 
 - Review the lane-2 contract for packet 155; details live in the packet.
 
-### ECO-20260420-scout-428
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-critic-424`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 155; details live in the packet.
-
-### ECO-20260420-main-428
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-scout-428`
-
-Goal:
-
-- Implement the lane-3 contract for packet 155; details live in the packet.
-
-### ECO-20260420-critic-428
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-main-428`
-
-Goal:
-
-- Review the lane-3 contract for packet 155; details live in the packet.
-
-### ECO-20260420-scout-429
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-critic-425`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 155; details live in the packet.
-
-### ECO-20260420-main-429
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-scout-429`
-
-Goal:
-
-- Implement the lane-4 contract for packet 155; details live in the packet.
-
-### ECO-20260420-critic-429
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: External playtest feedback batch one`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
-- Depends on: `ECO-20260420-main-429`
-
-Goal:
-
-- Review the lane-4 contract for packet 155; details live in the packet.
-
 ### ECO-20260420-scout-431
 
 - Status: `BLOCKED`
@@ -1568,96 +403,6 @@ Goal:
 Goal:
 
 - Review the lane-2 contract for packet 156; details live in the packet.
-
-### ECO-20260420-scout-432
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-critic-428`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 156; details live in the packet.
-
-### ECO-20260420-main-432
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-scout-432`
-
-Goal:
-
-- Implement the lane-3 contract for packet 156; details live in the packet.
-
-### ECO-20260420-critic-432
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-main-432`
-
-Goal:
-
-- Review the lane-3 contract for packet 156; details live in the packet.
-
-### ECO-20260420-scout-433
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-critic-429`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 156; details live in the packet.
-
-### ECO-20260420-main-433
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-scout-433`
-
-Goal:
-
-- Implement the lane-4 contract for packet 156; details live in the packet.
-
-### ECO-20260420-critic-433
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: External playtest feedback batch two`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
-- Depends on: `ECO-20260420-main-433`
-
-Goal:
-
-- Review the lane-4 contract for packet 156; details live in the packet.
 
 ### ECO-20260420-main-434
 
@@ -1733,98 +478,6 @@ Goal:
 Goal:
 
 - Review the lane-2 contract for packet 157; details live in the packet.
-
-### ECO-20260420-scout-436
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 scout: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-critic-432`
-
-Goal:
-
-- Prepare the lane-3 contract for packet 157; details live in the packet.
-
-### ECO-20260420-main-436
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 implement: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-scout-436`
-
-Goal:
-
-- Implement the lane-3 contract for packet 157; details live in the packet.
-
-### ECO-20260420-critic-436
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-3`
-- Priority: `P2`
-- Title: `L3 review: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-main-436`
-
-Goal:
-
-- Review the lane-3 contract for packet 157; details live in the packet.
-
-### ECO-20260420-scout-437
-
-- Status: `BLOCKED`
-- Owner: `scout-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 scout: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-critic-433`
-
-Goal:
-
-- Prepare the lane-4 contract for packet 157; details live in the packet.
-
-### ECO-20260420-main-437
-
-- Status: `BLOCKED`
-- Owner: `main-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 implement: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-scout-437`
-
-Goal:
-
-- Implement the lane-4 contract for packet 157; details live in the packet.
-
-### ECO-20260420-critic-437
-
-- Status: `BLOCKED-BY-IMPLEMENTATION`
-- Owner: `critic-agent`
-- Lane: `lane-4`
-- Priority: `P2`
-- Title: `L4 review: Alpha release candidate and post-alpha scope gate`
-- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
-- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
-- Depends on: `ECO-20260420-main-437`
-
-Goal:
-
-- Review the lane-4 contract for packet 157; details live in the packet.
-
-
 
 ### ECO-20260328-main-13
 
@@ -2035,6 +688,1725 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260420-critic-436
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-main-436`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-review.md`.
+- Found no blocker in the lane-3 alpha spatial RC contact-sheet/signoff.
+- Confirmed the ignored contact sheet covers beach, Coastal Scrub, forest / Root Hollow, Treeline / High Pass, and tundra relief while treating older manifest references as review aids, not hard baselines.
+- Confirmed all `source-index.json` image/state paths exist locally.
+- Verified metadata validation, packet JSON parse, report/manifest references, and diff whitespace.
+- Promoted no follow-up; lane 3 is complete for packet `157`.
+
+### ECO-20260420-main-436
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-scout-436`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md`.
+- Generated ignored local contact-sheet artifacts under `output/lane-3-main-436-alpha-contact-sheet/`.
+- Visually inspected `contact-sheet.png` and confirmed the sheet covers beach, Coastal Scrub, forest / Root Hollow, Treeline / High Pass, and tundra relief.
+- Recorded fresh versus older-reference status for each row and explicitly kept older references from becoming hard baselines without future recapture.
+- Left runtime source, geometry, route state, station UI, save schema, science copy, journal copy, new biome work, new dependencies, committed screenshot output, and lane-1 RC packaging untouched.
+- Promoted `ECO-20260420-critic-436` to `READY`.
+
+### ECO-20260420-scout-436
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-critic-432`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet-handoff.md`.
+- Scoped packet `157` lane 3 to a final RC spatial signoff/contact-sheet report using the existing manifest and recent ignored browser proofs.
+- Recommended ignored artifacts under `output/lane-3-main-436-alpha-contact-sheet/` and a source-tracked report at `docs/reports/2026-04-20-alpha-spatial-rc-contact-sheet.md`.
+- Kept runtime source, geometry, route state, station UI, save schema, science copy, journal copy, new biome work, committed screenshot output, and lane-1 RC packaging out of scope.
+- Promoted `ECO-20260420-main-436` to `READY`.
+
+### ECO-20260420-critic-432
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-main-432`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-two-review.md`.
+- Found no blocker in the Open To Shelter Coastal Scrub back-dune proof.
+- Confirmed `8` passing proof assertions, empty console/page errors, clean back-dune shelf and optional windbreak-swale screenshots, and no runtime or geometry drift.
+- Re-ran the focused Coastal Scrub spatial and Open To Shelter/front-half runtime-smoke slices.
+- Promoted `ECO-20260420-scout-436` to `READY` for packet `157`.
+
+### ECO-20260420-main-432
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-scout-432`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-two-implementation.md`.
+- Captured fresh ignored browser proof under `output/lane-3-main-432-spatial-feedback/` for the `Open To Shelter` Coastal Scrub back-dune shelf, plus an optional windbreak-swale frame.
+- Confirmed active `coastal-shelter-shift`, `coastal-scrub`, `back-dune`, visible/nearby `beach-grass` and `sand-verbena` carriers, no nearby travel target, no in-range door, no large overlay, and empty console errors.
+- Left runtime source and Coastal Scrub geometry unchanged because the proof passed.
+- Focused Coastal Scrub spatial and Open To Shelter/front-half runtime-smoke slices passed.
+- Promoted `ECO-20260420-critic-432` to `READY`.
+
+### ECO-20260420-scout-432
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-critic-428`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-two-handoff.md`.
+- Scoped packet `156` lane 3 to a proof-first Open To Shelter / Coastal Scrub physical-anchor capture.
+- Recommended ignored browser proof under `output/lane-3-main-432-spatial-feedback/` for the `open-to-shelter-back-dune-shelf` state, plus an optional `windbreak-swale` frame if reachable without brittle timing.
+- Main should make no runtime or geometry change if the proof confirms active `coastal-shelter-shift`, a visible back-dune shelf carrier, no nearby travel target, and no in-range door.
+- If proof fails, any fix should stay inside the existing `back-dune-shelter-*` or `windbreak-*` Coastal Scrub family.
+- Baseline Coastal Scrub spatial and Open To Shelter/front-half runtime-smoke slices passed.
+- Promoted `ECO-20260420-main-432` to `READY`.
+
+### ECO-20260420-critic-428
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-main-428`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-one-review.md`.
+- Reviewed `output/lane-3-main-428-spatial-feedback/first-session-beach-objective.png` and paired JSON artifacts.
+- Confirmed `assertions.json` passed 7/7 and `console-errors.json` was empty.
+- Found no blocker, no need for a lane-3 geometry fix, and no route/station/save/science/UI drift.
+- Reran focused beach biome and runtime-smoke first-session/opening-shoulder slices.
+- Promoted `ECO-20260420-scout-432` to `READY`.
+
+### ECO-20260420-main-428
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-scout-428`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-one-implementation.md`.
+- Captured fresh first-session beach objective browser proof under `output/lane-3-main-428-spatial-feedback/`.
+- Confirmed the opener is playing `beach` at `dune-edge`, with active `beach-shore-shelter`, guided target `beach`, nearby `sand-verbena`, no nearby travel target, no in-range door, and no large overlay conflict.
+- Reviewed the screenshot and `render_game_to_text` state; `assertions.json` passed 7/7 and `console-errors.json` was empty.
+- Made no runtime or geometry change because the proof passed cleanly.
+- Focused beach biome and runtime-smoke first-session/opening-shoulder slices passed.
+- Promoted `ECO-20260420-critic-428` to `READY`.
+
+### ECO-20260420-scout-428
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-critic-424`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-feedback-batch-one-handoff.md`.
+- Scoped packet `155` lane 3 to a proof-first fresh beach objective capture after the lane-1 menu-focus fix.
+- Recommended ignored browser proof under `output/lane-3-main-428-spatial-feedback/` for `first-session-beach-objective` with paired state and empty console/page errors.
+- Main should make no runtime or geometry change if the proof confirms active `beach-shore-shelter`, local opener carriers, `nearbyTravelTarget: null`, and `nearbyDoor.inRange: false`.
+- If proof fails, main should keep any fix to one tiny reinforcement near the existing opening shoulder family.
+- Baseline verification: focused beach biome and runtime-smoke first-session/opening-shoulder slices passed.
+- Promoted `ECO-20260420-main-428` to `READY`.
+
+### ECO-20260420-critic-424
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Performance, bundle, and error hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-main-424`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-browser-proof-review.md`.
+- Found no blocker in the required lane-3 browser proof.
+- Reviewed `output/lane-3-main-424-spatial-proof/assertions.json`: `20` assertions passed.
+- Reviewed `output/lane-3-main-424-spatial-proof/console-errors.json`: empty array.
+- Visually inspected the first-session beach, forest moisture holders, high-pass active treeline, and tundra thaw-window screenshots.
+- Confirmed optional deeper traversal misses were documented as non-pass evidence, not blockers.
+- Verification: `npm run validate:agents`, packet JSON parse, and `git diff --check` passed.
+- Promoted `ECO-20260420-scout-428` to `READY`.
+
+### ECO-20260420-main-424
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Performance, bundle, and error hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-scout-424`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-browser-proof-implementation.md`.
+- Captured ignored browser proof under `output/lane-3-main-424-spatial-proof/` for first-session beach, forest moisture holders, high-pass active treeline, and tundra thaw-window field frames.
+- Recorded paired screenshot/state artifacts, `20` passing browser assertions, and an empty `console-errors.json`.
+- Visually inspected the four required screenshots and found no missing sprites, clipping blocker, blocking overlay, or lane-3 rendering regression.
+- Left runtime source, geometry, assets, route state, station, save schema, journal, content facts, and authored copy unchanged.
+- Verification: web-game client boot smoke, one-off Playwright seeded proof, focused save-snapshot tests, focused forest/treeline/tundra tests, and `npm run build` passed.
+- Promoted `ECO-20260420-critic-424` to `READY`.
+
+### ECO-20260420-scout-424
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Performance, bundle, and error hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-critic-420`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-browser-proof-handoff.md`.
+- Scoped lane 3 to a proof-first browser pass across representative beach, forest, treeline/high-country, and tundra field frames with paired `render_game_to_text()` JSON and console/page error capture.
+- Kept production runtime, geometry, route state, station, save schema, journal, content facts, and authored copy out of scope unless the browser proof exposes a concrete lane-3 blocker.
+- Baseline verification: focused save-snapshot, forest/treeline/tundra spatial-carrier tests, and `npm run build` passed.
+- Promoted `ECO-20260420-main-424` to `READY`.
+
+### ECO-20260420-critic-420
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-main-420`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-save-id-stability-review.md`.
+- Found no blocker: the saved spatial entry-id guard is test-only, scoped, and protects live biome-registry references plus shared-entry sighting locality.
+- Confirmed no save normalization, schema, migration, route, station, map, copy, fact, geometry, rendering, browser-proof, or player-facing behavior drift.
+- Verification: focused save-snapshot and forest/treeline spatial-carrier slices passed; `npm run validate:agents`, packet JSON parse, and `git diff --check` passed with only the known oversized queue warning.
+- Promoted `ECO-20260420-scout-424` to `READY`.
+
+### ECO-20260420-main-420
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-scout-420`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-save-id-stability-implementation.md`.
+- Added a test-only debug snapshot guard in `src/test/save-snapshots.test.ts` proving save-backed spatial entry ids still exist in the live biome registry.
+- Confirmed discovered-entry `biomeIds` still point to live biomes that contain the saved entry id, preserving shared-sighting locality.
+- Verification: focused save-snapshot and forest/treeline spatial-carrier slices passed; `npm run validate:agents`, packet JSON parse, and `git diff --check` passed with only the known oversized queue warning.
+
+### ECO-20260420-scout-420
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-critic-416`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-save-id-stability-handoff.md`.
+- Scoped lane 3 to a test-only debug snapshot guard proving save-backed spatial entry ids still exist in live biome entries and discovered-entry biomeIds still point to local live entries.
+- Baseline-checked debug save snapshots and focused forest/treeline spatial carriers, then promoted `ECO-20260420-main-420` to `READY`.
+- Verification: focused save-snapshot and forest/treeline biome slices passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-critic-416
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-main-416`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-placement-proof-review.md`.
+- Reviewed the `season-close-return`, `high-pass-ready-to-file`, and `high-pass-filed` station board screenshots plus matching JSON cleanly.
+- Confirmed no new station board placement regression, browser errors, source drift, geometry drift, station-page drift, route/save/copy drift, or science risk from lane 3.
+- Promoted `ECO-20260420-scout-420` to `READY`.
+
+### ECO-20260420-main-416
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-scout-416`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-placement-proof-implementation.md`.
+- Captured `season-close-return`, `high-pass-ready-to-file`, and `high-pass-filed` station route-board screenshots plus matching `render_game_to_text()` JSON under ignored `output/lane-3-main-416-board-placement-proof/`.
+- Confirmed no station board placement regression from the active outing locator split, left production source unchanged, and promoted `ECO-20260420-critic-416` to `READY`.
+- Verification: web-game client smoke passed; custom Playwright capture produced empty `errors.json`; focused High Pass board and snapshot checks queued after metadata edit.
+
+### ECO-20260420-scout-416
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-critic-412`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-placement-proof-handoff.md`.
+- Scoped packet `152` lane 3 to station board placement screenshots from existing debug save snapshots, with no geometry or station logic work unless visual proof exposes a real regression.
+- Baseline-checked focused High Pass board and debug-save snapshot coverage and promoted `ECO-20260420-main-416` to `READY`.
+- Verification: focused field-season-board and save-snapshot tests passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-critic-412
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Overlay render extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
+- Depends on: `ECO-20260420-main-412`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-overlay-notice-visual-proof-review.md`.
+- Reviewed the guided field-request notice and field-partner strip proof cleanly.
+- Confirmed the capture states match visible notice identity, browser errors are empty, and no runtime/copy/layout/route/station/save/content/geometry drift occurred.
+- Updated packet `151` with the lane-3 critic result and promoted `ECO-20260420-scout-416` to `READY`.
+- Verification: focused overlay/notice tests, field-season/request/partner runtime-smoke slice, `npm run validate:agents`, and `git diff --check` passed; validate kept the known work-queue-size warning.
+
+### ECO-20260420-main-412
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Overlay render extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
+- Depends on: `ECO-20260420-scout-412`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-overlay-notice-visual-proof-implementation.md`.
+- Captured ignored browser proof under `output/lane-3-main-412-overlay-proof/` for the guided field-request notice and field-partner strip.
+- Confirmed the visual-delta expectation from the notice-render extraction remains none and left runtime source unchanged.
+- Updated packet `151` with the lane-3 main result and promoted `ECO-20260420-critic-412` to `READY`.
+- Verification: `$WEB_GAME_CLIENT` smoke captured fresh guided-state artifacts; focused overlay/notice tests and field-season/request/partner runtime-smoke slice passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-scout-412
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Overlay render extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/151-overlay-render-extraction-wave.json`
+- Depends on: `ECO-20260420-critic-408`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-overlay-notice-visual-proof-handoff.md`.
+- Scoped packet `151` lane 3 to after-extraction visual proof for the moved notice-render family, using lane-1 review/tests as the before-behavior contract.
+- Baseline-checked focused overlay/notice/runtime coverage and promoted `ECO-20260420-main-412` to `READY`.
+- Verification: focused overlay/notice tests and field-season/request/partner runtime-smoke slice passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-critic-408
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Game controller extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
+- Depends on: `ECO-20260420-main-408`
+
+Completed:
+
+- Reviewed the no-code spatial action-dispatch audit cleanly.
+- Added `docs/reports/2026-04-20-spatial-action-dispatch-audit-review.md`.
+- Confirmed the focused title/play/inspect runtime-smoke slice still passes.
+- Updated packet `150` with the lane-3 critic result and promoted `ECO-20260420-scout-412` to `READY`.
+- Verification: focused runtime smoke passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-main-408
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Game controller extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
+- Depends on: `ECO-20260420-scout-408`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-action-dispatch-audit-implementation.md`.
+- Confirmed no traversal or inspect action-dispatch source edit was needed for packet `150`.
+- Reran the focused title/play/inspect runtime-smoke slice and updated packet `150` with the lane-3 main result.
+- Promoted `ECO-20260420-critic-408` to `READY`.
+- Verification: focused runtime smoke passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-scout-408
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 scout: Game controller extraction wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/150-game-controller-extraction-wave.json`
+- Depends on: `ECO-20260420-critic-404`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-spatial-action-dispatch-audit-handoff.md`.
+- Scoped packet `150` lane 3 to a no-code spatial action-dispatch audit because the completed extraction/tests did not touch traversal or inspect dispatch.
+- Updated packet `150` with the lane-3 scout refinement and promoted `ECO-20260420-main-408` to `READY`.
+- Verification: focused runtime-smoke inspect/play baseline passed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-critic-404
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Alpha content parity and dead-copy prune`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
+- Depends on: `ECO-20260420-main-404`
+
+Completed:
+
+- Reviewed the representative five-biome contact-sheet manifest pass cleanly.
+- Added `docs/reports/2026-04-20-alpha-contact-sheet-review.md`.
+- Updated packet `149` with the lane-3 critic result and promoted `ECO-20260420-scout-408` to `READY`.
+- Verification: contact-sheet manifest grep, `npm run validate:agents` with the known queue-size warning, and `git diff --check` passed.
+
+### ECO-20260420-main-404
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Alpha content parity and dead-copy prune`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
+- Depends on: `ECO-20260420-scout-404`
+
+Completed:
+
+- Updated `docs/alpha-screenshot-proof-manifest.md` with a compact representative five-biome contact-sheet index.
+- Added `docs/reports/2026-04-20-alpha-contact-sheet-implementation.md`.
+- Updated packet `149` with the lane-3 main result and promoted `ECO-20260420-critic-404` to `READY`.
+- Verification: contact-sheet manifest grep, `npm run validate:agents` with the known queue-size warning, and `git diff --check` passed.
+
+### ECO-20260420-scout-404
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Alpha content parity and dead-copy prune`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/149-alpha-content-parity-and-dead-copy-prune.json`
+- Depends on: `ECO-20260420-critic-400`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-alpha-contact-sheet-handoff.md`.
+- Scoped packet `149` lane 3 to a docs-only contact-sheet parity index in `docs/alpha-screenshot-proof-manifest.md`.
+- Updated packet `149` with the lane-3 scout refinement and promoted `ECO-20260420-main-404` to `READY`.
+- Verification: manifest/report inspection completed; `npm run validate:agents` and `git diff --check` queued after metadata edit.
+
+### ECO-20260420-critic-400
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Sound, feedback, and subtle juice`
+- Source: `docs/reports/2026-04-20-discovery-visual-feedback-implementation.md`
+- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
+- Depends on: `ECO-20260420-main-400`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-discovery-visual-feedback-review.md`.
+- Reviewed the first-discovery visual feedback pass cleanly with no blockers.
+- Confirmed the accent is tiny, transient, debug-visible, unsaved, non-random, first-discovery-only, and cleared across scene/biome changes.
+- Confirmed no audio, notice priority/timing, route, station, journal layout, save schema, geometry, inspect range, target priority, or science content drift.
+- Marked packet `148` `DONE` and promoted `ECO-20260420-scout-404` to `READY`.
+- Verification: focused runtime-smoke, build, agent validation, diff check, and browser-proof state/error `jq` review.
+
+### ECO-20260420-main-400
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Sound, feedback, and subtle juice`
+- Source: `docs/reports/2026-04-20-discovery-visual-feedback-handoff.md`
+- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
+- Depends on: `ECO-20260420-scout-400`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-discovery-visual-feedback-implementation.md`.
+- Added a short-lived `discoveryFeedback` runtime/debug state for first-time inspections and a tiny world-space sparkle accent in `drawBiomeScene(...)`.
+- Added focused runtime-smoke coverage proving first-time inspect creates the accent, expiry clears it, and repeat inspect does not recreate it.
+- Captured ignored browser proof under `output/lane-3-main-400-discovery-feedback/`.
+- Kept audio, notice timing/priority, route state/copy, station UI, journal layout, save schema, biome geometry, inspect range, target priority, and science content unchanged.
+- Updated packet `148` with the lane-3 main result and promoted `ECO-20260420-critic-400` to `READY`.
+- Verification: `npm test -- --run src/test/runtime-smoke.test.ts -t "covers title, play, inspect|discovery feedback"`, `npm run build`, web-game client start-state run, and focused browser proof for the inspect/discovery frame.
+
+### ECO-20260420-scout-400
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Sound, feedback, and subtle juice`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/148-sound-feedback-and-subtle-juice.json`
+- Depends on: `ECO-20260420-critic-396`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-discovery-visual-feedback-handoff.md`.
+- Scoped packet `148` lane 3 to one tiny first-discovery world-space sparkle accent around the inspected object.
+- Explicitly kept audio, field-notice timing/priority, route state, station UI, journal layout, save schema, biome geometry, inspect range, target priority, and science content out of scope.
+- Updated packet `148` with the lane-3 scout refinement and promoted `ECO-20260420-main-400` to `READY`.
+- Verification: `npm test -- --run src/test/runtime-smoke.test.ts -t "covers title, play, inspect"`.
+
+### ECO-20260420-critic-396
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Kid readability and input accessibility`
+- Source: `docs/reports/2026-04-20-kid-readability-marker-implementation.md`
+- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
+- Depends on: `ECO-20260420-main-396`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-kid-readability-marker-review.md`.
+- Confirmed the inspect-marker contrast change preserves the compact `9x9` footprint and only adds a dark in-footprint outline.
+- Confirmed the Root Hollow runtime smoke path now proves `root-curtain` keyboard-nearest targeting in the lower climb band before inspection.
+- Reviewed browser-proof state snapshots for `root-curtain` and `shore-pine`.
+- Marked packet `147` `DONE` and promoted `ECO-20260420-scout-400` to `READY`.
+- Verification: reused focused runtime-smoke/build/agent validation/diff proof and added focused `jq` checks of both browser-proof state snapshots.
+
+### ECO-20260420-main-396
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Kid readability and input accessibility`
+- Source: `docs/reports/2026-04-20-kid-readability-marker-handoff.md`
+- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
+- Depends on: `ECO-20260420-scout-396`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-kid-readability-marker-implementation.md`.
+- Updated `drawInteractMarker(...)` with a dark in-footprint outline while preserving the compact `9x9` marker language.
+- Extended the Root Hollow runtime smoke path to prove `root-curtain` becomes the keyboard-nearest inspectable in the lower climb band before inspection.
+- Captured ignored browser proof and state snapshots under `output/lane-3-main-396-readability/`.
+- Kept route state, route copy, station UI, journal UI, save schema, content facts, field-request targeting, support behavior, world-map behavior, inspect range, target priority, and biome geometry unchanged.
+- Updated packet `147` with the lane-3 main result and promoted `ECO-20260420-critic-396` to `READY`.
+- Verification: focused runtime-smoke route/climb slice and build passed.
+
+### ECO-20260420-scout-396
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Kid readability and input accessibility`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/147-kid-readability-and-input-accessibility.json`
+- Depends on: `ECO-20260420-critic-392`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-kid-readability-marker-handoff.md`.
+- Scoped lane 3 to a tiny existing inspect-marker contrast pass, using `root-curtain` and `shore-pine` as the selected route/clue proof frames.
+- Captured ignored baseline browser proof and state snapshots under `output/lane-3-scout-396-readability/`.
+- Kept route state, route copy, station UI, journal UI, save schema, content facts, field-request targeting, support behavior, world-map behavior, and biome geometry out of scope.
+- Updated packet `147` with the lane-3 scout refinement and promoted `ECO-20260420-main-396` to `READY`.
+- Verification: focused runtime-smoke route/climb slice passed.
+
+### ECO-20260420-critic-392
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Close-look and sketchbook selected refresh`
+- Source: `docs/reports/2026-04-20-close-look-selected-visual-implementation.md`
+- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
+- Depends on: `ECO-20260420-main-392`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-close-look-selected-visual-review.md`.
+- Reviewed the `root-curtain` and `shore-pine` browser proof screenshots plus matching `render_game_to_text()` state snapshots.
+- Confirmed both selected close-look cards are centered, uncropped, and readable at the live handheld scale.
+- Confirmed no production code, art, copy, route behavior, station surface, save field, journal layout, or geometry changed for the proof-only pass.
+- Marked packet `146` `DONE` and promoted `ECO-20260420-scout-396` to `READY`.
+- Verification: reused the main focused tests/build/agent validation/diff proof and added focused `jq` checks of both browser-proof state snapshots.
+
+### ECO-20260420-main-392
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Close-look and sketchbook selected refresh`
+- Source: `docs/reports/2026-04-20-close-look-selected-visual-handoff.md`
+- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
+- Depends on: `ECO-20260420-scout-392`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-close-look-selected-visual-implementation.md`.
+- Captured ignored browser proof for `root-curtain` and `shore-pine` close-look cards plus matching `render_game_to_text()` state snapshots.
+- Confirmed both selected cards are centered, uncropped, and readable at the live handheld scale, so no production close-look scale, art, copy, route, station, save, journal, or geometry edits were needed.
+- Updated packet `146` with the lane-3 main result and promoted `ECO-20260420-critic-392` to `READY`.
+- Verification: focused close-look selected-carrier slice, focused runtime-smoke selected-carrier slice, build, agent validation, and diff check passed.
+
+### ECO-20260420-scout-392
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Close-look and sketchbook selected refresh`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/146-close-look-sketchbook-selected-refresh.json`
+- Depends on: `ECO-20260420-critic-388`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-close-look-selected-visual-handoff.md`.
+- Scoped lane 3 to proof-first close-look visual validation for selected carriers `root-curtain` and `shore-pine`, with seed-only scale adjustment only if screenshots show a real crop or weak silhouette.
+- Kept new entries, sketchbook slots, route behavior, station pages, world-map cues, save fields, content facts, and geometry out of scope.
+- Updated packet `146` with the lane-3 scout refinement and promoted `ECO-20260420-main-392` to `READY`.
+- Verification: focused close-look and runtime-smoke selected-carrier slices passed.
+
+### ECO-20260420-critic-388
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Science source-ledger audit`
+- Source: `docs/reports/2026-04-20-science-ledger-spatial-audit-implementation.md`
+- Packet: `.agents/packets/145-science-source-ledger-audit.json`
+- Depends on: `ECO-20260420-main-388`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-science-ledger-spatial-audit-review.md` with a clean verdict.
+- Confirmed the test-only process-carrier guard covers `wrack-hold`, `sand-capture`, `moisture-hold`, `frost-rime`, and `thaw-fringe`.
+- Confirmed every process carrier must remain authored in a matching spawn or placement zone, with no production geometry, rendering, route, station, save/schema, notebook copy, field-request copy, or science-ledger drift.
+- Marked packet `145` `DONE` and promoted `ECO-20260420-scout-392` to `READY`.
+- Verification: `npm test -- --run src/test/habitat-process.test.ts`, `npm run build`, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-main-388
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Science source-ledger audit`
+- Source: `docs/reports/2026-04-20-science-ledger-spatial-audit-handoff.md`
+- Packet: `.agents/packets/145-science-source-ledger-audit.json`
+- Depends on: `ECO-20260420-scout-388`
+
+Completion notes:
+
+- Added a data-driven `src/test/habitat-process.test.ts` guard proving every live process-moment carrier has a matching authored spawn table or authored placement zone.
+- Covered and pinned `wrack-hold`, `sand-capture`, `moisture-hold`, `frost-rime`, and `thaw-fringe`.
+- Added `docs/reports/2026-04-20-science-ledger-spatial-audit-implementation.md`.
+- Updated packet `145` with the lane-3 main result and promoted `ECO-20260420-critic-388` to `READY`.
+- Verification: `npm test -- --run src/test/habitat-process.test.ts` passed; full build/agent validation/diff checks were run after queue and packet updates.
+
+### ECO-20260420-scout-388
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Science source-ledger audit`
+- Source: `docs/reports/2026-04-20-journal-atlas-visual-proof-review.md`
+- Packet: `.agents/packets/145-science-source-ledger-audit.json`
+- Depends on: `ECO-20260420-critic-384`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-science-ledger-spatial-audit-handoff.md`.
+- Confirmed lane 2 already closed source-ledger coverage and lane 4 already softened route evidence overclaim wording.
+- Scoped lane 3 to a focused test-only spatial guard that proves every process-moment carrier is authored into a matching habitat zone.
+- Updated packet `145` with the lane-3 scout refinement and promoted `ECO-20260420-main-388` to `READY`.
+- Verification: `npm test -- --run src/test/habitat-process.test.ts` passed.
+
+### ECO-20260420-critic-384
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Journal and atlas copy-budget sweep`
+- Source: `docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md`
+- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
+- Depends on: `ECO-20260420-main-384`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-journal-atlas-visual-proof-review.md`.
+- Reviewed the proof cleanly: dense alpine journal detail/comparison and High Pass ready/filed station atlas screenshots are contained and readable at `256x160`.
+- Confirmed the pass stayed report/output-only with no production source, copy, station, route, save, corridor, traversal, High Pass, or new-panel drift.
+- Marked packet 144 `DONE` and promoted `ECO-20260420-scout-388` to `READY`.
+- Verification: `jq` state checks for both journal states, both station states, and empty browser errors.
+
+### ECO-20260420-main-384
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Journal and atlas copy-budget sweep`
+- Source: `docs/reports/2026-04-20-journal-atlas-visual-proof-handoff.md`
+- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
+- Depends on: `ECO-20260420-scout-384`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-journal-atlas-visual-proof-implementation.md`.
+- Captured ignored browser artifacts under `output/lane-3-main-384-browser/` for alpine journal detail, alpine comparison, High Pass ready atlas, and High Pass filed atlas states.
+- Confirmed the proof states match `render_game_to_text()` and `errors.json` is empty.
+- Made no production source changes.
+- Verification: required web-game client run, focused Playwright screenshot/state proof, manual screenshot inspection, and empty browser errors.
+- Promoted `ECO-20260420-critic-384` to `READY`.
+
+### ECO-20260420-scout-384
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Journal and atlas copy-budget sweep`
+- Source: `docs/reports/2026-04-20-map-station-travel-spatial-review.md`
+- Packet: `.agents/packets/144-journal-atlas-copy-budget-sweep.json`
+- Depends on: `ECO-20260420-critic-380`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-journal-atlas-visual-proof-handoff.md`.
+- Narrowed packet 144 lane 3 to a visual proof pass for the densest journal comparison/detail and field-station atlas states at `256x160`.
+- Recommended output-only browser artifacts by default, with source edits only if a clearly lane-3-owned rendering issue appears.
+- Promoted `ECO-20260420-main-384` to `READY`.
+- Verification: `jq empty .agents/packets/144-journal-atlas-copy-budget-sweep.json`, `npm run validate:agents`, and `git diff --check`.
+
+### ECO-20260420-critic-380
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Map and station travel clarity pass`
+- Source: `docs/reports/2026-04-20-map-station-travel-spatial-implementation.md`
+- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
+- Depends on: `ECO-20260420-main-380`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-map-station-travel-spatial-review.md`.
+- Reviewed the Treeline map-return cue relocation cleanly: only the Treeline return post moved, the old High Pass shelf band is clear of travel prompts, and browser errors are empty.
+- Marked packet 143 `DONE` and promoted `ECO-20260420-scout-384` to `READY`.
+- Verification: `npm test -- --run src/test/world-map.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "map-return|High Pass|destination-aware travel cue"`, and `npm run build`.
+
+### ECO-20260420-main-380
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Map and station travel clarity pass`
+- Source: `docs/reports/2026-04-20-map-station-travel-spatial-handoff.md`
+- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
+- Depends on: `ECO-20260420-scout-380`
+
+Completion notes:
+
+- Moved only the Treeline Pass `mapReturnPost` from `x: 404` to `x: 148`.
+- Added world-map and runtime-smoke coverage proving the moved post remains reachable and the old High Pass shelf band has no nearby travel target.
+- Captured ignored browser proof under `output/lane-3-main-380-browser/`.
+- Verification: `npm test -- --run src/test/world-map.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "map-return|High Pass|destination-aware travel cue"`, `npm run build`, web-game client smoke, and focused Treeline browser proof passed.
+- Promoted `ECO-20260420-critic-380` to `READY`.
+
+### ECO-20260420-scout-380
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Map and station travel clarity pass`
+- Source: `docs/reports/2026-04-20-treeline-tundra-corridor-physical-review.md`
+- Packet: `.agents/packets/143-map-station-travel-clarity-pass.json`
+- Depends on: `ECO-20260420-critic-376`
+
+Completion notes:
+
+- Added `docs/reports/2026-04-20-map-station-travel-spatial-handoff.md`.
+- Narrowed packet 143 lane 3 to one Treeline Pass map-return cue relocation plus focused clearance/runtime proof.
+- Updated packet 143 with the lane-3 scout refinement and promoted `ECO-20260420-main-380` to `READY`.
+- Verification: `jq empty .agents/packets/143-map-station-travel-clarity-pass.json`, `npm run validate:agents` (passes with the existing queue-size warning), and `git diff --check`.
+
+### ECO-20260420-critic-376
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Single adjacent-corridor prototype`
+- Source: `docs/reports/2026-04-20-treeline-tundra-corridor-physical-implementation.md`
+- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
+- Depends on: `ECO-20260420-main-376`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-treeline-tundra-corridor-physical-review.md`.
+- Found no blocker: the Open Fell threshold shelf uses exactly the requested two platforms, preserves corridor carrier order, and keeps route, prompt, station, save, world-map, support, climbable, corridor id, width, and UI scope unchanged.
+- Confirmed corridor/runtime tests and browser proof cover platform placement, nearby carriers, shelf-window reachability, clean Tundra exit, and empty browser errors.
+- Marked packet `142` `DONE` and promoted `ECO-20260420-scout-380` to `READY`.
+- Verification: corridor test and focused runtime-smoke slice passed; implementation had already passed build, browser proof, agent validation, and diff check.
+
+### ECO-20260420-main-376
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Single adjacent-corridor prototype`
+- Source: `docs/reports/2026-04-20-treeline-tundra-corridor-physical-handoff.md`
+- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
+- Depends on: `ECO-20260420-scout-376`
+
+Completed:
+
+- Added the two-platform `Open Fell` threshold shelf pair to `treeline-tundra-corridor` without moving the existing carrier roster or changing route, station, save, world-map, prompt, or support behavior.
+- Added focused corridor and runtime-smoke proofs for platform placement, immediate carriers, shelf-window reachability, and clean exit into `tundra`.
+- Captured ignored browser artifacts under `output/lane-3-main-376-browser/`, including a real `256x160` threshold PNG, state exports, and empty error export.
+- Promoted `ECO-20260420-critic-376` to `READY`.
+- Verification: corridor test, focused runtime-smoke slice, build, web-game client smoke, and direct Playwright threshold capture passed.
+
+### ECO-20260420-scout-376
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Single adjacent-corridor prototype`
+- Source: `docs/reports/2026-04-20-tundra-thaw-window-spatial-review.md`
+- Packet: `.agents/packets/142-single-adjacent-corridor-prototype.json`
+- Depends on: `ECO-20260420-critic-372`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-treeline-tundra-corridor-physical-handoff.md`.
+- Scoped lane 3 to one tiny two-platform threshold shelf pair inside `treeline-tundra-corridor`, using existing carriers and requiring browser proof because geometry will change.
+- Kept chain-wide travel, route/support behavior, station UI, save schema, world-map nodes, prompt copy, High Pass behavior, and Tundra route behavior out of scope.
+- Promoted `ECO-20260420-main-376` to `READY`.
+- Verification: corridor tests, treeline-tundra/full-chain corridor runtime-smoke slice, and Low Fell/reindeer-lichen field-request slice passed as baseline.
+
+### ECO-20260420-critic-372
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Tundra thaw-window payoff pass`
+- Source: `docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md`
+- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
+- Depends on: `ECO-20260420-main-372`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-tundra-thaw-window-spatial-review.md`.
+- Found no blocker: the pass is test/report-only and pins the existing Tundra thaw-window movement/recovery chain and authored wet-ground carriers without runtime, geometry, route, station, save, copy, science, world-map, physics, High Pass, or UI drift.
+- Confirmed no browser proof was required because no geometry, renderer, placement, or visual-position change landed.
+- Marked packet `141` `DONE` and promoted `ECO-20260420-scout-376` to `READY`.
+- Verification: focused tundra-biome test and focused Thaw Window/tundra runtime-smoke slice passed during review; implementation already passed `npm run build`.
+
+### ECO-20260420-main-372
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Tundra thaw-window payoff pass`
+- Source: `docs/reports/2026-04-20-tundra-thaw-window-spatial-handoff.md`
+- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
+- Depends on: `ECO-20260420-scout-372`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-tundra-thaw-window-spatial-implementation.md`.
+- Added a test-only Tundra biome guard for the existing snow-meadow drift -> thaw-skirt shelf/bench/channel -> frost-ridge drift -> meltwater-bank recovery chain.
+- Pinned the authored wet-ground carriers near the chain without changing Tundra geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, science copy, journal/atlas copy, player physics, High Pass copy, or new UI.
+- Promoted `ECO-20260420-critic-372` to `READY`.
+- Verification: focused tundra-biome test, focused Thaw Window/tundra runtime-smoke slice, and `npm run build` passed; `npm run validate:agents` passed with the known queue-size warning.
+
+### ECO-20260420-scout-372
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Tundra thaw-window payoff pass`
+- Source: `docs/reports/2026-04-20-treeline-shelter-exposure-review.md`
+- Packet: `.agents/packets/141-tundra-thaw-window-payoff-pass.json`
+- Depends on: `ECO-20260420-critic-368`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-tundra-thaw-window-spatial-handoff.md`.
+- Narrowed packet `141` lane 3 to a proof-first guard for the existing Tundra thaw-aware movement/recovery chain.
+- Recommended no new geometry by default because snow-meadow drift, thaw-skirt shelf/bench/channel, frost-ridge drift, and meltwater-bank recovery pieces already exist.
+- Promoted `ECO-20260420-main-372` to `READY`.
+- Verification: focused tundra-biome test and focused Thaw Window/tundra runtime-smoke slice passed.
+
+### ECO-20260420-critic-368
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Treeline shelter and exposure pass`
+- Source: `docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md`
+- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
+- Depends on: `ECO-20260420-main-368`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-treeline-shelter-exposure-review.md`.
+- Found no blocker: the pass is test/report-only and pins the existing below-High-Pass Treeline shelter/exposure chain without new geometry or High Pass density.
+- Confirmed no browser proof was required because no geometry, rendering, or placement change landed.
+- Marked packet `140` `DONE` and promoted `ECO-20260420-scout-372` to `READY`.
+- Verification: focused treeline-biome test and focused treeline runtime-smoke slice passed during review; implementation already passed `npm run build`.
+
+### ECO-20260420-main-368
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Treeline shelter and exposure pass`
+- Source: `docs/reports/2026-04-20-treeline-shelter-exposure-handoff.md`
+- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
+- Depends on: `ECO-20260420-scout-368`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md`.
+- Added a test-only Treeline biome guard for the existing lower shelter/exposure chain from last-tree shelter through Stone Shelter, Rime Brow, sheltered return, and the open-fell island below High Pass.
+- Pinned authored carrier ids and positions for krummholz spruce, frost-heave boulder, hoary marmot, talus pocket, reindeer lichen, return talus, and mountain avens.
+- Preserved Treeline geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, player physics, science copy, journal/atlas copy, High Pass copy, and new UI surfaces.
+- Verification: focused treeline-biome test, focused treeline runtime-smoke slice, and `npm run build` passed.
+- Promoted `ECO-20260420-critic-368` to `READY`.
+
+### ECO-20260420-scout-368
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Treeline shelter and exposure pass`
+- Source: `docs/reports/2026-04-20-forest-tactile-identity-review.md`
+- Packet: `.agents/packets/140-treeline-shelter-exposure-pass.json`
+- Depends on: `ECO-20260420-critic-364`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-treeline-shelter-exposure-handoff.md`.
+- Narrowed packet `140` lane 3 to a proof-first guard for the existing lower Treeline shelter/exposure chain.
+- Recommended no new geometry by default because Treeline already has a dense last-tree shelter, Stone Shelter basin, Rime Brow, sheltered return, and open-fell island below High Pass.
+- Promoted `ECO-20260420-main-368` to `READY`.
+- Verification: focused treeline-biome test and focused treeline runtime-smoke slice passed.
+
+### ECO-20260420-critic-364
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Forest tactile identity pass`
+- Source: `docs/reports/2026-04-20-forest-tactile-identity-implementation.md`
+- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-main-364`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-forest-tactile-identity-review.md`.
+- Found no blocker: the implementation is test/report-only and pins the existing forest tactile chain without runtime, geometry, rendering, route/support, station, save, world-map, player-physics, journal-copy, science, cave-breadth, or old-growth-branch drift.
+- Confirmed no browser proof was required because no geometry, rendering, or placement change landed.
+- Marked packet `139` `DONE` and promoted `ECO-20260420-scout-368` to `READY`.
+- Verification: focused forest biome test and focused `root-hollow|Moist Hollow|Moisture Holders|log-run` runtime-smoke slice passed during review; implementation already passed `npm run build`.
+
+### ECO-20260420-main-364
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Forest tactile identity pass`
+- Source: `docs/reports/2026-04-20-forest-tactile-identity-handoff.md`
+- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-scout-364`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-forest-tactile-identity-implementation.md`.
+- Added a focused forest-biome guard for the existing lower wet pocket -> filtered return mouth -> log-run carry chain.
+- Pinned the key platform, depth-feature, climbable, and authored-carrier ids without changing forest geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, player physics, journal copy, science entries, cave breadth, or old-growth branch breadth.
+- Updated packet `139` and promoted `ECO-20260420-critic-364` to `READY`.
+- Verification: full forest biome test, focused `root-hollow|Moist Hollow|Moisture Holders|log-run` runtime-smoke slice, and `npm run build` passed.
+
+### ECO-20260420-scout-364
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Forest tactile identity pass`
+- Source: `docs/reports/2026-04-20-front-half-tactile-identity-review.md`
+- Packet: `.agents/packets/139-forest-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-critic-360`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-forest-tactile-identity-handoff.md`.
+- Scoped packet `139` lane 3 to a proof-first forest physical-memory guard, not another cave or old-growth expansion.
+- Identified the existing lower wet pocket -> filtered return mouth -> log-run carry chain as the right tactile identity target.
+- Updated packet `139` and promoted `ECO-20260420-main-364` to `READY`.
+- Verification: full forest biome test and focused `root-hollow|Moist Hollow|Moisture Holders|log-run` runtime-smoke slice passed.
+
+### ECO-20260420-critic-437
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-main-437`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-review.md`.
+- Reviewed the final lane-4 route/support RC signoff cleanly with no blocking findings.
+- Confirmed the signoff cites existing route proof without changing route runtime, route definitions, station UI, world-map behavior, save schema, support UI, science copy, geometry, review packaging, or `alpha:rc`.
+- Confirmed the post-alpha route/support opportunity list stays deferred and uses existing route/support seams.
+- Updated packet `157`; lane 4 has no remaining actionable queue item.
+- Verification: focused route-state slice, full `src/test/field-requests.test.ts`, focused runtime route-smoke slice, `npm run validate:agents` with the known queue-size warning, packet `157` parse, and `git diff --check` passed.
+
+### ECO-20260420-main-437
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-handoff.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-scout-437`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-lane-4-alpha-route-support-signoff.md`.
+- Recorded the final lane-4 route/support RC proof map: alpha route playthrough checklist, full-arc route-state matrix, live High Pass filing smoke, and packet `156` ready-to-file suppression guards.
+- Recorded focused route/state/runtime verification results and a narrow post-alpha route/support opportunity list deferred until after RC.
+- Left route runtime, route definitions, station UI, world-map behavior, save schema, support UI, science copy, geometry, review packaging, `alpha:rc`, lane-2 copy, and lane-3 screenshot work unchanged.
+- Updated packet `157` and promoted `ECO-20260420-critic-437` to `READY`.
+- Verification: focused route-state slice, full `src/test/field-requests.test.ts`, and focused runtime route-smoke slice passed.
+
+### ECO-20260420-scout-437
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: Alpha release candidate and post-alpha scope gate`
+- Source: `docs/reports/2026-04-20-open-to-shelter-route-state-review.md`
+- Packet: `.agents/packets/157-alpha-release-candidate-and-scope-gate.json`
+- Depends on: `ECO-20260420-critic-433`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-lane-4-alpha-route-support-signoff-handoff.md`.
+- Scoped packet `157` lane 4 to a final route/support RC signoff report and focused route-smoke verification, not new route behavior.
+- Identified existing proof anchors: alpha route playthrough checklist, full-arc route-state matrix, live High Pass filing smoke, and packet `156` ready-to-file suppression guards.
+- Baseline-checked focused route-state and runtime route-smoke slices.
+- Updated packet `157` and promoted `ECO-20260420-main-437` to `READY`.
+- Verification: focused route-state slice and focused runtime route-smoke slice passed.
+
+### ECO-20260420-critic-360
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 review: Front-half tactile identity pass`
+- Source: `docs/reports/2026-04-20-front-half-tactile-identity-implementation.md`
+- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-main-360`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-front-half-tactile-identity-review.md`.
+- Found no blocker: the opening shelf is optional, stays inside `back-dune`, uses existing `drift-platform`, `beach-grass`, and `sand-verbena` ids, and preserves route/support/station/save/science/world-map/corridor/physics/UI behavior.
+- Confirmed the focused test pins shelf spacing, zone bounds, carrier positions, and separation from the later windbreak family.
+- Reviewed browser proof showing live `Open To Shelter` in Coastal Scrub, nearby authored carriers, and no console/page errors.
+- Marked packet `138` `DONE` and promoted `ECO-20260420-scout-364` to `READY`.
+- Verification: focused Coastal Scrub biome test, focused `Open To Shelter|front-half-open-to-shelter|held back-dune shelf` runtime-smoke slice, `npm run validate:agents`, packet `138` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-360
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Front-half tactile identity pass`
+- Source: `docs/reports/2026-04-20-front-half-tactile-identity-handoff.md`
+- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-scout-360`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-front-half-tactile-identity-implementation.md`.
+- Added `back-dune-shelter-lip` and `back-dune-shelter-rest` to the live Coastal Scrub opening, using existing `drift-platform` traversal language.
+- Added stable authored `beach-grass` and `sand-verbena` carriers near the shelf and focused biome coverage for zone bounds, hop spacing, carrier positions, and separation from the later windbreak family.
+- Captured ignored browser proof under `output/lane-3-main-360-browser/` and `$WEB_GAME_CLIENT` smoke under `output/lane-3-main-360-client/`.
+- Updated packet `138` with the lane-3 main result and promoted `ECO-20260420-critic-360` to `READY`.
+- Verification: `src/test/coastal-scrub-biome.test.ts`, focused `Open To Shelter|front-half-open-to-shelter|held back-dune shelf` runtime smoke slice, `npm run build`, browser proof, packet `138` JSON parse, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-scout-360
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Front-half tactile identity pass`
+- Source: `docs/reports/2026-04-20-filed-arc-final-frame-proof-review.md`
+- Packet: `.agents/packets/138-front-half-tactile-identity-pass.json`
+- Depends on: `ECO-20260420-critic-356`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-front-half-tactile-identity-handoff.md`.
+- Scoped lane 3 to one tiny optional Coastal Scrub opening back-dune shelf/hold using existing traversal language and existing back-dune carriers.
+- Kept route definitions, support behavior, station pages, save schema, science copy, world-map behavior, corridor geometry, player physics, and new UI out of scope.
+- Updated packet `138` with the lane-3 scout refinement and promoted `ECO-20260420-main-360` to `READY`.
+- Verification: `src/test/coastal-scrub-biome.test.ts`, focused `Open To Shelter|front-half-open-to-shelter|held back-dune shelf` runtime smoke slice, focused corridor `back-dune shelf` slice, packet `138` JSON parse, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-critic-433
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-open-to-shelter-route-state-implementation.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-main-433`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-open-to-shelter-route-state-review.md`.
+- Found no blocker: the implementation is test-only and protects active `Open To Shelter` route-marker labels versus ready-to-file active outing / marker / replay suppression.
+- Confirmed the ready-to-file state keeps the station filing task and `Ready To File` journal state, while filing still advances to `coastal-edge-moisture`.
+- Updated packet `156` and promoted `ECO-20260420-scout-437` to `READY`.
+- Verification: focused `Open To Shelter|route-marker|replay` field-request slice, full `src/test/field-requests.test.ts`, `npm run validate:agents`, packet `156` JSON parse, and `git diff --check` passed; validation kept only the known queue-size warning.
+
+### ECO-20260420-main-433
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-open-to-shelter-route-state-handoff.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-scout-433`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-open-to-shelter-route-state-implementation.md`.
+- Added a behavior-neutral `Open To Shelter` route-state guard to `src/test/field-requests.test.ts`.
+- Proved active `route-marker` can show `Today: Open To Shelter` and the Coastal Scrub marker while ready-to-file clears active outing, marker, and replay pressure.
+- Confirmed the ready-to-file state keeps the station filing summary and `Ready To File` journal task, and filing still advances to `coastal-edge-moisture`.
+- Updated packet `156` and promoted `ECO-20260420-critic-433` to `READY`.
+- Verification: focused `Open To Shelter|route-marker|replay` field-request slice and full `src/test/field-requests.test.ts` passed.
+
+### ECO-20260420-critic-356
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 review: Filed arc epilogue and replay intent`
+- Source: `docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md`
+- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
+- Depends on: `ECO-20260420-main-356`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-filed-arc-final-frame-proof-review.md`.
+- Found no blocker: the implementation is test-only and locks the filed High Pass completed-frame state without runtime, rendering, route, replay, copy, save, support, nursery, science, geometry, or traversal drift.
+- Confirmed the new snapshot guard requires left/right braces, center tie, late-season lintel, no homecoming frame cap, and no homecoming milestone id.
+- Marked packet `137` `DONE` and promoted `ECO-20260420-scout-360` to `READY`.
+- Verification: focused filed High Pass snapshot tests, focused homecoming/archive overlay tests, `npm run build`, `npm run validate:agents`, packet `137` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-356
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 implement: Filed arc epilogue and replay intent`
+- Source: `docs/reports/2026-04-20-filed-arc-final-frame-proof-handoff.md`
+- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
+- Depends on: `ECO-20260420-scout-356`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-filed-arc-final-frame-proof-implementation.md`.
+- Added a test-only filed High Pass final-frame guard to `src/test/save-snapshots.test.ts`.
+- Confirmed the existing filed endcap exposes left/right braces, center tie, and late-season lintel while keeping homecoming frame-cap memory off.
+- Preserved runtime rendering, station accent logic, player-facing copy, route state, route definitions, support behavior, world-map behavior, journal behavior, save schema, nursery behavior, science content, station panel, HUD chip, replay prompt, season-three promise, geometry, and traversal.
+- Updated packet `137` and promoted `ECO-20260420-critic-356` to `READY`.
+- Verification: focused filed High Pass snapshot tests, focused homecoming/archive overlay tests, and `npm run build` passed.
+
+### ECO-20260420-scout-356
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Filed arc epilogue and replay intent`
+- Source: `docs/reports/2026-04-20-support-choice-physical-cue-proof-review.md`
+- Packet: `.agents/packets/137-filed-arc-epilogue-and-replay-intent.json`
+- Depends on: `ECO-20260420-critic-352`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-filed-arc-final-frame-proof-handoff.md`.
+- Narrowed packet `137` lane 3 to a test-only final station-frame guard for the filed High Pass endcap.
+- Identified the exact remaining gap: filed High Pass station state already proves settled copy and replay/task suppression, but does not explicitly assert `fieldStation.backdropAccent`.
+- Preserved lane boundaries: no station chrome, route state, copy, support behavior, world-map behavior, journal behavior, save schema, nursery behavior, science content, geometry, traversal, replay UI, or season-three promise work.
+- Updated packet `137` and promoted `ECO-20260420-main-356` to `READY`.
+- Verification: focused filed High Pass snapshot tests, focused homecoming/archive overlay tests, packet `137` JSON parse, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-scout-433
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: External playtest feedback batch two`
+- Source: `docs/reports/2026-04-20-route-feedback-batch-one-review.md`
+- Packet: `.agents/packets/156-external-playtest-feedback-batch-two.json`
+- Depends on: `ECO-20260420-critic-429`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-open-to-shelter-route-state-handoff.md`.
+- Narrowed packet `156` lane 4 to a behavior-neutral `Open To Shelter` route-state guard instead of retouching lane 1's runtime-smoke navigation proof.
+- Targeted the repeated ready-to-file replay confusion: active route-marker labels are allowed, but ready-to-file should keep only the station filing task and clear active outing, marker, and replay pressure.
+- Updated packet `156` and promoted `ECO-20260420-main-433` to `READY`.
+- Verification: `npm run validate:agents`, packet `156` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-429
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-route-feedback-batch-one-implementation.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-main-429`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-feedback-batch-one-review.md`.
+- Found no blocker: the `Shore Shelter` guard covers active route-marker/world-map cue behavior, ready-to-file station filing copy, ready journal task, ready active-outing/marker/replay suppression, and post-file advancement.
+- Confirmed the pass stayed test-only, with no route-definition, runtime behavior, station-page, world-map rendering, guided-copy, save-schema, science-content, geometry, or `runtime-smoke` drift.
+- Updated packet `155` and promoted `ECO-20260420-scout-433` to `READY`.
+- Verification: focused `Shore Shelter|route-marker|replay` slice and the full `field-requests` suite passed.
+
+### ECO-20260420-main-429
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-route-feedback-batch-one-handoff.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-scout-429`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-feedback-batch-one-implementation.md`.
+- Added behavior-neutral `Shore Shelter` route-state coverage to `src/test/field-requests.test.ts`.
+- Proved active `Shore Shelter` can expose the route-marker/world-map cue, while ready-to-file keeps the station filing summary and journal task but clears active outing, route marker, and replay label.
+- Confirmed filing still advances to `forest-hidden-hollow`.
+- Updated packet `155` and promoted `ECO-20260420-critic-429` to `READY`.
+- Verification: focused `Shore Shelter|route-marker|replay` slice and the full `field-requests` suite passed.
+
+### ECO-20260420-scout-429
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: External playtest feedback batch one`
+- Source: `docs/reports/2026-04-20-route-loop-browser-proof-review.md`
+- Packet: `.agents/packets/155-external-playtest-feedback-batch-one.json`
+- Depends on: `ECO-20260420-critic-425`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-feedback-batch-one-handoff.md`.
+- Narrowed packet `155` lane 4 to a behavior-neutral first-route state guard rather than a broad feedback or route-framework pass.
+- Kept lane 4 out of lane 1's completed first-session menu-focus fix, lane 2 copy/science work, lane 3 spatial work, runtime-smoke churn, station pages, save schema, and route-definition changes.
+- Updated packet `155` and promoted `ECO-20260420-main-429` to `READY`.
+- Verification: `npm run validate:agents`, packet `155` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-352
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 review: Support choice in-field differentiation`
+- Source: `docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md`
+- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
+- Depends on: `ECO-20260420-main-352`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-support-choice-physical-cue-proof-review.md`.
+- Found no blocker: the proof matrix is test-only, names existing paired live smoke proofs, and keeps packet `136` lane 3 free of geometry, support-state, route, save, copy, nursery, HUD, inventory, loadout, and notebook drift.
+- Confirmed the named hand-lens and non-hand-lens proof tests exist for front-half, forest, high-country, and tundra families.
+- Marked packet `136` `DONE` and promoted `ECO-20260420-scout-356` to `READY`.
+- Verification: focused matrix-only smoke, `npm run validate:agents`, packet `136` JSON parse, and `git diff --check` passed; reviewed the focused support-cue smoke, controller test, and build results from `main-352`.
+
+### ECO-20260420-main-352
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 implement: Support choice in-field differentiation`
+- Source: `docs/reports/2026-04-20-support-choice-physical-cue-proof-handoff.md`
+- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
+- Depends on: `ECO-20260420-scout-352`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-support-choice-physical-cue-proof-implementation.md`.
+- Added a test-only support-readable physical cue proof matrix to `src/test/runtime-smoke.test.ts`.
+- Made the existing front-half `Held Sand`, forest `Moisture Holders`, high-country `High Pass`, and tundra `Thaw Window` carrier/nearby-non-fit proof families explicit without adding geometry.
+- Preserved station surfaces, support state, save schema, route definitions, filed-note behavior, authored science copy, nursery behavior, HUD, inventory, loadout, and notebook-panel boundaries.
+- Updated packet `136` and promoted `ECO-20260420-critic-352` to `READY`.
+- Verification: focused runtime-smoke support cue slice, `src/test/field-request-controller.test.ts`, and `npm run build` passed.
+
+### ECO-20260420-scout-352
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Support choice in-field differentiation`
+- Source: `docs/reports/2026-04-20-nursery-visual-growth-proof-review.md`
+- Packet: `.agents/packets/136-support-choice-in-field-differentiation.json`
+- Depends on: `ECO-20260420-critic-348`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-support-choice-physical-cue-proof-handoff.md`.
+- Narrowed lane 3 packet `136` to a proof-first physical cue pass: existing support-readable carriers should be consolidated before any new geometry is added.
+- Identified current coverage across front-half, forest, high-country, and tundra support cues, with `main-352` allowed to stay test/report-only if the matrix is already covered.
+- Preserved lane ownership: no station, support-state, save-schema, route-definition, filed-note, copy, nursery, HUD, inventory, loadout, or notebook-panel work.
+- Updated packet `136` and promoted `ECO-20260420-main-352` to `READY`.
+- Verification: `npm run validate:agents`, packet `136` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-425
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: Route-loop browser proof and console capture`
+- Source: `docs/reports/2026-04-20-route-loop-browser-proof-implementation.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-main-425`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-loop-browser-proof-review.md`.
+- Found no blocker in the lane-4 route-loop browser proof.
+- Confirmed the ignored artifacts cover active, ready-to-file, filed, and replay-facing High Pass states, with 18 passing assertions and empty console/page error capture.
+- Visually inspected representative active world-map, ready station, filed world-map, and filed station screenshots.
+- Confirmed no runtime, route-definition, station-shell, save-schema, content, or geometry files changed for this proof item.
+- Updated packet `154` and promoted `ECO-20260420-scout-429` to `READY`.
+- Verification: reviewed browser assertions and console output, `npm run validate:agents`, packet `154` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-425
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: Route-loop browser proof and console capture`
+- Source: `docs/reports/2026-04-20-route-loop-browser-proof-handoff.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-scout-425`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-loop-browser-proof-implementation.md`.
+- Ran the shared web-game client boot smoke against production preview and captured `output/lane-4-main-425-browser/client-boot/`.
+- Ran a seeded Playwright proof against debug save snapshots for `high-pass-active`, `high-pass-ready-to-file`, and `high-pass-filed`.
+- Captured active field/journal/world-map, ready field/world-map/station, and filed field/world-map/journal/station PNG and JSON artifacts under ignored `output/lane-4-main-425-browser/`.
+- Confirmed `console-errors.json` is empty and visually inspected representative active world-map, ready station, filed world-map, and filed station screenshots.
+- Made no runtime, route-definition, station-shell, save-schema, content, or geometry changes.
+- Updated packet `154` and promoted `ECO-20260420-critic-425` to `READY`.
+- Verification: focused `save-snapshots` High Pass/snapshot slice, focused High Pass runtime smoke, `npm run build`, shared web-game client boot smoke, seeded Playwright browser proof, screenshot inspection, packet JSON parse, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-scout-425
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: Performance, bundle, and error hardening`
+- Source: `docs/reports/2026-04-20-route-save-migration-review.md`
+- Packet: `.agents/packets/154-performance-bundle-and-error-hardening.json`
+- Depends on: `ECO-20260420-critic-421`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-loop-browser-proof-handoff.md`.
+- Narrowed lane 4 packet `154` to a browser-proof pass across seeded `high-pass-active`, `high-pass-ready-to-file`, and `high-pass-filed` states.
+- Required PNG/state artifacts plus console/page error capture under ignored `output/lane-4-main-425-browser/`.
+- Kept the main pass proof-first with no runtime changes unless a real lane-4 route/support/replay blocker appears.
+- Updated packet `154` and promoted `ECO-20260420-main-425` to `READY`.
+- Verification: `npm run validate:agents`, packet `154` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-348
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 review: Nursery memory and teaching-bed readability`
+- Source: `docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md`
+- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
+- Depends on: `ECO-20260420-main-348`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-nursery-visual-growth-proof-review.md`.
+- Found no blocker: the new strip-state helper is behavior-equivalent, test-backed, and preserves nursery layout, copy, route-support behavior, station pages, save schema, route definitions, geometry, and science content.
+- Corrected packet `135` hygiene so the visual-growth scout refinement lives under the lane-3 contract block instead of lane 2.
+- Marked packet `135` `DONE` and promoted `ECO-20260420-scout-352` to `READY`.
+- Verification: reviewed focused nursery-page test and build results, then `npm run validate:agents`, packet `135` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-348
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 implement: Nursery memory and teaching-bed readability`
+- Source: `docs/reports/2026-04-20-nursery-visual-growth-proof-handoff.md`
+- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
+- Depends on: `ECO-20260420-scout-348`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-nursery-visual-growth-proof-implementation.md`.
+- Exposed the existing nursery teaching-bed home-place strip through `resolveNurseryHomePlaceStripState(...)`.
+- Kept drawing visually equivalent while tests now prove locked/ready states hide the strip, active stages map to progress `1-4`, and existing extras light log-pile and pollinator-patch motifs.
+- Preserved mature-bed memory priority, nursery page dimensions, route-support behavior, save schema, station pages, route definitions, geometry, copy, and science content.
+- Updated packet `135` and promoted `ECO-20260420-critic-348` to `READY`.
+- Verification: `npm test -- --run src/test/field-station-nursery-page.test.ts` and `npm run build` passed.
+
+### ECO-20260420-scout-348
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Nursery memory and teaching-bed readability`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/135-nursery-memory-and-teaching-bed-readability.json`
+- Depends on: `ECO-20260420-critic-344`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-nursery-visual-growth-proof-handoff.md`.
+- Scoped lane-3 packet `135` to the existing nursery home-place strip instead of new copy, panels, route hints, save fields, or layout expansion.
+- Recommended a tiny pure strip-state seam plus focused tests proving active teaching-bed stages map to visual progress before copy is read.
+- Updated packet `135` with lane-3 scout refinement and promoted `ECO-20260420-main-348` to `READY`.
+- Verification: `npm run validate:agents`, packet `135` JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-344
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 review: Station homecoming evolution pass`
+- Source: `docs/reports/2026-04-20-station-homecoming-visual-accent-implementation.md`
+- Packet: `.agents/packets/134-station-homecoming-evolution-pass.json`
+- Depends on: `ECO-20260420-main-344`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-station-homecoming-visual-accent-review.md`.
+- Found no blocker in the lane-3 homecoming cap implementation.
+- Confirmed the cap consumes the reviewed station-owned `homecomingMilestoneRequestId` seam, stays in the upper-frame / brace-cap family, and avoids lower-sill growth, side-gutter bulk, a second full lintel, new text, panels, route/save/support/science drift, or station chrome.
+- Confirmed focused tests and browser proof cover default, mid-progress, archived High Pass, new-seam, calm-reopen, and `256x160` visual states.
+- Marked packet `134` `DONE` and promoted `ECO-20260420-scout-348` to `READY`.
+- Verification: reviewed `npm test -- --run src/test/overlay-copy.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "homecoming copy state"`, `npm run build`, `$WEB_GAME_CLIENT` proof, seeded browser proof, `npm run validate:agents`, and `git diff --check`.
+
+### ECO-20260420-main-344
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 implement: Station homecoming evolution pass`
+- Source: `docs/reports/2026-04-20-station-homecoming-visual-accent-handoff.md`
+- Packet: `.agents/packets/134-station-homecoming-evolution-pass.json`
+- Depends on: `ECO-20260420-scout-344`, `ECO-20260420-critic-342`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-station-homecoming-visual-accent-implementation.md`.
+- Implemented one tiny upper-frame / brace-cap homecoming memory accent through lane 1's reviewed `fieldStation.homecoming` / `homecomingMilestoneRequestId` seam.
+- Exposed `hasHomecomingFrameAccent` through the existing `fieldStation.backdropAccent` debug state while leaving lower-sill growth, side-gutter bulk, late-season lintel rules, station copy, route state, support notices, save schema, and science/journal content unchanged.
+- Added focused unit/runtime coverage for default, mid-progress, archived High Pass, new-seam, and calm-reopen states.
+- Added ignored proof under `output/lane-3-main-344-browser/` with a raw-canvas `256x160` station shell screenshot and matching debug state.
+- Updated packet `134`, project memory, and promoted `ECO-20260420-critic-344` to `READY`.
+- Verification: `npm test -- --run src/test/overlay-copy.test.ts`, `npm test -- --run src/test/runtime-smoke.test.ts -t "homecoming copy state"`, `npm run build`, `$WEB_GAME_CLIENT` smoke, seeded browser proof, `npm run validate:agents`, and `git diff --check` passed.
+
+### ECO-20260420-critic-421
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-route-save-migration-implementation.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-main-421`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-save-migration-review.md`.
+- Reviewed the lane-4 old-save regression cleanly: the pass stayed test-only, dormant/ready/filed High Pass phase contracts are covered, and stale filed High Pass progress is asserted as harmless runtime state.
+- Updated packet `153` with the lane-4 critic result and promoted `ECO-20260420-scout-425` to `READY`.
+- Verification: focused `save.test` Route v2/support normalization slice, focused `field-requests.test` High Pass/legacy Root Hollow slice, `npm run build`, `npm run validate:agents` with the known work-queue-size warning, packet JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-421
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-route-save-migration-handoff.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-scout-421`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-save-migration-implementation.md`.
+- Extended `src/test/field-requests.test.ts` with a test-only regression for normalized mixed old High Pass saves across dormant locator, ready-to-file, and filed suppression states.
+- Updated packet `153` with the lane-4 main result and promoted `ECO-20260420-critic-421` to `READY`.
+- Verification: focused `field-requests.test` High Pass/legacy Root Hollow slice, focused `save.test` Route v2/support normalization slice, `npm run build`, `npm run validate:agents` with the known work-queue-size warning, packet JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-scout-421
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: Save schema and migration hardening`
+- Source: `docs/reports/2026-04-20-field-season-board-route-state-review.md`
+- Packet: `.agents/packets/153-save-schema-and-migration-hardening.json`
+- Depends on: `ECO-20260420-critic-417`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-route-save-migration-handoff.md`.
+- Narrowed lane 4 to route-facing runtime regressions for normalized mixed High Pass saves, leaving raw save normalization and schema migration behavior unchanged after lane 1's pass.
+- Updated packet `153` with the lane-4 scout refinement and promoted `ECO-20260420-main-421` to `READY`.
+- Verification: focused `save.test` Route v2/support normalization slice, focused `field-requests.test` High Pass/legacy Root Hollow slice, `npm run validate:agents` with the known work-queue-size warning, packet JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-critic-417
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 review: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-field-season-board-route-state-implementation.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-main-417`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-route-state-review.md`.
+- Reviewed the route-state regression cleanly: the pass stayed test-only for runtime behavior, the board-only replay label path is covered, and active/ready/locator/filed High Pass state remains aligned with board state.
+- Updated packet `152` with the lane-4 critic result and promoted `ECO-20260420-scout-421` to `READY`.
+- Verification: focused `field-requests` route-state slice, focused `field-season-board` High Pass/replay slice, `npm run build`, `npm run validate:agents` with the known work-queue-size warning, packet JSON parse, and `git diff --check` passed.
+
+### ECO-20260420-main-417
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-field-season-board-route-state-handoff.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-scout-417`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-route-state-implementation.md`.
+- Extended `src/test/field-requests.test.ts` with request-state and board-state alignment coverage for board-only replay, active High Pass, ready-to-file High Pass, season-close locator fallback, and filed High Pass suppression.
+- Updated packet `152` with the lane-4 main result and promoted `ECO-20260420-critic-417` to `READY`.
+- Verification: focused `field-requests` route-state slice, focused `field-season-board` High Pass/replay slice, and `npm run build` passed.
+
+### ECO-20260420-scout-417
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 scout: Field-season-board splitting wave`
+- Source: `docs/reports/2026-04-20-alpha-runway-megapush.md`
+- Packet: `.agents/packets/152-field-season-board-splitting-wave.json`
+- Depends on: `ECO-20260420-critic-413`
+
+Completed:
+
+- Added `docs/reports/2026-04-20-field-season-board-route-state-handoff.md`.
+- Scoped packet `152` lane 4 to behavior-neutral Route v2 request-state and board-state alignment coverage after the active outing locator extraction.
+- Updated packet `152` with the lane-4 scout refinement and promoted `ECO-20260420-main-417` to `READY`.
+- Verification: focused `field-requests` High Pass route-state slice, focused `field-season-board` High Pass/replay slice, `npm run validate:agents` with the known work-queue-size warning, packet JSON parse, and `git diff --check` passed.
 
 ### ECO-20260420-critic-413
 

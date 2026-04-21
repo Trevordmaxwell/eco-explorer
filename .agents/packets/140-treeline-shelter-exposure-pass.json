@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-140",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Treeline shelter and exposure pass",
   "summary": "Reinforce Treeline identity below High Pass so the completed proof chapter does not carry all alpine memory alone.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-treeline-route-transition-state-review.md",
     "docs/reports/2026-04-20-treeline-route-support-handoff.md",
     "docs/reports/2026-04-20-treeline-route-support-implementation.md",
-    "docs/reports/2026-04-20-treeline-route-support-review.md"
+    "docs/reports/2026-04-20-treeline-route-support-review.md",
+    "docs/reports/2026-04-20-treeline-shelter-exposure-handoff.md",
+    "docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md",
+    "docs/reports/2026-04-20-treeline-shelter-exposure-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-366",
@@ -133,7 +136,9 @@
     "src/content/biomes/treeline.ts",
     "src/test/save-snapshots.test.ts",
     "src/test/ecosystem-notes.test.ts",
-    "src/test/content-quality.test.ts"
+    "src/test/content-quality.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "docs/reports/2026-04-20-treeline-shelter-exposure-review.md"
   ],
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
@@ -372,6 +377,81 @@
       "no Route v2 behavior, station/state/save behavior, world-map focus, Treeline geometry, High Pass copy, science-ledger rows, close-look cards, new species, or comparison branches changed"
     ],
     "promoted_next_lane_2_item": "ECO-20260420-scout-371"
+  },
+  "lane_3_scout_refinement": {
+    "queue_id": "ECO-20260420-scout-368",
+    "report": "docs/reports/2026-04-20-treeline-shelter-exposure-handoff.md",
+    "recommended_scope": "Proof-first guard for the existing lower Treeline shelter-to-exposure chain, not new geometry.",
+    "current_state": [
+      "Treeline already has a compact last-tree shelter, Stone Shelter basin, Rime Brow, sheltered return, and open-fell island below High Pass.",
+      "Earlier lane-3 reviews warn the krummholz threshold is near handheld-density ceiling, so another shelf or landmark pair would risk clutter.",
+      "The needed value is one explicit physical-memory guard tying the existing platform and carrier ids into a lower-Treeline shelter/exposure chain."
+    ],
+    "recommended_file_targets": [
+      "src/test/treeline-biome.test.ts",
+      "docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md"
+    ],
+    "main_acceptance": [
+      "add one test-only guard in `src/test/treeline-biome.test.ts` that pins `last-tree-shelter-rest`, `stone-shelter-basin-rest`, `stone-shelter-break-step`, `lee-pocket-rime-rest`, `lee-pocket-rime-cap`, `lee-pocket-crest-brow`, `lee-pocket-fell-return`, `lee-pocket-lee-rest`, and `fell-island-rest` as one lower Treeline shelter/exposure chain",
+      "assert the basin is below the upper shelf, the break step bridges toward it, the brow rises above the rime cap, and the return/rest sequence stays recoverable before the open-fell island",
+      "pin authored carriers `last-tree-spruce`, `stone-shelter-boulder`, `stone-shelter-marmot`, `lee-pocket-rime-talus`, `rime-brow-lichen`, `fell-return-talus`, and `lee-pocket-crest-avens`",
+      "keep the chain explicitly below the High Pass opener/endcap by preserving the open-fell island before `x 584` and avoiding High Pass route/copy changes",
+      "do not change Treeline geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, science copy, journal/atlas copy, player physics, or new UI surfaces unless a real failing proof is found"
+    ],
+    "baseline_verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"turns the treeline lee pocket|last-tree shelter|Stone Shelter basin|Rime Brow|Brief Bloom|Low Fell\""
+    ],
+    "main_verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"turns the treeline lee pocket|last-tree shelter|Stone Shelter basin|Rime Brow|Brief Bloom|Low Fell\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "browser_proof_rule": "No browser proof is required if the main pass stays test/report-only. If any geometry, placement, renderer, or visual-position change lands, capture a 256x160 proof and state export before review.",
+    "promoted_next_lane_3_item": "ECO-20260420-main-368"
+  },
+  "lane_3_main_result": {
+    "queue_id": "ECO-20260420-main-368",
+    "report": "docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md",
+    "changed_files": [
+      "src/test/treeline-biome.test.ts",
+      "docs/reports/2026-04-20-treeline-shelter-exposure-implementation.md"
+    ],
+    "summary": "Added a test-only guard that pins the existing lower Treeline shelter/exposure chain from last-tree shelter through Stone Shelter, Rime Brow, sheltered return, and the open-fell island below High Pass.",
+    "coverage": [
+      "platform order and vertical relationships for `last-tree-shelter-rest`, `stone-shelter-basin-rest`, `stone-shelter-break-step`, `lee-pocket-rime-rest`, `lee-pocket-rime-cap`, `lee-pocket-crest-brow`, `lee-pocket-fell-return`, `lee-pocket-lee-rest`, and `fell-island-rest`",
+      "authored carrier ids and positions for krummholz spruce, frost-heave boulder, hoary marmot, talus cushion pocket, reindeer lichen, return talus, and mountain avens",
+      "open-fell island remains before the High Pass endcap band"
+    ],
+    "verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"turns the treeline lee pocket|last-tree shelter|Stone Shelter basin|Rime Brow|Brief Bloom|Low Fell\"",
+      "npm run build"
+    ],
+    "scope_preserved": [
+      "no Treeline geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, player physics, science copy, journal/atlas copy, High Pass copy, or new UI surfaces changed",
+      "no browser proof required because the pass is test/report-only"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-critic-368"
+  },
+  "lane_3_critic_result": {
+    "queue_id": "ECO-20260420-critic-368",
+    "report": "docs/reports/2026-04-20-treeline-shelter-exposure-review.md",
+    "verdict": "clean",
+    "blockers": [],
+    "summary": "Confirmed the Treeline shelter/exposure pass is test-only, pins the existing below-High-Pass physical-memory chain, and avoids new geometry or High Pass density.",
+    "verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"turns the treeline lee pocket|last-tree shelter|Stone Shelter basin|Rime Brow|Brief Bloom|Low Fell\"",
+      "implementation already passed npm run build"
+    ],
+    "scope_preserved": [
+      "no Treeline geometry, rendering, route/support behavior, station UI, save schema, world-map behavior, player physics, science copy, journal/atlas copy, High Pass copy, or new UI surfaces changed",
+      "no browser proof required because the pass is test/report-only"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-scout-372"
   },
   "lane_4_scout_refinement": {
     "queue_id": "ECO-20260420-scout-369",

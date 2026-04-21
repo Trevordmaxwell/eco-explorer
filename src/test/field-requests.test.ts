@@ -4,6 +4,7 @@ import { biomeRegistry } from '../content/biomes';
 import { forestBiome } from '../content/biomes/forest';
 import { ecoWorldMap } from '../content/world-map';
 import { resolveFieldRequestState } from '../engine/field-request-state';
+import { resolveFieldSeasonBoardState } from '../engine/field-season-board';
 import {
   advanceActiveFieldRequest,
   advanceFieldRequestDefinition,
@@ -14,6 +15,7 @@ import {
   resolveActiveFieldRequest,
   shouldCompleteActiveFieldRequest,
 } from '../engine/field-requests';
+import { resolveHighPassChapterState } from '../engine/high-pass-chapter-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 import type { SaveState } from '../engine/types';
 
@@ -1101,8 +1103,8 @@ describe('field requests', () => {
     expect(state.routeReplayLabel).toBe('Today: High Pass');
   });
 
-  it('keeps route-marker and replay state aligned across active, ready-to-file, locator, and filed High Pass states', () => {
-    const resolveHighPassMapState = (save: SaveState) =>
+  it('keeps route-marker, board, and replay state aligned after the board split', () => {
+    const resolveWorldMapState = (save: SaveState, focusedWorldMapLocationId = 'treeline') =>
       resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
         sceneMode: 'world-map',
         overlayMode: 'playing',
@@ -1112,15 +1114,49 @@ describe('field requests', () => {
         scenePlayerX: 24,
         scenePlayerY: 48,
         hasFieldRequestNotice: false,
-        focusedWorldMapLocationId: 'treeline',
+        focusedWorldMapLocationId,
       });
+
+    const replaySave = createNewSaveState('field-request-state-board-split-replay-seed');
+    replaySave.worldStep = 3;
+
+    const replayBoard = resolveFieldSeasonBoardState(biomeRegistry, replaySave);
+    expect(replayBoard).toMatchObject({
+      targetBiomeId: 'beach',
+      replayNote: {
+        id: 'beach-early-shelter',
+        title: 'Early Shelter',
+      },
+    });
+
+    const replayState = resolveWorldMapState(replaySave, 'beach');
+    expect(replayState.activeFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      title: 'Shore Shelter',
+    });
+    expect(replayState.activeOuting).toMatchObject({
+      title: 'Shore Shelter',
+      targetBiomeId: 'beach',
+      worldMapLabel: 'Today: Shore Shelter',
+    });
+    expect(replayState.routeReplayLabel).toBe('Today: Early Shelter');
 
     const activeSave = createNewSaveState('field-request-state-high-pass-active-route-marker-seed');
     activeSave.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
     activeSave.purchasedUpgradeIds = ['route-marker'];
     activeSave.selectedOutingSupportId = 'route-marker';
 
-    const activeState = resolveHighPassMapState(activeSave);
+    const activeBoard = resolveFieldSeasonBoardState(biomeRegistry, activeSave);
+    expect(activeBoard).toMatchObject({
+      targetBiomeId: 'treeline',
+      replayNote: null,
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'NEXT',
+      },
+    });
+
+    const activeState = resolveWorldMapState(activeSave);
     expect(activeState.activeFieldRequest).toMatchObject({
       id: 'treeline-high-pass',
       progressLabel: 'Go To Treeline Pass',
@@ -1153,7 +1189,17 @@ describe('field requests', () => {
       ],
     };
 
-    const readyState = resolveHighPassMapState(readySave);
+    const readyBoard = resolveFieldSeasonBoardState(biomeRegistry, readySave);
+    expect(readyBoard).toMatchObject({
+      targetBiomeId: null,
+      notebookReady: null,
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'NOTE',
+      },
+    });
+
+    const readyState = resolveWorldMapState(readySave);
     expect(readyState.activeFieldRequest).toMatchObject({
       id: 'treeline-high-pass',
       progressLabel: 'Ready To File',
@@ -1174,7 +1220,17 @@ describe('field requests', () => {
     locatorSave.completedFieldRequestIds = ['forest-expedition-upper-run', 'forest-season-threads'];
     locatorSave.seasonCloseReturnPending = true;
 
-    const locatorState = resolveHighPassMapState(locatorSave);
+    const locatorBoard = resolveFieldSeasonBoardState(biomeRegistry, locatorSave);
+    expect(locatorBoard).toMatchObject({
+      targetBiomeId: 'treeline',
+      replayNote: null,
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'NEXT',
+      },
+    });
+
+    const locatorState = resolveWorldMapState(locatorSave);
     expect(locatorState.activeFieldRequest).toBeNull();
     expect(locatorState.activeOuting).toMatchObject({
       title: 'High Pass',
@@ -1198,12 +1254,164 @@ describe('field requests', () => {
     filedSave.purchasedUpgradeIds = ['route-marker'];
     filedSave.selectedOutingSupportId = 'route-marker';
 
-    const filedState = resolveHighPassMapState(filedSave);
+    const filedBoard = resolveFieldSeasonBoardState(biomeRegistry, filedSave);
+    expect(filedBoard).toMatchObject({
+      complete: true,
+      targetBiomeId: null,
+      notebookReady: null,
+      replayNote: null,
+      launchCard: {
+        title: 'HIGH PASS',
+        progressLabel: 'FILED',
+      },
+    });
+
+    const filedState = resolveWorldMapState(filedSave);
     expect(filedState.activeFieldRequest).toBeNull();
     expect(filedState.activeOuting).toBeNull();
     expect(filedState.journalFieldRequest).toBeNull();
     expect(filedState.routeMarkerLocationId).toBeNull();
     expect(filedState.routeReplayLabel).toBeNull();
+  });
+
+  it('keeps Shore Shelter route-marker and replay pressure out of the ready-to-file state', () => {
+    const resolveBeachMapState = (save: SaveState) =>
+      resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+        sceneMode: 'world-map',
+        overlayMode: 'playing',
+        sceneBiomeId: 'beach',
+        lastBiomeId: 'beach',
+        sceneZoneId: 'dune-edge',
+        scenePlayerX: 24,
+        scenePlayerY: 48,
+        hasFieldRequestNotice: false,
+        focusedWorldMapLocationId: 'beach',
+      });
+
+    const activeSave = createNewSaveState('field-request-state-shore-shelter-active-route-marker-seed');
+    activeSave.purchasedUpgradeIds = ['route-marker'];
+    activeSave.selectedOutingSupportId = 'route-marker';
+
+    const activeState = resolveBeachMapState(activeSave);
+    expect(activeState.activeFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      title: 'Shore Shelter',
+    });
+    expect(activeState.activeOuting).toMatchObject({
+      title: 'Shore Shelter',
+      targetBiomeId: 'beach',
+      worldMapLabel: 'Today: Shore Shelter',
+    });
+    expect(activeState.routeMarkerLocationId).toBe('beach');
+    expect(activeState.routeReplayLabel).toBe('Today: Shore Shelter');
+
+    const readySave = createNewSaveState('field-request-state-shore-shelter-ready-route-marker-seed');
+    readySave.purchasedUpgradeIds = ['route-marker'];
+    readySave.selectedOutingSupportId = 'route-marker';
+    readySave.routeV2Progress = {
+      requestId: 'beach-shore-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'dune-grass', entryId: 'beach-grass' },
+        { slotId: 'lee-cover', entryId: 'driftwood-log' },
+        { slotId: 'wrack-line', entryId: 'bull-kelp-wrack' },
+      ],
+    };
+
+    const readyState = resolveBeachMapState(readySave);
+    expect(readyState.activeFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      summary: 'Use M -> Field station, then Enter to file the Shore Shelter note.',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+      },
+    });
+    expect(readyState.journalFieldRequest).toMatchObject({
+      id: 'beach-shore-shelter',
+      biomeId: 'beach',
+      progressLabel: 'Ready To File',
+    });
+    expect(readyState.activeOuting).toBeNull();
+    expect(readyState.routeMarkerLocationId).toBeNull();
+    expect(readyState.routeReplayLabel).toBeNull();
+
+    expect(fileReadyRouteV2FieldRequest(readySave)).toBe('beach-shore-shelter');
+    expect(resolveActiveFieldRequest(createBeachContext(readySave.completedFieldRequestIds))).toMatchObject({
+      id: 'forest-hidden-hollow',
+    });
+  });
+
+  it('keeps Open To Shelter route-marker and replay pressure out of the ready-to-file state', () => {
+    const resolveCoastalMapState = (save: SaveState) =>
+      resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+        sceneMode: 'world-map',
+        overlayMode: 'playing',
+        sceneBiomeId: 'coastal-scrub',
+        lastBiomeId: 'coastal-scrub',
+        sceneZoneId: 'back-dune',
+        scenePlayerX: 24,
+        scenePlayerY: 48,
+        hasFieldRequestNotice: false,
+        focusedWorldMapLocationId: 'coastal-scrub',
+      });
+
+    const activeSave = createNewSaveState('field-request-state-open-to-shelter-active-route-marker-seed');
+    activeSave.completedFieldRequestIds = [...EARLY_FOREST_COMPLETED];
+    activeSave.purchasedUpgradeIds = ['route-marker'];
+    activeSave.selectedOutingSupportId = 'route-marker';
+
+    const activeState = resolveCoastalMapState(activeSave);
+    expect(activeState.activeFieldRequest).toMatchObject({
+      id: 'coastal-shelter-shift',
+      title: 'Open To Shelter',
+    });
+    expect(activeState.activeOuting).toMatchObject({
+      title: 'Open To Shelter',
+      targetBiomeId: 'coastal-scrub',
+      worldMapLabel: 'Today: Open To Shelter',
+    });
+    expect(activeState.routeMarkerLocationId).toBe('coastal-scrub');
+    expect(activeState.routeReplayLabel).toBe('Today: Open To Shelter');
+
+    const readySave = createNewSaveState('field-request-state-open-to-shelter-ready-route-marker-seed');
+    readySave.completedFieldRequestIds = [...EARLY_FOREST_COMPLETED];
+    readySave.purchasedUpgradeIds = ['route-marker'];
+    readySave.selectedOutingSupportId = 'route-marker';
+    readySave.routeV2Progress = {
+      requestId: 'coastal-shelter-shift',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'open-bloom', entryId: 'sand-verbena' },
+        { slotId: 'pine-cover', entryId: 'shore-pine' },
+        { slotId: 'edge-log', entryId: 'nurse-log' },
+      ],
+    };
+
+    const readyState = resolveCoastalMapState(readySave);
+    expect(readyState.activeFieldRequest).toMatchObject({
+      id: 'coastal-shelter-shift',
+      summary: 'Return to the field station and file the Open To Shelter note.',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+      },
+    });
+    expect(readyState.journalFieldRequest).toMatchObject({
+      id: 'coastal-shelter-shift',
+      biomeId: 'coastal-scrub',
+      progressLabel: 'Ready To File',
+    });
+    expect(readyState.activeOuting).toBeNull();
+    expect(readyState.routeMarkerLocationId).toBeNull();
+    expect(readyState.routeReplayLabel).toBeNull();
+
+    expect(fileReadyRouteV2FieldRequest(readySave)).toBe('coastal-shelter-shift');
+    expect(resolveActiveFieldRequest(createCoastalContext(readySave.completedFieldRequestIds, 'forest-edge'))).toMatchObject({
+      id: 'coastal-edge-moisture',
+    });
   });
 
   it('stops synthesizing High Pass locator state once High Pass is filed', () => {
@@ -1234,6 +1442,143 @@ describe('field requests', () => {
     expect(state.fieldRequestHint).toBeNull();
     expect(state.routeMarkerLocationId).toBeNull();
     expect(state.routeReplayLabel).toBeNull();
+  });
+
+  it('normalizes mixed old High Pass saves without skipping route phases', () => {
+    const resolveWorldMapState = (save: SaveState) =>
+      resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+        sceneMode: 'world-map',
+        overlayMode: 'playing',
+        sceneBiomeId: 'forest',
+        lastBiomeId: 'forest',
+        sceneZoneId: 'trailhead',
+        scenePlayerX: 24,
+        scenePlayerY: 48,
+        hasFieldRequestNotice: false,
+        focusedWorldMapLocationId: 'treeline',
+      });
+
+    const normalizedReadySave = normalizeSaveState({
+      worldSeed: 'mixed-old-high-pass-ready-seed',
+      completedFieldRequestIds: [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        7 as unknown as string,
+        null as unknown as string,
+      ],
+      purchasedUpgradeIds: ['route-marker', 4 as unknown as string],
+      selectedOutingSupportId: 'route-marker',
+      seasonCloseReturnPending: true,
+      routeV2Progress: {
+        requestId: 'treeline-high-pass',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: ['treeline-approach', false as unknown as string],
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'moss-campion' },
+          { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+          { slotId: 'extra-slot', entryId: 3 as unknown as string },
+          { slotId: null as unknown as string, entryId: 'dwarf-birch' },
+        ],
+      },
+    } as unknown as Parameters<typeof normalizeSaveState>[0]);
+
+    expect(normalizedReadySave.completedFieldRequestIds).toEqual([
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+    ]);
+    expect(normalizedReadySave.purchasedUpgradeIds).toEqual(['route-marker']);
+    expect(normalizedReadySave.selectedOutingSupportId).toBe('route-marker');
+    expect(normalizedReadySave.routeV2Progress).toEqual({
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: ['treeline-approach'],
+      evidenceSlots: [
+        { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-mark', entryId: 'moss-campion' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    });
+    expect(resolveHighPassChapterState(normalizedReadySave)).toMatchObject({
+      phase: 'dormant',
+    });
+
+    const dormantState = resolveWorldMapState(normalizedReadySave);
+    expect(dormantState.activeFieldRequest).toBeNull();
+    expect(dormantState.activeOuting).toMatchObject({
+      title: 'High Pass',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: High Pass',
+    });
+    expect(dormantState.journalFieldRequest).toMatchObject({
+      id: 'route-locator:treeline',
+      title: 'High Pass',
+      progressLabel: 'NEXT',
+    });
+    expect(dormantState.routeMarkerLocationId).toBe('treeline');
+    expect(dormantState.routeReplayLabel).toBe('Today: High Pass');
+
+    normalizedReadySave.seasonCloseReturnPending = false;
+    expect(resolveHighPassChapterState(normalizedReadySave)).toMatchObject({
+      phase: 'ready-to-file',
+    });
+
+    const readyState = resolveWorldMapState(normalizedReadySave);
+    expect(readyState.activeFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+      },
+    });
+    expect(readyState.journalFieldRequest).toMatchObject({
+      id: 'treeline-high-pass',
+      title: 'High Pass',
+      progressLabel: 'Ready To File',
+    });
+    expect(readyState.activeOuting).toBeNull();
+    expect(readyState.routeMarkerLocationId).toBeNull();
+    expect(readyState.routeReplayLabel).toBeNull();
+
+    const filedSave = normalizeSaveState({
+      worldSeed: 'mixed-old-high-pass-filed-seed',
+      completedFieldRequestIds: [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+      ],
+      purchasedUpgradeIds: ['route-marker'],
+      selectedOutingSupportId: 'route-marker',
+      seasonCloseReturnPending: true,
+      routeV2Progress: {
+        requestId: 'treeline-high-pass',
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: ['treeline-approach'],
+        evidenceSlots: [
+          { slotId: 'stone-lift', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'rime-mark', entryId: 'moss-campion' },
+          { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        ],
+      },
+    });
+
+    expect(resolveHighPassChapterState(filedSave)).toMatchObject({
+      phase: 'filed',
+    });
+    expect(filedSave.routeV2Progress).toMatchObject({
+      requestId: 'treeline-high-pass',
+      status: 'ready-to-synthesize',
+    });
+
+    const filedState = resolveWorldMapState(filedSave);
+    expect(filedState.activeFieldRequest).toBeNull();
+    expect(filedState.activeOuting).toBeNull();
+    expect(filedState.journalFieldRequest).toBeNull();
+    expect(filedState.routeMarkerLocationId).toBeNull();
+    expect(filedState.routeReplayLabel).toBeNull();
   });
 
   it('starts with the beach shore-shelter request active', () => {

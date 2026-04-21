@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-148",
-  "version": 11,
+  "version": 14,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Sound, feedback, and subtle juice",
   "summary": "Use small feedback moments to make discoveries and filing feel good without music-system or particle-system sprawl.",
   "source_reports": [
@@ -352,6 +352,86 @@
       "Passed: npm run build",
       "Passed: npm run validate:agents with the known work-queue-size warning",
       "Passed: git diff --check"
+    ]
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-400",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-discovery-visual-feedback-handoff.md",
+    "verdict": "implementation-ready",
+    "finding": [
+      "Lane 1, lane 2, and lane 4 have already handled packet 148's notice lifecycle, sound-helper tone, and route-critical feedback priority, so lane 3 should not reopen those seams.",
+      "The current inspect flow already exposes `isNewEntry` and object world coordinates, making a tiny first-discovery world-space accent the smallest useful visual feedback target.",
+      "The accent should be debug-visible and short-lived, not saved, not repeated on re-inspect, and not generalized into a new particle framework."
+    ],
+    "main_scope": [
+      "Add a short-lived discovery feedback state when `inspectEntity(...)` records a first-time discovery.",
+      "Pass that state into `drawBiomeScene(...)` and render a few pixel-sized cream/tan sparkle marks near the inspected object's world position.",
+      "Expire the state automatically and clear it on biome or scene changes.",
+      "Expose the current accent through `render_game_to_text()` as compact `discoveryFeedback` data.",
+      "Add focused runtime-smoke coverage proving first discovery creates the accent, expiry clears it, and repeat inspect does not recreate it.",
+      "Capture one ignored browser proof frame if a dev server is available."
+    ],
+    "shared_file_note": "`src/engine/game.ts` is a shared/lane-1-heavy coordinator file, but this lane-3 pass needs one surgical exception because inspect creation, timer advancement, debug export, and the `drawBiomeScene(...)` handoff currently live there. Keep the visual drawing itself in `src/engine/biome-scene-render.ts`.",
+    "non_goals": [
+      "No audio engine, audio profile, UI cue id, music, mixer, sound toggle, field-request notice timing or priority, route state, route copy, station surface, journal layout, save schema, biome geometry, inspect range, target priority, science content, repeat-inspect feedback, filing feedback, support-toggle feedback, homecoming feedback, or station-action feedback changes."
+    ],
+    "verification": [
+      "Baseline passed: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect\"",
+      "Recommended: npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect|discovery feedback\"",
+      "Recommended: npm run build",
+      "Recommended: npm run validate:agents",
+      "Recommended: git diff --check"
+    ]
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-400",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-discovery-visual-feedback-implementation.md",
+    "changed_files": [
+      "src/engine/biome-scene-render.ts",
+      "src/engine/game.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-discovery-visual-feedback-implementation.md"
+    ],
+    "result": [
+      "First-time inspections now start a short-lived `discoveryFeedback` state with compact debug export.",
+      "`drawBiomeScene(...)` renders a few tiny cream/tan sparkle pixels near the inspected object's world position.",
+      "The accent expires during visible biome play, clears on scene/biome changes, and does not recur on repeat inspections."
+    ],
+    "browser_proof": [
+      "output/lane-3-main-400-discovery-feedback/beach-discovery-feedback.png",
+      "output/lane-3-main-400-discovery-feedback/beach-discovery-feedback-state.json",
+      "output/lane-3-main-400-discovery-feedback/beach-discovery-feedback-errors.json"
+    ],
+    "scope_notes": [
+      "No audio engine/profile/cue, music, mixer, sound toggle, field-request notice timing or priority, route state/copy, station surface, journal layout, save schema, biome geometry, inspect range, target priority, or science content changed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect|discovery feedback\"",
+      "npm run build",
+      "web-game client start-state run plus focused browser proof for inspect/discovery frame"
+    ]
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-400",
+    "completed_at": "2026-04-20",
+    "report": "docs/reports/2026-04-20-discovery-visual-feedback-review.md",
+    "verdict": "clean",
+    "confirmed": [
+      "First-time inspections create a short-lived world-space accent and compact `discoveryFeedback` debug state.",
+      "Repeat inspections do not recreate the accent.",
+      "The accent expires during visible biome play, clears on scene/biome changes, and stays out of transition rendering.",
+      "Browser proof shows the sparkle remains tiny and does not displace the fact bubble or `NEW` badge.",
+      "No audio, notice priority/timing, route, station, journal layout, save schema, geometry, inspect range, target priority, or science content changed."
+    ],
+    "promoted_next": "ECO-20260420-scout-404",
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"covers title, play, inspect|discovery feedback\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check",
+      "jq proof-state/error check for output/lane-3-main-400-discovery-feedback"
     ]
   },
   "lane_4_scout_refinement": {

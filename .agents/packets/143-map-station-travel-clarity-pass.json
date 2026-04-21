@@ -1,9 +1,9 @@
 {
   "packet_id": "ECO-PACKET-143",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Map and station travel clarity pass",
   "summary": "Reduce friction between world map, field station, adjacent walking, and route markers now that the alpha arc is closed.",
   "source_reports": [
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-map-station-travel-copy-review.md",
     "docs/reports/2026-04-20-map-station-travel-route-marker-handoff.md",
     "docs/reports/2026-04-20-map-station-travel-route-marker-implementation.md",
-    "docs/reports/2026-04-20-map-station-travel-route-marker-review.md"
+    "docs/reports/2026-04-20-map-station-travel-route-marker-review.md",
+    "docs/reports/2026-04-20-map-station-travel-spatial-handoff.md",
+    "docs/reports/2026-04-20-map-station-travel-spatial-implementation.md",
+    "docs/reports/2026-04-20-map-station-travel-spatial-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-378",
@@ -490,5 +493,127 @@
     ],
     "follow_up": "none",
     "lane_4_status": "packet 143 lane-4 chain clear; promote ECO-20260420-scout-385"
+  },
+  "lane_3_scout_refinement": {
+    "completed_by": "ECO-20260420-scout-380",
+    "report": "docs/reports/2026-04-20-map-station-travel-spatial-handoff.md",
+    "target": "Move the Treeline Pass map-return post out of the High Pass shelter/exposure shelf and prove the cue no longer competes with the route-memory band.",
+    "finding": [
+      "The prior lane-3 blockers in this family were map-return interactions stealing physical reward moments on beach dune crest and Coastal Scrub gather bands.",
+      "Treeline Pass currently places its mapReturnPost at x 404, inside the lee-pocket-upper-shelf span and beside lee-pocket-exit-stone.",
+      "That puts the HIGH PASS MAP cue inside the same shelf/return band now carrying the lower shelter-to-open-fell High Pass approach memory."
+    ],
+    "recommended_scope": [
+      "Change only Treeline Pass mapReturnPost from x 404 to x 148 in src/content/world-map.ts.",
+      "Preserve spriteId map-post, facing right, y 92, and existing HIGH PASS MAP label.",
+      "Add focused world-map clearance coverage proving the Treeline post is before last-tree and outside the lee-pocket shelf/exit-stone band.",
+      "Add focused runtime or browser proof showing the new post is reachable and a High Pass route pocket still has no nearby travel target."
+    ],
+    "acceptance": [
+      "Treeline map-return post remains at least 96px from both corridor doors.",
+      "Treeline map-return post is before the High Pass shelter/exposure platform family and no longer overlaps lee-pocket-upper-shelf or lee-pocket-exit-stone.",
+      "Existing beach and Coastal Scrub map-return clearance guards remain intact.",
+      "No station page, support, route-marker, active-outing, ready-to-file, filed-state, save-schema, journal, atlas, science-copy, corridor-geometry, or world-map-copy behavior changes land."
+    ],
+    "preserve": [
+      "beach return post",
+      "coastal-scrub return post",
+      "forest return post",
+      "tundra return post unless fresh proof shows the same blocker",
+      "route definitions and route state",
+      "station behavior",
+      "support behavior",
+      "save schema",
+      "corridor geometry",
+      "High Pass copy",
+      "journal and atlas copy"
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"map-return|High Pass|destination-aware travel cue\"",
+      "npm run build",
+      "web-game client smoke plus focused Treeline browser capture under output/lane-3-main-380-browser/",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-main-380"
+  },
+  "lane_3_main_result": {
+    "completed_by": "ECO-20260420-main-380",
+    "report": "docs/reports/2026-04-20-map-station-travel-spatial-implementation.md",
+    "changed_files": [
+      "src/content/world-map.ts",
+      "src/test/world-map.test.ts",
+      "src/test/runtime-smoke.test.ts",
+      "docs/reports/2026-04-20-map-station-travel-spatial-implementation.md"
+    ],
+    "result": [
+      "Moved only the Treeline Pass mapReturnPost from x 404 to x 148 so HIGH PASS MAP no longer sits in the lee-pocket upper shelf / exit-stone route-memory band.",
+      "Added world-map clearance coverage proving the moved post remains before last-tree and outside the shelter shelf band.",
+      "Added runtime proof that the moved post opens/returns from the world map and that the old High Pass shelf band has no nearby travel target.",
+      "Captured ignored browser proof showing the moved post in Thin Canopy and the Dwarf Shrub shelf band clear of travel prompts."
+    ],
+    "preserved": [
+      "station pages and station state",
+      "route definitions and route state",
+      "route-marker behavior",
+      "ready-to-file behavior",
+      "filed-state behavior",
+      "save schema",
+      "journal and atlas copy",
+      "science copy",
+      "corridor geometry",
+      "beach/coastal-scrub/forest/tundra map-return posts",
+      "High Pass copy and world-map labels"
+    ],
+    "browser_proof": [
+      "output/lane-3-main-380-browser/treeline-map-return-post-256x160.png",
+      "output/lane-3-main-380-browser/state-treeline-map-return-post.json",
+      "output/lane-3-main-380-browser/state-world-map-from-treeline-post.json",
+      "output/lane-3-main-380-browser/high-pass-shelf-clear-256x160.png",
+      "output/lane-3-main-380-browser/state-high-pass-shelf-clear.json",
+      "output/lane-3-main-380-browser/errors.json",
+      "output/lane-3-main-380-browser/client/shot-0.png",
+      "output/lane-3-main-380-browser/client/state-0.json"
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"map-return|High Pass|destination-aware travel cue\"",
+      "npm run build",
+      "web-game client smoke under output/lane-3-main-380-browser/client/",
+      "focused Treeline browser proof under output/lane-3-main-380-browser/"
+    ],
+    "promoted_next_lane_3_item": "ECO-20260420-critic-380"
+  },
+  "lane_3_critic_result": {
+    "completed_by": "ECO-20260420-critic-380",
+    "report": "docs/reports/2026-04-20-map-station-travel-spatial-review.md",
+    "result": "Clean review. The Treeline Pass map-return cue now lives in early Thin Canopy instead of the High Pass shelter/exposure shelf band, with focused unit, runtime, build, and browser proof.",
+    "confirmed": [
+      "Only the Treeline Pass mapReturnPost moved from x 404 to x 148.",
+      "Sprite id, facing, y-position, labels, world-map copy, corridor doors, and other biome return posts are unchanged.",
+      "Treeline clearance coverage now protects the post from last-tree-approach-stone, lee-pocket-upper-shelf, and lee-pocket-exit-stone.",
+      "Runtime proof shows the moved post opens and returns from the world map while the old shelf band has nearbyTravelTarget null.",
+      "Browser proof shows the moved post in Thin Canopy, the old Dwarf Shrub shelf band clear, and an empty errors.json."
+    ],
+    "preserved": [
+      "station pages and station state",
+      "route definitions and route state",
+      "support behavior",
+      "save schema",
+      "journal and atlas copy",
+      "science copy",
+      "corridor geometry",
+      "High Pass copy",
+      "beach/coastal-scrub/forest/tundra map-return posts"
+    ],
+    "verification": [
+      "npm test -- --run src/test/world-map.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"map-return|High Pass|destination-aware travel cue\"",
+      "npm run build",
+      "output/lane-3-main-380-browser/errors.json empty"
+    ],
+    "follow_up": "none",
+    "lane_3_status": "packet 143 lane-3 chain clear; promote ECO-20260420-scout-384"
   }
 }

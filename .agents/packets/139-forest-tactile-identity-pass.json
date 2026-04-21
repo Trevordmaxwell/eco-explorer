@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-139",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "DONE",
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-forest-route-transition-state-review.md",
     "docs/reports/2026-04-20-forest-route-process-support-handoff.md",
     "docs/reports/2026-04-20-forest-route-process-support-implementation.md",
-    "docs/reports/2026-04-20-forest-route-process-support-review.md"
+    "docs/reports/2026-04-20-forest-route-process-support-review.md",
+    "docs/reports/2026-04-20-forest-tactile-identity-handoff.md",
+    "docs/reports/2026-04-20-forest-tactile-identity-implementation.md",
+    "docs/reports/2026-04-20-forest-tactile-identity-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-362",
@@ -133,7 +136,11 @@
     "src/content/biomes/forest.ts",
     "src/test/save-snapshots.test.ts",
     "src/test/ecosystem-notes.test.ts",
-    "src/test/content-quality.test.ts"
+    "src/test/content-quality.test.ts",
+    "src/test/forest-biome.test.ts",
+    "docs/reports/2026-04-20-forest-tactile-identity-handoff.md",
+    "docs/reports/2026-04-20-forest-tactile-identity-implementation.md",
+    "docs/reports/2026-04-20-forest-tactile-identity-review.md"
   ],
   "guardrails": [
     "Keep the completed alpha arc intact: do not reopen High Pass density, season three, biome six, broad planner UI, crafting, combat, or inventory expansion during this campaign.",
@@ -189,7 +196,91 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "queue_id": "ECO-20260420-scout-364",
+        "source_report": "docs/reports/2026-04-20-forest-tactile-identity-handoff.md",
+        "status": "DONE",
+        "focus": "Keep the lane-3 forest tactile identity pass proof-first by pinning the existing root-hollow lower pocket, filtered-return mouth, and log-run carry as one readable physical-memory chain before adding new geometry.",
+        "recommended_files": [
+          "src/test/forest-biome.test.ts",
+          "docs/reports/2026-04-20-forest-tactile-identity-implementation.md"
+        ],
+        "current_state": [
+          "`root-hollow-under-basin-rest` already creates a tucked lower wet pocket below the main cave shelf",
+          "`filtered-return-mouth-sill` already creates a small observation pause at the brighter return side",
+          "`log-run-high-run-log` plus `log-run-fir-trunk` already carries the player out of the cave family into the high log-run",
+          "existing authored carriers already sell the moisture/shelter chain: `seep-moss-mat`, `banana-slug`, `ensatina`, `root-curtain`, and `licorice-fern`"
+        ],
+        "main_acceptance": [
+          "add one focused forest-biome guard that names the lower wet pocket -> filtered return mouth -> log-run carry chain",
+          "assert the key platform, depth-feature, climbable, and authored-carrier ids that make the chain readable",
+          "keep the pass test/report-only unless a real visual gap is found",
+          "if geometry or placement changes land, limit them to at most one tiny existing-id carrier near `filtered-return-mouth-sill` or `log-run-high-run-log` and capture fresh browser proof",
+          "do not change route definitions, support behavior, station UI, save schema, world-map behavior, player physics, journal-heavy copy, science entries, cave-system breadth, or old-growth branch breadth"
+        ],
+        "baseline_verification": [
+          "PASS npm test -- --run src/test/forest-biome.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"root-hollow|Moist Hollow|Moisture Holders|log-run\""
+        ],
+        "main_verification": [
+          "npm test -- --run src/test/forest-biome.test.ts",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"root-hollow|Moist Hollow|Moisture Holders|log-run\"",
+          "npm run build",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-364",
+        "status": "complete",
+        "implementation_report": "docs/reports/2026-04-20-forest-tactile-identity-implementation.md",
+        "changed_files": [
+          "src/test/forest-biome.test.ts",
+          "docs/reports/2026-04-20-forest-tactile-identity-implementation.md"
+        ],
+        "result": [
+          "Added a focused forest-biome guard that pins the existing lower wet pocket -> filtered return mouth -> log-run carry chain.",
+          "Asserted the key platform, depth-feature, climbable, and authored-carrier ids that make the forest middle read as damp shelter and root/wood movement.",
+          "Kept the implementation test/report-only, so no browser proof was required."
+        ],
+        "preserved": [
+          "forest geometry",
+          "rendering",
+          "route definitions",
+          "route/support behavior",
+          "station UI",
+          "save schema",
+          "world-map behavior",
+          "player physics",
+          "journal copy",
+          "science entries",
+          "cave-system breadth",
+          "old-growth branch breadth"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/forest-biome.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"root-hollow|Moist Hollow|Moisture Holders|log-run\"",
+          "PASS npm run build"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-364",
+        "status": "clean",
+        "review_report": "docs/reports/2026-04-20-forest-tactile-identity-review.md",
+        "confirmed": [
+          "the implementation stays test/report-only and does not change live forest runtime behavior",
+          "the new guard pins the lower wet pocket -> filtered return mouth -> log-run carry chain through stable platform, depth-feature, climbable, and authored-carrier ids",
+          "the pass avoids new cave breadth, old-growth branch breadth, route/support behavior, station UI, save schema, world-map behavior, player physics, journal copy, science entries, and rendering changes",
+          "no browser proof is required because no geometry, rendering, or placement changes landed"
+        ],
+        "verification": [
+          "PASS npm test -- --run src/test/forest-biome.test.ts",
+          "PASS npm test -- --run src/test/runtime-smoke.test.ts -t \"root-hollow|Moist Hollow|Moisture Holders|log-run\"",
+          "implementation already passed npm run build"
+        ],
+        "promoted_next": "ECO-20260420-scout-368"
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

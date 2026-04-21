@@ -200,7 +200,7 @@ export const ecoWorldMap: WorldMapDefinition = {
           targetBiomeId: 'tundra',
         },
       ],
-      mapReturnPost: { x: 404, y: 92, facing: 'right', spriteId: 'map-post' },
+      mapReturnPost: { x: 148, y: 92, facing: 'right', spriteId: 'map-post' },
       spriteId: 'map-treeline-door',
     },
     {

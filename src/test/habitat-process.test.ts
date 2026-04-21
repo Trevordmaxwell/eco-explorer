@@ -9,8 +9,67 @@ import {
   getActiveHabitatProcessMoments,
   resolveHabitatProcessMomentForEntity,
 } from '../engine/habitat-process';
+import type { BiomeDefinition, HabitatProcessMoment } from '../engine/types';
+
+const PROCESS_BIOMES = [beachBiome, coastalScrubBiome, forestBiome, treelineBiome, tundraBiome];
+
+function getZoneIdForX(definition: BiomeDefinition, x: number): string | null {
+  return definition.terrainRules.zones.find((zone) => x >= zone.start && x <= zone.end)?.id ?? null;
+}
+
+function getProcessCarrierZones(
+  definition: BiomeDefinition,
+  processMoment: HabitatProcessMoment,
+): Map<string, Set<string>> {
+  const processEntryIds = new Set(processMoment.entryIds);
+  const allowedZoneIds = new Set(processMoment.zoneIds ?? definition.terrainRules.zones.map((zone) => zone.id));
+  const carrierZones = new Map<string, Set<string>>();
+  const addCarrierZone = (entryId: string, zoneId: string): void => {
+    if (!processEntryIds.has(entryId) || !allowedZoneIds.has(zoneId)) {
+      return;
+    }
+
+    const zones = carrierZones.get(entryId) ?? new Set<string>();
+    zones.add(zoneId);
+    carrierZones.set(entryId, zones);
+  };
+
+  for (const table of definition.spawnTables) {
+    for (const entry of table.entries) {
+      addCarrierZone(entry.entryId, table.zoneId);
+    }
+  }
+
+  for (const placement of definition.terrainRules.authoredEntities ?? []) {
+    const zoneId = getZoneIdForX(definition, placement.x);
+    if (zoneId !== null) {
+      addCarrierZone(placement.entryId, zoneId);
+    }
+  }
+
+  return carrierZones;
+}
 
 describe('habitat process moments', () => {
+  it('keeps every live process carrier physically authored in a matching habitat zone', () => {
+    expect(
+      PROCESS_BIOMES.flatMap((biome) => biome.processMoments ?? []).map((processMoment) => processMoment.id),
+    ).toEqual(['wrack-hold', 'sand-capture', 'moisture-hold', 'frost-rime', 'thaw-fringe']);
+
+    for (const biome of PROCESS_BIOMES) {
+      for (const processMoment of biome.processMoments ?? []) {
+        const carrierZones = getProcessCarrierZones(biome, processMoment);
+
+        for (const entryId of processMoment.entryIds) {
+          expect(
+            carrierZones.get(entryId)?.size ?? 0,
+            `${biome.id}/${processMoment.id}/${entryId} needs a spawn table or authored placement in ${processMoment.zoneIds?.join(', ') ?? 'any zone'}.`,
+          ).toBeGreaterThan(0);
+        }
+      }
+    }
+  });
+
   it('activates the beach wrack-hold moment only on late marine-haze revisits', () => {
     expect(
       getActiveHabitatProcessMoments(beachBiome, 1, {

@@ -75,6 +75,54 @@ describe('coastal scrub biome generation', () => {
     expect(stableEntryIds).toContain('nootka-rose');
   });
 
+  it('adds a small back-dune shelter shelf before the scrub thickens', () => {
+    const save = createNewSaveState('coastal-scrub-front-half-shelter-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const backDune = coastalScrubBiome.terrainRules.zones.find((zone) => zone.id === 'back-dune');
+    const shrubThicket = coastalScrubBiome.terrainRules.zones.find((zone) => zone.id === 'shrub-thicket');
+    const shelfPlatforms = instance.platforms.filter((platform) => platform.id.startsWith('back-dune-shelter-'));
+    const lip = shelfPlatforms.find((platform) => platform.id === 'back-dune-shelter-lip');
+    const rest = shelfPlatforms.find((platform) => platform.id === 'back-dune-shelter-rest');
+    const firstWindbreak = instance.platforms.find((platform) => platform.id === 'windbreak-gather-log');
+    const shelterCarriers = instance.entities
+      .filter((entity) => entity.entityId.includes('back-dune-shelter-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
+
+    expect(backDune).toBeDefined();
+    expect(shrubThicket).toBeDefined();
+    expect(lip).toBeDefined();
+    expect(rest).toBeDefined();
+    expect(firstWindbreak).toBeDefined();
+    if (!backDune || !shrubThicket || !lip || !rest || !firstWindbreak) {
+      throw new Error('expected Coastal Scrub opening shelter shelf anchors to exist');
+    }
+
+    expect(shelfPlatforms.map((platform) => platform.id)).toEqual([
+      'back-dune-shelter-lip',
+      'back-dune-shelter-rest',
+    ]);
+    expect(lip.x).toBeGreaterThanOrEqual(backDune.start + 70);
+    expect(rest.x + rest.w).toBeLessThanOrEqual(backDune.end);
+    expect(rest.x + rest.w).toBeLessThanOrEqual(shrubThicket.start);
+    expect(rest.x + rest.w).toBeLessThan(firstWindbreak.x);
+    expect(rest.x).toBeGreaterThan(lip.x + lip.w);
+    expect(rest.x - (lip.x + lip.w)).toBeLessThanOrEqual(12);
+    expect(lip.y).toBeGreaterThan(rest.y);
+    expect(lip.y - rest.y).toBeLessThanOrEqual(6);
+    expect(rest.y).toBeGreaterThanOrEqual(94);
+    expect(rest.y).toBeLessThanOrEqual(100);
+    expect(shelterCarriers).toEqual([
+      { entryId: 'beach-grass', x: 88, y: 108 },
+      { entryId: 'sand-verbena', x: 122, y: 104 },
+    ]);
+    expect(shelterCarriers.every((entity) => entity.x >= backDune.start && entity.x < backDune.end)).toBe(true);
+  });
+
   it('adds a lowered windbreak swale with an optional bluff lookout above the low route', () => {
     const save = createNewSaveState('coastal-scrub-proof-seed');
     const instance = generateBiomeInstance(coastalScrubBiome, save, 1);

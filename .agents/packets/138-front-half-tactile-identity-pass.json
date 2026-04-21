@@ -1,6 +1,6 @@
 {
   "packet_id": "ECO-PACKET-138",
-  "version": 10,
+  "version": 13,
   "created_at": "2026-04-20",
   "created_by_role": "director",
   "status": "DONE",
@@ -16,7 +16,10 @@
     "docs/reports/2026-04-20-front-half-tactile-copy-review.md",
     "docs/reports/2026-04-20-front-half-route-proof-handoff.md",
     "docs/reports/2026-04-20-front-half-route-proof-implementation.md",
-    "docs/reports/2026-04-20-front-half-route-proof-review.md"
+    "docs/reports/2026-04-20-front-half-route-proof-review.md",
+    "docs/reports/2026-04-20-front-half-tactile-identity-handoff.md",
+    "docs/reports/2026-04-20-front-half-tactile-identity-implementation.md",
+    "docs/reports/2026-04-20-front-half-tactile-identity-review.md"
   ],
   "queue_refs": [
     "ECO-20260420-scout-358",
@@ -190,7 +193,82 @@
         "src/test/*-biome.test.ts",
         "output/ browser proofs"
       ],
-      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane."
+      "handoff_rule": "If this lane must touch a shared file outside its preferred paths, the scout report must name the reason and queue a dependency or follow-up for the owning lane.",
+      "scout_refinement": {
+        "queue_id": "ECO-20260420-scout-360",
+        "source_report": "docs/reports/2026-04-20-front-half-tactile-identity-handoff.md",
+        "status": "DONE",
+        "focus": "Make the live Coastal Scrub opening carry one tiny, optional back-dune shelter beat so the front-half route has a remembered-by-feel physical anchor.",
+        "recommended_files": [
+          "src/content/biomes/coastal-scrub.ts",
+          "src/test/coastal-scrub-biome.test.ts",
+          "docs/reports/2026-04-20-front-half-tactile-identity-implementation.md",
+          "output/lane-3-main-360-browser/"
+        ],
+        "current_state": [
+          "lane 1 added the `front-half-open-to-shelter` debug snapshot",
+          "lane 2 tightened the `shelter-builds-here` back-dune note around beach grass, sand verbena, and dune lupine",
+          "lane 4 proved the existing `Open To Shelter` support/readiness behavior",
+          "the beach-to-scrub corridor already has a held back-dune shelf, but the live Coastal Scrub opening has no authored back-dune starter shelf before the larger windbreak/swale platform family"
+        ],
+        "main_acceptance": [
+          "add one tiny optional authored back-dune starter shelf/hold in `coastal-scrub.ts` using existing `drift-platform` language",
+          "keep the beat inside the `back-dune` zone before `shrub-thicket`, shallow enough to read as a low hop rather than a new route gate",
+          "if stable carriers are added, use at most existing back-dune entries such as `beach-grass` and `sand-verbena` near the shelf",
+          "`coastal-scrub-biome.test.ts` pins the shelf ids, x/y relationship, zone bounds, and carrier ids/positions if added",
+          "no route definitions, support behavior, station pages, save schema, science copy, world-map behavior, corridor geometry, player physics, new UI, or broad traversal rewrite"
+        ],
+        "baseline_verification": [
+          "npm test -- --run src/test/coastal-scrub-biome.test.ts",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf\"",
+          "npm test -- --run src/test/corridor.test.ts -t \"back-dune shelf\""
+        ],
+        "main_verification": [
+          "npm test -- --run src/test/coastal-scrub-biome.test.ts",
+          "focused runtime-smoke slice if runtime expectations are touched",
+          "npm run build",
+          "browser proof under ignored `output/lane-3-main-360-browser/` if live geometry changes land",
+          "npm run validate:agents",
+          "git diff --check"
+        ]
+      },
+      "main_result": {
+        "queue_id": "ECO-20260420-main-360",
+        "source_report": "docs/reports/2026-04-20-front-half-tactile-identity-implementation.md",
+        "status": "DONE",
+        "summary": "Added a tiny optional authored back-dune shelter shelf/hold in the live Coastal Scrub opening, with stable beach-grass and sand-verbena carriers and focused biome-generation coverage.",
+        "changed_files": [
+          "src/content/biomes/coastal-scrub.ts",
+          "src/test/coastal-scrub-biome.test.ts",
+          "docs/reports/2026-04-20-front-half-tactile-identity-implementation.md"
+        ],
+        "guardrails_preserved": [
+          "no route definitions, support behavior, station pages, save schema, science copy, world-map behavior, corridor geometry, player physics, new UI, or broad traversal rewrite changed",
+          "the new shelf stays optional, inside the `back-dune` zone, and before the later `windbreak-*` platform family",
+          "browser proof artifacts were captured under ignored `output/lane-3-main-360-browser/`"
+        ],
+        "verified": [
+          "npm test -- --run src/test/coastal-scrub-biome.test.ts",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf\"",
+          "npm run build",
+          "$WEB_GAME_CLIENT smoke under output/lane-3-main-360-client/",
+          "direct browser proof under output/lane-3-main-360-browser/"
+        ]
+      },
+      "critic_result": {
+        "queue_id": "ECO-20260420-critic-360",
+        "source_report": "docs/reports/2026-04-20-front-half-tactile-identity-review.md",
+        "status": "DONE",
+        "verdict": "no blocker",
+        "summary": "Reviewed the Coastal Scrub opening shelf cleanly. The pass stays lane-3 scoped, keeps the shelf optional and inside back-dune, preserves route/support/station/save/science/world-map/corridor/physics/UI behavior, and has focused test plus browser proof coverage.",
+        "verified": [
+          "npm test -- --run src/test/coastal-scrub-biome.test.ts",
+          "npm test -- --run src/test/runtime-smoke.test.ts -t \"Open To Shelter|front-half-open-to-shelter|held back-dune shelf\"",
+          "reviewed npm run build result from main step",
+          "reviewed $WEB_GAME_CLIENT smoke under output/lane-3-main-360-client/",
+          "reviewed direct browser proof under output/lane-3-main-360-browser/"
+        ]
+      }
     },
     "lane-4": {
       "name": "Route loop / support / replay / full-arc proof",

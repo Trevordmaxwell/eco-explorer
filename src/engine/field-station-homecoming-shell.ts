@@ -36,6 +36,7 @@ export interface FieldStationBackdropAccentState {
   loggedRouteCount: number;
   homecomingMilestoneRequestId: string | null;
   hasHomecomingMemory: boolean;
+  hasHomecomingFrameAccent: boolean;
   hasLeftBrace: boolean;
   hasRightBrace: boolean;
   hasCenterTie: boolean;
@@ -50,6 +51,7 @@ interface FieldStationBackdropPulseState {
   renderRightBrace: boolean;
   renderCenterTie: boolean;
   renderLateSeasonLintel: boolean;
+  renderHomecomingFrameAccent: boolean;
 }
 
 interface FieldStationHomecomingShellSource {
@@ -161,13 +163,15 @@ export function resolveFieldStationBackdropAccentState({
   const hasRightBrace = safeLoggedRouteCount >= 2 || stageProgress >= 3 || hasPollinatorPatch;
   const hasCenterTie = safeLoggedRouteCount >= 3 || stageProgress >= 4 || hasCompostUpgrade;
   const hasLateSeasonLintel = hasLateSeasonArchive && hasLeftBrace && hasRightBrace;
+  const hasHomecomingFrameAccent = Boolean(safeHomecomingMilestoneRequestId);
 
   return {
-    showAccent: hasLeftBrace || hasRightBrace || hasCenterTie,
+    showAccent: hasLeftBrace || hasRightBrace || hasCenterTie || hasHomecomingFrameAccent,
     stageProgress,
     loggedRouteCount: safeLoggedRouteCount,
     homecomingMilestoneRequestId: safeHomecomingMilestoneRequestId,
-    hasHomecomingMemory: Boolean(safeHomecomingMilestoneRequestId),
+    hasHomecomingMemory: hasHomecomingFrameAccent,
+    hasHomecomingFrameAccent,
     hasLeftBrace,
     hasRightBrace,
     hasCenterTie,
@@ -189,6 +193,7 @@ export function resolveFieldStationBackdropPulseState(
     renderRightBrace: accent.hasRightBrace || pulseShell,
     renderCenterTie: accent.hasCenterTie || pulseShell,
     renderLateSeasonLintel: accent.hasLateSeasonLintel,
+    renderHomecomingFrameAccent: accent.hasHomecomingFrameAccent,
   };
 }
 
@@ -207,6 +212,7 @@ function drawFieldStationBackdropAccent(
     && !pulseState.renderLeftBrace
     && !pulseState.renderRightBrace
     && !pulseState.renderLateSeasonLintel
+    && !pulseState.renderHomecomingFrameAccent
   ) {
     return;
   }
@@ -265,6 +271,23 @@ function drawFieldStationBackdropAccent(
     context.fillRect(leftBraceX + 4, lintelY - 1, rightBraceX - leftBraceX - 4, 1);
     context.fillStyle = palette.accent;
     context.fillRect(Math.floor((leftBraceX + rightBraceX) / 2), lintelY - 1, 1, 1);
+  }
+
+  if (pulseState.renderHomecomingFrameAccent) {
+    const capY = braceTop - 2;
+    const leftCapX = leftBraceX + 3;
+    const rightCapX = rightBraceX - 1;
+
+    // Keep the homecoming memory as small brace-cap beads, not another lintel or sill family.
+    context.fillStyle = palette.cardShadow;
+    context.fillRect(leftCapX - 1, capY + 1, 3, 1);
+    context.fillRect(rightCapX - 1, capY + 1, 3, 1);
+    context.fillStyle = palette.accent;
+    context.fillRect(leftCapX, capY, 1, 1);
+    context.fillRect(rightCapX, capY, 1, 1);
+    context.fillStyle = palette.text;
+    context.fillRect(leftCapX + 1, capY + 1, 1, 1);
+    context.fillRect(rightCapX - 1, capY + 1, 1, 1);
   }
 
   if (accent.stageProgress > 0) {
