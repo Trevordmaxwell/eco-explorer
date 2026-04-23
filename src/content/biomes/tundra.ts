@@ -210,6 +210,22 @@ export const tundraBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'snow-edge-pocket-lip',
+        spriteId: 'ice-platform',
+        x: 184,
+        y: 112,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'snow-edge-pocket-rest',
+        spriteId: 'ice-platform',
+        x: 204,
+        y: 108,
+        w: 18,
+        h: 4,
+      },
+      {
         id: 'snow-meadow-drift-shoulder',
         spriteId: 'ice-platform',
         x: 224,
@@ -320,6 +336,30 @@ export const tundraBiome: BiomeDefinition = {
         entryId: 'reindeer-lichen',
         x: 172,
         y: 105,
+      },
+      {
+        id: 'snow-edge-pocket-saxifrage',
+        entryId: 'purple-saxifrage',
+        x: 190,
+        y: 106,
+      },
+      {
+        id: 'snow-edge-pocket-sedge',
+        entryId: 'bigelows-sedge',
+        x: 202,
+        y: 104,
+      },
+      {
+        id: 'snow-edge-pocket-lemming',
+        entryId: 'northern-collared-lemming',
+        x: 214,
+        y: 108,
+      },
+      {
+        id: 'snow-edge-pocket-bunting',
+        entryId: 'snow-bunting',
+        x: 222,
+        y: 104,
       },
       {
         id: 'snow-meadow-drift-sedge',

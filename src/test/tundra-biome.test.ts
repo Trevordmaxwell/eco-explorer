@@ -227,6 +227,63 @@ describe('tundra biome generation', () => {
     expect((thawEntry?.x ?? 0) + (thawEntry?.w ?? 0)).toBeGreaterThanOrEqual(338);
   });
 
+  it('adds a snow-edge pocket between the threshold and drift hold', () => {
+    const snowEdgePlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['snow-edge-pocket-lip', 'snow-edge-pocket-rest'].includes(platform.id),
+    );
+    const snowEdgeCarriers = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
+      entity.id.startsWith('snow-edge-pocket-'),
+    );
+
+    expect(snowEdgePlatforms).toEqual([
+      {
+        id: 'snow-edge-pocket-lip',
+        spriteId: 'ice-platform',
+        x: 184,
+        y: 112,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'snow-edge-pocket-rest',
+        spriteId: 'ice-platform',
+        x: 204,
+        y: 108,
+        w: 18,
+        h: 4,
+      },
+    ]);
+    expect(snowEdgePlatforms?.[0]?.x ?? 0).toBeGreaterThan(178);
+    expect(snowEdgePlatforms?.[1]?.x ?? 0).toBeLessThan(224);
+    expect(snowEdgePlatforms?.[1]?.y).toBeLessThan(snowEdgePlatforms?.[0]?.y ?? 0);
+    expect(snowEdgeCarriers).toEqual([
+      {
+        id: 'snow-edge-pocket-saxifrage',
+        entryId: 'purple-saxifrage',
+        x: 190,
+        y: 106,
+      },
+      {
+        id: 'snow-edge-pocket-sedge',
+        entryId: 'bigelows-sedge',
+        x: 202,
+        y: 104,
+      },
+      {
+        id: 'snow-edge-pocket-lemming',
+        entryId: 'northern-collared-lemming',
+        x: 214,
+        y: 108,
+      },
+      {
+        id: 'snow-edge-pocket-bunting',
+        entryId: 'snow-bunting',
+        x: 222,
+        y: 104,
+      },
+    ]);
+  });
+
   it('adds one compact thaw-skirt bench between the drift hold and frost ridge', () => {
     const thawPlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
       [

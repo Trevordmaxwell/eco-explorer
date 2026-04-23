@@ -224,6 +224,64 @@ describe('treeline biome generation', () => {
     expect((breakStep?.x ?? 0) + (breakStep?.w ?? 0)).toBeLessThanOrEqual((upperShelf?.x ?? 0) + (upperShelf?.w ?? 0));
   });
 
+  it('adds a sheltered dwarf-shrub recovery pocket after Stone Shelter', () => {
+    const dwarfShelterPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      ['dwarf-shelter-stone-lip', 'dwarf-shelter-berry-rest'].includes(platform.id),
+    );
+    const dwarfShelterCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
+      entity.id.startsWith('dwarf-shelter-'),
+    );
+
+    expect(dwarfShelterPlatforms).toEqual([
+      {
+        id: 'dwarf-shelter-stone-lip',
+        spriteId: 'granite-platform',
+        x: 376,
+        y: 118,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'dwarf-shelter-berry-rest',
+        spriteId: 'granite-platform',
+        x: 432,
+        y: 116,
+        w: 24,
+        h: 4,
+      },
+    ]);
+    expect(dwarfShelterPlatforms?.[1]?.x ?? 0).toBeGreaterThan(
+      (dwarfShelterPlatforms?.[0]?.x ?? 0) + (dwarfShelterPlatforms?.[0]?.w ?? 0),
+    );
+    expect(dwarfShelterPlatforms?.[1]?.y).toBeLessThan(dwarfShelterPlatforms?.[0]?.y ?? 0);
+    expect(dwarfShelterCarriers).toEqual([
+      {
+        id: 'dwarf-shelter-birch',
+        entryId: 'dwarf-birch',
+        x: 382,
+        y: 112,
+      },
+      {
+        id: 'dwarf-shelter-boulder',
+        entryId: 'frost-heave-boulder',
+        x: 438,
+        y: 112,
+      },
+      {
+        id: 'dwarf-shelter-marmot',
+        entryId: 'hoary-marmot',
+        x: 450,
+        y: 108,
+      },
+      {
+        id: 'dwarf-shelter-ptarmigan',
+        entryId: 'rock-ptarmigan',
+        x: 474,
+        y: 112,
+      },
+    ]);
+  });
+
   it('adds one compact open-fell island before the tundra handoff', () => {
     const openFellPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
       ['lee-pocket-lee-rest', 'fell-island-step', 'fell-island-rest'].includes(platform.id),

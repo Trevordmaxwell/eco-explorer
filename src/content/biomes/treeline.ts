@@ -225,6 +225,22 @@ export const treelineBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'dwarf-shelter-stone-lip',
+        spriteId: 'granite-platform',
+        x: 376,
+        y: 118,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'dwarf-shelter-berry-rest',
+        spriteId: 'granite-platform',
+        x: 432,
+        y: 116,
+        w: 24,
+        h: 4,
+      },
+      {
         id: 'lee-pocket-upper-shelf',
         spriteId: 'granite-platform',
         x: 294,
@@ -343,6 +359,30 @@ export const treelineBiome: BiomeDefinition = {
         entryId: 'hoary-marmot',
         x: 356,
         y: 108,
+      },
+      {
+        id: 'dwarf-shelter-birch',
+        entryId: 'dwarf-birch',
+        x: 382,
+        y: 112,
+      },
+      {
+        id: 'dwarf-shelter-boulder',
+        entryId: 'frost-heave-boulder',
+        x: 438,
+        y: 112,
+      },
+      {
+        id: 'dwarf-shelter-marmot',
+        entryId: 'hoary-marmot',
+        x: 450,
+        y: 108,
+      },
+      {
+        id: 'dwarf-shelter-ptarmigan',
+        entryId: 'rock-ptarmigan',
+        x: 474,
+        y: 112,
       },
       {
         id: 'lee-pocket-rime-campion',
