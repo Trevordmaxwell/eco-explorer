@@ -162,6 +162,44 @@ describe('beach biome generation', () => {
     expect(tidepoolApproachEntities.some((entity) => entity.entryId === 'sand-dollar-test')).toBe(true);
   });
 
+  it('adds a small wrack pocket between the lee drift and tidepool approach', () => {
+    const save = createNewSaveState('beach-wrack-pocket-seed');
+    const instance = generateBiomeInstance(beachBiome, save, 1);
+    const leeExit = instance.platforms.find((platform) => platform.id === 'lee-pocket-exit-drift');
+    const lowDrift = instance.platforms.find((platform) => platform.id === 'wrack-pocket-low-drift');
+    const watchLog = instance.platforms.find((platform) => platform.id === 'wrack-pocket-watch-log');
+    const tidepoolApproach = instance.platforms.find((platform) => platform.id === 'tidepool-approach-drift');
+    const pocketEntities = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-wrack-pocket-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
+
+    expect(leeExit).toBeDefined();
+    expect(lowDrift).toBeDefined();
+    expect(watchLog).toBeDefined();
+    expect(tidepoolApproach).toBeDefined();
+    if (!leeExit || !lowDrift || !watchLog || !tidepoolApproach) {
+      throw new Error('expected lee exit, wrack pocket, and tidepool approach platforms to exist');
+    }
+
+    expect(lowDrift.x).toBeGreaterThan(leeExit.x + leeExit.w);
+    expect(lowDrift.x).toBeGreaterThanOrEqual(424);
+    expect(lowDrift.x + lowDrift.w).toBeLessThanOrEqual(watchLog.x);
+    expect(watchLog.x + watchLog.w).toBeLessThanOrEqual(tidepoolApproach.x + 1);
+    expect(lowDrift.y).toBeGreaterThan(watchLog.y);
+    expect(watchLog.y).toBeLessThanOrEqual(tidepoolApproach.y);
+    expect(pocketEntities).toEqual([
+      { entryId: 'bull-kelp-wrack', x: 430, y: 116 },
+      { entryId: 'beach-hopper', x: 446, y: 116 },
+      { entryId: 'pacific-sand-crab', x: 460, y: 116 },
+      { entryId: 'western-snowy-plover', x: 478, y: 110 },
+    ]);
+  });
+
   it('keeps silky beach pea in the upper beach rather than washing it into the tide line', () => {
     const save = createNewSaveState('beach-dry-sand-runner-seed');
     const instance = generateBiomeInstance(beachBiome, save, 1);

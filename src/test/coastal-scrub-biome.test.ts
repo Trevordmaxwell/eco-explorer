@@ -300,4 +300,54 @@ describe('coastal scrub biome generation', () => {
       { entryId: 'song-sparrow', x: 468, y: 102 },
     ]);
   });
+
+  it('stages a forest-edge cover release after the shore-pine rest', () => {
+    const save = createNewSaveState('coastal-scrub-forest-edge-release-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const shoreRest = instance.platforms.find((platform) => platform.id === 'shore-pine-rest-log');
+    const rootLip = instance.platforms.find((platform) => platform.id === 'forest-edge-root-lip');
+    const berryRest = instance.platforms.find((platform) => platform.id === 'forest-edge-berry-rest');
+    const forestEdgeLife = coastalScrubBiome.spawnTables.find((table) => table.id === 'forest-edge-life');
+    const releaseEntities = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-forest-edge-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x || left.y - right.y);
+
+    expect(shoreRest).toBeDefined();
+    expect(rootLip).toBeDefined();
+    expect(berryRest).toBeDefined();
+    if (!shoreRest || !rootLip || !berryRest) {
+      throw new Error('expected shore-pine rest and forest-edge release platforms to exist');
+    }
+
+    expect(rootLip.x).toBeGreaterThan(shoreRest.x + shoreRest.w);
+    expect(rootLip.x).toBeGreaterThanOrEqual(488);
+    expect(rootLip.x + rootLip.w).toBeLessThanOrEqual(520);
+    expect(berryRest.x).toBeGreaterThan(rootLip.x + rootLip.w);
+    expect(berryRest.x).toBeGreaterThanOrEqual(520);
+    expect(berryRest.x + berryRest.w).toBeLessThanOrEqual(566);
+    expect(rootLip.y).toBeGreaterThan(berryRest.y);
+    expect(rootLip.y - berryRest.y).toBeLessThanOrEqual(8);
+    expect(berryRest.y).toBeGreaterThanOrEqual(98);
+    expect(berryRest.y).toBeLessThanOrEqual(102);
+    expect(releaseEntities).toEqual([
+      { entryId: 'nootka-rose', x: 506, y: 108 },
+      { entryId: 'deer-mouse', x: 516, y: 116 },
+      { entryId: 'salmonberry', x: 532, y: 108 },
+      { entryId: 'song-sparrow', x: 552, y: 98 },
+      { entryId: 'sword-fern', x: 562, y: 108 },
+      { entryId: 'nurse-log', x: 570, y: 112 },
+    ]);
+    expect(forestEdgeLife).toBeDefined();
+    expect(forestEdgeLife?.zoneId).toBe('forest-edge');
+    expect(forestEdgeLife?.refreshPolicy).toBe('visit');
+    expect(forestEdgeLife?.entries.map((entry) => entry.entryId).sort()).toEqual([
+      'deer-mouse',
+      'song-sparrow',
+    ]);
+  });
 });

@@ -250,6 +250,22 @@ export const beachBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'wrack-pocket-low-drift',
+        spriteId: 'drift-platform',
+        x: 426,
+        y: 114,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'wrack-pocket-watch-log',
+        spriteId: 'drift-platform',
+        x: 448,
+        y: 108,
+        w: 14,
+        h: 4,
+      },
+      {
         id: 'tidepool-approach-drift',
         spriteId: 'drift-platform',
         x: 462,
@@ -322,6 +338,30 @@ export const beachBiome: BiomeDefinition = {
         entryId: 'sand-verbena',
         x: 284,
         y: 97,
+      },
+      {
+        id: 'wrack-pocket-kelp',
+        entryId: 'bull-kelp-wrack',
+        x: 430,
+        y: 116,
+      },
+      {
+        id: 'wrack-pocket-hopper',
+        entryId: 'beach-hopper',
+        x: 446,
+        y: 116,
+      },
+      {
+        id: 'wrack-pocket-crab',
+        entryId: 'pacific-sand-crab',
+        x: 460,
+        y: 116,
+      },
+      {
+        id: 'wrack-pocket-plover',
+        entryId: 'western-snowy-plover',
+        x: 478,
+        y: 110,
       },
       {
         id: 'tidepool-approach-wrack',
