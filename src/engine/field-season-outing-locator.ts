@@ -3,6 +3,7 @@ import {
   HIGH_PASS_CHAPTER_TARGET_BIOME_ID,
   resolveHighPassChapterState,
 } from './high-pass-chapter-state';
+import { resolveSourceToShoreState } from './source-to-shore-state';
 import type { SaveState } from './types';
 
 type ActiveOutingTargetBiomeId = 'beach' | 'forest' | 'coastal-scrub' | 'treeline' | 'tundra';
@@ -41,6 +42,24 @@ export function isExpeditionNotebookReady(save: SaveState): boolean {
 }
 
 export function resolveSeasonOutingLocator(save: SaveState): ActiveOutingLocator | null {
+  const sourceToShoreState = resolveSourceToShoreState(save);
+  if (sourceToShoreState) {
+    if (!sourceToShoreState.isActiveOuting) {
+      return null;
+    }
+
+    return {
+      title: sourceToShoreState.title,
+      summary: sourceToShoreState.summary,
+      progressLabel: sourceToShoreState.progressLabel,
+      targetBiomeId: sourceToShoreState.targetBiomeId,
+      worldMapLabel: sourceToShoreState.worldMapLabel,
+      routeBoardSummary: sourceToShoreState.routeBoardSummary,
+      routeBoardNextDirection: sourceToShoreState.routeBoardNextDirection,
+      atlasNote: sourceToShoreState.liveAtlasNote,
+    };
+  }
+
   const highPassChapterState = resolveHighPassChapterState(save);
   if (highPassChapterState) {
     if (!highPassChapterState.isActiveOuting) {

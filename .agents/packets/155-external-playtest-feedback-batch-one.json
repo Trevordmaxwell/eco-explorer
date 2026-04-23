@@ -3,7 +3,7 @@
   "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "SUPERSEDED",
   "title": "External playtest feedback batch one",
   "summary": "Use the completed alpha arc to absorb real feedback without thrashing the architecture.",
   "source_reports": [

@@ -10,6 +10,7 @@
     "test": "vitest run",
     "science:check": "vitest run --run src/test/content-quality.test.ts",
     "validate:agents": "node scripts/validate-agent-packets.mjs",
+    "alpha:rc": "node scripts/run-alpha-rc.mjs",
     "review:pack": "node scripts/create-review-drop.mjs",
     "review:verify": "node scripts/verify-review-drop.mjs"
   },

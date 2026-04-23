@@ -1,0 +1,89 @@
+{
+  "campaign_id": "eco-explorer-post-alpha-source-to-shore-seed-20260421",
+  "status": "seed_plan_not_queue_patch",
+  "recommended_first_packet": 158,
+  "strategy": "Reconcile alpha RC and review-drop hygiene first; then playtest; then open Source to Shore beta if evidence supports it.",
+  "global_non_goals": [
+    "biome six",
+    "season three as a large new mode",
+    "broad planner/dashboard",
+    "crafting",
+    "combat",
+    "inventory",
+    "direct in-game API field guide",
+    "long copy walls",
+    "new route framework"
+  ],
+  "lanes": {
+    "lane-1": {
+      "owns": ["systems", "progression", "station state", "save", "tooling", "release"],
+      "preferred_paths": ["src/engine/game.ts", "src/engine/field-season-board.ts", "src/engine/field-station*.ts", "src/engine/save.ts", "scripts/", "package.json", "README.md", ".agents/work-queue.md", ".agents/project-memory.md"]
+    },
+    "lane-2": {
+      "owns": ["science", "content", "copy budgets", "source ledger", "journal and atlas text"],
+      "preferred_paths": ["src/content/", "src/engine/ecosystem-notes.ts", "src/engine/observation-prompts.ts", "src/engine/field-requests.ts copy-only sections", "src/test/content-quality.test.ts", "docs/science-source-ledger.md"]
+    },
+    "lane-3": {
+      "owns": ["physical spaces", "traversal feel", "screenshots", "visual place memory"],
+      "preferred_paths": ["src/content/biomes/* spatial bands", "src/assets/*", "src/engine/biome-scene-render.ts", "src/test/*-biome.test.ts", "output/ browser proofs"]
+    },
+    "lane-4": {
+      "owns": ["Route v2", "support behavior", "replay", "field notices", "filing proof"],
+      "preferred_paths": ["src/engine/field-request-controller.ts", "src/engine/field-request-state.ts", "src/engine/field-notices.ts", "src/engine/field-requests.ts route-structure sections", "src/test/field-request*.test.ts", "src/test/runtime-smoke.test.ts route slices"]
+    }
+  },
+  "packets": [
+    {
+      "number": 158,
+      "title": "Alpha RC reconciliation and queue unlock",
+      "activate_now": true,
+      "completion_gate": ["no AppleDouble metadata in review drop", "queue/statuses reconciled", "High Pass rime-footing test/content mismatch resolved", "alpha:rc passes from clean extract"]
+    },
+    {
+      "number": 159,
+      "title": "Alpha playtest kit and observation protocol",
+      "depends_on": [158],
+      "completion_gate": ["non-developer can run and record a playtest session"]
+    },
+    {
+      "number": 160,
+      "title": "Alpha feedback triage and beta direction gate",
+      "depends_on": [159, "real playtest sessions"],
+      "completion_gate": ["written gate decision"]
+    },
+    {
+      "number": 161,
+      "title": "Source to Shore preproduction lock",
+      "depends_on": [160],
+      "gate_condition": "only if alpha feedback supports Source to Shore",
+      "completion_gate": ["approved campaign brief", "first vertical slice selected"]
+    },
+    { "number": 162, "title": "Second-arc state shell", "depends_on": [161] },
+    { "number": 163, "title": "Science spine and source ledger", "depends_on": [161] },
+    { "number": 164, "title": "Spatial beat preproduction", "depends_on": [163] },
+    { "number": 165, "title": "Route chain preproduction", "depends_on": [162, 163, 164] },
+    { "number": 166, "title": "Vertical slice: high source to first shelter", "depends_on": [165] },
+    { "number": 167, "title": "Forest hold and release pass", "depends_on": [166] },
+    { "number": 168, "title": "Coastal catch and windbreak pass", "depends_on": [166] },
+    { "number": 169, "title": "Shore return and wrack line pass", "depends_on": [167, 168] },
+    { "number": 170, "title": "Station and nursery second-arc payoff", "depends_on": [169] },
+    { "number": 171, "title": "Notebook synthesis and kid-readable explanation", "depends_on": [170] },
+    { "number": 172, "title": "World-map and travel clarity for second arc", "depends_on": [166, 169] },
+    { "number": 173, "title": "Save, migration, and debug snapshots", "depends_on": [162, 170] },
+    { "number": 174, "title": "Full second-arc smoke matrix", "depends_on": [171, 172, 173] },
+    { "number": 175, "title": "Beta feedback batch", "depends_on": [174] },
+    { "number": 176, "title": "Beta scope gate", "depends_on": [175] }
+  ],
+  "queue_generation": {
+    "standard_packet_items": 12,
+    "item_types": ["scout", "main", "critic"],
+    "lanes_per_packet": 4,
+    "initial_active_packet": 158,
+    "later_packets": "keep blocked or as seeds until activated",
+    "cross_lane_dependencies": [
+      "lane-1 alpha RC depends on lane-2 content/test signoff if full tests are red",
+      "lane-4 route implementation depends on lane-2 evidence/copy IDs when new route text or IDs are introduced",
+      "lane-3 screenshot proof depends on lane-1 debug snapshots when exact capture states are required"
+    ]
+  }
+}

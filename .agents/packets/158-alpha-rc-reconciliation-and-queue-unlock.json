@@ -1,0 +1,210 @@
+{
+  "packet_id": "ECO-PACKET-158",
+  "version": 2,
+  "created_at": "2026-04-21",
+  "created_by_role": "director",
+  "status": "DONE",
+  "title": "Alpha RC reconciliation and queue unlock",
+  "summary": "Reconcile the post-alpha handoff before the next product phase: clean review-drop metadata, align queue and packet statuses, resolve the High Pass rime-footing copy/test seam, and add a strict alpha RC gate once cross-lane blockers are clear.",
+  "source_reports": [
+    ".agents/director-intake/2026-04-21-post-alpha-review.md",
+    ".agents/director-intake/2026-04-21-task-splitting-brief.md",
+    ".agents/director-intake/2026-04-21-source-to-shore-campaign.md",
+    ".agents/director-intake/2026-04-21-lane-collision-rules.md",
+    ".agents/director-intake/2026-04-21-queue-seed-158-176.md",
+    "docs/reports/2026-04-21-post-alpha-review.md",
+    "docs/reports/2026-04-23-alpha-rc-reconciliation.md"
+  ],
+  "queue_refs": [
+    "ECO-20260421-scout-438",
+    "ECO-20260421-main-438",
+    "ECO-20260421-critic-438",
+    "ECO-20260421-scout-439",
+    "ECO-20260421-main-439",
+    "ECO-20260421-critic-439",
+    "ECO-20260421-scout-440",
+    "ECO-20260421-main-440",
+    "ECO-20260421-critic-440",
+    "ECO-20260421-scout-441",
+    "ECO-20260421-main-441",
+    "ECO-20260421-critic-441"
+  ],
+  "depends_on": [
+    "ECO-20260420-critic-437"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260421-scout-438",
+      "goal": "Prepare lane 1's reconciliation plan for review-drop hygiene, stale queue and packet status handling, archive/reduction safety, and the future alpha:rc wrapper.",
+      "why_now": "The post-alpha handoff is clean enough to continue only after the shared queue and release gate stop disagreeing with the reviewed alpha state."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260421-scout-439",
+      "goal": "Prepare lane 2's exact-copy and content-signoff plan, centered on the High Pass rime-footing mismatch and any stale alpha content references.",
+      "why_now": "The release gate should not be added on top of a known content/test mismatch, even if the broader alpha route and spatial work has landed well."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260421-scout-440",
+      "goal": "Prepare lane 3's alpha contact-sheet and visual proof reconciliation plan without reopening geometry.",
+      "why_now": "The reviewer saw strong spatial proof, but the repo should distinguish trusted source-complete artifacts from incomplete or generated review archives."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260421-scout-441",
+      "goal": "Prepare lane 4's route/support RC signoff reconciliation plan after lane 2's exact-copy risk is understood.",
+      "why_now": "Route/support proof is mostly clean, but final signoff should confirm labels and notices remain true after the content mismatch is resolved."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260421-main-439",
+      "goal": "Implement lane 2's High Pass rime-footing copy/test reconciliation and final alpha content signoff notes.",
+      "why_now": "Content truth should be fixed before lane 1 declares a strict alpha RC command green."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260421-critic-439",
+      "goal": "Review lane 2's content reconciliation for exact-copy stability, science accuracy, and compact alpha-facing copy.",
+      "why_now": "The alpha RC gate needs a clean lane 2 signoff rather than a known mismatch carried forward."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260421-main-440",
+      "goal": "Implement lane 3's proof-only contact-sheet/source-artifact reconciliation without new spatial density.",
+      "why_now": "The alpha spatial proof should remain trustworthy while avoiding another geometry pass."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260421-critic-440",
+      "goal": "Review lane 3's artifact reconciliation and confirm no visual-proof or source-completeness blocker remains.",
+      "why_now": "A stable RC needs a clean record of what visual proof is trusted and what generated output stays ignored."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260421-main-441",
+      "goal": "Implement lane 4's route/support reconciliation and final notice-state checks after lane 2 content risk is cleared.",
+      "why_now": "The route loop should be signed off against the reconciled content state before playtest materials are produced."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260421-critic-441",
+      "goal": "Review lane 4's route/support reconciliation for replay labels, support behavior, and High Pass filed-state truth.",
+      "why_now": "The RC should not surface stale route guidance once the alpha arc has been filed."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260421-main-438",
+      "goal": "Implement lane 1's review-drop cleanup, queue/packet status reconciliation, archive reduction, and alpha:rc wrapper after cross-lane blockers are clear.",
+      "why_now": "Lane 1 owns the final release/tooling truth once the content, spatial, and route signoffs no longer have blockers."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260421-critic-438",
+      "goal": "Review lane 1's final RC reconciliation and confirm the queue is unlocked for playtest packet 159 rather than Source to Shore implementation.",
+      "why_now": "The project should leave this packet with a clean alpha RC gate, not another deadlocked queue or premature beta campaign."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/158-alpha-rc-reconciliation-and-queue-unlock.json",
+    ".agents/director-intake/2026-04-21-post-alpha-review.md",
+    ".agents/director-intake/2026-04-21-task-splitting-brief.md",
+    ".agents/director-intake/2026-04-21-source-to-shore-campaign.md",
+    ".agents/director-intake/2026-04-21-lane-collision-rules.md",
+    ".agents/director-intake/2026-04-21-queue-seed-158-176.md",
+    ".agents/director-intake/2026-04-21-campaign-seed.json",
+    "docs/reports/2026-04-21-post-alpha-review.md",
+    "package.json",
+    "docs/review-drop-checklist.md",
+    "scripts/create-review-drop.mjs",
+    "scripts/verify-review-drop.mjs",
+    "src/test/content-quality.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "progress.md"
+  ],
+  "lane_contracts": {
+    "lane-1": {
+      "owns": [
+        "review-drop hygiene and AppleDouble exclusion",
+        "queue and packet status reconciliation",
+        "done-archive reduction if safe",
+        "strict alpha:rc wrapper after other lane blockers clear"
+      ],
+      "avoid": [
+        "gameplay behavior",
+        "science copy",
+        "geometry",
+        "route semantics"
+      ]
+    },
+    "lane-2": {
+      "owns": [
+        "High Pass rime-footing copy/test mismatch",
+        "final content parity signoff",
+        "dead/stale alpha copy notes"
+      ],
+      "avoid": [
+        "station state",
+        "route runtime behavior",
+        "geometry",
+        "packaging scripts"
+      ]
+    },
+    "lane-3": {
+      "owns": [
+        "contact-sheet/source artifact reconciliation",
+        "visual proof trust boundaries",
+        "source-complete versus generated-output notes"
+      ],
+      "avoid": [
+        "new routes",
+        "new geometry density",
+        "science copy",
+        "release scripts"
+      ]
+    },
+    "lane-4": {
+      "owns": [
+        "route/support final signoff after content reconciliation",
+        "replay and notice-state truth",
+        "deterministic route-loop proof notes"
+      ],
+      "avoid": [
+        "new Route v2 framework",
+        "new support HUD",
+        "station shell changes",
+        "geometry"
+      ]
+    }
+  },
+  "completion_gate": [
+    "Review-drop archives omit node_modules, dist, output, .git, .tmp, and macOS AppleDouble metadata.",
+    "Queue and packet statuses for packets 149-157 are reconciled or explicitly deferred with no silent READY mismatch.",
+    "The High Pass rime-footing copy/test mismatch is resolved or explicitly documented as non-blocking with passing checks.",
+    "npm run validate:agents passes with no errors.",
+    "Relevant content, route, runtime, build, and alpha RC checks pass before packet 158 is marked DONE.",
+    "The work queue has an actionable next packet 159 playtest start or a documented blocker; Source to Shore packets remain blocked until the playtest gate."
+  ],
+  "guardrails": [
+    "Do not begin Source to Shore implementation in packet 158.",
+    "Do not add biome six, season three, combat, survival meters, crafting, inventory sprawl, or a broader planner shell.",
+    "Do not reopen High Pass geometry density unless a lane-3 proof shows a release-blocking visual issue.",
+    "Keep the 256x160 handheld screen budget protected; prefer reports, tests, and release hygiene over new text surfaces.",
+    "Respect lane ownership and the 2026-04-21 lane collision rules for shared files.",
+    "Generated archives and browser proof output should stay ignored and out of commits."
+  ],
+  "post_packet_path": [
+    "Packet 159 should create the alpha playtest kit and observation protocol.",
+    "Packet 160 should triage playtest feedback and decide whether Source to Shore opens.",
+    "Packets 161-176 remain seeded beta-campaign material until the playtest gate is clean."
+  ]
+}

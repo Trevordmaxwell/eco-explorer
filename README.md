@@ -15,6 +15,7 @@ The current build includes:
 - living-world variation through deterministic `day-part`, `weather`, and `phenology`
 - a field station with `SEASON -> ROUTES`, `SEASON -> EXPEDITION`, upgrades, and a compact `NURSERY` teaching-bed loop
 - a completed current alpha arc through Root Hollow and filed `High Pass`, with station, map, journal, route-support, and notebook-return cues settling after filing
+- a first Source to Shore beta spine: `Source Shelter` opens after filed `High Pass`, then `Forest Release` carries the thread downstream through the existing station/notebook flow
 - sketchbook and close-look modes for deeper discovery surfaces
 - deterministic save behavior in `localStorage`
 
@@ -34,6 +35,7 @@ Useful commands:
 - `npm run test`: run the Vitest suite
 - `npm run science:check`: run the focused source-ledger/content-quality gate
 - `npm run validate:agents`: validate queue and packet consistency for the agent system
+- `npm run alpha:rc`: run the full local alpha release-candidate gate
 - `npm run review:pack`: create a source review-drop archive under `output/review-drops/`
 - `npm run review:verify -- <archive.tgz>`: verify a review-drop archive from a clean extract
 - `npm run preview`: preview the built app locally
@@ -45,7 +47,13 @@ Fresh local verification after `npm install` should at minimum run:
 - `npm run science:check`
 - `npm run validate:agents`
 
-Source review drops should use the dedicated clean-extract workflow instead of manual archiving:
+Alpha release candidates should use the strict wrapper:
+
+```bash
+npm run alpha:rc
+```
+
+That command validates agent metadata, runs the science gate, runs the full test suite, builds the app, creates a source review drop, and verifies that archive from a clean extract. Source review drops can still use the dedicated clean-extract workflow directly:
 
 ```bash
 npm run review:pack
@@ -102,10 +110,11 @@ When you share an external source review drop, use `npm run review:pack` and ver
 
 ## Current Product Direction
 
-The current product direction is to harden the completed five-biome alpha arc for feedback without losing its science-forward, cozy tone. The active priorities are:
+The current product direction is to harden the completed five-biome alpha arc while opening the first small Source to Shore beta spine inside the existing world. The active priorities are:
 
 - keep the screen game-first and readable at handheld scale
 - make the filed `High Pass` arc easy to play through, review, and regression-test
+- keep the first Source to Shore beats narrow, relationship-led, and inside existing route/station seams
 - deepen tactile payoff in the current five-biome world before adding new regions
 - connect exploration, route progression, the field station, and the nursery into a stronger gameplay loop
 - treat science accuracy as a hard gate
@@ -115,6 +124,8 @@ The current product direction is to harden the completed five-biome alpha arc fo
 
 - [Architecture](/Users/trevormaxwell/Desktop/game/docs/architecture.md)
 - [Content Authoring](/Users/trevormaxwell/Desktop/game/docs/content-authoring.md)
+- [Alpha Playtest Kit](/Users/trevormaxwell/Desktop/game/docs/alpha-playtest-kit.md)
+- [Playtest Comprehension Rubric](/Users/trevormaxwell/Desktop/game/docs/playtest-comprehension-rubric.md)
 - [Agent Guide](/Users/trevormaxwell/Desktop/game/AGENTS.md)
 - [Project Memory](/Users/trevormaxwell/Desktop/game/.agents/project-memory.md)
 - [Work Queue](/Users/trevormaxwell/Desktop/game/.agents/work-queue.md)

@@ -1,0 +1,86 @@
+{
+  "packet_id": "ECO-PACKET-166",
+  "version": 1,
+  "created_at": "2026-04-23",
+  "created_by_role": "main-agent",
+  "status": "DONE",
+  "title": "Source to Shore beta vertical slice",
+  "summary": "Implement the first Source to Shore proof as a narrow post-High-Pass Route v2 outing that connects high rime/source clues to first shelter at Treeline Pass, then files through the existing station flow.",
+  "source_reports": [
+    ".agents/director-intake/2026-04-21-source-to-shore-campaign.md",
+    ".agents/director-intake/2026-04-21-queue-seed-158-176.md",
+    "docs/reports/2026-04-23-alpha-feedback-gate-owner-override.md",
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-implementation.md",
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260423-scout-447",
+    "ECO-20260423-main-447",
+    "ECO-20260423-critic-447"
+  ],
+  "depends_on": [
+    "ECO-20260423-critic-446"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260423-scout-447",
+      "goal": "Narrow Source to Shore to a first vertical slice that reuses existing Route v2 and station seams.",
+      "why_now": "The beta should prove one relationship loop before opening all five biomes."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260423-main-447",
+      "goal": "Implement the Source Shelter route, station/map/journal handoff, and debug snapshots.",
+      "why_now": "The user asked to proceed directly to the Source to Shore beta vertical slice after the gate passed."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260423-critic-447",
+      "goal": "Review the slice for scope, readability, route-state stability, and future handoff clarity.",
+      "why_now": "The first beta slice should remain small, test-backed, and aligned with the five-biome relationship thesis."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/166-source-to-shore-vertical-slice.json",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-season-outing-locator.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/save-snapshot-states.md",
+    "README.md",
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-implementation.md",
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-review.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Filed High Pass opens Source Shelter instead of a dead-end filed state.",
+    "Source Shelter can become active, ready-to-file, and filed through existing Route v2 progress.",
+    "Station, map, journal, atlas, and route marker surfaces agree on the Source Shelter target.",
+    "Debug snapshots exist for active, ready-to-file, and filed Source to Shore states.",
+    "Focused route/station/save tests pass."
+  ],
+  "guardrails": [
+    "No biome six.",
+    "No new route framework.",
+    "No save schema change.",
+    "No new planner, dashboard, inventory, economy, combat, or direct API mode.",
+    "Keep copy compact for the 256x160 handheld surface.",
+    "Defer wider five-biome Source to Shore expansion until this vertical slice is verified."
+  ],
+  "post_packet_path": [
+    "Run full validation, tests, build, and alpha RC after implementation.",
+    "Next Source to Shore work should deepen forest hold/release only after this slice remains green."
+  ]
+}

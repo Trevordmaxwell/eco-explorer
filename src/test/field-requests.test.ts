@@ -16,6 +16,7 @@ import {
   shouldCompleteActiveFieldRequest,
 } from '../engine/field-requests';
 import { resolveHighPassChapterState } from '../engine/high-pass-chapter-state';
+import { resolveSourceToShoreState } from '../engine/source-to-shore-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 import type { SaveState } from '../engine/types';
 
@@ -181,6 +182,20 @@ const ROUTE_FILED_NOTE_MATRIX: Array<{
       ],
     },
     anchor: 'shelter pockets on exposed high pass',
+  },
+  {
+    requestId: 'source-to-shore-source-shelter',
+    progress: {
+      requestId: 'source-to-shore-source-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+      ],
+    },
+    anchor: 'source to shore thread',
   },
 ];
 
@@ -739,6 +754,89 @@ function createRouteMatrixCases(): RouteMatrixCase[] {
       ],
       readyText: 'Return to the field station and file the High Pass note.',
       expectedFiledTextIncludes: ['Frost-Heave Boulder', 'Hoary Marmot', 'Moss Campion', 'Talus Cushion Pocket', 'High Pass'],
+      expectedNextRequestId: 'source-to-shore-source-shelter',
+    },
+    {
+      name: 'Source Shelter',
+      requestId: 'source-to-shore-source-shelter',
+      createContext: () => createTreelineContext([...HIGH_PASS_COMPLETED, 'treeline-high-pass'], 'dwarf-shrub'),
+      activeTitle: 'Source Shelter',
+      activeProgressLabel: '0/3 clues',
+      blockedProbe: { zoneId: 'lichen-fell', entryId: 'talus-cushion-pocket' },
+      steps: [
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'frost-heave-boulder',
+          expectedSlots: [{ slotId: 'rime-source', entryId: 'frost-heave-boulder' }],
+        },
+        {
+          zoneId: 'dwarf-shrub',
+          entryId: 'hoary-marmot',
+          expectedSlots: [
+            { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          ],
+        },
+        {
+          zoneId: 'lichen-fell',
+          entryId: 'talus-cushion-pocket',
+          expectedSlots: [
+            { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+            { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+            { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Source Shelter note.',
+      expectedFiledTextIncludes: [
+        'Frost-Heave Boulder',
+        'Hoary Marmot',
+        'Talus Cushion Pocket',
+        'Source to Shore',
+      ],
+      expectedNextRequestId: 'source-to-shore-forest-release',
+    },
+    {
+      name: 'Forest Release',
+      requestId: 'source-to-shore-forest-release',
+      createContext: () => createForestContext(
+        [...HIGH_PASS_COMPLETED, 'treeline-high-pass', 'source-to-shore-source-shelter'],
+        'seep-pocket',
+      ),
+      activeTitle: 'Forest Release',
+      activeProgressLabel: '0/3 clues',
+      blockedProbe: { zoneId: 'creek-bend', entryId: 'salmonberry' },
+      steps: [
+        {
+          zoneId: 'seep-pocket',
+          entryId: 'seep-stone',
+          expectedSlots: [{ slotId: 'seep-hold', entryId: 'seep-stone' }],
+        },
+        {
+          zoneId: 'filtered-return',
+          entryId: 'root-curtain',
+          expectedSlots: [
+            { slotId: 'seep-hold', entryId: 'seep-stone' },
+            { slotId: 'root-filter', entryId: 'root-curtain' },
+          ],
+        },
+        {
+          zoneId: 'creek-bend',
+          entryId: 'salmonberry',
+          expectedSlots: [
+            { slotId: 'seep-hold', entryId: 'seep-stone' },
+            { slotId: 'root-filter', entryId: 'root-curtain' },
+            { slotId: 'cool-release', entryId: 'salmonberry' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Forest Release note.',
+      expectedFiledTextIncludes: [
+        'Seep Stone',
+        'Root Curtain',
+        'Salmonberry',
+        'forest shelter',
+      ],
       expectedNextRequestId: null,
     },
   ];
@@ -1257,21 +1355,32 @@ describe('field requests', () => {
     const filedBoard = resolveFieldSeasonBoardState(biomeRegistry, filedSave);
     expect(filedBoard).toMatchObject({
       complete: true,
-      targetBiomeId: null,
+      targetBiomeId: 'treeline',
       notebookReady: null,
       replayNote: null,
       launchCard: {
-        title: 'HIGH PASS',
-        progressLabel: 'FILED',
+        title: 'SOURCE SHELTER',
+        progressLabel: 'BETA',
       },
     });
 
     const filedState = resolveWorldMapState(filedSave);
-    expect(filedState.activeFieldRequest).toBeNull();
-    expect(filedState.activeOuting).toBeNull();
-    expect(filedState.journalFieldRequest).toBeNull();
-    expect(filedState.routeMarkerLocationId).toBeNull();
-    expect(filedState.routeReplayLabel).toBeNull();
+    expect(filedState.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      progressLabel: 'Go To Treeline Pass',
+    });
+    expect(filedState.activeOuting).toMatchObject({
+      title: 'Source Shelter',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: Source Shelter',
+    });
+    expect(filedState.journalFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      biomeId: 'treeline',
+    });
+    expect(filedState.routeMarkerLocationId).toBe('treeline');
+    expect(filedState.routeReplayLabel).toBe('Today: Source Shelter');
   });
 
   it('keeps Shore Shelter route-marker and replay pressure out of the ready-to-file state', () => {
@@ -1414,7 +1523,7 @@ describe('field requests', () => {
     });
   });
 
-  it('stops synthesizing High Pass locator state once High Pass is filed', () => {
+  it('turns the filed High Pass locator into the Source to Shore beta outing', () => {
     const save = createNewSaveState('field-request-state-high-pass-filed-seed');
     save.completedFieldRequestIds = [
       'forest-expedition-upper-run',
@@ -1436,12 +1545,23 @@ describe('field requests', () => {
       focusedWorldMapLocationId: 'treeline',
     });
 
-    expect(state.activeFieldRequest).toBeNull();
-    expect(state.activeOuting).toBeNull();
-    expect(state.journalFieldRequest).toBeNull();
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      progressLabel: 'Go To Treeline Pass',
+    });
+    expect(state.activeOuting).toMatchObject({
+      title: 'Source Shelter',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: Source Shelter',
+    });
+    expect(state.journalFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      biomeId: 'treeline',
+    });
     expect(state.fieldRequestHint).toBeNull();
-    expect(state.routeMarkerLocationId).toBeNull();
-    expect(state.routeReplayLabel).toBeNull();
+    expect(state.routeMarkerLocationId).toBe('treeline');
+    expect(state.routeReplayLabel).toBe('Today: Source Shelter');
   });
 
   it('normalizes mixed old High Pass saves without skipping route phases', () => {
@@ -1574,11 +1694,20 @@ describe('field requests', () => {
     });
 
     const filedState = resolveWorldMapState(filedSave);
-    expect(filedState.activeFieldRequest).toBeNull();
-    expect(filedState.activeOuting).toBeNull();
-    expect(filedState.journalFieldRequest).toBeNull();
-    expect(filedState.routeMarkerLocationId).toBeNull();
-    expect(filedState.routeReplayLabel).toBeNull();
+    expect(filedState.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+    });
+    expect(filedState.activeOuting).toMatchObject({
+      title: 'Source Shelter',
+      targetBiomeId: 'treeline',
+    });
+    expect(filedState.journalFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      biomeId: 'treeline',
+    });
+    expect(filedState.routeMarkerLocationId).toBe('treeline');
+    expect(filedState.routeReplayLabel).toBe('Today: Source Shelter');
   });
 
   it('starts with the beach shore-shelter request active', () => {
@@ -3270,6 +3399,151 @@ describe('field requests', () => {
     expect(resolveRouteV2FiledNoteText(biomeRegistry, context.save, 'treeline-high-pass')).toBe(
       'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket show how low ridge life uses shelter pockets on exposed High Pass.',
     );
+  });
+
+  it('opens the Source to Shore beta slice after High Pass is filed', () => {
+    const context = createTreelineContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+      ],
+      'dwarf-shrub',
+    );
+
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      phase: 'active',
+      isActiveOuting: true,
+      progressLabel: 'BETA',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      summary: 'In Treeline Pass, log rime source, lee watch, and talus hold to begin Source to Shore.',
+      progressLabel: '0/3 clues',
+    });
+
+    expect(getHandLensNotebookFit(context, 'talus-cushion-pocket')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'frost-heave-boulder')).toBe('Notebook fit: rime source');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'frost-heave-boulder')).toBeNull();
+
+    expect(getHandLensNotebookFit(context, 'hoary-marmot')).toBe('Notebook fit: lee watch');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'hoary-marmot')).toBeNull();
+
+    context.currentZoneId = 'lichen-fell';
+    expect(getHandLensNotebookFit(context, 'talus-cushion-pocket')).toBe('Notebook fit: talus hold');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'talus-cushion-pocket')).toMatchObject({
+      requestId: 'source-to-shore-source-shelter',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+      noticeText: 'Return to the field station and file the Source Shelter note.',
+    });
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        filedText:
+          'Frost-Heave Boulder, Hoary Marmot, and Talus Cushion Pocket show water and shelter starting the Source to Shore thread.',
+      },
+    });
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+    });
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('source-to-shore-source-shelter');
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'active',
+      progressLabel: 'BETA',
+      isActiveOuting: true,
+      targetBiomeId: 'forest',
+    });
+  });
+
+  it('carries Source to Shore into Forest Release after Source Shelter is filed', () => {
+    const context = createForestContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+        'source-to-shore-source-shelter',
+      ],
+      'seep-pocket',
+    );
+
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'active',
+      isActiveOuting: true,
+      progressLabel: 'BETA',
+      targetBiomeId: 'forest',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-forest-release',
+      title: 'Forest Release',
+      summary: 'In Forest Trail, log seep hold, root filter, and cool release as Source to Shore moves downhill.',
+      progressLabel: '0/3 clues',
+    });
+
+    expect(getHandLensNotebookFit(context, 'salmonberry')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'seep-stone')).toBe('Notebook fit: seep hold');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'seep-stone')).toBeNull();
+
+    context.currentZoneId = 'filtered-return';
+    expect(getHandLensNotebookFit(context, 'root-curtain')).toBe('Notebook fit: root filter');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'root-curtain')).toBeNull();
+
+    context.currentZoneId = 'creek-bend';
+    expect(getHandLensNotebookFit(context, 'salmonberry')).toBe('Notebook fit: cool release');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'salmonberry')).toMatchObject({
+      requestId: 'source-to-shore-forest-release',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+      noticeText: 'Return to the field station and file the Forest Release note.',
+    });
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-forest-release',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        filedText:
+          'Seep Stone, Root Curtain, and Salmonberry show Source to Shore moving downhill through forest shelter.',
+      },
+    });
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+    });
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('source-to-shore-forest-release');
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'filed',
+      isActiveOuting: false,
+    });
+  });
+
+  it('uses reindeer lichen as the active rime-source alternate during the frost window', () => {
+    const context = createTreelineContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+      ],
+      'dwarf-shrub',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits.treeline = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Rime Source',
+      summary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
+    });
+    expect(getHandLensNotebookFit(context, 'reindeer-lichen')).toBe('Notebook fit: rime source');
   });
 
   it('keeps clue-backed filed note text stable when forest-cool-edge was reframed as Moist Edge', () => {

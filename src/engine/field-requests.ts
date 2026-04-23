@@ -647,6 +647,84 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     },
     completionTriggers: ['inspect'],
   },
+  {
+    id: 'source-to-shore-source-shelter',
+    biomeId: 'treeline',
+    title: 'Source Shelter',
+    summary: 'In Treeline Pass, log rime source, lee watch, and talus hold to begin Source to Shore.',
+    unlockAfter: ['treeline-high-pass'],
+    type: 'assemble-evidence',
+    zoneIds: ['dwarf-shrub', 'lichen-fell'],
+    evidenceSlots: [
+      {
+        id: 'rime-source',
+        label: 'Rime-source clue',
+        entryIds: ['frost-heave-boulder', 'moss-campion'],
+      },
+      {
+        id: 'lee-watch',
+        label: 'Lee-watch clue',
+        entryIds: ['hoary-marmot'],
+      },
+      {
+        id: 'talus-hold',
+        label: 'Talus-hold clue',
+        entryIds: ['talus-cushion-pocket'],
+      },
+    ],
+    slotOrder: ['rime-source', 'lee-watch', 'talus-hold'],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the Source Shelter note.',
+      filedText:
+        'Rime source, lee watch, and talus hold show water and shelter starting the Source to Shore thread.',
+      clueBackedTail: 'show water and shelter starting the Source to Shore thread.',
+    },
+    processFocus: {
+      momentId: 'frost-rime',
+      activeTitle: 'Rime Source',
+      activeSummary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
+      activeSlotEntryIdsBySlotId: {
+        'rime-source': ['reindeer-lichen'],
+      },
+    },
+    completionTriggers: ['inspect'],
+  },
+  {
+    id: 'source-to-shore-forest-release',
+    biomeId: 'forest',
+    title: 'Forest Release',
+    summary: 'In Forest Trail, log seep hold, root filter, and cool release as Source to Shore moves downhill.',
+    unlockAfter: ['source-to-shore-source-shelter'],
+    type: 'assemble-evidence',
+    zoneIds: ['seep-pocket', 'filtered-return', 'creek-bend'],
+    evidenceSlots: [
+      {
+        id: 'seep-hold',
+        label: 'Seep-hold clue',
+        entryIds: ['seep-stone', 'seep-moss-mat'],
+      },
+      {
+        id: 'root-filter',
+        label: 'Root-filter clue',
+        entryIds: ['root-curtain'],
+      },
+      {
+        id: 'cool-release',
+        label: 'Cool-release clue',
+        entryIds: ['salmonberry', 'sword-fern'],
+      },
+    ],
+    slotOrder: ['seep-hold', 'root-filter', 'cool-release'],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the Forest Release note.',
+      filedText:
+        'Seep hold, root filter, and cool release show Source to Shore moving downhill through forest shelter.',
+      clueBackedTail: 'show Source to Shore moving downhill through forest shelter.',
+    },
+    completionTriggers: ['inspect'],
+  },
 ] as const;
 
 export function getFieldRequestDefinition(

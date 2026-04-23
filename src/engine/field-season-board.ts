@@ -14,6 +14,7 @@ import {
   resolveSeasonOutingLocator,
 } from './field-season-outing-locator';
 import { resolveHighPassChapterState } from './high-pass-chapter-state';
+import { resolveSourceToShoreState } from './source-to-shore-state';
 import { hasFieldUpgrade } from './field-station';
 import { getWorldMapLocationByBiomeId } from './world-map';
 import { buildWorldState } from './world-state';
@@ -163,6 +164,19 @@ function resolveFiledSeasonLaunchCard(save: SaveState): FieldSeasonBoardLaunchCa
     title: highPassChapterState.cardTitle,
     progressLabel: highPassChapterState.progressLabel,
     summary: highPassChapterState.cardSummary,
+  };
+}
+
+function resolveSourceToShoreLaunchCard(save: SaveState): FieldSeasonBoardLaunchCard | null {
+  const sourceToShoreState = resolveSourceToShoreState(save);
+  if (!sourceToShoreState) {
+    return null;
+  }
+
+  return {
+    title: sourceToShoreState.cardTitle,
+    progressLabel: sourceToShoreState.progressLabel,
+    summary: sourceToShoreState.cardSummary,
   };
 }
 
@@ -879,8 +893,14 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
       'Next: travel to Treeline Pass and log the last tree shape, then low wood, then fell bloom, then low rest.';
     targetBiomeId = 'treeline';
   } else if (complete) {
+    const sourceToShoreState = resolveSourceToShoreState(save);
     const highPassChapterState = resolveHighPassChapterState(save);
-    if (highPassChapterState) {
+    if (sourceToShoreState) {
+      summary = sourceToShoreState.routeBoardSummary;
+      nextDirection = sourceToShoreState.routeBoardNextDirection;
+      targetBiomeId = sourceToShoreState.routeBoardTargetBiomeId;
+      launchCard = resolveSourceToShoreLaunchCard(save);
+    } else if (highPassChapterState) {
       summary = highPassChapterState.routeBoardSummary;
       nextDirection = highPassChapterState.routeBoardNextDirection;
       targetBiomeId = highPassChapterState.routeBoardTargetBiomeId;
@@ -979,13 +999,16 @@ export function resolveFieldAtlasState(save: SaveState): FieldAtlasState | null 
   }
 
   const activeOuting = resolveSeasonOutingLocator(save);
+  const sourceToShoreState = resolveSourceToShoreState(save);
   const highPassChapterState = resolveHighPassChapterState(save);
   const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
   const expeditionNotebookReady = isExpeditionNotebookReady(save);
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
 
   let note: string;
-  if (highPassChapterState && !highPassChapterState.dormantUntilSeasonCloseClears) {
+  if (sourceToShoreState) {
+    note = sourceToShoreState.liveAtlasNote;
+  } else if (highPassChapterState && !highPassChapterState.dormantUntilSeasonCloseClears) {
     note = highPassChapterState.liveAtlasNote;
   } else if (highPassChapterState || expeditionLogged || expeditionNotebookReady || expeditionEvidenceCount > 0) {
     note = activeOuting?.atlasNote ?? 'Next: open Root Hollow below the forest.';
@@ -1010,12 +1033,14 @@ export function resolveFieldSeasonArchiveState(save: SaveState): FieldSeasonArch
   }
 
   const continuityCopy = resolveNextSeasonContinuityCopy(save);
+  const sourceToShoreState = resolveSourceToShoreState(save);
 
   return {
     label: 'SEASON ARCHIVE',
-    text: hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
+    text: sourceToShoreState?.archiveText
+      ?? (hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID)
       ? continuityCopy?.archiveText ?? 'Coast, ridge, and Root Hollow filed.'
-      : 'Coast and ridge routes filed.',
+      : 'Coast and ridge routes filed.'),
   };
 }
 
@@ -1065,6 +1090,7 @@ function resolveNextSeasonSetupTeaser(save: SaveState): FieldSeasonExpeditionTea
 
 export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonExpeditionState {
   const loggedRouteCount = getLoggedRouteCount(save);
+  const sourceToShoreState = resolveSourceToShoreState(save);
   const highPassChapterState = resolveHighPassChapterState(save);
   const expeditionLogged = hasCompletedRequest(save, FOREST_EXPEDITION_CHAPTER_REQUEST_ID);
   const expeditionEvidenceCount = getExpeditionEvidenceCount(save);
@@ -1082,6 +1108,20 @@ export function resolveFieldSeasonExpeditionState(save: SaveState): FieldSeasonE
 
   switch (status) {
     case 'logged':
+      if (sourceToShoreState) {
+        return {
+          id: 'root-hollow-expedition',
+          title: sourceToShoreState.cardTitle,
+          status,
+          statusLabel: sourceToShoreState.cardStatusLabel,
+          summary: sourceToShoreState.cardSummary,
+          detailLabel: sourceToShoreState.cardDetailLabel,
+          startText: sourceToShoreState.cardStartText,
+          note: sourceToShoreState.cardNote,
+          noticeText: sourceToShoreState.cardNoticeText,
+          teaser: null,
+        };
+      }
       if (highPassChapterState) {
         return {
           id: 'root-hollow-expedition',

@@ -1,0 +1,192 @@
+{
+  "packet_id": "ECO-PACKET-159",
+  "version": 2,
+  "created_at": "2026-04-23",
+  "created_by_role": "main-agent",
+  "status": "DONE",
+  "title": "Alpha playtest kit and observation protocol",
+  "summary": "Prepare consistent external alpha playtest sessions without changing gameplay: run/install handoff, save reset and console checklist, science comprehension prompts, spatial observation checklist, and route/support observation checklist.",
+  "source_reports": [
+    ".agents/director-intake/2026-04-21-task-splitting-brief.md",
+    ".agents/director-intake/2026-04-21-queue-seed-158-176.md",
+    ".agents/director-intake/2026-04-21-source-to-shore-campaign.md",
+    "docs/reports/2026-04-23-alpha-rc-reconciliation.md",
+    "docs/reports/2026-04-23-alpha-playtest-kit-implementation.md",
+    "docs/reports/2026-04-23-alpha-playtest-kit-review.md",
+    "docs/alpha-playtest-kit.md",
+    "docs/playtest-comprehension-rubric.md"
+  ],
+  "queue_refs": [
+    "ECO-20260423-scout-442",
+    "ECO-20260423-main-442",
+    "ECO-20260423-critic-442",
+    "ECO-20260423-scout-443",
+    "ECO-20260423-main-443",
+    "ECO-20260423-critic-443",
+    "ECO-20260423-scout-444",
+    "ECO-20260423-main-444",
+    "ECO-20260423-critic-444",
+    "ECO-20260423-scout-445",
+    "ECO-20260423-main-445",
+    "ECO-20260423-critic-445"
+  ],
+  "depends_on": [
+    "ECO-20260421-critic-438"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260423-scout-442",
+      "goal": "Prepare lane 1's run/install/save-reset and RC artifact handoff for a non-developer alpha session.",
+      "why_now": "Players and observers need a repeatable way to start the alpha without debugging the repo."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260423-scout-443",
+      "goal": "Prepare lane 2's kid-comprehension and science-understanding prompts.",
+      "why_now": "The playtest should learn what players understand, not only whether the app runs."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260423-scout-444",
+      "goal": "Prepare lane 3's spatial/place-memory observation checklist.",
+      "why_now": "The alpha's strongest question is whether children remember places and traversal beats."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260423-scout-445",
+      "goal": "Prepare lane 4's route/support/replay observation checklist.",
+      "why_now": "The route loop needs external proof that active, ready-to-file, filed, and support-choice states read clearly."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260423-main-442",
+      "goal": "Implement lane 1's playtest run sheet, save-reset instructions, RC artifact location, and console/crash checklist.",
+      "why_now": "This gives an observer a practical session-start protocol."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260423-main-443",
+      "goal": "Implement lane 2's comprehension prompts and adult observer science notes.",
+      "why_now": "Learning evidence should be captured consistently across sessions."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260423-main-444",
+      "goal": "Implement lane 3's place-memory and visual/spatial hesitation checklist.",
+      "why_now": "The observer should know where to watch for readable versus confusing places."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260423-main-445",
+      "goal": "Implement lane 4's route/support state observation checklist.",
+      "why_now": "The observer should capture motivation and confusion around route filing, replay, and support choices."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260423-critic-442",
+      "goal": "Review the lane 1 playtest run sheet for practicality and repeatability.",
+      "why_now": "The kit should be usable by someone who did not build the game."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260423-critic-443",
+      "goal": "Review the lane 2 comprehension prompts for age fit and science accuracy.",
+      "why_now": "Questions should invite evidence without leading children to the answer."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260423-critic-444",
+      "goal": "Review the lane 3 spatial checklist for observable place-memory signals.",
+      "why_now": "The spatial rubric should be concrete enough for repeated sessions."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260423-critic-445",
+      "goal": "Review the lane 4 route/support checklist for active/ready/filed clarity.",
+      "why_now": "The playtest should expose route-loop confusion before beta expansion."
+    }
+  ],
+  "file_targets": [
+    "docs/playtest-comprehension-rubric.md",
+    "docs/alpha-playtest-kit.md",
+    "docs/reports/",
+    ".agents/work-queue.md",
+    ".agents/packets/159-alpha-playtest-kit-and-observation-protocol.json",
+    "README.md",
+    "progress.md"
+  ],
+  "lane_contracts": {
+    "lane-1": {
+      "owns": [
+        "run/install instructions",
+        "save reset instructions",
+        "RC artifact location",
+        "console/crash checklist"
+      ],
+      "avoid": [
+        "gameplay behavior",
+        "science prompt wording beyond logistics",
+        "spatial or route interpretation rubrics"
+      ]
+    },
+    "lane-2": {
+      "owns": [
+        "science comprehension questions",
+        "kid-friendly observer prompts",
+        "adult science-understanding notes"
+      ],
+      "avoid": [
+        "route mechanics",
+        "install/run instructions",
+        "new content implementation"
+      ]
+    },
+    "lane-3": {
+      "owns": [
+        "spatial hesitation checklist",
+        "place-memory observation prompts",
+        "visual readability observation notes"
+      ],
+      "avoid": [
+        "new geometry",
+        "new screenshots unless the checklist truly needs an example",
+        "route behavior"
+      ]
+    },
+    "lane-4": {
+      "owns": [
+        "route/support observation checklist",
+        "active versus ready-to-file versus filed clarity prompts",
+        "motivation and replay observation notes"
+      ],
+      "avoid": [
+        "new Route v2 framework",
+        "support behavior changes",
+        "station shell changes"
+      ]
+    }
+  },
+  "completion_gate": [
+    "A non-developer observer can start an alpha session from the RC artifact or local build instructions.",
+    "The kit explains how to reset or prepare save state without editing source.",
+    "Observer notes cover install/run, comprehension, science learning, spatial hesitation, place memory, route/support clarity, and motivation.",
+    "No gameplay, content, geometry, route, station, save, or support behavior changes are introduced by packet 159."
+  ],
+  "guardrails": [
+    "Do not begin Source to Shore implementation in packet 159.",
+    "Do not change gameplay or content to satisfy the playtest kit.",
+    "Keep the kit practical for 6-10 observed sessions.",
+    "Prefer checklists, rubrics, and session notes over new UI.",
+    "Packet 160 should triage actual playtest results before beta campaign work opens."
+  ],
+  "post_packet_path": [
+    "Packet 160 should classify real session feedback and choose harden alpha, onboarding pass, Source to Shore beta, or another direction.",
+    "Source to Shore packets 161-176 remain seeded until packet 160 chooses them."
+  ]
+}

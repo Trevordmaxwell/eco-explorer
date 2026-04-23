@@ -50,10 +50,15 @@ class FakeCanvasContext {
   font = '10px sans-serif';
   imageSmoothingEnabled = false;
   textBaseline: CanvasTextBaseline = 'alphabetic';
+  readonly drawnText: string[] = [];
 
-  clearRect(): void {}
+  clearRect(): void {
+    this.drawnText.length = 0;
+  }
   fillRect(): void {}
-  fillText(): void {}
+  fillText(text: string): void {
+    this.drawnText.push(text);
+  }
   drawImage(): void {}
   save(): void {}
   restore(): void {}
@@ -95,6 +100,10 @@ class FakeCanvas extends FakeEventTarget {
         return {};
       },
     } as DOMRect;
+  }
+
+  getDrawnText(): string[] {
+    return [...this.context.drawnText];
   }
 }
 
@@ -407,6 +416,9 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.openBubble?.title).toBeTruthy();
     expect(state.discoveredJournalCount).toBe(1);
+    expect(state.fieldRequestNotice?.title).toBe('NOTEBOOK TASK');
+    expect((canvas as unknown as FakeCanvas).getDrawnText()).not.toContain('NOTEBOOK TASK');
+    expect((canvas as unknown as FakeCanvas).getDrawnText()).not.toContain('DETAILS IN JOURNAL (J)');
 
     tapKey(fakeWindow, 'j');
     state = readState(fakeWindow);
@@ -6250,7 +6262,7 @@ describe('runtime smoke loop', () => {
     }
   });
 
-  it('files High Pass from the live talus-hold loop and settles the completed field arc', () => {
+  it('files High Pass from the live talus-hold loop and opens the Source Shelter beta slice', () => {
     const originalStartPosition = { ...treelineBiome.startPosition };
     const startX = findHighPassFellHoldStartX();
     treelineBiome.startPosition = { x: startX, y: originalStartPosition.y };
@@ -6363,15 +6375,18 @@ describe('runtime smoke loop', () => {
         text: 'Frost-Heave Boulder, Hoary Marmot, Moss Campion, and Talus Cushion Pocket show how low ridge life uses shelter pockets on exposed High Pass.',
         variant: 'filed-route',
       });
-      expect(state.activeFieldRequest).toBeNull();
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'source-to-shore-source-shelter',
+        title: 'Source Shelter',
+      });
       expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
       expect(state.fieldStation?.routeBoard).toMatchObject({
-        targetBiomeId: null,
-        nextDirection: 'High Pass filed. This field arc is complete.',
+        targetBiomeId: 'treeline',
+        nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
         launchCard: {
-          title: 'HIGH PASS',
-          progressLabel: 'FILED',
-          summary: 'High Pass filed from Treeline Pass.',
+          title: 'SOURCE SHELTER',
+          progressLabel: 'BETA',
+          summary: 'Treeline Pass starts the Source to Shore beta thread.',
         },
       });
 
@@ -6399,13 +6414,19 @@ describe('runtime smoke loop', () => {
       expect(renderedState).toContain('"title":"HIGH PASS"');
       expect(renderedState).toContain('"variant":"filed-route"');
       expect(renderedState).not.toContain('OUTING SUPPORT');
-      expect(state.activeFieldRequest).toBeNull();
+      expect(state.activeFieldRequest).toMatchObject({
+        id: 'source-to-shore-source-shelter',
+        title: 'Source Shelter',
+      });
       expect(state.worldMap?.routeMarkerLocationId).toBeNull();
-      expect(state.worldMap?.routeReplayLabel).toBeNull();
+      expect(state.worldMap?.routeReplayLabel).toBe('Today: Source Shelter');
 
       tapKey(fakeWindow, 'j');
       state = readState(fakeWindow);
-      expect(state.journal?.fieldRequest).toBeNull();
+      expect(state.journal?.fieldRequest).toMatchObject({
+        id: 'source-to-shore-source-shelter',
+        title: 'Source Shelter',
+      });
     } finally {
       treelineBiome.startPosition = originalStartPosition;
     }
@@ -7323,14 +7344,21 @@ describe('runtime smoke loop', () => {
     persistSave(seededSave);
 
     state = readState(fakeWindow);
-    expect(state.activeFieldRequest).toBeNull();
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      progressLabel: 'Go To Treeline Pass',
+    });
     expect(state.worldMap?.focusedLocationId).toBe('treeline');
-    expect(state.worldMap?.routeMarkerLocationId).toBeNull();
-    expect(state.worldMap?.routeReplayLabel).toBeNull();
+    expect(state.worldMap?.routeMarkerLocationId).toBe('treeline');
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: Source Shelter');
 
     tapKey(fakeWindow, 'j');
     state = readState(fakeWindow);
-    expect(state.journal?.fieldRequest).toBeNull();
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+    });
     tapKey(fakeWindow, 'Escape');
 
     tapKey(fakeWindow, 'm');
@@ -7341,28 +7369,28 @@ describe('runtime smoke loop', () => {
     expect(state.fieldStation?.subtitle).toBe('High Pass filed from Treeline Pass.');
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
-      text: 'High Pass filed from Treeline Pass.',
+      text: 'High Pass filed; Source to Shore starts above the shelter line.',
     });
-    expect(state.fieldStation?.atlas?.note).toBe('High Pass filed from Treeline Pass.');
+    expect(state.fieldStation?.atlas?.note).toBe('Beta: start Source Shelter at Treeline Pass.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
-      targetBiomeId: null,
-      nextDirection: 'High Pass filed. This field arc is complete.',
+      targetBiomeId: 'treeline',
+      nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
       launchCard: {
-        title: 'HIGH PASS',
-        progressLabel: 'FILED',
-        summary: 'High Pass filed from Treeline Pass.',
+        title: 'SOURCE SHELTER',
+        progressLabel: 'BETA',
+        summary: 'Treeline Pass starts the Source to Shore beta thread.',
       },
     });
 
     tapKey(fakeWindow, 'ArrowRight');
     state = readState(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('expedition');
-    expect(state.fieldStation?.subtitle).toBe('High Pass is filed for this field arc.');
+    expect(state.fieldStation?.subtitle).toBe('High Pass opens the next field season.');
     expect(state.fieldStation?.expedition).toMatchObject({
-      title: 'HIGH PASS',
-      statusLabel: 'FILED',
-      detailLabel: 'FILED',
-      startText: 'Treeline Pass',
+      title: 'SOURCE SHELTER',
+      statusLabel: 'BETA',
+      detailLabel: 'STARTS',
+      startText: 'Treeline Pass to first shelter',
       teaser: null,
     });
 
@@ -7370,9 +7398,9 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.fieldRequestNotice).toMatchObject({
       title: 'EXPEDITION LOGGED',
-      text: 'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+      text: 'Treeline Pass starts the Source to Shore beta thread. Start: Treeline Pass to first shelter.',
     });
-    expect(state.fieldRequestNotice?.text).not.toContain('Start:');
+    expect(state.fieldRequestNotice?.text).toContain('Start:');
 
     tapKey(fakeWindow, 'ArrowRight');
     state = readState(fakeWindow);

@@ -38,6 +38,7 @@ const excludedNames = new Set([
   '.tmp',
   '.vscode',
   '.idea',
+  '__MACOSX',
   'dist',
   'dist-ssr',
   'node_modules',
@@ -67,6 +68,10 @@ function fail(message) {
 
 function shouldCopy(sourcePath) {
   const name = path.basename(sourcePath);
+
+  if (name.startsWith('._')) {
+    return false;
+  }
 
   if (excludedNames.has(name)) {
     return false;
@@ -113,6 +118,10 @@ const archiveName = `${archiveRootName}-${formatTimestamp(new Date())}.tgz`;
 const archivePath = path.join(outputDir, archiveName);
 
 execFileSync('tar', ['-czf', archivePath, '-C', stageParent, archiveRootName], {
+  env: {
+    ...process.env,
+    COPYFILE_DISABLE: '1',
+  },
   stdio: 'inherit',
 });
 

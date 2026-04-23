@@ -23,6 +23,7 @@ import {
   resolveNextFieldSeasonTargetBiomeId,
   resolveFieldSeasonBoardState,
   resolveFieldSeasonExpeditionState,
+  resolveSeasonOutingLocator,
 } from './field-season-board';
 import {
   getJumpSpeed,
@@ -591,8 +592,24 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getWorldMapLocationByBiomeId(ecoWorldMap, guidedFieldSeason.nextBiomeId).id;
   }
 
+  function getActiveSeasonOutingFocusLocationId(): string | null {
+    if (save.seasonCloseReturnPending) {
+      return null;
+    }
+
+    const activeOuting = resolveSeasonOutingLocator(save);
+    if (!activeOuting || activeOuting.progressLabel === 'NOTE') {
+      return null;
+    }
+
+    return getWorldMapLocationByBiomeId(ecoWorldMap, activeOuting.targetBiomeId).id;
+  }
+
   function getPreferredWorldMapFocusLocationId(fallbackLocationId: string): string {
-    return getRouteMarkerLocationId() ?? getGuidedWorldMapFocusLocationId() ?? fallbackLocationId;
+    return getRouteMarkerLocationId()
+      ?? getActiveSeasonOutingFocusLocationId()
+      ?? getGuidedWorldMapFocusLocationId()
+      ?? fallbackLocationId;
   }
 
   function getWorldMapReplayLabel(focusedLocationId: string): string | null {
@@ -3457,7 +3474,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         palette: currentBiomeDefinition.palette,
         state: fieldGuideNotice,
       });
-    } else if (fieldRequestNotice && overlayMode === 'playing' && sceneMode !== 'transition') {
+    } else if (fieldRequestNotice && !bubble && overlayMode === 'playing' && sceneMode !== 'transition') {
       drawFieldRequestNotice({
         context,
         width: WIDTH,

@@ -3,7 +3,7 @@
   "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "SUPERSEDED",
   "title": "Alpha content parity and dead-copy prune",
   "summary": "Prune stale promises and align all live content surfaces with the completed alpha arc.",
   "source_reports": [

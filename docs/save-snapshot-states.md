@@ -29,6 +29,11 @@ Replace `high-pass-ready-to-file` with any snapshot id below.
 - `high-pass-active`: season close acknowledged; High Pass is the active next field-season route.
 - `high-pass-ready-to-file`: High Pass evidence slots are filled and the note is ready to file.
 - `high-pass-filed`: High Pass is completed, route progress is clear, and the arc is settled.
+- `source-to-shore-active`: High Pass is filed; Source Shelter is the active beta vertical-slice outing.
+- `source-to-shore-ready-to-file`: Source Shelter evidence is filled and the beta note is ready to file.
+- `source-to-shore-filed`: Source Shelter is filed; Forest Release is the active downstream beta beat.
+- `source-to-shore-forest-release-ready-to-file`: Forest Release evidence is filled and the downstream beta note is ready to file.
+- `source-to-shore-forest-release-filed`: Forest Release is filed as the first downstream Source to Shore proof.
 
 ## Guardrails
 

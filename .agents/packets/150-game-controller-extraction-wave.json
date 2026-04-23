@@ -3,7 +3,7 @@
   "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "SUPERSEDED",
   "title": "Game controller extraction wave",
   "summary": "Reduce the biggest coordinator risk without changing player-facing scope.",
   "source_reports": [

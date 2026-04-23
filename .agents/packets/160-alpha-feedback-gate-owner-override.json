@@ -1,0 +1,71 @@
+{
+  "packet_id": "ECO-PACKET-160",
+  "version": 1,
+  "created_at": "2026-04-23",
+  "created_by_role": "main-agent",
+  "status": "DONE",
+  "title": "Alpha feedback gate owner override",
+  "summary": "Close the alpha feedback gate by explicit user override after a fresh alpha RC pass, without pretending external child-session notes exist, and select Source to Shore beta as the next direction.",
+  "source_reports": [
+    ".agents/director-intake/2026-04-21-task-splitting-brief.md",
+    ".agents/director-intake/2026-04-21-source-to-shore-campaign.md",
+    "docs/reports/2026-04-23-alpha-rc-reconciliation.md",
+    "docs/reports/2026-04-23-alpha-playtest-kit-review.md",
+    "docs/reports/2026-04-23-alpha-feedback-gate-owner-override.md"
+  ],
+  "queue_refs": [
+    "ECO-20260423-scout-446",
+    "ECO-20260423-main-446",
+    "ECO-20260423-critic-446"
+  ],
+  "depends_on": [
+    "ECO-20260423-critic-445"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260423-scout-446",
+      "goal": "Record the packet 160 gate constraints and distinguish an owner override from real external playtest synthesis.",
+      "why_now": "The user explicitly asked to proceed to Source to Shore if the current check passed."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260423-main-446",
+      "goal": "Run the alpha RC check and write the gate decision report.",
+      "why_now": "A stable RC is the safest available gate when real packet 159 session notes are absent."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260423-critic-446",
+      "goal": "Review the gate decision for honesty, scope control, and Source to Shore readiness.",
+      "why_now": "The project should proceed with clear evidence boundaries rather than silently erasing the original playtest requirement."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/160-alpha-feedback-gate-owner-override.json",
+    "docs/reports/2026-04-23-alpha-feedback-gate-owner-override.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "The report states that no real external packet 159 playtest notes were available.",
+    "The report records the user-approved override and the passing alpha RC check.",
+    "The decision selects Source to Shore beta while preserving the no biome-six/no planner/no combat/no inventory guardrails."
+  ],
+  "guardrails": [
+    "Do not fabricate playtest observations.",
+    "Do not claim child-session evidence that does not exist.",
+    "Do not add biome six, season three, broader planner/dashboard, crafting, combat, inventory, economy, or direct API field guide.",
+    "Proceed to Source to Shore only because the user explicitly requested it and alpha:rc passed."
+  ],
+  "post_packet_path": [
+    "Packet 166 may implement the first Source to Shore vertical slice directly under the owner override.",
+    "Real external playtest sessions should still use packet 159 materials later."
+  ]
+}

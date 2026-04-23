@@ -50,6 +50,8 @@ const ROUTE_NOTE_QUALITY_CASES = [
   { id: 'treeline-low-fell', anchors: ['treeline shelter', 'open fell'] },
   { id: 'forest-expedition-upper-run', anchors: ['whole hollow return'] },
   { id: 'treeline-high-pass', anchors: ['shelter pockets', 'exposed high pass'] },
+  { id: 'source-to-shore-source-shelter', anchors: ['water and shelter', 'source to shore'] },
+  { id: 'source-to-shore-forest-release', anchors: ['source to shore', 'moving downhill', 'forest shelter'] },
 ] as const;
 
 function countSentences(text: string): number {
@@ -97,7 +99,7 @@ describe('content quality guardrails', () => {
   });
 
   it('keeps field-request copy within the compact notebook budget', () => {
-    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(15);
+    expect(FIELD_REQUEST_DEFINITIONS).toHaveLength(17);
 
     for (const request of FIELD_REQUEST_DEFINITIONS) {
       expect(request.title.length).toBeLessThanOrEqual(FIELD_REQUEST_TITLE_MAX);

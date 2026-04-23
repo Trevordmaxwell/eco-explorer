@@ -3,7 +3,7 @@
   "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "SUPERSEDED",
   "title": "Save schema and migration hardening",
   "summary": "Protect old saves and review snapshots before alpha feedback creates more states.",
   "source_reports": [

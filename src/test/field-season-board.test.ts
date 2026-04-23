@@ -20,6 +20,7 @@ import {
   resolveHighPassChapterState,
   resolveHighPassFiledArcCopy,
 } from '../engine/high-pass-chapter-state';
+import { resolveSourceToShoreState } from '../engine/source-to-shore-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 import type { OutingSupportId, SaveState } from '../engine/types';
 
@@ -53,6 +54,10 @@ describe('field season board', () => {
     ...edgeLineLoggedRequestIds,
     'forest-expedition-upper-run',
     'forest-season-threads',
+  ];
+  const highPassFiledRequestIds = [
+    ...seasonThreadsFiledRequestIds,
+    'treeline-high-pass',
   ];
   const NOTEBOOK_READY_PREVIEW_LABEL_MAX = 24;
   const NOTEBOOK_READY_PREVIEW_TEXT_MAX = 144;
@@ -1230,9 +1235,54 @@ describe('field season board', () => {
       },
       {
         label: 'High Pass filed',
-        save: buildSave('field-season-copy-budget-high-pass-filed-seed', [
-          ...seasonThreadsFiledRequestIds,
-          'treeline-high-pass',
+        save: buildSave('field-season-copy-budget-high-pass-filed-seed', highPassFiledRequestIds),
+      },
+      {
+        label: 'Source Shelter ready-to-file',
+        save: buildSave('field-season-copy-budget-source-shelter-ready-seed', highPassFiledRequestIds, (save) => {
+          save.routeV2Progress = {
+            requestId: 'source-to-shore-source-shelter',
+            status: 'ready-to-synthesize',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+              { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+              { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'Source Shelter filed',
+        save: buildSave('field-season-copy-budget-source-shelter-filed-seed', [
+          ...highPassFiledRequestIds,
+          'source-to-shore-source-shelter',
+        ]),
+      },
+      {
+        label: 'Forest Release ready-to-file',
+        save: buildSave('field-season-copy-budget-forest-release-ready-seed', [
+          ...highPassFiledRequestIds,
+          'source-to-shore-source-shelter',
+        ], (save) => {
+          save.routeV2Progress = {
+            requestId: 'source-to-shore-forest-release',
+            status: 'ready-to-synthesize',
+            landmarkEntryIds: [],
+            evidenceSlots: [
+              { slotId: 'seep-hold', entryId: 'seep-stone' },
+              { slotId: 'root-filter', entryId: 'root-curtain' },
+              { slotId: 'cool-release', entryId: 'salmonberry' },
+            ],
+          };
+        }),
+      },
+      {
+        label: 'Forest Release filed',
+        save: buildSave('field-season-copy-budget-forest-release-filed-seed', [
+          ...highPassFiledRequestIds,
+          'source-to-shore-source-shelter',
+          'source-to-shore-forest-release',
         ]),
       },
     ];
@@ -1455,62 +1505,132 @@ describe('field season board', () => {
     });
   });
 
-  it('keeps High Pass filed instead of routing back to it after the note is complete', () => {
+  it('turns filed High Pass into the Source to Shore beta vertical slice', () => {
     const save = createNewSaveState('field-season-high-pass-filed-seed');
-    save.completedFieldRequestIds = [
-      'coastal-edge-moisture',
-      'tundra-survey-slice',
-      'scrub-edge-pattern',
-      'forest-cool-edge',
-      'treeline-low-fell',
-      'forest-expedition-upper-run',
-      'forest-season-threads',
-      'treeline-high-pass',
-    ];
+    save.completedFieldRequestIds = [...highPassFiledRequestIds];
 
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
 
     expect(resolveNextFieldSeasonTargetBiomeId(save)).toBeNull();
-    expect(resolveSeasonOutingLocator(save)).toBeNull();
+    expect(resolveSourceToShoreState(save)).toMatchObject({
+      phase: 'active',
+      progressLabel: 'BETA',
+    });
+    expect(resolveSeasonOutingLocator(save)).toMatchObject({
+      title: 'Source Shelter',
+      targetBiomeId: 'treeline',
+      worldMapLabel: 'Today: Source Shelter',
+    });
     expect(routeBoard).toMatchObject({
       complete: true,
-      summary: 'High Pass filed from Treeline Pass.',
-      nextDirection: 'High Pass filed. This field arc is complete.',
-      targetBiomeId: null,
+      summary: 'Source Shelter starts Source to Shore from Treeline Pass.',
+      nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
+      targetBiomeId: 'treeline',
       notebookReady: null,
       replayNote: null,
       launchCard: {
-        title: 'HIGH PASS',
-        progressLabel: 'FILED',
-        summary: 'High Pass filed from Treeline Pass.',
+        title: 'SOURCE SHELTER',
+        progressLabel: 'BETA',
+        summary: 'Treeline Pass starts the Source to Shore beta thread.',
       },
     });
-    expect(resolveFieldAtlasState(save)?.note).toBe('High Pass filed from Treeline Pass.');
+    expect(resolveFieldAtlasState(save)?.note).toBe('Beta: start Source Shelter at Treeline Pass.');
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
       label: 'SEASON ARCHIVE',
-      text: 'High Pass filed from Treeline Pass.',
+      text: 'High Pass filed; Source to Shore starts above the shelter line.',
+    });
+  });
+
+  it('moves Source to Shore downstream after Source Shelter is filed', () => {
+    const save = createNewSaveState('field-season-source-to-shore-filed-seed');
+    save.completedFieldRequestIds = [
+      ...highPassFiledRequestIds,
+      'source-to-shore-source-shelter',
+    ];
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(resolveSeasonOutingLocator(save)).toMatchObject({
+      title: 'Forest Release',
+      targetBiomeId: 'forest',
+      worldMapLabel: 'Today: Forest Release',
+    });
+    expect(resolveSourceToShoreState(save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'active',
+      progressLabel: 'BETA',
+      isActiveOuting: true,
+    });
+    expect(routeBoard).toMatchObject({
+      complete: true,
+      summary: 'Forest Release carries Source to Shore into Forest Trail.',
+      nextDirection: 'Next: travel to Forest Trail and log seep hold, root filter, and cool release.',
+      targetBiomeId: 'forest',
+      launchCard: {
+        title: 'FOREST RELEASE',
+        progressLabel: 'BETA',
+        summary: 'Forest Trail carries Source to Shore downstream.',
+      },
+    });
+    expect(resolveFieldAtlasState(save)?.note).toBe('Next: carry Source to Shore into Forest Trail.');
+    expect(resolveFieldSeasonArchiveState(save)).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'Source Shelter filed; Forest Release waits downstream.',
     });
     expect(resolveFieldSeasonExpeditionState(save)).toMatchObject({
-      title: 'HIGH PASS',
-      statusLabel: 'FILED',
-      summary: 'High Pass filed from Treeline Pass.',
-      detailLabel: 'FILED',
-      startText: 'Treeline Pass',
-      note: 'Current field arc filed. Revisit when you want a quiet pass.',
-      noticeText: 'High Pass filed from Treeline Pass. Current field arc filed. Revisit when you want a quiet pass.',
+      title: 'FOREST RELEASE',
+      statusLabel: 'BETA',
+      summary: 'Forest Trail carries Source to Shore downstream.',
+      detailLabel: 'STARTS',
+      startText: 'Forest Trail to hollow release',
+      note: 'Read seep hold, root filter, and cool release.',
+      noticeText: null,
     });
-    expect(
-      resolveFieldStationSubtitle('season', 'routes', {
-        label: 'SEASON ARCHIVE',
-        text: 'High Pass filed from Treeline Pass.',
-      }, 'High Pass filed from Treeline Pass.'),
-    ).toBe('High Pass filed from Treeline Pass.');
-    expect(
-      resolveFieldStationSubtitle('season', 'expedition', {
-        label: 'SEASON ARCHIVE',
-        text: 'High Pass filed from Treeline Pass.',
-      }),
-    ).toBe('High Pass is filed for this field arc.');
+  });
+
+  it('settles the Source to Shore spine after Forest Release is filed', () => {
+    const save = createNewSaveState('field-season-source-to-shore-forest-release-filed-seed');
+    save.completedFieldRequestIds = [
+      ...highPassFiledRequestIds,
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+    ];
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(resolveSeasonOutingLocator(save)).toBeNull();
+    expect(resolveSourceToShoreState(save)).toMatchObject({
+      beat: 'forest-release',
+      phase: 'filed',
+      progressLabel: 'FILED',
+      isActiveOuting: false,
+    });
+    expect(routeBoard).toMatchObject({
+      complete: true,
+      summary: 'Forest Release filed from Forest Trail.',
+      nextDirection: 'Source to Shore now links high source to forest shelter.',
+      targetBiomeId: null,
+      launchCard: {
+        title: 'FOREST RELEASE',
+        progressLabel: 'FILED',
+        summary: 'Forest Release filed from Forest Trail.',
+      },
+    });
+    expect(resolveFieldAtlasState(save)?.note).toBe('Forest Release filed from Forest Trail.');
+    expect(resolveFieldSeasonArchiveState(save)).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'Source Shelter and Forest Release link high source to forest shelter.',
+    });
+    expect(resolveFieldSeasonExpeditionState(save)).toMatchObject({
+      title: 'FOREST RELEASE',
+      statusLabel: 'FILED',
+      summary: 'Forest Release filed from Forest Trail.',
+      detailLabel: 'FILED',
+      startText: 'Forest Trail',
+      note: 'Second Source to Shore note filed.',
+      noticeText:
+        'Forest Release filed from Forest Trail. Source to Shore now links high source to forest shelter.',
+    });
   });
 
   it('keeps filed High Pass epilogue copy buckets explicit', () => {

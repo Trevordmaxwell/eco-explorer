@@ -2,6 +2,8 @@
 
 Use this rubric when an adult watches a kid play the current Eco Explorer alpha arc. The goal is to learn what the player understands, remembers, feels, and struggles with, not to collect feature requests or score the child.
 
+Pair this rubric with [alpha-playtest-kit.md](/Users/trevormaxwell/Desktop/game/docs/alpha-playtest-kit.md), which covers run/install setup, save reset, snapshot staging, crash notes, and the session note template.
+
 ## Privacy And Tone
 
 - Do not record a child's full name, school, address, contact information, voice, face, or other identifying details in this repo.
@@ -25,6 +27,16 @@ Suggested observation anchors:
 - Root Hollow / forest expedition memory
 - transition from filed season into `High Pass`
 - filed `High Pass` and post-filed settling
+
+Recommended slice starts:
+
+| Slice | Save Setup | Watch Closely |
+| --- | --- | --- |
+| Fresh start | fresh save or `first-session` | first purpose, controls, first discovery bubble, first field-request notice |
+| Station return | `station-return` | station purpose, support choice, map return |
+| Season close | `season-close-return` | whether the player knows the season is closing and where to go |
+| High Pass active | `high-pass-active` | active route label, support choice, rime/shelter/talus relationship |
+| High Pass filed | `high-pass-filed` | whether filed means settled instead of still active |
 
 ## Quick Triage
 
@@ -62,6 +74,30 @@ Mark `Green`, `Yellow`, or `Red`, then add one short note.
 | Player understood that filed `High Pass` was settled, not still actively asking for the same route |  |  |
 | Reading load stayed comfortable enough for motion to continue |  |  |
 | Adult help was occasional rather than constant |  |  |
+
+## Route And Support Checklist
+
+Mark `Green`, `Yellow`, or `Red`, then add one short note.
+
+| Area | Triage | Note |
+| --- | --- | --- |
+| Player could name or point to the current active goal |  |  |
+| Player recognized when a note was ready to file at the station |  |  |
+| Player understood filed routes as complete memories, not active chores |  |  |
+| Player noticed a support choice or could explain what it helped with |  |  |
+| Route replay labels felt inviting rather than confusing |  |  |
+
+## Spatial Checklist
+
+Mark `Green`, `Yellow`, or `Red`, then add one short note.
+
+| Area | Triage | Note |
+| --- | --- | --- |
+| Player could describe at least one place from memory |  |  |
+| Player found inspectable clues without repeated adult direction |  |  |
+| Platforms, shelves, doors, and map-return posts read as usable |  |  |
+| Text notices did not cover the fact bubble or important playfield clues |  |  |
+| Player hesitated in a way that revealed spatial confusion, not curiosity |  |  |
 
 ## Science Takeaways
 

@@ -3,7 +3,7 @@
   "version": 8,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "Alpha release candidate and post-alpha scope gate",
   "summary": "Package an alpha release candidate and make a disciplined evidence-based decision about the next expansion.",
   "source_reports": [

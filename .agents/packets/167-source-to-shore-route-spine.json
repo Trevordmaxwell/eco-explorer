@@ -1,0 +1,86 @@
+{
+  "packet_id": "ECO-PACKET-167",
+  "version": 1,
+  "created_at": "2026-04-23",
+  "created_by_role": "main-agent",
+  "status": "DONE",
+  "title": "Source to Shore route spine",
+  "summary": "Deepen the first Source to Shore beta proof by tightening Source Shelter's handoff and adding one downstream Forest Release Route v2 beat that reuses existing station, map, journal, and notebook filing seams.",
+  "source_reports": [
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-implementation.md",
+    "docs/reports/2026-04-23-source-to-shore-vertical-slice-review.md",
+    "docs/reports/2026-04-23-source-to-shore-route-spine-implementation.md",
+    "docs/reports/2026-04-23-source-to-shore-route-spine-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260423-scout-448",
+    "ECO-20260423-main-448",
+    "ECO-20260423-critic-448"
+  ],
+  "depends_on": [
+    "ECO-20260423-critic-447"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260423-scout-448",
+      "goal": "Scope the next Source to Shore push to exactly one downstream proof beat.",
+      "why_now": "The first beta slice passed; the next useful proof is connection, not breadth."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260423-main-448",
+      "goal": "Implement Forest Release after Source Shelter using existing Route v2 progress, filing, station, atlas, map, and snapshot seams.",
+      "why_now": "A second beat proves the beta can move shoreward without adding new systems."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260423-critic-448",
+      "goal": "Review the route spine for scope, compact copy, route-state stability, and future handoff clarity.",
+      "why_now": "Source to Shore should remain a steady route spine before it grows wider."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/167-source-to-shore-route-spine.json",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/engine/game.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/save-snapshot-states.md",
+    "README.md",
+    "docs/reports/2026-04-23-source-to-shore-route-spine-implementation.md",
+    "docs/reports/2026-04-23-source-to-shore-route-spine-review.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Filed Source Shelter opens Forest Release instead of ending the beta path.",
+    "Forest Release can become active, ready-to-file, and filed through existing Route v2 progress.",
+    "Station, map, journal, atlas, route marker, and debug snapshots agree on the downstream Forest Trail beat.",
+    "No biome, save schema, route framework, planner, inventory, economy, combat, or API mode is added.",
+    "Focused route, station, content-quality, and snapshot tests pass."
+  ],
+  "guardrails": [
+    "Add exactly one downstream beat.",
+    "Reuse existing Forest Trail content and Route v2 seams.",
+    "Keep copy compact for the 256x160 handheld surface.",
+    "No biome six.",
+    "No new route framework.",
+    "No save schema change.",
+    "No new planner, dashboard, inventory, economy, combat, or direct API mode."
+  ],
+  "post_packet_path": [
+    "Run full validation, tests, build, browser proof, and alpha RC after implementation.",
+    "Next Source to Shore work should remain spine-first: one shoreward or connective beat at a time."
+  ]
+}

@@ -12,6 +12,11 @@ export const DEBUG_SAVE_SNAPSHOT_IDS = [
   'high-pass-active',
   'high-pass-ready-to-file',
   'high-pass-filed',
+  'source-to-shore-active',
+  'source-to-shore-ready-to-file',
+  'source-to-shore-filed',
+  'source-to-shore-forest-release-ready-to-file',
+  'source-to-shore-forest-release-filed',
 ] as const;
 
 export type DebugSaveSnapshotId = (typeof DEBUG_SAVE_SNAPSHOT_IDS)[number];
@@ -68,6 +73,18 @@ const HIGH_PASS_READY_EVIDENCE_SLOTS = [
   { slotId: 'lee-watch', entryId: 'hoary-marmot' },
   { slotId: 'rime-mark', entryId: 'moss-campion' },
   { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+] as const;
+
+const SOURCE_TO_SHORE_READY_EVIDENCE_SLOTS = [
+  { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+  { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+  { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+] as const;
+
+const SOURCE_TO_SHORE_FOREST_RELEASE_READY_EVIDENCE_SLOTS = [
+  { slotId: 'seep-hold', entryId: 'seep-stone' },
+  { slotId: 'root-filter', entryId: 'root-curtain' },
+  { slotId: 'cool-release', entryId: 'salmonberry' },
 ] as const;
 
 const FOREST_SURVEY_DISCOVERY_IDS = [
@@ -198,6 +215,61 @@ function createHighPassFiledSave(): SaveState {
   return save;
 }
 
+function createSourceToShoreActiveSave(): SaveState {
+  const save = createHighPassFiledSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-active';
+  save.lastBiomeId = 'treeline';
+  return save;
+}
+
+function createSourceToShoreReadyToFileSave(): SaveState {
+  const save = createSourceToShoreActiveSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-ready-to-file';
+  save.routeV2Progress = {
+    requestId: 'source-to-shore-source-shelter',
+    status: 'ready-to-synthesize',
+    landmarkEntryIds: [],
+    evidenceSlots: [...SOURCE_TO_SHORE_READY_EVIDENCE_SLOTS],
+  };
+  return save;
+}
+
+function createSourceToShoreFiledSave(): SaveState {
+  const save = createSourceToShoreActiveSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-filed';
+  save.completedFieldRequestIds = [
+    ...save.completedFieldRequestIds,
+    'source-to-shore-source-shelter',
+  ];
+  save.routeV2Progress = null;
+  return save;
+}
+
+function createSourceToShoreForestReleaseReadyToFileSave(): SaveState {
+  const save = createSourceToShoreFiledSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-forest-release-ready-to-file';
+  save.lastBiomeId = 'forest';
+  save.routeV2Progress = {
+    requestId: 'source-to-shore-forest-release',
+    status: 'ready-to-synthesize',
+    landmarkEntryIds: [],
+    evidenceSlots: [...SOURCE_TO_SHORE_FOREST_RELEASE_READY_EVIDENCE_SLOTS],
+  };
+  return save;
+}
+
+function createSourceToShoreForestReleaseFiledSave(): SaveState {
+  const save = createSourceToShoreFiledSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-forest-release-filed';
+  save.lastBiomeId = 'forest';
+  save.completedFieldRequestIds = [
+    ...save.completedFieldRequestIds,
+    'source-to-shore-forest-release',
+  ];
+  save.routeV2Progress = null;
+  return save;
+}
+
 const DEBUG_SAVE_SNAPSHOT_DEFINITIONS: Record<DebugSaveSnapshotId, DebugSaveSnapshotDefinition> = {
   'first-session': {
     title: 'First Session',
@@ -248,6 +320,31 @@ const DEBUG_SAVE_SNAPSHOT_DEFINITIONS: Record<DebugSaveSnapshotId, DebugSaveSnap
     title: 'High Pass Filed',
     description: 'High Pass is completed and route progress is settled with no active route note.',
     buildSave: createHighPassFiledSave,
+  },
+  'source-to-shore-active': {
+    title: 'Source To Shore Active',
+    description: 'High Pass is filed; Source Shelter is the active beta vertical-slice outing.',
+    buildSave: createSourceToShoreActiveSave,
+  },
+  'source-to-shore-ready-to-file': {
+    title: 'Source To Shore Ready To File',
+    description: 'Source Shelter evidence is filled and the beta note is ready to file.',
+    buildSave: createSourceToShoreReadyToFileSave,
+  },
+  'source-to-shore-filed': {
+    title: 'Source To Shore Filed',
+    description: 'Source Shelter is filed and Forest Release is the active downstream beta beat.',
+    buildSave: createSourceToShoreFiledSave,
+  },
+  'source-to-shore-forest-release-ready-to-file': {
+    title: 'Source To Shore Forest Release Ready To File',
+    description: 'Forest Release evidence is filled and the downstream beta note is ready to file.',
+    buildSave: createSourceToShoreForestReleaseReadyToFileSave,
+  },
+  'source-to-shore-forest-release-filed': {
+    title: 'Source To Shore Forest Release Filed',
+    description: 'Forest Release is filed as the first downstream Source to Shore proof.',
+    buildSave: createSourceToShoreForestReleaseFiledSave,
   },
 };
 

@@ -23,6 +23,7 @@ const requiredPaths = [
   'docs/science-source-ledger.md',
   'docs/reports/2026-04-20-alpha-runway-megapush.md',
   'scripts/create-review-drop.mjs',
+  'scripts/run-alpha-rc.mjs',
   'scripts/verify-review-drop.mjs',
   'src/main.ts',
   'src/test/content-quality.test.ts',
@@ -32,6 +33,7 @@ const forbiddenNames = new Set([
   '.DS_Store',
   '.git',
   '.tmp',
+  '__MACOSX',
   'dist',
   'dist-ssr',
   'node_modules',
@@ -58,6 +60,11 @@ function findForbiddenPaths(startPath) {
 
   function visit(currentPath) {
     const name = path.basename(currentPath);
+
+    if (name.startsWith('._')) {
+      found.push(path.relative(startPath, currentPath) || name);
+      return;
+    }
 
     if (forbiddenNames.has(name)) {
       found.push(path.relative(startPath, currentPath) || name);

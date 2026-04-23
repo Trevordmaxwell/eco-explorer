@@ -3,7 +3,7 @@
   "version": 10,
   "created_at": "2026-04-20",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "SUPERSEDED",
   "title": "Performance, bundle, and error hardening",
   "summary": "Make the source-complete alpha build resilient on fresh machines and browsers.",
   "source_reports": [
