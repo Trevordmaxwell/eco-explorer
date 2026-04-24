@@ -993,16 +993,16 @@ describe('debug save snapshots', () => {
     expect(state.activeFieldRequest).toBeNull();
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
-      text: 'Source Shelter, Forest Release, and Dune Catch link source to shore.',
+      text: 'Source to Shore filed from high rime to forest shade to coastal catch.',
     });
-    expect(state.fieldStation?.atlas?.note).toBe('Dune Catch filed from Coastal Scrub.');
+    expect(state.fieldStation?.atlas?.note).toBe('Filed: high source to forest release to coastal catch.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
       targetBiomeId: null,
-      nextDirection: 'Source to Shore now links high source, forest release, and coastal catch.',
+      nextDirection: 'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
       launchCard: {
-        title: 'DUNE CATCH',
+        title: 'SOURCE TO SHORE',
         progressLabel: 'FILED',
-        summary: 'Dune Catch filed from Coastal Scrub.',
+        summary: 'High rime, forest shade, and dune catch now read as one connected route.',
       },
     });
   });

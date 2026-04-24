@@ -34,7 +34,13 @@ export interface SourceToShoreState {
   routeBoardNextDirection: string;
   liveAtlasNote: string;
   archiveText: string;
-  cardTitle: 'SOURCE SHELTER' | 'FOREST RELEASE' | 'DUNE CATCH' | 'RIME SOURCE' | 'COOL RELEASE';
+  cardTitle:
+    | 'SOURCE SHELTER'
+    | 'FOREST RELEASE'
+    | 'DUNE CATCH'
+    | 'SOURCE TO SHORE'
+    | 'RIME SOURCE'
+    | 'COOL RELEASE';
   cardStatusLabel: 'BETA' | 'NOTE READY' | 'FILED';
   cardSummary: string;
   cardDetailLabel: 'STARTS' | 'FILE' | 'FILED';
@@ -293,17 +299,19 @@ function resolveDuneCatchState(phase: SourceToShorePhase): SourceToShoreState {
       progressLabel: 'FILED',
       routeBoardTargetBiomeId: null,
       worldMapLabel: 'Dune Catch filed',
-      routeBoardSummary: `${baseState.title} filed from ${location.label}.`,
-      routeBoardNextDirection: 'Source to Shore now links high source, forest release, and coastal catch.',
-      liveAtlasNote: 'Dune Catch filed from Coastal Scrub.',
-      archiveText: 'Source Shelter, Forest Release, and Dune Catch link source to shore.',
+      routeBoardSummary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
+      routeBoardNextDirection:
+        'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
+      liveAtlasNote: 'Filed: high source to forest release to coastal catch.',
+      archiveText: 'Source to Shore filed from high rime to forest shade to coastal catch.',
       cardStatusLabel: 'FILED',
-      cardSummary: `${baseState.title} filed from ${location.label}.`,
+      cardTitle: 'SOURCE TO SHORE',
+      cardSummary: 'High rime, forest shade, and dune catch now read as one connected route.',
       cardDetailLabel: 'FILED',
-      cardStartText: location.label,
-      cardNote: 'Third Source to Shore note filed.',
+      cardStartText: 'Treeline Pass to Coastal Scrub',
+      cardNote: 'Three Source to Shore notes filed.',
       cardNoticeText:
-        'Dune Catch filed from Coastal Scrub. Source to Shore now links high source, forest release, and coastal catch.',
+        'Source to Shore filed. High source, forest release, and coastal catch now connect.',
       isActiveOuting: false,
     };
   }

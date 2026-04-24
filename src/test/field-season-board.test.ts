@@ -1754,29 +1754,29 @@ describe('field season board', () => {
     });
     expect(routeBoard).toMatchObject({
       complete: true,
-      summary: 'Dune Catch filed from Coastal Scrub.',
-      nextDirection: 'Source to Shore now links high source, forest release, and coastal catch.',
+      summary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
+      nextDirection: 'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
       targetBiomeId: null,
       launchCard: {
-        title: 'DUNE CATCH',
+        title: 'SOURCE TO SHORE',
         progressLabel: 'FILED',
-        summary: 'Dune Catch filed from Coastal Scrub.',
+        summary: 'High rime, forest shade, and dune catch now read as one connected route.',
       },
     });
-    expect(resolveFieldAtlasState(save)?.note).toBe('Dune Catch filed from Coastal Scrub.');
+    expect(resolveFieldAtlasState(save)?.note).toBe('Filed: high source to forest release to coastal catch.');
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
       label: 'SEASON ARCHIVE',
-      text: 'Source Shelter, Forest Release, and Dune Catch link source to shore.',
+      text: 'Source to Shore filed from high rime to forest shade to coastal catch.',
     });
     expect(resolveFieldSeasonExpeditionState(save)).toMatchObject({
-      title: 'DUNE CATCH',
+      title: 'SOURCE TO SHORE',
       statusLabel: 'FILED',
-      summary: 'Dune Catch filed from Coastal Scrub.',
+      summary: 'High rime, forest shade, and dune catch now read as one connected route.',
       detailLabel: 'FILED',
-      startText: 'Coastal Scrub',
-      note: 'Third Source to Shore note filed.',
+      startText: 'Treeline Pass to Coastal Scrub',
+      note: 'Three Source to Shore notes filed.',
       noticeText:
-        'Dune Catch filed from Coastal Scrub. Source to Shore now links high source, forest release, and coastal catch.',
+        'Source to Shore filed. High source, forest release, and coastal catch now connect.',
     });
   });
 
