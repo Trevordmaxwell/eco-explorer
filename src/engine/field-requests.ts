@@ -723,6 +723,15 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
         'Seep hold, root filter, and cool release show Source to Shore moving downhill through forest shelter.',
       clueBackedTail: 'show Source to Shore moving downhill through forest shelter.',
     },
+    processFocus: {
+      momentId: 'moisture-hold',
+      activeTitle: 'Cool Release',
+      activeSummary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      activeSlotEntryIdsBySlotId: {
+        'seep-hold': ['seep-moss-mat'],
+        'cool-release': ['sword-fern'],
+      },
+    },
     completionTriggers: ['inspect'],
   },
 ] as const;

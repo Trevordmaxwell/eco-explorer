@@ -7410,6 +7410,56 @@ describe('runtime smoke loop', () => {
     );
   });
 
+  it('shows the Cool Release Source to Shore variant during the wet forest revisit window', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-source-to-shore-cool-release-seed');
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.completedFieldRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+    ];
+    seededSave.lastBiomeId = 'forest';
+    seededSave.worldStep = 6;
+    seededSave.biomeVisits.forest = 2;
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('forest');
+
+    let state = readState(fakeWindow);
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-forest-release',
+      title: 'Cool Release',
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+    });
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: 'forest',
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
+      launchCard: {
+        title: 'COOL RELEASE',
+        progressLabel: 'BETA',
+        summary: 'Mist highlights seep, root filter, and cool release.',
+      },
+    });
+    expect(state.fieldStation?.atlas?.note).toBe('Cool Release: trace seep, roots, cool forest.');
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'Source Shelter filed; Forest Release waits downstream.',
+    });
+
+    tapKey(fakeWindow, 'j');
+    state = readState(fakeWindow);
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: 'source-to-shore-forest-release',
+      title: 'Cool Release',
+    });
+  });
+
   it('shows the treeline place-tab question once the edge line reaches Low Fell', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-place-tab-low-fell-seed');

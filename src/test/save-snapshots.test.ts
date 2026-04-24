@@ -807,17 +807,17 @@ describe('debug save snapshots', () => {
       label: 'SEASON ARCHIVE',
       text: 'High Pass filed; Source to Shore starts above the shelter line.',
     });
-    expect(state.fieldStation?.atlas?.note).toBe('Beta: start Source Shelter at Treeline Pass.');
+    expect(state.fieldStation?.atlas?.note).toBe('Rime Source: compare high source and shelter.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
       targetBiomeId: 'treeline',
-      nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
+      nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
       complete: true,
       notebookReady: null,
       replayNote: null,
       launchCard: {
-        title: 'SOURCE SHELTER',
+        title: 'RIME SOURCE',
         progressLabel: 'BETA',
-        summary: 'Treeline Pass starts the Source to Shore beta thread.',
+        summary: 'Late ridge rime sharpens the high source and first shelter.',
       },
     });
 
@@ -849,14 +849,14 @@ describe('debug save snapshots', () => {
     expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
     expect(state.fieldStation?.routeBoard).toMatchObject({
       targetBiomeId: 'treeline',
-      nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
+      nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
       complete: true,
       notebookReady: null,
       replayNote: null,
       launchCard: {
-        title: 'SOURCE SHELTER',
+        title: 'RIME SOURCE',
         progressLabel: 'BETA',
-        summary: 'Treeline Pass starts the Source to Shore beta thread.',
+        summary: 'Late ridge rime sharpens the high source and first shelter.',
       },
     });
 
@@ -882,7 +882,7 @@ describe('debug save snapshots', () => {
     state = readState(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('expedition');
     expect(state.fieldStation?.expedition).toMatchObject({
-      title: 'SOURCE SHELTER',
+      title: 'RIME SOURCE',
       statusLabel: 'BETA',
       detailLabel: 'STARTS',
       startText: 'Treeline Pass to first shelter',
@@ -900,7 +900,7 @@ describe('debug save snapshots', () => {
     });
     expect(state.fieldRequestNotice).toMatchObject({
       title: 'EXPEDITION LOGGED',
-      text: 'Treeline Pass starts the Source to Shore beta thread. Start: Treeline Pass to first shelter.',
+      text: 'Late ridge rime sharpens the high source and first shelter. Start: Treeline Pass to first shelter.',
     });
   });
 
@@ -910,28 +910,28 @@ describe('debug save snapshots', () => {
     let state = readState(fakeWindow);
     expect(state.activeFieldRequest).toMatchObject({
       id: 'source-to-shore-forest-release',
-      title: 'Forest Release',
+      title: 'Cool Release',
       progressLabel: 'Go To Forest Trail',
     });
     expect(state.fieldStation?.routeBoard).toMatchObject({
       targetBiomeId: 'forest',
-      nextDirection: 'Next: travel to Forest Trail and log seep hold, root filter, and cool release.',
+      nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
       launchCard: {
-        title: 'FOREST RELEASE',
+        title: 'COOL RELEASE',
         progressLabel: 'BETA',
-        summary: 'Forest Trail carries Source to Shore downstream.',
+        summary: 'Mist highlights seep, root filter, and cool release.',
       },
     });
 
     state = openWorldMap(fakeWindow);
     expect(state.worldMap?.focusedLocationId).toBe('forest');
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
-    expect(state.worldMap?.routeReplayLabel).toBe('Today: Forest Release');
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: Cool Release');
 
     state = openJournal(fakeWindow);
     expect(state.journal?.fieldRequest).toMatchObject({
       id: 'source-to-shore-forest-release',
-      title: 'Forest Release',
+      title: 'Cool Release',
     });
   });
 });

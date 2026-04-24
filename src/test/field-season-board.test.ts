@@ -1238,6 +1238,13 @@ describe('field season board', () => {
         save: buildSave('field-season-copy-budget-high-pass-filed-seed', highPassFiledRequestIds),
       },
       {
+        label: 'Rime Source active',
+        save: buildSave('field-season-copy-budget-rime-source-active-seed', highPassFiledRequestIds, (save) => {
+          save.worldStep = 6;
+          save.biomeVisits.treeline = 2;
+        }),
+      },
+      {
         label: 'Source Shelter ready-to-file',
         save: buildSave('field-season-copy-budget-source-shelter-ready-seed', highPassFiledRequestIds, (save) => {
           save.routeV2Progress = {
@@ -1258,6 +1265,16 @@ describe('field season board', () => {
           ...highPassFiledRequestIds,
           'source-to-shore-source-shelter',
         ]),
+      },
+      {
+        label: 'Cool Release active',
+        save: buildSave('field-season-copy-budget-cool-release-active-seed', [
+          ...highPassFiledRequestIds,
+          'source-to-shore-source-shelter',
+        ], (save) => {
+          save.worldStep = 6;
+          save.biomeVisits.forest = 2;
+        }),
       },
       {
         label: 'Forest Release ready-to-file',
@@ -1539,6 +1556,59 @@ describe('field season board', () => {
       label: 'SEASON ARCHIVE',
       text: 'High Pass filed; Source to Shore starts above the shelter line.',
     });
+  });
+
+  it('lets Source to Shore live variants travel through station and atlas surfaces', () => {
+    const rimeSave = createNewSaveState('field-season-source-to-shore-rime-source-seed');
+    rimeSave.completedFieldRequestIds = [...highPassFiledRequestIds];
+    rimeSave.worldStep = 6;
+    rimeSave.biomeVisits.treeline = 2;
+
+    expect(resolveSourceToShoreState(rimeSave)).toMatchObject({
+      beat: 'source-shelter',
+      title: 'Rime Source',
+      worldMapLabel: 'Today: Rime Source',
+      summary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
+      routeBoardSummary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
+      liveAtlasNote: 'Rime Source: compare high source and shelter.',
+      cardTitle: 'RIME SOURCE',
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, rimeSave)).toMatchObject({
+      summary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
+      nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
+      launchCard: {
+        title: 'RIME SOURCE',
+        summary: 'Late ridge rime sharpens the high source and first shelter.',
+      },
+    });
+    expect(resolveFieldAtlasState(rimeSave)?.note).toBe('Rime Source: compare high source and shelter.');
+
+    const coolSave = createNewSaveState('field-season-source-to-shore-cool-release-seed');
+    coolSave.completedFieldRequestIds = [
+      ...highPassFiledRequestIds,
+      'source-to-shore-source-shelter',
+    ];
+    coolSave.worldStep = 6;
+    coolSave.biomeVisits.forest = 2;
+
+    expect(resolveSourceToShoreState(coolSave)).toMatchObject({
+      beat: 'forest-release',
+      title: 'Cool Release',
+      worldMapLabel: 'Today: Cool Release',
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      routeBoardSummary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      liveAtlasNote: 'Cool Release: trace seep, roots, cool forest.',
+      cardTitle: 'COOL RELEASE',
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, coolSave)).toMatchObject({
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
+      launchCard: {
+        title: 'COOL RELEASE',
+        summary: 'Mist highlights seep, root filter, and cool release.',
+      },
+    });
+    expect(resolveFieldAtlasState(coolSave)?.note).toBe('Cool Release: trace seep, roots, cool forest.');
   });
 
   it('moves Source to Shore downstream after Source Shelter is filed', () => {

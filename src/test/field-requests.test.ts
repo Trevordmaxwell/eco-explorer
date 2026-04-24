@@ -10,6 +10,7 @@ import {
   advanceFieldRequestDefinition,
   fileReadyRouteV2FieldRequest,
   getHandLensNotebookFit,
+  prefersHandLensActiveRouteEntry,
   resolveRouteV2FiledDisplayText,
   resolveRouteV2FiledNoteText,
   resolveActiveFieldRequest,
@@ -1096,6 +1097,49 @@ function createRouteVariantMatrixCases(): RouteVariantMatrixCase[] {
         { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
       ],
       expectedFiledTextIncludes: ['Frost-Heave Boulder', 'Hoary Marmot', 'Reindeer Lichen', 'Talus Cushion Pocket', 'High Pass'],
+    },
+    {
+      name: 'Cool Release keeps Forest Release filing identity',
+      requestId: 'source-to-shore-forest-release',
+      createContext: () => {
+        const context = createForestContext(
+          [...HIGH_PASS_COMPLETED, 'treeline-high-pass', 'source-to-shore-source-shelter'],
+          'creek-bend',
+        );
+        context.save.routeV2Progress = {
+          requestId: 'source-to-shore-forest-release',
+          status: 'gathering',
+          landmarkEntryIds: [],
+          evidenceSlots: [
+            { slotId: 'seep-hold', entryId: 'seep-moss-mat' },
+            { slotId: 'root-filter', entryId: 'root-curtain' },
+          ],
+        };
+        return context;
+      },
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits.forest = 2;
+      },
+      activeTitle: 'Cool Release',
+      readyTitle: 'Forest Release',
+      steps: [
+        {
+          zoneId: 'creek-bend',
+          entryId: 'sword-fern',
+          expectedSlots: [
+            { slotId: 'seep-hold', entryId: 'seep-moss-mat' },
+            { slotId: 'root-filter', entryId: 'root-curtain' },
+            { slotId: 'cool-release', entryId: 'sword-fern' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'seep-hold', entryId: 'seep-moss-mat' },
+        { slotId: 'root-filter', entryId: 'root-curtain' },
+        { slotId: 'cool-release', entryId: 'sword-fern' },
+      ],
+      expectedFiledTextIncludes: ['Seep Moss Mat', 'Root Curtain', 'Sword Fern', 'forest shelter'],
     },
   ];
 }
@@ -3544,6 +3588,53 @@ describe('field requests', () => {
       summary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
     });
     expect(getHandLensNotebookFit(context, 'reindeer-lichen')).toBe('Notebook fit: rime source');
+  });
+
+  it('reframes Forest Release as Cool Release during the wet forest revisit window', () => {
+    const context = createForestContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+        'source-to-shore-source-shelter',
+      ],
+      'seep-pocket',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits.forest = 2;
+
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'forest-release',
+      title: 'Cool Release',
+      worldMapLabel: 'Today: Cool Release',
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      routeBoardSummary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+      liveAtlasNote: 'Cool Release: trace seep, roots, cool forest.',
+      cardTitle: 'COOL RELEASE',
+      cardSummary: 'Mist highlights seep, root filter, and cool release.',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-forest-release',
+      title: 'Cool Release',
+      summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
+    });
+    expect(getHandLensNotebookFit(context, 'seep-moss-mat')).toBe('Notebook fit: seep hold');
+    expect(prefersHandLensActiveRouteEntry(context, 'seep-moss-mat')).toBe(true);
+    expect(prefersHandLensActiveRouteEntry(context, 'seep-stone')).toBe(false);
+
+    context.save.routeV2Progress = {
+      requestId: 'source-to-shore-forest-release',
+      status: 'gathering',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'seep-hold', entryId: 'seep-moss-mat' },
+        { slotId: 'root-filter', entryId: 'root-curtain' },
+      ],
+    };
+    context.currentZoneId = 'creek-bend';
+    expect(getHandLensNotebookFit(context, 'sword-fern')).toBe('Notebook fit: cool release');
+    expect(prefersHandLensActiveRouteEntry(context, 'sword-fern')).toBe(true);
+    expect(prefersHandLensActiveRouteEntry(context, 'salmonberry')).toBe(false);
   });
 
   it('keeps clue-backed filed note text stable when forest-cool-edge was reframed as Moist Edge', () => {
