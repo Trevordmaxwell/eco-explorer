@@ -172,6 +172,44 @@ describe('coastal scrub biome generation', () => {
     ]);
   });
 
+  it('leaves a coastal-catch memory pocket around the Dune Catch cool edge', () => {
+    const save = createNewSaveState('coastal-scrub-source-memory-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const coolEdge = instance.platforms.find((platform) => platform.id === 'dune-catch-cool-edge-shelf');
+    const memoryPlatforms = instance.platforms
+      .filter((platform) => platform.id.startsWith('source-memory-'))
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const memoryCarriers = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-source-memory-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }))
+      .sort((left, right) => left.x - right.x);
+
+    expect(memoryPlatforms).toEqual([
+      { id: 'source-memory-catch-root', x: 534, y: 112, w: 18 },
+      { id: 'source-memory-catch-shelf', x: 556, y: 108, w: 16 },
+    ]);
+    expect(memoryPlatforms[0]?.x).toBeLessThan(coolEdge?.x ?? 0);
+    expect(memoryPlatforms[1]?.x).toBeGreaterThan((memoryPlatforms[0]?.x ?? 0) + (memoryPlatforms[0]?.w ?? 0));
+    expect(memoryPlatforms[0]?.y).toBeGreaterThan(memoryPlatforms[1]?.y ?? 0);
+    expect((memoryPlatforms[1]?.x ?? 0) + (memoryPlatforms[1]?.w ?? 0)).toBeLessThan(
+      coastalScrubBiome.terrainRules.worldWidth - 60,
+    );
+    expect(memoryCarriers).toEqual([
+      { entryId: 'salmonberry', x: 536, y: 110 },
+      { entryId: 'sword-fern', x: 558, y: 112 },
+      { entryId: 'song-sparrow', x: 568, y: 104 },
+    ]);
+  });
+
   it('adds a lowered windbreak swale with an optional bluff lookout above the low route', () => {
     const save = createNewSaveState('coastal-scrub-proof-seed');
     const instance = generateBiomeInstance(coastalScrubBiome, save, 1);

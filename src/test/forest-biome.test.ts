@@ -431,6 +431,43 @@ describe('forest biome generation', () => {
     ]);
   });
 
+  it('adds a creek-bend forest-release memory pocket after the cool root lip', () => {
+    const save = createNewSaveState('forest-source-memory-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+    const creekRest = instance.platforms.find((platform) => platform.id === 'creek-cool-berry-rest');
+    const bridgeLog = instance.platforms.find((platform) => platform.id === 'forest-layer-bridge-log');
+    const memoryPlatforms = instance.platforms
+      .filter((platform) => platform.id.startsWith('source-memory-'))
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const memoryCarriers = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-source-memory-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+        castsShadow: entity.castsShadow ?? true,
+      }));
+
+    expect(memoryPlatforms).toEqual([
+      { id: 'source-memory-release-root', x: 586, y: 114, w: 18 },
+      { id: 'source-memory-release-log', x: 606, y: 110, w: 24 },
+    ]);
+    expect(memoryPlatforms[0]?.x).toBeGreaterThan((creekRest?.x ?? 0) + (creekRest?.w ?? 0));
+    expect(memoryPlatforms[1]?.x).toBeGreaterThan(memoryPlatforms[0]?.x ?? 0);
+    expect(memoryPlatforms[1]?.x).toBeLessThanOrEqual((bridgeLog?.x ?? 0) + (bridgeLog?.w ?? 0));
+    expect(memoryPlatforms[1]?.y).toBeLessThan(memoryPlatforms[0]?.y ?? 0);
+    expect(memoryCarriers).toEqual([
+      { entryId: 'seep-moss-mat', x: 590, y: 112, castsShadow: false },
+      { entryId: 'root-curtain', x: 610, y: 116, castsShadow: false },
+      { entryId: 'banana-slug', x: 622, y: 118, castsShadow: true },
+    ]);
+  });
+
   it('authors a bunchberry patch into the late forest floor near the old-growth approach', () => {
     const authoredBunchberry = forestBiome.terrainRules.authoredEntities?.filter((entity) => entity.entryId === 'bunchberry');
 

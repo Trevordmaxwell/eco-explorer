@@ -308,6 +308,22 @@ export const coastalScrubBiome: BiomeDefinition = {
         w: 28,
         h: 4,
       },
+      {
+        id: 'source-memory-catch-root',
+        spriteId: 'drift-platform',
+        x: 534,
+        y: 112,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'source-memory-catch-shelf',
+        spriteId: 'drift-platform',
+        x: 556,
+        y: 108,
+        w: 16,
+        h: 4,
+      },
     ],
     authoredEntities: [
       {
@@ -453,6 +469,24 @@ export const coastalScrubBiome: BiomeDefinition = {
         entryId: 'sword-fern',
         x: 590,
         y: 112,
+      },
+      {
+        id: 'source-memory-catch-fern',
+        entryId: 'sword-fern',
+        x: 558,
+        y: 112,
+      },
+      {
+        id: 'source-memory-catch-salmonberry',
+        entryId: 'salmonberry',
+        x: 536,
+        y: 110,
+      },
+      {
+        id: 'source-memory-catch-sparrow',
+        entryId: 'song-sparrow',
+        x: 568,
+        y: 104,
       },
     ],
   },

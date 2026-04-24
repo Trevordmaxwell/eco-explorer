@@ -7819,6 +7819,85 @@ describe('runtime smoke loop', () => {
     }
   });
 
+  it('keeps filed Source to Shore memory pockets readable without opening corridor prompts', () => {
+    const filedSourceToShoreRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+      'source-to-shore-dune-catch',
+    ];
+    const pocketProofs = [
+      {
+        biome: treelineBiome,
+        biomeId: 'treeline',
+        startPosition: { x: 558, y: 86 },
+        zoneId: 'lichen-fell',
+        noticeTitle: 'HIGH SOURCE',
+        entries: ['reindeer-lichen', 'frost-heave-boulder', 'rock-ptarmigan'],
+      },
+      {
+        biome: forestBiome,
+        biomeId: 'forest',
+        startPosition: { x: 606, y: 100 },
+        zoneId: 'creek-bend',
+        noticeTitle: 'FOREST RELEASE',
+        entries: ['seep-moss-mat', 'root-curtain', 'banana-slug'],
+      },
+      {
+        biome: coastalScrubBiome,
+        biomeId: 'coastal-scrub',
+        startPosition: { x: 548, y: 102 },
+        zoneId: 'forest-edge',
+        noticeTitle: 'COASTAL CATCH',
+        entries: ['salmonberry', 'sword-fern', 'song-sparrow'],
+      },
+    ] as const;
+
+    for (const proof of pocketProofs) {
+      const originalStartPosition = { ...proof.biome.startPosition };
+      proof.biome.startPosition = proof.startPosition;
+
+      try {
+        const { window: fakeWindow, document } = installFakeDom();
+        const seededSave = createNewSaveState(`runtime-source-to-shore-pocket-${proof.biomeId}-seed`);
+        seededSave.completedFieldRequestIds = filedSourceToShoreRequestIds;
+        seededSave.lastBiomeId = proof.biomeId;
+        persistSave(seededSave);
+
+        const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+        const game = createGame(canvas, seededSave);
+
+        tapKey(fakeWindow, 'Enter');
+        game.enterBiome(proof.biomeId);
+
+        const state = advanceUntil(
+          fakeWindow,
+          (nextState) =>
+            nextState.fieldRequestNotice?.title === proof.noticeTitle &&
+            nextState.zoneId === proof.zoneId &&
+            (nextState.nearbyTravelTarget ?? null) === null &&
+            (nextState.nearbyDoor?.inRange ?? false) === false &&
+            proof.entries.every((entryId) =>
+              nextState.nearbyInspectables.some((entity: any) => entity.entryId === entryId),
+            ),
+          120,
+        );
+
+        expect(state.activeFieldRequest).toBeNull();
+        expect(state.fieldRequestNotice).toMatchObject({
+          title: proof.noticeTitle,
+          variant: 'default',
+        });
+        expect(state.nearbyTravelTarget ?? null).toBeNull();
+        expect(state.nearbyDoor?.inRange ?? false).toBe(false);
+        expect(state.nearestInspectableEntityId).not.toBeNull();
+      } finally {
+        proof.biome.startPosition = originalStartPosition;
+      }
+    }
+  });
+
   it('shows the treeline place-tab question once the edge line reaches Low Fell', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-place-tab-low-fell-seed');

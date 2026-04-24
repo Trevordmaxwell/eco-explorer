@@ -384,6 +384,44 @@ describe('treeline biome generation', () => {
     expect((fellRest?.x ?? 0) + (fellRest?.w ?? 0)).toBeLessThan(584);
   });
 
+  it('leaves a compact high-source memory pocket at the open-fell handoff', () => {
+    const save = createNewSaveState('treeline-source-memory-seed');
+    const instance = generateBiomeInstance(treelineBiome, save, 1);
+    const fellIslandRest = instance.platforms.find((platform) => platform.id === 'fell-island-rest');
+    const memoryPlatforms = instance.platforms
+      .filter((platform) => platform.id.startsWith('source-memory-'))
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const memoryCarriers = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-source-memory-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+        castsShadow: entity.castsShadow ?? true,
+      }));
+
+    expect(memoryPlatforms).toEqual([
+      { id: 'source-memory-rime-overlook', x: 538, y: 96, w: 24 },
+      { id: 'source-memory-stone-step', x: 566, y: 104, w: 18 },
+    ]);
+    expect(memoryPlatforms[0]?.x).toBeLessThan(fellIslandRest?.x ?? 999);
+    expect(memoryPlatforms[1]?.x).toBeGreaterThan((memoryPlatforms[0]?.x ?? 0) + (memoryPlatforms[0]?.w ?? 0));
+    expect(memoryPlatforms[0]?.y).toBeLessThan(memoryPlatforms[1]?.y ?? 0);
+    expect((memoryPlatforms[1]?.x ?? 0) + (memoryPlatforms[1]?.w ?? 0)).toBeLessThanOrEqual(
+      treelineBiome.terrainRules.worldWidth - 56,
+    );
+    expect(memoryCarriers).toEqual([
+      { entryId: 'reindeer-lichen', x: 548, y: 92, castsShadow: false },
+      { entryId: 'frost-heave-boulder', x: 570, y: 106, castsShadow: true },
+      { entryId: 'rock-ptarmigan', x: 580, y: 102, castsShadow: true },
+    ]);
+  });
+
   it('adds one compact Rime Brow overlook between Stone Shelter and the open-fell hold', () => {
     const rimeBrowPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
       ['lee-pocket-rime-rest', 'lee-pocket-rime-cap', 'lee-pocket-crest-brow', 'lee-pocket-fell-return'].includes(
@@ -558,6 +596,13 @@ describe('treeline biome generation', () => {
         entryId: 'moss-campion',
         x: 578,
         y: 96,
+        castsShadow: false,
+      },
+      {
+        id: 'source-memory-rime-lichen',
+        entryId: 'reindeer-lichen',
+        x: 548,
+        y: 92,
         castsShadow: false,
       },
     ]);

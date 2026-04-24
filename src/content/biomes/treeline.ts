@@ -344,6 +344,22 @@ export const treelineBiome: BiomeDefinition = {
         w: 16,
         h: 4,
       },
+      {
+        id: 'source-memory-rime-overlook',
+        spriteId: 'granite-platform',
+        x: 538,
+        y: 96,
+        w: 24,
+        h: 4,
+      },
+      {
+        id: 'source-memory-stone-step',
+        spriteId: 'granite-platform',
+        x: 566,
+        y: 104,
+        w: 18,
+        h: 4,
+      },
     ],
     authoredEntities: [
       {
@@ -479,6 +495,25 @@ export const treelineBiome: BiomeDefinition = {
         x: 578,
         y: 96,
         castsShadow: false,
+      },
+      {
+        id: 'source-memory-rime-lichen',
+        entryId: 'reindeer-lichen',
+        x: 548,
+        y: 92,
+        castsShadow: false,
+      },
+      {
+        id: 'source-memory-stone-boulder',
+        entryId: 'frost-heave-boulder',
+        x: 570,
+        y: 106,
+      },
+      {
+        id: 'source-memory-fell-ptarmigan',
+        entryId: 'rock-ptarmigan',
+        x: 580,
+        y: 102,
       },
     ],
   },
