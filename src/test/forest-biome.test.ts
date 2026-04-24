@@ -371,6 +371,66 @@ describe('forest biome generation', () => {
     });
   });
 
+  it('adds a layered forest traversal spread from fern shade to creek cover and the giant-tree foot', () => {
+    const save = createNewSaveState('forest-layered-route-spread-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+    const layeredPlatformIds = [
+      'fern-shade-root-lip',
+      'fern-shade-moss-log',
+      'creek-cool-root-lip',
+      'creek-cool-berry-rest',
+      'giant-floor-seed-log',
+      'giant-floor-cavity-rest',
+    ];
+    const layeredPlatforms = instance.platforms
+      .filter((platform) => layeredPlatformIds.includes(platform.id))
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const layeredCarriers = instance.entities
+      .filter(
+        (entity) =>
+          entity.entityId.startsWith('authored-fern-shade') ||
+          entity.entityId.startsWith('authored-creek-cool') ||
+          entity.entityId.startsWith('authored-giant-floor'),
+      )
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+        castsShadow: entity.castsShadow ?? true,
+      }));
+
+    expect(layeredPlatforms).toEqual([
+      { id: 'fern-shade-root-lip', x: 174, y: 112, w: 20 },
+      { id: 'fern-shade-moss-log', x: 204, y: 106, w: 24 },
+      { id: 'creek-cool-root-lip', x: 532, y: 112, w: 18 },
+      { id: 'creek-cool-berry-rest', x: 558, y: 108, w: 22 },
+      { id: 'giant-floor-seed-log', x: 712, y: 158, w: 22 },
+      { id: 'giant-floor-cavity-rest', x: 740, y: 150, w: 20 },
+    ]);
+    expect(layeredPlatforms[1]?.y).toBeLessThan(layeredPlatforms[0]?.y ?? 0);
+    expect(layeredPlatforms[3]?.y).toBeLessThan(layeredPlatforms[2]?.y ?? 0);
+    expect(layeredPlatforms[5]?.y).toBeLessThan(layeredPlatforms[4]?.y ?? 0);
+    expect(layeredCarriers).toEqual([
+      { entryId: 'western-trillium', x: 178, y: 104, castsShadow: true },
+      { entryId: 'sword-fern', x: 204, y: 102, castsShadow: true },
+      { entryId: 'redwood-sorrel', x: 222, y: 108, castsShadow: true },
+      { entryId: 'steller-jay', x: 242, y: 102, castsShadow: true },
+      { entryId: 'salmonberry', x: 536, y: 108, castsShadow: true },
+      { entryId: 'sword-fern', x: 556, y: 108, castsShadow: true },
+      { entryId: 'banana-slug', x: 574, y: 112, castsShadow: true },
+      { entryId: 'redwood-sorrel', x: 592, y: 106, castsShadow: true },
+      { entryId: 'western-hemlock-seedling', x: 716, y: 146, castsShadow: true },
+      { entryId: 'red-huckleberry', x: 730, y: 156, castsShadow: true },
+      { entryId: 'woodpecker-cavity', x: 746, y: 140, castsShadow: false },
+      { entryId: 'licorice-fern', x: 758, y: 132, castsShadow: false },
+    ]);
+  });
+
   it('authors a bunchberry patch into the late forest floor near the old-growth approach', () => {
     const authoredBunchberry = forestBiome.terrainRules.authoredEntities?.filter((entity) => entity.entryId === 'bunchberry');
 
@@ -626,6 +686,7 @@ describe('forest biome generation', () => {
     const barkNote = forestBiome.ecosystemNotes.find((note) => note.id === 'old-growth-bark-life');
     const canopyNote = forestBiome.ecosystemNotes.find((note) => note.id === 'forests-above');
     const seepNote = forestBiome.ecosystemNotes.find((note) => note.id === 'seep-wall-garden');
+    const layeredNote = forestBiome.ecosystemNotes.find((note) => note.id === 'layered-forest-path');
 
     expect(nurseryNote).toMatchObject({
       title: 'Old-Wood Nursery',
@@ -649,6 +710,12 @@ describe('forest biome generation', () => {
       minimumDiscoveries: 2,
       entryIds: ['seep-moss-mat', 'seep-stone', 'tree-lungwort'],
       zoneId: 'stone-basin',
+    });
+    expect(layeredNote).toMatchObject({
+      title: 'Layered Forest Path',
+      minimumDiscoveries: 2,
+      entryIds: ['western-trillium', 'salmonberry', 'western-hemlock-seedling'],
+      zoneId: 'creek-bend',
     });
   });
 

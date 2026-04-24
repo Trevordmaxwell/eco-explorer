@@ -218,6 +218,17 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('creekside-shelter');
   });
 
+  it('supports the layered forest path note through the fern-to-creek pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'salmonberry',
+      ['western-trillium', 'salmonberry'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('layered-forest-path');
+  });
+
   it('supports the new forest root-held shelter note once off-ground moisture clues overlap', () => {
     const resolved = resolveEcosystemNoteForEntry(
       forestBiome,

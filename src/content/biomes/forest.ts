@@ -294,6 +294,22 @@ export const forestBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'fern-shade-root-lip',
+        spriteId: 'log-platform',
+        x: 174,
+        y: 112,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'fern-shade-moss-log',
+        spriteId: 'log-platform',
+        x: 204,
+        y: 106,
+        w: 24,
+        h: 4,
+      },
+      {
         id: 'root-hollow-entry-log',
         spriteId: 'log-platform',
         x: 286,
@@ -382,6 +398,22 @@ export const forestBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'creek-cool-root-lip',
+        spriteId: 'log-platform',
+        x: 532,
+        y: 112,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'creek-cool-berry-rest',
+        spriteId: 'log-platform',
+        x: 558,
+        y: 108,
+        w: 22,
+        h: 4,
+      },
+      {
         id: 'old-growth-root-log',
         spriteId: 'log-platform',
         x: 640,
@@ -395,6 +427,22 @@ export const forestBiome: BiomeDefinition = {
         x: 662,
         y: 144,
         w: 24,
+        h: 4,
+      },
+      {
+        id: 'giant-floor-seed-log',
+        spriteId: 'log-platform',
+        x: 712,
+        y: 158,
+        w: 22,
+        h: 4,
+      },
+      {
+        id: 'giant-floor-cavity-rest',
+        spriteId: 'log-platform',
+        x: 740,
+        y: 150,
+        w: 20,
         h: 4,
       },
       {
@@ -640,6 +688,30 @@ export const forestBiome: BiomeDefinition = {
     ],
     authoredEntities: [
       {
+        id: 'fern-shade-trillium',
+        entryId: 'western-trillium',
+        x: 178,
+        y: 104,
+      },
+      {
+        id: 'fern-shade-sword-fern',
+        entryId: 'sword-fern',
+        x: 204,
+        y: 102,
+      },
+      {
+        id: 'fern-shade-sorrel',
+        entryId: 'redwood-sorrel',
+        x: 222,
+        y: 108,
+      },
+      {
+        id: 'fern-shade-steller-jay',
+        entryId: 'steller-jay',
+        x: 242,
+        y: 102,
+      },
+      {
         id: 'root-hollow-licorice-trunk',
         entryId: 'licorice-fern',
         x: 324,
@@ -740,6 +812,30 @@ export const forestBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'creek-cool-salmonberry',
+        entryId: 'salmonberry',
+        x: 536,
+        y: 108,
+      },
+      {
+        id: 'creek-cool-sword-fern',
+        entryId: 'sword-fern',
+        x: 556,
+        y: 108,
+      },
+      {
+        id: 'creek-cool-slug',
+        entryId: 'banana-slug',
+        x: 574,
+        y: 112,
+      },
+      {
+        id: 'creek-cool-sorrel',
+        entryId: 'redwood-sorrel',
+        x: 592,
+        y: 106,
+      },
+      {
         id: 'old-growth-sorrel-base',
         entryId: 'redwood-sorrel',
         x: 640,
@@ -788,6 +884,32 @@ export const forestBiome: BiomeDefinition = {
         entryId: 'western-hemlock-seedling',
         x: 674,
         y: 136,
+      },
+      {
+        id: 'giant-floor-hemlock',
+        entryId: 'western-hemlock-seedling',
+        x: 716,
+        y: 146,
+      },
+      {
+        id: 'giant-floor-huckleberry',
+        entryId: 'red-huckleberry',
+        x: 730,
+        y: 156,
+      },
+      {
+        id: 'giant-floor-cavity',
+        entryId: 'woodpecker-cavity',
+        x: 746,
+        y: 140,
+        castsShadow: false,
+      },
+      {
+        id: 'giant-floor-licorice',
+        entryId: 'licorice-fern',
+        x: 758,
+        y: 132,
+        castsShadow: false,
       },
       {
         id: 'old-growth-crown-beard',
@@ -1204,6 +1326,17 @@ export const forestBiome: BiomeDefinition = {
         'At wetter forest edges, berries and low leaves show where cool cover still holds.',
       observationPrompt:
         'What here looks held by cool, wet cover?',
+      zoneId: 'creek-bend',
+    },
+    {
+      id: 'layered-forest-path',
+      title: 'Layered Forest Path',
+      entryIds: ['western-trillium', 'salmonberry', 'western-hemlock-seedling'],
+      minimumDiscoveries: 2,
+      summary:
+        'Shade flowers, creek berries, and old wood starts show the forest changing in layers.',
+      observationPrompt:
+        'Where does soft floor turn into old wood?',
       zoneId: 'creek-bend',
     },
     {
