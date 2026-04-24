@@ -25,6 +25,7 @@ import {
   resolveFieldSeasonExpeditionState,
   resolveSeasonOutingLocator,
 } from './field-season-board';
+import { resolveSourceToShoreRevisitMemory } from './source-to-shore-state';
 import {
   getJumpSpeed,
   getFieldUpgradeStates,
@@ -1439,6 +1440,19 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     showFieldNotice(routeBoard.replayNote.title, routeBoard.replayNote.text, FIELD_NOTICE_IMPORTANT_SECONDS);
   }
 
+  function maybeShowSourceToShoreRevisitNoticeOnBiomeEnter(biomeId: string): void {
+    if (overlayMode !== 'playing' || fieldRequestNotice) {
+      return;
+    }
+
+    const memory = resolveSourceToShoreRevisitMemory(save, biomeId);
+    if (!memory) {
+      return;
+    }
+
+    showFieldNotice(memory.title, memory.text, FIELD_NOTICE_IMPORTANT_SECONDS);
+  }
+
   function maybeCompleteActiveFieldRequest(
     trigger: 'zone' | 'inspect' | 'enter-biome',
     entryId?: string | null,
@@ -1776,6 +1790,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     persistSave(save);
     maybeCompleteActiveFieldRequest('enter-biome');
     maybeShowRouteReplayNoticeOnBiomeEnter(biomeId);
+    maybeShowSourceToShoreRevisitNoticeOnBiomeEnter(biomeId);
     maybeShowSeasonCapstoneNoticeOnBiomeEnter(biomeId);
   }
 

@@ -7761,6 +7761,64 @@ describe('runtime smoke loop', () => {
     });
   });
 
+  it('shows quiet Source to Shore memory notices when revisiting filed chapter habitats', () => {
+    const filedSourceToShoreRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+      'source-to-shore-dune-catch',
+    ];
+    const revisitProofs = [
+      {
+        biomeId: 'treeline',
+        title: 'HIGH SOURCE',
+        text: 'High rime, stone shelter, and talus hold mark where the route began.',
+      },
+      {
+        biomeId: 'forest',
+        title: 'FOREST RELEASE',
+        text: 'Seep, root filter, and shade carry the route downhill through forest cover.',
+      },
+      {
+        biomeId: 'coastal-scrub',
+        title: 'COASTAL CATCH',
+        text: 'Dune grass, swale shrubs, and cool edge catch the route at the shore.',
+      },
+    ] as const;
+
+    for (const proof of revisitProofs) {
+      const { window: fakeWindow, document } = installFakeDom();
+      const seededSave = createNewSaveState(`runtime-source-to-shore-memory-${proof.biomeId}-seed`);
+      seededSave.completedFieldRequestIds = filedSourceToShoreRequestIds;
+      seededSave.lastBiomeId = proof.biomeId;
+      persistSave(seededSave);
+
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome(proof.biomeId);
+
+      const state = readState(fakeWindow);
+      expect(state.activeFieldRequest).toBeNull();
+      expect(state.fieldRequestNotice).toMatchObject({
+        title: proof.title,
+        text: proof.text,
+        variant: 'default',
+      });
+      expect(state.fieldStation?.routeBoard).toMatchObject({
+        complete: true,
+        targetBiomeId: null,
+        launchCard: {
+          title: 'SOURCE TO SHORE',
+          progressLabel: 'FILED',
+        },
+      });
+      expect(state.worldMap).toBeNull();
+    }
+  });
+
   it('shows the treeline place-tab question once the edge line reaches Low Fell', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-place-tab-low-fell-seed');

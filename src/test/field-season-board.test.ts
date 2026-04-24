@@ -20,7 +20,10 @@ import {
   resolveHighPassChapterState,
   resolveHighPassFiledArcCopy,
 } from '../engine/high-pass-chapter-state';
-import { resolveSourceToShoreState } from '../engine/source-to-shore-state';
+import {
+  resolveSourceToShoreRevisitMemory,
+  resolveSourceToShoreState,
+} from '../engine/source-to-shore-state';
 import { createNewSaveState, normalizeSaveState, recordDiscovery } from '../engine/save';
 import type { OutingSupportId, SaveState } from '../engine/types';
 
@@ -1778,6 +1781,22 @@ describe('field season board', () => {
       noticeText:
         'Source to Shore filed. High source, forest release, and coastal catch now connect.',
     });
+    expect(resolveSourceToShoreRevisitMemory(save, 'treeline')).toEqual({
+      biomeId: 'treeline',
+      title: 'HIGH SOURCE',
+      text: 'High rime, stone shelter, and talus hold mark where the route began.',
+    });
+    expect(resolveSourceToShoreRevisitMemory(save, 'forest')).toEqual({
+      biomeId: 'forest',
+      title: 'FOREST RELEASE',
+      text: 'Seep, root filter, and shade carry the route downhill through forest cover.',
+    });
+    expect(resolveSourceToShoreRevisitMemory(save, 'coastal-scrub')).toEqual({
+      biomeId: 'coastal-scrub',
+      title: 'COASTAL CATCH',
+      text: 'Dune grass, swale shrubs, and cool edge catch the route at the shore.',
+    });
+    expect(resolveSourceToShoreRevisitMemory(save, 'beach')).toBeNull();
   });
 
   it('keeps filed High Pass epilogue copy buckets explicit', () => {

@@ -17,6 +17,12 @@ export const SOURCE_TO_SHORE_VERTICAL_SLICE_REQUEST_ID = SOURCE_TO_SHORE_SOURCE_
 export type SourceToShoreBeat = 'source-shelter' | 'forest-release' | 'dune-catch';
 export type SourceToShorePhase = 'active' | 'ready-to-file' | 'filed';
 
+export interface SourceToShoreRevisitMemory {
+  biomeId: SourceToShoreTargetBiomeId;
+  title: 'HIGH SOURCE' | 'FOREST RELEASE' | 'COASTAL CATCH';
+  text: string;
+}
+
 export interface SourceToShoreState {
   beat: SourceToShoreBeat;
   requestId:
@@ -89,6 +95,39 @@ export function resolveSourceToShoreState(save: SaveState): SourceToShoreState |
   }
 
   return resolveSourceShelterState('active', save);
+}
+
+export function resolveSourceToShoreRevisitMemory(
+  save: SaveState,
+  biomeId: string,
+): SourceToShoreRevisitMemory | null {
+  const sourceToShoreState = resolveSourceToShoreState(save);
+  if (sourceToShoreState?.phase !== 'filed') {
+    return null;
+  }
+
+  switch (biomeId) {
+    case 'treeline':
+      return {
+        biomeId,
+        title: 'HIGH SOURCE',
+        text: 'High rime, stone shelter, and talus hold mark where the route began.',
+      };
+    case 'forest':
+      return {
+        biomeId,
+        title: 'FOREST RELEASE',
+        text: 'Seep, root filter, and shade carry the route downhill through forest cover.',
+      };
+    case 'coastal-scrub':
+      return {
+        biomeId,
+        title: 'COASTAL CATCH',
+        text: 'Dune grass, swale shrubs, and cool edge catch the route at the shore.',
+      };
+    default:
+      return null;
+  }
 }
 
 function hasActiveProcess(save: SaveState, biomeId: SourceToShoreTargetBiomeId, processId: string): boolean {
