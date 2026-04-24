@@ -241,6 +241,22 @@ export const treelineBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'heath-thread-low-stone',
+        spriteId: 'granite-platform',
+        x: 398,
+        y: 122,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'heath-thread-berry-shelf',
+        spriteId: 'granite-platform',
+        x: 484,
+        y: 118,
+        w: 24,
+        h: 4,
+      },
+      {
         id: 'lee-pocket-upper-shelf',
         spriteId: 'granite-platform',
         x: 294,
@@ -382,6 +398,30 @@ export const treelineBiome: BiomeDefinition = {
         id: 'dwarf-shelter-ptarmigan',
         entryId: 'rock-ptarmigan',
         x: 474,
+        y: 112,
+      },
+      {
+        id: 'heath-thread-heather',
+        entryId: 'white-arctic-mountain-heather',
+        x: 404,
+        y: 116,
+      },
+      {
+        id: 'heath-thread-lingonberry',
+        entryId: 'lingonberry',
+        x: 420,
+        y: 116,
+      },
+      {
+        id: 'heath-thread-ermine',
+        entryId: 'ermine',
+        x: 490,
+        y: 112,
+      },
+      {
+        id: 'heath-thread-ptarmigan',
+        entryId: 'rock-ptarmigan',
+        x: 500,
         y: 112,
       },
       {
@@ -730,6 +770,17 @@ export const treelineBiome: BiomeDefinition = {
       observationPrompt:
         'What still feels like forest floor here?',
       zoneId: 'krummholz-belt',
+    },
+    {
+      id: 'heath-thread',
+      title: 'Heath Thread',
+      entryIds: ['white-arctic-mountain-heather', 'lingonberry', 'ermine', 'rock-ptarmigan'],
+      minimumDiscoveries: 2,
+      summary:
+        'Low heaths and berries make a sheltered thread animals can slip through before open fell.',
+      observationPrompt:
+        'Where does cover thin before open fell?',
+      zoneId: 'dwarf-shrub',
     },
   ],
   verticalCues: [

@@ -282,6 +282,68 @@ describe('treeline biome generation', () => {
     ]);
   });
 
+  it('adds a low heath thread through the dwarf-shrub band before open fell', () => {
+    const heathThreadPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      platform.id.startsWith('heath-thread-'),
+    );
+    const heathThreadCarriers = treelineBiome.terrainRules.authoredEntities?.filter((entity) =>
+      entity.id.startsWith('heath-thread-'),
+    );
+    const heathThreadNote = treelineBiome.ecosystemNotes.find((note) => note.id === 'heath-thread');
+
+    expect(heathThreadPlatforms).toEqual([
+      {
+        id: 'heath-thread-low-stone',
+        spriteId: 'granite-platform',
+        x: 398,
+        y: 122,
+        w: 20,
+        h: 4,
+      },
+      {
+        id: 'heath-thread-berry-shelf',
+        spriteId: 'granite-platform',
+        x: 484,
+        y: 118,
+        w: 24,
+        h: 4,
+      },
+    ]);
+    expect(heathThreadCarriers).toEqual([
+      {
+        id: 'heath-thread-heather',
+        entryId: 'white-arctic-mountain-heather',
+        x: 404,
+        y: 116,
+      },
+      {
+        id: 'heath-thread-lingonberry',
+        entryId: 'lingonberry',
+        x: 420,
+        y: 116,
+      },
+      {
+        id: 'heath-thread-ermine',
+        entryId: 'ermine',
+        x: 490,
+        y: 112,
+      },
+      {
+        id: 'heath-thread-ptarmigan',
+        entryId: 'rock-ptarmigan',
+        x: 500,
+        y: 112,
+      },
+    ]);
+    expect(heathThreadPlatforms?.[0]?.x ?? 0).toBeGreaterThan(390);
+    expect(heathThreadPlatforms?.[1]?.x ?? 0).toBeLessThanOrEqual(504);
+    expect(heathThreadNote).toMatchObject({
+      title: 'Heath Thread',
+      entryIds: ['white-arctic-mountain-heather', 'lingonberry', 'ermine', 'rock-ptarmigan'],
+      zoneId: 'dwarf-shrub',
+    });
+  });
+
   it('adds one compact open-fell island before the tundra handoff', () => {
     const openFellPlatforms = treelineBiome.terrainRules.authoredPlatforms?.filter((platform) =>
       ['lee-pocket-lee-rest', 'fell-island-step', 'fell-island-rest'].includes(platform.id),
