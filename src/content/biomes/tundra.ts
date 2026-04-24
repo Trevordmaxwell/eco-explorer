@@ -298,10 +298,26 @@ export const tundraBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'melt-thread-sedge-step',
+        spriteId: 'ice-platform',
+        x: 562,
+        y: 106,
+        w: 18,
+        h: 4,
+      },
+      {
         id: 'meltwater-bank-rest',
         spriteId: 'ice-platform',
         x: 574,
         y: 112,
+        w: 26,
+        h: 4,
+      },
+      {
+        id: 'melt-thread-tuft-rest',
+        spriteId: 'ice-platform',
+        x: 604,
+        y: 108,
         w: 26,
         h: 4,
       },
@@ -400,6 +416,18 @@ export const tundraBiome: BiomeDefinition = {
         castsShadow: false,
       },
       {
+        id: 'melt-thread-lemming',
+        entryId: 'northern-collared-lemming',
+        x: 556,
+        y: 114,
+      },
+      {
+        id: 'melt-thread-bunting',
+        entryId: 'snow-bunting',
+        x: 566,
+        y: 102,
+      },
+      {
         id: 'meltwater-bank-willow',
         entryId: 'arctic-willow',
         x: 582,
@@ -410,6 +438,18 @@ export const tundraBiome: BiomeDefinition = {
         entryId: 'cottongrass',
         x: 592,
         y: 109,
+      },
+      {
+        id: 'melt-thread-cottongrass',
+        entryId: 'cottongrass',
+        x: 614,
+        y: 108,
+      },
+      {
+        id: 'melt-thread-cloudberry',
+        entryId: 'cloudberry',
+        x: 628,
+        y: 108,
       },
       {
         id: 'frost-ridge-hummock',
@@ -716,6 +756,17 @@ export const tundraBiome: BiomeDefinition = {
       observationPrompt:
         'What here keeps thaw water low and slow?',
       zoneId: 'thaw-skirt',
+    },
+    {
+      id: 'meltwater-thread',
+      title: 'Meltwater Thread',
+      entryIds: ['tussock-thaw-channel', 'cottongrass', 'snow-bunting', 'cloudberry'],
+      minimumDiscoveries: 2,
+      summary:
+        'Wet tufts, quick fruit, and birds cluster where meltwater briefly lingers.',
+      observationPrompt:
+        'What gathers near the last wet thread?',
+      zoneId: 'meltwater-edge',
     },
   ],
   phenology: {

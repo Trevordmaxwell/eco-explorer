@@ -564,6 +564,68 @@ describe('tundra biome generation', () => {
     ]);
   });
 
+  it('adds a meltwater thread pocket that gathers wet-edge plants and animals after the snow lip', () => {
+    const threadPlatforms = tundraBiome.terrainRules.authoredPlatforms?.filter((platform) =>
+      platform.id.startsWith('melt-thread-'),
+    );
+    const threadEntities = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
+      entity.id.startsWith('melt-thread-'),
+    );
+    const meltwaterThreadNote = tundraBiome.ecosystemNotes.find((note) => note.id === 'meltwater-thread');
+
+    expect(threadPlatforms).toEqual([
+      {
+        id: 'melt-thread-sedge-step',
+        spriteId: 'ice-platform',
+        x: 562,
+        y: 106,
+        w: 18,
+        h: 4,
+      },
+      {
+        id: 'melt-thread-tuft-rest',
+        spriteId: 'ice-platform',
+        x: 604,
+        y: 108,
+        w: 26,
+        h: 4,
+      },
+    ]);
+    expect(threadEntities).toEqual([
+      {
+        id: 'melt-thread-lemming',
+        entryId: 'northern-collared-lemming',
+        x: 556,
+        y: 114,
+      },
+      {
+        id: 'melt-thread-bunting',
+        entryId: 'snow-bunting',
+        x: 566,
+        y: 102,
+      },
+      {
+        id: 'melt-thread-cottongrass',
+        entryId: 'cottongrass',
+        x: 614,
+        y: 108,
+      },
+      {
+        id: 'melt-thread-cloudberry',
+        entryId: 'cloudberry',
+        x: 628,
+        y: 108,
+      },
+    ]);
+    expect(threadPlatforms?.[0]?.x ?? 0).toBeGreaterThan(540);
+    expect(threadPlatforms?.[1]?.x ?? 0).toBeGreaterThan((threadPlatforms?.[0]?.x ?? 0) + (threadPlatforms?.[0]?.w ?? 0));
+    expect(meltwaterThreadNote).toMatchObject({
+      title: 'Meltwater Thread',
+      entryIds: ['tussock-thaw-channel', 'cottongrass', 'snow-bunting', 'cloudberry'],
+      zoneId: 'meltwater-edge',
+    });
+  });
+
   it('authors exposed tundra anchors on both the wind bluff and frost ridge', () => {
     const exposedAnchors = tundraBiome.terrainRules.authoredEntities?.filter((entity) =>
       [
