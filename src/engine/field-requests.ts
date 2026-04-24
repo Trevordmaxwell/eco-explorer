@@ -734,6 +734,41 @@ export const FIELD_REQUEST_DEFINITIONS: readonly FieldRequestDefinition[] = [
     },
     completionTriggers: ['inspect'],
   },
+  {
+    id: 'source-to-shore-dune-catch',
+    biomeId: 'coastal-scrub',
+    title: 'Dune Catch',
+    summary: 'In Coastal Scrub, log dune catch, swale hold, and cool edge as Source to Shore reaches coast.',
+    unlockAfter: ['source-to-shore-forest-release'],
+    type: 'assemble-evidence',
+    zoneIds: ['back-dune', 'windbreak-swale', 'forest-edge'],
+    evidenceSlots: [
+      {
+        id: 'dune-catch',
+        label: 'Dune-catch clue',
+        entryIds: ['beach-grass', 'dune-lupine'],
+      },
+      {
+        id: 'swale-hold',
+        label: 'Swale-hold clue',
+        entryIds: ['pacific-wax-myrtle', 'coyote-brush'],
+      },
+      {
+        id: 'cool-edge',
+        label: 'Cool-edge clue',
+        entryIds: ['salmonberry', 'sword-fern'],
+      },
+    ],
+    slotOrder: ['dune-catch', 'swale-hold', 'cool-edge'],
+    routeV2Note: {
+      readyTitle: 'NOTEBOOK READY',
+      readyText: 'Return to the field station and file the Dune Catch note.',
+      filedText:
+        'Dune catch, swale hold, and cool edge show Source to Shore reaching the coastal shelter line.',
+      clueBackedTail: 'show Source to Shore reaching the coastal shelter line.',
+    },
+    completionTriggers: ['inspect'],
+  },
 ] as const;
 
 export function getFieldRequestDefinition(

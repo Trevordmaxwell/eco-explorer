@@ -838,6 +838,54 @@ function createRouteMatrixCases(): RouteMatrixCase[] {
         'Salmonberry',
         'forest shelter',
       ],
+      expectedNextRequestId: 'source-to-shore-dune-catch',
+    },
+    {
+      name: 'Dune Catch',
+      requestId: 'source-to-shore-dune-catch',
+      createContext: () => createCoastalContext(
+        [
+          ...HIGH_PASS_COMPLETED,
+          'treeline-high-pass',
+          'source-to-shore-source-shelter',
+          'source-to-shore-forest-release',
+        ],
+        'back-dune',
+      ),
+      activeTitle: 'Dune Catch',
+      activeProgressLabel: '0/3 clues',
+      blockedProbe: { zoneId: 'forest-edge', entryId: 'salmonberry' },
+      steps: [
+        {
+          zoneId: 'back-dune',
+          entryId: 'beach-grass',
+          expectedSlots: [{ slotId: 'dune-catch', entryId: 'beach-grass' }],
+        },
+        {
+          zoneId: 'windbreak-swale',
+          entryId: 'pacific-wax-myrtle',
+          expectedSlots: [
+            { slotId: 'dune-catch', entryId: 'beach-grass' },
+            { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+          ],
+        },
+        {
+          zoneId: 'forest-edge',
+          entryId: 'salmonberry',
+          expectedSlots: [
+            { slotId: 'dune-catch', entryId: 'beach-grass' },
+            { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+            { slotId: 'cool-edge', entryId: 'salmonberry' },
+          ],
+        },
+      ],
+      readyText: 'Return to the field station and file the Dune Catch note.',
+      expectedFiledTextIncludes: [
+        'American Dunegrass',
+        'Pacific Wax Myrtle',
+        'Salmonberry',
+        'coastal shelter line',
+      ],
       expectedNextRequestId: null,
     },
   ];
@@ -3564,7 +3612,74 @@ describe('field requests', () => {
     });
     expect(fileReadyRouteV2FieldRequest(context.save)).toBe('source-to-shore-forest-release');
     expect(resolveSourceToShoreState(context.save)).toMatchObject({
-      beat: 'forest-release',
+      beat: 'dune-catch',
+      phase: 'active',
+      progressLabel: 'BETA',
+      isActiveOuting: true,
+      targetBiomeId: 'coastal-scrub',
+    });
+  });
+
+  it('carries Source to Shore into Dune Catch after Forest Release is filed', () => {
+    const context = createCoastalContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+        'source-to-shore-source-shelter',
+        'source-to-shore-forest-release',
+      ],
+      'back-dune',
+    );
+
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'dune-catch',
+      phase: 'active',
+      isActiveOuting: true,
+      progressLabel: 'BETA',
+      targetBiomeId: 'coastal-scrub',
+    });
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+      summary: 'In Coastal Scrub, log dune catch, swale hold, and cool edge as Source to Shore reaches coast.',
+      progressLabel: '0/3 clues',
+    });
+
+    expect(getHandLensNotebookFit(context, 'salmonberry')).toBeNull();
+    expect(getHandLensNotebookFit(context, 'beach-grass')).toBe('Notebook fit: dune catch');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-grass')).toBeNull();
+
+    context.currentZoneId = 'windbreak-swale';
+    expect(getHandLensNotebookFit(context, 'pacific-wax-myrtle')).toBe('Notebook fit: swale hold');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'pacific-wax-myrtle')).toBeNull();
+
+    context.currentZoneId = 'forest-edge';
+    expect(getHandLensNotebookFit(context, 'salmonberry')).toBe('Notebook fit: cool edge');
+    expect(advanceActiveFieldRequest(context, 'inspect', 'salmonberry')).toMatchObject({
+      requestId: 'source-to-shore-dune-catch',
+      status: 'ready-to-synthesize',
+      noticeTitle: 'NOTEBOOK READY',
+      noticeText: 'Return to the field station and file the Dune Catch note.',
+    });
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+        filedText:
+          'American Dunegrass, Pacific Wax Myrtle, and Salmonberry show Source to Shore reaching the coastal shelter line.',
+      },
+    });
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'dune-catch',
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+    });
+    expect(fileReadyRouteV2FieldRequest(context.save)).toBe('source-to-shore-dune-catch');
+    expect(resolveSourceToShoreState(context.save)).toMatchObject({
+      beat: 'dune-catch',
       phase: 'filed',
       isActiveOuting: false,
     });

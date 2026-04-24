@@ -390,7 +390,27 @@ describe('debug save snapshots', () => {
       ],
     });
     expect(resolveSourceToShoreState(snapshots['source-to-shore-forest-release-filed'])).toMatchObject({
-      beat: 'forest-release',
+      beat: 'dune-catch',
+      phase: 'active',
+      progressLabel: 'BETA',
+      isActiveOuting: true,
+    });
+    expect(resolveSourceToShoreState(snapshots['source-to-shore-dune-catch-ready-to-file'])).toMatchObject({
+      beat: 'dune-catch',
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+    });
+    expect(snapshots['source-to-shore-dune-catch-ready-to-file'].routeV2Progress).toMatchObject({
+      requestId: 'source-to-shore-dune-catch',
+      status: 'ready-to-synthesize',
+      evidenceSlots: [
+        { slotId: 'dune-catch', entryId: 'beach-grass' },
+        { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'cool-edge', entryId: 'salmonberry' },
+      ],
+    });
+    expect(resolveSourceToShoreState(snapshots['source-to-shore-dune-catch-filed'])).toMatchObject({
+      beat: 'dune-catch',
       phase: 'filed',
       progressLabel: 'FILED',
       isActiveOuting: false,
@@ -932,6 +952,58 @@ describe('debug save snapshots', () => {
     expect(state.journal?.fieldRequest).toMatchObject({
       id: 'source-to-shore-forest-release',
       title: 'Cool Release',
+    });
+  });
+
+  it('boots filed Forest Release into the coastward Dune Catch focus', () => {
+    const fakeWindow = bootSnapshot('source-to-shore-forest-release-filed');
+
+    let state = readState(fakeWindow);
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+      progressLabel: 'Go To Coastal Scrub',
+    });
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: 'coastal-scrub',
+      nextDirection: 'Next: travel to Coastal Scrub and log dune catch, swale hold, and cool edge.',
+      launchCard: {
+        title: 'DUNE CATCH',
+        progressLabel: 'BETA',
+        summary: 'Coastal Scrub carries Source to Shore into the coast catch.',
+      },
+    });
+
+    state = openWorldMap(fakeWindow);
+    expect(state.worldMap?.focusedLocationId).toBe('coastal-scrub');
+    expect(state.worldMap?.routeMarkerLocationId).toBeNull();
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: Dune Catch');
+
+    state = openJournal(fakeWindow);
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+    });
+  });
+
+  it('boots filed Dune Catch into settled Source to Shore closure', () => {
+    const fakeWindow = bootSnapshot('source-to-shore-dune-catch-filed');
+
+    const state = readState(fakeWindow);
+    expect(state.activeFieldRequest).toBeNull();
+    expect(state.fieldStation?.seasonWrap).toEqual({
+      label: 'SEASON ARCHIVE',
+      text: 'Source Shelter, Forest Release, and Dune Catch link source to shore.',
+    });
+    expect(state.fieldStation?.atlas?.note).toBe('Dune Catch filed from Coastal Scrub.');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      targetBiomeId: null,
+      nextDirection: 'Source to Shore now links high source, forest release, and coastal catch.',
+      launchCard: {
+        title: 'DUNE CATCH',
+        progressLabel: 'FILED',
+        summary: 'Dune Catch filed from Coastal Scrub.',
+      },
     });
   });
 });

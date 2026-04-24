@@ -17,6 +17,8 @@ export const DEBUG_SAVE_SNAPSHOT_IDS = [
   'source-to-shore-filed',
   'source-to-shore-forest-release-ready-to-file',
   'source-to-shore-forest-release-filed',
+  'source-to-shore-dune-catch-ready-to-file',
+  'source-to-shore-dune-catch-filed',
 ] as const;
 
 export type DebugSaveSnapshotId = (typeof DEBUG_SAVE_SNAPSHOT_IDS)[number];
@@ -85,6 +87,12 @@ const SOURCE_TO_SHORE_FOREST_RELEASE_READY_EVIDENCE_SLOTS = [
   { slotId: 'seep-hold', entryId: 'seep-stone' },
   { slotId: 'root-filter', entryId: 'root-curtain' },
   { slotId: 'cool-release', entryId: 'salmonberry' },
+] as const;
+
+const SOURCE_TO_SHORE_DUNE_CATCH_READY_EVIDENCE_SLOTS = [
+  { slotId: 'dune-catch', entryId: 'beach-grass' },
+  { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+  { slotId: 'cool-edge', entryId: 'salmonberry' },
 ] as const;
 
 const FOREST_SURVEY_DISCOVERY_IDS = [
@@ -270,6 +278,31 @@ function createSourceToShoreForestReleaseFiledSave(): SaveState {
   return save;
 }
 
+function createSourceToShoreDuneCatchReadyToFileSave(): SaveState {
+  const save = createSourceToShoreForestReleaseFiledSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-dune-catch-ready-to-file';
+  save.lastBiomeId = 'coastal-scrub';
+  save.routeV2Progress = {
+    requestId: 'source-to-shore-dune-catch',
+    status: 'ready-to-synthesize',
+    landmarkEntryIds: [],
+    evidenceSlots: [...SOURCE_TO_SHORE_DUNE_CATCH_READY_EVIDENCE_SLOTS],
+  };
+  return save;
+}
+
+function createSourceToShoreDuneCatchFiledSave(): SaveState {
+  const save = createSourceToShoreForestReleaseFiledSave();
+  save.worldSeed = 'debug-snapshot-source-to-shore-dune-catch-filed';
+  save.lastBiomeId = 'coastal-scrub';
+  save.completedFieldRequestIds = [
+    ...save.completedFieldRequestIds,
+    'source-to-shore-dune-catch',
+  ];
+  save.routeV2Progress = null;
+  return save;
+}
+
 const DEBUG_SAVE_SNAPSHOT_DEFINITIONS: Record<DebugSaveSnapshotId, DebugSaveSnapshotDefinition> = {
   'first-session': {
     title: 'First Session',
@@ -343,8 +376,18 @@ const DEBUG_SAVE_SNAPSHOT_DEFINITIONS: Record<DebugSaveSnapshotId, DebugSaveSnap
   },
   'source-to-shore-forest-release-filed': {
     title: 'Source To Shore Forest Release Filed',
-    description: 'Forest Release is filed as the first downstream Source to Shore proof.',
+    description: 'Forest Release is filed and Dune Catch is the active coastward beta beat.',
     buildSave: createSourceToShoreForestReleaseFiledSave,
+  },
+  'source-to-shore-dune-catch-ready-to-file': {
+    title: 'Source To Shore Dune Catch Ready To File',
+    description: 'Dune Catch evidence is filled and the coastward beta note is ready to file.',
+    buildSave: createSourceToShoreDuneCatchReadyToFileSave,
+  },
+  'source-to-shore-dune-catch-filed': {
+    title: 'Source To Shore Dune Catch Filed',
+    description: 'Dune Catch is filed as the Source to Shore beta closure.',
+    buildSave: createSourceToShoreDuneCatchFiledSave,
   },
 };
 
