@@ -449,7 +449,7 @@ Eco Explorer is a desktop-first retro-style educational exploration game for kid
 - Source to Shore is now open as a narrow beta path inside the existing five-biome world; it should teach connected ecosystem relationships without adding biome six, a larger planner shell, crafting, combat, inventory, economy, or direct API field-guide mode.
 - The first Source to Shore vertical slice is `Source Shelter`, unlocked after filed `High Pass`; it reuses Route v2 and station/notebook seams to connect high rime/source clues with first shelter at Treeline Pass.
 - The first Source to Shore route spine now continues from filed `Source Shelter` into `Forest Release`, a Forest Trail seep/root/cool-release beat that proves one downstream handoff before any broader campaign, biome, planner, or new route framework opens.
-- The first Source to Shore beta arc now closes at `Dune Catch`, a Coastal Scrub beat linking dune catch, swale hold, and cool edge after filed `Forest Release`; hold this as the three-beat beta endpoint until playtest feedback says the arc needs a fourth beat.
+- The first Source to Shore beta arc now closes at `Dune Catch`, a Coastal Scrub beat linking dune catch, swale hold, and cool edge after filed `Forest Release`; filed closure now reads as one high-source -> forest-release -> coastal-catch chapter with quiet revisit notices and three small physical memory pockets, so hold this as the three-beat beta endpoint until playtest feedback says the arc needs a fourth beat.
 
 ## Update Notes
 
