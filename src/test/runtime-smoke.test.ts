@@ -357,6 +357,41 @@ const treelineOpenFellIslandBand = (() => {
   };
 })();
 
+const treelineHeathThreadPlantBand = (() => {
+  const lowStone = getRequiredAuthoredPlatform(treelineBiome, 'heath-thread-low-stone');
+  const upperShelf = getRequiredAuthoredPlatform(treelineBiome, 'lee-pocket-upper-shelf');
+
+  return {
+    minX: lowStone.x - 6,
+    maxX: lowStone.x + lowStone.w + 8,
+    minY: upperShelf.y - TEST_PLAYER_HEIGHT - 2,
+    maxY: upperShelf.y - TEST_PLAYER_HEIGHT + 4,
+  };
+})();
+
+const treelineHeathThreadAnimalBand = (() => {
+  const berryShelf = getRequiredAuthoredPlatform(treelineBiome, 'heath-thread-berry-shelf');
+
+  return {
+    minX: berryShelf.x - 4,
+    maxX: berryShelf.x + berryShelf.w + 2,
+    minY: berryShelf.y - TEST_PLAYER_HEIGHT - 1,
+    maxY: berryShelf.y - TEST_PLAYER_HEIGHT + 4,
+  };
+})();
+
+const tundraMeltwaterThreadBand = (() => {
+  const snowLip = getRequiredAuthoredPlatform(tundraBiome, 'meltwater-snow-lip');
+  const sedgeStep = getRequiredAuthoredPlatform(tundraBiome, 'melt-thread-sedge-step');
+
+  return {
+    minX: snowLip.x,
+    maxX: sedgeStep.x + sedgeStep.w + 2,
+    minY: sedgeStep.y - TEST_PLAYER_HEIGHT - 1,
+    maxY: snowLip.y - TEST_PLAYER_HEIGHT + 9,
+  };
+})();
+
 function isStableTreelineShelteredReturnState(state: any): boolean {
   return (
     !state.player?.climbing &&
@@ -2916,6 +2951,90 @@ describe('runtime smoke loop', () => {
     expect(state.player?.x).toBeLessThanOrEqual(430);
   });
 
+  it('keeps the new Treeline heath thread readable across plant and animal staging pockets', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-treeline-heath-thread-seed');
+    persistSave(seededSave);
+    const originalTreelineStartPosition = { ...treelineBiome.startPosition };
+
+    try {
+      treelineBiome.startPosition = { x: 392, y: 100 };
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('treeline');
+
+      let state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'dwarf-shrub' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineHeathThreadPlantBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineHeathThreadPlantBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineHeathThreadPlantBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineHeathThreadPlantBand.maxY &&
+          nextState.nearbyInspectables.some((entity: any) =>
+            ['white-arctic-mountain-heather', 'lingonberry'].includes(entity.entryId),
+          ),
+        45,
+      );
+
+      expect(state.zoneId).toBe('dwarf-shrub');
+      expect(state.player?.x).toBeGreaterThanOrEqual(treelineHeathThreadPlantBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(treelineHeathThreadPlantBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(treelineHeathThreadPlantBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(treelineHeathThreadPlantBand.maxY);
+      expect(
+        state.nearbyInspectables.some(
+          (entity: any) => entity.entryId === 'white-arctic-mountain-heather',
+        ),
+      ).toBe(true);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'lingonberry')).toBe(
+        true,
+      );
+      expect(state.nearbyTravelTarget ?? null).toBeNull();
+      expect(state.nearbyDoor?.inRange ?? false).toBe(false);
+
+      treelineBiome.startPosition = { x: 482, y: 111 };
+      game.enterBiome('treeline');
+
+      state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'dwarf-shrub' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= treelineHeathThreadAnimalBand.minX &&
+          (nextState.player?.x ?? 999) <= treelineHeathThreadAnimalBand.maxX &&
+          (nextState.player?.y ?? 0) >= treelineHeathThreadAnimalBand.minY &&
+          (nextState.player?.y ?? 999) <= treelineHeathThreadAnimalBand.maxY &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'ermine') &&
+          nextState.nearbyInspectables.some(
+            (entity: any) => entity.entryId === 'rock-ptarmigan',
+          ),
+        45,
+      );
+
+      expect(state.zoneId).toBe('dwarf-shrub');
+      expect(state.player?.x).toBeGreaterThanOrEqual(treelineHeathThreadAnimalBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(treelineHeathThreadAnimalBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(treelineHeathThreadAnimalBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(treelineHeathThreadAnimalBand.maxY);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'ermine')).toBe(
+        true,
+      );
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'rock-ptarmigan'),
+      ).toBe(true);
+      expect(state.nearbyTravelTarget ?? null).toBeNull();
+      expect(state.nearbyDoor?.inRange ?? false).toBe(false);
+    } finally {
+      treelineBiome.startPosition = originalTreelineStartPosition;
+    }
+  });
+
   it('adds one compact Stone Shelter basin before the lee-pocket climb turns outward', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-treeline-stone-shelter-basin-seed');
@@ -3045,6 +3164,67 @@ describe('runtime smoke loop', () => {
       expect(state.nearbyDoor?.inRange ?? false).toBe(false);
     } finally {
       treelineBiome.startPosition = originalTreelineStartPosition;
+    }
+  });
+
+  it('keeps the Tundra meltwater thread stable before the edge of the map', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-tundra-meltwater-thread-seed');
+    persistSave(seededSave);
+    const originalTundraStartPosition = { ...tundraBiome.startPosition };
+    tundraBiome.startPosition = { x: 548, y: 107 };
+
+    try {
+      const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+      const game = createGame(canvas, seededSave);
+
+      tapKey(fakeWindow, 'Enter');
+      game.enterBiome('tundra');
+
+      const state = advanceUntil(
+        fakeWindow,
+        (nextState) =>
+          nextState.zoneId === 'meltwater-edge' &&
+          !nextState.player?.climbing &&
+          Math.abs(nextState.player?.vy ?? 999) <= 1 &&
+          (nextState.player?.x ?? 0) >= tundraMeltwaterThreadBand.minX &&
+          (nextState.player?.x ?? 999) <= tundraMeltwaterThreadBand.maxX &&
+          (nextState.player?.y ?? 0) >= tundraMeltwaterThreadBand.minY &&
+          (nextState.player?.y ?? 999) <= tundraMeltwaterThreadBand.maxY &&
+          nextState.nearbyInspectables.some(
+            (entity: any) => entity.entryId === 'tussock-thaw-channel',
+          ) &&
+          nextState.nearbyInspectables.some(
+            (entity: any) => entity.entryId === 'northern-collared-lemming',
+          ) &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'snow-bunting') &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass'),
+        45,
+      );
+
+      expect(state.zoneId).toBe('meltwater-edge');
+      expect(state.player?.x).toBeGreaterThanOrEqual(tundraMeltwaterThreadBand.minX);
+      expect(state.player?.x).toBeLessThanOrEqual(tundraMeltwaterThreadBand.maxX);
+      expect(state.player?.y).toBeGreaterThanOrEqual(tundraMeltwaterThreadBand.minY);
+      expect(state.player?.y).toBeLessThanOrEqual(tundraMeltwaterThreadBand.maxY);
+      expect(
+        state.nearbyInspectables.some((entity: any) => entity.entryId === 'tussock-thaw-channel'),
+      ).toBe(true);
+      expect(
+        state.nearbyInspectables.some(
+          (entity: any) => entity.entryId === 'northern-collared-lemming',
+        ),
+      ).toBe(true);
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'snow-bunting')).toBe(
+        true,
+      );
+      expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'cottongrass')).toBe(
+        true,
+      );
+      expect(state.nearbyTravelTarget ?? null).toBeNull();
+      expect(state.nearbyDoor?.inRange ?? false).toBe(false);
+    } finally {
+      tundraBiome.startPosition = originalTundraStartPosition;
     }
   });
 
