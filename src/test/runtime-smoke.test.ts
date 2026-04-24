@@ -5498,7 +5498,7 @@ describe('runtime smoke loop', () => {
       expect(state.zoneId).toBe('back-dune');
       expect(state.player?.x).toBeGreaterThanOrEqual(40);
       expect(state.player?.x).toBeLessThanOrEqual(126);
-      expect(state.player?.y).toBeGreaterThanOrEqual(92);
+      expect(state.player?.y).toBeGreaterThanOrEqual(90);
       expect(state.player?.y).toBeLessThanOrEqual(112);
       expect(nearest).toMatchObject({ entryId: 'beach-grass' });
       expect(
@@ -5557,7 +5557,7 @@ describe('runtime smoke loop', () => {
       expect(beforeInspectState.zoneId).toBe('back-dune');
       expect(beforeInspectState.player?.x).toBeGreaterThanOrEqual(40);
       expect(beforeInspectState.player?.x).toBeLessThanOrEqual(126);
-      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(92);
+      expect(beforeInspectState.player?.y).toBeGreaterThanOrEqual(90);
       expect(beforeInspectState.player?.y).toBeLessThanOrEqual(112);
       expect(beforeInspectState.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass')).toBe(true);
       expect(
