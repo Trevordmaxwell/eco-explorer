@@ -157,6 +157,14 @@ export const coastalScrubBiome: BiomeDefinition = {
     ],
     authoredPlatforms: [
       {
+        id: 'dune-catch-grass-shelf',
+        spriteId: 'drift-platform',
+        x: 54,
+        y: 100,
+        w: 22,
+        h: 4,
+      },
+      {
         id: 'back-dune-shelter-lip',
         spriteId: 'drift-platform',
         x: 80,
@@ -237,6 +245,14 @@ export const coastalScrubBiome: BiomeDefinition = {
         h: 4,
       },
       {
+        id: 'dune-catch-swale-hold-log',
+        spriteId: 'drift-platform',
+        x: 310,
+        y: 112,
+        w: 34,
+        h: 4,
+      },
+      {
         id: 'windbreak-pocket-lee-step',
         spriteId: 'drift-platform',
         x: 332,
@@ -284,8 +300,22 @@ export const coastalScrubBiome: BiomeDefinition = {
         w: 34,
         h: 4,
       },
+      {
+        id: 'dune-catch-cool-edge-shelf',
+        spriteId: 'drift-platform',
+        x: 566,
+        y: 103,
+        w: 28,
+        h: 4,
+      },
     ],
     authoredEntities: [
+      {
+        id: 'dune-catch-grass-clump',
+        entryId: 'beach-grass',
+        x: 66,
+        y: 108,
+      },
       {
         id: 'back-dune-shelter-grass',
         entryId: 'beach-grass',
@@ -297,6 +327,12 @@ export const coastalScrubBiome: BiomeDefinition = {
         entryId: 'sand-verbena',
         x: 122,
         y: 104,
+      },
+      {
+        id: 'dune-catch-lupine-bloom',
+        entryId: 'dune-lupine',
+        x: 140,
+        y: 106,
       },
       {
         id: 'windbreak-gather-rose',
@@ -329,6 +365,18 @@ export const coastalScrubBiome: BiomeDefinition = {
         y: 94,
       },
       {
+        id: 'dune-catch-swale-myrtle',
+        entryId: 'pacific-wax-myrtle',
+        x: 320,
+        y: 116,
+      },
+      {
+        id: 'dune-catch-swale-mouse',
+        entryId: 'deer-mouse',
+        x: 334,
+        y: 124,
+      },
+      {
         id: 'windbreak-bluff-lookout-sparrow',
         entryId: 'song-sparrow',
         x: 346,
@@ -339,6 +387,18 @@ export const coastalScrubBiome: BiomeDefinition = {
         entryId: 'song-sparrow',
         x: 366,
         y: 114,
+      },
+      {
+        id: 'dune-catch-swale-brush',
+        entryId: 'coyote-brush',
+        x: 386,
+        y: 116,
+      },
+      {
+        id: 'dune-catch-pine-sparrow',
+        entryId: 'song-sparrow',
+        x: 410,
+        y: 106,
       },
       {
         id: 'shore-pine-rest-sparrow',
@@ -380,6 +440,18 @@ export const coastalScrubBiome: BiomeDefinition = {
         id: 'forest-edge-nurse-log',
         entryId: 'nurse-log',
         x: 570,
+        y: 112,
+      },
+      {
+        id: 'dune-catch-cool-salmonberry',
+        entryId: 'salmonberry',
+        x: 576,
+        y: 110,
+      },
+      {
+        id: 'dune-catch-cool-fern',
+        entryId: 'sword-fern',
+        x: 590,
         y: 112,
       },
     ],

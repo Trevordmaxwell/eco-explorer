@@ -7460,6 +7460,127 @@ describe('runtime smoke loop', () => {
     });
   });
 
+  it('walks the Dune Catch beta beat through authored Coastal Scrub carriers', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-source-to-shore-dune-catch-route-seed');
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.completedFieldRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+    ];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('coastal-scrub');
+
+    let state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'back-dune' &&
+        (nextState.player?.x ?? 0) >= 52 &&
+        (nextState.player?.x ?? 999) <= 90 &&
+        nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'beach-grass'),
+      160,
+    );
+    let nearest = state.nearbyInspectables.find((entity: any) => entity.entityId === state.nearestInspectableEntityId);
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+      progressLabel: '0/3 clues',
+    });
+    expect(state.fieldRequestHint).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: 'Dune Catch',
+      variant: 'support-biased',
+    });
+    expect(nearest).toMatchObject({ entryId: 'beach-grass' });
+
+    tapKey(fakeWindow, 'e');
+    state = readState(fakeWindow);
+    expect(state.openBubble).toMatchObject({
+      entryId: 'beach-grass',
+      resourceNote: 'Notebook fit: dune catch',
+    });
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'source-to-shore-dune-catch',
+      evidenceSlots: [{ slotId: 'dune-catch', entryId: 'beach-grass' }],
+    });
+
+    state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) =>
+        nextState.zoneId === 'windbreak-swale' &&
+        (nextState.player?.x ?? 0) >= 312 &&
+        (nextState.player?.x ?? 999) <= 344 &&
+        nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'pacific-wax-myrtle') &&
+        nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'deer-mouse'),
+      560,
+    );
+    nearest = state.nearbyInspectables.find((entity: any) => entity.entityId === state.nearestInspectableEntityId);
+    expect(nearest).toMatchObject({ entryId: 'pacific-wax-myrtle' });
+    expect(state.nearbyInspectables.some((entity: any) => entity.entryId === 'deer-mouse')).toBe(true);
+
+    tapKey(fakeWindow, 'e');
+    state = readState(fakeWindow);
+    expect(state.openBubble).toMatchObject({
+      entryId: 'pacific-wax-myrtle',
+      resourceNote: 'Notebook fit: swale hold',
+    });
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'source-to-shore-dune-catch',
+      evidenceSlots: [
+        { slotId: 'dune-catch', entryId: 'beach-grass' },
+        { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+      ],
+    });
+
+    state = advanceWhileHoldingKeyUntil(
+      fakeWindow,
+      'ArrowRight',
+      (nextState) => {
+        const nearestCoolEdge = nextState.nearbyInspectables.find(
+          (entity: any) => entity.entityId === nextState.nearestInspectableEntityId,
+        );
+        return (
+          nextState.zoneId === 'forest-edge' &&
+          (nextState.player?.x ?? 0) >= 562 &&
+          (nextState.player?.x ?? 999) <= 588 &&
+          ['salmonberry', 'sword-fern'].includes(nearestCoolEdge?.entryId) &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'salmonberry') &&
+          nextState.nearbyInspectables.some((entity: any) => entity.entryId === 'sword-fern')
+        );
+      },
+      520,
+    );
+    nearest = state.nearbyInspectables.find((entity: any) => entity.entityId === state.nearestInspectableEntityId);
+    expect(['salmonberry', 'sword-fern']).toContain(nearest?.entryId);
+
+    tapKey(fakeWindow, 'e');
+    state = readState(fakeWindow);
+    expect(state.openBubble?.resourceNote).toMatch(/(?:LENS CLUE|Notebook fit): cool edge/);
+    expect(seededSave.routeV2Progress).toMatchObject({
+      requestId: 'source-to-shore-dune-catch',
+      status: 'ready-to-synthesize',
+      evidenceSlots: [
+        { slotId: 'dune-catch', entryId: 'beach-grass' },
+        { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'cool-edge', entryId: nearest?.entryId },
+      ],
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+      progressLabel: 'Ready To File',
+    });
+  });
+
   it('shows the treeline place-tab question once the edge line reaches Low Fell', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-place-tab-low-fell-seed');

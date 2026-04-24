@@ -123,6 +123,55 @@ describe('coastal scrub biome generation', () => {
     expect(shelterCarriers.every((entity) => entity.x >= backDune.start && entity.x < backDune.end)).toBe(true);
   });
 
+  it('adds a Dune Catch traversal line from sand-catching grass to cooler forest edge cover', () => {
+    const save = createNewSaveState('coastal-scrub-dune-catch-line-seed');
+    const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
+    const routePlatforms = instance.platforms
+      .filter((platform) => platform.id.startsWith('dune-catch-'))
+      .map((platform) => ({
+        id: platform.id,
+        x: platform.x,
+        y: platform.y,
+        w: platform.w,
+      }));
+    const routeEntities = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-dune-catch-'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }));
+
+    expect(routePlatforms).toEqual([
+      { id: 'dune-catch-grass-shelf', x: 54, y: 100, w: 22 },
+      { id: 'dune-catch-swale-hold-log', x: 310, y: 112, w: 34 },
+      { id: 'dune-catch-cool-edge-shelf', x: 566, y: 103, w: 28 },
+    ]);
+    expect(routeEntities).toEqual([
+      { entryId: 'beach-grass', x: 66, y: 108 },
+      { entryId: 'dune-lupine', x: 140, y: 106 },
+      { entryId: 'pacific-wax-myrtle', x: 320, y: 116 },
+      { entryId: 'deer-mouse', x: 334, y: 124 },
+      { entryId: 'coyote-brush', x: 386, y: 116 },
+      { entryId: 'song-sparrow', x: 410, y: 106 },
+      { entryId: 'salmonberry', x: 576, y: 110 },
+      { entryId: 'sword-fern', x: 590, y: 112 },
+    ]);
+    expect(routeEntities.filter((entity) => entity.x < 150).map((entity) => entity.entryId)).toEqual([
+      'beach-grass',
+      'dune-lupine',
+    ]);
+    expect(routeEntities.filter((entity) => entity.x >= 252 && entity.x < 392).map((entity) => entity.entryId)).toEqual([
+      'pacific-wax-myrtle',
+      'deer-mouse',
+      'coyote-brush',
+    ]);
+    expect(routeEntities.filter((entity) => entity.x >= 520).map((entity) => entity.entryId)).toEqual([
+      'salmonberry',
+      'sword-fern',
+    ]);
+  });
+
   it('adds a lowered windbreak swale with an optional bluff lookout above the low route', () => {
     const save = createNewSaveState('coastal-scrub-proof-seed');
     const instance = generateBiomeInstance(coastalScrubBiome, save, 1);
