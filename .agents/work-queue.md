@@ -36,43 +36,40 @@ This is the shared queue for all agents working in this repo.
 
 ## Active Lanes
 
-- `lane-1`: systems, progression, station, replay, and expedition growth
-- `lane-2`: content density, journal richness, comparisons, and atlas-facing content depth
-- `lane-3`: caves, giant-tree climbing, vertical traversal, and sub-ecosystem exploration depth
-- `lane-4`: gameplay-loop cohesion, Route v2 outings, tiny support choices, notebook synthesis, and soft replay windows
+- `lane-1`: playability, systems, progression, station, routes, support, replay, season pages, expeditions, and integration proof
+- `lane-2`: world richness, science content, atlas and journal payoff, close-look, sketchbook, spatial readability, vertical traversal, and sub-ecosystem depth
+
+Former `lane-3` work now routes through `lane-2`. Former `lane-4` work now routes through `lane-1`. Historical done items may keep old lane labels.
 
 ## Current Director Gate
 
-- Lane 1 may begin now with `ECO-20260428-scout-489`.
-- Packet `192` items for lanes 1-4 are parked behind `ECO-20260428-critic-489`.
-- Lane 2, lane 3, and lane 4 runners started before that gate closes should do read-only orientation and report that their sprint work is parked, unless the user explicitly overrides the gate.
+- Packet `182` is closed with a confirmed native `256x160` readability blocker.
+- Lane 1 is continuing packet `192` with `ECO-20260514-scout-01`.
+- Lane 2 remains parked behind `ECO-20260514-critic-01`; do read-only orientation only unless the user explicitly overrides the gate.
+- Lane 3 and lane 4 are retired labels; route former lane 3 work through lane 2 and former lane 4 work through lane 1.
 
 ## Ready
 
-### ECO-20260428-scout-489
+### ECO-20260514-scout-01
 
 - Status: `READY`
 - Owner: `scout-agent`
 - Lane: `lane-1`
-- Priority: `P1`
-- Title: `L1 scout: Beta expansion integration signoff`
-- Source: `docs/reports/2026-04-28-beta-expansion-director-megapush.md`
-- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
-- Depends on: `ECO-20260428-critic-488`, `ECO-20260428-critic-492`, `ECO-20260428-critic-495`, `ECO-20260428-critic-498`
+- Priority: `P0`
+- Title: `L1 scout: Handheld readability repair contract`
+- Source: `docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260428-critic-489`
+- Recommended effort: `xhigh`
 
 Goal:
 
-- Define the final integration checklist after all lane runways are complete.
+- Turn the director browser proof into the smallest lane-1 repair contract for filed Source to Shore station readability, title guidance fit, and the Source Shelter journal route card.
 
 Acceptance:
 
-- Covers lane 1 systems, lane 2 content, lane 3 spatial work, lane 4 routes, tests, build, science checks, and browser proof.
-- Promotes `ECO-20260428-main-489` only when all lane runways are clean.
-
-Note:
-
-- Promoted after director review confirmed packets `181`, `185`, `188`, and `191` are done.
-- Director browser pass on `2026-05-14` found native `256x160` station/title/journal readability risks; include those surfaces in the packet `182` checklist before opening the next lane-parallel sprint.
+- Names exact surfaces, screenshots, and tests required for the repair.
+- Keeps scope inside handheld UI clarity and avoids progression, route, content, save, or station-page expansion.
 
 ## Blocked
 
@@ -92,67 +89,6 @@ Note:
 - Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
 
 ## Parked
-
-### ECO-20260428-main-489
-
-- Status: `PARKED`
-- Owner: `main-agent`
-- Lane: `lane-1`
-- Priority: `P1`
-- Title: `L1 implement: Beta expansion integration signoff`
-- Source: `docs/reports/2026-04-28-beta-expansion-director-megapush.md`
-- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
-- Depends on: `ECO-20260428-scout-489`
-
-Goal:
-
-- Run the final beta expansion proof and write the signoff report.
-
-Acceptance:
-
-- Records validation, tests, science check, build, browser proof needs, and remaining risks.
-- Opens smallest blocker items if anything fails.
-
-### ECO-20260428-critic-489
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-1`
-- Priority: `P1`
-- Title: `L1 review: Beta expansion integration signoff`
-- Source: `docs/reports/2026-04-28-beta-expansion-director-megapush.md`
-- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
-- Depends on: `ECO-20260428-main-489`
-
-Goal:
-
-- Review the integration signoff and decide whether the push is clean.
-
-Acceptance:
-
-- Confirms no hidden blockers remain.
-- Marks packet `182` done or opens smallest explicit blockers.
-
-### ECO-20260514-scout-01
-
-- Status: `PARKED`
-- Owner: `scout-agent`
-- Lane: `lane-1`
-- Priority: `P0`
-- Title: `L1 scout: Handheld readability repair contract`
-- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
-- Packet: `.agents/packets/192-director-playability-sprint.json`
-- Depends on: `ECO-20260428-critic-489`
-- Recommended effort: `xhigh`
-
-Goal:
-
-- Turn the director browser proof into the smallest lane-1 repair contract for filed Source to Shore station readability, title guidance fit, and the Source Shelter journal route card.
-
-Acceptance:
-
-- Names exact surfaces, screenshots, and tests required for the repair.
-- Keeps scope inside handheld UI clarity and avoids progression, route, content, save, or station-page expansion.
 
 ### ECO-20260514-main-01
 
@@ -205,7 +141,7 @@ Acceptance:
 - Title: `L2 scout: Atlas parity and source-risk contract`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
-- Depends on: `ECO-20260428-critic-489`
+- Depends on: `ECO-20260514-critic-01`
 - Recommended effort: `high`
 
 Goal:
@@ -284,12 +220,12 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `scout-agent`
-- Lane: `lane-3`
+- Lane: `lane-2`
 - Priority: `P1`
-- Title: `L3 scout: Tundra snow-edge wayfinding proof`
+- Title: `L2 scout: Tundra snow-edge wayfinding proof`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
-- Depends on: `ECO-20260428-critic-489`
+- Depends on: `ECO-20260514-critic-01`
 - Recommended effort: `high`
 
 Goal:
@@ -305,9 +241,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `main-agent`
-- Lane: `lane-3`
+- Lane: `lane-2`
 - Priority: `P1`
-- Title: `L3 implement: Tundra relief clarity pass`
+- Title: `L2 implement: Tundra relief clarity pass`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-scout-03`
@@ -326,9 +262,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `main-agent`
-- Lane: `lane-3`
+- Lane: `lane-2`
 - Priority: `P2`
-- Title: `L3 implement: Forest giant-tree loop proof`
+- Title: `L2 implement: Forest giant-tree loop proof`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-main-04`
@@ -347,9 +283,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `critic-agent`
-- Lane: `lane-3`
+- Lane: `lane-2`
 - Priority: `P1`
-- Title: `L3 review: Vertical sprint closure`
+- Title: `L2 review: Vertical sprint closure`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-main-05`
@@ -368,12 +304,12 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `scout-agent`
-- Lane: `lane-4`
+- Lane: `lane-1`
 - Priority: `P1`
-- Title: `L4 scout: Post-Source-to-Shore route boundary`
+- Title: `L1 scout: Post-Source-to-Shore route boundary`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
-- Depends on: `ECO-20260428-critic-489`
+- Depends on: `ECO-20260514-critic-01`
 - Recommended effort: `high`
 
 Goal:
@@ -389,9 +325,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `main-agent`
-- Lane: `lane-4`
+- Lane: `lane-1`
 - Priority: `P1`
-- Title: `L4 implement: Extract route replay-note helper`
+- Title: `L1 implement: Extract route replay-note helper`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-scout-04`
@@ -410,9 +346,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `main-agent`
-- Lane: `lane-4`
+- Lane: `lane-1`
 - Priority: `P2`
-- Title: `L4 implement: Filed Source to Shore revisit proof`
+- Title: `L1 implement: Filed Source to Shore revisit proof`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-main-06`
@@ -431,9 +367,9 @@ Acceptance:
 
 - Status: `PARKED`
 - Owner: `critic-agent`
-- Lane: `lane-4`
+- Lane: `lane-1`
 - Priority: `P1`
-- Title: `L4 review: Route-loop cohesion signoff`
+- Title: `L1 review: Route-loop cohesion signoff`
 - Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
 - Packet: `.agents/packets/192-director-playability-sprint.json`
 - Depends on: `ECO-20260514-main-07`
@@ -445,7 +381,7 @@ Goal:
 
 Acceptance:
 
-- Confirms lane 4 did not drift into lane 1 station shell, lane 2 content packs, or lane 3 geometry.
+- Confirms route-loop work did not drift into lane 2 content/spatial scope or unscoped station architecture.
 - Opens smallest explicit blockers if route identity or filed Source to Shore closure is ambiguous.
 
 ### ECO-20260420-scout-403
@@ -1120,6 +1056,91 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260428-critic-489
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `L1 review: Beta expansion integration signoff`
+- Source: `docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md`
+- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
+- Depends on: `ECO-20260428-main-489`
+
+Goal:
+
+- Review the integration signoff and decide whether the push is clean.
+
+Acceptance:
+
+- Confirms no hidden blockers remain.
+- Marks packet `182` done or opens smallest explicit blockers.
+
+Completion note:
+
+- Reviewed the packet `182` signoff as complete but blocked: validation, science check, full tests, build, alpha RC, clean review-drop verification, paired browser state captures, and zero browser console errors all passed.
+- Confirmed the native `256x160` readability gate is not clean: filed Dune Catch station crowding is the blocker, with first-play task truncation, Source Shelter journal crowding/clipping, and cramped title guidance included in the repair proof.
+- Marked packet `182` `DONE` at version `5`, wrote `docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md`, and promoted `ECO-20260514-scout-01` to `READY`.
+- Kept lane 2 packet `192` breadth parked behind `ECO-20260514-critic-01`.
+- Verification passed: `npm run validate:agents`.
+
+### ECO-20260428-main-489
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `L1 implement: Beta expansion integration signoff`
+- Source: `docs/reports/2026-05-14-beta-expansion-integration-signoff.md`
+- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
+- Depends on: `ECO-20260428-scout-489`
+
+Goal:
+
+- Run the final beta expansion proof and write the signoff report.
+
+Acceptance:
+
+- Records validation, tests, science check, build, browser proof needs, and remaining risks.
+- Opens smallest blocker items if anything fails.
+- Native `256x160` proof covers title, first-play task strip, filed Source to Shore/Dune Catch station, world map, and Source Shelter journal states.
+- Does not mark packet `182` clean if station/title/journal readability issues still reproduce.
+
+Completion note:
+
+- Wrote `docs/reports/2026-05-14-beta-expansion-integration-signoff.md` with the final packet `182` proof matrix.
+- Verification passed: `npm run validate:agents`; `npm run science:check`; `npm run test`; `npm run build`; `npm run alpha:rc` with review drop `output/review-drops/eco-explorer-review-drop-20260514-142048.tgz`.
+- Captured native `256x160` browser proof under `output/lane-1-main-489-beta-integration-proof/` with paired state JSON and zero console errors.
+- Result is blocked by handheld readability: filed Source to Shore/Dune Catch station crowding, first-play task truncation, Source Shelter journal card crowding/clipping, and cramped title guidance still reproduce.
+- Promoted `ECO-20260428-critic-489` to `READY` to review the blocker handoff.
+
+### ECO-20260428-scout-489
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P1`
+- Title: `L1 scout: Beta expansion integration signoff`
+- Source: `docs/reports/2026-05-14-beta-expansion-integration-signoff-scout.md`
+- Packet: `.agents/packets/182-beta-expansion-integration-signoff.json`
+- Depends on: `ECO-20260428-critic-488`, `ECO-20260428-critic-492`, `ECO-20260428-critic-495`, `ECO-20260428-critic-498`
+
+Goal:
+
+- Define the final integration checklist after all lane runways are complete.
+
+Acceptance:
+
+- Covers lane 1 systems, lane 2 content, lane 3 spatial work, lane 4 routes, tests, build, science checks, and browser proof.
+- Promotes `ECO-20260428-main-489` only when all lane runways are clean.
+
+Completion note:
+
+- Confirmed terminal lane runway gates are clean: `ECO-20260428-critic-488` for packet `181`, `ECO-20260428-critic-492` for packet `185`, `ECO-20260428-critic-495` for packet `188`, and `ECO-20260428-critic-498` for packet `191`.
+- Wrote `docs/reports/2026-05-14-beta-expansion-integration-signoff-scout.md` and updated packet `182` to version `3` with the final checklist, including native `256x160` title, first-play task strip, filed Source to Shore/Dune Catch station, world map, and Source Shelter journal proof.
+- Promoted `ECO-20260428-main-489` to `READY`; packet `192` remains parked behind `ECO-20260428-critic-489`.
+- Verification passed: `npm run validate:agents`.
 
 ### ECO-20260428-critic-495
 

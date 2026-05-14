@@ -1,14 +1,17 @@
 {
   "packet_id": "ECO-PACKET-182",
-  "version": 2,
+  "version": 5,
   "created_at": "2026-04-28",
   "created_by_role": "critic-agent",
-  "status": "READY",
+  "status": "DONE",
   "title": "Beta expansion integration signoff",
   "summary": "Run a final integration proof after the twelve-packet beta expansion runway finishes, recording tests, browser proof, and remaining blockers.",
   "source_reports": [
     "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
-    "docs/reports/2026-05-14-director-playability-sprint-plan.md"
+    "docs/reports/2026-05-14-director-playability-sprint-plan.md",
+    "docs/reports/2026-05-14-beta-expansion-integration-signoff-scout.md",
+    "docs/reports/2026-05-14-beta-expansion-integration-signoff.md",
+    "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md"
   ],
   "queue_refs": [
     "ECO-20260428-scout-489",
@@ -63,6 +66,7 @@
     "All lane packets in this wave have clean critic review or explicit blockers.",
     "Final report records agent validation, full tests, science check, build, browser proof needs, and remaining risk.",
     "Native 256x160 proof covers title, first-play task strip, filed Source to Shore station, world map, and Source Shelter journal states.",
+    "Known station/title/journal readability issues are recorded as blockers if they still reproduce.",
     "No hidden follow-up is left out of the queue."
   ],
   "guardrails": [
@@ -72,6 +76,122 @@
     "Do not hide known issues in prose.",
     "Open only smallest follow-up blockers if needed."
   ],
+  "scout_489_contract": {
+    "completed_at": "2026-05-14",
+    "report": "docs/reports/2026-05-14-beta-expansion-integration-signoff-scout.md",
+    "dependency_gate": [
+      {
+        "queue_id": "ECO-20260428-critic-488",
+        "packet": "181",
+        "lane": "lane-1",
+        "verdict": "clean",
+        "evidence": "Travel proof helper stayed test-only; save snapshots, build, and diff checks passed with no runtime, station, route, save, travel-label, content, or geometry behavior change."
+      },
+      {
+        "queue_id": "ECO-20260428-critic-492",
+        "packet": "185",
+        "lane": "lane-2",
+        "verdict": "clean",
+        "evidence": "High-country close-look payoff is source-safe, compact, ledger-backed, and lane-local; focused close-look/content-quality tests and build passed."
+      },
+      {
+        "queue_id": "ECO-20260428-critic-495",
+        "packet": "188",
+        "lane": "lane-3",
+        "verdict": "clean",
+        "evidence": "Native 256x160 Treeline Source Shelter proof is proof-only and has no geometry, route, station, save, physics, traversal, or copy drift."
+      },
+      {
+        "queue_id": "ECO-20260428-critic-498",
+        "packet": "191",
+        "lane": "lane-4",
+        "verdict": "clean",
+        "evidence": "Filing-display contract is test/docs-only; route identities, canonical filed text, save behavior, route catalog, and Source to Shore beat count stayed stable."
+      }
+    ],
+    "integration_checklist": [
+      "Validate agent metadata after any queue, packet, or report edits.",
+      "Run the full science/content gate, full Vitest suite, and production build.",
+      "Check lane 1 systems across station, season, replay, travel, expedition, Source to Shore, High Pass/Source Shelter state, save snapshots, and debug proof helpers.",
+      "Check lane 2 content for science-ledger safety, close-look/journal/comparison behavior, and handheld copy fit on the proofed surfaces.",
+      "Check lane 3 spatial proof artifacts and native 256x160 readability without unscoped geometry or traversal drift.",
+      "Check lane 4 route behavior for catalog stability, filing notices, support behavior, replay labels, Source to Shore three-beat boundary, and stable filed route identity.",
+      "Capture native 256x160 browser proof with screenshots, state, and console-error output for title, first-play task strip, filed Source to Shore or Dune Catch station, world map, and Source Shelter active journal.",
+      "If any required surface overlaps, clips, or truncates, record the exact blocker and open the smallest follow-up queue item instead of marking packet 182 clean."
+    ],
+    "recommended_commands": [
+      "npm run validate:agents",
+      "npm run science:check",
+      "npm run test",
+      "npm run build",
+      "npm run alpha:rc"
+    ],
+    "browser_targets": [
+      "title bottom guidance line",
+      "fresh first-play task strip",
+      "filed Source to Shore or Dune Catch station state",
+      "world map control frame",
+      "Source Shelter active journal route card"
+    ],
+    "promotion": "ECO-20260428-main-489 may move to READY because all four terminal lane runway gates are clean."
+  },
+  "main_489_result": {
+    "completed_at": "2026-05-14",
+    "report": "docs/reports/2026-05-14-beta-expansion-integration-signoff.md",
+    "verdict": "blocked-by-handheld-readability",
+    "verification": [
+      "npm run validate:agents",
+      "npm run science:check",
+      "npm run test",
+      "npm run build",
+      "npm run alpha:rc"
+    ],
+    "review_drop": "output/review-drops/eco-explorer-review-drop-20260514-142048.tgz",
+    "browser_proof": {
+      "folder": "output/lane-1-main-489-beta-integration-proof",
+      "frames": [
+        "title.png",
+        "first-play-task.png",
+        "filed-dune-catch-world-map.png",
+        "filed-dune-catch-station.png",
+        "source-shelter-journal.png"
+      ],
+      "paired_state_files": true,
+      "console_errors": "browser-errors.json"
+    },
+    "pass_notes": [
+      "Agent metadata, science/content quality, full tests, build, and alpha release-candidate wrapper all pass.",
+      "World map proof is readable and remains the clean control frame.",
+      "Browser proof recorded zero console errors."
+    ],
+    "blocking_findings": [
+      "Filed Source to Shore / Dune Catch station state is overcrowded at native 256x160 scale.",
+      "Fresh first-play task notice truncates before the full intended carrier set is comfortably readable.",
+      "Source Shelter active journal route card remains too tight and clips the right-side label area.",
+      "Title bottom guidance remains cramped enough to keep in the repair proof."
+    ],
+    "next_blocker": "Use packet 192 lane-1 repair chain, starting with ECO-20260514-scout-01 after critic-489 review."
+  },
+  "critic_489_result": {
+    "completed_at": "2026-05-14",
+    "report": "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md",
+    "verdict": "packet-182-done-with-blocker",
+    "decision": [
+      "Packet 182 closes because the integration proof is complete and explicit.",
+      "The beta expansion is not visually clean at native 256x160.",
+      "Promote ECO-20260514-scout-01 as the smallest next blocker item.",
+      "Keep lane 2 packet 192 breadth parked until ECO-20260514-critic-01 reviews the lane 1 readability repair cleanly."
+    ],
+    "reviewed_artifacts": [
+      "docs/reports/2026-05-14-beta-expansion-integration-signoff.md",
+      "output/lane-1-main-489-beta-integration-proof/title.png",
+      "output/lane-1-main-489-beta-integration-proof/first-play-task.png",
+      "output/lane-1-main-489-beta-integration-proof/filed-dune-catch-world-map.png",
+      "output/lane-1-main-489-beta-integration-proof/filed-dune-catch-station.png",
+      "output/lane-1-main-489-beta-integration-proof/source-shelter-journal.png",
+      "output/lane-1-main-489-beta-integration-proof/browser-errors.json"
+    ]
+  },
   "post_packet_path": [
     "If clean, the next director decision can choose between a new chapter-grade route or a release candidate pass.",
     "If not clean, fix blockers before opening breadth."

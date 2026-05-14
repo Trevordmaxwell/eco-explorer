@@ -55,6 +55,8 @@ Do not blend the hats at the same time. Finish the current role step, update the
 ## Parallel Lane Rules
 
 - One agent should normally own one lane.
+- The active model currently has two implementation lanes: lane 1 and lane 2.
+- Former lane 3 work routes through lane 2; former lane 4 work routes through lane 1 unless the director explicitly reactivates those lanes.
 - Different lanes should minimize file overlap.
 - If your task would cross heavily into another lane's scope, split it, queue it, or escalate instead of freelancing across both lanes.
 

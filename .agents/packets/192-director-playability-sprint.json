@@ -1,13 +1,15 @@
 {
   "packet_id": "ECO-PACKET-192",
-  "version": 1,
+  "version": 3,
   "created_at": "2026-05-14",
   "created_by_role": "critic-agent",
   "status": "READY",
   "title": "Director playability sprint",
-  "summary": "Park the next lane-parallel sprint behind beta integration signoff, with handheld readability as the first gate before new breadth.",
+  "summary": "Park the next two-lane sprint behind beta integration signoff, with handheld readability as the first gate before new breadth.",
   "source_reports": [
-    "docs/reports/2026-05-14-director-playability-sprint-plan.md"
+    "docs/reports/2026-05-14-director-playability-sprint-plan.md",
+    "docs/reports/2026-05-14-two-lane-operating-model.md",
+    "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md"
   ],
   "queue_refs": [
     "ECO-20260514-scout-01",
@@ -80,57 +82,65 @@
     {
       "step": 8,
       "queue_id": "ECO-20260514-scout-03",
-      "goal": "Proof tundra snow-edge and meltwater wayfinding before adding any cue.",
+      "goal": "Proof lane 2's tundra snow-edge and meltwater wayfinding before adding any cue.",
       "why_now": "Lane 3's next value is clarity, not more solved forest density."
     },
     {
       "step": 9,
       "queue_id": "ECO-20260514-main-04",
-      "goal": "Implement one tiny tundra-local relief cue only if proof finds a gap.",
+      "goal": "Implement one tiny lane-2 tundra-local relief cue only if proof finds a gap.",
       "why_now": "Any spatial fix should be smaller than a traversal framework change."
     },
     {
       "step": 10,
       "queue_id": "ECO-20260514-main-05",
-      "goal": "Consolidate proof for the full forest giant-tree loop and add only one local nudge if needed.",
+      "goal": "Consolidate lane 2 proof for the full forest giant-tree loop and add only one local nudge if needed.",
       "why_now": "The forest vertical family is dense enough that proof-only closure may be success."
     },
     {
       "step": 11,
       "queue_id": "ECO-20260514-critic-03",
-      "goal": "Review vertical proof, prompt competition, recovery paths, and lane boundaries.",
+      "goal": "Review lane 2 vertical proof, prompt competition, recovery paths, and lane boundaries.",
       "why_now": "Vertical clarity can degrade quickly at 256x160 if cues stack."
     },
     {
       "step": 12,
       "queue_id": "ECO-20260514-scout-04",
-      "goal": "Define the post-Source-to-Shore route-family boundary before any playable route expansion.",
+      "goal": "Define lane 1's post-Source-to-Shore route-family boundary before any playable route expansion.",
       "why_now": "Filed Dune Catch must stay terminal until a route-family handoff is designed."
     },
     {
       "step": 13,
       "queue_id": "ECO-20260514-main-06",
-      "goal": "Extract route replay-note resolution from the station board into a small route-owned helper.",
+      "goal": "Extract lane 1 route replay-note resolution from the station board into a small route-owned helper.",
       "why_now": "Board assembly is absorbing lane 4 route semantics and should be decoupled before breadth."
     },
     {
       "step": 14,
       "queue_id": "ECO-20260514-main-07",
-      "goal": "Proof filed Source to Shore revisit memory without reopening an active route.",
+      "goal": "Proof lane 1 filed Source to Shore revisit memory without reopening an active route.",
       "why_now": "Filed memories may need a quiet payoff, but not a fourth beat or new route state."
     },
     {
       "step": 15,
       "queue_id": "ECO-20260514-critic-04",
-      "goal": "Review route-loop cohesion across active, ready, filed, replay, and support states.",
+      "goal": "Review lane 1 route-loop cohesion across active, ready, filed, replay, and support states.",
       "why_now": "Lane 4 should close with route boundaries clear before anyone adds a new route."
     }
   ],
   "file_targets": [
+    "AGENTS.md",
+    ".agents/fresh-lane-start.md",
+    ".agents/lane-runner.md",
+    ".agents/lanes/lane-1.md",
+    ".agents/lanes/lane-2.md",
+    ".agents/lanes/lane-3.md",
+    ".agents/lanes/lane-4.md",
     ".agents/work-queue.md",
     ".agents/project-memory.md",
     ".agents/packets/192-director-playability-sprint.json",
     "docs/reports/2026-05-14-director-playability-sprint-plan.md",
+    "docs/reports/2026-05-14-two-lane-operating-model.md",
     "progress.md",
     "src/engine/field-season-board.ts",
     "src/engine/field-station-session.ts",
@@ -155,19 +165,29 @@
   "guardrails": [
     "Packet 182 remains the immediate gate before this sprint starts.",
     "Treat handheld readability as a playability blocker, not optional polish.",
-    "Lane 2 stays content-first and does not edit station, route, map, save, or overlay layout.",
-    "Lane 3 stays proof-first and does not absorb route or station work.",
-    "Lane 4 defines route boundaries before adding playable route breadth.",
-    "Use xhigh only for lane 1 or for unexpected cross-lane blockers; the other lanes should run high."
+    "Lane 1 owns station, progression, route, support, replay, and integration-proof work.",
+    "Lane 2 owns content, science, atlas/journal, close-look, sketchbook, spatial, and vertical work.",
+    "Lane 2 does not edit station, route, map, save, or overlay layout without a lane 1 handoff.",
+    "Use xhigh only for lane 1, director work, or unexpected cross-lane blockers; lane 2 should normally run high."
   ],
   "lane_effort": {
-    "lane-1": "xhigh",
-    "lane-2": "high",
-    "lane-3": "high",
-    "lane-4": "high"
+    "director": "xhigh",
+    "lane-1": "xhigh during packet 182 or critical readability repair, otherwise high",
+    "lane-2": "high"
+  },
+  "gate_after_packet_182": {
+    "decided_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md",
+    "decision": "Packet 182 closed with a confirmed native 256x160 readability blocker.",
+    "active_next": "ECO-20260514-scout-01",
+    "hold_until": "ECO-20260514-critic-01",
+    "notes": [
+      "Promote lane 1's handheld readability repair contract first.",
+      "Keep lane 2 content and spatial breadth parked until the lane 1 repair is reviewed cleanly."
+    ]
   },
   "post_packet_path": [
-    "If clean, activate the parked lane items in lane order while keeping one runner per lane.",
-    "If the visual gate fails, promote lane 1's repair before opening lane 2, lane 3, or lane 4 breadth."
+    "If clean, activate the parked lane items with one runner in lane 1 and one runner in lane 2.",
+    "If the visual gate fails, promote lane 1's repair before opening lane 2 breadth."
   ]
 }

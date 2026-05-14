@@ -68,7 +68,7 @@ Rules:
 
 If you are a lane runner, read `.agents/lane-runner.md` and your lane brief before each item, even if you just finished the prior item moments ago.
 
-For fresh lane agents with no chat context, read `.agents/fresh-lane-start.md` before picking work. It stores the current director gate and copy-paste prompts for lane 1 through lane 4.
+For fresh lane agents with no chat context, read `.agents/fresh-lane-start.md` before picking work. It stores the current director gate and copy-paste prompts for the active two-lane model.
 
 ## Work Queue Rules
 
@@ -106,10 +106,12 @@ Queue items remain the source of truth for priority, owner, and status. Packets 
 
 ## Active Lane Intent
 
-- `lane-1`: systems, progression, station, replay, season pages, expeditions
-- `lane-2`: content density, atlas and journal richness, comparisons, close-look depth
-- `lane-3`: caves, giant-tree climbing, vertical traversal, and sub-ecosystem exploration depth
-- `lane-4`: gameplay-loop cohesion, Route v2 outings, tiny pre-outing support choice, notebook synthesis, and soft replay windows
+The active operating model is director plus two implementation lanes:
+
+- `lane-1`: playability, systems, progression, station, routes, support, replay, season pages, expeditions, integration proof
+- `lane-2`: world richness, science content, atlas and journal payoff, comparisons, close-look, sketchbook, spatial readability, vertical traversal, sub-ecosystem depth
+
+Former `lane-3` work now routes through `lane-2`. Former `lane-4` work now routes through `lane-1`. Historical queue items and reports may still use the old labels; do not reactivate those labels without a director update.
 
 ## Queue Item Template
 
