@@ -44,6 +44,19 @@ describe('beach biome definition', () => {
       'tidepool',
     ]);
   });
+
+  it('adds a compact wrack bird-line ecosystem note', () => {
+    const note = beachBiome.ecosystemNotes.find((candidate) => candidate.id === 'wrack-bird-line');
+
+    expect(note).toMatchObject({
+      title: 'Wrack Bird Line',
+      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'western-snowy-plover'],
+      minimumDiscoveries: 2,
+      summary: 'Kelp wrack feeds hoppers and other tiny animals that small shorebirds watch for.',
+      observationPrompt: 'Where does wrack become bird food?',
+      zoneId: 'tide-line',
+    });
+  });
 });
 
 describe('beach biome generation', () => {

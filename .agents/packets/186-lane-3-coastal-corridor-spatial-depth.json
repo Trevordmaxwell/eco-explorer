@@ -1,0 +1,129 @@
+{
+  "packet_id": "ECO-PACKET-186",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 3 coastal corridor spatial depth",
+  "summary": "Deepen the beach, coastal scrub, and forest-edge physical transition without route, station, or journal dependencies.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-front-half-physical-continuity-review.md",
+    "docs/reports/2026-04-28-coastal-corridor-spatial-depth-handoff.md",
+    "docs/reports/2026-04-28-coastal-corridor-spatial-depth-implementation.md",
+    "docs/reports/2026-04-28-coastal-corridor-spatial-depth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-493",
+    "ECO-20260428-main-493",
+    "ECO-20260428-critic-493"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-493",
+      "goal": "Scope one coastal corridor spatial-depth pass with local proof.",
+      "why_now": "The front-half route now has a trailhead anchor and can support a slightly richer physical transition."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-493",
+      "goal": "Implement the scoped coastal corridor spatial pass.",
+      "why_now": "The coast-to-forest walk should feel connected before broader beta routing expands."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-493",
+      "goal": "Review spatial depth for readability, prompt competition, and science-safe carriers.",
+      "why_now": "Spatial richness must remain playable at 256x160."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/186-lane-3-coastal-corridor-spatial-depth.json",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/corridor.ts",
+    "src/test/beach-biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One coastal/forest-edge spatial improvement lands or is declined by proof.",
+    "Browser proof is captured if geometry or placement changes land.",
+    "No station, route-board, route catalog, save schema, or physics rewrite lands."
+  ],
+  "guardrails": [
+    "Lane 3 owns spatial work only.",
+    "Keep changes tiny and local.",
+    "Avoid travel-post competition.",
+    "Do not create a new traversal framework."
+  ],
+  "post_packet_path": [
+    "If clean, proceed to forest expedition spatial depth.",
+    "If a route need appears, hand it to lane 4."
+  ],
+  "scout_493_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-coastal-corridor-spatial-depth-handoff.md",
+    "proof_dir": "output/lane-3-scout-493-coastal-corridor-spatial-proof/",
+    "proof_summary": "Beach-to-scrub corridor and Forest Trail arrival already read at native 256x160. The coastal-to-forest corridor center has science-safe carriers but no physical hold, so it reads flat compared with the surrounding authored route.",
+    "main_493_contract": [
+      "Touch only src/engine/corridor.ts and src/test/corridor.test.ts unless fresh proof shows a directly local need.",
+      "Add one tiny authored root/log hold inside COASTAL_TO_FOREST_CORRIDOR_ID around the existing salmonberry/nurse-log transition.",
+      "Use existing platform sprites and existing carriers only; do not add new entries or route beats.",
+      "Keep the left lip on the coastal-scrub-owned half and place the rest near or just across the threshold so the corridor remains exit-safe into Forest Trail.",
+      "Capture fresh native 256x160 browser proof for the coastal-forest center hold and Forest Trail arrival after the geometry change."
+    ],
+    "out_of_scope": [
+      "Station shell, route-board logic, route catalog semantics, save schema, traversal helpers, physics rewrites, new route beats, new carriers, and new biome or cave systems.",
+      "Beach-to-scrub corridor geometry, Coastal Scrub forest-edge world geometry, and Forest Trail trailhead geometry unless fresh proof shows a local regression."
+    ],
+    "promoted_next": "ECO-20260428-main-493"
+  },
+  "main_493_result": {
+    "status": "IMPLEMENTED",
+    "report": "docs/reports/2026-04-28-coastal-corridor-spatial-depth-implementation.md",
+    "proof_dir": "output/lane-3-main-493-coastal-corridor-spatial-proof/",
+    "runtime_changes": [
+      "Added sheltered-edge-root-lip and sheltered-edge-log-rest inside COASTAL_TO_FOREST_CORRIDOR_ID.",
+      "Used existing log-platform sprite and existing corridor carriers only.",
+      "Added focused corridor test coverage for the new threshold hold."
+    ],
+    "proof_summary": "Fresh native 256x160 proof confirms the new sheltered-edge hold is visible in the coastal-forest corridor center with nearbyTravelTarget null, and the corridor still exits into Forest Trail trailhead.",
+    "proof_frames": [
+      "coastal-forest-sheltered-edge-hold-256x160.png",
+      "forest-trailhead-arrival-after-corridor-hold-256x160.png"
+    ],
+    "verification": [
+      "npm test -- --run src/test/corridor.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"walks the full adjacent corridor chain\"",
+      "npm run build",
+      "local browser canvas proof at native 256x160"
+    ],
+    "promoted_next": "ECO-20260428-critic-493"
+  },
+  "critic_493_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-coastal-corridor-spatial-depth-review.md",
+    "summary": "The coastal-to-forest corridor hold is local, readable at native 256x160, uses existing sprites and carriers only, and keeps the corridor exit-safe with no travel-prompt competition inside the corridor.",
+    "verification_reviewed": [
+      "Proof assertions over output/lane-3-main-493-coastal-corridor-spatial-proof/summary.json, assertions.json, and errors.json",
+      "npm test -- --run src/test/corridor.test.ts -t \"sheltered-edge|coastal carriers\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"walks the full adjacent corridor chain\"",
+      "Implementation report verification: npm test -- --run src/test/corridor.test.ts; npm test -- --run src/test/runtime-smoke.test.ts -t \"walks the full adjacent corridor chain\"; npm run build"
+    ],
+    "promoted_next": "ECO-20260428-scout-494"
+  }
+}

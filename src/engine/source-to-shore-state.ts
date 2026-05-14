@@ -6,7 +6,7 @@ import type { SaveState } from './types';
 import { buildWorldState } from './world-state';
 import { getWorldMapLocationByBiomeId } from './world-map';
 
-type SourceToShoreTargetBiomeId = 'treeline' | 'forest' | 'coastal-scrub';
+export type SourceToShoreTargetBiomeId = 'treeline' | 'forest' | 'coastal-scrub';
 
 const HIGH_PASS_FILED_REQUEST_ID = 'treeline-high-pass';
 export const SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID = 'source-to-shore-source-shelter' as const;
@@ -14,8 +14,41 @@ export const SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID = 'source-to-shore-forest
 export const SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID = 'source-to-shore-dune-catch' as const;
 export const SOURCE_TO_SHORE_VERTICAL_SLICE_REQUEST_ID = SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID;
 
+export type SourceToShoreRequestId =
+  | typeof SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID
+  | typeof SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID
+  | typeof SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID;
 export type SourceToShoreBeat = 'source-shelter' | 'forest-release' | 'dune-catch';
 export type SourceToShorePhase = 'active' | 'ready-to-file' | 'filed';
+export type SourceToShoreBeatStatus = 'done' | 'active' | 'ready' | 'upcoming';
+
+export interface SourceToShoreBeatFlowStep {
+  beat: SourceToShoreBeat;
+  requestId: SourceToShoreRequestId;
+  targetBiomeId: SourceToShoreTargetBiomeId;
+  canonicalTitle: 'Source Shelter' | 'Forest Release' | 'Dune Catch';
+}
+
+export const SOURCE_TO_SHORE_BEAT_FLOW: readonly SourceToShoreBeatFlowStep[] = [
+  {
+    beat: 'source-shelter',
+    requestId: SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID,
+    targetBiomeId: 'treeline',
+    canonicalTitle: 'Source Shelter',
+  },
+  {
+    beat: 'forest-release',
+    requestId: SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID,
+    targetBiomeId: 'forest',
+    canonicalTitle: 'Forest Release',
+  },
+  {
+    beat: 'dune-catch',
+    requestId: SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID,
+    targetBiomeId: 'coastal-scrub',
+    canonicalTitle: 'Dune Catch',
+  },
+] as const;
 
 export interface SourceToShoreRevisitMemory {
   biomeId: SourceToShoreTargetBiomeId;
@@ -23,13 +56,37 @@ export interface SourceToShoreRevisitMemory {
   text: string;
 }
 
+export interface SourceToShoreFiledArcCopy {
+  routeBoardSummary: string;
+  routeBoardNextDirection: string;
+  atlasNote: string;
+  archiveText: string;
+  filedExpeditionSubtitle: string;
+  cardSummary: string;
+  cardStartText: string;
+  cardNote: string;
+  noticeText: string;
+}
+
+export function resolveSourceToShoreFiledArcCopy(): SourceToShoreFiledArcCopy {
+  return {
+    routeBoardSummary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
+    routeBoardNextDirection:
+      'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
+    atlasNote: 'Filed: high source -> forest release -> coastal catch.',
+    archiveText: 'Source to Shore filed from high rime to forest shade to coastal catch.',
+    filedExpeditionSubtitle: 'Source to Shore is filed for this field arc.',
+    cardSummary: 'High rime, forest shade, and dune catch now read as one connected route.',
+    cardStartText: 'Treeline Pass to Coastal Scrub',
+    cardNote: 'Three Source to Shore notes filed.',
+    noticeText: 'Source to Shore filed. High source, forest release, and coastal catch now connect.',
+  };
+}
+
 export interface SourceToShoreState {
   beat: SourceToShoreBeat;
-  requestId:
-    | typeof SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID
-    | typeof SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID
-    | typeof SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID;
-  title: 'Source Shelter' | 'Forest Release' | 'Dune Catch' | 'Rime Source' | 'Cool Release';
+  requestId: SourceToShoreRequestId;
+  title: 'Source Shelter' | 'Forest Release' | 'Dune Catch' | 'Rime Source' | 'Cool Release' | 'Held Dune';
   phase: SourceToShorePhase;
   progressLabel: 'BETA' | 'NOTE' | 'FILED';
   targetBiomeId: SourceToShoreTargetBiomeId;
@@ -46,7 +103,8 @@ export interface SourceToShoreState {
     | 'DUNE CATCH'
     | 'SOURCE TO SHORE'
     | 'RIME SOURCE'
-    | 'COOL RELEASE';
+    | 'COOL RELEASE'
+    | 'HELD DUNE';
   cardStatusLabel: 'BETA' | 'NOTE READY' | 'FILED';
   cardSummary: string;
   cardDetailLabel: 'STARTS' | 'FILE' | 'FILED';
@@ -56,45 +114,105 @@ export interface SourceToShoreState {
   isActiveOuting: boolean;
 }
 
+export interface SourceToShoreBeatSurfaceState extends SourceToShoreBeatFlowStep {
+  title: SourceToShoreState['title'];
+  status: SourceToShoreBeatStatus;
+}
+
 export function resolveSourceToShoreState(save: SaveState): SourceToShoreState | null {
   if (!hasResolvedFieldRequest(save, HIGH_PASS_FILED_REQUEST_ID)) {
     return null;
   }
 
-  if (hasResolvedFieldRequest(save, SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID)) {
-    return resolveDuneCatchState('filed');
+  const flowState = resolveSourceToShoreFlowState(save);
+  return resolveSourceToShoreBeatState(flowState.beat, flowState.phase, save);
+}
+
+export function resolveSourceToShoreBeatSurfaceStates(
+  sourceToShoreState: SourceToShoreState,
+): SourceToShoreBeatSurfaceState[] {
+  const activeIndex = getSourceToShoreBeatIndex(sourceToShoreState.beat);
+
+  return SOURCE_TO_SHORE_BEAT_FLOW.map((flowStep, beatIndex) => ({
+    ...flowStep,
+    title:
+      flowStep.beat === sourceToShoreState.beat && sourceToShoreState.phase !== 'filed'
+        ? sourceToShoreState.title
+        : flowStep.canonicalTitle,
+    status: resolveSourceToShoreBeatStatus(sourceToShoreState, beatIndex, activeIndex),
+  }));
+}
+
+function resolveSourceToShoreFlowState(save: SaveState): Pick<SourceToShoreBeatFlowStep, 'beat'> & {
+  phase: SourceToShorePhase;
+} {
+  for (let index = SOURCE_TO_SHORE_BEAT_FLOW.length - 1; index >= 0; index -= 1) {
+    const flowStep = SOURCE_TO_SHORE_BEAT_FLOW[index];
+
+    if (hasResolvedFieldRequest(save, flowStep.requestId)) {
+      const nextStep = SOURCE_TO_SHORE_BEAT_FLOW[index + 1];
+      return nextStep ? { beat: nextStep.beat, phase: 'active' } : { beat: flowStep.beat, phase: 'filed' };
+    }
+
+    if (
+      save.routeV2Progress?.requestId === flowStep.requestId
+      && save.routeV2Progress.status === 'ready-to-synthesize'
+    ) {
+      return { beat: flowStep.beat, phase: 'ready-to-file' };
+    }
   }
 
-  if (
-    save.routeV2Progress?.requestId === SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID
-    && save.routeV2Progress.status === 'ready-to-synthesize'
-  ) {
-    return resolveDuneCatchState('ready-to-file');
+  return { beat: SOURCE_TO_SHORE_BEAT_FLOW[0].beat, phase: 'active' };
+}
+
+function getSourceToShoreBeatIndex(beat: SourceToShoreBeat): number {
+  return SOURCE_TO_SHORE_BEAT_FLOW.findIndex((flowStep) => flowStep.beat === beat);
+}
+
+function resolveSourceToShoreBeatStatus(
+  sourceToShoreState: SourceToShoreState,
+  beatIndex: number,
+  activeIndex: number,
+): SourceToShoreBeatStatus {
+  if (sourceToShoreState.phase === 'filed') {
+    return 'done';
   }
 
-  if (hasResolvedFieldRequest(save, SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID)) {
-    return resolveDuneCatchState('active');
+  if (beatIndex < activeIndex) {
+    return 'done';
   }
 
-  if (
-    save.routeV2Progress?.requestId === SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID
-    && save.routeV2Progress.status === 'ready-to-synthesize'
-  ) {
-    return resolveForestReleaseState('ready-to-file', save);
+  if (beatIndex > activeIndex) {
+    return 'upcoming';
   }
 
-  if (hasResolvedFieldRequest(save, SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID)) {
-    return resolveForestReleaseState('active', save);
-  }
+  return sourceToShoreState.phase === 'ready-to-file' ? 'ready' : 'active';
+}
 
-  if (
-    save.routeV2Progress?.requestId === SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID
-    && save.routeV2Progress.status === 'ready-to-synthesize'
-  ) {
-    return resolveSourceShelterState('ready-to-file', save);
+function assertActiveOrReadyPhase(
+  phase: SourceToShorePhase,
+  beat: SourceToShoreBeat,
+): asserts phase is Exclude<SourceToShorePhase, 'filed'> {
+  if (phase === 'filed') {
+    throw new Error(`Source to Shore ${beat} cannot resolve a filed state before Dune Catch.`);
   }
+}
 
-  return resolveSourceShelterState('active', save);
+function resolveSourceToShoreBeatState(
+  beat: SourceToShoreBeat,
+  phase: SourceToShorePhase,
+  save: SaveState,
+): SourceToShoreState {
+  switch (beat) {
+    case 'source-shelter':
+      assertActiveOrReadyPhase(phase, beat);
+      return resolveSourceShelterState(phase, save);
+    case 'forest-release':
+      assertActiveOrReadyPhase(phase, beat);
+      return resolveForestReleaseState(phase, save);
+    case 'dune-catch':
+      return resolveDuneCatchState(phase, save);
+  }
 }
 
 export function resolveSourceToShoreRevisitMemory(
@@ -309,16 +427,20 @@ function resolveForestReleaseState(phase: SourceToShorePhase, save: SaveState): 
   };
 }
 
-function resolveDuneCatchState(phase: SourceToShorePhase): SourceToShoreState {
+function resolveDuneCatchState(phase: SourceToShorePhase, save: SaveState): SourceToShoreState {
   const location = getWorldMapLocationByBiomeId(ecoWorldMap, 'coastal-scrub');
+  const heldDuneActive = phase === 'active' && hasActiveProcess(save, 'coastal-scrub', 'sand-capture');
+  const activeSummary = heldDuneActive
+    ? 'Trapped sand makes dune grass, swale shrubs, and the cool edge easier to read today.'
+    : 'Carry Source to Shore to dune grass, swale shrub, and cool coastal edge.';
   const baseState = {
     beat: 'dune-catch',
     requestId: SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID,
-    title: 'Dune Catch',
+    title: heldDuneActive ? 'Held Dune' : 'Dune Catch',
     phase,
     targetBiomeId: 'coastal-scrub',
-    summary: 'Carry Source to Shore to dune grass, swale shrub, and cool coastal edge.',
-    cardTitle: 'DUNE CATCH',
+    summary: activeSummary,
+    cardTitle: heldDuneActive ? 'HELD DUNE' : 'DUNE CATCH',
     cardStartText: `${location.label} to coast catch`,
   } satisfies Pick<
     SourceToShoreState,
@@ -333,24 +455,24 @@ function resolveDuneCatchState(phase: SourceToShorePhase): SourceToShoreState {
   >;
 
   if (phase === 'filed') {
+    const filedArcCopy = resolveSourceToShoreFiledArcCopy();
+
     return {
       ...baseState,
       progressLabel: 'FILED',
       routeBoardTargetBiomeId: null,
       worldMapLabel: 'Dune Catch filed',
-      routeBoardSummary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
-      routeBoardNextDirection:
-        'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
-      liveAtlasNote: 'Filed: high source to forest release to coastal catch.',
-      archiveText: 'Source to Shore filed from high rime to forest shade to coastal catch.',
+      routeBoardSummary: filedArcCopy.routeBoardSummary,
+      routeBoardNextDirection: filedArcCopy.routeBoardNextDirection,
+      liveAtlasNote: filedArcCopy.atlasNote,
+      archiveText: filedArcCopy.archiveText,
       cardStatusLabel: 'FILED',
       cardTitle: 'SOURCE TO SHORE',
-      cardSummary: 'High rime, forest shade, and dune catch now read as one connected route.',
+      cardSummary: filedArcCopy.cardSummary,
       cardDetailLabel: 'FILED',
-      cardStartText: 'Treeline Pass to Coastal Scrub',
-      cardNote: 'Three Source to Shore notes filed.',
-      cardNoticeText:
-        'Source to Shore filed. High source, forest release, and coastal catch now connect.',
+      cardStartText: filedArcCopy.cardStartText,
+      cardNote: filedArcCopy.cardNote,
+      cardNoticeText: filedArcCopy.noticeText,
       isActiveOuting: false,
     };
   }
@@ -380,16 +502,26 @@ function resolveDuneCatchState(phase: SourceToShorePhase): SourceToShoreState {
     ...baseState,
     progressLabel: 'BETA',
     routeBoardTargetBiomeId: 'coastal-scrub',
-    worldMapLabel: 'Today: Dune Catch',
-    routeBoardSummary: `Dune Catch carries Source to Shore into ${location.label}.`,
+    worldMapLabel: heldDuneActive ? 'Today: Held Dune' : 'Today: Dune Catch',
+    routeBoardSummary: heldDuneActive
+      ? activeSummary
+      : `Dune Catch carries Source to Shore into ${location.label}.`,
     routeBoardNextDirection:
-      'Next: travel to Coastal Scrub and log dune catch, swale hold, and cool edge.',
-    liveAtlasNote: 'Next: carry Source to Shore to Coastal Scrub.',
+      heldDuneActive
+        ? 'Next: travel to Coastal Scrub and trace held sand, swale hold, and cool edge.'
+        : 'Next: travel to Coastal Scrub and log dune catch, swale hold, and cool edge.',
+    liveAtlasNote: heldDuneActive
+      ? 'Held Dune: trace grass, shrubs, cool edge.'
+      : 'Next: carry Source to Shore to Coastal Scrub.',
     archiveText: 'Forest Release filed; Dune Catch waits coastward.',
     cardStatusLabel: 'BETA',
-    cardSummary: `${location.label} carries Source to Shore into the coast catch.`,
+    cardSummary: heldDuneActive
+      ? 'Trapped sand sharpens the dune catch before the cool edge.'
+      : `${location.label} carries Source to Shore into the coast catch.`,
     cardDetailLabel: 'STARTS',
-    cardNote: 'Read dune catch, swale hold, and cool edge.',
+    cardNote: heldDuneActive
+      ? 'Read held sand, swale hold, and cool edge.'
+      : 'Read dune catch, swale hold, and cool edge.',
     cardNoticeText: null,
     isActiveOuting: true,
   };

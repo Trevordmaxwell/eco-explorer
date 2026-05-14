@@ -249,7 +249,27 @@ export function resolveInspectTargetProjection<TCandidate extends InspectTargetC
   };
 }
 
-export function getOutingSupportNoticeText(selectedSupportId: OutingSupportId): string {
+export function getOutingSupportNoticeText(
+  selectedSupportId: OutingSupportId,
+  activeFieldRequest: ActiveFieldRequest | null = null,
+): string {
+  if (activeFieldRequest?.routeV2?.status === 'ready-to-synthesize') {
+    return 'Route note is ready.';
+  }
+
+  if (activeFieldRequest?.routeV2?.status === 'gathering') {
+    switch (selectedSupportId) {
+      case 'route-marker':
+        return `Marks ${activeFieldRequest.biomeName}.`;
+      case 'place-tab':
+        return `Keeps ${activeFieldRequest.title} question.`;
+      case 'note-tabs':
+        return `${activeFieldRequest.progressLabel} visible.`;
+      default:
+        return `Highlights ${activeFieldRequest.title} clues.`;
+    }
+  }
+
   switch (selectedSupportId) {
     case 'route-marker':
       return 'Marks next map stop.';

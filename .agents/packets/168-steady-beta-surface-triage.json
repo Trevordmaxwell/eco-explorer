@@ -1,0 +1,124 @@
+{
+  "packet_id": "ECO-PACKET-168",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Steady beta surface triage",
+  "summary": "Start the big beta-foundation push by fixing the cramped station and journal surfaces exposed in the Source to Shore review, without changing route state or adding new systems.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-449",
+    "ECO-20260428-main-449",
+    "ECO-20260428-critic-449"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-449",
+      "goal": "Scope the smallest visible UI/layout fix pass for the station subtitle/tab collision and journal route progress clipping.",
+      "why_now": "These are live-facing polish cuts on the most important late-game hub and first-session journal guidance."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-449",
+      "goal": "Implement the scoped layout fixes with focused coverage or browser proof at the native handheld size.",
+      "why_now": "The beta foundation should begin by making the existing surfaces calm and readable before structural changes land."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-449",
+      "goal": "Review the visual triage for copy fit, tab spacing, journal progress readability, and absence of route-state drift.",
+      "why_now": "Small layout fixes can easily hide regressions on a 256x160 surface, so critique should clear the baseline before the container work starts."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/168-steady-beta-surface-triage.json",
+    "src/engine/overlay-render.ts",
+    "src/engine/field-station-routes-page.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/ui-layout.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Station homecoming subtitle no longer collides with the SEASON/NURSERY tabs in the Source to Shore state.",
+    "Journal route progress labels such as `0/3 stages` render without clipping.",
+    "No route-state, save-state, route data, station page identity, or Source to Shore content behavior changes land in this packet.",
+    "Focused layout/station/journal proof or tests pass, plus agent validation if queue or packet files move."
+  ],
+  "scout_handoff": {
+    "report": "docs/reports/2026-04-28-steady-beta-surface-triage-handoff.md",
+    "implementation_contract": [
+      "Use `src/engine/overlay-render.ts` as the only runtime edit target for this packet.",
+      "Move the field-station subtitle and `SEASON` / `NURSERY` tabs into non-overlapping vertical rows while preserving the compact 256x160 panel shape.",
+      "Make the journal field-request progress label measured and trimmed from the same string that is right-aligned, with a wider reserved title/progress split so labels such as `0/3 stages` fit.",
+      "Add or adjust focused runtime proof in `src/test/runtime-smoke.test.ts`; reuse Source to Shore board state assertions in `src/test/field-season-board.test.ts` as behavior parity."
+    ],
+    "out_of_scope": [
+      "Do not change Source to Shore route state, save state, route data, or authored beat count.",
+      "Do not implement the dedicated Source to Shore station container in this packet.",
+      "Do not edit `src/engine/field-season-board.ts` except as read-only context.",
+      "Do not introduce new station pages, planner UI, dashboard UI, or copy systems."
+    ],
+    "proof_expectations": [
+      "`npm test -- --run src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts -t \"Source to Shore|journal\"` or an equivalently focused station/journal slice.",
+      "`npm run build` after runtime edits.",
+      "Native 256x160 browser proof of the Source to Shore field-station routes page and journal route card, ideally using the existing Playwright web-game client."
+    ]
+  },
+  "implementation_result": {
+    "report": "docs/reports/2026-04-28-steady-beta-surface-triage-implementation.md",
+    "runtime_changes": [
+      "`src/engine/overlay-render.ts` now reserves a measured progress-label lane in the journal route card and right-aligns the same fitted progress text that it draws.",
+      "`src/engine/overlay-render.ts` now lowers the field-station `SEASON` / `NURSERY` tab row so the subtitle/homecoming line has a clear vertical row above it."
+    ],
+    "tests_added": [
+      "`src/test/runtime-smoke.test.ts` records fake-canvas text coordinates for renderer layout guards.",
+      "`src/test/runtime-smoke.test.ts` now checks the Source to Shore station subtitle is separated from the station tabs.",
+      "`src/test/runtime-smoke.test.ts` now checks a fresh journal route card draws `0/3 stages` without ellipsis trimming."
+    ],
+    "verification": [
+      "`npm test -- --run src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts -t 'Source to Shore|journal'`",
+      "`node /Users/trevormaxwell/.codex/skills/develop-web-game/scripts/web_game_playwright_client.js --url http://127.0.0.1:5174/ --actions-json '{\"steps\":[{\"buttons\":[\"enter\"],\"frames\":2},{\"buttons\":[],\"frames\":8}]}' --iterations 1 --pause-ms 100 --screenshot-dir output/lane-1-main-449-web-game-client`",
+      "Targeted 256x160 Playwright proof at `output/lane-1-main-449-browser/` with empty `errors.json`.",
+      "`npm run build`"
+    ]
+  },
+  "critic_review": {
+    "report": "docs/reports/2026-04-28-steady-beta-surface-triage-review.md",
+    "verdict": "clean",
+    "notes": [
+      "The station subtitle/homecoming line and `SEASON` / `NURSERY` tab row are separated in the Source to Shore beta station proof.",
+      "The fresh journal route card renders `0/3 stages` in full.",
+      "No route-state, save-state, Source to Shore beat-count, station-container, or new copy-system drift landed."
+    ],
+    "verification": [
+      "`npm test -- --run src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts -t 'Source to Shore|journal'`"
+    ],
+    "post_packet_gate": "Surface baseline is clear; `ECO-20260428-main-450` can open after `ECO-20260428-scout-450` finishes the Source to Shore station-container scope."
+  },
+  "guardrails": [
+    "Fix surface pressure only.",
+    "Do not introduce the Source to Shore container in this packet.",
+    "Do not add routes, route beats, save fields, station pages, planner UI, or new copy systems.",
+    "Keep all visible copy compact for the 256x160 handheld viewport.",
+    "Prefer measured spacing/budget fixes over broad overlay rewrites."
+  ],
+  "post_packet_path": [
+    "Promote the Source to Shore station-container implementation only after the surface baseline is clean.",
+    "Carry any additional layout debt into a new packet rather than widening this first pass."
+  ]
+}

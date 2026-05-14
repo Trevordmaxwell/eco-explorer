@@ -1,0 +1,142 @@
+{
+  "packet_id": "ECO-PACKET-188",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 3 high-country vertical memory",
+  "summary": "Strengthen Treeline/Tundra shelter, exposure, thaw, or descent physical memory without route or station dependencies.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-high-country-relief-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-495",
+    "ECO-20260428-main-495",
+    "ECO-20260428-critic-495"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-494"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-495",
+      "goal": "Scope one high-country vertical-memory pass around shelter, exposure, thaw, or descent.",
+      "why_now": "Treeline and Tundra have enough proof to support one more carefully chosen spatial beat."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-495",
+      "goal": "Implement the scoped high-country spatial pass with proof.",
+      "why_now": "High-country places should feel physically distinct before more route breadth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-495",
+      "goal": "Review high-country spatial work and close the lane-3 runway if clean.",
+      "why_now": "The lane should end with local proof and no cross-lane blocker."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/188-lane-3-high-country-vertical-memory.json",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/vertical-cues.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One high-country spatial memory improvement lands or is proof-closed.",
+    "Visual changes have browser proof.",
+    "No route beat, station shell, save change, physics rewrite, or new biome lands."
+  ],
+  "guardrails": [
+    "Keep high-country changes local.",
+    "Avoid prompt competition near map posts.",
+    "Do not add route semantics.",
+    "Preserve science-safe carrier placement."
+  ],
+  "scout_495_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-high-country-vertical-memory-handoff.md",
+    "target": "Proof-first Treeline Source Shelter high-source/source-memory pocket inside `lichen-fell`, from `rime-brow` into the `source-memory-rime-overlook` and `source-memory-stone-step` read.",
+    "finding": "Fresh browser proof found no new spatial readability issue. The packet `174` Source Shelter prompt competition remains fixed: source-memory carriers can be read before the Tundra prompt, and at the far prompt edge the nearest inspectable is no longer a source-memory carrier.",
+    "proof_artifacts": [
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/summary.json",
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/errors.json",
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/treeline-rime-brow-approach-256x160.png",
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/treeline-source-memory-rime-overlook-256x160.png",
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/treeline-source-memory-before-door-256x160.png",
+      "output/lane-3-scout-495-high-country-vertical-memory-proof/treeline-prompt-edge-separated-256x160.png"
+    ],
+    "habitat_honesty_checks": [
+      "Keep the target in Treeline `lichen-fell` with high rime/exposed fell carriers: `reindeer-lichen`, `frost-heave-boulder`, `rock-ptarmigan`, `mountain-avens`, `moss-campion`, and `talus-cushion-pocket`.",
+      "Do not move or retarget the `HIGH PASS MAP` post.",
+      "Avoid Tundra drift/meltwater geometry unless fresh proof shows a real local issue; the prior Tundra relief pass is already clean."
+    ],
+    "main_495_contract": [
+      "Re-prove the Treeline high-source/source-memory pocket in a live browser at native `256x160`.",
+      "If proof stays clean, land no runtime geometry change and close as proof-only.",
+      "If fresh proof finds a real local readability issue, apply only one tiny Treeline-local geometry or existing-carrier placement fix, then rerun focused Treeline/runtime checks and browser proof.",
+      "Do not add a route beat, station surface, save change, content-only note, physics pass, traversal framework, cave system, new biome, or map-post change."
+    ]
+  },
+  "main_495_result": {
+    "status": "READY_FOR_REVIEW",
+    "report": "docs/reports/2026-04-28-high-country-vertical-memory-implementation.md",
+    "changed_files": [],
+    "summary": [
+      "Proof-closed the existing Treeline Source Shelter high-source/source-memory pocket without runtime geometry changes.",
+      "Fresh browser proof walked from `rime-brow` into the source-memory pocket and out to the separated `TO TUNDRA REACH` prompt edge.",
+      "No route beat, station shell, save state, content-only note, physics, map-return post, cave system, traversal framework, new biome, geometry, carrier placement, or player-facing copy changed."
+    ],
+    "proof_artifacts": [
+      "output/lane-3-main-495-high-country-vertical-memory-proof/summary.json",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/timeline.json",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/errors.json",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/treeline-rime-brow-start-256x160.png",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/treeline-source-memory-rime-overlook-256x160.png",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/treeline-source-memory-before-door-256x160.png",
+      "output/lane-3-main-495-high-country-vertical-memory-proof/treeline-prompt-edge-separated-256x160.png"
+    ],
+    "verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts -t \"source memory|Rime Brow|open-fell|shelter and exposure\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Rime Brow|open-fell|map-return post|Source Shelter|Rime Source\""
+    ],
+    "build_note": "npm run build was not run because no runtime source files changed."
+  },
+  "critic_495_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-high-country-vertical-memory-review.md",
+    "findings": [],
+    "review_summary": [
+      "The proof-only result satisfies packet `188`: the Treeline high-source/source-memory pocket reads from `rime-brow` to the separated Tundra prompt edge at native `256x160`.",
+      "The source-memory read has no in-range door or travel target before the prompt edge, and the prompt-edge nearest inspectable is not a source-memory carrier.",
+      "No route beat, station shell, save state, content-only note, physics, map-return post, cave system, traversal framework, new biome, geometry, carrier placement, or player-facing copy changed."
+    ],
+    "verification": [
+      "reviewed output/lane-3-main-495-high-country-vertical-memory-proof/summary.json",
+      "reviewed output/lane-3-main-495-high-country-vertical-memory-proof/timeline.json",
+      "reviewed output/lane-3-main-495-high-country-vertical-memory-proof/errors.json",
+      "npm test -- --run src/test/treeline-biome.test.ts -t \"source memory|Rime Brow|open-fell|shelter and exposure\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Rime Brow|open-fell|map-return post|Source Shelter|Rime Source\""
+    ],
+    "residual_risk": "The wider worktree contains unrelated dirty source diffs from other lane work, but packet `188` itself was proof-only and did not change runtime source files."
+  },
+  "post_packet_path": [
+    "If clean, lane 3 can later propose an expedition-grade vertical chapter.",
+    "If blocked, open a lane-3-local item."
+  ]
+}

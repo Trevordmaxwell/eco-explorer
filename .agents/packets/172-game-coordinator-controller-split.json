@@ -1,0 +1,137 @@
+{
+  "packet_id": "ECO-PACKET-172",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Game coordinator controller split",
+  "summary": "Make one narrow behavior-preserving split out of the main game coordinator so future station, route, and debug work has a safer extension point.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-453",
+    "ECO-20260428-main-453",
+    "ECO-20260428-critic-453"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-452"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-453",
+      "goal": "Identify one small coordinator responsibility to extract from `game.ts`, favoring station/menu input or debug serialization seams.",
+      "why_now": "The beta foundation needs steadier code shape, but only after Source to Shore state behavior is anchored."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-453",
+      "goal": "Implement the selected controller split with behavior-preserving tests and no gameplay feature changes.",
+      "why_now": "A narrow extraction reduces future edit pressure in `game.ts` without derailing beta feature work."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-453",
+      "goal": "Review the split for simpler ownership, unchanged behavior, and absence of premature framework growth.",
+      "why_now": "Architecture cleanup earns its keep only if the next agents can understand and extend it faster."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/172-game-coordinator-controller-split.json",
+    "src/engine/game.ts",
+    "src/engine/input.ts",
+    "src/engine/field-station-session.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/architecture.md",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One clearly named coordinator responsibility is extracted or isolated with less pressure on `game.ts`.",
+    "Runtime behavior, input behavior, save/debug behavior, station flow, and route flow remain unchanged.",
+    "Focused runtime/save/input coverage passes, plus build if TypeScript structure changes.",
+    "Architecture docs are updated only if the new boundary is durable."
+  ],
+  "guardrails": [
+    "One narrow extraction only.",
+    "No gameplay feature changes.",
+    "No renderer rewrite, state-machine rewrite, save schema change, or framework migration.",
+    "Follow existing code style and helper patterns.",
+    "Stop at the first useful seam rather than turning this into a broad refactor."
+  ],
+  "post_packet_path": [
+    "Record any additional coordinator seams as future packets instead of taking them in this wave.",
+    "Use this split as a proof that architecture work can stay small and useful."
+  ],
+  "scout_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-game-coordinator-controller-split-handoff.md",
+    "selected_target": "Field-station session selection/navigation",
+    "gate": "`ECO-20260428-main-453` remains parked until route-flow consolidation and route-catalog extraction have clean critic review, ending with `ECO-20260428-critic-452`.",
+    "recommended_shape": [
+      "Extend the existing `src/engine/field-station-session.ts` module instead of adding a new framework.",
+      "Move or re-export `FieldStationSelections` from `src/engine/field-station-state.ts` into `field-station-session.ts`.",
+      "Add `FieldStationSurface = 'season-routes' | 'season-expedition' | 'nursery'` and pure helpers for surface cycling, route/support/upgrade selection, nursery card cycling, and selection normalization.",
+      "Leave key polling, audio, notices, route-note filing, upgrade purchasing, outing-support cycling, expedition activation, and nursery project actions in `src/engine/game.ts`.",
+      "Keep `src/engine/game.ts` as the coordinator, but delegate only the station selection calculations to the helper module."
+    ],
+    "non_goals": [
+      "No gameplay feature changes.",
+      "No Source to Shore route-state changes.",
+      "No route catalog changes in this packet.",
+      "No renderer/layout rewrite.",
+      "No save schema change.",
+      "Do not move the debug-state exporter in this wave."
+    ],
+    "proof_plan": [
+      "Add `src/test/field-station-session.test.ts` for surface cycling, support/upgrade wrap, nursery-card wrap, and selection normalization.",
+      "`npm test -- --run src/test/field-station-session.test.ts`",
+      "`npm test -- --run src/test/runtime-smoke.test.ts -t 'field station|outing support|season capstone|High Pass|Source to Shore'`",
+      "`npm test -- --run src/test/save-snapshots.test.ts -t 'station|High Pass|Source to Shore'`",
+      "`npm run build`",
+      "Only capture native `256x160` browser proof if renderer/layout files change unexpectedly."
+    ]
+  },
+  "main_implementation": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-game-coordinator-controller-split-implementation.md",
+    "implemented_shape": [
+      "Moved `FieldStationSelections` and `FieldStationSurface` ownership into `src/engine/field-station-session.ts`.",
+      "Added pure helpers for station surface cycling, route/support selection cycling, nursery-card cycling, and selection normalization.",
+      "Kept input polling, audio cues, filing, upgrade purchases, support toggles, expedition activation, nursery actions, notices, saves, and debug export behavior in `src/engine/game.ts`."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-station-session.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'field station|outing support|season capstone|High Pass|Source to Shore'",
+      "npm test -- --run src/test/save-snapshots.test.ts -t 'station|High Pass|Source to Shore'",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-critic-453` to review that this stayed a narrow station/session split with unchanged gameplay behavior."
+  },
+  "critic_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-game-coordinator-controller-split-review.md",
+    "verdict": "clean",
+    "findings": [],
+    "verification": [
+      "npm test -- --run src/test/field-station-session.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'field station|outing support|season capstone|High Pass|Source to Shore'",
+      "npm test -- --run src/test/save-snapshots.test.ts -t 'station|High Pass|Source to Shore'",
+      "npm run build"
+    ],
+    "handoff": "Packet 172 is clean; promote `ECO-20260428-main-456` for final Steady Beta full-arc signoff."
+  }
+}

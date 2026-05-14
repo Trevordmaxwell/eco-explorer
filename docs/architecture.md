@@ -28,7 +28,7 @@ The game renders at a fixed internal resolution of `256x160` and uses nearest-ne
 - overlay state for title, gameplay, journal, menu, field station, and close-look views
 - inspect interactions, fact bubbles, and field notices
 - journal selection and comparison toggles
-- field station tabs, route board state, expedition hooks, and nursery selection
+- field station input side effects, route filing, expedition hooks, and nursery actions
 - save persistence, fullscreen toggles, and audio toggles
 - deterministic debug hooks used by tests
 
@@ -85,6 +85,7 @@ Travel data is split between map-level and corridor-level systems:
 
 - `src/content/world-map.ts`: map nodes, connections, anchors, and corridor door metadata
 - `src/engine/world-map.ts`: map state, focus movement, and route stepping
+- `src/engine/travel-framing.ts`: world-map origin, map-return, summary, and walking label policy
 - `src/engine/door-transition.ts`: staged doorway transitions
 - `src/engine/corridor.ts`: adjacent biome seam scenes, ownership thresholds, entry points, and visual blending
 
@@ -150,7 +151,8 @@ These systems are designed to deepen pattern noticing without turning the game i
 
 Exploration is increasingly structured around Route v2 outings and a small guided-season loop. The player-facing shape is one current route, evidence gathering in the world, notebook filing back at the station, and tiny support/replay cues. Some code and save fields still use `field-request*` names for compatibility.
 
-- `src/engine/field-requests.ts`: authored Route v2 outing definitions, compatibility request definitions, and route-specific copy helpers
+- `src/engine/field-request-catalog.ts`: authored Route v2 outing definitions and compatibility request definitions
+- `src/engine/field-requests.ts`: active route resolution, evidence progression, notebook filing, and route-specific copy helpers
 - `src/engine/field-request-state.ts`: derived route context, outing locator, route-marker, and replay-label state
 - `src/engine/guided-field-season.ts`: onboarding and route guidance
 - `src/engine/progression.ts`: survey and completion state helpers
@@ -163,6 +165,7 @@ The field station uses these systems to present one current route, logged route 
 The station is split between:
 
 - `src/engine/field-station.ts`: economy and upgrade rules
+- `src/engine/field-station-session.ts`: station open/homecoming state plus pure surface, selection navigation, and primary-action intent rules
 - `src/engine/field-station-state.ts`: composed field-station view state from save data plus current UI selection
 
 The economy / upgrade seam covers:
@@ -245,6 +248,8 @@ Key entry points used across runtime or tests include:
 - `window.render_game_to_text()`
 
 `render_game_to_text()` is a core verification seam. It exposes enough world, overlay, route, and prompt state for runtime-smoke tests without depending on screenshots alone.
+
+`src/test/debug-snapshot-harness.ts` provides reusable test-only helpers for booting named debug saves and opening the map, station, and journal through the same runtime state seam. Station proofs that need the map precondition should use `openFieldStationViaWorldMap()` instead of repeating that two-step setup.
 
 ## Verification Surfaces
 

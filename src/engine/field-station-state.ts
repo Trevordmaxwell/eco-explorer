@@ -17,7 +17,7 @@ import {
   resolveFieldStationHomecomingCopy,
   type FieldStationHomecomingCopy,
 } from './field-station-homecoming-copy';
-import type { FieldStationArrivalMode } from './field-station-session';
+import type { FieldStationArrivalMode, FieldStationSelections } from './field-station-session';
 import {
   getFieldUpgradeStates,
   getRecentFieldCreditSources,
@@ -47,14 +47,7 @@ import type {
   SaveState,
 } from './types';
 
-export interface FieldStationSelections {
-  selectedFieldStationView: FieldStationView;
-  selectedFieldStationSeasonPage: FieldStationSeasonPage;
-  outingSupportSelected: boolean;
-  selectedFieldStationUpgradeId: string | null;
-  selectedNurseryCardId: NurseryCardId;
-  selectedNurseryProjectId: string | null;
-}
+export type { FieldStationSelections } from './field-station-session';
 
 export interface FieldStationStateOptions {
   arrivalMode?: FieldStationArrivalMode;

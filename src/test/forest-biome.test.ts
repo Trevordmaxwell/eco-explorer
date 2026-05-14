@@ -228,6 +228,41 @@ describe('forest biome generation', () => {
     ]);
   });
 
+  it('adds one tiny trailhead edge anchor before fern-hollow', () => {
+    const save = createNewSaveState('forest-trailhead-edge-seed');
+    const instance = generateBiomeInstance(forestBiome, save, 1);
+
+    const trailheadTerrain = instance.terrainSamples.find((sample) => sample.x === 128);
+    const trailheadLog = instance.platforms.find((platform) => platform.id === 'trailhead-edge-log');
+    const fernRootLip = instance.platforms.find((platform) => platform.id === 'fern-shade-root-lip');
+    const trailheadCarriers = instance.entities
+      .filter((entity) => entity.entityId.startsWith('authored-trailhead-edge'))
+      .map((entity) => ({
+        entryId: entity.entryId,
+        x: entity.x,
+        y: entity.y,
+      }));
+
+    expect(trailheadLog).toMatchObject({
+      id: 'trailhead-edge-log',
+      x: 116,
+      y: 106,
+      w: 24,
+    });
+    expect(trailheadLog?.x).toBeGreaterThanOrEqual(104);
+    expect((trailheadLog?.x ?? 0) + (trailheadLog?.w ?? 0)).toBeLessThanOrEqual(150);
+    expect(trailheadLog?.x).toBeLessThan(fernRootLip?.x ?? 0);
+    expect(trailheadLog?.y).toBeLessThan(trailheadTerrain?.y ?? 999);
+    expect(trailheadCarriers).toEqual([
+      { entryId: 'salmonberry', x: 108, y: 102 },
+      { entryId: 'sword-fern', x: 122, y: 104 },
+      { entryId: 'red-huckleberry', x: 136, y: 100 },
+    ]);
+    for (const carrier of trailheadCarriers) {
+      expect(carrier.x).toBeLessThan(150);
+    }
+  });
+
   it('adds one cave-mouth sill and one tucked canopy crook around the live waypoint cues', () => {
     const save = createNewSaveState('forest-waypoint-shelves-seed');
     const instance = generateBiomeInstance(forestBiome, save, 1);
@@ -586,6 +621,7 @@ describe('forest biome generation', () => {
       'authored-root-hollow-basin-ensatina-ensatina',
       'authored-root-hollow-basin-slug-banana-slug',
       'authored-root-hollow-under-basin-moss-seep-moss-mat',
+      'authored-root-hollow-leaf-litter-pocket-leaf-litter-pocket',
       'authored-filtered-return-root-curtain-root-curtain',
       'authored-filtered-return-seep-moss-seep-moss-mat',
       'authored-filtered-return-mouth-moss-seep-moss-mat',
@@ -621,6 +657,13 @@ describe('forest biome generation', () => {
         x: 374,
         y: 194,
         castsShadow: false,
+      },
+      {
+        entityId: 'authored-root-hollow-leaf-litter-pocket-leaf-litter-pocket',
+        entryId: 'leaf-litter-pocket',
+        x: 368,
+        y: 224,
+        castsShadow: true,
       },
       {
         entityId: 'authored-filtered-return-root-curtain-root-curtain',
@@ -670,6 +713,7 @@ describe('forest biome generation', () => {
       { entryId: 'tree-lungwort', x: 350, y: 148, castsShadow: false },
       { entryId: 'seep-stone', x: 356, y: 172, castsShadow: true },
       { entryId: 'tree-lungwort', x: 366, y: 210, castsShadow: false },
+      { entryId: 'leaf-litter-pocket', x: 368, y: 224, castsShadow: true },
       { entryId: 'seep-moss-mat', x: 374, y: 194, castsShadow: false },
       { entryId: 'tree-lungwort', x: 380, y: 88, castsShadow: false },
       { entryId: 'ensatina', x: 380, y: 220, castsShadow: true },
@@ -705,6 +749,7 @@ describe('forest biome generation', () => {
       { entryId: 'old-mans-beard', x: 672, y: 14, castsShadow: false },
       { entryId: 'western-hemlock-seedling', x: 674, y: 136, castsShadow: true },
       { entryId: 'canopy-moss-bed', x: 680, y: 22, castsShadow: false },
+      { entryId: 'shelf-fungus', x: 688, y: 126, castsShadow: false },
       { entryId: 'licorice-fern', x: 694, y: 106, castsShadow: false },
       { entryId: 'licorice-fern', x: 700, y: 30, castsShadow: false },
       { entryId: 'woodpecker-cavity', x: 702, y: 132, castsShadow: false },
@@ -723,7 +768,10 @@ describe('forest biome generation', () => {
     const barkNote = forestBiome.ecosystemNotes.find((note) => note.id === 'old-growth-bark-life');
     const canopyNote = forestBiome.ecosystemNotes.find((note) => note.id === 'forests-above');
     const seepNote = forestBiome.ecosystemNotes.find((note) => note.id === 'seep-wall-garden');
+    const leafLitterNote = forestBiome.ecosystemNotes.find((note) => note.id === 'leaf-litter-shelter');
+    const recyclerNote = forestBiome.ecosystemNotes.find((note) => note.id === 'old-wood-recyclers');
     const layeredNote = forestBiome.ecosystemNotes.find((note) => note.id === 'layered-forest-path');
+    const berrySeedNote = forestBiome.ecosystemNotes.find((note) => note.id === 'berry-seed-shuttle');
 
     expect(nurseryNote).toMatchObject({
       title: 'Old-Wood Nursery',
@@ -748,11 +796,31 @@ describe('forest biome generation', () => {
       entryIds: ['seep-moss-mat', 'seep-stone', 'tree-lungwort'],
       zoneId: 'stone-basin',
     });
+    expect(leafLitterNote).toMatchObject({
+      title: 'Leaf-Litter Shelter',
+      minimumDiscoveries: 2,
+      entryIds: ['leaf-litter-pocket', 'seep-moss-mat', 'ensatina'],
+      zoneId: 'stone-basin',
+    });
+    expect(recyclerNote).toMatchObject({
+      title: 'Old-Wood Recyclers',
+      minimumDiscoveries: 2,
+      entryIds: ['shelf-fungus', 'fallen-giant-log', 'western-hemlock-seedling'],
+      zoneId: 'old-growth-pocket',
+    });
     expect(layeredNote).toMatchObject({
       title: 'Layered Forest Path',
       minimumDiscoveries: 2,
       entryIds: ['western-trillium', 'salmonberry', 'western-hemlock-seedling'],
       zoneId: 'creek-bend',
+    });
+    expect(berrySeedNote).toMatchObject({
+      title: 'Berry Seed Shuttle',
+      minimumDiscoveries: 2,
+      entryIds: ['steller-jay', 'red-huckleberry', 'salmonberry'],
+      summary: 'Berries feed forest birds, and some seeds travel away from the edge.',
+      observationPrompt: 'Which berries might a bird carry next?',
+      zoneId: 'trailhead',
     });
   });
 

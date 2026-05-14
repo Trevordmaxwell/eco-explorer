@@ -1,0 +1,330 @@
+{
+  "packet_id": "ECO-PACKET-176",
+  "version": 10,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 1 systems independence runway",
+  "summary": "After the remaining Steady Beta Foundation tail is closed, harden station/session structure, travel framing, and debug proof surfaces without blocking the other lanes.",
+  "source_reports": [
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "docs/reports/2026-04-28-game-coordinator-controller-split-handoff.md",
+    "docs/reports/2026-04-28-steady-beta-full-arc-signoff-handoff.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-457",
+    "ECO-20260428-main-457",
+    "ECO-20260428-critic-457",
+    "ECO-20260428-scout-458",
+    "ECO-20260428-main-458",
+    "ECO-20260428-critic-458",
+    "ECO-20260428-scout-459",
+    "ECO-20260428-main-459",
+    "ECO-20260428-critic-459"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-456"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-457",
+      "goal": "Scope the next station/session boundary after the existing coordinator split and full-arc signoff are complete.",
+      "why_now": "Lane 1 should keep reducing `game.ts` pressure, but only after the foundation wave is actually closed."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-457",
+      "goal": "Implement one behavior-preserving station/session helper or renderer-adjacent extraction.",
+      "why_now": "The station now carries more chapter identity and needs cleaner extension points."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-457",
+      "goal": "Review the station/session extraction for behavior parity and clear ownership.",
+      "why_now": "Architecture cleanup should make later lanes safer without widening the feature surface."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260428-scout-458",
+      "goal": "Audit world-map, corridor, and station-return travel framing for the next beta chapter.",
+      "why_now": "Travel clarity can improve independently from content, geometry, and route authoring."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260428-main-458",
+      "goal": "Implement the smallest travel-framing pass using existing map, station, and corridor seams.",
+      "why_now": "A calmer travel spine makes larger beta content feel authored instead of scattered."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260428-critic-458",
+      "goal": "Review travel framing for clarity, compact copy, and no navigation HUD drift.",
+      "why_now": "Travel guidance should remain in-world and low-chrome."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260428-scout-459",
+      "goal": "Scope a debug proof harness improvement for station, route, and map states.",
+      "why_now": "Parallel work needs better proof surfaces so integration does not become manual babysitting."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260428-main-459",
+      "goal": "Implement one proof-harness improvement without changing gameplay.",
+      "why_now": "Better proof machinery lets future lane agents verify their own work without cross-lane gates."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260428-critic-459",
+      "goal": "Review the proof-harness change and decide whether lane 1 is ready for broader season-shell growth.",
+      "why_now": "The systems lane should finish this runway with more independence, not more coordination burden."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/176-lane-1-systems-independence-runway.json",
+    "src/engine/game.ts",
+    "src/engine/field-station-session.ts",
+    "src/engine/field-station-state.ts",
+    "src/engine/field-station-routes-page.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/world-map-render.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/field-station.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/architecture.md",
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "The existing Steady Beta Foundation tail is closed before this packet starts.",
+    "Lane 1 completes station/session, travel-framing, and proof-harness work without requiring lane 2, lane 3, or lane 4 changes.",
+    "Each implementation step has focused tests and build coverage.",
+    "No broad content pack, route catalog rewrite, traversal expansion, planner, inventory, economy, combat, or direct API mode is added."
+  ],
+  "guardrails": [
+    "This lane starts only after `ECO-20260428-critic-456` is clean.",
+    "Keep lane 1 changes to systems, progression, station, map, and proof surfaces.",
+    "Do not absorb content-richness, vertical-spatial, or route-authoring work from other lanes.",
+    "Prefer one behavior-preserving extraction per implementation item.",
+    "Keep UI compact for the 256x160 handheld surface."
+  ],
+  "post_packet_path": [
+    "If clean, lane 1 can open a later season-shell growth packet.",
+    "If blocked, write the smallest blocker item instead of creating another cross-lane gate."
+  ],
+  "scout_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-scout-457",
+    "report": "docs/reports/2026-04-28-station-session-independence-handoff.md",
+    "selected_boundary": "Extract a pure field-station primary-action intent helper into `src/engine/field-station-session.ts` while keeping action side effects in `src/engine/game.ts`.",
+    "target_files": [
+      "src/engine/field-station-session.ts",
+      "src/engine/game.ts",
+      "src/test/field-station-session.test.ts",
+      "docs/architecture.md"
+    ],
+    "required_behavior": [
+      "`SEASON -> ROUTES` Enter keeps ready-to-file route filing before support toggle before selected upgrade purchase.",
+      "`SEASON -> EXPEDITION` Enter keeps ready-to-file forest expedition filing before normal expedition card handling.",
+      "`NURSERY` Enter keeps nursery card activation.",
+      "The helper returns an intent only; `game.ts` keeps route filing, support cycling, purchases, nursery actions, expedition activation, notices, audio, persistence, and debug behavior."
+    ],
+    "out_of_scope": [
+      "Player-facing copy changes",
+      "Route catalog or evidence-slot changes",
+      "Save schema changes",
+      "Support behavior changes",
+      "Station layout changes",
+      "Content, geometry, science-ledger, or travel-framing work"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-station-session.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'field station|outing support|season capstone|High Pass|Source to Shore'",
+      "npm test -- --run src/test/save-snapshots.test.ts -t 'station|High Pass|Source to Shore'",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-main-457`."
+  },
+  "main_implementation": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-main-457",
+    "report": "docs/reports/2026-04-28-station-session-independence-implementation.md",
+    "summary": "Added `resolveFieldStationPrimaryAction()` as a pure station-session intent helper and kept all action side effects in `src/engine/game.ts`.",
+    "changed_files": [
+      "src/engine/field-station-session.ts",
+      "src/engine/game.ts",
+      "src/test/field-station-session.test.ts",
+      "docs/architecture.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-station-session.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'field station|outing support|season capstone|High Pass|Source to Shore'",
+      "npm test -- --run src/test/save-snapshots.test.ts -t 'station|High Pass|Source to Shore'",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-critic-457`."
+  },
+  "critic_review_457": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-critic-457",
+    "report": "docs/reports/2026-04-28-station-session-independence-review.md",
+    "verdict": "clean",
+    "verification": [
+      "npm test -- --run src/test/field-station-session.test.ts",
+      "npm run build"
+    ],
+    "decision": "Promote `ECO-20260428-scout-458`."
+  },
+  "scout_handoff_458": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-scout-458",
+    "report": "docs/reports/2026-04-28-travel-framing-independence-handoff.md",
+    "selected_boundary": "Extract world-map travel label policy into a dedicated `src/engine/travel-framing.ts` helper while preserving existing labels and runtime behavior.",
+    "target_files": [
+      "src/engine/travel-framing.ts",
+      "src/engine/game.ts",
+      "src/test/travel-framing.test.ts",
+      "docs/architecture.md"
+    ],
+    "required_behavior": [
+      "Forest map-return post keeps `HIGH PASS MAP` when the next field-season target is Treeline.",
+      "Forest world-map summary keeps `Last woods before High Pass.` in that same state.",
+      "World-map focus away from the current location keeps `FROM <CURRENT LOCATION>`.",
+      "Walking to Treeline keeps `HIGH PASS` as the approach label."
+    ],
+    "out_of_scope": [
+      "New navigation HUD",
+      "Route semantics",
+      "Content or science-ledger edits",
+      "Corridor geometry",
+      "Station layout",
+      "Save schema",
+      "Source to Shore beat changes"
+    ],
+    "verification": [
+      "npm test -- --run src/test/travel-framing.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'travel|world map|High Pass'",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-main-458`."
+  },
+  "main_implementation_458": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-main-458",
+    "report": "docs/reports/2026-04-28-travel-framing-independence-implementation.md",
+    "summary": "Extracted world-map travel label policy into `src/engine/travel-framing.ts` with direct tests and preserved existing High Pass travel warmth behavior.",
+    "changed_files": [
+      "src/engine/travel-framing.ts",
+      "src/engine/game.ts",
+      "src/test/travel-framing.test.ts",
+      "docs/architecture.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/travel-framing.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'travel|world map|High Pass'",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-critic-458`."
+  },
+  "critic_review_458": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-critic-458",
+    "report": "docs/reports/2026-04-28-travel-framing-independence-review.md",
+    "verdict": "clean",
+    "verification": [
+      "git diff --check -- src/engine/travel-framing.ts src/engine/game.ts src/test/travel-framing.test.ts docs/architecture.md",
+      "npm test -- --run src/test/travel-framing.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t 'travel|world map|High Pass'",
+      "npm run build"
+    ],
+    "decision": "Promote `ECO-20260428-scout-459`."
+  },
+  "scout_handoff_459": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-scout-459",
+    "report": "docs/reports/2026-04-28-debug-proof-harness-handoff.md",
+    "selected_boundary": "Extract the local debug-snapshot boot/map/station/journal test helpers from `src/test/save-snapshots.test.ts` into a reusable test-only harness module.",
+    "target_files": [
+      "src/test/debug-snapshot-harness.ts",
+      "src/test/save-snapshots.test.ts",
+      "docs/architecture.md"
+    ],
+    "required_behavior": [
+      "Existing debug snapshot ids, titles, descriptions, save JSON, localStorage values, and paste commands remain unchanged.",
+      "Existing save-snapshot runtime assertions keep passing through the extracted helper.",
+      "The helper stays test-only and does not alter gameplay, route, station, map, content, geometry, save, or Source to Shore behavior."
+    ],
+    "out_of_scope": [
+      "Runtime gameplay changes",
+      "Debug snapshot content or id changes",
+      "Route ids or evidence ids",
+      "Station layout",
+      "World-map behavior",
+      "Save schema",
+      "Content or science-ledger edits",
+      "Geometry changes",
+      "Source to Shore beat changes"
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build",
+      "npm run validate:agents"
+    ],
+    "handoff": "Promote `ECO-20260428-main-459`."
+  },
+  "main_implementation_459": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-main-459",
+    "report": "docs/reports/2026-04-28-debug-proof-harness-implementation.md",
+    "summary": "Extracted reusable debug-snapshot boot/map/station/journal helpers into `src/test/debug-snapshot-harness.ts` and updated save-snapshot tests to use them without changing runtime behavior or snapshot payloads.",
+    "changed_files": [
+      "src/test/debug-snapshot-harness.ts",
+      "src/test/save-snapshots.test.ts",
+      "docs/architecture.md",
+      ".agents/project-memory.md"
+    ],
+    "verification": [
+      "git diff --check -- src/test/debug-snapshot-harness.ts src/test/save-snapshots.test.ts docs/architecture.md",
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build"
+    ],
+    "handoff": "Promote `ECO-20260428-critic-459`."
+  },
+  "critic_review_459": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-critic-459",
+    "report": "docs/reports/2026-04-28-debug-proof-harness-review.md",
+    "verdict": "clean",
+    "verification": [
+      "git diff --check -- src/test/debug-snapshot-harness.ts src/test/save-snapshots.test.ts docs/architecture.md .agents/project-memory.md",
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build"
+    ],
+    "decision": "Packet `176` is done; lane 1 has no remaining actionable item in this packet."
+  }
+}

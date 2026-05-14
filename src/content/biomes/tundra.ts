@@ -236,7 +236,7 @@ export const tundraBiome: BiomeDefinition = {
       {
         id: 'snow-meadow-drift-rest',
         spriteId: 'ice-platform',
-        x: 252,
+        x: 268,
         y: 107,
         w: 30,
         h: 4,
@@ -380,13 +380,13 @@ export const tundraBiome: BiomeDefinition = {
       {
         id: 'snow-meadow-drift-sedge',
         entryId: 'bigelows-sedge',
-        x: 258,
+        x: 274,
         y: 103,
       },
       {
         id: 'snow-meadow-drift-ptarmigan',
         entryId: 'white-tailed-ptarmigan',
-        x: 274,
+        x: 290,
         y: 103,
       },
       {

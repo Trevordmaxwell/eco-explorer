@@ -158,6 +158,30 @@ const forestEntries = {
     spriteId: 'nurse-log',
     collectible: false,
   },
+  'leaf-litter-pocket': {
+    id: 'leaf-litter-pocket',
+    commonName: 'Leaf-Litter Pocket',
+    category: 'landmark',
+    shortFact: 'Damp leaf litter is a soft layer where fungi break old leaves and wood apart.',
+    journalText:
+      'This under-root pocket holds wet leaves, bark bits, and crumbly wood. Hidden fungi help break that old material into forest soil.',
+    sketchbookNote: 'Wet leaf bits feeding the hollow.',
+    subtitle: 'Damp decomposer layer',
+    spriteId: 'leaf-litter-pocket',
+    collectible: false,
+  },
+  'shelf-fungus': {
+    id: 'shelf-fungus',
+    commonName: 'Shelf Fungus',
+    category: 'landmark',
+    shortFact: 'Shelf fungi are visible parts of a larger fungus working through old wood.',
+    journalText:
+      'This shelf fungus grows from old wood while hidden threads work inside. By breaking wood down, fungi help nutrients return to the forest.',
+    sketchbookNote: 'Shelf fungus working through old wood.',
+    subtitle: 'Wood-decay fungus',
+    spriteId: 'shelf-fungus',
+    collectible: false,
+  },
   'root-curtain': {
     id: 'root-curtain',
     commonName: 'Root Curtain',
@@ -293,6 +317,14 @@ export const forestBiome: BiomeDefinition = {
       },
     ],
     authoredPlatforms: [
+      {
+        id: 'trailhead-edge-log',
+        spriteId: 'log-platform',
+        x: 116,
+        y: 106,
+        w: 24,
+        h: 4,
+      },
       {
         id: 'fern-shade-root-lip',
         spriteId: 'log-platform',
@@ -704,6 +736,24 @@ export const forestBiome: BiomeDefinition = {
     ],
     authoredEntities: [
       {
+        id: 'trailhead-edge-salmonberry',
+        entryId: 'salmonberry',
+        x: 108,
+        y: 102,
+      },
+      {
+        id: 'trailhead-edge-sword-fern',
+        entryId: 'sword-fern',
+        x: 122,
+        y: 104,
+      },
+      {
+        id: 'trailhead-edge-huckleberry',
+        entryId: 'red-huckleberry',
+        x: 136,
+        y: 100,
+      },
+      {
         id: 'fern-shade-trillium',
         entryId: 'western-trillium',
         x: 178,
@@ -772,6 +822,12 @@ export const forestBiome: BiomeDefinition = {
         x: 374,
         y: 194,
         castsShadow: false,
+      },
+      {
+        id: 'root-hollow-leaf-litter-pocket',
+        entryId: 'leaf-litter-pocket',
+        x: 368,
+        y: 224,
       },
       {
         id: 'root-hollow-lungwort-mid-ledge',
@@ -980,6 +1036,13 @@ export const forestBiome: BiomeDefinition = {
         entryId: 'woodpecker-cavity',
         x: 702,
         y: 132,
+        castsShadow: false,
+      },
+      {
+        id: 'old-growth-trunk-foot-fungus',
+        entryId: 'shelf-fungus',
+        x: 688,
+        y: 126,
         castsShadow: false,
       },
       {
@@ -1344,6 +1407,17 @@ export const forestBiome: BiomeDefinition = {
       zoneId: 'stone-basin',
     },
     {
+      id: 'leaf-litter-shelter',
+      title: 'Leaf-Litter Shelter',
+      entryIds: ['leaf-litter-pocket', 'seep-moss-mat', 'ensatina'],
+      minimumDiscoveries: 2,
+      summary:
+        'Wet leaf litter, moss, and hidden wood keep the root hollow cool and damp.',
+      observationPrompt:
+        'Where does the hollow hold wet leaf litter?',
+      zoneId: 'stone-basin',
+    },
+    {
       id: 'forest-seed-travel',
       title: 'Seed Travel',
       entryIds: ['salal-berry', 'fir-cone', 'steller-jay'],
@@ -1352,6 +1426,17 @@ export const forestBiome: BiomeDefinition = {
       observationPrompt:
         'Which seeds seem ready to travel?',
       zoneId: 'log-run',
+    },
+    {
+      id: 'berry-seed-shuttle',
+      title: 'Berry Seed Shuttle',
+      entryIds: ['steller-jay', 'red-huckleberry', 'salmonberry'],
+      minimumDiscoveries: 2,
+      summary:
+        'Berries feed forest birds, and some seeds travel away from the edge.',
+      observationPrompt:
+        'Which berries might a bird carry next?',
+      zoneId: 'trailhead',
     },
     {
       id: 'creekside-shelter',
@@ -1384,6 +1469,17 @@ export const forestBiome: BiomeDefinition = {
         'Old wood can hold enough water and shade for a new tree to start above the soil.',
       observationPrompt:
         'What here looks like old wood growing a new tree?',
+    },
+    {
+      id: 'old-wood-recyclers',
+      title: 'Old-Wood Recyclers',
+      entryIds: ['shelf-fungus', 'fallen-giant-log', 'western-hemlock-seedling'],
+      minimumDiscoveries: 2,
+      summary:
+        'Fungi soften old wood while damp logs give young hemlock a gentler start.',
+      observationPrompt:
+        'Where is old wood helping new life?',
+      zoneId: 'old-growth-pocket',
     },
     {
       id: 'old-wood-link',

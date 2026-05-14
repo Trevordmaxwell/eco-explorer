@@ -317,13 +317,18 @@ describe('journal comparison resolution', () => {
           discoveredAt: '2026-03-30T00:00:00.000Z',
           biomeIds: ['coastal-scrub', 'forest'],
         },
-        'nurse-log': {
-          entryId: 'nurse-log',
+        'beach-strawberry': {
+          entryId: 'beach-strawberry',
           discoveredAt: '2026-03-30T00:00:00.000Z',
           biomeIds: ['coastal-scrub'],
         },
-        'redwood-sorrel': {
-          entryId: 'redwood-sorrel',
+        'nootka-rose': {
+          entryId: 'nootka-rose',
+          discoveredAt: '2026-03-30T00:00:00.000Z',
+          biomeIds: ['coastal-scrub'],
+        },
+        'red-huckleberry': {
+          entryId: 'red-huckleberry',
           discoveredAt: '2026-03-30T00:00:00.000Z',
           biomeIds: ['forest'],
         },
@@ -333,8 +338,8 @@ describe('journal comparison resolution', () => {
     );
 
     expect(comparison?.cards.map((card) => card.noteTitle)).toEqual([
-      'Edge Moisture',
-      'Creekside Shelter',
+      'Berry Cover Chain',
+      'Berry Seed Shuttle',
     ]);
   });
 

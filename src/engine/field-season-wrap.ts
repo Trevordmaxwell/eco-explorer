@@ -12,6 +12,7 @@ import type {
   FieldSeasonWrapState,
 } from './field-season-board';
 import { resolveDefaultHighPassFiledArcCopy } from './high-pass-chapter-state';
+import { resolveSourceToShoreFiledArcCopy } from './source-to-shore-state';
 
 function getTargetBiomeName(
   biomes: Record<string, BiomeDefinition>,
@@ -293,6 +294,10 @@ export function resolveFieldSeasonWrapState(
     };
   }
 
+  if (routeBoard.routeId === 'source-to-shore-beta' && archive) {
+    return archive;
+  }
+
   if (routeBoard.complete) {
     if (archive) {
       return archive;
@@ -374,6 +379,11 @@ export function resolveFieldStationSubtitle(
       return seasonPage === 'expedition'
         ? highPassFiledArcCopy.filedExpeditionSubtitle
         : archiveSubtitle ?? highPassFiledArcCopy.filedLocationText;
+    }
+
+    const sourceToShoreFiledArcCopy = resolveSourceToShoreFiledArcCopy();
+    if (seasonWrap.text === sourceToShoreFiledArcCopy.archiveText) {
+      return sourceToShoreFiledArcCopy.filedExpeditionSubtitle;
     }
 
     return seasonPage === 'expedition'

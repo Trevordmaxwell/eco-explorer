@@ -1,0 +1,190 @@
+{
+  "packet_id": "ECO-PACKET-175",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Steady beta full-arc signoff",
+  "summary": "Close the big beta-foundation push with an end-to-end proof of the three-beat Source to Shore chapter and the cleaner supporting surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-dune-catch-beta-closure.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-456",
+    "ECO-20260428-main-456",
+    "ECO-20260428-critic-456"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-449",
+    "ECO-20260428-critic-450",
+    "ECO-20260428-critic-451",
+    "ECO-20260428-critic-452",
+    "ECO-20260428-critic-453",
+    "ECO-20260428-critic-454",
+    "ECO-20260428-critic-455"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-456",
+      "goal": "Design the final proof checklist for the steady beta foundation wave.",
+      "why_now": "A large push should end with a clear pass/fail read, not just a stack of green focused tests."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-456",
+      "goal": "Run the final Source to Shore full-arc proof, record results, and update docs or queue state as needed.",
+      "why_now": "The team needs a single source of truth on whether the beta chapter is now clean enough to build on."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-456",
+      "goal": "Review the full-arc proof and either mark the wave complete or name the smallest remaining blockers.",
+      "why_now": "Director-scale work should finish with a steady handoff before another big content or systems wave begins."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/175-steady-beta-full-arc-signoff.json",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-requests.test.ts",
+    "docs/architecture.md",
+    "docs/content-authoring.md",
+    "README.md",
+    "package.json",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "The full three-beat Source to Shore chapter can be demonstrated from post-High-Pass station entry through filed chapter payoff.",
+    "Station, journal, atlas, map, route marker, support choice, filed-memory, and debug snapshots agree on the chapter state.",
+    "The final report records focused tests, build status, browser proof, and any remaining small follow-up items.",
+    "No next beta breadth packet is opened until blockers from this signoff are resolved or explicitly accepted."
+  ],
+  "guardrails": [
+    "Signoff and proof only unless the scout identifies a tiny blocker fix.",
+    "Do not add new route beats or new systems during signoff.",
+    "Do not hide known issues by moving them out of the queue.",
+    "Record concrete dates, commands, artifacts, and remaining risk.",
+    "Prefer a short blocker list over another broad follow-up wave."
+  ],
+  "post_packet_path": [
+    "The clean signoff closes Source to Shore as a three-beat beta endpoint for now; do not add a fourth beat in this runway.",
+    "Next lane-1 work should move into behavior-preserving systems independence and travel-framing runway tasks from packet `176`."
+  ],
+  "scout_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-steady-beta-full-arc-signoff-handoff.md",
+    "gate_status": {
+      "clean": [
+        "ECO-20260428-critic-449",
+        "ECO-20260428-critic-450"
+      ],
+      "still_required": [
+        "ECO-20260428-critic-451",
+        "ECO-20260428-critic-452",
+        "ECO-20260428-critic-453",
+        "ECO-20260428-critic-454",
+        "ECO-20260428-critic-455"
+      ],
+      "promote_main_456_when": "All packet `168` through `174` critic gates are clean."
+    },
+    "debug_save_spine": [
+      "high-pass-filed",
+      "source-to-shore-ready-to-file",
+      "source-to-shore-filed",
+      "source-to-shore-forest-release-ready-to-file",
+      "source-to-shore-forest-release-filed",
+      "source-to-shore-dune-catch-ready-to-file",
+      "source-to-shore-dune-catch-filed"
+    ],
+    "required_surface_matrix": [
+      "station routes board and season wrap",
+      "journal active or ready-to-file request",
+      "field atlas logged history and filed payoff",
+      "world map focus, replay label, and route-marker target",
+      "support choice behavior",
+      "debug save boot state",
+      "native `256x160` browser proof"
+    ],
+    "verification_plan": [
+      "`npm run validate:agents`",
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/runtime-smoke.test.ts src/test/save-snapshots.test.ts -t 'Source to Shore|High Pass|Source Shelter|Forest Release|Dune Catch|route-marker|journal|debug save snapshots|field station'`",
+      "`npm test`",
+      "`npm run science:check`",
+      "`npm run build`",
+      "`npm run alpha:rc` if the prior checks pass and no blocker remains"
+    ],
+    "browser_proof_plan": [
+      "Use a fresh folder such as `output/lane-1-main-456-full-arc/`.",
+      "Capture post-High-Pass active Source Shelter station board.",
+      "Capture Source Shelter ready-to-file station board.",
+      "Capture filed Source to Shore station board.",
+      "Capture one active Source to Shore world-map frame with route-marker support selected.",
+      "Capture one final filed world-map frame with no active outing or marker.",
+      "Capture in-field Source Shelter, Forest Release, and Coastal Catch frames after spatial polish.",
+      "Pair screenshots with `render_game_to_text()` JSON/state captures and an empty browser-errors file."
+    ],
+    "report_contract": [
+      "Create `docs/reports/2026-04-28-steady-beta-full-arc-signoff.md`.",
+      "Include a gate table for packets `168` through `174`.",
+      "Record exact command results, dates, browser artifact paths, and the `alpha:rc` archive path if run.",
+      "Include a pass/fail matrix for the debug-save spine.",
+      "If any proof fails, open the smallest explicit blocker item instead of a broad new wave."
+    ]
+  },
+  "main_signoff": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-steady-beta-full-arc-signoff.md",
+    "verdict": "pass",
+    "alpha_rc_archive": "output/review-drops/eco-explorer-review-drop-20260428-091554.tgz",
+    "browser_proof_dir": "output/lane-1-main-456-full-arc/",
+    "verification": [
+      "npm run validate:agents",
+      "npm test -- --run src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/runtime-smoke.test.ts src/test/save-snapshots.test.ts -t 'Source to Shore|High Pass|Source Shelter|Forest Release|Dune Catch|route-marker|journal|debug save snapshots|field station'",
+      "npm test",
+      "npm run science:check",
+      "npm run build",
+      "npm run alpha:rc"
+    ],
+    "browser_proof": [
+      "01-post-high-pass-source-shelter-station.png",
+      "02-source-shelter-ready-to-file-station.png",
+      "03-filed-source-to-shore-station.png",
+      "04-active-source-to-shore-route-marker-map.png",
+      "05-final-filed-source-to-shore-map.png",
+      "06-source-shelter-high-source-field.png",
+      "07-forest-release-field.png",
+      "08-coastal-catch-field.png",
+      "summary.json",
+      "errors.json"
+    ],
+    "handoff": "Promote `ECO-20260428-critic-456` to review the final signoff report and proof folder."
+  },
+  "critic_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-steady-beta-full-arc-signoff-review.md",
+    "verdict": "clean",
+    "reviewed_artifacts": [
+      "docs/reports/2026-04-28-steady-beta-full-arc-signoff.md",
+      "output/lane-1-main-456-full-arc/summary.json",
+      "output/lane-1-main-456-full-arc/errors.json",
+      "output/lane-1-main-456-full-arc/*.png"
+    ],
+    "decision": "Mark packet `175` done and promote `ECO-20260428-scout-457`; do not add a fourth Source to Shore beat in this runway."
+  }
+}

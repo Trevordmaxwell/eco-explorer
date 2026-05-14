@@ -608,6 +608,17 @@ export const beachBiome: BiomeDefinition = {
         'What looks uncovered just before birds run in?',
       zoneId: 'tide-line',
     },
+    {
+      id: 'wrack-bird-line',
+      title: 'Wrack Bird Line',
+      entryIds: ['bull-kelp-wrack', 'beach-hopper', 'western-snowy-plover'],
+      minimumDiscoveries: 2,
+      summary:
+        'Kelp wrack feeds hoppers and other tiny animals that small shorebirds watch for.',
+      observationPrompt:
+        'Where does wrack become bird food?',
+      zoneId: 'tide-line',
+    },
   ],
   phenology: {
     phases: {

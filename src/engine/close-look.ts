@@ -37,6 +37,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Staying low helps this flower face cold Arctic wind.',
     spriteScale: 4,
   },
+  'woolly-lousewort': {
+    callouts: ['woolly stem', 'flower cluster'],
+    sentence: 'Woolly fuzz helps hold warm air around the stem in cold tundra wind.',
+    spriteScale: 5,
+  },
   'lingonberry': {
     callouts: ['berry cluster', 'evergreen leaves'],
     sentence: 'Evergreen leaves help lingonberry stay ready for short cool seasons.',
@@ -76,6 +81,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     callouts: ['raised tussock', 'stiff leaf tuft'],
     sentence: 'Raised sedge clumps lift new leaves above cold wet ground.',
     spriteScale: 5,
+  },
+  'tussock-thaw-channel': {
+    callouts: ['low wet lane', 'raised tussocks'],
+    sentence: 'Meltwater can linger in low channels between raised tundra tussocks.',
+    spriteScale: 6,
   },
   'nootka-rose': {
     callouts: ['thorny stem', 'rose hip'],
@@ -127,6 +137,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Seep water keeps this moss patch clinging to wet stone.',
     spriteScale: 6,
   },
+  'shelf-fungus': {
+    callouts: ['wood shelf', 'pale edge'],
+    sentence: 'The visible shelf marks hidden fungal work in old wood.',
+    spriteScale: 6,
+  },
   'root-curtain': {
     callouts: ['hanging roots', 'drip shelter'],
     sentence: 'Root tangles slow drips and make a dim shelter above the cave floor.',
@@ -145,6 +160,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
   'woodpecker-cavity': {
     callouts: ['carved opening', 'bark edge'],
     sentence: 'A woodpecker cut this opening, and later other animals may shelter inside.',
+    spriteScale: 6,
+  },
+  'western-hemlock-seedling': {
+    callouts: ['tiny needles', 'nurse wood'],
+    sentence: 'A tiny hemlock can start on damp old wood before its roots reach soil.',
     spriteScale: 6,
   },
 };

@@ -1,0 +1,282 @@
+{
+  "packet_id": "ECO-PACKET-178",
+  "version": 10,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 3 spatial depth runway",
+  "summary": "Run a parallel spatial-depth wave that strengthens front-half continuity, forest canopy/cave exploration, and high-country relief without station or route-board coupling.",
+  "source_reports": [
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "docs/reports/2026-04-28-source-to-shore-spatial-playthrough-review.md",
+    "docs/reports/2026-04-28-front-half-physical-continuity-handoff.md",
+    "docs/reports/2026-04-28-front-half-physical-continuity-implementation.md",
+    "docs/reports/2026-04-28-front-half-physical-continuity-review.md",
+    "docs/reports/2026-04-28-forest-canopy-cave-loop-handoff.md",
+    "docs/reports/2026-04-28-forest-canopy-cave-loop-implementation.md",
+    "docs/reports/2026-04-28-forest-canopy-cave-loop-review.md",
+    "docs/reports/2026-04-28-high-country-relief-handoff.md",
+    "docs/reports/2026-04-28-high-country-relief-implementation.md",
+    "docs/reports/2026-04-28-high-country-relief-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-475",
+    "ECO-20260428-main-475",
+    "ECO-20260428-critic-475",
+    "ECO-20260428-scout-476",
+    "ECO-20260428-main-476",
+    "ECO-20260428-critic-476",
+    "ECO-20260428-scout-477",
+    "ECO-20260428-main-477",
+    "ECO-20260428-critic-477"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-475",
+      "goal": "Scope a front-half physical-continuity pass across beach, coastal scrub, and forest edge.",
+      "why_now": "The front half can gain spatial memory without waiting on route or station changes."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-475",
+      "goal": "Implement the smallest front-half geometry/carrier/cue pass that improves continuity.",
+      "why_now": "Early spaces should feel authored and connected before more beta breadth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-475",
+      "goal": "Review front-half spatial continuity with browser proof and science-safe placement.",
+      "why_now": "Spatial density must stay readable on the handheld viewport."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260428-scout-476",
+      "goal": "Scope one forest canopy/cave loop that builds from existing vertical destinations.",
+      "why_now": "Forest is the best current foundation for magical vertical exploration."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260428-main-476",
+      "goal": "Implement one recoverable canopy/cave loop or nook with local proof.",
+      "why_now": "A small spatial loop can make exploration feel deeper without a new traversal system."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260428-critic-476",
+      "goal": "Review canopy/cave work for readability, recovery, and no physics or cave-framework drift.",
+      "why_now": "Vertical wonder should stay cozy and controllable."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260428-scout-477",
+      "goal": "Scope one high-country relief pass for Treeline/Tundra physical memory.",
+      "why_now": "High-country traversal can deepen independently from route state and content packs."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260428-main-477",
+      "goal": "Implement one tiny high-country relief or sheltered-descent pass with proof.",
+      "why_now": "Treeline and tundra should feel physically different, not just textually different."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260428-critic-477",
+      "goal": "Review high-country spatial work and summarize lane-3 integration risks.",
+      "why_now": "Lane 3 should end with independent proof, not a cross-lane blocker."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/178-lane-3-spatial-depth-runway.json",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/engine/climb-navigation.ts",
+    "src/engine/corridor.ts",
+    "src/engine/vertical-cues.ts",
+    "src/test/beach-biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Front-half, forest vertical, and high-country spatial passes each land with local proof or are explicitly declined by scout/critic.",
+    "Browser proof is captured for any visual geometry or carrier-placement change.",
+    "No station shell, route-board logic, route catalog semantics, journal-only pack, new biome, combat, survival, or physics rewrite lands.",
+    "Focused biome/runtime tests and build pass after spatial changes."
+  ],
+  "guardrails": [
+    "Lane 3 owns spatial readability and sub-ecosystem exploration.",
+    "Keep changes local and recoverable.",
+    "Avoid broader route/progression structures.",
+    "Do not invent a cave framework or vertical HUD.",
+    "Carrier placement must stay honest to habitat and science context."
+  ],
+  "scout_475_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-front-half-physical-continuity-handoff.md",
+    "proof_dir": "output/lane-3-scout-475-front-half-continuity-proof/",
+    "proof_summary": "Beach dune-edge and Coastal Scrub back-dune/forest-edge continuity already read cleanly at native 256x160. Forest Trail's first trailhead frame has correct entries but needs one tiny authored physical anchor before fern-hollow.",
+    "main_475_contract": [
+      "Touch only src/content/biomes/forest.ts and focused forest biome tests unless proof reveals a direct local need.",
+      "Add one small trailhead log/platform around x=104-128, y=104-108, before fern-hollow and after the left corridor prompt.",
+      "Add two or three nearby authored carriers from existing forest trailhead/edge entries such as salmonberry, red-huckleberry, sword-fern, nootka-rose, or douglas-fir-sapling.",
+      "Capture fresh native 256x160 browser proof for the unchanged beach/coastal frames plus the new Forest Trail first-cover frame."
+    ],
+    "out_of_scope": [
+      "Route-board logic, route catalog semantics, station shell, support choice, save schema, journal-only content packs, new route beats, new biomes, cave frameworks, vertical HUDs, and physics/traversal rewrites.",
+      "Beach dune-edge, Coastal Scrub back-dune, Coastal Scrub windbreak-swale, and Coastal Scrub forest-edge geometry unless fresh proof reveals a real regression."
+    ]
+  },
+  "main_475_result": {
+    "status": "IMPLEMENTED",
+    "report": "docs/reports/2026-04-28-front-half-physical-continuity-implementation.md",
+    "proof_dir": "output/lane-3-main-475-front-half-continuity-proof/",
+    "runtime_changes": [
+      "Added one Forest Trail trailhead log platform before fern-hollow.",
+      "Added three existing-entry trailhead carriers: salmonberry, sword-fern, and red-huckleberry.",
+      "Added focused Forest biome test coverage for the new anchor."
+    ],
+    "proof_summary": "Fresh native 256x160 proof confirms unchanged Beach and Coastal Scrub continuity frames, the intended Forest Trail left-corridor prompt at arrival, and the new trailhead anchor around x=120 with no travel prompt in range.",
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts src/test/coastal-scrub-biome.test.ts src/test/beach-biome.test.ts src/test/runtime-smoke.test.ts",
+      "npm run build",
+      "local browser canvas proof at native 256x160"
+    ],
+    "promoted_next": "ECO-20260428-critic-475"
+  },
+  "critic_475_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-front-half-physical-continuity-review.md",
+    "summary": "The Forest Trail trailhead anchor is local, visible at native 256x160, science-safe for the existing entries, and has no travel prompt in range at the first-cover proof frame.",
+    "verification_reviewed": [
+      "focused Beach/Coastal Scrub/Forest/runtime test slice",
+      "npm run build",
+      "npm test -- --run src/test/forest-biome.test.ts -t \"trailhead edge\"",
+      "browser proof under output/lane-3-main-475-front-half-continuity-proof/"
+    ],
+    "promoted_next": "ECO-20260428-scout-476"
+  },
+  "scout_476_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-forest-canopy-cave-loop-handoff.md",
+    "proof_dir": "output/lane-3-main-476-forest-canopy-cave-loop-proof/",
+    "proof_summary": "Existing Forest Trail cave and canopy destinations are already strong. The next step is proof-first: capture settled under-basin and upper-return frames at native 256x160, then only apply one tiny Forest-local cave-mouth or upper-return geometry/carrier adjustment if the proof shows a real readability gap.",
+    "main_476_contract": [
+      "Touch only src/content/biomes/forest.ts, src/test/forest-biome.test.ts, and src/test/runtime-smoke.test.ts if fresh proof exposes a real issue.",
+      "Do not edit src/engine/** unless a separately documented blocking engine bug appears; game.ts, climb-navigation.ts, and vertical-cues.ts are read-only context for this step.",
+      "Start with browser proof for under-basin-settled, upper-return-window, and optional branch-nursery-context frames under output/lane-3-main-476-forest-canopy-cave-loop-proof/.",
+      "If current geometry already reads as a settled recoverable nook, close main-476 as proof-only with no geometry change.",
+      "If implementation is needed, prefer a tiny reposition or width tweak to an existing cave-mouth/upper-return platform or one existing-entry carrier placement inside the x=372-424, y=76-108 band."
+    ],
+    "out_of_scope": [
+      "Station shell, route-board logic, route catalog semantics, Source to Shore route state, journal-only content packs, close-look/sketchbook additions, content-roster expansion, new biomes, new cave systems, new climbables, vertical HUDs, and physics/traversal rewrites.",
+      "Another upper-canopy shelf or another lower cave chamber."
+    ],
+    "promoted_next": "ECO-20260428-main-476"
+  },
+  "main_476_result": {
+    "status": "PROOF_ONLY",
+    "report": "docs/reports/2026-04-28-forest-canopy-cave-loop-implementation.md",
+    "proof_dir": "output/lane-3-main-476-forest-canopy-cave-loop-proof/",
+    "runtime_changes": [],
+    "proof_summary": "Fresh native 256x160 browser proof confirms the existing Forest Trail under-basin, cave-trunk cue, upper-return window, and filtered-return mouth already read as one recoverable physical route. No geometry, carrier, traversal, station, route-board, journal, or physics change was needed.",
+    "proof_frames": [
+      "under-basin-settled-256x160.png",
+      "cave-trunk-cue-256x160.png",
+      "upper-return-window-256x160.png",
+      "cave-mouth-settled-256x160.png"
+    ],
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts src/test/runtime-smoke.test.ts",
+      "local browser canvas proof at native 256x160"
+    ],
+    "promoted_next": "ECO-20260428-critic-476"
+  },
+  "critic_476_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-forest-canopy-cave-loop-review.md",
+    "summary": "The Forest canopy/cave loop proof is sufficient and no runtime change was needed. Native 256x160 proof confirms the under-basin, cave-trunk cue, upper-return window, and filtered-return mouth route is readable and recoverable without new geometry, new climbables, framework drift, or station/route-board scope.",
+    "verification_reviewed": [
+      "Proof assertions over output/lane-3-main-476-forest-canopy-cave-loop-proof/summary.json and errors.json",
+      "npm test -- --run src/test/forest-biome.test.ts -t \"root-hollow|under-basin|return\"",
+      "Implementation report verification: npm test -- --run src/test/forest-biome.test.ts src/test/runtime-smoke.test.ts"
+    ],
+    "promoted_next": "ECO-20260428-scout-477"
+  },
+  "scout_477_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-high-country-relief-handoff.md",
+    "proof_dir": "output/lane-3-scout-477-high-country-relief-proof/",
+    "proof_summary": "Treeline's Source Shelter edge remains separated after the earlier fix and Tundra's meltwater thread is readable, but Tundra's snow-meadow drift rest at x=252 still shares range with the HIGH COUNTRY MAP prompt. The next step is one Tundra-local drift-rest separation without moving the map post.",
+    "main_477_contract": [
+      "Touch only src/content/biomes/tundra.ts, src/test/tundra-biome.test.ts, and optionally src/test/runtime-smoke.test.ts.",
+      "Try a tiny rightward nudge of snow-meadow-drift-rest from x=252 into roughly x=266-270, adjusting only the paired snow-meadow-drift-sedge and snow-meadow-drift-ptarmigan carriers as needed.",
+      "Keep the pocket inside snow-meadow, preserve a readable gap before thaw-skirt-entry-heave at x=306, and add no new platform, carrier, route beat, prompt, or content.",
+      "Do not edit src/content/world-map.ts, map-return posts, travel framing, station, route state, save schema, physics, traversal helpers, or journal-only content.",
+      "Capture fresh native 256x160 proof under output/lane-3-main-477-high-country-relief-proof/ showing the drift rest settled with nearbyTravelTarget null and the later meltwater thread still clean."
+    ],
+    "out_of_scope": [
+      "New high-country pockets, new climbables, cave/vertical frameworks, route-board or station changes, new species/science copy, map-return relocation, and player physics changes."
+    ],
+    "promoted_next": "ECO-20260428-main-477"
+  },
+  "main_477_result": {
+    "status": "IMPLEMENTED",
+    "report": "docs/reports/2026-04-28-high-country-relief-implementation.md",
+    "proof_dir": "output/lane-3-main-477-high-country-relief-proof/",
+    "runtime_changes": [
+      "Moved Tundra snow-meadow-drift-rest from x=252 to x=268.",
+      "Kept the two existing drift carriers on the same pocket offsets at x=274 and x=290.",
+      "Updated focused Tundra biome expectations for the local nudge and the remaining thaw-skirt gap."
+    ],
+    "proof_summary": "Fresh native 256x160 browser proof confirms the shifted snow-meadow drift rest now settles with nearbyTravelTarget null while the later meltwater bank/thread frames remain clean.",
+    "proof_frames": [
+      "tundra-drift-rest-separated-256x160.png",
+      "tundra-meltwater-bank-rest-256x160.png",
+      "tundra-melt-thread-right-256x160.png"
+    ],
+    "verification": [
+      "npm test -- --run src/test/tundra-biome.test.ts",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Tundra|tundra|meltwater|thaw\"",
+      "npm run build",
+      "local browser canvas proof at native 256x160"
+    ],
+    "promoted_next": "ECO-20260428-critic-477"
+  },
+  "critic_477_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-high-country-relief-review.md",
+    "summary": "The Tundra snow-meadow drift-rest nudge is local, proof-backed, and lane-safe. Native 256x160 proof confirms the shifted drift rest and later meltwater frames have nearbyTravelTarget null, with no map-post relocation, new route beat, station work, content expansion, save change, physics change, or traversal-framework drift.",
+    "verification_reviewed": [
+      "Proof assertions over output/lane-3-main-477-high-country-relief-proof/summary.json and errors.json",
+      "npm test -- --run src/test/tundra-biome.test.ts -t \"snow-meadow drift|thaw-window movement|meltwater-bank-rest\"",
+      "Implementation report verification: npm test -- --run src/test/tundra-biome.test.ts; npm test -- --run src/test/runtime-smoke.test.ts -t \"Tundra|tundra|meltwater|thaw\"; npm run build"
+    ],
+    "packet_closed": true
+  },
+  "post_packet_path": [
+    "If clean, lane 3 can propose a later expedition-grade vertical chapter.",
+    "If a route or station need appears, write a handoff for lane 1 or lane 4."
+  ]
+}

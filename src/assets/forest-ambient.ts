@@ -77,6 +77,42 @@ export const forestAmbientSprites: SpriteSource[] = [
     ]],
   },
   {
+    id: 'leaf-litter-pocket',
+    palette: {
+      a: masterPalette.soilDark,
+      b: masterPalette.soilMid,
+      c: masterPalette.leafDark,
+      d: masterPalette.seedTan,
+    },
+    frames: [[
+      '..............',
+      '..aaccaa......',
+      '.abccddba.....',
+      'abbccddbba....',
+      '.abbbccba.....',
+      '..aaaaaa......',
+    ]],
+  },
+  {
+    id: 'shelf-fungus',
+    palette: {
+      a: masterPalette.barkDark,
+      b: masterPalette.barkLight,
+      c: masterPalette.lichenPale,
+      d: masterPalette.soilDark,
+    },
+    frames: [[
+      '............',
+      '..aaaa......',
+      '.abbbcc.....',
+      'abbbcccc....',
+      '.abbccccd...',
+      '..aacccd....',
+      '....ddd.....',
+      '............',
+    ]],
+  },
+  {
     id: 'canopy-moss-bed',
     palette: {
       a: masterPalette.mossDark,

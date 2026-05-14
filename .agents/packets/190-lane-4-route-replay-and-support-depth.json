@@ -1,0 +1,123 @@
+{
+  "packet_id": "ECO-PACKET-190",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 4 route replay and support depth",
+  "summary": "Deepen route-local replay and tiny support readability through existing route, world-state, process, and support seams.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-route-local-replay-variants-review.md",
+    "docs/reports/2026-04-28-route-support-readability-review.md",
+    "docs/reports/2026-04-28-route-replay-support-depth-scout.md",
+    "docs/reports/2026-04-28-route-replay-support-depth-implementation.md",
+    "docs/reports/2026-04-28-route-replay-support-depth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-497",
+    "ECO-20260428-main-497",
+    "ECO-20260428-critic-497"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-496"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-497",
+      "goal": "Scope one route-local replay or support-depth pass.",
+      "why_now": "Held Dune proved the seam; the next pass can broaden the pattern carefully."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-497",
+      "goal": "Implement the scoped replay/support depth pass.",
+      "why_now": "Routes should feel alive without becoming a separate replay system."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-497",
+      "goal": "Review replay/support depth for clarity, save stability, and no loadout drift.",
+      "why_now": "Support readability should stay tiny and route-facing."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/190-lane-4-route-replay-and-support-depth.json",
+    "src/engine/field-request-catalog.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/outing-support.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One replay/support depth improvement lands through existing route seams.",
+    "Canonical filed identities and save behavior remain stable.",
+    "No new replay system, loadout UI, station shell, geometry, or content pack lands."
+  ],
+  "guardrails": [
+    "Keep support one-slot and tiny.",
+    "Use existing world-state/process/nursery seams.",
+    "No save schema change unless scout proves unavoidable.",
+    "No route HUD."
+  ],
+  "scout_497_contract": {
+    "decision": "Implement a tiny Held Dune support-depth pass by giving the existing source-to-shore-dune-catch processFocus active hand-lens carriers.",
+    "runtime_scope": [
+      "Add activeSlotEntryIdsBySlotId for source-to-shore-dune-catch.processFocus in src/engine/field-request-catalog.ts.",
+      "Use beach-grass for the dune-catch slot and pacific-wax-myrtle for the swale-hold slot.",
+      "Do not add a cool-edge active carrier because sand-capture is not a forest-edge process."
+    ],
+    "test_scope": [
+      "Prove getHandLensNotebookFit/prefersHandLensActiveRouteEntry prefers Held Dune carriers through the existing route controller seam.",
+      "Prove non-hand-lens support stays unexpanded.",
+      "Re-run Source to Shore station/snapshot guards to confirm ready/filed Dune Catch identity stays canonical."
+    ],
+    "exclusions": [
+      "No route ids, evidence ids, ordered slots, filed text, support ids, save schema, replay framework, loadout UI, station shell, geometry, content pack, or fourth Source to Shore beat."
+    ]
+  },
+  "main_497_result": {
+    "summary": "Added active hand-lens carrier preferences for the existing Held Dune process window while preserving canonical Dune Catch ready/filed identity.",
+    "changed_files": [
+      "src/engine/field-request-catalog.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-request-controller.test.ts",
+      "docs/reports/2026-04-28-route-replay-support-depth-implementation.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"Source to Shore|Held Dune\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Source to Shore|Held Dune|support notice\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|Dune Catch|Held Dune\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\"",
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/save-snapshots.test.ts",
+      "npm run build"
+    ]
+  },
+  "critic_497_result": {
+    "verdict": "Clean",
+    "summary": "Held Dune support-depth stayed inside the existing process-focus hand-lens seam; Dune Catch ready/filed identity, Source to Shore beat count, save shape, support ids, station shell, and route framework remain stable.",
+    "verification": [
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/save-snapshots.test.ts",
+      "npm run build"
+    ],
+    "promoted_next": "ECO-20260428-scout-498"
+  },
+  "post_packet_path": [
+    "If clean, proceed to notebook filing synthesis.",
+    "If content is needed, hand it to lane 2."
+  ]
+}

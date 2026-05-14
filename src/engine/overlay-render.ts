@@ -410,10 +410,18 @@ function drawFieldRequestCard(
 ): void {
   fillPixelPanel(context, rect.x, rect.y, rect.w, rect.h, palette.journalPage, palette.accent);
 
+  context.font = UI_FONT_SMALL;
+  const progressLabelMaxWidth = 48;
+  const progressText = fitTextToWidth(context, fieldRequest.progressLabel, progressLabelMaxWidth);
+  const progressReserveWidth = Math.min(
+    progressLabelMaxWidth + 8,
+    Math.max(40, context.measureText(progressText).width + 8),
+  );
+
   context.font = UI_FONT_MEDIUM;
   drawUiText(
     context,
-    fitTextToWidth(context, fieldRequest.title, rect.w - 40),
+    fitTextToWidth(context, fieldRequest.title, rect.w - progressReserveWidth - 4),
     rect.x + 4,
     rect.y + 3,
     palette.accent,
@@ -422,8 +430,8 @@ function drawFieldRequestCard(
   context.font = UI_FONT_SMALL;
   drawUiText(
     context,
-    fitTextToWidth(context, fieldRequest.progressLabel, 36),
-    rightAlignTextX(context, fieldRequest.progressLabel, rect, 4),
+    progressText,
+    rightAlignTextX(context, progressText, rect, 4),
     rect.y + 3,
     palette.text,
   );
@@ -908,12 +916,12 @@ export function drawFieldStationOverlay({
   const panelRect = makeRect(Math.floor((width - panelWidth) / 2), 8, panelWidth, height - 16);
   const contentRect = insetRect(panelRect, 10);
   const creditLabel = `${credits}C`;
-  const tabY = contentRect.y + 12;
+  const tabY = contentRect.y + 17;
   const tabGap = 4;
   const tabWidth = Math.floor((contentRect.w - tabGap) / 2);
   const seasonTabRect = makeRect(contentRect.x, tabY, tabWidth, 10);
   const nurseryTabRect = makeRect(contentRect.x + tabWidth + tabGap, tabY, contentRect.w - tabWidth - tabGap, 10);
-  const bodyTop = tabY + 14;
+  const bodyTop = tabY + 13;
   const homecomingShellInput = buildFieldStationGrowthInput({
     nursery,
     loggedRouteCount: atlas?.loggedRoutes.length ?? 0,

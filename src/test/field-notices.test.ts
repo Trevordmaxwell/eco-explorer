@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { biomeRegistry } from '../content/biomes';
 import {
   canShowGuidedFieldSeasonNotice,
   createNotebookReadyFieldNotice,
@@ -9,6 +10,11 @@ import {
   shouldClearFieldNoticeForHomecoming,
   shouldReplaceFieldNotice,
 } from '../engine/field-notices';
+import {
+  resolveRouteV2FiledDisplayText,
+  resolveRouteV2FiledNoteText,
+} from '../engine/field-requests';
+import { createNewSaveState } from '../engine/save';
 
 describe('field-notices', () => {
   it('resolves route-backed recorded notices with route styling', () => {
@@ -20,6 +26,46 @@ describe('field-notices', () => {
     ).toEqual({
       title: 'SHORE SHELTER',
       text: 'American Dunegrass, Driftwood, and Bull Kelp Wrack mark how shelter grows from dune edge to tide line.',
+      variant: 'filed-route',
+    });
+  });
+
+  it('keeps replay filing notices display-prefixed without changing the canonical route title', () => {
+    const save = createNewSaveState();
+    save.completedFieldRequestIds = [
+      'forest-hidden-hollow',
+      'forest-moisture-holders',
+      'forest-survey-slice',
+      'coastal-shelter-shift',
+      'coastal-edge-moisture',
+      'treeline-stone-shelter',
+    ];
+    save.worldStep = 4;
+    save.biomeVisits.tundra = 2;
+    save.routeV2Progress = {
+      requestId: 'tundra-short-season',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'first-bloom', entryId: 'purple-saxifrage' },
+        { slotId: 'wet-tuft', entryId: 'cottongrass' },
+        { slotId: 'brief-fruit', entryId: 'cloudberry' },
+      ],
+    };
+
+    const canonicalText = resolveRouteV2FiledNoteText(biomeRegistry, save, 'tundra-short-season');
+    const displayText = resolveRouteV2FiledDisplayText(biomeRegistry, save, 'tundra-short-season');
+
+    expect(canonicalText).toBe(
+      'Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+    expect(canonicalText).not.toMatch(/^Thaw Window\./);
+    expect(displayText).toBe(
+      'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
+    );
+    expect(resolveRecordedFieldRequestNotice('tundra-short-season', displayText)).toEqual({
+      title: 'SHORT SEASON',
+      text: 'Thaw Window. Purple Saxifrage, Cottongrass, and Cloudberry trace the tundra\'s short thaw window.',
       variant: 'filed-route',
     });
   });

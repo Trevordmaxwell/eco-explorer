@@ -219,4 +219,43 @@ describe('beach to coastal-scrub corridor proof', () => {
     expect(salmonberry?.x).toBeLessThan(scrubForest.thresholdX);
     expect(nurseLog?.x).toBeLessThan(scrubForest.thresholdX);
   });
+
+  it('adds one sheltered-edge hold beside the scrub-to-forest carriers', () => {
+    const save = createNewSaveState('corridor-sheltered-edge-hold-seed');
+    const corridor = createCorridorScene(save, 'coastal-scrub', 'forest');
+    const platformIds = corridor.instance.platforms.map((platform) => platform.id);
+    const rootLip = corridor.instance.platforms.find((platform) => platform.id === 'sheltered-edge-root-lip');
+    const logRest = corridor.instance.platforms.find((platform) => platform.id === 'sheltered-edge-log-rest');
+    const nearbyCarriers = corridor.instance.entities
+      .filter((entity) => entity.x >= 96 && entity.x <= 176)
+      .map((entity) => entity.entryId);
+
+    expect(platformIds).toEqual(['sheltered-edge-root-lip', 'sheltered-edge-log-rest']);
+    expect(rootLip).toEqual({
+      id: 'sheltered-edge-root-lip',
+      spriteId: 'log-platform',
+      x: 108,
+      y: 102,
+      w: 16,
+      h: 4,
+    });
+    expect(logRest).toEqual({
+      id: 'sheltered-edge-log-rest',
+      spriteId: 'log-platform',
+      x: 134,
+      y: 99,
+      w: 24,
+      h: 4,
+    });
+    expect(rootLip?.x).toBeLessThan(corridor.thresholdX);
+    expect(logRest?.x).toBeGreaterThanOrEqual(corridor.thresholdX);
+    expect((logRest?.x ?? 0) + (logRest?.w ?? 0)).toBeLessThan(168);
+    expect(rootLip?.y).toBeGreaterThan(logRest?.y ?? 0);
+    expect(nearbyCarriers).toContain('sword-fern');
+    expect(nearbyCarriers).toContain('salmonberry');
+    expect(nearbyCarriers).toContain('nurse-log');
+    expect(nearbyCarriers).toContain('shore-pine');
+    expect(nearbyCarriers).toContain('douglas-fir-sapling');
+    expect(nearbyCarriers).not.toContain('redwood-sorrel');
+  });
 });

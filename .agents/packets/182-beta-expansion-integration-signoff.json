@@ -1,0 +1,76 @@
+{
+  "packet_id": "ECO-PACKET-182",
+  "version": 1,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Beta expansion integration signoff",
+  "summary": "Run a final integration proof after the twelve-packet beta expansion runway finishes, recording tests, browser proof, and remaining blockers.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-489",
+    "ECO-20260428-main-489",
+    "ECO-20260428-critic-489"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-488",
+    "ECO-20260428-critic-492",
+    "ECO-20260428-critic-495",
+    "ECO-20260428-critic-498"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-489",
+      "goal": "Define the integration checklist across lane 1 systems, lane 2 content, lane 3 spatial work, and lane 4 routes.",
+      "why_now": "A much larger push needs one closing proof instead of cross-lane gates throughout."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-489",
+      "goal": "Run the final integration proof and write the signoff report.",
+      "why_now": "The director needs a clean pass/fail read before opening another large phase."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-489",
+      "goal": "Review the integration signoff and name any smallest remaining blockers.",
+      "why_now": "The push should close with explicit evidence, not vibes."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/182-beta-expansion-integration-signoff.json",
+    "src/test/debug-snapshot-harness.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/field-season-board.test.ts",
+    "README.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "All lane packets in this wave have clean critic review or explicit blockers.",
+    "Final report records agent validation, full tests, science check, build, browser proof needs, and remaining risk.",
+    "No hidden follow-up is left out of the queue."
+  ],
+  "guardrails": [
+    "Integration proof only unless a tiny blocker fix is explicitly scoped.",
+    "Do not add gameplay features during signoff.",
+    "Do not hide known issues in prose.",
+    "Open only smallest follow-up blockers if needed."
+  ],
+  "post_packet_path": [
+    "If clean, the next director decision can choose between a new chapter-grade route or a release candidate pass.",
+    "If not clean, fix blockers before opening breadth."
+  ]
+}

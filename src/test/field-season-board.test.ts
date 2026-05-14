@@ -21,6 +21,7 @@ import {
   resolveHighPassFiledArcCopy,
 } from '../engine/high-pass-chapter-state';
 import {
+  resolveSourceToShoreFiledArcCopy,
   resolveSourceToShoreRevisitMemory,
   resolveSourceToShoreState,
 } from '../engine/source-to-shore-state';
@@ -1570,22 +1571,67 @@ describe('field season board', () => {
       worldMapLabel: 'Today: Source Shelter',
     });
     expect(routeBoard).toMatchObject({
-      complete: true,
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      branchLabel: 'Treeline -> Forest -> Coastal Scrub',
+      progressLabel: 'BETA',
+      complete: false,
       summary: 'Source Shelter starts Source to Shore from Treeline Pass.',
       nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
       targetBiomeId: 'treeline',
       notebookReady: null,
       replayNote: null,
-      launchCard: {
-        title: 'SOURCE SHELTER',
-        progressLabel: 'BETA',
-        summary: 'Treeline Pass starts the Source to Shore beta thread.',
-      },
+      launchCard: null,
+      activeBeatId: 'source-shelter',
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
     expect(resolveFieldAtlasState(save)?.note).toBe('Beta: start Source Shelter at Treeline Pass.');
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'High Pass filed; Source to Shore starts above the shelter line.',
+    });
+  });
+
+  it('marks Source to Shore ready-to-file states inside the dedicated board', () => {
+    const save = createNewSaveState('field-season-source-to-shore-source-ready-seed');
+    save.completedFieldRequestIds = [...highPassFiledRequestIds];
+    save.routeV2Progress = {
+      requestId: 'source-to-shore-source-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+
+    const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
+
+    expect(routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      progressLabel: 'NOTE',
+      complete: false,
+      summary: 'Return to the field station and file the Source Shelter note.',
+      nextDirection: 'Next: return to the field station and file the Source Shelter note.',
+      targetBiomeId: null,
+      launchCard: null,
+      activeBeatId: 'source-shelter',
+      notebookReady: {
+        requestId: 'source-to-shore-source-shelter',
+        text: 'Return to the field station and file the Source Shelter note.',
+        previewLabel: 'SOURCE SHELTER',
+      },
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'ready' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
   });
 
@@ -1605,12 +1651,16 @@ describe('field season board', () => {
       cardTitle: 'RIME SOURCE',
     });
     expect(resolveFieldSeasonBoardState(biomeRegistry, rimeSave)).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      activeBeatId: 'source-shelter',
       summary: 'Late ridge rime makes the high source and first shelter easier to compare today.',
       nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
-      launchCard: {
-        title: 'RIME SOURCE',
-        summary: 'Late ridge rime sharpens the high source and first shelter.',
-      },
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Rime Source', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
     expect(resolveFieldAtlasState(rimeSave)?.note).toBe('Rime Source: compare high source and shelter.');
 
@@ -1632,14 +1682,50 @@ describe('field season board', () => {
       cardTitle: 'COOL RELEASE',
     });
     expect(resolveFieldSeasonBoardState(biomeRegistry, coolSave)).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      activeBeatId: 'forest-release',
       summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
       nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
-      launchCard: {
-        title: 'COOL RELEASE',
-        summary: 'Mist highlights seep, root filter, and cool release.',
-      },
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Cool Release', status: 'active' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
     expect(resolveFieldAtlasState(coolSave)?.note).toBe('Cool Release: trace seep, roots, cool forest.');
+
+    const heldSave = createNewSaveState('field-season-source-to-shore-held-dune-seed');
+    heldSave.completedFieldRequestIds = [
+      ...highPassFiledRequestIds,
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+    ];
+    heldSave.worldStep = 6;
+    heldSave.biomeVisits['coastal-scrub'] = 2;
+
+    expect(resolveSourceToShoreState(heldSave)).toMatchObject({
+      beat: 'dune-catch',
+      title: 'Held Dune',
+      worldMapLabel: 'Today: Held Dune',
+      summary: 'Trapped sand makes dune grass, swale shrubs, and the cool edge easier to read today.',
+      routeBoardSummary: 'Trapped sand makes dune grass, swale shrubs, and the cool edge easier to read today.',
+      liveAtlasNote: 'Held Dune: trace grass, shrubs, cool edge.',
+      cardTitle: 'HELD DUNE',
+    });
+    expect(resolveFieldSeasonBoardState(biomeRegistry, heldSave)).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      activeBeatId: 'dune-catch',
+      summary: 'Trapped sand makes dune grass, swale shrubs, and the cool edge easier to read today.',
+      nextDirection: 'Next: travel to Coastal Scrub and trace held sand, swale hold, and cool edge.',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'done' },
+        { id: 'dune-catch', title: 'Held Dune', status: 'active' },
+      ],
+    });
+    expect(resolveFieldAtlasState(heldSave)?.note).toBe('Held Dune: trace grass, shrubs, cool edge.');
   });
 
   it('moves Source to Shore downstream after Source Shelter is filed', () => {
@@ -1663,15 +1749,20 @@ describe('field season board', () => {
       isActiveOuting: true,
     });
     expect(routeBoard).toMatchObject({
-      complete: true,
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      complete: false,
+      progressLabel: 'BETA',
       summary: 'Forest Release carries Source to Shore into Forest Trail.',
       nextDirection: 'Next: travel to Forest Trail and log seep hold, root filter, and cool release.',
       targetBiomeId: 'forest',
-      launchCard: {
-        title: 'FOREST RELEASE',
-        progressLabel: 'BETA',
-        summary: 'Forest Trail carries Source to Shore downstream.',
-      },
+      launchCard: null,
+      activeBeatId: 'forest-release',
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'active' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
     expect(resolveFieldAtlasState(save)?.note).toBe('Next: carry Source to Shore into Forest Trail.');
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
@@ -1711,15 +1802,20 @@ describe('field season board', () => {
       isActiveOuting: true,
     });
     expect(routeBoard).toMatchObject({
-      complete: true,
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      complete: false,
+      progressLabel: 'BETA',
       summary: 'Dune Catch carries Source to Shore into Coastal Scrub.',
       nextDirection: 'Next: travel to Coastal Scrub and log dune catch, swale hold, and cool edge.',
       targetBiomeId: 'coastal-scrub',
-      launchCard: {
-        title: 'DUNE CATCH',
-        progressLabel: 'BETA',
-        summary: 'Coastal Scrub carries Source to Shore into the coast catch.',
-      },
+      launchCard: null,
+      activeBeatId: 'dune-catch',
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'done' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'active' },
+      ],
     });
     expect(resolveFieldAtlasState(save)?.note).toBe('Next: carry Source to Shore to Coastal Scrub.');
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
@@ -1745,6 +1841,7 @@ describe('field season board', () => {
       'source-to-shore-forest-release',
       'source-to-shore-dune-catch',
     ];
+    const filedArcCopy = resolveSourceToShoreFiledArcCopy();
 
     const routeBoard = resolveFieldSeasonBoardState(biomeRegistry, save);
 
@@ -1756,30 +1853,35 @@ describe('field season board', () => {
       isActiveOuting: false,
     });
     expect(routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      progressLabel: 'FILED',
       complete: true,
-      summary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
-      nextDirection: 'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
+      summary: filedArcCopy.routeBoardSummary,
+      nextDirection: filedArcCopy.routeBoardNextDirection,
       targetBiomeId: null,
-      launchCard: {
-        title: 'SOURCE TO SHORE',
-        progressLabel: 'FILED',
-        summary: 'High rime, forest shade, and dune catch now read as one connected route.',
-      },
+      launchCard: null,
+      activeBeatId: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'done' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'done' },
+      ],
     });
-    expect(resolveFieldAtlasState(save)?.note).toBe('Filed: high source to forest release to coastal catch.');
+    expect(routeBoard.beats).toHaveLength(3);
+    expect(resolveFieldAtlasState(save)?.note).toBe(filedArcCopy.atlasNote);
     expect(resolveFieldSeasonArchiveState(save)).toEqual({
       label: 'SEASON ARCHIVE',
-      text: 'Source to Shore filed from high rime to forest shade to coastal catch.',
+      text: filedArcCopy.archiveText,
     });
     expect(resolveFieldSeasonExpeditionState(save)).toMatchObject({
       title: 'SOURCE TO SHORE',
       statusLabel: 'FILED',
-      summary: 'High rime, forest shade, and dune catch now read as one connected route.',
+      summary: filedArcCopy.cardSummary,
       detailLabel: 'FILED',
-      startText: 'Treeline Pass to Coastal Scrub',
-      note: 'Three Source to Shore notes filed.',
-      noticeText:
-        'Source to Shore filed. High source, forest release, and coastal catch now connect.',
+      startText: filedArcCopy.cardStartText,
+      note: filedArcCopy.cardNote,
+      noticeText: filedArcCopy.noticeText,
     });
     expect(resolveSourceToShoreRevisitMemory(save, 'treeline')).toEqual({
       biomeId: 'treeline',
@@ -1797,6 +1899,23 @@ describe('field season board', () => {
       text: 'Dune grass, swale shrubs, and cool edge catch the route at the shore.',
     });
     expect(resolveSourceToShoreRevisitMemory(save, 'beach')).toBeNull();
+  });
+
+  it('keeps filed Source to Shore terminal copy centralized for station closure', () => {
+    const filedArcCopy = resolveSourceToShoreFiledArcCopy();
+
+    expect(filedArcCopy).toEqual({
+      routeBoardSummary: 'Source to Shore filed: high source, forest release, and coastal catch now connect.',
+      routeBoardNextDirection:
+        'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
+      atlasNote: 'Filed: high source -> forest release -> coastal catch.',
+      archiveText: 'Source to Shore filed from high rime to forest shade to coastal catch.',
+      filedExpeditionSubtitle: 'Source to Shore is filed for this field arc.',
+      cardSummary: 'High rime, forest shade, and dune catch now read as one connected route.',
+      cardStartText: 'Treeline Pass to Coastal Scrub',
+      cardNote: 'Three Source to Shore notes filed.',
+      noticeText: 'Source to Shore filed. High source, forest release, and coastal catch now connect.',
+    });
   });
 
   it('keeps filed High Pass epilogue copy buckets explicit', () => {
@@ -2600,6 +2719,24 @@ describe('field season board', () => {
         text: 'Open the Root Hollow expedition.',
       }),
     ).toBe('Route board and calm field support.');
+  });
+
+  it('uses filed Source to Shore subtitle copy instead of reopening High Pass', () => {
+    const filedArcCopy = resolveSourceToShoreFiledArcCopy();
+
+    expect(
+      resolveFieldStationSubtitle('season', 'routes', {
+        label: 'SEASON ARCHIVE',
+        text: filedArcCopy.archiveText,
+      }, 'High Pass filed from Treeline Pass.'),
+    ).toBe(filedArcCopy.filedExpeditionSubtitle);
+
+    expect(
+      resolveFieldStationSubtitle('season', 'expedition', {
+        label: 'SEASON ARCHIVE',
+        text: filedArcCopy.archiveText,
+      }),
+    ).toBe(filedArcCopy.filedExpeditionSubtitle);
   });
 
   it('derives one salmonberry-led nursery clue once the season moves beyond the route board', () => {

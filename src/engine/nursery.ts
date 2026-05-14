@@ -526,7 +526,7 @@ export function resolveNurseryStateView(
   const routeSupportHint =
     routeSupportRewardId && rewardIds.has(routeSupportRewardId)
       ? getNurseryRouteSupportSummary(routeSupportRewardId)
-      : routeBoard.activeBeatId === null
+      : routeBoard.activeBeatId === null || routeBoard.routeId === 'source-to-shore-beta'
         ? resolveNurseryCapstoneSupportHint(save)
         : null;
   const teachingBedFocusMode = resolveNurseryTeachingBedFocusMode(

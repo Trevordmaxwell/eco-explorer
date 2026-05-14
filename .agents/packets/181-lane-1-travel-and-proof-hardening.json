@@ -1,0 +1,130 @@
+{
+  "packet_id": "ECO-PACKET-181",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 1 travel and proof hardening",
+  "summary": "Harden travel framing and reusable proof surfaces so larger beta work can be verified with less manual coordination.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-travel-framing-independence-review.md",
+    "docs/reports/2026-04-28-debug-proof-harness-review.md",
+    "docs/reports/2026-04-28-travel-proof-harness-handoff.md",
+    "docs/reports/2026-04-28-travel-proof-harness-implementation.md",
+    "docs/reports/2026-04-28-travel-proof-harness-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-488",
+    "ECO-20260428-main-488",
+    "ECO-20260428-critic-488"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-487"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-488",
+      "goal": "Scope one travel-framing or proof-harness improvement that helps future beta chapter checks.",
+      "why_now": "The project now has reusable helpers; the next improvement should reduce future handholding."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-488",
+      "goal": "Implement the scoped travel/proof hardening without gameplay drift.",
+      "why_now": "Better proof surfaces make the larger push safer to run in parallel."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-488",
+      "goal": "Review the hardening pass for behavior parity and proof usefulness.",
+      "why_now": "A proof helper only helps if future agents can actually reuse it."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/181-lane-1-travel-and-proof-hardening.json",
+    "src/engine/travel-framing.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/engine/world-map-render.ts",
+    "src/test/debug-snapshot-harness.ts",
+    "src/test/travel-framing.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/architecture.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One travel or proof surface becomes easier to verify.",
+    "Gameplay, save state, route state, content, and geometry remain unchanged unless explicitly scoped.",
+    "Focused tests and build pass."
+  ],
+  "guardrails": [
+    "Prefer behavior-neutral hardening.",
+    "Do not add a new navigation HUD.",
+    "Do not change route semantics or content.",
+    "Keep proof artifacts and helpers test-friendly."
+  ],
+  "post_packet_path": [
+    "If clean, leave final integration signoff parked until the other lane runways finish.",
+    "If more proof gaps appear, record them as small follow-ups."
+  ],
+  "scout_handoff_488": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-travel-proof-harness-handoff.md",
+    "selected_target": "Add a test-only debug snapshot helper that opens the field station via the world-map route.",
+    "why": "Station snapshot proof currently has to remember an implicit world-map precondition before the field-station menu action is available.",
+    "implementation_contract": [
+      "Add an exported helper such as openFieldStationViaWorldMap(fakeWindow) in src/test/debug-snapshot-harness.ts.",
+      "Compose the existing openWorldMapFromMenu and openFieldStationFromMenu helpers instead of duplicating menu navigation.",
+      "Use the new helper in src/test/save-snapshots.test.ts for station-only snapshot assertions.",
+      "Leave explicit world-map assertions as two-step flows."
+    ],
+    "verification_plan": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build",
+      "git diff --check -- src/test/debug-snapshot-harness.ts src/test/save-snapshots.test.ts docs/architecture.md"
+    ],
+    "guardrail": "Test-only helper change; no runtime, route, save, station UI, travel-label, content, geometry, or game.ts change."
+  },
+  "main_implementation_488": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-travel-proof-harness-implementation.md",
+    "changed_files": [
+      "src/test/debug-snapshot-harness.ts",
+      "src/test/save-snapshots.test.ts",
+      "docs/architecture.md"
+    ],
+    "summary": "Added openFieldStationViaWorldMap() as a reusable test-only helper and switched station-only snapshot proofs to use it while leaving world-map assertion flows explicit.",
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build",
+      "git diff --check -- src/test/debug-snapshot-harness.ts src/test/save-snapshots.test.ts docs/architecture.md"
+    ],
+    "guardrail": "No runtime, route, save, station UI, travel-label, content, geometry, browser artifact, or game.ts change landed."
+  },
+  "critic_review_488": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-travel-proof-harness-review.md",
+    "verdict": "clean",
+    "notes": [
+      "The new helper composes existing menu navigation helpers and makes the field-station world-map precondition explicit.",
+      "Station-only snapshot proofs use the wrapper, while tests with map focus, marker, replay-label, or current-location assertions remain explicit two-step flows.",
+      "No runtime, route, save, station UI, travel-label, content, geometry, browser artifact, or game.ts behavior changed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/save-snapshots.test.ts",
+      "npm run build",
+      "git diff --check -- src/test/debug-snapshot-harness.ts src/test/save-snapshots.test.ts docs/architecture.md"
+    ],
+    "parked_next": "ECO-20260428-scout-489 remains parked until ECO-20260428-critic-492, ECO-20260428-critic-495, and ECO-20260428-critic-498 are clean."
+  }
+}

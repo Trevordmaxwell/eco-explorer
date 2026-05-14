@@ -1,0 +1,133 @@
+{
+  "packet_id": "ECO-PACKET-180",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 1 season-two station clarity",
+  "summary": "Prepare the station and season surfaces for a broader beta runway without adding a larger planner or new content lane work.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "docs/reports/2026-04-28-season-two-station-clarity-handoff.md",
+    "docs/reports/2026-04-28-season-two-station-clarity-implementation.md",
+    "docs/reports/2026-04-28-season-two-station-clarity-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-487",
+    "ECO-20260428-main-487",
+    "ECO-20260428-critic-487"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-487",
+      "goal": "Scope the smallest station/season clarity pass for post-Source-to-Shore next-step readability.",
+      "why_now": "The station can now house Source to Shore cleanly, so it needs a calm runway into broader beta growth."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-487",
+      "goal": "Implement the scoped station clarity pass using existing station/session surfaces.",
+      "why_now": "Lane 1 should make the next chapter easier to find before route or content breadth expands."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-487",
+      "goal": "Review station clarity for 256x160 fit, no dashboard drift, and stable Source to Shore closure.",
+      "why_now": "Station structure should stay quiet before more beta work starts pointing at it."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/180-lane-1-season-two-station-clarity.json",
+    "src/engine/field-station-session.ts",
+    "src/engine/field-station-routes-page.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-season-wrap.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/game.ts",
+    "src/test/field-station-session.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Station next-step readability improves after filed Source to Shore.",
+    "Source to Shore stays a clean three-beat endpoint unless separately scoped.",
+    "No planner, dashboard, season-three shell, content pack, route catalog change, or save schema change lands.",
+    "Focused station/runtime tests and build pass."
+  ],
+  "guardrails": [
+    "Lane 1 owns station/session clarity only.",
+    "Keep copy compact for 256x160.",
+    "Use existing surfaces and helper seams.",
+    "Do not absorb lane 2 content, lane 3 geometry, or lane 4 route authoring."
+  ],
+  "post_packet_path": [
+    "If clean, proceed to lane-1 travel and proof hardening.",
+    "If blocked, open a lane-1-local blocker rather than gating other lanes."
+  ],
+  "scout_handoff_487": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-season-two-station-clarity-handoff.md",
+    "finding": "After Source to Shore is fully filed, the station expedition subtitle can still say High Pass opens the next field season while the expedition card is SOURCE TO SHORE / FILED.",
+    "implementation_contract": [
+      "Centralize filed Source to Shore terminal copy in src/engine/source-to-shore-state.ts.",
+      "Use that copy in the filed Dune Catch state without changing the three-beat flow.",
+      "Update src/engine/field-season-wrap.ts so filed Source to Shore archive subtitles do not fall through to the High Pass expedition subtitle.",
+      "Keep src/engine/field-station-routes-page.ts unchanged unless a focused proof shows a rendering issue."
+    ],
+    "verification_plan": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|subtitle|filed arc\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Dune Catch\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Source to Shore station|Dune Catch|season capstone\"",
+      "npm run build"
+    ],
+    "guardrail": "No planner, dashboard, new station page, route catalog entry, save schema change, content pack, geometry, season-three shell, or fourth Source to Shore beat."
+  },
+  "main_implementation_487": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-season-two-station-clarity-implementation.md",
+    "changed_files": [
+      "src/engine/source-to-shore-state.ts",
+      "src/engine/field-season-wrap.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/save-snapshots.test.ts",
+      ".agents/project-memory.md"
+    ],
+    "summary": "Centralized filed Source to Shore terminal copy and used it for filed archive subtitles so SEASON -> EXPEDITION no longer says High Pass opens the next field season after Dune Catch is filed.",
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|subtitle|filed arc\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Dune Catch\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Source to Shore station|Dune Catch|season capstone\"",
+      "npm run build",
+      "web-game client smoke against http://127.0.0.1:5173/"
+    ],
+    "guardrail": "Kept Source to Shore at exactly three beats with no route id, catalog, save, station page, planner, dashboard, content, geometry, or layout change."
+  },
+  "critic_review_487": {
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-season-two-station-clarity-review.md",
+    "verdict": "clean",
+    "notes": [
+      "Filed Source to Shore subtitles now resolve as current-field-arc closure instead of the High Pass launch subtitle.",
+      "The dedicated three-beat SOURCE TO SHORE board remains intact.",
+      "No planner, dashboard, new station page, route catalog, save, content, geometry, or rendering layout change landed."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|subtitle|filed arc\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Dune Catch\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Source to Shore station|Dune Catch|season capstone\"",
+      "npm run build"
+    ],
+    "promoted": "ECO-20260428-scout-488"
+  }
+}

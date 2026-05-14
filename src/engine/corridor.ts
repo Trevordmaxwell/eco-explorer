@@ -296,6 +296,24 @@ const corridorSpecs: CorridorSpec[] = [
       { entryId: 'redwood-sorrel', x: 198, jitter: 3 },
       { entryId: 'douglas-fir-sapling', x: 226, jitter: 2 },
     ],
+    authoredPlatforms: [
+      {
+        id: 'sheltered-edge-root-lip',
+        spriteId: 'log-platform',
+        x: 108,
+        y: 102,
+        w: 16,
+        h: 4,
+      },
+      {
+        id: 'sheltered-edge-log-rest',
+        spriteId: 'log-platform',
+        x: 134,
+        y: 99,
+        w: 24,
+        h: 4,
+      },
+    ],
     entryPoints: {
       'coastal-scrub': { x: 20, y: 94, facing: 'right' },
       forest: { x: 226, y: 94, facing: 'left' },

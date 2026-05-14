@@ -1,0 +1,133 @@
+{
+  "packet_id": "ECO-PACKET-183",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 2 front-half ecology richness",
+  "summary": "Deepen beach, coastal scrub, and forest-edge ecology through existing content, note, comparison, and close-look seams.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-coastal-food-web-content-review.md",
+    "docs/reports/2026-04-28-front-half-ecology-richness-handoff.md",
+    "docs/reports/2026-04-28-front-half-ecology-richness-implementation.md",
+    "docs/reports/2026-04-28-front-half-ecology-richness-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-490",
+    "ECO-20260428-main-490",
+    "ECO-20260428-critic-490"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-490",
+      "goal": "Scope a front-half content pack that reinforces coast-to-forest relationships.",
+      "why_now": "Lane 2 can keep improving early-game density without waiting on systems."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-490",
+      "goal": "Implement the scoped front-half ecology richness pass.",
+      "why_now": "The early route experience should feel as authored as the high-country branch."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-490",
+      "goal": "Review front-half content for science safety, readability, and lane boundaries.",
+      "why_now": "Content density should not become UI or route-system drift."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/183-lane-2-front-half-ecology-richness.json",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/shared-entries.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/journal-comparison.ts",
+    "src/engine/close-look.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/close-look.test.ts",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Front-half ecology gains one compact content layer on existing surfaces.",
+    "Science-source ledger and content-quality checks stay current.",
+    "No station, route, travel, save, geometry, or broad `game.ts` scope lands."
+  ],
+  "guardrails": [
+    "Lane 2 owns content only.",
+    "Keep copy short and source-safe.",
+    "Prefer existing notes, comparison, close-look, and prompt seams.",
+    "Leave systems and spatial requests as handoffs."
+  ],
+  "post_packet_path": [
+    "If clean, proceed to forest sub-ecosystem content.",
+    "If blocked, open lane-2-local follow-up."
+  ],
+  "scout_490_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-front-half-ecology-richness-handoff.md",
+    "selected_scope": "A comparison-routing-only salmonberry pass that reuses existing Coastal Scrub and Forest Trail notes to make the front-half same-pane journal comparison more relationship-focused.",
+    "implementation_contract": [
+      "Add `salmonberry` to `COMPARISON_NOTE_ID_PREFERENCES` in `src/engine/journal-comparison.ts`.",
+      "Prefer Coastal Scrub note `berry-cover-chain` and Forest Trail note `berry-seed-shuttle`.",
+      "Update the salmonberry fixture in `src/test/journal-comparison.test.ts` so both preferred notes are locally unlocked and expected.",
+      "Do not edit science ledger rows because the pass reuses already reviewed notes and source coverage."
+    ],
+    "target_files": [
+      "src/engine/journal-comparison.ts",
+      "src/test/journal-comparison.test.ts"
+    ],
+    "proof_expectations": [
+      "npm test -- --run src/test/journal-comparison.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No new inspectables, sprites, close-look seeds, observation prompts, ecosystem notes, atlas pages, badge/reward economy, station changes, route-state changes, travel changes, save changes, geometry, traversal, or broad `game.ts` work.",
+      "No fourth Source to Shore beat and no new page shell."
+    ],
+    "next_queue_id": "ECO-20260428-main-490"
+  },
+  "implementation_490_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-front-half-ecology-richness-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added `salmonberry` comparison note preferences for Coastal Scrub `berry-cover-chain` and Forest Trail `berry-seed-shuttle`.",
+      "Updated the salmonberry journal-comparison fixture to unlock and expect the preferred notes."
+    ],
+    "verification": [
+      "npm test -- --run src/test/journal-comparison.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-critic-490"
+  },
+  "critic_490_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-front-half-ecology-richness-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The salmonberry comparison-routing pass is source-safe, compact, and lane-local. It reuses existing reviewed notes, follows the established preferred-note unlock policy, and adds no station, route, save, geometry, page, reward, or fourth-beat scope.",
+    "verification": [
+      "npm test -- --run src/test/journal-comparison.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "promoted_queue_id": "ECO-20260428-scout-491"
+  }
+}

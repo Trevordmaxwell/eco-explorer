@@ -171,10 +171,13 @@ Guidance:
 
 ## Route v2 and support copy
 
+- Author route/request definitions in `src/engine/field-request-catalog.ts`; keep runtime matching, support behavior, filing, and save handling in `src/engine/field-requests.ts`.
 - Use player-facing words such as route, outing, field season, evidence, and notebook filing.
 - Avoid promising quests, checklists, loadouts, planner pages, inventory, or extra support slots.
 - Keep support copy tied to the one tiny station slot. Name live supports only when the route actually reacts to them.
 - Keep live route variants and filed notebook identity distinct: a replay window can rename the active outing, but the filed route should stay canonical unless the route definition intentionally changes.
+- Keep canonical filed copy in `routeV2Note.filedText`; use `displayPrefix` only for display-only replay emphasis, and point active alternate clue ids at real route slots and biome entries.
+- Treat `displayPrefix` as a display-only stamp for note-tabs previews and filed-route notices. Do not put the replay name in saved `filedText`, and keep recorded notice titles canonical through the route definition title.
 
 ## Ecosystem note template
 

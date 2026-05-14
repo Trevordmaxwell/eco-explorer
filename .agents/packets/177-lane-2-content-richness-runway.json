@@ -1,0 +1,390 @@
+{
+  "packet_id": "ECO-PACKET-177",
+  "version": 10,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 2 content richness runway",
+  "summary": "Run a larger content-richness wave that deepens old-growth, coastal food-web, and high-country science through existing content, atlas, journal, close-look, and ledger seams.",
+  "source_reports": [
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "docs/reports/2026-04-28-source-to-shore-filed-memory-payoff-review.md",
+    "docs/reports/2026-04-28-old-growth-under-root-content-handoff.md",
+    "docs/reports/2026-04-28-old-growth-under-root-content-implementation.md",
+    "docs/reports/2026-04-28-old-growth-under-root-content-review.md",
+    "docs/reports/2026-04-28-coastal-food-web-content-handoff.md",
+    "docs/reports/2026-04-28-coastal-food-web-content-implementation.md",
+    "docs/reports/2026-04-28-coastal-food-web-content-review.md",
+    "docs/reports/2026-04-28-high-country-season-shelter-content-handoff.md",
+    "docs/reports/2026-04-28-high-country-season-shelter-content-implementation.md",
+    "docs/reports/2026-04-28-high-country-season-shelter-content-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-466",
+    "ECO-20260428-main-466",
+    "ECO-20260428-critic-466",
+    "ECO-20260428-scout-467",
+    "ECO-20260428-main-467",
+    "ECO-20260428-critic-467",
+    "ECO-20260428-scout-468",
+    "ECO-20260428-main-468",
+    "ECO-20260428-critic-468"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-466",
+      "goal": "Scope an old-growth and under-root content pack that rides existing forest and cave-adjacent surfaces.",
+      "why_now": "Lane 2 can deepen the world without waiting on station or route structure."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-466",
+      "goal": "Implement the old-growth and under-root content pack with science ledger and content tests.",
+      "why_now": "The forest expedition and vertical work need richer educational fuel, not new systems."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-466",
+      "goal": "Review old-growth content for science accuracy, copy budget, and no station or route drift.",
+      "why_now": "Content richness must stay modular and source-safe."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260428-scout-467",
+      "goal": "Scope a coastal food-web content pack around wrack, dune, scrub, and forest-edge relationships.",
+      "why_now": "The front half should feel as authored and connected as the inland half."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260428-main-467",
+      "goal": "Implement the coastal food-web pack using existing notes, prompts, comparison, or close-look seams.",
+      "why_now": "A richer coast helps new players see relationships before later beta chapters."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260428-critic-467",
+      "goal": "Review coastal content for science safety, readability, and clean front-half balance.",
+      "why_now": "The coastal branch should grow without becoming text-heavy or system-heavy."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260428-scout-468",
+      "goal": "Scope a high-country season and shelter content pack for Treeline/Tundra.",
+      "why_now": "High-country content can deepen the beta's source-side identity independently from route work."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260428-main-468",
+      "goal": "Implement the high-country content pack with focused content-quality and ledger checks.",
+      "why_now": "Treeline and tundra should carry stronger science density before more chapter breadth opens."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260428-critic-468",
+      "goal": "Review high-country content for source safety, copy fit, and no route/station dependency.",
+      "why_now": "Lane 2 should finish with richer content that future lanes can use without waiting on it."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/177-lane-2-content-richness-runway.json",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/content/shared-entries.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/journal-comparison.test.ts",
+    "src/test/close-look.test.ts",
+    "docs/content-authoring.md",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Old-growth, coastal, and high-country content packs each land through existing content-facing systems.",
+    "Science-source ledger and content-quality checks stay current.",
+    "No station shell, route-board layout, route catalog semantics, world-map orchestration, or broad `game.ts` work lands in lane 2.",
+    "Focused content/journal/close-look tests and build pass when runtime-visible content changes land."
+  ],
+  "guardrails": [
+    "Lane 2 owns content richness, not progression structure.",
+    "Use existing journal, atlas, close-look, sketchbook, prompt, and ecosystem-note carriers.",
+    "Keep facts short, source-safe, and kid-readable.",
+    "Leave station, route, travel, and traversal implementation requests as handoffs for other lanes.",
+    "Do not add a fourth Source to Shore beat or a new content shell."
+  ],
+  "post_packet_path": [
+    "If clean, lane 2 can propose a later atlas/sketchbook synthesis packet.",
+    "Any system need discovered here should become a handoff, not an absorbed dependency."
+  ],
+  "scout_466_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-old-growth-under-root-content-handoff.md",
+    "selected_scope": "A compact Forest Trail decomposition pack with exactly two new landmark inspectables, one old-growth close-look seed, two ecosystem notes, and science-ledger coverage.",
+    "implementation_contract": [
+      "Add `leaf-litter-pocket` and `shelf-fungus` as forest landmark entries in `src/content/biomes/forest.ts`.",
+      "Add small `leaf-litter-pocket` and `shelf-fungus` sprites to `src/assets/forest-ambient.ts`; register no new asset module.",
+      "Use authored placements only: `leaf-litter-pocket` in the existing under-root/stone-basin cluster, and `shelf-fungus` on an existing old-growth log/trunk surface.",
+      "Add a `shelf-fungus` close-look seed in `src/engine/close-look.ts`; keep `leaf-litter-pocket` out of close-look unless readability needs it.",
+      "Add ecosystem notes `old-wood-recyclers` and `leaf-litter-shelter` using existing note resolver behavior.",
+      "Update `docs/science-source-ledger.md` with broad `Watch` rows for both landmarks using official NPS fungi/decomposition sources."
+    ],
+    "science_sources": [
+      "https://www.nps.gov/shen/learn/nature/mushrooms.htm",
+      "https://www.nps.gov/muwo/learn/nature/decomposing-fungi.htm"
+    ],
+    "target_files": [
+      "src/content/biomes/forest.ts",
+      "src/assets/forest-ambient.ts",
+      "src/engine/close-look.ts",
+      "src/test/forest-biome.test.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/close-look.test.ts",
+      "src/test/content-quality.test.ts",
+      "docs/science-source-ledger.md"
+    ],
+    "proof_expectations": [
+      "`npm test -- --run src/test/forest-biome.test.ts src/test/ecosystem-notes.test.ts src/test/close-look.test.ts src/test/content-quality.test.ts`",
+      "`npm run build`"
+    ],
+    "out_of_scope": [
+      "No station shell, route board, route catalog, field request, support behavior, world-map, corridor, save-schema, or broad `game.ts` edits.",
+      "No geometry or traversal edits.",
+      "No new cave route, old-growth route, comparison shell, atlas page, or fourth Source to Shore beat."
+    ],
+    "next_queue_id": "ECO-20260428-main-466"
+  },
+  "implementation_466_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-old-growth-under-root-content-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added `leaf-litter-pocket` and `shelf-fungus` as Forest Trail landmark inspectables.",
+      "Added compact forest ambient sprites for both entries without a new asset module.",
+      "Placed `leaf-litter-pocket` in the under-root stone-basin cluster and `shelf-fungus` on an existing old-growth trunk/log surface.",
+      "Added one `shelf-fungus` close-look seed.",
+      "Added ecosystem notes `leaf-litter-shelter` and `old-wood-recyclers`.",
+      "Updated science-ledger coverage and focused tests."
+    ],
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts src/test/ecosystem-notes.test.ts src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-critic-466"
+  },
+  "critic_466_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-old-growth-under-root-content-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The old-growth and under-root content pack is source-safe, compact, and lane-local. It adds two broad landmark inspectables, authored placements, one close-look seed, two ecosystem notes, ledger rows, and focused tests without station, route, save, geometry, or new-shell drift.",
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts src/test/ecosystem-notes.test.ts src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "promoted_queue_id": "ECO-20260428-scout-467"
+  },
+  "scout_467_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-coastal-food-web-content-handoff.md",
+    "selected_scope": "A notes-only coastal food-web pack that adds exactly three ecosystem notes across Beach, Coastal Scrub, and Forest Trail using existing entries and authored placements.",
+    "implementation_contract": [
+      "Add Beach ecosystem note `wrack-bird-line` for `bull-kelp-wrack`, `beach-hopper`, and `western-snowy-plover` in zone `tide-line`.",
+      "Add Coastal Scrub ecosystem note `berry-cover-chain` for `beach-strawberry`, `nootka-rose`, `salmonberry`, and `deer-mouse` with no zone id because it spans swale, thicket, and forest-edge pockets.",
+      "Add Forest Trail ecosystem note `berry-seed-shuttle` for `steller-jay`, `red-huckleberry`, and `salmonberry` in zone `trailhead`.",
+      "Keep all note copy compact, broad, and kid-readable; avoid new specialist diet, nesting, migration, or guaranteed seed-dispersal claims.",
+      "Do not add inspectables, sprites, close-look seeds, comparison shell work, route beats, station UI, world-map behavior, save state, geometry, or broad runtime changes."
+    ],
+    "note_contract": [
+      {
+        "biome": "beach",
+        "id": "wrack-bird-line",
+        "title": "Wrack Bird Line",
+        "entry_ids": [
+          "bull-kelp-wrack",
+          "beach-hopper",
+          "western-snowy-plover"
+        ],
+        "minimum_discoveries": 2,
+        "zone_id": "tide-line",
+        "summary": "Kelp wrack feeds hoppers and other tiny animals that small shorebirds watch for.",
+        "observation_prompt": "Where does wrack become bird food?"
+      },
+      {
+        "biome": "coastal-scrub",
+        "id": "berry-cover-chain",
+        "title": "Berry Cover Chain",
+        "entry_ids": [
+          "beach-strawberry",
+          "nootka-rose",
+          "salmonberry",
+          "deer-mouse"
+        ],
+        "minimum_discoveries": 3,
+        "zone_id": null,
+        "summary": "Low fruit, rose hips, and edge berries give small mammals food beside cover.",
+        "observation_prompt": "Where do berries sit close to cover?"
+      },
+      {
+        "biome": "forest",
+        "id": "berry-seed-shuttle",
+        "title": "Berry Seed Shuttle",
+        "entry_ids": [
+          "steller-jay",
+          "red-huckleberry",
+          "salmonberry"
+        ],
+        "minimum_discoveries": 2,
+        "zone_id": "trailhead",
+        "summary": "Berries feed forest birds, and some seeds travel away from the edge.",
+        "observation_prompt": "Which berries might a bird carry next?"
+      }
+    ],
+    "science_sources": [
+      "https://farallones.noaa.gov/eco/kelp/",
+      "https://www.nps.gov/goga/learn/nature/beaches.htm",
+      "https://www.nps.gov/pore/learn/nature/birds_snowyplover.htm",
+      "https://plants.usda.gov/DocumentLibrary/plantguide/pdf/pg_ronu.pdf",
+      "https://plants.usda.gov/DocumentLibrary/plantguide/pdf/cs_frchc.pdf",
+      "https://research.fs.usda.gov/feis/species-reviews/rubspe"
+    ],
+    "target_files": [
+      "src/content/biomes/beach.ts",
+      "src/content/biomes/coastal-scrub.ts",
+      "src/content/biomes/forest.ts",
+      "src/test/ecosystem-notes.test.ts",
+      "src/test/beach-biome.test.ts",
+      "src/test/coastal-scrub-biome.test.ts",
+      "src/test/forest-biome.test.ts",
+      "src/test/content-quality.test.ts"
+    ],
+    "proof_expectations": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/beach-biome.test.ts src/test/coastal-scrub-biome.test.ts src/test/forest-biome.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No new inspectables, sprites, asset modules, close-look seeds, comparison allowlists, or comparison shells.",
+      "No station shell, route board, route catalog, field requests, support behavior, world-map, save-schema, geometry, traversal, or broad `game.ts` edits.",
+      "No new route beats, fourth Source to Shore beat, new page, badge, or reward economy."
+    ],
+    "next_queue_id": "ECO-20260428-main-467"
+  },
+  "implementation_467_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-coastal-food-web-content-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added Beach ecosystem note `wrack-bird-line` for `bull-kelp-wrack`, `beach-hopper`, and `western-snowy-plover`.",
+      "Added Coastal Scrub ecosystem note `berry-cover-chain` for `beach-strawberry`, `nootka-rose`, `salmonberry`, and `deer-mouse`.",
+      "Added Forest Trail ecosystem note `berry-seed-shuttle` for `steller-jay`, `red-huckleberry`, and `salmonberry`.",
+      "Added focused ecosystem-note and biome assertions while relying on existing content-quality ledger coverage."
+    ],
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/beach-biome.test.ts src/test/coastal-scrub-biome.test.ts src/test/forest-biome.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "ledger_note": "No ledger edit was needed because the notes use existing ledger-backed entries and avoid new specialist diet, nesting, migration, or guaranteed seed-dispersal claims.",
+    "next_queue_id": "ECO-20260428-critic-467"
+  },
+  "critic_467_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-coastal-food-web-content-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The coastal food-web pack is source-safe, compact, and lane-local. It adds exactly three ecosystem notes through existing biome content and focused tests, with no station, route, world-map, save, geometry, close-look, comparison-shell, reward, page, or fourth Source to Shore drift.",
+    "verification": [
+      "npm test -- --run src/test/ecosystem-notes.test.ts src/test/beach-biome.test.ts src/test/coastal-scrub-biome.test.ts src/test/forest-biome.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "promoted_queue_id": "ECO-20260428-scout-468"
+  },
+  "scout_468_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-season-shelter-content-handoff.md",
+    "selected_scope": "A one-seed Tundra close-look pass for `woolly-lousewort`, scoped down from more ecosystem-note copy because Treeline and Tundra already have dense note coverage.",
+    "implementation_contract": [
+      "Add exactly one close-look seed for `woolly-lousewort` in `src/engine/close-look.ts`.",
+      "Use callouts `woolly stem` and `flower cluster`.",
+      "Use sentence `Woolly fuzz helps hold warm air around the stem in cold tundra wind.`",
+      "Use `spriteScale: 5`.",
+      "Update `src/test/close-look.test.ts` allowlist and payload assertions for `woolly-lousewort`.",
+      "Run `src/test/content-quality.test.ts`; do not edit the science ledger unless that guard shows the existing verified row is missing or stale."
+    ],
+    "science_sources": [
+      "https://www.nps.gov/bela/learn/nature/wildflowers.htm",
+      "https://www.nps.gov/dena/learn/nature/abundant-plant-species.htm",
+      "https://www.nps.gov/wrst/learn/nature/plants-communities.htm"
+    ],
+    "target_files": [
+      "src/engine/close-look.ts",
+      "src/test/close-look.test.ts",
+      "src/test/content-quality.test.ts"
+    ],
+    "proof_expectations": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No new inspectables, sprites, asset modules, ecosystem notes, comparison allowlists, sketchbook shell, atlas page, station UI, route catalog semantics, route beats, support behavior, world-map behavior, save-schema changes, geometry, or broad `game.ts` edits.",
+      "No fourth Source to Shore beat, badge, reward economy, or new page.",
+      "No browser proof is required unless review finds close-look card cropping or readability risk."
+    ],
+    "next_queue_id": "ECO-20260428-main-468"
+  },
+  "implementation_468_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-season-shelter-content-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added exactly one close-look seed for `woolly-lousewort` in `src/engine/close-look.ts`.",
+      "Used callouts `woolly stem` and `flower cluster`.",
+      "Used sentence `Woolly fuzz helps hold warm air around the stem in cold tundra wind.`",
+      "Used `spriteScale: 5`.",
+      "Updated `src/test/close-look.test.ts` allowlist and payload assertions."
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "ledger_note": "No science-ledger edit was needed because `woolly-lousewort` already has a verified ledger row and the new copy stays inside that source-backed woolly-stem insulation claim.",
+    "next_queue_id": "ECO-20260428-critic-468"
+  },
+  "critic_468_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-season-shelter-content-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The high-country close-look pass is source-safe, compact, and lane-local. It adds exactly one `woolly-lousewort` close-look seed backed by the existing verified ledger row, with no inspectable, sprite, note, comparison, station, route, support, world-map, save, geometry, or broad runtime drift.",
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "packet_result": "DONE"
+  }
+}

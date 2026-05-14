@@ -10,6 +10,7 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('fir-cone')).toBe(true);
     expect(supportsCloseLook('reindeer-lichen')).toBe(true);
     expect(supportsCloseLook('purple-saxifrage')).toBe(true);
+    expect(supportsCloseLook('woolly-lousewort')).toBe(true);
     expect(supportsCloseLook('lingonberry')).toBe(true);
     expect(supportsCloseLook('frost-heave-boulder')).toBe(true);
     expect(supportsCloseLook('krummholz-spruce')).toBe(true);
@@ -18,6 +19,7 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('talus-cushion-pocket')).toBe(true);
     expect(supportsCloseLook('cottongrass')).toBe(true);
     expect(supportsCloseLook('bigelows-sedge')).toBe(true);
+    expect(supportsCloseLook('tussock-thaw-channel')).toBe(true);
     expect(supportsCloseLook('nootka-rose')).toBe(true);
     expect(supportsCloseLook('kinnikinnick')).toBe(true);
     expect(supportsCloseLook('nurse-log')).toBe(true);
@@ -28,10 +30,12 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('song-sparrow')).toBe(true);
     expect(supportsCloseLook('canopy-moss-bed')).toBe(true);
     expect(supportsCloseLook('seep-moss-mat')).toBe(true);
+    expect(supportsCloseLook('shelf-fungus')).toBe(true);
     expect(supportsCloseLook('root-curtain')).toBe(true);
     expect(supportsCloseLook('tree-lungwort')).toBe(true);
     expect(supportsCloseLook('old-mans-beard')).toBe(true);
     expect(supportsCloseLook('woodpecker-cavity')).toBe(true);
+    expect(supportsCloseLook('western-hemlock-seedling')).toBe(true);
     expect(supportsCloseLook('beach-grass')).toBe(false);
     expect(supportsCloseLook('fallen-giant-log')).toBe(false);
     expect(supportsCloseLook(null)).toBe(false);
@@ -130,6 +134,26 @@ describe('close-look helpers', () => {
     });
     expect(bigelowsSedgePayload?.callouts).toContain('raised tussock');
 
+    const thawChannelPayload = buildCloseLookPayload(tundraBiome.entries['tussock-thaw-channel']);
+    expect(thawChannelPayload).toMatchObject({
+      entryId: 'tussock-thaw-channel',
+      title: 'Tussock Thaw Channel',
+      spriteId: 'tussock-thaw-channel',
+      sentence: 'Meltwater can linger in low channels between raised tundra tussocks.',
+      spriteScale: 6,
+    });
+    expect(thawChannelPayload?.callouts).toEqual(['low wet lane', 'raised tussocks']);
+
+    const woollyLousewortPayload = buildCloseLookPayload(tundraBiome.entries['woolly-lousewort']);
+    expect(woollyLousewortPayload).toMatchObject({
+      entryId: 'woolly-lousewort',
+      title: 'Woolly Lousewort',
+      spriteId: 'woolly-lousewort',
+      sentence: 'Woolly fuzz helps hold warm air around the stem in cold tundra wind.',
+      spriteScale: 5,
+    });
+    expect(woollyLousewortPayload?.callouts).toEqual(['woolly stem', 'flower cluster']);
+
     const rosePayload = buildCloseLookPayload(coastalScrubBiome.entries['nootka-rose']);
     expect(rosePayload).toMatchObject({
       entryId: 'nootka-rose',
@@ -216,6 +240,16 @@ describe('close-look helpers', () => {
     });
     expect(seepMossPayload?.callouts).toContain('wet stone grip');
 
+    const shelfFungusPayload = buildCloseLookPayload(forestBiome.entries['shelf-fungus']);
+    expect(shelfFungusPayload).toMatchObject({
+      entryId: 'shelf-fungus',
+      title: 'Shelf Fungus',
+      spriteId: 'shelf-fungus',
+      sentence: 'The visible shelf marks hidden fungal work in old wood.',
+      spriteScale: 6,
+    });
+    expect(shelfFungusPayload?.callouts).toEqual(['wood shelf', 'pale edge']);
+
     const rootCurtainPayload = buildCloseLookPayload(forestBiome.entries['root-curtain']);
     expect(rootCurtainPayload).toMatchObject({
       entryId: 'root-curtain',
@@ -249,5 +283,15 @@ describe('close-look helpers', () => {
       spriteId: 'woodpecker-cavity',
     });
     expect(cavityPayload?.callouts).toContain('carved opening');
+
+    const hemlockPayload = buildCloseLookPayload(forestBiome.entries['western-hemlock-seedling']);
+    expect(hemlockPayload).toMatchObject({
+      entryId: 'western-hemlock-seedling',
+      title: 'Western Hemlock Seedling',
+      spriteId: 'western-hemlock-seedling',
+      sentence: 'A tiny hemlock can start on damp old wood before its roots reach soil.',
+      spriteScale: 6,
+    });
+    expect(hemlockPayload?.callouts).toEqual(['tiny needles', 'nurse wood']);
   });
 });

@@ -1,0 +1,126 @@
+{
+  "packet_id": "ECO-PACKET-171",
+  "version": 2,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Route catalog extraction",
+  "summary": "Extract authored route definitions toward a clearer catalog boundary so future Route v2 and Source to Shore work can add content without crowding controller/runtime files.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-452",
+    "ECO-20260428-main-452",
+    "ECO-20260428-critic-452"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-451"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-452",
+      "goal": "Find the safest route-data boundary and propose a behavior-preserving extraction plan.",
+      "why_now": "Source to Shore has proven the route system works, so route authoring should get easier before another content wave."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-452",
+      "goal": "Extract route definitions into a clearer catalog module or equivalent existing-pattern boundary without changing gameplay behavior.",
+      "why_now": "Cleaner route data reduces future risk when adding or tuning beats."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-452",
+      "goal": "Review the extraction for behavior parity, import clarity, test coverage, and authoring readability.",
+      "why_now": "Data extraction should make the repo easier to build on, not just move complexity around."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/171-route-catalog-extraction.json",
+    "src/engine/field-requests.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-request-controller.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/content-quality.test.ts",
+    "docs/content-authoring.md",
+    "docs/architecture.md",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Authored route data has a clearer boundary than the current crowded runtime/controller surface.",
+    "Existing route ids, evidence slots, ordered evidence rules, support behavior, and filed states stay behaviorally identical.",
+    "Focused route/controller/content tests pass.",
+    "Any authoring documentation touched by the extraction reflects the new boundary."
+  ],
+  "guardrails": [
+    "Behavior-preserving extraction only.",
+    "Do not rename route ids or evidence ids unless scout identifies a failing typo with tests.",
+    "Do not add new route beats, route types, planner UI, save fields, or support mechanics.",
+    "Prefer existing module patterns over a broad new architecture.",
+    "Keep Source to Shore semantics stable while moving data."
+  ],
+  "scout_contract": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-route-catalog-extraction-handoff.md",
+    "implementation_dependency": "Keep ECO-20260428-main-452 parked until ECO-20260428-critic-451 approves packet 170 route-flow consolidation.",
+    "pressure_point": "src/engine/field-requests.ts is 1646 lines and mixes FIELD_REQUEST_DEFINITIONS, definition shape types, route unlock logic, active request resolution, evidence-slot progression, support-facing helpers, and filed-note synthesis.",
+    "preferred_boundary": {
+      "new_module": "src/engine/field-request-catalog.ts",
+      "move_to_catalog": [
+        "FieldRequestTrigger",
+        "RouteV2NoteDefinition",
+        "RouteV2ProcessFocus",
+        "FieldRequestWorldStateFocus",
+        "EvidenceSlotDefinition",
+        "TransectStageDefinition",
+        "field-request definition interfaces/types",
+        "FIELD_REQUEST_DEFINITIONS"
+      ],
+      "keep_in_field_requests": [
+        "active request resolution",
+        "hasResolvedFieldRequest(...)",
+        "evidence slot ordering and matching",
+        "process/world-state active-focus resolution",
+        "getHandLensNotebookFit(...)",
+        "prefersHandLensActiveRouteEntry(...)",
+        "filed text synthesis",
+        "advanceActiveFieldRequest(...)",
+        "fileReadyRouteV2FieldRequest(...)"
+      ],
+      "compatibility": "Import the catalog into src/engine/field-requests.ts and re-export FIELD_REQUEST_DEFINITIONS plus the public FieldRequestDefinition type from field-requests.ts so existing callers and tests do not churn."
+    },
+    "main_452_scope": [
+      "Move the full request-definition array together, including compatibility requests, surveys, Route v2 outings, High Pass, and Source to Shore, because unlock order currently depends on one ordered catalog.",
+      "Keep the catalog under src/engine for now because the definitions encode gameplay-route semantics rather than pure biome content.",
+      "Do not replace current .find(...) lookups with a map or generated index in this pass; preserve first-match behavior.",
+      "Update docs/architecture.md and docs/content-authoring.md only to point authors to the new catalog boundary.",
+      "Do not move Source to Shore display-state logic; packet 170 owns that behavior consolidation."
+    ],
+    "parity_tests": [
+      "npm test -- --run src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/content-quality.test.ts",
+      "npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|High Pass|route-marker|debug save snapshots|copy budget\"",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No route ids, evidence ids, slot-order, unlock-chain, title, note-text, process-focus, world-state-focus, or completion-trigger changes.",
+      "No new route constants, generated indexes, route types, planner UI, save fields, or support mechanics.",
+      "No source-to-shore-state.ts behavior move until packet 170 has clean critic signoff."
+    ]
+  },
+  "post_packet_path": [
+    "Use the clearer route catalog as the baseline for future beta route authoring.",
+    "If extraction exposes route-shape debt, add follow-up packets instead of widening this one."
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "packet_id": "ECO-PACKET-191",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 4 notebook filing synthesis",
+  "summary": "Improve route filing payoff and authoring safety through existing notebook-ready, filed-notice, and catalog guardrail seams.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-filing-depth-catalog-guardrails-review.md",
+    "docs/reports/2026-04-28-notebook-filing-synthesis-scout.md",
+    "docs/reports/2026-04-28-notebook-filing-synthesis-implementation.md",
+    "docs/reports/2026-04-28-notebook-filing-synthesis-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-498",
+    "ECO-20260428-main-498",
+    "ECO-20260428-critic-498"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-497"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-498",
+      "goal": "Scope one notebook filing or catalog-guardrail synthesis pass.",
+      "why_now": "More route authorship needs stronger filing payoff and authoring safety."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-498",
+      "goal": "Implement the scoped filing synthesis or guardrail pass.",
+      "why_now": "Notebook returns are the core of Route v2 satisfaction."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-498",
+      "goal": "Review filing synthesis and close lane 4's runway if clean.",
+      "why_now": "Lane 4 should finish with stronger route authoring readiness."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/191-lane-4-notebook-filing-synthesis.json",
+    "src/engine/field-request-catalog.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/field-request-catalog.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-notices.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/content-authoring.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-notebook-filing-synthesis-implementation.md",
+    "docs/reports/2026-04-28-notebook-filing-synthesis-review.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Filing payoff or catalog guardrails improve without route identity drift.",
+    "Focused route/catalog/station/snapshot tests and build pass.",
+    "No station shell, geometry, broad content, planner, or save schema change lands."
+  ],
+  "guardrails": [
+    "Keep filing one-press and notebook-first.",
+    "Filed notes compile from saved evidence or stable authored route data.",
+    "Do not broaden into a quest log.",
+    "Do not add a fourth Source to Shore beat in this packet."
+  ],
+  "scout_498_contract": {
+    "decision": "Use a test/docs-only filing-display contract to pin the boundary between canonical filed notes, display-only replay prefixes, and recorded filed notices.",
+    "implementation_scope": [
+      "Add a focused field-notices test that resolves a Thaw Window display text for tundra-short-season and passes it into resolveRecordedFieldRequestNotice.",
+      "Assert the filed notice title stays canonical SHORT SEASON, the text may begin with Thaw Window., and the notice variant remains filed-route.",
+      "Add a concise docs/content-authoring.md note for the canonical filedText plus displayPrefix filing-display chain."
+    ],
+    "exclusions": [
+      "No runtime behavior change unless the current station filing path cannot be expressed in tests.",
+      "No route ids, evidence ids, ordered slots, filed text, support ids, save schema, route framework, station shell, planner, content pack, geometry, new filing system, note schema, replay system, or fourth Source to Shore beat."
+    ]
+  },
+  "main_498_result": {
+    "completed_at": "2026-04-28",
+    "decision": "Implemented the scoped filing synthesis as a test/docs-only contract; no runtime behavior change was needed.",
+    "files_changed": [
+      "src/test/field-notices.test.ts",
+      "docs/content-authoring.md",
+      "docs/reports/2026-04-28-notebook-filing-synthesis-implementation.md"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"full-arc filed-note synthesis matrix|Thaw Window\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"note-tabs ready wrap|thaw-window\"",
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/field-notices.test.ts src/test/save-snapshots.test.ts",
+      "npm run build"
+    ],
+    "boundary_notes": [
+      "Canonical filed text remains unprefixed.",
+      "Display-only Thaw Window prefix decorates filed notice text.",
+      "Recorded filed notice title remains canonical SHORT SEASON."
+    ]
+  },
+  "critic_498_result": {
+    "completed_at": "2026-04-28",
+    "verdict": "Clean. Packet 191 can close.",
+    "review_report": "docs/reports/2026-04-28-notebook-filing-synthesis-review.md",
+    "verification": [
+      "npm test -- --run src/test/field-notices.test.ts",
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/field-notices.test.ts src/test/save-snapshots.test.ts",
+      "npm run build"
+    ],
+    "boundary_notes": [
+      "The pass stayed test/docs-only.",
+      "Route titles, filed text, save behavior, route ids, evidence ids, support ids, station shell, and Source to Shore beat count remained stable.",
+      "Lane 4 has no remaining actionable queue item after this review."
+    ]
+  },
+  "post_packet_path": [
+    "If clean, lane 4 can later propose a chapter-grade outing.",
+    "If blocked, open a lane-4-local blocker."
+  ]
+}

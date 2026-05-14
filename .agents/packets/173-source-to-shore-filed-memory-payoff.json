@@ -1,0 +1,148 @@
+{
+  "packet_id": "ECO-PACKET-173",
+  "version": 3,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Source to Shore filed-memory payoff",
+  "summary": "Add a compact filed-state payoff for the completed three-beat Source to Shore chapter across existing station, atlas, journal, and notebook surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-dune-catch-beta-closure.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-454",
+    "ECO-20260428-main-454",
+    "ECO-20260428-critic-454"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-450"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-454",
+      "goal": "Scope the smallest content payoff that makes filed Source to Shore feel remembered without becoming a new system.",
+      "why_now": "Once the beta chapter has a container, it needs a quiet payoff that rewards the completed arc."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-454",
+      "goal": "Implement the compact filed-memory payoff using existing station, atlas, journal, notebook, or content-note seams.",
+      "why_now": "A remembered chapter makes the route feel game-like while staying lighter than a new beat."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-454",
+      "goal": "Review the payoff for science accuracy, copy budget, surface fit, and no fourth-beat implication.",
+      "why_now": "Chapter payoff copy should feel satisfying without creating false progression promises."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/173-source-to-shore-filed-memory-payoff.json",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-station-routes-page.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/field-season-board.test.ts",
+    "docs/content-authoring.md",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Filed Source to Shore has one compact payoff that reinforces the high-source to forest-release to coastal-catch relationship.",
+    "All changed facts and ecological claims remain science-safe and ledger-compatible.",
+    "The payoff uses existing surfaces rather than a new page, badge system, reward tree, or fourth beat.",
+    "Focused content/station/note tests pass."
+  ],
+  "scout_handoff": {
+    "report": "docs/reports/2026-04-28-source-to-shore-filed-memory-payoff-handoff.md",
+    "selected_surface": "Use the filed Source to Shore `FIELD ATLAS` note resolved by `resolveFieldAtlasState(save)` from the filed `Dune Catch` branch in `src/engine/source-to-shore-state.ts`.",
+    "copy_candidate": "Filed: high source -> forest release -> coastal catch.",
+    "implementation_contract": [
+      "Wait until `ECO-20260428-critic-450` clears the dedicated Source to Shore station container before promoting or implementing `ECO-20260428-main-454`.",
+      "Change only the filed Source to Shore payoff line in `src/engine/source-to-shore-state.ts`, preferably `liveAtlasNote` for `resolveDuneCatchState('filed')`.",
+      "Keep the payoff to one visible filed-memory line; do not also rewrite the archive strip, route-board summary, expedition card summary, route note filed text, or revisit-memory notices unless the station container removes the atlas seam.",
+      "If the post-container station page no longer displays the atlas note in filed Source to Shore, use the same one-line copy as the filed station-card notice fallback instead of adding a second surface.",
+      "Update exact-copy expectations in `src/test/field-season-board.test.ts` and `src/test/save-snapshots.test.ts`; add no new save fields or route phases."
+    ],
+    "science_and_copy_checks": [
+      "The line should name the already-authored chapter relationship only; avoid stronger claims such as water creating forest shelter, dunes creating habitat, or plants making groundwater.",
+      "Keep the line under the existing `64` character atlas-note budget in `src/test/field-season-board.test.ts`.",
+      "No new `docs/science-source-ledger.md` row is needed if the copy only reuses `high source`, `forest release`, and `coastal catch`; add a ledger note only if main introduces a new ecological claim."
+    ],
+    "proof_expectations": [
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\"`",
+      "`npm test -- --run src/test/content-quality.test.ts -t \"content quality\"` if any route-note or content-facing copy outside `source-to-shore-state.ts` changes.",
+      "`npm run build` after runtime copy changes."
+    ],
+    "out_of_scope": [
+      "No fourth Source to Shore beat.",
+      "No new station page, atlas mode, journal page, notebook prompt, ecosystem-note resolver behavior, badge, reward, or economy.",
+      "Do not change `src/engine/field-requests.ts`, Route v2 filed-note text, debug snapshot builders, save schema, or route completion rules for this payoff unless a post-container review proves the selected seam disappeared."
+    ]
+  },
+  "guardrails": [
+    "No fourth Source to Shore beat.",
+    "No new notebook page, atlas mode, station tab, badge system, or reward economy.",
+    "Keep copy compact, kid-friendly, and source-safe.",
+    "Prefer one memorable payoff over several tiny scattered lines.",
+    "Do not alter route completion state to support the payoff unless scout proves it is necessary."
+  ],
+  "post_packet_path": [
+    "Feed any remaining payoff ideas into later content packets after full-arc signoff.",
+    "Do not reopen Source to Shore breadth until the three-beat chapter has been playtested end to end."
+  ],
+  "implementation_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-source-to-shore-filed-memory-payoff-implementation.md",
+    "runtime_changes": [
+      "`src/engine/source-to-shore-state.ts` now uses the filed atlas note `Filed: high source -> forest release -> coastal catch.` for completed Source to Shore.",
+      "`src/test/field-season-board.test.ts` and `src/test/save-snapshots.test.ts` exact-copy expectations were updated for the filed atlas payoff."
+    ],
+    "preserved_scope": [
+      "No fourth Source to Shore beat.",
+      "No station page, atlas mode, journal page, badge, reward economy, save schema, route state, or Route v2 filed-note change.",
+      "No new science-source ledger row, because the copy only reuses the already-authored high-source, forest-release, and coastal-catch relationship."
+    ],
+    "proof": [
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\"`",
+      "`npm run build`"
+    ],
+    "critic_focus": [
+      "Confirm the filed atlas payoff is satisfying but does not imply a hidden fourth beat.",
+      "Confirm the high-source -> forest-release -> coastal-catch wording is science-safe and kid-readable.",
+      "Confirm the implementation stayed on the selected one-line filed-memory seam."
+    ]
+  },
+  "critic_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-source-to-shore-filed-memory-payoff-review.md",
+    "verdict": "clean",
+    "findings": [],
+    "checks": [
+      "The payoff remains on the filed Source to Shore FIELD ATLAS note seam.",
+      "The copy is 54 characters, under the 64-character atlas-note budget.",
+      "The wording restates the existing high-source -> forest-release -> coastal-catch relationship without adding a new ecological claim.",
+      "The filed route board still shows exactly three completed beats and no hidden fourth beat.",
+      "No station page, journal page, atlas mode, notebook prompt, reward, badge, route state, or save schema was added."
+    ],
+    "proof": [
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\"`"
+    ],
+    "handoff": "Packet 173 is clear from lane-2. Final full-arc signoff remains parked until the remaining packet reviews also clear."
+  }
+}

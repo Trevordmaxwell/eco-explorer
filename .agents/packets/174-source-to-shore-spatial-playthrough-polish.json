@@ -1,0 +1,217 @@
+{
+  "packet_id": "ECO-PACKET-174",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Source to Shore spatial playthrough polish",
+  "summary": "Play the three existing Source to Shore habitats as a physical route and tighten only the smallest spatial or visual cues needed for a steadier end-to-end beta.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md",
+    "docs/reports/2026-04-24-high-country-traversal-richness-megapush.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-455",
+    "ECO-20260428-main-455",
+    "ECO-20260428-critic-455"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-450"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-455",
+      "goal": "Play through the existing Source Shelter, Forest Release, and Coastal Catch spaces and identify only real spatial readability issues.",
+      "why_now": "The next spatial work should make the current beta route steadier before adding more places."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-455",
+      "goal": "Apply the smallest geometry, carrier, or proof changes needed to make the three-beat route read cleanly.",
+      "why_now": "A beta chapter needs a reliable physical memory arc, not only station and route-state correctness."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-455",
+      "goal": "Review spatial polish with browser proof, science-safe carrier placement, and no new traversal-system drift.",
+      "why_now": "Spatial polish can sprawl quickly, so critique should confirm it stayed tied to the three existing beats."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/174-source-to-shore-spatial-playthrough-polish.json",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/coastal-scrub-biome.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Source Shelter, Forest Release, and Coastal Catch are each spatially readable in a representative 256x160 browser proof or equivalent focused test pass.",
+    "Any geometry or carrier changes are tiny, local, and science-safe.",
+    "No new cave, giant-tree system, traversal framework, biome, route beat, or player-physics change lands.",
+    "Focused biome/runtime/build checks pass if spatial files change."
+  ],
+  "guardrails": [
+    "Polish the existing three beats only.",
+    "No new Source to Shore beat.",
+    "No new traversal system, cave system, biome, or physics pass.",
+    "Keep carrier placement honest to the local habitat.",
+    "Browser proof is required if visual geometry or placement changes land."
+  ],
+  "scout_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-source-to-shore-spatial-playthrough-handoff.md",
+    "proof_artifacts": [
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/summary.json",
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/errors.json",
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/source-shelter-high-source-256x160.png",
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/forest-release-creek-bend-256x160.png",
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/coastal-catch-forest-edge-256x160.png",
+      "output/lane-3-scout-455-source-to-shore-spatial-proof/source-shelter-door-compete-clean-256x160.png"
+    ],
+    "clean_proof_points": [
+      {
+        "beat": "Source Shelter",
+        "biome_id": "treeline",
+        "zone_id": "lichen-fell",
+        "player": { "x": 561, "y": 103 },
+        "camera": { "x": 384, "y": 0 },
+        "nearby_entries": ["reindeer-lichen", "frost-heave-boulder", "rock-ptarmigan"],
+        "travel_prompt": "none"
+      },
+      {
+        "beat": "Forest Release",
+        "biome_id": "forest",
+        "zone_id": "creek-bend",
+        "player": { "x": 609, "y": 116 },
+        "camera": { "x": 519, "y": 0 },
+        "nearby_entries": ["seep-moss-mat", "root-curtain", "banana-slug"],
+        "travel_prompt": "none"
+      },
+      {
+        "beat": "Coastal Catch",
+        "biome_id": "coastal-scrub",
+        "zone_id": "forest-edge",
+        "player": { "x": 563, "y": 103 },
+        "camera": { "x": 384, "y": 0 },
+        "nearby_entries": ["salmonberry", "sword-fern", "song-sparrow"],
+        "travel_prompt": "none"
+      }
+    ],
+    "real_issue": {
+      "beat": "Source Shelter",
+      "description": "At the right edge of the Treeline high-source memory pocket, the player can stand on the source-memory ptarmigan carrier while the `TO TUNDRA REACH` corridor prompt is already in range.",
+      "proof_state": "output/lane-3-scout-455-source-to-shore-spatial-proof/source-shelter-door-compete-clean-state.json",
+      "proof_screenshot": "output/lane-3-scout-455-source-to-shore-spatial-proof/source-shelter-door-compete-clean-256x160.png"
+    },
+    "main_455_scope": [
+      "Wait until `ECO-20260428-critic-450` clears the Source to Shore station-container gate.",
+      "Prefer a tiny local `src/content/biomes/treeline.ts` placement nudge so the Source Shelter memory carriers can be inspected before the Tundra corridor prompt appears.",
+      "Keep Forest Release and Coastal Catch unchanged unless fresh proof regresses them.",
+      "Re-run focused Treeline/Forest/Coastal biome coverage, the filed Source to Shore runtime smoke, `npm run build`, and fresh `256x160` browser proof if any geometry or carrier placement changes."
+    ],
+    "out_of_scope": [
+      "No fourth Source to Shore beat.",
+      "No station, route-state, save-schema, support, world-map, player-physics, corridor-framework, cave-system, traversal-framework, or new-biome work.",
+      "Do not broaden the fix beyond the Treeline high-source prompt competition unless new proof shows another real spatial failure."
+    ]
+  },
+  "implementation_handoff": {
+    "status": "READY_FOR_REVIEW",
+    "report": "docs/reports/2026-04-28-source-to-shore-spatial-playthrough-implementation.md",
+    "changed_files": [
+      "src/content/biomes/treeline.ts",
+      "src/test/treeline-biome.test.ts"
+    ],
+    "summary": [
+      "Moved the Treeline Source Shelter high-source `source-memory-stone-step` platform from x=566 to x=563.",
+      "Moved the paired `source-memory-stone-boulder` carrier from x=570 to x=566 and `source-memory-fell-ptarmigan` carrier from x=580 to x=574.",
+      "Left Forest Release and Coastal Catch geometry unchanged because fresh proof still showed no travel prompt competition."
+    ],
+    "proof_artifacts": [
+      "output/lane-3-main-455-source-to-shore-spatial-proof/summary.json",
+      "output/lane-3-main-455-source-to-shore-spatial-proof/errors.json",
+      "output/lane-3-main-455-source-to-shore-spatial-proof/source-shelter-high-source-before-door-256x160.png",
+      "output/lane-3-main-455-source-to-shore-spatial-proof/source-shelter-prompt-edge-separated-256x160.png",
+      "output/lane-3-main-455-source-to-shore-spatial-proof/forest-release-creek-bend-256x160.png",
+      "output/lane-3-main-455-source-to-shore-spatial-proof/coastal-catch-forest-edge-256x160.png",
+      "output/lane-3-main-455-webgame-smoke/shot-0.png"
+    ],
+    "browser_proof_points": [
+      {
+        "beat": "Source Shelter before prompt",
+        "biome_id": "treeline",
+        "zone_id": "lichen-fell",
+        "player": { "x": 577, "y": 90 },
+        "nearby_entries": ["reindeer-lichen", "frost-heave-boulder", "rock-ptarmigan"],
+        "travel_prompt": "none"
+      },
+      {
+        "beat": "Source Shelter prompt edge",
+        "biome_id": "treeline",
+        "zone_id": "lichen-fell",
+        "player": { "x": 581, "y": 102 },
+        "nearest_inspectable": "authored-fell-island-campion-moss-campion",
+        "travel_prompt": "TO TUNDRA REACH"
+      },
+      {
+        "beat": "Forest Release",
+        "biome_id": "forest",
+        "zone_id": "creek-bend",
+        "player": { "x": 606, "y": 100 },
+        "nearby_entries": ["seep-moss-mat", "root-curtain", "banana-slug"],
+        "travel_prompt": "none"
+      },
+      {
+        "beat": "Coastal Catch",
+        "biome_id": "coastal-scrub",
+        "zone_id": "forest-edge",
+        "player": { "x": 548, "y": 102 },
+        "nearby_entries": ["salmonberry", "sword-fern", "song-sparrow"],
+        "travel_prompt": "none"
+      }
+    ],
+    "verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts src/test/forest-biome.test.ts src/test/coastal-scrub-biome.test.ts src/test/runtime-smoke.test.ts",
+      "npm run build",
+      "node $WEB_GAME_CLIENT --url http://127.0.0.1:5173/ --screenshot-dir output/lane-3-main-455-webgame-smoke --iterations 1 --pause-ms 100 --actions-json '{\"steps\":[{\"buttons\":[\"enter\"],\"frames\":4},{\"buttons\":[],\"frames\":8}]}'"
+    ],
+    "out_of_scope_preserved": [
+      "No station, route-state, save-schema, support, world-map, player-physics, corridor-framework, cave-system, traversal-framework, new-biome, or fourth-beat change landed."
+    ]
+  },
+  "critic_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-source-to-shore-spatial-playthrough-review.md",
+    "findings": [],
+    "review_summary": [
+      "Runtime diff is limited to Treeline Source Shelter source-memory placement and its coordinate expectations.",
+      "Fresh 256x160 proof covers Source Shelter before prompt, Source Shelter at prompt edge, Forest Release, and Coastal Catch with no browser errors.",
+      "No station, route-state, save-schema, support, world-map, player-physics, corridor-framework, cave-system, traversal-framework, new-biome, or fourth-beat drift was found."
+    ],
+    "verification": [
+      "npm test -- --run src/test/treeline-biome.test.ts src/test/runtime-smoke.test.ts -t \"source memory|Source to Shore memory pockets|high-source memory\"",
+      "reviewed output/lane-3-main-455-source-to-shore-spatial-proof/summary.json",
+      "reviewed output/lane-3-main-455-source-to-shore-spatial-proof/errors.json"
+    ],
+    "final_signoff_dependency": "Spatial gate is clear for `ECO-20260428-main-456`, but that lane-1 item remains parked until its other critic dependencies are clean."
+  },
+  "post_packet_path": [
+    "Feed proof artifacts into the final full-arc signoff packet.",
+    "Any larger spatial ambition should become a later lane-3 packet after beta signoff."
+  ]
+}

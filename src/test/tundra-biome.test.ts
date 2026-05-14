@@ -200,7 +200,7 @@ describe('tundra biome generation', () => {
       {
         id: 'snow-meadow-drift-rest',
         spriteId: 'ice-platform',
-        x: 252,
+        x: 268,
         y: 107,
         w: 30,
         h: 4,
@@ -213,8 +213,8 @@ describe('tundra biome generation', () => {
     expect(driftShoulder?.x).toBeGreaterThan((leeRest?.x ?? 0) + (leeRest?.w ?? 0));
     expect(driftRest?.x).toBeGreaterThan((driftShoulder?.x ?? 0) + (driftShoulder?.w ?? 0));
     expect(driftRest?.y).toBeLessThan(driftShoulder?.y ?? 999);
-    expect(driftRest?.x).toBeGreaterThanOrEqual(216);
-    expect((driftRest?.x ?? 0) + (driftRest?.w ?? 0)).toBeLessThanOrEqual(286);
+    expect(driftRest?.x).toBeGreaterThanOrEqual(260);
+    expect((driftRest?.x ?? 0) + (driftRest?.w ?? 0)).toBeLessThanOrEqual(300);
     expect(thawEntry).toEqual({
       id: 'thaw-skirt-entry-heave',
       spriteId: 'ice-platform',
@@ -223,7 +223,7 @@ describe('tundra biome generation', () => {
       w: 32,
       h: 4,
     });
-    expect((thawEntry?.x ?? 0) - ((driftRest?.x ?? 0) + (driftRest?.w ?? 0))).toBe(24);
+    expect((thawEntry?.x ?? 0) - ((driftRest?.x ?? 0) + (driftRest?.w ?? 0))).toBe(8);
     expect((thawEntry?.x ?? 0) + (thawEntry?.w ?? 0)).toBeGreaterThanOrEqual(338);
   });
 
@@ -354,13 +354,13 @@ describe('tundra biome generation', () => {
       {
         id: 'snow-meadow-drift-sedge',
         entryId: 'bigelows-sedge',
-        x: 258,
+        x: 274,
         y: 103,
       },
       {
         id: 'snow-meadow-drift-ptarmigan',
         entryId: 'white-tailed-ptarmigan',
-        x: 274,
+        x: 290,
         y: 103,
       },
     ]);
@@ -492,7 +492,7 @@ describe('tundra biome generation', () => {
 
     expect(entity('authored-snow-meadow-drift-sedge-bigelows-sedge')).toMatchObject({
       entryId: 'bigelows-sedge',
-      x: 258,
+      x: 274,
       y: 103,
     });
     expect(entity('authored-thaw-skirt-entry-willow-arctic-willow')).toMatchObject({

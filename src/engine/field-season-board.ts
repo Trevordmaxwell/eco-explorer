@@ -14,7 +14,15 @@ import {
   resolveSeasonOutingLocator,
 } from './field-season-outing-locator';
 import { resolveHighPassChapterState } from './high-pass-chapter-state';
-import { resolveSourceToShoreState } from './source-to-shore-state';
+import {
+  SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID,
+  SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID,
+  SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID,
+  resolveSourceToShoreBeatSurfaceStates,
+  resolveSourceToShoreState,
+  type SourceToShoreBeat,
+  type SourceToShoreState,
+} from './source-to-shore-state';
 import { hasFieldUpgrade } from './field-station';
 import { getWorldMapLocationByBiomeId } from './world-map';
 import { buildWorldState } from './world-state';
@@ -40,7 +48,10 @@ export interface FieldSeasonBoardBeat {
     | 'tundra-survey'
     | 'scrub-edge-pattern'
     | 'forest-cool-edge'
-    | 'treeline-low-fell';
+    | 'treeline-low-fell'
+    | 'source-shelter'
+    | 'forest-release'
+    | 'dune-catch';
   title: string;
   detail: string;
   status: FieldSeasonBoardBeatStatus;
@@ -54,7 +65,11 @@ export interface FieldSeasonBoardLaunchCard {
 }
 
 export interface FieldSeasonBoardState {
-  routeId: 'coastal-shelter-line' | 'treeline-shelter-line' | 'edge-pattern-line';
+  routeId:
+    | 'coastal-shelter-line'
+    | 'treeline-shelter-line'
+    | 'edge-pattern-line'
+    | 'source-to-shore-beta';
   routeTitle: string;
   branchLabel: string;
   summary: string;
@@ -167,16 +182,62 @@ function resolveFiledSeasonLaunchCard(save: SaveState): FieldSeasonBoardLaunchCa
   };
 }
 
-function resolveSourceToShoreLaunchCard(save: SaveState): FieldSeasonBoardLaunchCard | null {
-  const sourceToShoreState = resolveSourceToShoreState(save);
-  if (!sourceToShoreState) {
-    return null;
+type SourceToShoreBoardBeatId = Extract<
+  FieldSeasonBoardBeat['id'],
+  'source-shelter' | 'forest-release' | 'dune-catch'
+>;
+
+const SOURCE_TO_SHORE_BOARD_BEATS: Record<
+  SourceToShoreBeat,
+  {
+    id: SourceToShoreBoardBeatId;
+    title: string;
+    detail: string;
   }
+> = {
+  'source-shelter': {
+    id: 'source-shelter',
+    title: 'Source Shelter',
+    detail: 'Read high rime, lee shelter, and talus hold.',
+  },
+  'forest-release': {
+    id: 'forest-release',
+    title: 'Forest Release',
+    detail: 'Read seep hold, root filter, and cool forest release.',
+  },
+  'dune-catch': {
+    id: 'dune-catch',
+    title: 'Dune Catch',
+    detail: 'Read dune catch, swale hold, and cool edge.',
+  },
+};
+
+function resolveSourceToShoreFieldSeasonBoardState(
+  sourceToShoreState: SourceToShoreState,
+): FieldSeasonBoardState {
+  const beats = resolveSourceToShoreBeatSurfaceStates(sourceToShoreState).map<FieldSeasonBoardBeat>((beatState) => {
+    const beatDefinition = SOURCE_TO_SHORE_BOARD_BEATS[beatState.beat];
+    return {
+      ...beatDefinition,
+      title: beatState.title,
+      status: beatState.status,
+    };
+  });
 
   return {
-    title: sourceToShoreState.cardTitle,
+    routeId: 'source-to-shore-beta',
+    routeTitle: 'SOURCE TO SHORE',
+    branchLabel: 'Treeline -> Forest -> Coastal Scrub',
+    summary: sourceToShoreState.routeBoardSummary,
     progressLabel: sourceToShoreState.progressLabel,
-    summary: sourceToShoreState.cardSummary,
+    beats,
+    launchCard: null,
+    activeBeatId: getActiveBeatId(beats),
+    nextDirection: sourceToShoreState.routeBoardNextDirection,
+    targetBiomeId: sourceToShoreState.routeBoardTargetBiomeId,
+    complete: sourceToShoreState.phase === 'filed',
+    notebookReady: null,
+    replayNote: null,
   };
 }
 
@@ -394,6 +455,12 @@ function getRouteBeatIdForRequest(
       return 'forest-cool-edge';
     case 'treeline-low-fell':
       return 'treeline-low-fell';
+    case SOURCE_TO_SHORE_SOURCE_SHELTER_REQUEST_ID:
+      return 'source-shelter';
+    case SOURCE_TO_SHORE_FOREST_RELEASE_REQUEST_ID:
+      return 'forest-release';
+    case SOURCE_TO_SHORE_DUNE_CATCH_REQUEST_ID:
+      return 'dune-catch';
     default:
       return null;
   }
@@ -893,14 +960,8 @@ function resolveEdgePatternFieldSeasonBoardState(save: SaveState): FieldSeasonBo
       'Next: travel to Treeline Pass and log the last tree shape, then low wood, then fell bloom, then low rest.';
     targetBiomeId = 'treeline';
   } else if (complete) {
-    const sourceToShoreState = resolveSourceToShoreState(save);
     const highPassChapterState = resolveHighPassChapterState(save);
-    if (sourceToShoreState) {
-      summary = sourceToShoreState.routeBoardSummary;
-      nextDirection = sourceToShoreState.routeBoardNextDirection;
-      targetBiomeId = sourceToShoreState.routeBoardTargetBiomeId;
-      launchCard = resolveSourceToShoreLaunchCard(save);
-    } else if (highPassChapterState) {
+    if (highPassChapterState) {
       summary = highPassChapterState.routeBoardSummary;
       nextDirection = highPassChapterState.routeBoardNextDirection;
       targetBiomeId = highPassChapterState.routeBoardTargetBiomeId;
@@ -958,8 +1019,13 @@ export function resolveFieldSeasonBoardState(
   save: SaveState,
 ): FieldSeasonBoardState {
   if (hasCompletedRequest(save, 'tundra-survey-slice')) {
+    const sourceToShoreState = resolveSourceToShoreState(save);
+    const routeState = sourceToShoreState
+      ? resolveSourceToShoreFieldSeasonBoardState(sourceToShoreState)
+      : resolveEdgePatternFieldSeasonBoardState(save);
+
     return applyReplayNote(
-      applyNotebookReadyState(biomes, resolveEdgePatternFieldSeasonBoardState(save), save),
+      applyNotebookReadyState(biomes, routeState, save),
       biomes,
       save,
     );

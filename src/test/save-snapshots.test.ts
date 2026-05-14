@@ -6,7 +6,6 @@ import {
   buildDebugSaveSnapshots,
   DEBUG_SAVE_SNAPSHOT_IDS,
   serializeDebugSaveSnapshots,
-  type DebugSaveSnapshotId,
 } from '../engine/debug-save-snapshots';
 import { createGame } from '../engine/game';
 import { resolveFieldSeasonBoardState } from '../engine/field-season-board';
@@ -15,75 +14,19 @@ import { resolveHighPassChapterState } from '../engine/high-pass-chapter-state';
 import { resolveSourceToShoreState } from '../engine/source-to-shore-state';
 import { createNewSaveState, normalizeSaveState, SAVE_STORAGE_KEY } from '../engine/save';
 import type { SaveState } from '../engine/types';
-import { advanceUntil, type FakeWindow, installFakeDom, readState, restoreDom, tapKey } from './test-helpers';
+import {
+  bootDebugSnapshot as bootSnapshot,
+  bootDebugSnapshotSave as bootSave,
+  openFieldStationFromMenu,
+  openFieldStationViaWorldMap,
+  openJournal,
+  openWorldMapFromMenu as openWorldMap,
+} from './debug-snapshot-harness';
+import { installFakeDom, readState, restoreDom, tapKey } from './test-helpers';
 
 afterEach(() => {
   restoreDom();
 });
-
-function bootSave(save: SaveState): FakeWindow {
-  const { window: fakeWindow, document } = installFakeDom();
-  const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
-  createGame(canvas, save);
-
-  tapKey(fakeWindow, 'Enter');
-
-  return fakeWindow;
-}
-
-function bootSnapshot(id: DebugSaveSnapshotId): FakeWindow {
-  return bootSave(buildDebugSaveSnapshot(id).save);
-}
-
-function selectMenuAction(fakeWindow: FakeWindow, actionId: string): any {
-  let state = readState(fakeWindow);
-  const availableActions = state.menu?.availableActions ?? [];
-
-  for (let index = 0; state.menu?.selectedAction !== actionId && index <= availableActions.length; index += 1) {
-    tapKey(fakeWindow, 'ArrowDown');
-    state = readState(fakeWindow);
-  }
-
-  expect(state.menu?.selectedAction).toBe(actionId);
-  return state;
-}
-
-function openWorldMap(fakeWindow: FakeWindow): any {
-  tapKey(fakeWindow, 'm');
-
-  let state = readState(fakeWindow);
-  expect(state.mode).toBe('menu');
-  selectMenuAction(fakeWindow, 'world-map');
-
-  tapKey(fakeWindow, 'Enter');
-  state = advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
-  expect(state.scene).toBe('world-map');
-
-  return state;
-}
-
-function openFieldStationFromWorldMap(fakeWindow: FakeWindow): any {
-  tapKey(fakeWindow, 'm');
-
-  let state = readState(fakeWindow);
-  expect(state.mode).toBe('menu');
-  selectMenuAction(fakeWindow, 'field-station');
-
-  tapKey(fakeWindow, 'Enter');
-  state = readState(fakeWindow);
-  expect(state.mode).toBe('field-station');
-
-  return state;
-}
-
-function openJournal(fakeWindow: FakeWindow): any {
-  tapKey(fakeWindow, 'j');
-
-  const state = readState(fakeWindow);
-  expect(state.mode).toBe('journal');
-
-  return state;
-}
 
 function getEntryIdsByBiome(): Map<string, Set<string>> {
   return new Map(
@@ -467,7 +410,7 @@ describe('debug save snapshots', () => {
     expect(state.worldMap?.currentLocationId).toBe('forest');
     expect(state.worldMap?.focusedLocationId).toBe('forest');
 
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonNote).toMatchObject({
       title: 'RETURN TO STATION',
       text: 'Shore Shelter, Hidden Hollow, and Forest Survey logged. Field station next for Trail Stride.',
@@ -514,7 +457,7 @@ describe('debug save snapshots', () => {
     expect(state.worldMap?.focusedLocationId).toBe('forest');
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
 
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
     expect(state.fieldStation?.selectedOutingSupportLabel).toBe('HAND LENS');
@@ -557,7 +500,7 @@ describe('debug save snapshots', () => {
     expect(state.worldMap?.focusedLocationId).toBe('coastal-scrub');
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
 
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.seasonNote).toMatchObject({
       title: 'NEXT STOP',
@@ -613,7 +556,7 @@ describe('debug save snapshots', () => {
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
     expect(state.worldMap?.routeReplayLabel).toBe('Today: Stone Shelter');
 
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.seasonNote).toMatchObject({
       title: 'STONE SHELTER',
@@ -691,7 +634,7 @@ describe('debug save snapshots', () => {
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
     expect(state.worldMap?.routeReplayLabel).toBe('Today: Thaw Window');
 
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
     expect(state.fieldStation?.seasonNote).toMatchObject({
       title: 'THAW WINDOW',
@@ -722,8 +665,7 @@ describe('debug save snapshots', () => {
   it('boots the season-close snapshot into the High Pass routes shell', () => {
     const fakeWindow = bootSnapshot('season-close-return');
 
-    openWorldMap(fakeWindow);
-    let state = openFieldStationFromWorldMap(fakeWindow);
+    let state = openFieldStationViaWorldMap(fakeWindow);
 
     expect(state.guidedFieldSeason).toMatchObject({
       stage: 'next-season-open',
@@ -829,16 +771,20 @@ describe('debug save snapshots', () => {
     });
     expect(state.fieldStation?.atlas?.note).toBe('Rime Source: compare high source and shelter.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: 'treeline',
       nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
-      complete: true,
+      complete: false,
+      progressLabel: 'BETA',
       notebookReady: null,
       replayNote: null,
-      launchCard: {
-        title: 'RIME SOURCE',
-        progressLabel: 'BETA',
-        summary: 'Late ridge rime sharpens the high source and first shelter.',
-      },
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Rime Source', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
 
     state = openWorldMap(fakeWindow);
@@ -868,16 +814,20 @@ describe('debug save snapshots', () => {
     });
     expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: 'treeline',
       nextDirection: 'Next: travel to Treeline Pass and compare rime source, lee watch, and talus hold.',
-      complete: true,
+      complete: false,
+      progressLabel: 'BETA',
       notebookReady: null,
       replayNote: null,
-      launchCard: {
-        title: 'RIME SOURCE',
-        progressLabel: 'BETA',
-        summary: 'Late ridge rime sharpens the high source and first shelter.',
-      },
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Rime Source', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
 
     state = openWorldMap(fakeWindow);
@@ -895,7 +845,7 @@ describe('debug save snapshots', () => {
     });
 
     tapKey(fakeWindow, 'Escape');
-    state = openFieldStationFromWorldMap(fakeWindow);
+    state = openFieldStationFromMenu(fakeWindow);
     expect(state.fieldStation?.seasonPage).toBe('routes');
 
     tapKey(fakeWindow, 'ArrowRight');
@@ -924,6 +874,74 @@ describe('debug save snapshots', () => {
     });
   });
 
+  it.each([
+    {
+      id: 'source-to-shore-ready-to-file',
+      requestId: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      beatId: 'source-shelter',
+      previewLabel: 'SOURCE SHELTER',
+    },
+    {
+      id: 'source-to-shore-forest-release-ready-to-file',
+      requestId: 'source-to-shore-forest-release',
+      title: 'Forest Release',
+      beatId: 'forest-release',
+      previewLabel: 'FOREST RELEASE',
+    },
+    {
+      id: 'source-to-shore-dune-catch-ready-to-file',
+      requestId: 'source-to-shore-dune-catch',
+      title: 'Dune Catch',
+      beatId: 'dune-catch',
+      previewLabel: 'DUNE CATCH',
+    },
+  ] as const)('boots $title ready-to-file snapshot into calm filing state', (readyCase) => {
+    const snapshot = buildDebugSaveSnapshot(readyCase.id);
+    snapshot.save.selectedOutingSupportId = 'route-marker';
+    const fakeWindow = bootSave(snapshot.save);
+
+    let state = readState(fakeWindow);
+    expect(resolveSourceToShoreState(snapshot.save)).toMatchObject({
+      beat: readyCase.beatId,
+      phase: 'ready-to-file',
+      progressLabel: 'NOTE',
+      routeBoardTargetBiomeId: null,
+    });
+    expect(state.activeFieldRequest).toMatchObject({
+      id: readyCase.requestId,
+      title: readyCase.title,
+      progressLabel: 'Ready To File',
+    });
+    expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      targetBiomeId: null,
+      progressLabel: 'NOTE',
+      launchCard: null,
+      activeBeatId: readyCase.beatId,
+      notebookReady: {
+        requestId: readyCase.requestId,
+        previewLabel: readyCase.previewLabel,
+      },
+    });
+    expect(state.fieldStation?.routeBoard?.beats).toContainEqual(
+      expect.objectContaining({ id: readyCase.beatId, title: readyCase.title, status: 'ready' }),
+    );
+
+    state = openWorldMap(fakeWindow);
+    expect(state.worldMap?.routeMarkerLocationId).toBeNull();
+    expect(state.worldMap?.routeReplayLabel).toBeNull();
+
+    state = openJournal(fakeWindow);
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: readyCase.requestId,
+      title: readyCase.title,
+      progressLabel: 'Ready To File',
+    });
+  });
+
   it('boots filed Source Shelter into the downstream Forest Release map focus', () => {
     const fakeWindow = bootSnapshot('source-to-shore-filed');
 
@@ -934,13 +952,17 @@ describe('debug save snapshots', () => {
       progressLabel: 'Go To Forest Trail',
     });
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: 'forest',
       nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
-      launchCard: {
-        title: 'COOL RELEASE',
-        progressLabel: 'BETA',
-        summary: 'Mist highlights seep, root filter, and cool release.',
-      },
+      progressLabel: 'BETA',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Cool Release', status: 'active' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
 
     state = openWorldMap(fakeWindow);
@@ -961,49 +983,70 @@ describe('debug save snapshots', () => {
     let state = readState(fakeWindow);
     expect(state.activeFieldRequest).toMatchObject({
       id: 'source-to-shore-dune-catch',
-      title: 'Dune Catch',
+      title: 'Held Dune',
       progressLabel: 'Go To Coastal Scrub',
     });
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: 'coastal-scrub',
-      nextDirection: 'Next: travel to Coastal Scrub and log dune catch, swale hold, and cool edge.',
-      launchCard: {
-        title: 'DUNE CATCH',
-        progressLabel: 'BETA',
-        summary: 'Coastal Scrub carries Source to Shore into the coast catch.',
-      },
+      nextDirection: 'Next: travel to Coastal Scrub and trace held sand, swale hold, and cool edge.',
+      progressLabel: 'BETA',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'done' },
+        { id: 'dune-catch', title: 'Held Dune', status: 'active' },
+      ],
     });
 
     state = openWorldMap(fakeWindow);
     expect(state.worldMap?.focusedLocationId).toBe('coastal-scrub');
     expect(state.worldMap?.routeMarkerLocationId).toBeNull();
-    expect(state.worldMap?.routeReplayLabel).toBe('Today: Dune Catch');
+    expect(state.worldMap?.routeReplayLabel).toBe('Today: Held Dune');
 
     state = openJournal(fakeWindow);
     expect(state.journal?.fieldRequest).toMatchObject({
       id: 'source-to-shore-dune-catch',
-      title: 'Dune Catch',
+      title: 'Held Dune',
     });
   });
 
   it('boots filed Dune Catch into settled Source to Shore closure', () => {
     const fakeWindow = bootSnapshot('source-to-shore-dune-catch-filed');
 
-    const state = readState(fakeWindow);
+    let state = openFieldStationViaWorldMap(fakeWindow);
     expect(state.activeFieldRequest).toBeNull();
+    expect(state.fieldStation?.subtitle).toBe('Source to Shore is filed for this field arc.');
     expect(state.fieldStation?.seasonWrap).toEqual({
       label: 'SEASON ARCHIVE',
       text: 'Source to Shore filed from high rime to forest shade to coastal catch.',
     });
-    expect(state.fieldStation?.atlas?.note).toBe('Filed: high source to forest release to coastal catch.');
+    expect(state.fieldStation?.atlas?.note).toBe('Filed: high source -> forest release -> coastal catch.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: null,
       nextDirection: 'Source to Shore is filed. Revisit the three linked places when you want a quiet pass.',
-      launchCard: {
-        title: 'SOURCE TO SHORE',
-        progressLabel: 'FILED',
-        summary: 'High rime, forest shade, and dune catch now read as one connected route.',
-      },
+      progressLabel: 'FILED',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Forest Release', status: 'done' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'done' },
+      ],
+    });
+    expect(state.fieldStation?.routeBoard?.beats).toHaveLength(3);
+
+    tapKey(fakeWindow, 'ArrowRight');
+    state = readState(fakeWindow);
+    expect(state.fieldStation?.seasonPage).toBe('expedition');
+    expect(state.fieldStation?.subtitle).toBe('Source to Shore is filed for this field arc.');
+    expect(state.fieldStation?.expedition).toMatchObject({
+      title: 'SOURCE TO SHORE',
+      statusLabel: 'FILED',
+      detailLabel: 'FILED',
+      startText: 'Treeline Pass to Coastal Scrub',
     });
   });
 });

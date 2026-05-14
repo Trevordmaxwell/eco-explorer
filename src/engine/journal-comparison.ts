@@ -27,6 +27,10 @@ const COMPARISON_NOTE_ID_PREFERENCES: Record<string, Partial<Record<string, stri
     beach: 'low-runner-band',
     'coastal-scrub': 'sturdier-cover',
   },
+  salmonberry: {
+    'coastal-scrub': 'berry-cover-chain',
+    forest: 'berry-seed-shuttle',
+  },
 };
 
 export interface JournalComparisonCard {

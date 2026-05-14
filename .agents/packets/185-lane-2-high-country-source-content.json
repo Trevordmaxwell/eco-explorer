@@ -1,0 +1,136 @@
+{
+  "packet_id": "ECO-PACKET-185",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 2 high-country source content",
+  "summary": "Strengthen Treeline and Tundra source, shelter, snow, and short-season teaching content on existing content surfaces.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-high-country-season-shelter-content-review.md",
+    "docs/reports/2026-04-28-high-country-source-content-handoff.md",
+    "docs/reports/2026-04-28-high-country-source-content-implementation.md",
+    "docs/reports/2026-04-28-high-country-source-content-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-492",
+    "ECO-20260428-main-492",
+    "ECO-20260428-critic-492"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-491"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-492",
+      "goal": "Scope a high-country source/shelter content pass using existing Treeline and Tundra surfaces.",
+      "why_now": "Source to Shore starts high; the high branch should keep getting richer without route dependency."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-492",
+      "goal": "Implement the scoped high-country content pass.",
+      "why_now": "Treeline and Tundra can carry more science depth before new route breadth."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-492",
+      "goal": "Review high-country content for source safety, copy fit, and lane boundaries.",
+      "why_now": "High-country science needs to stay accurate and light."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/185-lane-2-high-country-source-content.json",
+    "src/content/biomes/treeline.ts",
+    "src/content/biomes/tundra.ts",
+    "src/content/shared-entries.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/close-look.ts",
+    "src/test/treeline-biome.test.ts",
+    "src/test/tundra-biome.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/close-look.test.ts",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Treeline/Tundra source and shelter concepts are richer through existing content carriers.",
+    "Science-source ledger and content-quality checks pass.",
+    "No route beat, station shell, geometry, or save behavior changes land."
+  ],
+  "guardrails": [
+    "Lane 2 stays content-local.",
+    "Do not add a fourth Source to Shore beat.",
+    "Prefer compact source/shelter/season relationships.",
+    "Leave spatial or route needs as handoffs."
+  ],
+  "post_packet_path": [
+    "If clean, lane 2 can later propose atlas/sketchbook synthesis.",
+    "If blocked, open a lane-2-local blocker."
+  ],
+  "scout_492_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-source-content-handoff.md",
+    "selected_scope": "A close-look-only payoff for the existing Tundra `tussock-thaw-channel` landmark, reinforcing high-country meltwater/source teaching through the current close-look seam.",
+    "implementation_contract": [
+      "Add a `tussock-thaw-channel` close-look seed in `src/engine/close-look.ts`.",
+      "Use compact, broad copy such as `Meltwater can linger in low channels between raised tundra tussocks.` with callouts `low wet lane` and `raised tussocks`.",
+      "Update `src/test/close-look.test.ts` allowlist and payload expectations.",
+      "Do not edit Treeline/Tundra entries, authored placements, sprites, ecosystem notes, observation prompts, sketchbook rows, station surfaces, route behavior, save state, travel, geometry, rewards, page shells, or broad `game.ts` scope.",
+      "Do not add another Source to Shore beat or route-state expansion."
+    ],
+    "science_sources": [
+      "docs/science-source-ledger.md row `tussock-thaw-channel`",
+      "https://www.nps.gov/im/arcn/ecosystems.htm",
+      "https://www.nps.gov/bela/learn/nature/grasses.htm"
+    ],
+    "target_files": [
+      "src/engine/close-look.ts",
+      "src/test/close-look.test.ts"
+    ],
+    "proof_expectations": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-main-492"
+  },
+  "implementation_492_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-source-content-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added `tussock-thaw-channel` close-look support with compact meltwater/source copy.",
+      "Updated focused close-look allowlist and payload assertions."
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-critic-492"
+  },
+  "critic_492_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-high-country-source-content-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The thaw-channel close-look payoff is source-safe, compact, and lane-local. It reuses an existing Tundra landmark, sprite, and ledger row, adds only focused close-look support and assertions, and avoids entry, placement, note, station, route, save, travel, geometry, reward, page, or `game.ts` drift.",
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "lane_2_status": "clear_after_current_queue_order"
+  }
+}

@@ -137,6 +137,18 @@ describe('ecosystem note resolution', () => {
     expect(resolved.note?.id).toBe('surf-food-line');
   });
 
+  it('gives snowy plover a wrack bird-line note through the wrack pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      beachBiome,
+      'western-snowy-plover',
+      ['western-snowy-plover', 'bull-kelp-wrack'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('wrack-bird-line');
+    expect(resolved.note?.summary).toContain('small shorebirds watch');
+  });
+
   it('supports the coastal scrub forest-edge note through the local moisture pair', () => {
     const resolved = resolveEcosystemNoteForEntry(
       coastalScrubBiome,
@@ -157,6 +169,18 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('swale-shelter');
+  });
+
+  it('supports the coastal berry cover note through three fruit-and-cover clues', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      coastalScrubBiome,
+      'beach-strawberry',
+      ['beach-strawberry', 'nootka-rose', 'deer-mouse'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('berry-cover-chain');
+    expect(resolved.note?.summary).toContain('food beside cover');
   });
 
   it('supports the new shore-pine underlayer note once low mats overlap pine cover', () => {
@@ -227,6 +251,18 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('layered-forest-path');
+  });
+
+  it('supports the forest berry seed shuttle note through a bird-and-berry pair', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'steller-jay',
+      ['steller-jay', 'red-huckleberry'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('berry-seed-shuttle');
+    expect(resolved.note?.summary).toContain('some seeds travel');
   });
 
   it('supports the new forest root-held shelter note once off-ground moisture clues overlap', () => {
@@ -315,6 +351,28 @@ describe('ecosystem note resolution', () => {
 
     expect(resolved.state).toBe('unlocked');
     expect(resolved.note?.id).toBe('seep-wall-garden');
+  });
+
+  it('supports the old-wood recycler note once fungus and fallen wood overlap', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'shelf-fungus',
+      ['shelf-fungus', 'fallen-giant-log'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('old-wood-recyclers');
+  });
+
+  it('supports the leaf-litter shelter note once damp litter and moss overlap', () => {
+    const resolved = resolveEcosystemNoteForEntry(
+      forestBiome,
+      'leaf-litter-pocket',
+      ['leaf-litter-pocket', 'seep-moss-mat'],
+    );
+
+    expect(resolved.state).toBe('unlocked');
+    expect(resolved.note?.id).toBe('leaf-litter-shelter');
   });
 
   it('supports the treeline shelter note through the new lee-pocket pair', () => {

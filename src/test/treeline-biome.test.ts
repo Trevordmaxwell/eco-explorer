@@ -407,7 +407,7 @@ describe('treeline biome generation', () => {
 
     expect(memoryPlatforms).toEqual([
       { id: 'source-memory-rime-overlook', x: 538, y: 96, w: 24 },
-      { id: 'source-memory-stone-step', x: 566, y: 104, w: 18 },
+      { id: 'source-memory-stone-step', x: 563, y: 104, w: 18 },
     ]);
     expect(memoryPlatforms[0]?.x).toBeLessThan(fellIslandRest?.x ?? 999);
     expect(memoryPlatforms[1]?.x).toBeGreaterThan((memoryPlatforms[0]?.x ?? 0) + (memoryPlatforms[0]?.w ?? 0));
@@ -417,8 +417,8 @@ describe('treeline biome generation', () => {
     );
     expect(memoryCarriers).toEqual([
       { entryId: 'reindeer-lichen', x: 548, y: 92, castsShadow: false },
-      { entryId: 'frost-heave-boulder', x: 570, y: 106, castsShadow: true },
-      { entryId: 'rock-ptarmigan', x: 580, y: 102, castsShadow: true },
+      { entryId: 'frost-heave-boulder', x: 566, y: 106, castsShadow: true },
+      { entryId: 'rock-ptarmigan', x: 574, y: 102, castsShadow: true },
     ]);
   });
 

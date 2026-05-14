@@ -28,15 +28,20 @@ import {
 import { resolveSourceToShoreRevisitMemory } from './source-to-shore-state';
 import {
   getJumpSpeed,
-  getFieldUpgradeStates,
   getSelectedFieldUpgradeId,
   getWalkSpeed,
   purchaseFieldUpgrade,
 } from './field-station';
 import {
+  changeFieldStationRouteSelection as getNextFieldStationRouteSelection,
+  changeFieldStationSurface as getNextFieldStationSurfaceSelection,
+  changeNurseryCardSelection as getNextNurseryCardSelection,
   getFieldStationArrivalPulseValue,
+  normalizeFieldStationSelections,
+  resolveFieldStationPrimaryAction,
   resolveFieldStationOpenState,
   type FieldStationArrivalMode,
+  type FieldStationSelections,
 } from './field-station-session';
 import {
   buildFieldStationGrowthInput,
@@ -45,7 +50,6 @@ import {
 import {
   clearNurseryTeachingBed,
   getNextNurseryProjectId,
-  getSelectedNurseryProjectId,
   resolveNurseryStateView,
   startNurseryProject,
   syncNurseryState,
@@ -165,6 +169,13 @@ import {
   stepWorldMapState,
   type WorldMapState,
 } from './world-map';
+import {
+  resolveMapReturnLabel,
+  resolveWorldMapApproachLabel,
+  resolveWorldMapOriginLabel,
+  resolveWorldMapSummaryLabel,
+  type TravelFramingContext,
+} from './travel-framing';
 import { buildWorldState } from './world-state';
 import type {
   BiomeDefinition,
@@ -538,7 +549,7 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return resolveGuidedFieldSeasonState(biomeRegistry, save);
   }
 
-  function getFieldStationSelections() {
+  function getFieldStationSelections(): FieldStationSelections {
     return {
       selectedFieldStationView,
       selectedFieldStationSeasonPage,
@@ -547,6 +558,15 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       selectedNurseryCardId,
       selectedNurseryProjectId,
     };
+  }
+
+  function applyFieldStationSelections(selections: FieldStationSelections): void {
+    selectedFieldStationView = selections.selectedFieldStationView;
+    selectedFieldStationSeasonPage = selections.selectedFieldStationSeasonPage;
+    outingSupportSelected = selections.outingSupportSelected;
+    selectedFieldStationUpgradeId = selections.selectedFieldStationUpgradeId;
+    selectedNurseryCardId = selections.selectedNurseryCardId;
+    selectedNurseryProjectId = selections.selectedNurseryProjectId;
   }
 
   function resetNurseryClaimedEntities(): void {
@@ -617,47 +637,22 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
     return getFieldRequestController(focusedLocationId).routeReplayLabel;
   }
 
-  function getWorldMapOriginLabel(
-    currentLocationId: string,
-    focusedLocationId: string,
-  ): string | null {
-    if (currentLocationId === focusedLocationId) {
-      return null;
-    }
-
-    return `FROM ${getWorldMapLocation(ecoWorldMap, currentLocationId).label.toUpperCase()}`;
-  }
-
-  function getRegionalTravelWarmth(
-    locationId: string,
-  ): { mapReturnLabel: string; summaryLabel: string } | null {
-    if (resolveNextFieldSeasonTargetBiomeId(save) !== 'treeline') {
-      return null;
-    }
-
-    if (locationId !== 'forest') {
-      return null;
-    }
-
+  function getTravelFramingContext(): TravelFramingContext {
     return {
-      mapReturnLabel: 'HIGH PASS MAP',
-      summaryLabel: 'Last woods before High Pass.',
+      nextFieldSeasonTargetBiomeId: resolveNextFieldSeasonTargetBiomeId(save),
     };
   }
 
   function getWorldMapSummaryLabel(locationId: string): string {
-    return getRegionalTravelWarmth(locationId)?.summaryLabel
-      ?? getWorldMapLocation(ecoWorldMap, locationId).summary;
+    return resolveWorldMapSummaryLabel(ecoWorldMap, locationId, getTravelFramingContext());
   }
 
   function getMapReturnLabel(locationId: string): string | null {
-    return getRegionalTravelWarmth(locationId)?.mapReturnLabel
-      ?? getWorldMapLocation(ecoWorldMap, locationId).mapReturnLabel
-      ?? null;
+    return resolveMapReturnLabel(ecoWorldMap, locationId, getTravelFramingContext());
   }
 
   function getWorldMapApproachLabel(locationId: string): string | null {
-    return getWorldMapLocation(ecoWorldMap, locationId).approachLabel ?? null;
+    return resolveWorldMapApproachLabel(ecoWorldMap, locationId);
   }
 
   function openFieldStation(): void {
@@ -2519,71 +2514,22 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   }
 
   function changeFieldStationSelection(direction: number): void {
-    const upgrades = getFieldUpgradeStates(save);
-    if (!upgrades.length) {
-      selectedFieldStationUpgradeId = null;
-      outingSupportSelected = true;
-      return;
-    }
-
-    const currentUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-    const currentIndex = outingSupportSelected
-      ? 0
-      : Math.max(1, upgrades.findIndex((upgrade) => upgrade.id === currentUpgradeId) + 1);
-    const nextIndex = (currentIndex + direction + upgrades.length + 1) % (upgrades.length + 1);
-
-    if (nextIndex === 0) {
-      outingSupportSelected = true;
-      return;
-    }
-
-    outingSupportSelected = false;
-    selectedFieldStationUpgradeId = upgrades[nextIndex - 1].id;
-  }
-
-  type FieldStationSurface = 'season-routes' | 'season-expedition' | 'nursery';
-
-  function getFieldStationSurface(): FieldStationSurface {
-    if (selectedFieldStationView === 'nursery') {
-      return 'nursery';
-    }
-
-    return selectedFieldStationSeasonPage === 'expedition' ? 'season-expedition' : 'season-routes';
-  }
-
-  function setFieldStationSurface(surface: FieldStationSurface): void {
-    if (surface === 'nursery') {
-      selectedFieldStationView = 'nursery';
-      selectedFieldStationSeasonPage = 'routes';
-      outingSupportSelected = false;
-      selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
-      return;
-    }
-
-    selectedFieldStationView = 'season';
-    selectedFieldStationSeasonPage = surface === 'season-expedition' ? 'expedition' : 'routes';
-    if (selectedFieldStationSeasonPage === 'routes') {
-      outingSupportSelected = false;
-      selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-    }
+    applyFieldStationSelections(
+      getNextFieldStationRouteSelection(save, getFieldStationSelections(), direction),
+    );
   }
 
   function changeFieldStationSurface(direction: number): void {
-    const order: FieldStationSurface[] = ['season-routes', 'season-expedition', 'nursery'];
-    const currentSurface = getFieldStationSurface();
-    const currentIndex = order.indexOf(currentSurface);
-    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
-    const nextIndex = (safeIndex + direction + order.length) % order.length;
-    setFieldStationSurface(order[nextIndex]);
+    applyFieldStationSelections(
+      getNextFieldStationSurfaceSelection(save, getFieldStationSelections(), direction),
+    );
     audio.playUiCue('menu-move');
   }
 
   function changeNurseryCardSelection(direction: number): void {
-    const order: NurseryCardId[] = ['bench', 'compost', 'bed'];
-    const currentIndex = order.indexOf(selectedNurseryCardId);
-    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
-    const nextIndex = (safeIndex + direction + order.length) % order.length;
-    selectedNurseryCardId = order[nextIndex];
+    applyFieldStationSelections(
+      getNextNurseryCardSelection(getFieldStationSelections(), direction),
+    );
     audio.playUiCue('menu-move');
   }
 
@@ -2688,15 +2634,17 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
   function toggleOutingSupport(): void {
     const nextSupportId = cycleSelectedOutingSupportId(save);
     persistSave(save);
+    const controller = getFieldRequestController();
 
-    showFieldNotice('OUTING SUPPORT', getOutingSupportNoticeText(nextSupportId), 2.6);
+    showFieldNotice('OUTING SUPPORT', getOutingSupportNoticeText(nextSupportId, controller.activeFieldRequest), 2.6);
 
     audio.playUiCue('confirm');
   }
 
   function updateFieldStationState(): void {
-    selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-    selectedNurseryProjectId = getSelectedNurseryProjectId(save, selectedNurseryProjectId);
+    applyFieldStationSelections(
+      normalizeFieldStationSelections(save, getFieldStationSelections()),
+    );
 
     if (
       input.consumePressed('Escape') ||
@@ -2741,43 +2689,47 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
       input.consumePressed(' ') ||
       input.consumePressed('Space')
     ) {
-      if (selectedFieldStationView === 'season') {
-        if (selectedFieldStationSeasonPage === 'routes') {
-          const filedRouteNoteText = save.routeV2Progress
-            ? resolveRouteV2FiledDisplayText(biomeRegistry, save, save.routeV2Progress.requestId)
-            : null;
-          const filedRequestId = fileReadyRouteV2FieldRequest(save);
-          if (filedRequestId) {
-            persistSave(save);
-            showFieldRequestNotice(filedRequestId, filedRouteNoteText);
-          } else if (outingSupportSelected) {
-            toggleOutingSupport();
-          } else if (selectedFieldStationUpgradeId && purchaseFieldUpgrade(save, selectedFieldStationUpgradeId)) {
-            persistSave(save);
-            selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, selectedFieldStationUpgradeId);
-          }
-        } else {
-          const expeditionReadyToFile =
-            save.routeV2Progress?.status === 'ready-to-synthesize'
-            && save.routeV2Progress.requestId.startsWith('forest-expedition-');
-          if (expeditionReadyToFile) {
-            const filedRouteNoteText = resolveRouteV2FiledDisplayText(
-              biomeRegistry,
-              save,
-              save.routeV2Progress!.requestId,
-            );
-            const filedRequestId = fileReadyRouteV2FieldRequest(save);
-            if (filedRequestId) {
-              persistSave(save);
-              showFieldRequestNotice(filedRequestId, filedRouteNoteText);
-            }
-          } else {
-            activateExpeditionCard();
-          }
-        }
-      } else {
-        activateNurseryCard();
+      const primaryAction = resolveFieldStationPrimaryAction(save, getFieldStationSelections());
+      if (!primaryAction) {
+        return;
       }
+
+      if (
+        primaryAction.kind === 'file-route-note' ||
+        primaryAction.kind === 'file-expedition-note'
+      ) {
+        const filedRouteNoteText = resolveRouteV2FiledDisplayText(
+          biomeRegistry,
+          save,
+          primaryAction.requestId,
+        );
+        const filedRequestId = fileReadyRouteV2FieldRequest(save);
+        if (filedRequestId) {
+          persistSave(save);
+          showFieldRequestNotice(filedRequestId, filedRouteNoteText);
+        }
+        return;
+      }
+
+      if (primaryAction.kind === 'toggle-outing-support') {
+        toggleOutingSupport();
+        return;
+      }
+
+      if (primaryAction.kind === 'purchase-upgrade') {
+        if (purchaseFieldUpgrade(save, primaryAction.upgradeId)) {
+          persistSave(save);
+          selectedFieldStationUpgradeId = getSelectedFieldUpgradeId(save, primaryAction.upgradeId);
+        }
+        return;
+      }
+
+      if (primaryAction.kind === 'activate-expedition-card') {
+        activateExpeditionCard();
+        return;
+      }
+
+      activateNurseryCard();
     }
   }
 
@@ -3293,7 +3245,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
         focusedSurveyState,
         getRouteMarkerLocationId(),
         getWorldMapReplayLabel(worldMapState.focusedLocationId),
-        getWorldMapOriginLabel(worldMapState.currentLocationId, worldMapState.focusedLocationId),
+        resolveWorldMapOriginLabel(
+          ecoWorldMap,
+          worldMapState.currentLocationId,
+          worldMapState.focusedLocationId,
+        ),
         getWorldMapSummaryLabel(worldMapState.focusedLocationId),
       );
       drawWorldMapHud({
@@ -3332,7 +3288,11 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           focusedSurveyState,
           getRouteMarkerLocationId(),
           getWorldMapReplayLabel(renderState.focusedLocationId),
-          getWorldMapOriginLabel(renderState.currentLocationId, renderState.focusedLocationId),
+          resolveWorldMapOriginLabel(
+            ecoWorldMap,
+            renderState.currentLocationId,
+            renderState.focusedLocationId,
+          ),
           getWorldMapSummaryLabel(renderState.focusedLocationId),
         );
         drawWorldMapHud({
@@ -3765,7 +3725,8 @@ export function createGame(canvas: HTMLCanvasElement, initialSaveState: SaveStat
           ? {
               currentLocationId: worldMapState.currentLocationId,
               focusedLocationId: worldMapState.focusedLocationId,
-              originLabel: getWorldMapOriginLabel(
+              originLabel: resolveWorldMapOriginLabel(
+                ecoWorldMap,
                 worldMapState.currentLocationId,
                 worldMapState.focusedLocationId,
               ),

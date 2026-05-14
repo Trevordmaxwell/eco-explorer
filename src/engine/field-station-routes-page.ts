@@ -73,7 +73,9 @@ export function drawFieldStationRoutesPage({
 }: FieldStationRoutesPageOptions): void {
   const boardProgressLabel = routeBoard.launchCard
     ? routeBoard.launchCard.progressLabel
-    : routeBoard.complete
+    : routeBoard.routeId === 'source-to-shore-beta'
+      ? routeBoard.progressLabel
+      : routeBoard.complete
       ? 'LOGGED'
       : routeBoard.progressLabel;
   const boardProgressText = fitTextToWidth(context, boardProgressLabel, 44);

@@ -1,0 +1,135 @@
+{
+  "packet_id": "ECO-PACKET-184",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 2 forest sub-ecosystem content",
+  "summary": "Deepen forest old-growth, under-root, canopy, and cave-adjacent teaching content without changing traversal or station systems.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-old-growth-under-root-content-review.md",
+    "docs/reports/2026-04-28-forest-subecosystem-content-handoff.md",
+    "docs/reports/2026-04-28-forest-subecosystem-content-implementation.md",
+    "docs/reports/2026-04-28-forest-subecosystem-content-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-491",
+    "ECO-20260428-main-491",
+    "ECO-20260428-critic-491"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-490"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-491",
+      "goal": "Scope a forest sub-ecosystem content pack that builds on old-growth and under-root discoveries.",
+      "why_now": "Forest now has richer physical spaces that need educational fuel."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-491",
+      "goal": "Implement the forest content pack through existing content-facing seams.",
+      "why_now": "Canopy and cave-adjacent spaces should teach structure, moisture, shelter, and decay."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-491",
+      "goal": "Review forest content for science accuracy, compactness, and no traversal drift.",
+      "why_now": "Content should support exploration without becoming geometry work."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/184-lane-2-forest-subecosystem-content.json",
+    "src/content/biomes/forest.ts",
+    "src/assets/forest-ambient.ts",
+    "src/engine/ecosystem-notes.ts",
+    "src/engine/close-look.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/ecosystem-notes.test.ts",
+    "src/test/close-look.test.ts",
+    "docs/science-source-ledger.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Forest sub-ecosystem teaching is richer on existing content surfaces.",
+    "No geometry, station, route-board, save, or traversal framework changes land.",
+    "Focused content tests and build pass."
+  ],
+  "guardrails": [
+    "Do not add another cave system.",
+    "Favor habitat structure and decomposition over fauna sprawl.",
+    "Keep claims broad, source-safe, and ledger-backed.",
+    "Do not edit route semantics."
+  ],
+  "post_packet_path": [
+    "If clean, proceed to high-country source content.",
+    "If a spatial need appears, hand it to lane 3."
+  ],
+  "scout_491_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-forest-subecosystem-content-handoff.md",
+    "selected_scope": "A close-look-only payoff for the existing `western-hemlock-seedling` entry, reinforcing old-wood nursery and canopy microhabitat teaching without new content surfaces.",
+    "implementation_contract": [
+      "Add a `western-hemlock-seedling` close-look seed in `src/engine/close-look.ts`.",
+      "Use callouts like `tiny needles` and `nurse wood` plus one compact source-safe sentence about damp old wood as a seedbed.",
+      "Update `src/test/close-look.test.ts` allowlist and payload expectations.",
+      "Do not edit forest entries, sprites, placements, ecosystem notes, observation prompts, station surfaces, route behavior, save state, geometry, traversal, page shells, rewards, or broad `game.ts` scope.",
+      "Do not add a `fallen-giant-log` close-look in this pass."
+    ],
+    "science_sources": [
+      "docs/science-source-ledger.md row `western-hemlock-seedling`",
+      "https://research.fs.usda.gov/silvics/western-hemlock",
+      "https://www.nps.gov/places/old-mine-tour-nurse-logs.htm"
+    ],
+    "target_files": [
+      "src/engine/close-look.ts",
+      "src/test/close-look.test.ts"
+    ],
+    "proof_expectations": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-main-491"
+  },
+  "implementation_491_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-forest-subecosystem-content-implementation.md",
+    "status": "implemented_pending_review",
+    "implemented_scope": [
+      "Added `western-hemlock-seedling` close-look support with compact old-wood nursery copy.",
+      "Updated focused close-look allowlist and payload assertions."
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "next_queue_id": "ECO-20260428-critic-491"
+  },
+  "critic_491_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-forest-subecosystem-content-review.md",
+    "status": "clean",
+    "findings": [],
+    "review_summary": "The hemlock seedling close-look payoff is source-safe, compact, and lane-local. It reuses an existing verified entry and sprite, adds only focused close-look support and assertions, and avoids content-surface, station, route, save, geometry, traversal, page, reward, or `game.ts` drift.",
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "promoted_queue_id": "ECO-20260428-scout-492"
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "packet_id": "ECO-PACKET-170",
+  "version": 2,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Source to Shore route-flow consolidation",
+  "summary": "Align Source to Shore active, ready, filed, station, map, journal, atlas, support, and debug-snapshot behavior around the new container without adding breadth.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-dune-catch-beta-closure.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-451",
+    "ECO-20260428-main-451",
+    "ECO-20260428-critic-451"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-450"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-451",
+      "goal": "Map the Source to Shore active, ready, filed, support, map, journal, atlas, and snapshot touchpoints now that the station container exists.",
+      "why_now": "The beta chapter should feel like one route arc instead of scattered late-game exceptions."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-451",
+      "goal": "Consolidate the route-flow behavior and add focused regression coverage for all three existing beats.",
+      "why_now": "Stable state flow is required before route data or game coordination extraction is safe."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-451",
+      "goal": "Review the flow for state consistency, debug snapshot truth, route-marker behavior, and no new chapter breadth.",
+      "why_now": "This packet decides whether the three-beat beta is ready for architectural cleanup."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/170-source-to-shore-route-flow-consolidation.json",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-season-outing-locator.ts",
+    "src/engine/debug-save-snapshots.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Source Shelter, Forest Release, and Coastal Catch route states agree across station, map, journal, atlas, support, and debug snapshots.",
+    "Filed Source to Shore remains a calm chapter-end state, not an invitation into a hidden fourth beat.",
+    "Regression coverage proves representative active, ready, and filed Source to Shore states.",
+    "No new route framework, save schema, planner, or fourth beat is introduced."
+  ],
+  "guardrails": [
+    "No fourth Source to Shore beat.",
+    "Consolidate existing behavior before extracting data.",
+    "Do not broaden Route v2 semantics unless scout identifies a failing existing contract.",
+    "Keep route-marker and support-slot behavior tied to the existing support seams.",
+    "Keep copy compact and exact-copy-test any changed player-facing line."
+  ],
+  "scout_contract": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-source-to-shore-route-flow-consolidation-handoff.md",
+    "implementation_dependency": "Keep ECO-20260428-main-451 parked until ECO-20260428-critic-450 approves the dedicated Source to Shore station container.",
+    "state_source_of_truth": "Keep src/engine/source-to-shore-state.ts as the single Source to Shore display-state resolver. A compact local state matrix or helper is acceptable if exported behavior stays stable.",
+    "touchpoints": [
+      "src/engine/field-requests.ts owns the three Route v2 route definitions, evidence ids, slot order, note text, and live process variants.",
+      "src/engine/source-to-shore-state.ts maps completed/request-progress state into active, ready-to-file, and final filed station/map/journal/atlas copy.",
+      "src/engine/field-season-board.ts consumes Source to Shore state for the route board, launch card, atlas note, archive strip, and expedition card.",
+      "src/engine/field-season-outing-locator.ts and src/engine/field-request-state.ts carry active outing, journal, route-marker, and world-map replay behavior.",
+      "src/engine/field-request-controller.ts carries support-biased inspect and hint behavior through existing hand-lens, note-tabs, place-tab, and route-marker seams.",
+      "src/engine/debug-save-snapshots.ts and src/test/save-snapshots.test.ts carry the active, ready, downstream, and final filed debug contract."
+    ],
+    "main_451_scope": [
+      "Make the three-beat Source to Shore state matrix explicit enough that station, atlas, map, journal, support, and debug snapshots consume the same active/ready/filed truth.",
+      "Preserve Source Shelter, Forest Release, and Dune Catch route ids, evidence ids, ordered slots, process variants, support behavior, and save schema.",
+      "Keep Dune Catch as the route title/id and reserve Coastal Catch for final filed memory language.",
+      "Keep ready-to-file states map-calm with no route-marker target and no active world-map focus.",
+      "Keep final filed Source to Shore as a calm chapter-end state with no active outing or implied fourth beat."
+    ],
+    "test_contract": [
+      "npm test -- --run src/test/field-requests.test.ts src/test/field-request-controller.test.ts -t \"Source to Shore|Cool Release|Rime Source|route-marker|hand-lens|note-tabs\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|copy budget|station atlas and active outing copy\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"source-to-shore|debug save snapshots|boots\"",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No fourth Source to Shore beat.",
+      "No route catalog extraction; packet 171 owns that after packet 170 is reviewed.",
+      "No save-schema, planner, dashboard, inventory, or support-system expansion.",
+      "No route id, evidence id, slot-order, or filed-state rename unless a failing focused test proves the current contract is wrong."
+    ]
+  },
+  "post_packet_path": [
+    "Route catalog extraction can proceed after this flow review is clean.",
+    "Content and spatial payoff can use this packet's state map as their baseline."
+  ]
+}

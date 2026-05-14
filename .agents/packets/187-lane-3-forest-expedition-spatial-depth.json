@@ -1,0 +1,128 @@
+{
+  "packet_id": "ECO-PACKET-187",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 3 forest expedition spatial depth",
+  "summary": "Add or prove one next forest canopy, trunk, or under-root spatial memory beat without new systems.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-forest-canopy-cave-loop-review.md",
+    "docs/reports/2026-04-28-forest-expedition-spatial-depth-handoff.md",
+    "docs/reports/2026-04-28-forest-expedition-spatial-depth-implementation.md",
+    "docs/reports/2026-04-28-forest-expedition-spatial-depth-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-494",
+    "ECO-20260428-main-494",
+    "ECO-20260428-critic-494"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-493"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-494",
+      "goal": "Scope a forest expedition spatial pass from existing canopy/cave proof.",
+      "why_now": "Forest already proves a recoverable loop; the next beat should be chosen carefully."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-494",
+      "goal": "Implement or proof the scoped forest expedition spatial beat.",
+      "why_now": "Forest can carry the game's strongest exploration-forward feeling."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-494",
+      "goal": "Review the forest spatial pass for readability, recovery, and no framework drift.",
+      "why_now": "Vertical wonder should stay cozy and controlled."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/187-lane-3-forest-expedition-spatial-depth.json",
+    "src/content/biomes/forest.ts",
+    "src/engine/climb-navigation.ts",
+    "src/engine/vertical-cues.ts",
+    "src/engine/biome-scene-render.ts",
+    "src/test/forest-biome.test.ts",
+    "src/test/climb-navigation.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "One forest spatial beat is improved or proof-closed.",
+    "Browser proof covers any visual geometry or placement change.",
+    "No cave framework, route-board logic, station work, or physics rewrite lands."
+  ],
+  "guardrails": [
+    "Use existing vertical/cave seams.",
+    "Keep recovery clear.",
+    "Do not add a traversal HUD.",
+    "Do not absorb content-only work."
+  ],
+  "post_packet_path": [
+    "If clean, proceed to high-country vertical memory.",
+    "If content is needed, hand it to lane 2."
+  ],
+  "scout_494_handoff": {
+    "status": "SCOPED",
+    "report": "docs/reports/2026-04-28-forest-expedition-spatial-depth-handoff.md",
+    "proof_dir": "output/lane-3-scout-494-forest-expedition-spatial-proof/",
+    "target": "Proof-close the Forest expedition upper-run carry from the filtered-return mouth through the high-run bridge/hinge band into the old-growth main trunk foot.",
+    "proof_summary": "Fresh native 256x160 scout frames show the filtered-return mouth, high-run bridge/hinge band, and old-growth trunk foot already read as a physical route. No real spatial readability issue is proven yet.",
+    "main_494_contract": [
+      "Recreate the upper-run carry in a fresh browser proof: filtered-return mouth -> high-run bridge/hinge -> old-growth trunk foot.",
+      "Treat proof closure as a valid completion if the fresh frames stay readable.",
+      "If fresh proof shows a real placement issue, apply only one tiny Forest-local geometry or existing-carrier fix around log-run-high-run-log, creek-bend-high-run-log, old-growth-crossover-limb, or the old-growth-main-trunk foot.",
+      "Do not edit station, route-board or route-catalog semantics, save schema, content-only surfaces, traversal framework, physics, or add a new cave, biome, route beat, or traversal HUD."
+    ],
+    "suggested_checks": [
+      "npm test -- --run src/test/forest-biome.test.ts -t \"high-run carry|old-growth|root-hollow\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"high run|old-growth|Root Hollow|upper-return\"",
+      "npm run build if runtime code changes land"
+    ],
+    "promoted_next": "ECO-20260428-main-494"
+  },
+  "main_494_result": {
+    "status": "PROOF_CLOSED",
+    "report": "docs/reports/2026-04-28-forest-expedition-spatial-depth-implementation.md",
+    "proof_dir": "output/lane-3-main-494-forest-expedition-spatial-proof/",
+    "runtime_changes": [],
+    "proof_summary": "Fresh browser proof walked the existing Forest expedition upper-run carry from filtered-return mouth through log-run high carry and old-growth bridge/hinge into the old-growth main trunk foot. All frames are native 256x160, the hinge cue and trunk climb are readable, and errors.json is empty.",
+    "proof_frames": [
+      "filtered-return-mouth-start-256x160.png",
+      "log-run-high-carry-256x160.png",
+      "old-growth-bridge-hinge-256x160.png",
+      "old-growth-main-trunk-foot-256x160.png"
+    ],
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts -t \"high-run carry|old-growth|root-hollow\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"high run|old-growth|Root Hollow|upper-return\"",
+      "npm run build was not run because no runtime source files changed"
+    ],
+    "promoted_next": "ECO-20260428-critic-494"
+  },
+  "critic_494_review": {
+    "status": "CLEAN",
+    "report": "docs/reports/2026-04-28-forest-expedition-spatial-depth-review.md",
+    "summary": "The Forest expedition upper-run carry is proof-closed without runtime changes. Fresh native 256x160 proof walked filtered-return mouth through log-run high carry and old-growth bridge/hinge into the old-growth main trunk foot, with the hinge cue visible, the trunk climb in range, and no browser errors.",
+    "verification_reviewed": [
+      "Proof assertions over output/lane-3-main-494-forest-expedition-spatial-proof/summary.json, assertions.json, and errors.json",
+      "npm test -- --run src/test/forest-biome.test.ts -t \"high-run carry|old-growth|root-hollow\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"high run|old-growth|Root Hollow|upper-return\"",
+      "Implementation report verification: npm test -- --run src/test/forest-biome.test.ts -t \"high-run carry|old-growth|root-hollow\"; npm test -- --run src/test/runtime-smoke.test.ts -t \"high run|old-growth|Root Hollow|upper-return\""
+    ],
+    "promoted_next": "ECO-20260428-scout-495"
+  }
+}

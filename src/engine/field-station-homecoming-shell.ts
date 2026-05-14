@@ -58,7 +58,7 @@ interface FieldStationHomecomingShellSource {
   nursery: NurseryStateView;
   loggedRouteCount: number;
   seasonWrap: FieldSeasonWrapState | null;
-  routeBoard: Pick<FieldSeasonBoardState, 'launchCard'> | null;
+  routeBoard: Pick<FieldSeasonBoardState, 'launchCard' | 'routeId'> | null;
   homecoming?: { homecomingMilestoneRequestId: string } | null;
 }
 
@@ -89,9 +89,12 @@ function getNurseryStageProgress(stage: string): number {
 
 function hasLateSeasonArchiveReturn(
   seasonWrap: FieldSeasonWrapState | null,
-  routeBoard: Pick<FieldSeasonBoardState, 'launchCard'> | null,
+  routeBoard: Pick<FieldSeasonBoardState, 'launchCard' | 'routeId'> | null,
 ): boolean {
-  return seasonWrap?.label === 'SEASON ARCHIVE' && Boolean(routeBoard?.launchCard);
+  return (
+    seasonWrap?.label === 'SEASON ARCHIVE'
+    && (Boolean(routeBoard?.launchCard) || routeBoard?.routeId === 'source-to-shore-beta')
+  );
 }
 
 export function buildFieldStationGrowthInput({

@@ -1,0 +1,349 @@
+{
+  "packet_id": "ECO-PACKET-179",
+  "version": 10,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 4 route-feel runway",
+  "summary": "Run a parallel route-feel wave focused on support readability, route-local replay variants, notebook filing depth, and authoring guardrails without station-shell or geometry dependencies.",
+  "source_reports": [
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "docs/reports/2026-04-28-source-to-shore-route-flow-consolidation-review.md",
+    "docs/reports/2026-04-28-route-catalog-extraction-review.md",
+    "docs/reports/2026-04-28-route-support-readability-handoff.md",
+    "docs/reports/2026-04-28-route-support-readability-implementation.md",
+    "docs/reports/2026-04-28-route-support-readability-review.md",
+    "docs/reports/2026-04-28-route-local-replay-variants-handoff.md",
+    "docs/reports/2026-04-28-route-local-replay-variants-implementation.md",
+    "docs/reports/2026-04-28-route-local-replay-variants-review.md",
+    "docs/reports/2026-04-28-filing-depth-catalog-guardrails-handoff.md",
+    "docs/reports/2026-04-28-filing-depth-catalog-guardrails-implementation.md",
+    "docs/reports/2026-04-28-filing-depth-catalog-guardrails-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-484",
+    "ECO-20260428-main-484",
+    "ECO-20260428-critic-484",
+    "ECO-20260428-scout-485",
+    "ECO-20260428-main-485",
+    "ECO-20260428-critic-485",
+    "ECO-20260428-scout-486",
+    "ECO-20260428-main-486",
+    "ECO-20260428-critic-486"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent",
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-484",
+      "goal": "Scope one route-support readability pass using existing inspect/chip/seam behavior.",
+      "why_now": "The support slot exists; players should feel its difference without more station text."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-484",
+      "goal": "Implement the smallest support-readability improvement with route/controller coverage.",
+      "why_now": "Route-feel can improve independently from station shell and content packs."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-484",
+      "goal": "Review support readability for clarity, no HUD drift, and stable support behavior.",
+      "why_now": "Support should feel legible without growing into loadout UI."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260428-scout-485",
+      "goal": "Scope route-local replay variants tied to existing world-state, process, or nursery seams.",
+      "why_now": "Soft replay can make outings feel alive without a separate replay system."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260428-main-485",
+      "goal": "Implement one or two route-local replay variants through existing route fields and tests.",
+      "why_now": "The route catalog boundary is now ready for better authored variants."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260428-critic-485",
+      "goal": "Review route replay variants for canonical filing stability and no hidden progression drift.",
+      "why_now": "Replay flavor must not change saved route identity."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260428-scout-486",
+      "goal": "Scope notebook filing depth and route authoring guardrails in the new catalog boundary.",
+      "why_now": "More route content is coming; authors need sharper guardrails before breadth grows."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260428-main-486",
+      "goal": "Implement one filing-depth or catalog-guardrail pass with focused route tests.",
+      "why_now": "Better route authoring support reduces future integration costs."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260428-critic-486",
+      "goal": "Review the route-feel runway and decide whether lane 4 is ready for a new chapter-grade outing.",
+      "why_now": "Lane 4 should end this wave with cleaner route semantics and less coordinator risk."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/179-lane-4-route-feel-runway.json",
+    "src/engine/field-request-catalog.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/outing-support.ts",
+    "src/engine/field-season-board.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/content-authoring.md",
+    "docs/reports/2026-04-28-parallel-beta-runway-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "Support readability, replay variants, and filing/catalog guardrails each land as route-owned improvements or are explicitly scoped down by scout/critic.",
+    "Canonical filed route titles and saved identities remain stable.",
+    "No station shell restructure, geometry expansion, broad content pack, planner, loadout, save schema, combat, or economy lands.",
+    "Focused route/controller/station/snapshot/runtime tests and build pass after runtime changes."
+  ],
+  "guardrails": [
+    "Lane 4 owns route semantics and Route v2 feel.",
+    "Keep support choice tiny and route-facing.",
+    "Use existing world-state, process, nursery, and notebook filing seams.",
+    "Do not add a fourth Source to Shore beat in this packet.",
+    "Do not absorb lane 1 station shell, lane 2 content pack, or lane 3 geometry work."
+  ],
+  "scout_contract": {
+    "status": "SCOPED",
+    "queue_id": "ECO-20260428-scout-484",
+    "report": "docs/reports/2026-04-28-route-support-readability-handoff.md",
+    "finding": "Support behavior is already split correctly across hand-lens inspect retargeting, note-tabs hint bias, place-tab question framing, and route-marker map targets. The weak readable moment is the generic OUTING SUPPORT notice shown when the player cycles the tiny support row.",
+    "implementation_choice": "Make the existing support-switch notice contextual from the current active route/controller state. Do not add a support row, planner, loadout, station layout, save field, route catalog shape, or support mechanic.",
+    "seams": [
+      "src/engine/field-request-controller.ts owns getOutingSupportNoticeText(...), getFieldRequestHintState(...), inspect retargeting, and support-biased hint projection.",
+      "src/engine/field-requests.ts owns ActiveFieldRequest, progressLabel, target biome, routeV2 status, selectedSupportId, and active process/world-state route titles.",
+      "src/engine/field-request-state.ts owns route-marker location and ready-to-file map-calm activeOuting suppression.",
+      "src/engine/game.ts owns toggleOutingSupport() and already calls the controller and notice helper from the station support row.",
+      "src/engine/field-season-wrap.ts already provides station-side support-aware TODAY copy and should stay out of this pass unless a focused regression proves otherwise."
+    ],
+    "main_484_scope": [
+      "Extend getOutingSupportNoticeText(...) so it can use selected support plus ActiveFieldRequest | null.",
+      "Keep generic fallback support notice copy compact for no-active-route states.",
+      "For active gathering Route v2 states, make route-marker name the target biome/location, hand-lens name current route clues, note-tabs name current compact progress or route aim, and place-tab tie the place question to the current route title.",
+      "For ready-to-synthesize states, use calm ready-note copy that does not imply a map marker or in-field hunt.",
+      "Update toggleOutingSupport() to pass the current active request from getFieldRequestController() after the selected support id changes."
+    ],
+    "test_contract": [
+      "src/test/field-request-controller.test.ts: generic fallback copy, active-route contextual support notice copy for all four support ids, ready-to-file no-marker/no-hunt support notice copy, and existing support split behavior.",
+      "src/test/runtime-smoke.test.ts: one station support-row toggle on an active route shows contextual OUTING SUPPORT notice and route-marker still focuses the world-map target.",
+      "src/test/field-requests.test.ts only if implementation needs an extra ready-to-file active-request assertion.",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No broad content pack, geometry change, station shell restructuring, planner UI, save-schema change, route framework, support id, inventory/loadout row, route id/evidence id/slot-order change, or Source to Shore fourth beat.",
+      "Do not move or reshape src/engine/field-request-catalog.ts.",
+      "Do not change filed route identity or ready-to-file map-calm behavior."
+    ]
+  },
+  "main_484_implementation": {
+    "status": "IMPLEMENTED",
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-route-support-readability-implementation.md",
+    "implemented_shape": [
+      "Extended getOutingSupportNoticeText(...) in src/engine/field-request-controller.ts so the existing support-switch notice can use selected support plus ActiveFieldRequest | null.",
+      "Updated toggleOutingSupport() in src/engine/game.ts to pass the current controller active request after the selected support id changes.",
+      "Kept hand-lens retargeting, note-tabs hint bias, place-tab station wrap behavior, route-marker map target resolution, route catalog shape, save schema, route ids, evidence ids, and ready-to-file map-calm behavior unchanged."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice|Source to Shore support|place-tab|route-marker\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"support row|route marker\"",
+      "npm test -- --run src/test/field-request-controller.test.ts src/test/field-requests.test.ts",
+      "npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|High Pass|route-marker|support|field station\"",
+      "npm run build"
+    ],
+    "handoff": "Promote ECO-20260428-critic-484 to review support readability for tiny route-facing copy, unchanged support semantics, and ready-to-file map-calm behavior."
+  },
+  "critic_484_review": {
+    "status": "CLEAN",
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-route-support-readability-review.md",
+    "findings": [],
+    "confirmed": [
+      "Support readability stays inside the existing OUTING SUPPORT notice.",
+      "Ready-to-file routes use calm ready-note copy and do not imply marker, replay, or in-field hunt behavior.",
+      "Support row size, station UI, route catalog shape, save schema, route ids, evidence ids, ordered slots, Source to Shore beat count, and filed route identity remain stable."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"support notice|Source to Shore support|place-tab|route-marker\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"support row|route marker\""
+    ],
+    "handoff": "Promote ECO-20260428-scout-485 to scope route-local replay variants through existing route/world-state/process/nursery seams."
+  },
+  "scout_485_contract": {
+    "status": "SCOPED",
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-scout-485",
+    "report": "docs/reports/2026-04-28-route-local-replay-variants-handoff.md",
+    "finding": "Source to Shore already has active-only variants for Source Shelter and Forest Release. Dune Catch is the missing third-beat active variant, and Coastal Scrub already has the sand-capture process seam needed to drive it.",
+    "selected_scope": [
+      "Add one active-only Dune Catch variant named Held Dune.",
+      "Trigger it only while active source-to-shore-dune-catch overlaps the existing Coastal Scrub sand-capture process moment.",
+      "Keep ready-to-file and filed Dune Catch canonical."
+    ],
+    "target_files": [
+      "src/engine/field-request-catalog.ts",
+      "src/engine/source-to-shore-state.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/save-snapshots.test.ts",
+      "src/test/runtime-smoke.test.ts"
+    ],
+    "implementation_contract": [
+      "Add processFocus to source-to-shore-dune-catch with momentId sand-capture, activeTitle Held Dune, and short active summary copy.",
+      "Mirror the same active-only title and Source to Shore board/map/atlas copy in resolveDuneCatchState(...) when phase is active and sand-capture is live.",
+      "Do not add Source to Shore to getReplayNote(...) unless a focused test proves the current SourceToShoreState seam cannot carry the variant.",
+      "Do not change SOURCE_TO_SHORE_BEAT_FLOW, route ids, evidence ids, ordered slots, support behavior, ready-to-file map calmness, filed notebook identity, save schema, station shell, content, or geometry."
+    ],
+    "test_contract": [
+      "src/test/field-requests.test.ts: add Dune Catch to the live-only variant matrix and prove ready/filed canonical identity.",
+      "src/test/field-season-board.test.ts: extend Source to Shore active variant coverage so Dune Catch surfaces Held Dune only during the sand-capture window.",
+      "src/test/save-snapshots.test.ts: update only if an existing Source to Shore snapshot needs active title coverage.",
+      "src/test/runtime-smoke.test.ts: add or extend one focused Dune Catch active surface smoke only if board/unit coverage is insufficient.",
+      "npm run build"
+    ],
+    "out_of_scope": [
+      "No new replay system, planner, save schema, station shell, route framework, content pack, geometry, support behavior, route id, evidence id, slot-order change, filed-title change, or fourth Source to Shore beat.",
+      "Do not broaden Source to Shore beyond the existing Source Shelter -> Forest Release -> Dune Catch endpoint."
+    ],
+    "next_queue_id": "ECO-20260428-main-485"
+  },
+  "main_485_implementation": {
+    "status": "IMPLEMENTED",
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-route-local-replay-variants-implementation.md",
+    "implemented_shape": [
+      "Added processFocus to source-to-shore-dune-catch through the existing Coastal Scrub sand-capture process moment.",
+      "Mirrored the active-only Held Dune title/copy through SourceToShoreState so station, atlas, active outing, and world-map surfaces stay aligned.",
+      "Kept ready-to-file and filed Dune Catch canonical, with no Source to Shore beat-count, route id, evidence id, slot-order, support behavior, save schema, station shell, content, geometry, or replay-framework change."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route variants|Dune Catch|Source to Shore\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|Dune Catch|Held Dune\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\"",
+      "npm test -- --run src/test/field-request-controller.test.ts -t \"Source to Shore|Dune Catch|route-marker|support notice\"",
+      "npm run build"
+    ],
+    "handoff": "Promote ECO-20260428-critic-485 to review active-only Held Dune behavior, canonical ready/filed Dune Catch identity, and lane boundaries."
+  },
+  "critic_485_review": {
+    "status": "CLEAN",
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-route-local-replay-variants-review.md",
+    "findings": [],
+    "confirmed": [
+      "Held Dune is active-only and tied to the existing Coastal Scrub sand-capture process seam.",
+      "Ready-to-file and filed Dune Catch identity, evidence, and notebook filing behavior remain canonical.",
+      "Source to Shore remains a three-beat route with unchanged route ids, evidence ids, ordered slots, support behavior, save schema, station shell, content, geometry, and replay-framework boundaries."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-requests.test.ts -t \"route variants|Dune Catch|Source to Shore\"",
+      "npm test -- --run src/test/field-season-board.test.ts -t \"Source to Shore|Dune Catch|Held Dune\"",
+      "npm test -- --run src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch\""
+    ],
+    "handoff": "Promote ECO-20260428-scout-486 to scope notebook filing depth and route catalog guardrails."
+  },
+  "scout_486_contract": {
+    "status": "SCOPED",
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "queue_id": "ECO-20260428-scout-486",
+    "report": "docs/reports/2026-04-28-filing-depth-catalog-guardrails-handoff.md",
+    "finding": "Route behavior and filing synthesis are stable; the next lane-4 risk is future catalog authoring drift around canonical filed text, slot ordering, clue-backed filing tails, and active alternate clue references.",
+    "selected_scope": [
+      "Add a focused catalog-authoring guard test over FIELD_REQUEST_DEFINITIONS.",
+      "Document the filedText/displayPrefix/active-alternate boundary in content authoring guidance.",
+      "Keep the implementation test/docs-only unless a failing guard proves a tiny helper is needed."
+    ],
+    "target_files": [
+      "src/test/field-request-catalog.test.ts",
+      "src/test/field-requests.test.ts",
+      "docs/content-authoring.md"
+    ],
+    "implementation_contract": [
+      "Assert route ids are unique, routeV2Note.readyTitle stays NOTEBOOK READY, and ready copy names the canonical route title.",
+      "For evidence routes, assert evidence slot ids are unique, slotOrder exactly matches evidence-slot ids when present, and clue-backed filed synthesis routes keep a clueBackedTail.",
+      "Assert processFocus/worldStateFocus activeTitle labels do not leak into routeV2Note.filedText; displayPrefix can remain display-only and must not rewrite canonical filed text.",
+      "Assert activeSlotEntryIdsBySlotId keys target real evidence slots and alternate entry ids exist in the route biome, without requiring alternates to be base slot entries.",
+      "Do not change route runtime behavior, save shape, support behavior, route ids, evidence ids, ordered slots, station shell, Source to Shore beat count, or filed route identity."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-catalog.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"full-arc filed-note synthesis matrix|route variants\"",
+      "npm run build",
+      "If runtime code is touched unexpectedly, also run focused route/controller/station/snapshot slices from this packet."
+    ],
+    "next_queue_id": "ECO-20260428-main-486"
+  },
+  "main_486_implementation": {
+    "status": "IMPLEMENTED",
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-filing-depth-catalog-guardrails-implementation.md",
+    "implemented_shape": [
+      "Added a focused route catalog authoring guard test over FIELD_REQUEST_DEFINITIONS.",
+      "Guarded unique route ids, NOTEBOOK READY copy, evidence slot uniqueness, exact slotOrder coverage, clue-backed filed-note tails, display-only replay labels, and active alternate clue references.",
+      "Documented the filedText/displayPrefix/active-alternate boundary in docs/content-authoring.md.",
+      "Kept the pass test/docs-only with no route runtime, save, support, station, content, geometry, route framework, or Source to Shore beat-count change."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-catalog.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"full-arc filed-note synthesis matrix|route variants\"",
+      "npm run build"
+    ],
+    "handoff": "Promote ECO-20260428-critic-486 to review the catalog guardrail and decide whether packet 179 can close."
+  },
+  "critic_486_review": {
+    "status": "CLEAN",
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-filing-depth-catalog-guardrails-review.md",
+    "findings": [],
+    "confirmed": [
+      "The catalog guardrail is test/docs-only and directly protects Route v2 authoring boundaries.",
+      "Canonical filed text, display-only replay prefixes, exact evidence-slot ordering, clue-backed filing tails, and active alternate clue references are now covered.",
+      "Route ids, evidence ids, ordered slots, support behavior, filed states, save schema, station shell, content, geometry, route framework, support system, planner, and Source to Shore beat count remain unchanged."
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-request-catalog.test.ts",
+      "npm test -- --run src/test/field-requests.test.ts -t \"full-arc filed-note synthesis matrix|route variants\"",
+      "npm run build"
+    ],
+    "handoff": "Packet 179 is done; lane 4 has no remaining actionable work in this runway."
+  },
+  "post_packet_path": [
+    "If clean, lane 4 can propose the next chapter-grade outing.",
+    "If route work needs new content or geometry, write handoffs instead of blocking the lane."
+  ]
+}

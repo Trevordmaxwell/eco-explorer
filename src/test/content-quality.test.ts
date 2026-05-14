@@ -34,6 +34,7 @@ const NURSERY_UNLOCK_SUMMARY_MAX = 72;
 const SCIENCE_LEDGER_MARKERS = ['seep-stone', 'root-curtain', 'woodpecker-cavity'] as const;
 const MICROHABITAT_LEDGER_MARKERS = ['old-mans-beard', 'western-hemlock-seedling'] as const;
 const CANOPY_CAVERN_LEDGER_MARKERS = ['canopy-moss-bed', 'seep-moss-mat'] as const;
+const OLD_GROWTH_UNDER_ROOT_LEDGER_MARKERS = ['shelf-fungus', 'leaf-litter-pocket'] as const;
 const ALPINE_MICROHABITAT_LEDGER_MARKERS = ['talus-cushion-pocket', 'tussock-thaw-channel'] as const;
 const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'dune-lupine', 'beach-strawberry', 'beach-hopper', 'kinnikinnick'] as const;
 const MIDDLE_COMPARISON_LEDGER_MARKERS = ['bunchberry'] as const;
@@ -280,6 +281,12 @@ describe('content quality guardrails', () => {
 
   it('keeps the canopy-and-cavern habitat additions backed by the science source ledger', () => {
     for (const entryId of CANOPY_CAVERN_LEDGER_MARKERS) {
+      expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
+    }
+  });
+
+  it('keeps the old-growth and under-root payoff additions backed by the science source ledger', () => {
+    for (const entryId of OLD_GROWTH_UNDER_ROOT_LEDGER_MARKERS) {
       expect(scienceLedgerMarkdown).toContain(`| \`${entryId}\` |`);
     }
   });

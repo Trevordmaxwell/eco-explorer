@@ -355,7 +355,7 @@ export const treelineBiome: BiomeDefinition = {
       {
         id: 'source-memory-stone-step',
         spriteId: 'granite-platform',
-        x: 566,
+        x: 563,
         y: 104,
         w: 18,
         h: 4,
@@ -506,13 +506,13 @@ export const treelineBiome: BiomeDefinition = {
       {
         id: 'source-memory-stone-boulder',
         entryId: 'frost-heave-boulder',
-        x: 570,
+        x: 566,
         y: 106,
       },
       {
         id: 'source-memory-fell-ptarmigan',
         entryId: 'rock-ptarmigan',
-        x: 580,
+        x: 574,
         y: 102,
       },
     ],

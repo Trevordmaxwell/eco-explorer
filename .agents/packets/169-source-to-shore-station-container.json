@@ -1,0 +1,153 @@
+{
+  "packet_id": "ECO-PACKET-169",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Source to Shore station container",
+  "summary": "Give the three-beat Source to Shore beta its own compact station/board identity after High Pass, replacing the awkward completed-board launch-card fit without creating a larger planner.",
+  "source_reports": [
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-beta-cohesion-megapush.md",
+    "docs/reports/2026-04-24-source-to-shore-dune-catch-beta-closure.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-450",
+    "ECO-20260428-main-450",
+    "ECO-20260428-critic-450"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-449"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-450",
+      "goal": "Define the smallest Source to Shore station container that can house active, ready, and filed beta states cleanly.",
+      "why_now": "The old `EDGE LINE LOGGED` board is now carrying a second chapter and will not scale cleanly."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-450",
+      "goal": "Implement the dedicated compact container while preserving existing Route v2 and Source to Shore state behavior.",
+      "why_now": "A clear home for the beta chapter is the main structural move that unlocks steadier future work."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-450",
+      "goal": "Review the container for density, handheld fit, state continuity, and absence of planner or dashboard drift.",
+      "why_now": "This is the largest UX structure change in the push and should gate the downstream route-flow and payoff work."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/169-source-to-shore-station-container.json",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-station-routes-page.ts",
+    "src/engine/field-station-homecoming-shell.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-station.test.ts",
+    "src/test/runtime-smoke.test.ts",
+    "docs/reports/2026-04-28-steady-beta-foundation-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "After High Pass, Source to Shore is represented by a dedicated compact station/board identity rather than a launch card inside the completed first-season board.",
+    "Active, ready-to-file, and filed Source to Shore states remain reachable through existing Route v2 seams.",
+    "The existing first-season completed state still reads cleanly and is not broken by the beta container.",
+    "Focused station/board/runtime coverage passes, with browser proof if the visual shell changes materially."
+  ],
+  "guardrails": [
+    "No fourth Source to Shore beat.",
+    "No larger planner, dashboard, quest log, loadout, inventory, economy, combat, or direct API mode.",
+    "Keep the container station-first and compact.",
+    "Reuse existing Source to Shore and Route v2 state where possible.",
+    "Do not change save schema unless scout proves there is no behavior-preserving path."
+  ],
+  "post_packet_path": [
+    "Use the new container as the anchor for route-flow consolidation.",
+    "Defer content payoff and spatial polish until the container is reviewed clean."
+  ],
+  "scout_handoff": {
+    "completed_by": "scout-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-source-to-shore-station-container-handoff.md",
+    "surface_gate": "Packet `168` has clean critic review in `docs/reports/2026-04-28-steady-beta-surface-triage-review.md`.",
+    "recommended_shape": [
+      "Add a dedicated Source to Shore board identity, preferably `routeId: 'source-to-shore-beta'`, with `routeTitle: 'SOURCE TO SHORE'` and `branchLabel: 'Treeline -> Forest -> Coastal Scrub'.",
+      "Represent exactly three board beats: `source-shelter`, `forest-release`, and `dune-catch`.",
+      "Return `launchCard: null` for the Source to Shore route board so the routes page shows the beta beat rows instead of a launch card inside the completed edge board.",
+      "Drive active, ready-to-file, and filed states from `resolveSourceToShoreState(save)` and existing Route v2 progress.",
+      "Extend `getRouteBeatIdForRequest` for the three Source to Shore request ids so ready-to-file states keep notebook-ready behavior."
+    ],
+    "implementation_scope": [
+      "Primary runtime target: `src/engine/field-season-board.ts`.",
+      "Small renderer target if needed: `src/engine/field-station-routes-page.ts` for Source to Shore progress label handling.",
+      "Focused tests: `src/test/field-season-board.test.ts` and `src/test/runtime-smoke.test.ts`.",
+      "Browser proof: active Source to Shore station board plus one ready-to-file or filed Source to Shore station board at native `256x160`."
+    ],
+    "non_goals": [
+      "No fourth Source to Shore beat.",
+      "No planner, dashboard, new station tab, save schema, route framework, loadout, inventory, economy, combat, or direct API mode.",
+      "Do not remove the first-season logged identity from the atlas or pre-Source completed edge states.",
+      "Do not change Source to Shore route behavior, journal behavior, map labels, support behavior, expedition-page card behavior, or filed memory notices except for route-board identity expectations."
+    ]
+  },
+  "implementation_result": {
+    "completed_by": "main-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-source-to-shore-station-container-implementation.md",
+    "runtime_changes": [
+      "`src/engine/field-season-board.ts` now returns a dedicated `source-to-shore-beta` board with `SOURCE TO SHORE` title, three visible Source to Shore beats, no Source to Shore launch card, and ready-to-file notebook beat mapping.",
+      "`src/engine/field-station-routes-page.ts` keeps Source to Shore filed progress as `FILED` instead of generic `LOGGED`.",
+      "`src/engine/field-season-wrap.ts` preserves the first-season archive strip while the Source to Shore board is active.",
+      "`src/engine/field-station-homecoming-shell.ts` keeps the late-season archive lintel for Source to Shore archive states without relying on a launch card.",
+      "`src/engine/nursery.ts` preserves the existing salmonberry capstone hint while Source to Shore is active."
+    ],
+    "proof": [
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/runtime-smoke.test.ts -t 'Source to Shore|journal'`",
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/runtime-smoke.test.ts src/test/save-snapshots.test.ts src/test/field-requests.test.ts -t 'Source to Shore|journal|debug save snapshots'`",
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/save-snapshots.test.ts`",
+      "`npm test -- --run src/test/runtime-smoke.test.ts`",
+      "`npm run build`",
+      "Web-game client smoke at `output/lane-1-main-450-web-game-client/`.",
+      "Native `256x160` browser proof at `output/lane-1-main-450-browser/` with empty `errors.json`."
+    ],
+    "critic_focus": [
+      "Confirm the board is compact and readable at `256x160` across active, ready-to-file, and filed states.",
+      "Confirm no fourth beat, save schema, planner, dashboard, route framework, or support-system drift landed.",
+      "Confirm first-season archive strip, atlas logged-route history, late-season station lintel, and nursery capstone hint remain intact."
+    ]
+  },
+  "critic_review": {
+    "completed_by": "critic-agent",
+    "completed_at": "2026-04-28",
+    "report": "docs/reports/2026-04-28-source-to-shore-station-container-review.md",
+    "verdict": "clean",
+    "findings": [],
+    "confirmed": [
+      "The station now uses a dedicated `source-to-shore-beta` board with `SOURCE TO SHORE`, exactly three Source to Shore beats, and `launchCard: null`.",
+      "Active, ready-to-file, and filed states remain driven by `resolveSourceToShoreState(save)` and existing Route v2 progress.",
+      "The first-season archive strip, atlas logged-route history, late-season station lintel, and nursery capstone hint remain intact.",
+      "No fourth beat, planner, dashboard, save schema, route framework, or support-system drift landed.",
+      "Native `256x160` active, ready-to-file, and filed browser proof is readable with empty browser errors."
+    ],
+    "proof": [
+      "`npm test -- --run src/test/field-season-board.test.ts src/test/runtime-smoke.test.ts src/test/save-snapshots.test.ts src/test/field-requests.test.ts -t 'Source to Shore|journal|debug save snapshots'`",
+      "`npm run build`",
+      "Reviewed `output/lane-1-main-450-browser/active-source-shelter.png`, `ready-source-shelter.png`, `filed-source-to-shore.png`, and empty `errors.json`."
+    ],
+    "promoted_queue_refs": [
+      "ECO-20260428-main-451",
+      "ECO-20260428-main-454",
+      "ECO-20260428-main-455"
+    ]
+  }
+}

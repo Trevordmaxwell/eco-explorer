@@ -1,0 +1,116 @@
+{
+  "packet_id": "ECO-PACKET-189",
+  "version": 4,
+  "created_at": "2026-04-28",
+  "created_by_role": "critic-agent",
+  "status": "DONE",
+  "title": "Lane 4 second-season route design",
+  "summary": "Prepare one next chapter-grade Route v2 outing or route design proof without requiring station shell changes first.",
+  "source_reports": [
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-04-28-filing-depth-catalog-guardrails-review.md",
+    "docs/reports/2026-04-28-second-season-route-design-scout.md",
+    "docs/reports/2026-04-28-second-season-route-design-proof.md",
+    "docs/reports/2026-04-28-second-season-route-design-review.md"
+  ],
+  "queue_refs": [
+    "ECO-20260428-scout-496",
+    "ECO-20260428-main-496",
+    "ECO-20260428-critic-496"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260428-scout-496",
+      "goal": "Scope the next route-design step: proof-only design, existing-route deepening, or one small chapter-grade outing.",
+      "why_now": "The catalog guardrails are now strong enough to consider more route authorship."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260428-main-496",
+      "goal": "Write the proof-only second-season route boundary report, adding focused test-only guards only if the proof finds a missing assertion.",
+      "why_now": "A plain catalog append after filed Source to Shore would desync route/map/journal behavior from the dedicated Source to Shore station board."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260428-critic-496",
+      "goal": "Review route design for save stability, station independence, and no hidden fourth beat.",
+      "why_now": "A new route direction must not smuggle in a broad planner."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/189-lane-4-second-season-route-design.json",
+    "src/engine/field-request-catalog.ts",
+    "src/engine/field-requests.ts",
+    "src/engine/field-request-controller.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/test/field-request-catalog.test.ts",
+    "src/test/field-requests.test.ts",
+    "src/test/field-request-controller.test.ts",
+    "src/test/save-snapshots.test.ts",
+    "docs/content-authoring.md",
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "progress.md"
+  ],
+  "completion_gate": [
+    "The post-Source-to-Shore route boundary is proof-closed before any new playable route is appended.",
+    "Route ids, save behavior, support behavior, and filed identities remain stable.",
+    "No station shell, geometry, broad content pack, or planner UI is required."
+  ],
+  "guardrails": [
+    "Do not add a fourth Source to Shore beat unless scout proves capacity first.",
+    "Keep route work catalog/controller-owned.",
+    "No save schema change without explicit blocker evidence.",
+    "Preserve canonical filed identities.",
+    "Do not append a new playable route after filed Dune Catch in this packet; prove the boundary instead."
+  ],
+  "scout_496_contract": {
+    "decision": "proof-only",
+    "handoff_report": "docs/reports/2026-04-28-second-season-route-design-scout.md",
+    "main_output": "docs/reports/2026-04-28-second-season-route-design-proof.md",
+    "runtime_change_allowed": false,
+    "optional_test_only_guards": [
+      "src/test/field-request-catalog.test.ts",
+      "src/test/field-requests.test.ts",
+      "src/test/field-request-controller.test.ts",
+      "src/test/field-season-board.test.ts",
+      "src/test/save-snapshots.test.ts"
+    ],
+    "proof_points": [
+      "Filed source-to-shore-dune-catch leaves no active field request, active outing, journal outing, route-marker target, or replay label.",
+      "Source to Shore remains exactly Source Shelter, Forest Release, and Dune Catch.",
+      "A future post-Source-to-Shore playable route needs an explicit station route-family boundary before a catalog append can be player-facing."
+    ]
+  },
+  "main_496_result": {
+    "status": "proof-closed",
+    "report": "docs/reports/2026-04-28-second-season-route-design-proof.md",
+    "runtime_changes": false,
+    "test_changes": false,
+    "durable_memory_update": ".agents/project-memory.md",
+    "verification": [
+      "npm run validate:agents",
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/save-snapshots.test.ts"
+    ]
+  },
+  "critic_496_result": {
+    "status": "clean",
+    "report": "docs/reports/2026-04-28-second-season-route-design-review.md",
+    "promoted_next": "ECO-20260428-scout-497",
+    "verification": [
+      "npm run validate:agents",
+      "npm test -- --run src/test/field-request-catalog.test.ts src/test/field-requests.test.ts src/test/field-request-controller.test.ts src/test/field-season-board.test.ts src/test/save-snapshots.test.ts"
+    ]
+  },
+  "post_packet_path": [
+    "If clean, proceed to route replay and support depth.",
+    "If station capacity is needed, hand it to lane 1."
+  ]
+}

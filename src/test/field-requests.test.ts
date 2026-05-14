@@ -1189,6 +1189,60 @@ function createRouteVariantMatrixCases(): RouteVariantMatrixCase[] {
       ],
       expectedFiledTextIncludes: ['Seep Moss Mat', 'Root Curtain', 'Sword Fern', 'forest shelter'],
     },
+    {
+      name: 'Held Dune keeps Dune Catch filing identity',
+      requestId: 'source-to-shore-dune-catch',
+      createContext: () => createCoastalContext(
+        [
+          ...HIGH_PASS_COMPLETED,
+          'treeline-high-pass',
+          'source-to-shore-source-shelter',
+          'source-to-shore-forest-release',
+        ],
+        'back-dune',
+      ),
+      activateWindow: (context) => {
+        context.save.worldStep = 6;
+        context.save.biomeVisits['coastal-scrub'] = 2;
+      },
+      activeTitle: 'Held Dune',
+      readyTitle: 'Dune Catch',
+      steps: [
+        {
+          zoneId: 'back-dune',
+          entryId: 'beach-grass',
+          expectedSlots: [{ slotId: 'dune-catch', entryId: 'beach-grass' }],
+        },
+        {
+          zoneId: 'windbreak-swale',
+          entryId: 'pacific-wax-myrtle',
+          expectedSlots: [
+            { slotId: 'dune-catch', entryId: 'beach-grass' },
+            { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+          ],
+        },
+        {
+          zoneId: 'forest-edge',
+          entryId: 'salmonberry',
+          expectedSlots: [
+            { slotId: 'dune-catch', entryId: 'beach-grass' },
+            { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+            { slotId: 'cool-edge', entryId: 'salmonberry' },
+          ],
+        },
+      ],
+      readyEvidenceSlots: [
+        { slotId: 'dune-catch', entryId: 'beach-grass' },
+        { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+        { slotId: 'cool-edge', entryId: 'salmonberry' },
+      ],
+      expectedFiledTextIncludes: [
+        'American Dunegrass',
+        'Pacific Wax Myrtle',
+        'Salmonberry',
+        'coastal shelter line',
+      ],
+    },
   ];
 }
 
@@ -1446,14 +1500,20 @@ describe('field requests', () => {
 
     const filedBoard = resolveFieldSeasonBoardState(biomeRegistry, filedSave);
     expect(filedBoard).toMatchObject({
-      complete: true,
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      progressLabel: 'BETA',
+      complete: false,
       targetBiomeId: 'treeline',
       notebookReady: null,
       replayNote: null,
-      launchCard: {
-        title: 'SOURCE SHELTER',
-        progressLabel: 'BETA',
-      },
+      launchCard: null,
+      activeBeatId: 'source-shelter',
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
 
     const filedState = resolveWorldMapState(filedSave);
@@ -1654,6 +1714,107 @@ describe('field requests', () => {
     expect(state.fieldRequestHint).toBeNull();
     expect(state.routeMarkerLocationId).toBe('treeline');
     expect(state.routeReplayLabel).toBe('Today: Source Shelter');
+  });
+
+  it('keeps Source to Shore ready-to-file states map-calm with route marker selected', () => {
+    const readyCases = [
+      {
+        label: 'source-shelter',
+        completedFieldRequestIds: [...HIGH_PASS_COMPLETED, 'treeline-high-pass'],
+        requestId: 'source-to-shore-source-shelter',
+        beat: 'source-shelter',
+        title: 'Source Shelter',
+        focusedWorldMapLocationId: 'treeline',
+        evidenceSlots: [
+          { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+          { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+          { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+        ],
+      },
+      {
+        label: 'forest-release',
+        completedFieldRequestIds: [
+          ...HIGH_PASS_COMPLETED,
+          'treeline-high-pass',
+          'source-to-shore-source-shelter',
+        ],
+        requestId: 'source-to-shore-forest-release',
+        beat: 'forest-release',
+        title: 'Forest Release',
+        focusedWorldMapLocationId: 'forest',
+        evidenceSlots: [
+          { slotId: 'seep-hold', entryId: 'seep-stone' },
+          { slotId: 'root-filter', entryId: 'root-curtain' },
+          { slotId: 'cool-release', entryId: 'salmonberry' },
+        ],
+      },
+      {
+        label: 'dune-catch',
+        completedFieldRequestIds: [
+          ...HIGH_PASS_COMPLETED,
+          'treeline-high-pass',
+          'source-to-shore-source-shelter',
+          'source-to-shore-forest-release',
+        ],
+        requestId: 'source-to-shore-dune-catch',
+        beat: 'dune-catch',
+        title: 'Dune Catch',
+        focusedWorldMapLocationId: 'coastal-scrub',
+        evidenceSlots: [
+          { slotId: 'dune-catch', entryId: 'beach-grass' },
+          { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+          { slotId: 'cool-edge', entryId: 'salmonberry' },
+        ],
+      },
+    ] as const;
+
+    for (const readyCase of readyCases) {
+      const save = createNewSaveState(`field-request-state-source-to-shore-${readyCase.label}-ready-map-calm`);
+      save.completedFieldRequestIds = [...readyCase.completedFieldRequestIds];
+      save.purchasedUpgradeIds = ['route-marker'];
+      save.selectedOutingSupportId = 'route-marker';
+      save.routeV2Progress = {
+        requestId: readyCase.requestId,
+        status: 'ready-to-synthesize',
+        landmarkEntryIds: [],
+        evidenceSlots: [...readyCase.evidenceSlots],
+      };
+
+      const state = resolveFieldRequestState(biomeRegistry, ecoWorldMap, save, {
+        sceneMode: 'world-map',
+        overlayMode: 'playing',
+        sceneBiomeId: 'beach',
+        lastBiomeId: 'beach',
+        sceneZoneId: null,
+        scenePlayerX: 0,
+        scenePlayerY: 0,
+        hasFieldRequestNotice: false,
+        focusedWorldMapLocationId: readyCase.focusedWorldMapLocationId,
+      });
+
+      expect(resolveSourceToShoreState(save)).toMatchObject({
+        beat: readyCase.beat,
+        phase: 'ready-to-file',
+        progressLabel: 'NOTE',
+        routeBoardTargetBiomeId: null,
+      });
+      expect(state.activeFieldRequest).toMatchObject({
+        id: readyCase.requestId,
+        title: readyCase.title,
+        progressLabel: 'Ready To File',
+        routeV2: {
+          status: 'ready-to-synthesize',
+        },
+      });
+      expect(state.journalFieldRequest).toMatchObject({
+        id: readyCase.requestId,
+        title: readyCase.title,
+        progressLabel: 'Ready To File',
+      });
+      expect(state.activeOuting).toBeNull();
+      expect(state.routeMarkerLocationId).toBeNull();
+      expect(state.routeReplayLabel).toBeNull();
+    }
   });
 
   it('normalizes mixed old High Pass saves without skipping route phases', () => {
@@ -3749,6 +3910,52 @@ describe('field requests', () => {
     context.currentZoneId = 'creek-bend';
     expect(getHandLensNotebookFit(context, 'sword-fern')).toBe('Notebook fit: cool release');
     expect(prefersHandLensActiveRouteEntry(context, 'sword-fern')).toBe(true);
+    expect(prefersHandLensActiveRouteEntry(context, 'salmonberry')).toBe(false);
+  });
+
+  it('lets Held Dune prefer sand-capture carriers without changing Dune Catch filing order', () => {
+    const context = createCoastalContext(
+      [
+        'forest-expedition-upper-run',
+        'forest-season-threads',
+        'treeline-high-pass',
+        'source-to-shore-source-shelter',
+        'source-to-shore-forest-release',
+      ],
+      'back-dune',
+    );
+    context.save.worldStep = 6;
+    context.save.biomeVisits['coastal-scrub'] = 2;
+
+    expect(resolveActiveFieldRequest(context)).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Held Dune',
+      summary: 'Trapped sand makes dune grass, swale shrubs, and the cool edge easier to read today.',
+    });
+    expect(getHandLensNotebookFit(context, 'beach-grass')).toBe('Notebook fit: dune catch');
+    expect(getHandLensNotebookFit(context, 'dune-lupine')).toBe('Notebook fit: dune catch');
+    expect(prefersHandLensActiveRouteEntry(context, 'beach-grass')).toBe(true);
+    expect(prefersHandLensActiveRouteEntry(context, 'dune-lupine')).toBe(false);
+
+    expect(advanceActiveFieldRequest(context, 'inspect', 'beach-grass')).toBeNull();
+    expect(context.save.routeV2Progress?.evidenceSlots).toEqual([
+      { slotId: 'dune-catch', entryId: 'beach-grass' },
+    ]);
+
+    context.currentZoneId = 'windbreak-swale';
+    expect(getHandLensNotebookFit(context, 'pacific-wax-myrtle')).toBe('Notebook fit: swale hold');
+    expect(getHandLensNotebookFit(context, 'coyote-brush')).toBe('Notebook fit: swale hold');
+    expect(prefersHandLensActiveRouteEntry(context, 'pacific-wax-myrtle')).toBe(true);
+    expect(prefersHandLensActiveRouteEntry(context, 'coyote-brush')).toBe(false);
+
+    expect(advanceActiveFieldRequest(context, 'inspect', 'pacific-wax-myrtle')).toBeNull();
+    expect(context.save.routeV2Progress?.evidenceSlots).toEqual([
+      { slotId: 'dune-catch', entryId: 'beach-grass' },
+      { slotId: 'swale-hold', entryId: 'pacific-wax-myrtle' },
+    ]);
+
+    context.currentZoneId = 'forest-edge';
+    expect(getHandLensNotebookFit(context, 'salmonberry')).toBe('Notebook fit: cool edge');
     expect(prefersHandLensActiveRouteEntry(context, 'salmonberry')).toBe(false);
   });
 

@@ -67,6 +67,80 @@ describe('field request controller', () => {
     }
   });
 
+  it('makes support notices route-aware without implying active hunting once a note is ready', () => {
+    const activeSave = createNewSaveState('field-request-controller-source-to-shore-support-notice');
+    activeSave.completedFieldRequestIds = ['treeline-high-pass'];
+    const activeController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, activeSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'dwarf-shrub',
+      scenePlayerX: 92,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(activeController.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+      biomeName: 'Treeline Pass',
+      progressLabel: '0/3 clues',
+      routeV2: {
+        status: 'gathering',
+      },
+    });
+    expect(getOutingSupportNoticeText('route-marker', activeController.activeFieldRequest)).toBe(
+      'Marks Treeline Pass.',
+    );
+    expect(getOutingSupportNoticeText('hand-lens', activeController.activeFieldRequest)).toBe(
+      'Highlights Source Shelter clues.',
+    );
+    expect(getOutingSupportNoticeText('note-tabs', activeController.activeFieldRequest)).toBe(
+      '0/3 clues visible.',
+    );
+    expect(getOutingSupportNoticeText('place-tab', activeController.activeFieldRequest)).toBe(
+      'Keeps Source Shelter question.',
+    );
+
+    const readySave = createNewSaveState('field-request-controller-source-to-shore-support-ready-notice');
+    readySave.completedFieldRequestIds = ['treeline-high-pass'];
+    readySave.routeV2Progress = {
+      requestId: 'source-to-shore-source-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+    const readyController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, readySave, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: null,
+      scenePlayerX: 92,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(readyController.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      progressLabel: 'Ready To File',
+      routeV2: {
+        status: 'ready-to-synthesize',
+      },
+    });
+    for (const supportId of ['route-marker', 'hand-lens', 'note-tabs', 'place-tab'] as const) {
+      expect(getOutingSupportNoticeText(supportId, readyController.activeFieldRequest)).toBe(
+        'Route note is ready.',
+      );
+    }
+  });
+
   it('prefers active process-only alternates for hand lens without widening other supports', () => {
     const handLensSave = createNewSaveState('field-request-controller-thaw-window-preference');
     handLensSave.selectedOutingSupportId = 'hand-lens';
@@ -1365,6 +1439,207 @@ describe('field request controller', () => {
       label: 'NOTEBOOK J',
       title: 'Thaw Window',
       variant: 'default',
+    });
+  });
+
+  it('keeps Source to Shore support behavior split between route-marker, hand-lens, and note-tabs', () => {
+    const routeMarkerSave = createNewSaveState('field-request-controller-source-to-shore-route-marker');
+    routeMarkerSave.selectedOutingSupportId = 'route-marker';
+    routeMarkerSave.purchasedUpgradeIds.push('route-marker');
+    routeMarkerSave.completedFieldRequestIds = ['treeline-high-pass'];
+
+    let controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, routeMarkerSave, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: null,
+      scenePlayerX: 0,
+      scenePlayerY: 0,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(controller.selectedSupportId).toBe('route-marker');
+    expect(controller.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Source Shelter',
+    });
+    expect(controller.routeMarkerLocationId).toBe('treeline');
+    expect(controller.routeReplayLabel).toBe('Today: Source Shelter');
+    expect(controller.handLensContext).toBeNull();
+
+    routeMarkerSave.routeV2Progress = {
+      requestId: 'source-to-shore-source-shelter',
+      status: 'ready-to-synthesize',
+      landmarkEntryIds: [],
+      evidenceSlots: [
+        { slotId: 'rime-source', entryId: 'frost-heave-boulder' },
+        { slotId: 'lee-watch', entryId: 'hoary-marmot' },
+        { slotId: 'talus-hold', entryId: 'talus-cushion-pocket' },
+      ],
+    };
+
+    controller = resolveFieldRequestController(biomeRegistry, ecoWorldMap, routeMarkerSave, {
+      sceneMode: 'world-map',
+      overlayMode: 'playing',
+      sceneBiomeId: 'forest',
+      lastBiomeId: 'forest',
+      sceneZoneId: null,
+      scenePlayerX: 0,
+      scenePlayerY: 0,
+      hasFieldRequestNotice: false,
+      focusedWorldMapLocationId: 'treeline',
+    });
+
+    expect(controller.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      progressLabel: 'Ready To File',
+    });
+    expect(controller.routeMarkerLocationId).toBeNull();
+    expect(controller.routeReplayLabel).toBeNull();
+
+    const handLensSave = createNewSaveState('field-request-controller-source-to-shore-hand-lens');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = ['treeline-high-pass'];
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'dwarf-shrub',
+      scenePlayerX: 92,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getHandLensNotebookFitForEntry(handLensController, 'frost-heave-boulder', 'dwarf-shrub')).toBe(
+      'Notebook fit: rime source',
+    );
+
+    const noteTabsSave = createNewSaveState('field-request-controller-source-to-shore-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = ['treeline-high-pass'];
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'treeline',
+      lastBiomeId: 'treeline',
+      sceneZoneId: 'dwarf-shrub',
+      scenePlayerX: 92,
+      scenePlayerY: 104,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(getFieldRequestHintState(noteTabsController, null)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '0/3 clues',
+      variant: 'support-biased',
+    });
+  });
+
+  it('lets Held Dune hand lens prefer the active sand-capture clue without widening note-tabs', () => {
+    const completedFieldRequestIds = [
+      'forest-expedition-upper-run',
+      'forest-season-threads',
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+    ];
+    const candidates = [
+      {
+        entityId: 'near-lupine',
+        entryId: 'dune-lupine',
+        x: 0,
+        y: 0,
+        w: 4,
+        h: 4,
+        removed: false,
+      },
+      {
+        entityId: 'held-grass',
+        entryId: 'beach-grass',
+        x: 10,
+        y: 0,
+        w: 4,
+        h: 4,
+        removed: false,
+      },
+    ];
+
+    const handLensSave = createNewSaveState('field-request-controller-held-dune-hand-lens');
+    handLensSave.selectedOutingSupportId = 'hand-lens';
+    handLensSave.completedFieldRequestIds = completedFieldRequestIds.slice();
+    handLensSave.worldStep = 6;
+    handLensSave.biomeVisits['coastal-scrub'] = 2;
+
+    const handLensController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, handLensSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'coastal-scrub',
+      lastBiomeId: 'coastal-scrub',
+      sceneZoneId: 'back-dune',
+      scenePlayerX: 4,
+      scenePlayerY: 2,
+      hasFieldRequestNotice: false,
+    });
+
+    expect(handLensController.activeFieldRequest).toMatchObject({
+      id: 'source-to-shore-dune-catch',
+      title: 'Held Dune',
+    });
+    expect(getHandLensNotebookFitForEntry(handLensController, 'dune-lupine', 'back-dune')).toBe(
+      'Notebook fit: dune catch',
+    );
+    expect(getHandLensNotebookFitForEntry(handLensController, 'beach-grass', 'back-dune')).toBe(
+      'Notebook fit: dune catch',
+    );
+    expect(prefersHandLensActiveEntry(handLensController, 'beach-grass', 'back-dune')).toBe(true);
+    expect(prefersHandLensActiveEntry(handLensController, 'dune-lupine', 'back-dune')).toBe(false);
+
+    const handLensSelection = resolveInspectTargetSelection(
+      handLensController,
+      candidates,
+      { x: 4, y: 2 },
+      16,
+      () => 'back-dune',
+    );
+    expect(handLensSelection.nearestInspectableEntityId).toBe('held-grass');
+    expect(handLensSelection.supportRetargetsInspect).toBe(true);
+    expect(handLensSelection.supportPrefersActiveClue).toBe(true);
+
+    const noteTabsSave = createNewSaveState('field-request-controller-held-dune-note-tabs');
+    noteTabsSave.selectedOutingSupportId = 'note-tabs';
+    noteTabsSave.completedFieldRequestIds = completedFieldRequestIds.slice();
+    noteTabsSave.worldStep = 6;
+    noteTabsSave.biomeVisits['coastal-scrub'] = 2;
+
+    const noteTabsController = resolveFieldRequestController(biomeRegistry, ecoWorldMap, noteTabsSave, {
+      sceneMode: 'biome',
+      overlayMode: 'playing',
+      sceneBiomeId: 'coastal-scrub',
+      lastBiomeId: 'coastal-scrub',
+      sceneZoneId: 'back-dune',
+      scenePlayerX: 4,
+      scenePlayerY: 2,
+      hasFieldRequestNotice: false,
+    });
+    const noteTabsSelection = resolveInspectTargetSelection(
+      noteTabsController,
+      candidates,
+      { x: 4, y: 2 },
+      16,
+      () => 'back-dune',
+    );
+
+    expect(prefersHandLensActiveEntry(noteTabsController, 'beach-grass', 'back-dune')).toBe(false);
+    expect(noteTabsSelection.nearestInspectableEntityId).toBe('near-lupine');
+    expect(noteTabsSelection.supportRetargetsInspect).toBe(false);
+    expect(noteTabsSelection.supportPrefersActiveClue).toBe(false);
+    expect(getFieldRequestHintState(noteTabsController, noteTabsSelection)).toMatchObject({
+      label: 'NOTEBOOK J',
+      title: '0/3 clues',
+      variant: 'support-biased',
     });
   });
 

@@ -751,6 +751,16 @@ export const coastalScrubBiome: BiomeDefinition = {
       zoneId: 'shrub-thicket',
     },
     {
+      id: 'berry-cover-chain',
+      title: 'Berry Cover Chain',
+      entryIds: ['beach-strawberry', 'nootka-rose', 'salmonberry', 'deer-mouse'],
+      minimumDiscoveries: 3,
+      summary:
+        'Low fruit, rose hips, and edge berries give small mammals food beside cover.',
+      observationPrompt:
+        'Where do berries sit close to cover?',
+    },
+    {
       id: 'runner-hold-start',
       title: 'Runner Hold',
       entryIds: ['beach-pea', 'beach-grass', 'dune-lupine'],

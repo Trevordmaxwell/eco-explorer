@@ -51,13 +51,16 @@ class FakeCanvasContext {
   imageSmoothingEnabled = false;
   textBaseline: CanvasTextBaseline = 'alphabetic';
   readonly drawnText: string[] = [];
+  readonly drawnTextRecords: Array<{ text: string; x: number; y: number }> = [];
 
   clearRect(): void {
     this.drawnText.length = 0;
+    this.drawnTextRecords.length = 0;
   }
   fillRect(): void {}
-  fillText(text: string): void {
+  fillText(text: string, x = 0, y = 0): void {
     this.drawnText.push(text);
+    this.drawnTextRecords.push({ text, x, y });
   }
   drawImage(): void {}
   save(): void {}
@@ -104,6 +107,10 @@ class FakeCanvas extends FakeEventTarget {
 
   getDrawnText(): string[] {
     return [...this.context.drawnText];
+  }
+
+  getDrawnTextRecords(): Array<{ text: string; x: number; y: number }> {
+    return [...this.context.drawnTextRecords];
   }
 }
 
@@ -181,6 +188,30 @@ function selectMenuAction(fakeWindow: FakeWindow, actionId: string): any {
 
   expect(state.menu?.selectedAction).toBe(actionId);
   return state;
+}
+
+function minDrawnTextY(canvas: FakeCanvas, text: string): number {
+  const ys = canvas
+    .getDrawnTextRecords()
+    .filter((record) => record.text === text)
+    .map((record) => record.y);
+
+  expect(ys.length, `Expected drawn text "${text}" to be present`).toBeGreaterThan(0);
+  return Math.min(...ys);
+}
+
+function minDrawnTextYMatching(
+  canvas: FakeCanvas,
+  label: string,
+  predicate: (text: string) => boolean,
+): number {
+  const ys = canvas
+    .getDrawnTextRecords()
+    .filter((record) => predicate(record.text))
+    .map((record) => record.y);
+
+  expect(ys.length, `Expected drawn text matching "${label}" to be present`).toBeGreaterThan(0);
+  return Math.min(...ys);
 }
 
 function tapCanvas(canvas: FakeCanvas, x: number, y: number): void {
@@ -4679,11 +4710,19 @@ describe('runtime smoke loop', () => {
     state = readState(fakeWindow);
     expect(state.fieldStation?.selectedOutingSupportId).toBe('note-tabs');
     expect(state.fieldStation?.selectedOutingSupportLabel).toBe('NOTE TABS');
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'OUTING SUPPORT',
+      text: 'Go To Coastal Scrub visible.',
+    });
 
     tapKey(fakeWindow, 'Enter');
     state = readState(fakeWindow);
     expect(state.fieldStation?.selectedOutingSupportId).toBe('route-marker');
     expect(state.fieldStation?.selectedOutingSupportLabel).toBe('ROUTE MARKER');
+    expect(state.fieldRequestNotice).toMatchObject({
+      title: 'OUTING SUPPORT',
+      text: 'Marks Coastal Scrub.',
+    });
 
     tapKey(fakeWindow, 'Escape');
     state = readState(fakeWindow);
@@ -6561,13 +6600,17 @@ describe('runtime smoke loop', () => {
       });
       expect(state.fieldStation?.selectedOutingSupportId).toBe('hand-lens');
       expect(state.fieldStation?.routeBoard).toMatchObject({
+        routeId: 'source-to-shore-beta',
+        routeTitle: 'SOURCE TO SHORE',
         targetBiomeId: 'treeline',
         nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
-        launchCard: {
-          title: 'SOURCE SHELTER',
-          progressLabel: 'BETA',
-          summary: 'Treeline Pass starts the Source to Shore beta thread.',
-        },
+        progressLabel: 'BETA',
+        launchCard: null,
+        beats: [
+          { id: 'source-shelter', title: 'Source Shelter', status: 'active' },
+          { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+          { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+        ],
       });
 
       tapKey(fakeWindow, 'ArrowUp');
@@ -7553,13 +7596,17 @@ describe('runtime smoke loop', () => {
     });
     expect(state.fieldStation?.atlas?.note).toBe('Beta: start Source Shelter at Treeline Pass.');
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
       targetBiomeId: 'treeline',
       nextDirection: 'Next: travel to Treeline Pass and log rime source, lee watch, and talus hold.',
-      launchCard: {
-        title: 'SOURCE SHELTER',
-        progressLabel: 'BETA',
-        summary: 'Treeline Pass starts the Source to Shore beta thread.',
-      },
+      progressLabel: 'BETA',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
 
     tapKey(fakeWindow, 'ArrowRight');
@@ -7590,6 +7637,77 @@ describe('runtime smoke loop', () => {
     );
   });
 
+  it('keeps the Source to Shore station subtitle clear of the station tabs', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-source-to-shore-station-layout-seed');
+    seededSave.completedFieldRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+    ];
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'world-map');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'field-station');
+    tapKey(fakeWindow, 'Enter');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.subtitle).toBe('High Pass filed from Treeline Pass.');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'active' },
+        { id: 'forest-release', title: 'Forest Release', status: 'upcoming' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
+      progressLabel: 'BETA',
+    });
+
+    const fakeCanvas = canvas as unknown as FakeCanvas;
+    const subtitleY = minDrawnTextYMatching(
+      fakeCanvas,
+      'Source to Shore station subtitle',
+      (text) => text.startsWith('WELCOME BACK: High Pass filed.'),
+    );
+    const firstTabY = Math.min(minDrawnTextY(fakeCanvas, 'SEASON'), minDrawnTextY(fakeCanvas, 'NURSERY'));
+
+    expect(firstTabY - subtitleY).toBeGreaterThanOrEqual(14);
+  });
+
+  it('draws fresh journal route progress labels without trimming the stage count', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-journal-progress-layout-seed');
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'j');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('journal');
+    expect(state.journal?.fieldRequest).toMatchObject({
+      title: 'Shore Shelter',
+      progressLabel: '0/3 stages',
+    });
+
+    const drawnText = (canvas as unknown as FakeCanvas).getDrawnText();
+    expect(drawnText).toContain('Shore Shelter');
+    expect(drawnText).toContain('0/3 stages');
+    expect(drawnText.some((text) => text.startsWith('0/3') && text.includes('…'))).toBe(false);
+  });
+
   it('shows the Cool Release Source to Shore variant during the wet forest revisit window', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-source-to-shore-cool-release-seed');
@@ -7617,14 +7735,17 @@ describe('runtime smoke loop', () => {
       summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
     });
     expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
       targetBiomeId: 'forest',
       summary: 'Mist and damp ground make seep, roots, and cool release easier to trace today.',
       nextDirection: 'Next: travel to Forest Trail and trace seep hold, root filter, and cool release.',
-      launchCard: {
-        title: 'COOL RELEASE',
-        progressLabel: 'BETA',
-        summary: 'Mist highlights seep, root filter, and cool release.',
-      },
+      progressLabel: 'BETA',
+      launchCard: null,
+      beats: [
+        { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+        { id: 'forest-release', title: 'Cool Release', status: 'active' },
+        { id: 'dune-catch', title: 'Dune Catch', status: 'upcoming' },
+      ],
     });
     expect(state.fieldStation?.atlas?.note).toBe('Cool Release: trace seep, roots, cool forest.');
     expect(state.fieldStation?.seasonWrap).toEqual({
@@ -7808,12 +7929,17 @@ describe('runtime smoke loop', () => {
         variant: 'default',
       });
       expect(state.fieldStation?.routeBoard).toMatchObject({
+        routeId: 'source-to-shore-beta',
+        routeTitle: 'SOURCE TO SHORE',
         complete: true,
         targetBiomeId: null,
-        launchCard: {
-          title: 'SOURCE TO SHORE',
-          progressLabel: 'FILED',
-        },
+        progressLabel: 'FILED',
+        launchCard: null,
+        beats: [
+          { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
+          { id: 'forest-release', title: 'Forest Release', status: 'done' },
+          { id: 'dune-catch', title: 'Dune Catch', status: 'done' },
+        ],
       });
       expect(state.worldMap).toBeNull();
     }
