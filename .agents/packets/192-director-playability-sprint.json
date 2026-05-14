@@ -1,0 +1,173 @@
+{
+  "packet_id": "ECO-PACKET-192",
+  "version": 1,
+  "created_at": "2026-05-14",
+  "created_by_role": "critic-agent",
+  "status": "READY",
+  "title": "Director playability sprint",
+  "summary": "Park the next lane-parallel sprint behind beta integration signoff, with handheld readability as the first gate before new breadth.",
+  "source_reports": [
+    "docs/reports/2026-05-14-director-playability-sprint-plan.md"
+  ],
+  "queue_refs": [
+    "ECO-20260514-scout-01",
+    "ECO-20260514-main-01",
+    "ECO-20260514-critic-01",
+    "ECO-20260514-scout-02",
+    "ECO-20260514-main-02",
+    "ECO-20260514-main-03",
+    "ECO-20260514-critic-02",
+    "ECO-20260514-scout-03",
+    "ECO-20260514-main-04",
+    "ECO-20260514-main-05",
+    "ECO-20260514-critic-03",
+    "ECO-20260514-scout-04",
+    "ECO-20260514-main-06",
+    "ECO-20260514-main-07",
+    "ECO-20260514-critic-04"
+  ],
+  "depends_on": [
+    "ECO-20260428-critic-489"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260514-scout-01",
+      "goal": "Scope lane 1's handheld readability repair contract from the director browser proof.",
+      "why_now": "The station/title/journal surfaces are the only obvious playability blockers after the beta expansion wave."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260514-main-01",
+      "goal": "Repair the filed Source to Shore station, title prompt, and journal route-card readability without changing progression.",
+      "why_now": "The next breadth wave should start from a clean handheld surface."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260514-critic-01",
+      "goal": "Review lane 1's native browser proof and decide whether the visual gate is closed.",
+      "why_now": "Visual clarity is the director-level gate for opening parallel breadth."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260514-scout-02",
+      "goal": "Scope lane 2's compact atlas/archive source-risk contract.",
+      "why_now": "Content richness should focus on payoff and source safety, not more surface density."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260514-main-02",
+      "goal": "Add selected sketchbook/archive payoff for route-defining entries only.",
+      "why_now": "Small archive rewards improve replay without widening station or journal layout."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260514-main-03",
+      "goal": "Add one high-value close-look payoff if the scout confirms source and copy fit.",
+      "why_now": "One visual content reward is safer than another broad text pack."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260514-critic-02",
+      "goal": "Review lane 2 for science, copy budgets, and archive/journal crowding.",
+      "why_now": "Content density must remain kid-readable at handheld scale."
+    },
+    {
+      "step": 8,
+      "queue_id": "ECO-20260514-scout-03",
+      "goal": "Proof tundra snow-edge and meltwater wayfinding before adding any cue.",
+      "why_now": "Lane 3's next value is clarity, not more solved forest density."
+    },
+    {
+      "step": 9,
+      "queue_id": "ECO-20260514-main-04",
+      "goal": "Implement one tiny tundra-local relief cue only if proof finds a gap.",
+      "why_now": "Any spatial fix should be smaller than a traversal framework change."
+    },
+    {
+      "step": 10,
+      "queue_id": "ECO-20260514-main-05",
+      "goal": "Consolidate proof for the full forest giant-tree loop and add only one local nudge if needed.",
+      "why_now": "The forest vertical family is dense enough that proof-only closure may be success."
+    },
+    {
+      "step": 11,
+      "queue_id": "ECO-20260514-critic-03",
+      "goal": "Review vertical proof, prompt competition, recovery paths, and lane boundaries.",
+      "why_now": "Vertical clarity can degrade quickly at 256x160 if cues stack."
+    },
+    {
+      "step": 12,
+      "queue_id": "ECO-20260514-scout-04",
+      "goal": "Define the post-Source-to-Shore route-family boundary before any playable route expansion.",
+      "why_now": "Filed Dune Catch must stay terminal until a route-family handoff is designed."
+    },
+    {
+      "step": 13,
+      "queue_id": "ECO-20260514-main-06",
+      "goal": "Extract route replay-note resolution from the station board into a small route-owned helper.",
+      "why_now": "Board assembly is absorbing lane 4 route semantics and should be decoupled before breadth."
+    },
+    {
+      "step": 14,
+      "queue_id": "ECO-20260514-main-07",
+      "goal": "Proof filed Source to Shore revisit memory without reopening an active route.",
+      "why_now": "Filed memories may need a quiet payoff, but not a fourth beat or new route state."
+    },
+    {
+      "step": 15,
+      "queue_id": "ECO-20260514-critic-04",
+      "goal": "Review route-loop cohesion across active, ready, filed, replay, and support states.",
+      "why_now": "Lane 4 should close with route boundaries clear before anyone adds a new route."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/project-memory.md",
+    ".agents/packets/192-director-playability-sprint.json",
+    "docs/reports/2026-05-14-director-playability-sprint-plan.md",
+    "progress.md",
+    "src/engine/field-season-board.ts",
+    "src/engine/field-station-session.ts",
+    "src/engine/overlay-render.ts",
+    "src/content/biomes/beach.ts",
+    "src/content/biomes/coastal-scrub.ts",
+    "src/content/biomes/forest.ts",
+    "src/content/biomes/tundra.ts",
+    "src/engine/close-look.ts",
+    "src/engine/source-to-shore-state.ts",
+    "src/engine/field-request-state.ts",
+    "src/test/runtime-smoke.test.ts",
+    "src/test/content-quality.test.ts",
+    "src/test/field-season-board.test.ts",
+    "src/test/field-request-catalog.test.ts"
+  ],
+  "completion_gate": [
+    "Packet 182 is closed or explicitly promotes a blocker from this packet.",
+    "Native 256x160 browser proof shows no critical title, station, journal, or route-card overlap.",
+    "No new playable route, station page, save schema, content sprawl, traversal framework, inventory, or planner lands in this sprint."
+  ],
+  "guardrails": [
+    "Packet 182 remains the immediate gate before this sprint starts.",
+    "Treat handheld readability as a playability blocker, not optional polish.",
+    "Lane 2 stays content-first and does not edit station, route, map, save, or overlay layout.",
+    "Lane 3 stays proof-first and does not absorb route or station work.",
+    "Lane 4 defines route boundaries before adding playable route breadth.",
+    "Use xhigh only for lane 1 or for unexpected cross-lane blockers; the other lanes should run high."
+  ],
+  "lane_effort": {
+    "lane-1": "xhigh",
+    "lane-2": "high",
+    "lane-3": "high",
+    "lane-4": "high"
+  },
+  "post_packet_path": [
+    "If clean, activate the parked lane items in lane order while keeping one runner per lane.",
+    "If the visual gate fails, promote lane 1's repair before opening lane 2, lane 3, or lane 4 breadth."
+  ]
+}

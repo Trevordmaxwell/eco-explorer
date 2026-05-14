@@ -1,13 +1,14 @@
 {
   "packet_id": "ECO-PACKET-182",
-  "version": 1,
+  "version": 2,
   "created_at": "2026-04-28",
   "created_by_role": "critic-agent",
   "status": "READY",
   "title": "Beta expansion integration signoff",
   "summary": "Run a final integration proof after the twelve-packet beta expansion runway finishes, recording tests, browser proof, and remaining blockers.",
   "source_reports": [
-    "docs/reports/2026-04-28-beta-expansion-director-megapush.md"
+    "docs/reports/2026-04-28-beta-expansion-director-megapush.md",
+    "docs/reports/2026-05-14-director-playability-sprint-plan.md"
   ],
   "queue_refs": [
     "ECO-20260428-scout-489",
@@ -61,10 +62,12 @@
   "completion_gate": [
     "All lane packets in this wave have clean critic review or explicit blockers.",
     "Final report records agent validation, full tests, science check, build, browser proof needs, and remaining risk.",
+    "Native 256x160 proof covers title, first-play task strip, filed Source to Shore station, world map, and Source Shelter journal states.",
     "No hidden follow-up is left out of the queue."
   ],
   "guardrails": [
     "Integration proof only unless a tiny blocker fix is explicitly scoped.",
+    "Treat confirmed station/title/journal overlap as a playability blocker, not optional polish.",
     "Do not add gameplay features during signoff.",
     "Do not hide known issues in prose.",
     "Open only smallest follow-up blockers if needed."

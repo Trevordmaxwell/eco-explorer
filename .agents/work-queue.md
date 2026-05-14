@@ -65,6 +65,7 @@ Acceptance:
 Note:
 
 - Promoted after director review confirmed packets `181`, `185`, `188`, and `191` are done.
+- Director browser pass on `2026-05-14` found native `256x160` station/title/journal readability risks; include those surfaces in the packet `182` checklist before opening the next lane-parallel sprint.
 
 ## Blocked
 
@@ -124,6 +125,321 @@ Acceptance:
 
 - Confirms no hidden blockers remain.
 - Marks packet `182` done or opens smallest explicit blockers.
+
+### ECO-20260514-scout-01
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 scout: Handheld readability repair contract`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260428-critic-489`
+- Recommended effort: `xhigh`
+
+Goal:
+
+- Turn the director browser proof into the smallest lane-1 repair contract for filed Source to Shore station readability, title guidance fit, and the Source Shelter journal route card.
+
+Acceptance:
+
+- Names exact surfaces, screenshots, and tests required for the repair.
+- Keeps scope inside handheld UI clarity and avoids progression, route, content, save, or station-page expansion.
+
+### ECO-20260514-main-01
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 implement: Critical handheld readability repairs`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-scout-01`
+- Recommended effort: `xhigh`
+
+Goal:
+
+- Repair the filed Source to Shore station overlap plus the title and journal route-card fit issues at native `256x160`.
+
+Acceptance:
+
+- Native browser proof shows no critical overlap on title, first-play, filed Dune Catch station, and Source Shelter journal states.
+- Route/progression/debug state remains behaviorally stable and focused tests plus build pass.
+
+### ECO-20260514-critic-01
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 review: Handheld readability gate`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-01`
+- Recommended effort: `xhigh`
+
+Goal:
+
+- Review lane 1's visual repair and decide whether the sprint can open lane-parallel breadth.
+
+Acceptance:
+
+- Confirms native proof, tests, build, and no station/progression drift.
+- Opens smallest explicit blockers if any key surface still overlaps or clips.
+
+### ECO-20260514-scout-02
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `L2 scout: Atlas parity and source-risk contract`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260428-critic-489`
+- Recommended effort: `high`
+
+Goal:
+
+- Scope compact archive/sketchbook payoff and source-risk checks for entries that lack strong existing atlas value.
+
+Acceptance:
+
+- Identifies a small content-only target set, with science-ledger risks and copy budgets called out.
+- Avoids station, route, world-map, save, broad overlay, and progression files.
+
+### ECO-20260514-main-02
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `L2 implement: Compact sketchbook archive parity`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-scout-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Add selected sketchbook or archive payoff lines for route-defining and habitat-defining entries only.
+
+Acceptance:
+
+- Stays in content, source ledger, and content-focused tests.
+- Improves payoff without adding ecosystem-note crowding or new journal surfaces.
+
+### ECO-20260514-main-03
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P2`
+- Title: `L2 implement: One close-look payoff`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Add at most one high-value close-look card if the scout contract confirms source and copy fit.
+
+Acceptance:
+
+- Reuses the existing close-look seam and focused tests.
+- Adds no new overlay, journal shell, route behavior, or station behavior.
+
+### ECO-20260514-critic-02
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `L2 review: Content richness science signoff`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-03`
+- Recommended effort: `high`
+
+Goal:
+
+- Review lane 2's content payoff for science safety, copy budgets, and journal/archive crowding.
+
+Acceptance:
+
+- Confirms focused content tests, science check, build, and lane independence.
+- Opens smallest source or readability blockers if needed.
+
+### ECO-20260514-scout-03
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 scout: Tundra snow-edge wayfinding proof`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260428-critic-489`
+- Recommended effort: `high`
+
+Goal:
+
+- Proof the current tundra snow-edge, snow-meadow, thaw-skirt, and meltwater-edge run at native `256x160`.
+
+Acceptance:
+
+- Decides whether proof-only closure is enough or one tiny tundra-local cue is needed.
+- Leaves route, station, save, and broad traversal architecture untouched.
+
+### ECO-20260514-main-04
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 implement: Tundra relief clarity pass`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-scout-03`
+- Recommended effort: `high`
+
+Goal:
+
+- If scout proof finds a gap, add one quiet tundra-local recovery cue or placement nudge.
+
+Acceptance:
+
+- Native proof and focused tundra/runtime tests confirm readability.
+- No new route beat, species pack, station affordance, or traversal framework lands.
+
+### ECO-20260514-main-05
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-3`
+- Priority: `P2`
+- Title: `L3 implement: Forest giant-tree loop proof`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Consolidate proof for the full old-growth climb loop from trunk foot through crown/rest pockets and return.
+
+Acceptance:
+
+- Treats proof-only closure as success if the loop is already readable.
+- If needed, adds only one forest-local cue, carrier, or platform nudge.
+
+### ECO-20260514-critic-03
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-3`
+- Priority: `P1`
+- Title: `L3 review: Vertical sprint closure`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-05`
+- Recommended effort: `high`
+
+Goal:
+
+- Review vertical proof, prompt competition, recovery paths, and lane boundary compliance.
+
+Acceptance:
+
+- Confirms no visual clutter, prompt conflicts, route drift, station drift, or broad engine rewrite.
+- Opens smallest explicit blockers if native proof is not clear.
+
+### ECO-20260514-scout-04
+
+- Status: `PARKED`
+- Owner: `scout-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `L4 scout: Post-Source-to-Shore route boundary`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260428-critic-489`
+- Recommended effort: `high`
+
+Goal:
+
+- Define how any later second-season playable route can appear without fighting filed Dune Catch as the terminal Source to Shore beat.
+
+Acceptance:
+
+- Produces a report or packet-first contract, with test-only guards if needed.
+- Adds no playable route, route id, save schema, station shell, content pack, or geometry.
+
+### ECO-20260514-main-06
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `L4 implement: Extract route replay-note helper`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-scout-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Move route replay-note resolution out of field-season board assembly into a small route-owned helper without behavior changes.
+
+Acceptance:
+
+- Focused tests confirm replay notes, filed identities, route titles, support behavior, and station board output are unchanged.
+- Adds no new replay system, copy expansion, route breadth, or save field.
+
+### ECO-20260514-main-07
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-4`
+- Priority: `P2`
+- Title: `L4 implement: Filed Source to Shore revisit proof`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-06`
+- Recommended effort: `high`
+
+Goal:
+
+- Decide whether filed Source to Shore memories need a tiny non-active surfacing pass.
+
+Acceptance:
+
+- Reuses existing revisit-memory seams if implementation is needed.
+- Does not reopen an active outing, route marker, fourth beat, save state, planner, or new route type.
+
+### ECO-20260514-critic-04
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-4`
+- Priority: `P1`
+- Title: `L4 review: Route-loop cohesion signoff`
+- Source: `docs/reports/2026-05-14-director-playability-sprint-plan.md`
+- Packet: `.agents/packets/192-director-playability-sprint.json`
+- Depends on: `ECO-20260514-main-07`
+- Recommended effort: `high`
+
+Goal:
+
+- Review active outing, ready-to-file, filed closure, support choice, replay labels, and route-boundary behavior across debug saves.
+
+Acceptance:
+
+- Confirms lane 4 did not drift into lane 1 station shell, lane 2 content packs, or lane 3 geometry.
+- Opens smallest explicit blockers if route identity or filed Source to Shore closure is ambiguous.
 
 ### ECO-20260420-scout-403
 
