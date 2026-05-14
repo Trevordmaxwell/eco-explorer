@@ -14,15 +14,16 @@ Read these files in order before doing work:
 
 1. `AGENTS.md`
 2. `.agents/lane-runner.md` if you are a single agent covering multiple roles in one lane
-3. `.agents/project-memory.md`
-4. `.agents/work-queue.md`
-5. your lane brief in `.agents/lanes/` if the queue item has a `Lane:`
-6. any packet linked from your queue item in `.agents/packets/`
-7. your role file in `.agents/roles/`
-8. `.agents/critic-brief.md` if you are reviewing, refining, or planning
-9. the latest relevant report in `docs/reports/`
-10. `progress.md`
-11. Product and system docs as needed:
+3. `.agents/fresh-lane-start.md` if you are a new lane runner or the user assigns you to a numbered lane
+4. `.agents/project-memory.md`
+5. `.agents/work-queue.md`
+6. your lane brief in `.agents/lanes/` if the queue item has a `Lane:`
+7. any packet linked from your queue item in `.agents/packets/`
+8. your role file in `.agents/roles/`
+9. `.agents/critic-brief.md` if you are reviewing, refining, or planning
+10. the latest relevant report in `docs/reports/`
+11. `progress.md`
+12. Product and system docs as needed:
    - `docs/architecture.md`
    - `docs/content-authoring.md`
    - `README.md`
@@ -45,6 +46,7 @@ Role details live in:
 
 - `.agents/project-memory.md`: durable product and process decisions
 - `.agents/work-queue.md`: shared task queue across agents
+- `.agents/fresh-lane-start.md`: copy-paste startup prompts and the current director gate for fresh lane agents
 - `.agents/lane-runner.md`: the restartable instruction chain for one agent wearing multiple hats
 - `.agents/lanes/`: lane briefs and scope boundaries for parallel workstreams
 - `.agents/packets/`: structured handoff packets that add machine-friendly context to queue work
@@ -65,6 +67,8 @@ Rules:
 - parallel agents should work in different lanes whenever possible
 
 If you are a lane runner, read `.agents/lane-runner.md` and your lane brief before each item, even if you just finished the prior item moments ago.
+
+For fresh lane agents with no chat context, read `.agents/fresh-lane-start.md` before picking work. It stores the current director gate and copy-paste prompts for lane 1 through lane 4.
 
 ## Work Queue Rules
 
@@ -196,5 +200,5 @@ Read AGENTS.md, then read .agents/project-memory.md and .agents/work-queue.md. R
 For a single multi-role lane runner, use:
 
 ```text
-Read AGENTS.md, .agents/lane-runner.md, .agents/project-memory.md, and .agents/work-queue.md. Take the next actionable item in your assigned lane. Before each new item, reread the chain, then read the lane brief, the matching packet, and the matching role file for that item's Owner. Update the queue after every step and restart the chain before taking the next item.
+Read AGENTS.md, .agents/fresh-lane-start.md, .agents/lane-runner.md, .agents/project-memory.md, and .agents/work-queue.md. Take the next actionable item in your assigned lane. Before each new item, reread the chain, then read the lane brief, the matching packet, and the matching role file for that item's Owner. Update the queue after every step and restart the chain before taking the next item.
 ```

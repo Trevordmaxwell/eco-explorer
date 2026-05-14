@@ -29,7 +29,8 @@ This is the shared queue for all agents working in this repo.
 
 - New active items should include a `Lane:` field.
 - Lane runners should only pull items from their assigned lane.
-- Before every new item, lane runners should reread `AGENTS.md`, `.agents/lane-runner.md`, `.agents/project-memory.md`, `.agents/work-queue.md`, the lane brief, the packet, and the matching role file.
+- Fresh lane agents should read `.agents/fresh-lane-start.md` before choosing work; it records the current director gate and copy-paste startup prompts.
+- Before every new item, lane runners should reread `AGENTS.md`, `.agents/fresh-lane-start.md`, `.agents/lane-runner.md`, `.agents/project-memory.md`, `.agents/work-queue.md`, the lane brief, the packet, and the matching role file.
 - The queue item's `Owner` still decides which hat the lane runner wears for that step.
 - Items without a `Lane:` field are legacy or archived unless explicitly reactivated.
 
@@ -39,6 +40,12 @@ This is the shared queue for all agents working in this repo.
 - `lane-2`: content density, journal richness, comparisons, and atlas-facing content depth
 - `lane-3`: caves, giant-tree climbing, vertical traversal, and sub-ecosystem exploration depth
 - `lane-4`: gameplay-loop cohesion, Route v2 outings, tiny support choices, notebook synthesis, and soft replay windows
+
+## Current Director Gate
+
+- Lane 1 may begin now with `ECO-20260428-scout-489`.
+- Packet `192` items for lanes 1-4 are parked behind `ECO-20260428-critic-489`.
+- Lane 2, lane 3, and lane 4 runners started before that gate closes should do read-only orientation and report that their sprint work is parked, unless the user explicitly overrides the gate.
 
 ## Ready
 

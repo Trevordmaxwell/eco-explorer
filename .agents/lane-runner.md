@@ -14,15 +14,16 @@ Also verify the current branch before editing. The active shared branch is `main
 
 1. `AGENTS.md`
 2. `.agents/lane-runner.md`
-3. `.agents/project-memory.md`
-4. `.agents/work-queue.md`
-5. verify `git branch --show-current` is `main`
-6. your lane brief in `.agents/lanes/`
-7. the queue item's packet in `.agents/packets/`, if present
-8. the matching role file in `.agents/roles/`
-9. `.agents/critic-brief.md` if the item owner is `critic-agent` or the item is review-heavy
-10. the latest relevant report in `docs/reports/`
-11. any code or docs needed for the actual task
+3. `.agents/fresh-lane-start.md` if you are newly assigned to a lane or need the current director gate
+4. `.agents/project-memory.md`
+5. `.agents/work-queue.md`
+6. verify `git branch --show-current` is `main`
+7. your lane brief in `.agents/lanes/`
+8. the queue item's packet in `.agents/packets/`, if present
+9. the matching role file in `.agents/roles/`
+10. `.agents/critic-brief.md` if the item owner is `critic-agent` or the item is review-heavy
+11. the latest relevant report in `docs/reports/`
+12. any code or docs needed for the actual task
 
 ## How To Pick The Next Item
 
@@ -33,6 +34,7 @@ Also verify the current branch before editing. The active shared branch is `main
   - `READY`
   - `IN PROGRESS` if you already claimed it
   - `BLOCKED-BY-IMPLEMENTATION` only when its implementation dependency has now landed and it is the rightful next critique step
+- If all items in your lane are `PARKED`, do not edit files unless the user explicitly overrides the gate. Report the dependency that parks your lane.
 
 ## Role Switching
 
