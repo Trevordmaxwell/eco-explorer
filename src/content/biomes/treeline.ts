@@ -94,6 +94,7 @@ const treelineEntries = {
     shortFact: 'Hoary marmots whistle loudly when danger appears on open mountain slopes.',
     journalText:
       'Hoary marmots live among rocks on high mountain slopes near treeline. They use boulders for shelter and give sharp warning whistles when danger is near.',
+    sketchbookNote: 'Rocky lookout watching the lee shelter.',
     spriteId: 'hoary-marmot',
     collectible: false,
   },

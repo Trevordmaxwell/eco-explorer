@@ -112,6 +112,11 @@ const CLOSE_LOOK_SEEDS: Record<string, CloseLookSeed> = {
     sentence: 'Dark berries help mark where coastal scrub starts holding steadier cover.',
     spriteScale: 5,
   },
+  'coyote-brush': {
+    callouts: ['dense twigs', 'coastal brush'],
+    sentence: 'Dense coyote brush helps mark where open dunes turn into thicker coastal scrub.',
+    spriteScale: 5,
+  },
   'beach-strawberry': {
     callouts: ['runner stem', 'red fruit'],
     sentence: 'Low runners and fruit help this swale stay busy close to shelter.',

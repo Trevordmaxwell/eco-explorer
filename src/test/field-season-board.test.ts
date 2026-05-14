@@ -1862,6 +1862,7 @@ describe('field season board', () => {
       targetBiomeId: null,
       launchCard: null,
       activeBeatId: null,
+      replayNote: null,
       beats: [
         { id: 'source-shelter', title: 'Source Shelter', status: 'done' },
         { id: 'forest-release', title: 'Forest Release', status: 'done' },

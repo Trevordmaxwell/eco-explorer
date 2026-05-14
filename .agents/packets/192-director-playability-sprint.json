@@ -1,15 +1,30 @@
 {
   "packet_id": "ECO-PACKET-192",
-  "version": 3,
+  "version": 18,
   "created_at": "2026-05-14",
   "created_by_role": "critic-agent",
-  "status": "READY",
+  "status": "DONE",
   "title": "Director playability sprint",
   "summary": "Park the next two-lane sprint behind beta integration signoff, with handheld readability as the first gate before new breadth.",
   "source_reports": [
     "docs/reports/2026-05-14-director-playability-sprint-plan.md",
     "docs/reports/2026-05-14-two-lane-operating-model.md",
-    "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md"
+    "docs/reports/2026-05-14-beta-expansion-integration-signoff-review.md",
+    "docs/reports/2026-05-14-handheld-readability-repair-contract.md",
+    "docs/reports/2026-05-14-handheld-readability-repair.md",
+    "docs/reports/2026-05-14-handheld-readability-gate-review.md",
+    "docs/reports/2026-05-14-atlas-parity-source-risk-contract.md",
+    "docs/reports/2026-05-14-sketchbook-archive-parity-implementation.md",
+    "docs/reports/2026-05-14-coyote-brush-close-look-implementation.md",
+    "docs/reports/2026-05-14-content-richness-science-signoff-review.md",
+    "docs/reports/2026-05-14-tundra-snow-edge-wayfinding-proof.md",
+    "docs/reports/2026-05-14-tundra-relief-clarity-proof-closure.md",
+    "docs/reports/2026-05-14-forest-giant-tree-loop-proof.md",
+    "docs/reports/2026-05-14-vertical-sprint-closure-review.md",
+    "docs/reports/2026-05-14-post-source-to-shore-route-boundary.md",
+    "docs/reports/2026-05-14-route-replay-note-helper-extraction.md",
+    "docs/reports/2026-05-14-filed-source-to-shore-revisit-proof.md",
+    "docs/reports/2026-05-14-route-loop-cohesion-signoff-review.md"
   ],
   "queue_refs": [
     "ECO-20260514-scout-01",
@@ -184,6 +199,448 @@
     "notes": [
       "Promote lane 1's handheld readability repair contract first.",
       "Keep lane 2 content and spatial breadth parked until the lane 1 repair is reviewed cleanly."
+    ]
+  },
+  "scout_01_contract": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-handheld-readability-repair-contract.md",
+    "decision": "Promote the lane-1 handheld readability repair as the next active implementation step.",
+    "promoted_next": "ECO-20260514-main-01",
+    "blocked_until_review": [
+      "ECO-20260514-scout-02",
+      "ECO-20260514-scout-03",
+      "ECO-20260514-scout-04"
+    ],
+    "repair_surfaces": [
+      {
+        "surface": "Filed Source to Shore / Dune Catch station routes page",
+        "proof_seed": "output/lane-1-main-489-beta-integration-proof/filed-dune-catch-station.png",
+        "target": "Separate station header, route board, archive/atlas note, and support rows while keeping the route title, FILED state, three filed beats, and selected support visible."
+      },
+      {
+        "surface": "Fresh first-play notebook task notice",
+        "proof_seed": "output/lane-1-main-489-beta-integration-proof/first-play-task.png",
+        "target": "Show dune grass, lee cover, and wrack line without single-line truncation."
+      },
+      {
+        "surface": "Source Shelter journal route card",
+        "proof_seed": "output/lane-1-main-489-beta-integration-proof/source-shelter-journal.png",
+        "target": "Keep the route title, progress label, and summary readable inside the card without right-edge clipping."
+      },
+      {
+        "surface": "Title bottom guidance",
+        "proof_seed": "output/lane-1-main-489-beta-integration-proof/title.png",
+        "target": "Keep the bottom start hint and START/MENU buttons readable without lower-edge crowding."
+      }
+    ],
+    "required_browser_proof_dir": "output/lane-1-main-01-handheld-readability",
+    "minimum_verification": [
+      "npm run test -- src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/journal-selector.test.ts",
+      "npm run build",
+      "native 256x160 browser proof with paired state JSON and browser-errors.json",
+      "npm run validate:agents after queue or packet edits"
+    ],
+    "scope_exclusions": [
+      "new route ids or playable route breadth",
+      "new station pages",
+      "save schema changes",
+      "content packs",
+      "progression state changes",
+      "new journal surfaces"
+    ]
+  },
+  "main_01_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-handheld-readability-repair.md",
+    "decision": "Handheld readability repairs are implemented and ready for critic gate review.",
+    "promoted_next": "ECO-20260514-critic-01",
+    "proof_dirs": [
+      "output/lane-1-main-01-handheld-readability",
+      "output/lane-1-main-01-web-game-client"
+    ],
+    "verification": [
+      "npm run test -- src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/journal-selector.test.ts",
+      "npm run build",
+      "native 256x160 browser proof with paired state JSON and browser-errors.json",
+      "shared web-game client proof for the first playable notice frame"
+    ],
+    "scope_confirmed_unchanged": [
+      "route ids",
+      "route breadth",
+      "progression state",
+      "save schema",
+      "station pages",
+      "journal surfaces",
+      "content packs"
+    ]
+  },
+  "critic_01_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-handheld-readability-gate-review.md",
+    "decision": "Clean handheld readability gate; packet 192 may open the next minimal lane-parallel scout steps.",
+    "promoted_next": [
+      "ECO-20260514-scout-02",
+      "ECO-20260514-scout-04"
+    ],
+    "verification": [
+      "reviewed five native 256x160 proof PNGs and paired state JSON files",
+      "browser-errors.json reports zero errors and zero warnings",
+      "npm run test -- src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/journal-selector.test.ts",
+      "npm run build"
+    ],
+    "scope_confirmed_unchanged": [
+      "filed Source to Shore remains complete",
+      "no new route ids or route breadth",
+      "no station page additions",
+      "no save schema changes",
+      "no progression shape changes",
+      "no content packs or new journal surfaces"
+    ]
+  },
+  "scout_02_contract": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-atlas-parity-source-risk-contract.md",
+    "decision": "Promote a content-only sketchbook archive parity pass for selected route-memory entries.",
+    "promoted_next": "ECO-20260514-main-02",
+    "target_entry_ids": [
+      "licorice-fern",
+      "banana-slug",
+      "fir-cone",
+      "hoary-marmot",
+      "purple-saxifrage",
+      "cloudberry",
+      "coyote-brush"
+    ],
+    "optional_close_look_candidate_for_main_03": "coyote-brush",
+    "minimum_verification": [
+      "npm run science:check",
+      "npm test -- --run src/test/sketchbook.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "scope_exclusions": [
+      "atlas or station layout changes",
+      "new archive panel or journal surface",
+      "route ids or evidence ids",
+      "route filed text or support behavior",
+      "world-map targets",
+      "save schema",
+      "progression rules",
+      "new inspectables or broad content packs"
+    ]
+  },
+  "main_02_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-sketchbook-archive-parity-implementation.md",
+    "decision": "Content-only sketchbook archive parity pass landed for the selected route-memory entries.",
+    "promoted_next": "ECO-20260514-main-03",
+    "changed_entry_ids": [
+      "licorice-fern",
+      "banana-slug",
+      "fir-cone",
+      "hoary-marmot",
+      "purple-saxifrage",
+      "cloudberry"
+    ],
+    "guarded_entry_ids": [
+      "licorice-fern",
+      "banana-slug",
+      "fir-cone",
+      "hoary-marmot",
+      "purple-saxifrage",
+      "cloudberry",
+      "coyote-brush"
+    ],
+    "verification": [
+      "npm run science:check",
+      "npm test -- --run src/test/sketchbook.test.ts src/test/content-quality.test.ts",
+      "npm run build"
+    ],
+    "scope_confirmed_unchanged": [
+      "station and atlas layout",
+      "route catalog and evidence ids",
+      "route filed text and support behavior",
+      "world-map targets",
+      "save schema",
+      "progression rules",
+      "overlay and journal shell",
+      "new inspectables"
+    ]
+  },
+  "main_03_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-coyote-brush-close-look-implementation.md",
+    "decision": "Single close-look payoff landed for coyote-brush through the existing close-look seam.",
+    "promoted_next": "ECO-20260514-critic-02",
+    "changed_entry_ids": [
+      "coyote-brush"
+    ],
+    "verification": [
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run science:check",
+      "npm run build"
+    ],
+    "scope_confirmed_unchanged": [
+      "overlay and journal shell",
+      "route behavior and route ids",
+      "evidence ids",
+      "station behavior",
+      "save schema",
+      "support behavior",
+      "world-map targets",
+      "new inspectables"
+    ]
+  },
+  "critic_02_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-content-richness-science-signoff-review.md",
+    "decision": "Clean content richness science signoff for sketchbook archive parity and coyote-brush close-look payoff.",
+    "promoted_next": "ECO-20260514-scout-03",
+    "verification_reviewed": [
+      "npm run science:check",
+      "npm test -- --run src/test/sketchbook.test.ts src/test/content-quality.test.ts",
+      "npm test -- --run src/test/close-look.test.ts src/test/content-quality.test.ts",
+      "npm run build",
+      "git diff --check"
+    ],
+    "scope_confirmed_unchanged": [
+      "station surfaces",
+      "route behavior",
+      "world-map behavior",
+      "save schema",
+      "overlay and journal shell",
+      "progression behavior",
+      "new inspectables"
+    ]
+  },
+  "scout_03_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-tundra-snow-edge-wayfinding-proof.md",
+    "decision": "Proof-only closure is enough for Tundra Reach snow-edge, snow-meadow, thaw-skirt, and meltwater-edge wayfinding; no optional tundra-local cue is needed.",
+    "promoted_next": "ECO-20260514-main-04",
+    "recommended_main_04_mode": "proof-only no-runtime closure using the scout proof artifacts",
+    "proof_dir": "output/lane-2-scout-03-tundra-wayfinding-proof",
+    "captured_frames": [
+      "tundra-entry-wind-bluff",
+      "snow-edge-pocket",
+      "snow-meadow-drift-rest",
+      "thaw-skirt-entry",
+      "thaw-skirt-channel",
+      "meltwater-edge-bank"
+    ],
+    "verification": [
+      "native 256x160 browser proof with paired state JSON and browser-errors.json",
+      "npm test -- --run src/test/tundra-biome.test.ts src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra|snow-edge|thaw-skirt|meltwater\""
+    ],
+    "scope_confirmed_unchanged": [
+      "route behavior",
+      "station surfaces",
+      "world-map behavior",
+      "save schema",
+      "broad traversal architecture",
+      "species packs",
+      "new cue language",
+      "geometry"
+    ]
+  },
+  "main_04_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-tundra-relief-clarity-proof-closure.md",
+    "decision": "Closed the tundra relief clarity pass as proof-only with no runtime, geometry, cue, route, station, save, or content changes.",
+    "promoted_next": "ECO-20260514-main-05",
+    "proof_dir": "output/lane-2-scout-03-tundra-wayfinding-proof",
+    "verification": [
+      "reviewed native 256x160 browser proof from ECO-20260514-scout-03",
+      "reviewed browser-errors.json with zero console or page errors",
+      "npm test -- --run src/test/tundra-biome.test.ts src/test/runtime-smoke.test.ts -t \"Thaw Window|thaw-window|tundra|snow-edge|thaw-skirt|meltwater\""
+    ],
+    "build_required": false,
+    "scope_confirmed_unchanged": [
+      "route beats and filed identities",
+      "station surfaces",
+      "world-map behavior",
+      "save schema",
+      "traversal framework",
+      "cue language",
+      "tundra geometry",
+      "content roster and science copy"
+    ]
+  },
+  "main_05_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-forest-giant-tree-loop-proof.md",
+    "decision": "Closed the forest giant-tree loop as proof-only; existing native browser proof plus current focused tests cover the lower cave, high-run, trunk-foot, crown/rest, branch-nursery, and return-snag loop.",
+    "promoted_next": "ECO-20260514-critic-03",
+    "proof_dirs": [
+      "output/lane-3-main-476-forest-canopy-cave-loop-proof",
+      "output/lane-3-main-494-forest-expedition-spatial-proof"
+    ],
+    "verification": [
+      "npm test -- --run src/test/forest-biome.test.ts -t \"old-growth|branch-nursery|crown-rest|high-run carry|root-hollow\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"old-growth|crown-rest|branch-nursery|bark-window|high run|Root Hollow|upper-return|trunk-foot\""
+    ],
+    "build_required": false,
+    "scope_confirmed_unchanged": [
+      "forest geometry and climbables",
+      "carrier placements and content roster",
+      "route catalog and route-board behavior",
+      "support behavior and filed identities",
+      "station surfaces",
+      "world-map behavior",
+      "save schema",
+      "traversal framework and physics",
+      "cue language"
+    ]
+  },
+  "critic_03_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-vertical-sprint-closure-review.md",
+    "decision": "Clean vertical sprint closure for lane 2; tundra and forest proof-only passes are accepted with no follow-up implementation.",
+    "lane_2_next": "parked until another lane-2 item is promoted",
+    "verification_reviewed": [
+      "output/lane-2-scout-03-tundra-wayfinding-proof/assertions.json",
+      "output/lane-2-scout-03-tundra-wayfinding-proof/browser-errors.json",
+      "output/lane-3-main-476-forest-canopy-cave-loop-proof/errors.json",
+      "output/lane-3-main-494-forest-expedition-spatial-proof/summary.json",
+      "output/lane-3-main-494-forest-expedition-spatial-proof/errors.json",
+      "npm test -- --run src/test/tundra-biome.test.ts src/test/forest-biome.test.ts -t \"snow-edge|thaw-skirt|meltwater|old-growth|branch-nursery|crown-rest|high-run carry|root-hollow\"",
+      "npm test -- --run src/test/runtime-smoke.test.ts -t \"Thaw Window|tundra|snow-edge|thaw-skirt|meltwater|old-growth|crown-rest|branch-nursery|bark-window|high run|Root Hollow|upper-return|trunk-foot\"",
+      "git diff --check"
+    ],
+    "scope_confirmed_unchanged": [
+      "station surfaces",
+      "route-board and route catalog behavior",
+      "world-map behavior",
+      "save schema",
+      "support behavior",
+      "replay behavior",
+      "progression behavior",
+      "broad traversal architecture",
+      "new cue language"
+    ]
+  },
+  "scout_04_contract": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-post-source-to-shore-route-boundary.md",
+    "decision": "Keep filed Source to Shore terminal after Dune Catch and promote only a behavior-preserving route replay-note helper extraction.",
+    "promoted_next": "ECO-20260514-main-06",
+    "allowed_after_filed_dune_catch": [
+      "resolveSourceToShoreFiledArcCopy station, atlas, archive, expedition subtitle, card, and filed-notice copy",
+      "resolveSourceToShoreRevisitMemory quiet biome-enter memory notices",
+      "existing filed station support rows without active-outing implication"
+    ],
+    "main_06_scope": [
+      "extract getReplayNote/applyReplayNote behavior from field-season-board into a small route-owned helper",
+      "preserve FieldSeasonBoardState shape and all player-facing copy",
+      "keep field-request-state world-map replay labels unchanged",
+      "keep game.ts biome-enter replay notices unchanged",
+      "prove filed Source to Shore remains complete with replayNote null"
+    ],
+    "scope_exclusions": [
+      "new playable route ids",
+      "fourth Source to Shore beat",
+      "new evidence slots",
+      "route marker target after filed Dune Catch",
+      "new routeV2Progress after filed Dune Catch",
+      "station page or planner",
+      "save schema changes",
+      "content pack",
+      "world-map behavior",
+      "geometry"
+    ],
+    "minimum_verification": [
+      "npm test -- --run src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/runtime-smoke.test.ts -t \"replay|Source to Shore|Dune Catch|route-marker|filed\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ]
+  },
+  "main_06_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-route-replay-note-helper-extraction.md",
+    "decision": "Extracted route replay-note resolution and active-beat decoration from field-season-board into field-season-replay-notes without behavior changes.",
+    "promoted_next": "ECO-20260514-main-07",
+    "files_changed": [
+      "src/engine/field-season-replay-notes.ts",
+      "src/engine/field-season-board.ts",
+      "src/test/field-season-board.test.ts"
+    ],
+    "source_to_shore_boundary": [
+      "source-to-shore-beta resolves no replay note",
+      "filed Dune Catch remains complete",
+      "targetBiomeId remains null after filed Dune Catch",
+      "activeBeatId remains null after filed Dune Catch",
+      "replayNote remains null after filed Dune Catch"
+    ],
+    "verification": [
+      "npm test -- --run src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/runtime-smoke.test.ts -t \"replay|Source to Shore|Dune Catch|route-marker|filed\"",
+      "npm run build"
+    ],
+    "scope_confirmed_unchanged": [
+      "route ids",
+      "Source to Shore beat count",
+      "evidence slots",
+      "route marker targets",
+      "save schema",
+      "station pages",
+      "content roster",
+      "world-map behavior",
+      "geometry"
+    ]
+  },
+  "main_07_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-filed-source-to-shore-revisit-proof.md",
+    "decision": "Closed filed Source to Shore revisit proof as proof-only; existing quiet memory notices cover Treeline, Forest, and Coastal Scrub without reopening active route state.",
+    "promoted_next": "ECO-20260514-critic-04",
+    "proof_dir": "output/lane-1-main-07-source-to-shore-revisit-proof",
+    "captured_frames": [
+      "high-source-treeline",
+      "forest-release-forest",
+      "coastal-catch-scrub"
+    ],
+    "verification": [
+      "native browser proof with screenshots, state JSON, assertions.json, and browser-errors.json",
+      "npm test -- --run src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts -t \"Source to Shore|Dune Catch|memory notices|memory pockets|filed\""
+    ],
+    "build_required": false,
+    "scope_confirmed_unchanged": [
+      "active outing",
+      "route marker target",
+      "fourth Source to Shore beat",
+      "save schema",
+      "planner or station page",
+      "new route type",
+      "route ids",
+      "world-map behavior",
+      "content and geometry"
+    ]
+  },
+  "critic_04_result": {
+    "completed_at": "2026-05-14",
+    "source": "docs/reports/2026-05-14-route-loop-cohesion-signoff-review.md",
+    "decision": "Clean lane-1 route-loop cohesion signoff; packet 192 has no remaining active lane-1 or lane-2 queue item.",
+    "lane_1_next": "clear",
+    "lane_2_next": "clear",
+    "verification_reviewed": [
+      "docs/reports/2026-05-14-post-source-to-shore-route-boundary.md",
+      "docs/reports/2026-05-14-route-replay-note-helper-extraction.md",
+      "docs/reports/2026-05-14-filed-source-to-shore-revisit-proof.md",
+      "output/lane-1-main-07-source-to-shore-revisit-proof/assertions.json",
+      "output/lane-1-main-07-source-to-shore-revisit-proof/browser-errors.json",
+      "npm test -- --run src/test/field-season-board.test.ts src/test/field-requests.test.ts src/test/runtime-smoke.test.ts src/test/save-snapshots.test.ts -t \"Source to Shore|Dune Catch|route-marker|replay|filed|memory notices|memory pockets|High Pass filed|debug save snapshots\"",
+      "npm run build"
+    ],
+    "scope_confirmed_unchanged": [
+      "new route ids",
+      "fourth Source to Shore beat",
+      "route marker target after filed Dune Catch",
+      "save schema",
+      "planner or station architecture",
+      "content and geometry",
+      "world-map behavior",
+      "lane 2 content/spatial scope"
     ]
   },
   "post_packet_path": [

@@ -7207,6 +7207,11 @@ describe('runtime smoke loop', () => {
       title: 'NOTEBOOK TASK',
       text: 'Shore Shelter first: inspect dune grass, lee cover, and wrack line.',
     });
+    const firstNoticeText = (canvas as unknown as FakeCanvas).getDrawnText();
+    expect(firstNoticeText).toContain('NOTEBOOK TASK');
+    expect(firstNoticeText).toContain('Shore Shelter first: inspect dune');
+    expect(firstNoticeText).toContain('grass, lee cover, and wrack line.');
+    expect(firstNoticeText.some((text) => text.includes('wrack') && text.includes('…'))).toBe(false);
 
     tapKey(fakeWindow, 'm');
     state = readState(fakeWindow);
@@ -7684,6 +7689,56 @@ describe('runtime smoke loop', () => {
     expect(firstTabY - subtitleY).toBeGreaterThanOrEqual(14);
   });
 
+  it('keeps the filed Source to Shore station page compact at handheld scale', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-filed-source-to-shore-compact-station-seed');
+    seededSave.completedFieldRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+      'source-to-shore-source-shelter',
+      'source-to-shore-forest-release',
+      'source-to-shore-dune-catch',
+    ];
+    seededSave.purchasedUpgradeIds = ['trail-stride', 'route-marker'];
+    seededSave.selectedOutingSupportId = 'hand-lens';
+    seededSave.lastBiomeId = 'coastal-scrub';
+    seededSave.biomeVisits['coastal-scrub'] = 3;
+    seededSave.worldStep = 6;
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'world-map');
+    tapKey(fakeWindow, 'Enter');
+    advanceUntil(fakeWindow, (nextState) => nextState.scene === 'world-map');
+    tapKey(fakeWindow, 'm');
+    selectMenuAction(fakeWindow, 'field-station');
+    tapKey(fakeWindow, 'Enter');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('field-station');
+    expect(state.fieldStation?.routeBoard).toMatchObject({
+      routeId: 'source-to-shore-beta',
+      routeTitle: 'SOURCE TO SHORE',
+      progressLabel: 'FILED',
+      complete: true,
+    });
+
+    const drawnText = (canvas as unknown as FakeCanvas).getDrawnText();
+    expect(drawnText).toContain('SOURCE TO SHORE');
+    expect(drawnText).toContain('FILED');
+    expect(drawnText).toContain('DONE Source Shelter');
+    expect(drawnText).toContain('DONE Forest Release');
+    expect(drawnText).toContain('DONE Dune Catch');
+    expect(drawnText).toContain('SUPPORT');
+    expect(drawnText).toContain('OUTING SUPPORT');
+    expect(drawnText).toContain('HAND LENS');
+    expect(drawnText).not.toContain('Trail Stride');
+  });
+
   it('draws fresh journal route progress labels without trimming the stage count', () => {
     const { window: fakeWindow, document } = installFakeDom();
     const seededSave = createNewSaveState('runtime-journal-progress-layout-seed');
@@ -7706,6 +7761,39 @@ describe('runtime smoke loop', () => {
     expect(drawnText).toContain('Shore Shelter');
     expect(drawnText).toContain('0/3 stages');
     expect(drawnText.some((text) => text.startsWith('0/3') && text.includes('…'))).toBe(false);
+  });
+
+  it('draws Source Shelter journal route progress without right-edge clipping', () => {
+    const { window: fakeWindow, document } = installFakeDom();
+    const seededSave = createNewSaveState('runtime-journal-source-shelter-card-layout-seed');
+    seededSave.completedFieldRequestIds = [
+      ...highPassFellHoldCompletions,
+      'treeline-high-pass',
+    ];
+    seededSave.lastBiomeId = 'treeline';
+    seededSave.worldStep = 6;
+    seededSave.biomeVisits.treeline = 3;
+    persistSave(seededSave);
+
+    const canvas = document.createElement('canvas') as unknown as HTMLCanvasElement;
+    const game = createGame(canvas, seededSave);
+
+    tapKey(fakeWindow, 'Enter');
+    game.enterBiome('treeline');
+    tapKey(fakeWindow, 'j');
+
+    const state = readState(fakeWindow);
+    expect(state.mode).toBe('journal');
+    expect(state.journal?.fieldRequest).toMatchObject({
+      id: 'source-to-shore-source-shelter',
+      title: 'Rime Source',
+      progressLabel: 'Return To Dwarf Shrub',
+    });
+
+    const drawnText = (canvas as unknown as FakeCanvas).getDrawnText();
+    expect(drawnText).toContain('Rime Source');
+    expect(drawnText).toContain('Return To Dwarf Shrub');
+    expect(drawnText.some((text) => text.startsWith('Return To') && text.includes('…'))).toBe(false);
   });
 
   it('shows the Cool Release Source to Shore variant during the wet forest revisit window', () => {

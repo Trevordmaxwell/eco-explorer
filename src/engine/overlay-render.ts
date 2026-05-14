@@ -81,7 +81,7 @@ export const TITLE_ACTION_ROWS = [
   ['PICK', 'ENTER'],
 ] as const;
 
-export const TITLE_START_HINT = 'START, THEN M FOR MAP OR STATION.';
+export const TITLE_START_HINT = 'START: M MAP/STATION.';
 
 export interface ButtonHitTarget {
   id: UiActionId;
@@ -417,6 +417,37 @@ function drawFieldRequestCard(
     progressLabelMaxWidth + 8,
     Math.max(40, context.measureText(progressText).width + 8),
   );
+  const fullProgressWidth = context.measureText(fieldRequest.progressLabel).width;
+  const useStackedProgress = fullProgressWidth > progressLabelMaxWidth && fullProgressWidth <= rect.w - 8;
+
+  if (useStackedProgress) {
+    context.font = UI_FONT_MEDIUM;
+    drawUiText(
+      context,
+      fitTextToWidth(context, fieldRequest.title, rect.w - 8),
+      rect.x + 4,
+      rect.y + 3,
+      palette.accent,
+    );
+
+    context.font = UI_FONT_SMALL;
+    drawUiText(
+      context,
+      fieldRequest.progressLabel,
+      rect.x + 4,
+      rect.y + 10,
+      palette.text,
+    );
+    drawWrappedTextInRect(
+      context,
+      fieldRequest.summary,
+      makeRect(rect.x + 4, rect.y + 17, rect.w - 8, rect.h - 19),
+      6,
+      palette.text,
+      maxLinesForHeight(rect.h - 19, 6),
+    );
+    return;
+  }
 
   context.font = UI_FONT_MEDIUM;
   drawUiText(
@@ -1244,7 +1275,7 @@ export function drawJournalOverlay({
   const [listRect, detailRect] = splitRectColumns(bodyRect, listWidth, 4);
   const listContentRect = insetRect(listRect, 4);
   const detailContentRect = insetRect(detailRect, 4);
-  const detailLayout = fieldRequest && !isSketchbookOpen ? takeBottom(detailContentRect, 24, 3) : null;
+  const detailLayout = fieldRequest && !isSketchbookOpen ? takeBottom(detailContentRect, 30, 3) : null;
   const detailMainRect = detailLayout?.top ?? detailContentRect;
   const requestRect = detailLayout?.bottom ?? null;
   const selectorState = buildJournalBiomeSelectorState(biomeProgress, selectedBiomeProgress.biomeId);

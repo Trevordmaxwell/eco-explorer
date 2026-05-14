@@ -46,6 +46,7 @@ const forestEntries = {
     shortFact: 'Licorice fern can grow on mossy trunks, logs, and rocks where rain keeps it damp.',
     journalText:
       'Licorice fern often grows above the ground on mossy bark, logs, or rocks in moist Pacific forests. Its creeping stem helps it spread across those damp surfaces.',
+    sketchbookNote: 'Fern fronds gripping damp bark and old wood.',
     spriteId: 'licorice-fern',
     collectible: false,
   },
@@ -119,6 +120,7 @@ const forestEntries = {
     shortFact: 'Cone scales protect seeds until dry weather helps them open.',
     journalText:
       'A Douglas-fir cone holds seeds between its scales. When the cone dries out, the scales spread apart so wind can carry the seeds away.',
+    sketchbookNote: 'Cone scales holding seeds above the hollow.',
     spriteId: 'fir-cone',
     collectible: true,
   },
@@ -238,6 +240,7 @@ const forestEntries = {
     shortFact: 'A banana slug stays moist with slime so its soft body does not dry out.',
     journalText:
       'Banana slugs help break down dead plants on the forest floor. That turns old leaves and wood into nutrients that other living things can use.',
+    sketchbookNote: 'Soft slug life working through the wet hollow.',
     spriteId: 'banana-slug',
     collectible: false,
   },

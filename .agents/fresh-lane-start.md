@@ -8,21 +8,16 @@ The active shared branch is `main`.
 
 The active model is director plus two implementation lanes.
 
-Packet `182` is closed with a confirmed native `256x160` readability blocker.
+Packet `182` is closed, and packet `192` is closed with clean route-loop cohesion signoff.
 
-Lane 1 is currently continuing packet `192` with:
+Lane 1 is currently clear for packet `192` and has no actionable lane-1 item.
 
-- `ECO-20260514-scout-01`
-
-Lane 2 breadth is parked behind:
-
-- `ECO-20260514-critic-01`
+Lane 2 is currently clear for packet `192` and has no actionable lane-2 item.
 
 That means:
 
-- lane 1 may continue now by taking the first actionable lane-1 item in queue order
-- lane 2 should not implement packet `192` work yet unless the queue has been promoted or the user explicitly overrides the gate
-- if a lane 2 agent is started before the lane-1 readability review closes, it may do read-only orientation and report that its next sprint item is parked
+- lane 1 should park unless a future queue update promotes another lane-1 item
+- lane 2 should park unless a future queue update promotes another lane-2 item
 - former lane 3 work now routes through lane 2
 - former lane 4 work now routes through lane 1
 
@@ -50,7 +45,7 @@ You are the lane-1 runner for /Users/trevormaxwell/Desktop/game.
 
 Start with no prior chat context. Read AGENTS.md, .agents/fresh-lane-start.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, the packet linked from your first lane-1 queue item, and the matching role file in .agents/roles/.
 
-Verify git branch is main. Take the first actionable item in lane-1 queue order. The current director gate says packet 182 closed with a handheld readability blocker, so lane 1 should start packet 192 with the repair scout contract. Work only inside lane 1 scope, update the queue when done, run required validation/tests, and do not open lane 2 work.
+Verify git branch is main. Take the first actionable item in lane-1 queue order only if it is READY. Packet `192` is currently closed; if no lane-1 item is READY, report that lane 1 is clear and parked.
 ```
 
 ### Lane 2
@@ -60,7 +55,7 @@ You are the lane-2 runner for /Users/trevormaxwell/Desktop/game.
 
 Start with no prior chat context. Read AGENTS.md, .agents/fresh-lane-start.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, the packet linked from your first lane-2 queue item, and the matching role file in .agents/roles/.
 
-Verify git branch is main. Take the first actionable item in lane-2 queue order only if it is READY or the user explicitly overrides the current director gate. Lane 2 owns both old content-richness work and old spatial/vertical work. If lane-2 work is still PARKED behind the lane-1 readability gate, do read-only orientation, report that status, and do not edit files.
+Verify git branch is main. Take the first actionable item in lane-2 queue order only if it is READY. Lane 2 owns both old content-richness work and old spatial/vertical work; if no lane-2 item is READY, report that lane 2 is clear and parked.
 ```
 
 ### Former Lane 3

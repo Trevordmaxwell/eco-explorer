@@ -122,8 +122,19 @@ export function drawFieldRequestNotice({
     '#395f56',
     { align: 'center' },
   );
-  drawUiTextInRect(context, fitTextToWidth(context, text, rect.w - 8), makeRect(rect.x + 4, rect.y + 10, rect.w - 8, 8), '#395f56', { align: 'center' });
-  drawUiTextInRect(context, 'DETAILS IN JOURNAL (J)', makeRect(rect.x + 4, rect.y + 19, rect.w - 8, 8), '#395f56', { align: 'center' });
+  const bodyWidth = rect.w - (variant === 'default' ? 12 : 30);
+  const bodyLines = wrapTextLines(context, text, bodyWidth, 2);
+  const bodyY = bodyLines.length > 1 ? rect.y + 9 : rect.y + 12;
+  bodyLines.forEach((line, index) => {
+    drawUiTextInRect(
+      context,
+      fitTextToWidth(context, line, bodyWidth),
+      makeRect(rect.x + Math.floor((rect.w - bodyWidth) / 2), bodyY + index * 6, bodyWidth, 8),
+      '#395f56',
+      { align: 'center' },
+    );
+  });
+  drawUiTextInRect(context, 'DETAILS IN JOURNAL (J)', makeRect(rect.x + 4, rect.y + 23, rect.w - 8, 8), '#395f56', { align: 'center' });
 }
 
 export function drawFieldRequestHintChip({

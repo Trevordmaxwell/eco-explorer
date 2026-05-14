@@ -22,6 +22,7 @@ const tundraEntries = {
     shortFact: 'Purple saxifrage can bloom soon after snow starts to melt.',
     journalText:
       'Purple saxifrage is one of the first flowers to brighten Arctic ground. Its low mats help protect the plant from cold air and drying wind.',
+    sketchbookNote: 'Early bloom tucked near thawing snow.',
     spriteId: 'purple-saxifrage',
     collectible: false,
   },
@@ -57,6 +58,7 @@ const tundraEntries = {
     shortFact: 'Cloudberries ripen quickly during the short Arctic summer.',
     journalText:
       'Cloudberry plants stay small and low, but their orange berries are full of energy. Birds, bears, and people all eat them when summer is at its brightest.',
+    sketchbookNote: 'Amber fruit marking the short bright season.',
     spriteId: 'cloudberry',
     collectible: true,
   },

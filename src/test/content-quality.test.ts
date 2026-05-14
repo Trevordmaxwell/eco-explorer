@@ -39,6 +39,15 @@ const ALPINE_MICROHABITAT_LEDGER_MARKERS = ['talus-cushion-pocket', 'tussock-tha
 const FRONT_HALF_LEDGER_MARKERS = ['beach-pea', 'dune-lupine', 'beach-strawberry', 'beach-hopper', 'kinnikinnick'] as const;
 const MIDDLE_COMPARISON_LEDGER_MARKERS = ['bunchberry'] as const;
 const TUNDRA_PARITY_LEDGER_MARKERS = ['moss-campion', 'reindeer-lichen', 'white-tailed-ptarmigan', 'frost-heave-hummock'] as const;
+const SKETCHBOOK_ARCHIVE_PARITY_MARKERS = [
+  { biomeId: 'forest', entryId: 'licorice-fern' },
+  { biomeId: 'forest', entryId: 'banana-slug' },
+  { biomeId: 'forest', entryId: 'fir-cone' },
+  { biomeId: 'treeline', entryId: 'hoary-marmot' },
+  { biomeId: 'tundra', entryId: 'purple-saxifrage' },
+  { biomeId: 'tundra', entryId: 'cloudberry' },
+  { biomeId: 'coastal-scrub', entryId: 'coyote-brush' },
+] as const;
 const ROUTE_NOTE_QUALITY_CASES = [
   { id: 'beach-shore-shelter', anchors: ['mark shelter', 'dune edge', 'tide line'] },
   { id: 'forest-hidden-hollow', anchors: ['damp lower hollow', 'roots'] },
@@ -178,6 +187,16 @@ describe('content quality guardrails', () => {
         expect(entry.sketchbookNote.length).toBeLessThanOrEqual(SKETCHBOOK_NOTE_MAX);
         expect(countSentences(entry.sketchbookNote)).toBe(1);
       }
+    }
+  });
+
+  it('keeps selected route-memory entries backed by authored sketchbook notes', () => {
+    for (const marker of SKETCHBOOK_ARCHIVE_PARITY_MARKERS) {
+      const biome = authoredBiomes.find((candidate) => candidate.id === marker.biomeId);
+      expect(biome).toBeDefined();
+      const entry = biome?.entries[marker.entryId];
+      expect(entry).toBeDefined();
+      expect(entry?.sketchbookNote).toBeTruthy();
     }
   });
 

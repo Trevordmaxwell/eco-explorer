@@ -71,6 +71,7 @@ export function drawFieldStationRoutesPage({
   selectedOutingSupportId,
   outingSupportSelected,
 }: FieldStationRoutesPageOptions): void {
+  const isFiledSourceToShore = routeBoard.routeId === 'source-to-shore-beta' && routeBoard.complete;
   const boardProgressLabel = routeBoard.launchCard
     ? routeBoard.launchCard.progressLabel
     : routeBoard.routeId === 'source-to-shore-beta'
@@ -79,14 +80,22 @@ export function drawFieldStationRoutesPage({
       ? 'LOGGED'
       : routeBoard.progressLabel;
   const boardProgressText = fitTextToWidth(context, boardProgressLabel, 44);
-  const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, 12);
-  const boardRect = makeRect(contentRect.x, stripRect.y + stripRect.h + 2, contentRect.w, atlas ? 30 : 32);
-  const atlasRect = atlas ? makeRect(contentRect.x, boardRect.y + boardRect.h + 2, contentRect.w, 14) : null;
+  const sectionGap = isFiledSourceToShore ? 1 : 2;
+  const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, isFiledSourceToShore ? 10 : 12);
+  const boardRect = makeRect(
+    contentRect.x,
+    stripRect.y + stripRect.h + sectionGap,
+    contentRect.w,
+    isFiledSourceToShore ? 34 : atlas ? 30 : 32,
+  );
+  const atlasRect = atlas
+    ? makeRect(contentRect.x, boardRect.y + boardRect.h + sectionGap, contentRect.w, isFiledSourceToShore ? 12 : 14)
+    : null;
   const upgradesRect = makeRect(
     contentRect.x,
-    (atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + 2,
+    (atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + sectionGap,
     contentRect.w,
-    Math.max(18, contentRect.y + contentRect.h - ((atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + 2)),
+    Math.max(18, contentRect.y + contentRect.h - ((atlasRect ? atlasRect.y + atlasRect.h : boardRect.y + boardRect.h) + sectionGap)),
   );
 
   fillPixelPanel(context, stripRect.x, stripRect.y, stripRect.w, stripRect.h, palette.journalPage, palette.accent);
@@ -209,6 +218,10 @@ export function drawFieldStationRoutesPage({
     { align: 'right' },
   );
   upgradeCardY += 7;
+
+  if (isFiledSourceToShore) {
+    return;
+  }
 
   upgrades.forEach((upgrade) => {
     const selected = upgrade.id === selectedUpgradeId;

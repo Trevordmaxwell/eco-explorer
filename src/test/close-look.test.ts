@@ -25,6 +25,7 @@ describe('close-look helpers', () => {
     expect(supportsCloseLook('nurse-log')).toBe(true);
     expect(supportsCloseLook('shore-pine')).toBe(true);
     expect(supportsCloseLook('pacific-wax-myrtle')).toBe(true);
+    expect(supportsCloseLook('coyote-brush')).toBe(true);
     expect(supportsCloseLook('beach-strawberry')).toBe(true);
     expect(supportsCloseLook('salmonberry')).toBe(true);
     expect(supportsCloseLook('song-sparrow')).toBe(true);
@@ -195,6 +196,16 @@ describe('close-look helpers', () => {
       spriteId: 'pacific-wax-myrtle',
     });
     expect(waxMyrtlePayload?.callouts).toContain('waxy berries');
+
+    const coyoteBrushPayload = buildCloseLookPayload(coastalScrubBiome.entries['coyote-brush']);
+    expect(coyoteBrushPayload).toMatchObject({
+      entryId: 'coyote-brush',
+      title: 'Coyote Brush',
+      spriteId: 'coyote-brush',
+      sentence: 'Dense coyote brush helps mark where open dunes turn into thicker coastal scrub.',
+      spriteScale: 5,
+    });
+    expect(coyoteBrushPayload?.callouts).toEqual(['dense twigs', 'coastal brush']);
 
     const beachStrawberryPayload = buildCloseLookPayload(coastalScrubBiome.entries['beach-strawberry']);
     expect(beachStrawberryPayload).toMatchObject({
