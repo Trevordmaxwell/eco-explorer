@@ -1,6 +1,6 @@
 # Save Snapshot States
 
-These debug-only snapshots help reviewers jump to key alpha arc states without replaying the full season.
+These debug-only snapshots help reviewers jump to key RC arc states without replaying the full season or Source to Shore beta route.
 
 They are plain `SaveState` JSON payloads built by `src/engine/debug-save-snapshots.ts`. The storage key comes from `SAVE_STORAGE_KEY` in `src/engine/save.ts` and is also included as `localStorageKey` in every runtime snapshot payload.
 
@@ -33,7 +33,9 @@ Replace `high-pass-ready-to-file` with any snapshot id below.
 - `source-to-shore-ready-to-file`: Source Shelter evidence is filled and the beta note is ready to file.
 - `source-to-shore-filed`: Source Shelter is filed; Forest Release is the active downstream beta beat.
 - `source-to-shore-forest-release-ready-to-file`: Forest Release evidence is filled and the downstream beta note is ready to file.
-- `source-to-shore-forest-release-filed`: Forest Release is filed as the first downstream Source to Shore proof.
+- `source-to-shore-forest-release-filed`: Forest Release is filed and Dune Catch is the active coastward beta beat.
+- `source-to-shore-dune-catch-ready-to-file`: Dune Catch evidence is filled and the coastward beta note is ready to file.
+- `source-to-shore-dune-catch-filed`: Dune Catch is filed as the Source to Shore beta closure.
 
 ## Guardrails
 

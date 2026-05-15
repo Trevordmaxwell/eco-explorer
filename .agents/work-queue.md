@@ -44,57 +44,13 @@ Former `lane-3` work now routes through `lane-2`. Former `lane-4` work now route
 ## Current Director Gate
 
 - Packet `182` is closed, and packet `192` is closed with clean route-loop cohesion signoff.
-- Packet `193` is the active RC/playtest-readiness sprint.
-- Lane 1 should start `ECO-20260515-scout-01`.
-- Lane 2 should start `ECO-20260515-scout-02`.
-- Do not start feature expansion, new routes, new content breadth, new station pages, or old external-feedback packet tails during packet `193`.
+- Packet `193` is closed with clean RC playtest readiness signoff.
+- Lane 1 has no remaining actionable packet `193` item after `ECO-20260515-critic-03`.
+- Lane 2 has no remaining actionable packet `193` item after `ECO-20260515-critic-02`.
+- External observed sessions may begin with the refreshed playtest kit; after real sessions exist, synthesize repeated evidence before approving new expansion work.
 - Lane 3 and lane 4 are retired labels; route former lane 3 work through lane 2 and former lane 4 work through lane 1.
 
 ## Ready
-
-### ECO-20260515-scout-01
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-1`
-- Priority: `P0`
-- Title: `L1 scout: RC playtest smoke contract`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260514-critic-04`
-- Recommended effort: `high`
-
-Goal:
-
-- Scope the smallest internal RC playtest smoke pass for the current committed build, including boot, input, save setup, native `256x160` player-facing screenshots, console health, and review-drop/RC artifact expectations.
-
-Acceptance:
-
-- Names exact slices, proof folder, commands, screenshots/state files, and pass/fail thresholds for `ECO-20260515-main-01`.
-- Keeps scope to proof and issue finding; no feature, content, station, route, save, or traversal implementation.
-- Promotes `ECO-20260515-main-01` only if the contract is concrete.
-
-### ECO-20260515-scout-02
-
-- Status: `READY`
-- Owner: `scout-agent`
-- Lane: `lane-2`
-- Priority: `P0`
-- Title: `L2 scout: Playtest kit refresh contract`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260514-critic-04`
-- Recommended effort: `high`
-
-Goal:
-
-- Scope the smallest documentation refresh that makes `docs/alpha-playtest-kit.md` and `docs/playtest-comprehension-rubric.md` current for the post-packet-192 build, the active two-lane model, and external observer privacy.
-
-Acceptance:
-
-- Names exact doc sections that need updates and any sections that should stay unchanged.
-- Keeps scope docs-only; no runtime, content, station, route, save, overlay, or progression changes.
-- Promotes `ECO-20260515-main-02` only if the refresh contract is concrete.
 
 ## Blocked
 
@@ -114,114 +70,6 @@ Note:
 - Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
 
 ## Parked
-
-### ECO-20260515-main-01
-
-- Status: `PARKED`
-- Owner: `main-agent`
-- Lane: `lane-1`
-- Priority: `P0`
-- Title: `L1 implement: RC playtest smoke pass`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260515-scout-01`
-- Recommended effort: `high`
-
-Goal:
-
-- Run the scoped internal RC playtest smoke pass, capture evidence, and write a severity-ordered report that says whether the current build is ready for observed external sessions.
-
-Acceptance:
-
-- Records RC/review-drop status, commands run, proof artifacts, screenshots/state files, console health, and any blocker findings.
-- Opens only smallest explicit blocker items if a P0/P1 issue appears.
-- Does not land feature, content, route, station, save, traversal, or observer-doc scope.
-
-### ECO-20260515-critic-01
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-1`
-- Priority: `P0`
-- Title: `L1 review: RC playtest smoke findings`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260515-main-01`
-- Recommended effort: `high`
-
-Goal:
-
-- Review the internal smoke pass and decide whether any player-facing blocker prevents external observed sessions.
-
-Acceptance:
-
-- Confirms evidence, commands, screenshots/state proof, and console/error status.
-- Either clears the lane-1 smoke gate or opens the smallest explicit blocker.
-
-### ECO-20260515-main-02
-
-- Status: `PARKED`
-- Owner: `main-agent`
-- Lane: `lane-2`
-- Priority: `P0`
-- Title: `L2 implement: Refresh playtest kit docs`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260515-scout-02`
-- Recommended effort: `high`
-
-Goal:
-
-- Update the playtest kit and comprehension rubric so external observers can run the current build safely and classify findings by the active two-lane model.
-
-Acceptance:
-
-- Updates only documentation and related handoff notes.
-- Preserves privacy rules and explicitly avoids claiming real external feedback.
-- Runs `npm run validate:agents` after queue or packet edits and `git diff --check`.
-
-### ECO-20260515-critic-02
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-2`
-- Priority: `P1`
-- Title: `L2 review: Playtest kit refresh`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260515-main-02`
-- Recommended effort: `high`
-
-Goal:
-
-- Review the refreshed observer docs for clarity, privacy, science-safe prompts, and two-lane routing.
-
-Acceptance:
-
-- Confirms the kit is usable by a non-developer observer and does not collect identifying child data.
-- Either clears the lane-2 docs gate or opens the smallest explicit blocker.
-
-### ECO-20260515-critic-03
-
-- Status: `PARKED`
-- Owner: `critic-agent`
-- Lane: `lane-1`
-- Priority: `P0`
-- Title: `L1 review: RC playtest readiness signoff`
-- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
-- Packet: `.agents/packets/193-rc-playtest-readiness.json`
-- Depends on: `ECO-20260515-critic-01`, `ECO-20260515-critic-02`
-- Recommended effort: `xhigh`
-
-Goal:
-
-- Make the final packet `193` readiness decision after the internal smoke proof and observer-doc refresh both have clean reviews.
-
-Acceptance:
-
-- Marks packet `193` done only if external observed sessions can begin without known P0/P1 blockers.
-- If not clean, leaves packet `193` open and queues only the smallest blocker work.
-- Records whether the next move is external playtest sessions, blocker repair, or another director decision.
 
 ### ECO-20260420-scout-403
 
@@ -895,6 +743,232 @@ Note:
 Use this section for newly discovered work that is not yet approved or prioritized.
 
 ## Done
+
+### ECO-20260515-critic-03
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 review: RC playtest readiness signoff`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-signoff.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-critic-01`, `ECO-20260515-critic-02`
+- Recommended effort: `xhigh`
+
+Goal:
+
+- Make the final packet `193` readiness decision after the internal smoke proof and observer-doc refresh both have clean reviews.
+
+Acceptance:
+
+- Marks packet `193` done only if external observed sessions can begin without known P0/P1 blockers.
+- If not clean, leaves packet `193` open and queues only the smallest explicit blocker work.
+- Records whether the next move is external playtest sessions, blocker repair, or another director decision.
+
+Completion note:
+
+- Added `docs/reports/2026-05-15-rc-playtest-readiness-signoff.md` with no blocking findings.
+- Marked packet `193` `DONE`; lane 1 smoke proof/after-proof and lane 2 observer-doc review are both clean.
+- Ran final `npm run alpha:rc`; source and clean-extract validation, science checks, tests, and builds passed with archive `output/review-drops/eco-explorer-review-drop-20260514-191253.tgz`.
+- Recorded the next move: begin external observed sessions with the refreshed playtest kit, then synthesize real repeated evidence before approving expansion work.
+
+### ECO-20260515-critic-01
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 review: RC playtest smoke findings`
+- Source: `docs/reports/2026-05-15-rc-playtest-smoke-review.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-main-01`, `ECO-20260515-main-03`
+- Recommended effort: `high`
+
+Goal:
+
+- Review the internal smoke pass and the station readability after-proof, then decide whether any player-facing blocker still prevents external observed sessions.
+
+Acceptance:
+
+- Confirms evidence, commands, screenshots/state proof, and console/error status.
+- Either clears the lane-1 smoke gate or opens the smallest explicit blocker.
+
+Completion note:
+
+- Added `docs/reports/2026-05-15-rc-playtest-smoke-review.md` with no blocking findings.
+- Confirmed the original P1 was repaired by the focused station route page layout fix, after-proof PNGs are native `256x160`, state remains correct for station-return and filed Source to Shore, and browser error output is empty.
+- Promoted `ECO-20260515-critic-03` to `READY` for final packet `193` readiness signoff.
+
+### ECO-20260515-main-03
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 fix: RC station route readability blocker`
+- Source: `docs/reports/2026-05-15-rc-station-route-readability-fix.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-main-01`
+- Recommended effort: `high`
+
+Goal:
+
+- Repair the P1 native `256x160` field-station route readability blocker found in the RC smoke pass.
+
+Acceptance:
+
+- `station-return-routes` and `source-to-shore-filed-station` after-proof screenshots are readable at native `256x160`.
+- Keeps the fix to field-station route page spacing/copy density; no new station page, route, content, save field, traversal behavior, or observer-doc scope.
+- Runs focused route/station rendering tests, `npm run build`, `npm run validate:agents`, and `git diff --check`.
+
+Completion note:
+
+- Adjusted only the existing field-station route page layout so route boards have enough room for title/progress, summary, and three beat rows without colliding with the support row.
+- Captured raw native `256x160` after-proof under `output/lane-1-main-03-station-route-readability-fix/` for `station-return-routes-after` and `source-to-shore-filed-station-after`, with paired state JSON and empty browser error report.
+- Added `docs/reports/2026-05-15-rc-station-route-readability-fix.md`.
+- Passed focused route/station tests, `npm run build`, `npm run validate:agents`, and `git diff --check`, then promoted `ECO-20260515-critic-01` to `READY`.
+
+### ECO-20260515-main-01
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 implement: RC playtest smoke pass`
+- Source: `docs/reports/2026-05-15-rc-playtest-smoke-pass.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-scout-01`
+- Recommended effort: `high`
+
+Goal:
+
+- Run the scoped internal RC playtest smoke pass, capture evidence, and write a severity-ordered report that says whether the current build is ready for observed external sessions.
+
+Acceptance:
+
+- Records RC/review-drop status, commands run, proof artifacts, screenshots/state files, console health, and any blocker findings.
+- Opens only smallest explicit blocker items if a P0/P1 issue appears.
+- Does not land feature, content, route, station, save, traversal, or observer-doc scope.
+
+Completion note:
+
+- Ran `npm run alpha:rc`; source validation/science/full tests/build passed, review drop `output/review-drops/eco-explorer-review-drop-20260514-184243.tgz` was created and clean-extract verified.
+- Captured native `256x160` browser smoke proof under `output/lane-1-main-01-rc-playtest-smoke/` with manifest, browser errors, five PNG frames, and paired state JSON.
+- Confirmed fresh boot, first-play input, debug save setup, Source to Shore active world-map state, filed Source to Shore semantic closure, and zero browser errors.
+- Found one P1 blocker: station route frames are semantically correct but visually overlapping/crowded in `station-return-routes` and `source-to-shore-filed-station`.
+- Added `docs/reports/2026-05-15-rc-playtest-smoke-pass.md` and queued `ECO-20260515-main-03` as the smallest lane-1 blocker fix.
+- Kept `ECO-20260515-critic-01` parked pending after-proof.
+
+### ECO-20260515-critic-02
+
+- Status: `DONE`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `L2 review: Playtest kit refresh`
+- Source: `docs/reports/2026-05-15-playtest-kit-refresh-implementation.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-main-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Review the refreshed observer docs for clarity, privacy, science-safe prompts, and two-lane routing.
+
+Acceptance:
+
+- Confirms the kit is usable by a non-developer observer and does not collect identifying child data.
+- Either clears the lane-2 docs gate or opens the smallest explicit blocker.
+
+Completion note:
+
+- Added `docs/reports/2026-05-15-playtest-kit-refresh-review.md` and found no blocking issues.
+- Confirmed the observer kit is privacy-safe, non-developer usable, science-prompt-safe, aligned to the active two-lane model, and current through Source to Shore Dune Catch closure.
+- Lane 2 has no remaining actionable packet `193` item; final readiness signoff remains parked behind lane 1's smoke review dependency.
+
+### ECO-20260515-main-02
+
+- Status: `DONE`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P0`
+- Title: `L2 implement: Refresh playtest kit docs`
+- Source: `docs/reports/2026-05-15-playtest-kit-refresh-contract.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-scout-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Update the playtest kit and comprehension rubric so external observers can run the current build safely and classify findings by the active two-lane model.
+
+Acceptance:
+
+- Updates only documentation and related handoff notes.
+- Preserves privacy rules and explicitly avoids claiming real external feedback.
+- Runs `npm run validate:agents` after queue or packet edits and `git diff --check`.
+
+Completion note:
+
+- Refreshed `docs/alpha-playtest-kit.md` and `docs/playtest-comprehension-rubric.md` for the current RC/Source to Shore state, strict privacy, and active two-lane triage.
+- Updated `docs/save-snapshot-states.md` to document the existing Dune Catch ready-to-file and filed snapshot ids.
+- Added `docs/reports/2026-05-15-playtest-kit-refresh-implementation.md`, passed `git diff --check`, and promoted `ECO-20260515-critic-02` to `READY`.
+
+### ECO-20260515-scout-01
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 scout: RC playtest smoke contract`
+- Source: `docs/reports/2026-05-15-rc-playtest-smoke-contract.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260514-critic-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Scope the smallest internal RC playtest smoke pass for the current committed build, including boot, input, save setup, native `256x160` player-facing screenshots, console health, and review-drop/RC artifact expectations.
+
+Acceptance:
+
+- Names exact slices, proof folder, commands, screenshots/state files, and pass/fail thresholds for `ECO-20260515-main-01`.
+- Keeps scope to proof and issue finding; no feature, content, station, route, save, or traversal implementation.
+- Promotes `ECO-20260515-main-01` only if the contract is concrete.
+
+Completion note:
+
+- Added `docs/reports/2026-05-15-rc-playtest-smoke-contract.md` with exact RC commands, proof folder, required screenshots/state files, browser smoke slices, and P0/P1 thresholds.
+- Updated packet `193` to version `2` with the lane-1 smoke contract.
+- Promoted `ECO-20260515-main-01` to `READY`.
+
+### ECO-20260515-scout-02
+
+- Status: `DONE`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P0`
+- Title: `L2 scout: Playtest kit refresh contract`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260514-critic-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Scope the smallest documentation refresh that makes `docs/alpha-playtest-kit.md` and `docs/playtest-comprehension-rubric.md` current for the post-packet-192 build, the active two-lane model, and external observer privacy.
+
+Acceptance:
+
+- Names exact doc sections that need updates and any sections that should stay unchanged.
+- Keeps scope docs-only; no runtime, content, station, route, save, overlay, or progression changes.
+- Promotes `ECO-20260515-main-02` only if the refresh contract is concrete.
+
+Completion note:
+
+- Added `docs/reports/2026-05-15-playtest-kit-refresh-contract.md` with exact section-level doc updates, unchanged surfaces, non-goals, and verification expectations.
+- Promoted `ECO-20260515-main-02` to `READY`; scope stays documentation-only with no runtime, content, station, route, map, save, overlay, or progression changes.
 
 ### ECO-20260514-critic-04
 

@@ -1,22 +1,32 @@
 {
   "packet_id": "ECO-PACKET-193",
-  "version": 1,
+  "version": 9,
   "created_at": "2026-05-15",
   "created_by_role": "director",
-  "status": "READY",
+  "status": "DONE",
   "title": "RC playtest readiness",
   "summary": "Prepare the current post-packet-192 build for real observed playtest sessions without adding new feature breadth.",
   "source_reports": [
     "docs/reports/2026-05-15-rc-playtest-readiness-plan.md",
+    "docs/reports/2026-05-15-rc-playtest-smoke-contract.md",
+    "docs/reports/2026-05-15-playtest-kit-refresh-contract.md",
+    "docs/reports/2026-05-15-rc-playtest-smoke-pass.md",
+    "docs/reports/2026-05-15-rc-station-route-readability-fix.md",
+    "docs/reports/2026-05-15-rc-playtest-smoke-review.md",
+    "docs/reports/2026-05-15-rc-playtest-readiness-signoff.md",
+    "docs/reports/2026-05-15-playtest-kit-refresh-implementation.md",
+    "docs/reports/2026-05-15-playtest-kit-refresh-review.md",
     "docs/reports/2026-05-14-route-loop-cohesion-signoff-review.md",
     "docs/reports/2026-05-14-handheld-readability-gate-review.md",
     "docs/alpha-playtest-kit.md",
     "docs/playtest-comprehension-rubric.md",
+    "docs/save-snapshot-states.md",
     "docs/review-drop-checklist.md"
   ],
   "queue_refs": [
     "ECO-20260515-scout-01",
     "ECO-20260515-main-01",
+    "ECO-20260515-main-03",
     "ECO-20260515-critic-01",
     "ECO-20260515-scout-02",
     "ECO-20260515-main-02",
@@ -52,24 +62,30 @@
     },
     {
       "step": 4,
+      "queue_id": "ECO-20260515-main-03",
+      "goal": "Repair the lane-1 station route readability blocker found during the RC smoke pass.",
+      "why_now": "Observed external sessions should not start while required station route smoke frames have P1 overlap."
+    },
+    {
+      "step": 5,
       "queue_id": "ECO-20260515-main-02",
       "goal": "Update the observer-facing playtest kit and rubric for the current build.",
       "why_now": "External observers need current instructions, privacy rules, and two-lane triage labels."
     },
     {
-      "step": 5,
+      "step": 6,
       "queue_id": "ECO-20260515-critic-01",
       "goal": "Review the internal RC playtest smoke report for blockers.",
       "why_now": "The sprint should not send a broken or confusing build into observed sessions."
     },
     {
-      "step": 6,
+      "step": 7,
       "queue_id": "ECO-20260515-critic-02",
       "goal": "Review the refreshed playtest kit for clarity, privacy, and science-safe observation.",
       "why_now": "The observer docs must gather useful evidence without leading children or collecting personal data."
     },
     {
-      "step": 7,
+      "step": 8,
       "queue_id": "ECO-20260515-critic-03",
       "goal": "Make the final RC playtest readiness decision.",
       "why_now": "Only a combined proof and documentation review should decide whether external sessions can begin."
@@ -81,8 +97,13 @@
     ".agents/project-memory.md",
     ".agents/packets/193-rc-playtest-readiness.json",
     "docs/reports/2026-05-15-rc-playtest-readiness-plan.md",
+    "docs/reports/2026-05-15-rc-station-route-readability-fix.md",
+    "docs/reports/2026-05-15-rc-playtest-smoke-review.md",
+    "docs/reports/2026-05-15-rc-playtest-readiness-signoff.md",
+    "src/engine/field-station-routes-page.ts",
     "docs/alpha-playtest-kit.md",
     "docs/playtest-comprehension-rubric.md",
+    "docs/save-snapshot-states.md",
     "docs/review-drop-checklist.md",
     "progress.md"
   ],
@@ -136,6 +157,267 @@
     "director": "xhigh",
     "lane-1": "high, or xhigh if a smoke blocker touches save, route, station, or overlay behavior",
     "lane-2": "high"
+  },
+  "scout_01_contract": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-rc-playtest-smoke-contract.md",
+    "decision": "Promote a proof-only lane-1 internal RC smoke pass with alpha RC packaging, native browser screenshots, debug snapshot setup, console health, and severity-ordered findings.",
+    "promoted_next": "ECO-20260515-main-01",
+    "proof_dir": "output/lane-1-main-01-rc-playtest-smoke",
+    "required_commands": [
+      "git branch --show-current",
+      "git status --short",
+      "npm run alpha:rc",
+      "git diff --check"
+    ],
+    "required_browser_slices": [
+      "title-fresh-boot",
+      "fresh-first-play-notice",
+      "station-return-routes",
+      "source-to-shore-active-world-map",
+      "source-to-shore-filed-station"
+    ],
+    "required_artifacts": [
+      "manifest.json",
+      "browser-errors.json",
+      "one PNG and one state JSON for each required browser slice",
+      "docs/reports/2026-05-15-rc-playtest-smoke-pass.md"
+    ],
+    "scope_exclusions": [
+      "feature expansion",
+      "new routes",
+      "content breadth",
+      "station pages",
+      "save fields",
+      "traversal changes",
+      "observer-doc copy"
+    ],
+    "blocker_policy": "If a P0/P1 issue appears, record reproduction steps and open the smallest explicit blocker item; if no P0/P1 appears, promote ECO-20260515-critic-01."
+  },
+  "scout_02_contract": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-playtest-kit-refresh-contract.md",
+    "decision": "Promote ECO-20260515-main-02 to READY for a docs-only observer kit refresh.",
+    "promoted_next": "ECO-20260515-main-02",
+    "scope": "Refresh the observer playtest kit, comprehension rubric, and linked snapshot-id notes for the current post-packet-192 RC state.",
+    "required_updates": {
+      "docs/alpha-playtest-kit.md": [
+        "Reframe intro from completed alpha arc to current RC/playtest-readiness build while keeping the path stable.",
+        "Refresh session slices to include Source Shelter, Forest Release, Dune Catch, and filed Source to Shore closure.",
+        "Keep run commands but rename old alpha-RC wording to verified RC/review-drop wording.",
+        "Refresh save setup snapshot list with current Source to Shore ids, including Dune Catch.",
+        "Collapse four old lane watch labels into the active two-lane model.",
+        "Update the session note template and post-session handoff language without claiming real feedback."
+      ],
+      "docs/playtest-comprehension-rubric.md": [
+        "Update intro, pairing sentence, and adult setup for the current RC kit.",
+        "Add Source to Shore observation anchors and current slice starts.",
+        "Generalize filed-route comprehension checks beyond filed High Pass.",
+        "Collapse friction-note likely-lane examples into lane 1 and lane 2.",
+        "Keep science, memory, emotion, and spatial prompts concrete and non-leading."
+      ],
+      "docs/save-snapshot-states.md": [
+        "Update Snapshot IDs only as a linked handoff note so existing Dune Catch debug snapshot ids are documented for observers."
+      ]
+    },
+    "leave_unchanged": [
+      "docs/review-drop-checklist.md command flow",
+      "privacy rule forbidding identifying child data",
+      "warm nudge ladder and adult observer tone",
+      "crash or console checklist",
+      "localStorage debug snapshot workflow"
+    ],
+    "non_goals": [
+      "runtime behavior",
+      "content implementation",
+      "station, route, map, save, overlay, or progression changes",
+      "new claims of external playtest feedback",
+      "old parked feedback-packet activation"
+    ],
+    "verification_expected": [
+      "npm run validate:agents after queue or packet edits",
+      "git diff --check after docs edits",
+      "no build unless runtime code changes"
+    ]
+  },
+  "main_01_result": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-rc-playtest-smoke-pass.md",
+    "decision": "Internal RC smoke found one P1 field-station route readability blocker; keep observed external sessions blocked until after a focused lane-1 repair and after-proof.",
+    "rc_archive": "output/review-drops/eco-explorer-review-drop-20260514-184243.tgz",
+    "proof_dir": "output/lane-1-main-01-rc-playtest-smoke",
+    "promoted_next": "ECO-20260515-main-03",
+    "browser_slices": [
+      "title-fresh-boot",
+      "fresh-first-play-notice",
+      "station-return-routes",
+      "source-to-shore-active-world-map",
+      "source-to-shore-filed-station"
+    ],
+    "passed_checks": [
+      "npm run alpha:rc",
+      "fresh boot",
+      "keyboard start input",
+      "debug snapshot setup",
+      "Source to Shore active world-map state",
+      "filed Source to Shore semantic closure",
+      "zero browser console/page errors"
+    ],
+    "blocking_findings": [
+      {
+        "severity": "P1",
+        "title": "Field station route frames are state-correct but visually overlapping at native size",
+        "evidence": [
+          "output/lane-1-main-01-rc-playtest-smoke/station-return-routes.png",
+          "output/lane-1-main-01-rc-playtest-smoke/source-to-shore-filed-station.png"
+        ],
+        "next_queue_id": "ECO-20260515-main-03"
+      }
+    ],
+    "scope_confirmed_unchanged": [
+      "feature expansion",
+      "new routes",
+      "content breadth",
+      "station pages",
+      "save fields",
+      "traversal behavior",
+      "observer-doc scope"
+    ]
+  },
+  "main_03_result": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-rc-station-route-readability-fix.md",
+    "decision": "The lane-1 RC smoke field-station route readability blocker is repaired; promote ECO-20260515-critic-01 for smoke evidence review.",
+    "changed_files": [
+      "src/engine/field-station-routes-page.ts"
+    ],
+    "proof_dir": "output/lane-1-main-03-station-route-readability-fix",
+    "after_proof": [
+      "output/lane-1-main-03-station-route-readability-fix/station-return-routes-after.png",
+      "output/lane-1-main-03-station-route-readability-fix/source-to-shore-filed-station-after.png"
+    ],
+    "browser_result": [
+      "both after-proof PNGs are raw 256x160 canvas captures",
+      "station-return-routes-after keeps the route board and support row separated",
+      "source-to-shore-filed-station-after keeps the filed Source to Shore board, atlas strip, and support row separated",
+      "browser console/page-error collection returned no errors"
+    ],
+    "scope_confirmed_unchanged": [
+      "new station pages",
+      "new routes",
+      "content breadth",
+      "save fields",
+      "traversal behavior",
+      "observer-doc scope"
+    ],
+    "verification": [
+      "npm test -- --run src/test/runtime-smoke.test.ts src/test/field-season-board.test.ts -t \"field station|Source to Shore station|filed Source to Shore station page|route board|Trail Stride\"",
+      "npm run build",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "promoted_next": "ECO-20260515-critic-01"
+  },
+  "critic_01_review": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-rc-playtest-smoke-review.md",
+    "decision": "Clear the lane-1 RC smoke gate with no blocking findings after the station readability fix.",
+    "findings": [
+      "No blocking findings.",
+      "The original P1 station route readability issue was valid and is repaired.",
+      "After-proof PNGs are native 256x160 canvas captures.",
+      "Station-return route board and filed Source to Shore station board remain semantically correct.",
+      "Browser console/page-error artifact is empty.",
+      "The fix stayed inside existing field-station route page spacing/copy density."
+    ],
+    "reviewed_evidence": [
+      "docs/reports/2026-05-15-rc-playtest-smoke-pass.md",
+      "docs/reports/2026-05-15-rc-station-route-readability-fix.md",
+      "output/lane-1-main-01-rc-playtest-smoke/manifest.json",
+      "output/lane-1-main-03-station-route-readability-fix/manifest.json",
+      "output/lane-1-main-03-station-route-readability-fix/station-return-routes-after.png",
+      "output/lane-1-main-03-station-route-readability-fix/source-to-shore-filed-station-after.png"
+    ],
+    "verification": [
+      "reviewed implementation test/build/validate/diff-check records",
+      "jq manifest review",
+      "sips pixel-size check",
+      "browser-errors artifact review"
+    ],
+    "promoted_next": "ECO-20260515-critic-03"
+  },
+  "main_02_result": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-playtest-kit-refresh-implementation.md",
+    "promoted_next": "ECO-20260515-critic-02",
+    "changed_files": [
+      "docs/alpha-playtest-kit.md",
+      "docs/playtest-comprehension-rubric.md",
+      "docs/save-snapshot-states.md"
+    ],
+    "summary": [
+      "Reframed the playtest kit around the current RC build while keeping the legacy file path stable.",
+      "Added Source to Shore observer slices through Source Shelter, Forest Release, Dune Catch, and filed closure.",
+      "Collapsed observer triage from old lane 1 through lane 4 labels into the active two-lane model.",
+      "Preserved privacy guardrails and avoided any claim that external playtest feedback already exists.",
+      "Documented existing Dune Catch debug snapshot ids for observer use."
+    ],
+    "scope_exclusions": [
+      "runtime behavior",
+      "content implementation",
+      "station, route, map, save, overlay, or progression changes",
+      "new external-feedback claims"
+    ],
+    "verification": [
+      "git diff --check",
+      "npm run validate:agents"
+    ]
+  },
+  "critic_02_review": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-playtest-kit-refresh-review.md",
+    "decision": "Clear the lane-2 observer-doc gate with no blocker.",
+    "findings": [
+      "No blocking findings.",
+      "Observer docs are usable by a non-developer observer.",
+      "Privacy language forbids identifying child data.",
+      "Science prompts remain open, relationship-focused, and non-leading.",
+      "Old four-lane triage labels are removed from the active kit/rubric.",
+      "Source to Shore Dune Catch ready/filed snapshot ids match existing debug snapshot ids and tests."
+    ],
+    "lane_status": "Lane 2 has no remaining actionable packet 193 item; final readiness signoff remains parked behind lane 1 smoke review.",
+    "verification": [
+      "rg stale-label check returned no matches",
+      "rg Dune Catch snapshot id alignment check",
+      "git diff --check",
+      "npm run validate:agents"
+    ]
+  },
+  "critic_03_signoff": {
+    "completed_at": "2026-05-15",
+    "source": "docs/reports/2026-05-15-rc-playtest-readiness-signoff.md",
+    "decision": "Close packet 193 and begin external observed playtest sessions using the refreshed observer kit.",
+    "findings": [
+      "No blocking findings.",
+      "Lane 1 RC smoke proof and station readability after-proof are clean.",
+      "Lane 2 observer kit refresh is privacy-safe, current, and clean.",
+      "No new feature breadth, route expansion, station page, save schema, traversal system, inventory, combat, planner, or content pack landed for packet 193."
+    ],
+    "next_move": [
+      "Begin external observed sessions with docs/alpha-playtest-kit.md.",
+      "Use docs/playtest-comprehension-rubric.md during observation.",
+      "Use docs/save-snapshot-states.md for debug snapshot staging.",
+      "After real sessions exist, synthesize repeated evidence before approving new expansion work."
+    ],
+    "verification": [
+      "reviewed lane-1 smoke and after-proof reports",
+      "reviewed lane-2 observer-doc review",
+      "reviewed packet 193 completion gate",
+      "npm run alpha:rc",
+      "npm run validate:agents",
+      "git diff --check"
+    ],
+    "rc_archive": "output/review-drops/eco-explorer-review-drop-20260514-191253.tgz"
   },
   "post_packet_path": [
     "If clean, begin external observed sessions using the refreshed playtest kit.",

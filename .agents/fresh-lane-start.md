@@ -10,21 +10,21 @@ The active model is director plus two implementation lanes.
 
 Packet `182` is closed, and packet `192` is closed with clean route-loop cohesion signoff.
 
-Packet `193` is the active RC/playtest-readiness sprint.
+Packet `193` is closed with clean RC playtest readiness signoff.
 
-Lane 1 is currently starting packet `193` with:
+Lane 1 has no remaining actionable packet `193` item after:
 
-- `ECO-20260515-scout-01`
+- `ECO-20260515-critic-03`
 
-Lane 2 is currently starting packet `193` with:
+Lane 2 has no remaining actionable packet `193` item after:
 
-- `ECO-20260515-scout-02`
+- `ECO-20260515-critic-02`
 
 That means:
 
-- lane 1 may continue now by taking the first actionable lane-1 item in queue order
-- lane 2 may continue now by taking the first actionable lane-2 item in queue order
-- neither lane should start feature expansion, new routes, new content breadth, new station pages, or old external-feedback packet tails during packet `193`
+- no lane should continue packet `193`
+- external observed sessions may begin with the refreshed playtest kit
+- after real sessions exist, synthesize repeated evidence before approving new feature expansion, route work, new station pages, content breadth, or old external-feedback packet tails
 - former lane 3 work now routes through lane 2
 - former lane 4 work now routes through lane 1
 
@@ -52,7 +52,7 @@ You are the lane-1 runner for /Users/trevormaxwell/Desktop/game.
 
 Start with no prior chat context. Read AGENTS.md, .agents/fresh-lane-start.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-1.md, the packet linked from your first lane-1 queue item, and the matching role file in .agents/roles/.
 
-Verify git branch is main. Take the first actionable item in lane-1 queue order only if it is READY. The current director gate says packet 193 is active; lane 1 starts with ECO-20260515-scout-01 to scope the internal RC playtest smoke pass. Do not start feature expansion, new route work, new station pages, or content breadth.
+Verify git branch is main. Take the first actionable item in lane-1 queue order only if it is READY. The current director gate says packet 193 is closed with clean readiness signoff; lane 1 has no remaining actionable packet 193 item after ECO-20260515-critic-03. Do not start feature expansion, new route work, new station pages, or content breadth unless the queue promotes a new lane-1 item.
 ```
 
 ### Lane 2
@@ -62,7 +62,7 @@ You are the lane-2 runner for /Users/trevormaxwell/Desktop/game.
 
 Start with no prior chat context. Read AGENTS.md, .agents/fresh-lane-start.md, .agents/lane-runner.md, .agents/project-memory.md, .agents/work-queue.md, .agents/lanes/lane-2.md, the packet linked from your first lane-2 queue item, and the matching role file in .agents/roles/.
 
-Verify git branch is main. Take the first actionable item in lane-2 queue order only if it is READY. The current director gate says packet 193 is active; lane 2 starts with ECO-20260515-scout-02 to scope the playtest kit and observer-rubric refresh. Keep this docs-first and do not edit runtime, station, route, map, save, overlay, or progression files.
+Verify git branch is main. Take the first actionable item in lane-2 queue order only if it is READY. The current director gate says packet 193 is active, but lane 2 has cleared its observer-doc gate through ECO-20260515-critic-02 and is parked unless the queue promotes a new lane-2 item or the user explicitly overrides the gate. Do not edit runtime, station, route, map, save, overlay, or progression files.
 ```
 
 ### Former Lane 3

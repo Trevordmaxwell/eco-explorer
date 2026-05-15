@@ -1,6 +1,6 @@
 # Playtest Comprehension Rubric
 
-Use this rubric when an adult watches a kid play the current Eco Explorer alpha arc. The goal is to learn what the player understands, remembers, feels, and struggles with, not to collect feature requests or score the child.
+Use this rubric when an adult watches a kid play the current Eco Explorer RC build. The goal is to learn what the player understands, remembers, feels, and struggles with, not to collect feature requests or score the child.
 
 Pair this rubric with [alpha-playtest-kit.md](/Users/trevormaxwell/Desktop/game/docs/alpha-playtest-kit.md), which covers run/install setup, save reset, snapshot staging, crash notes, and the session note template.
 
@@ -15,10 +15,10 @@ Pair this rubric with [alpha-playtest-kit.md](/Users/trevormaxwell/Desktop/game/
 
 Before the session:
 
-- Use a fresh save or a named packet `131` save snapshot when one is available.
+- Use a fresh save or a named debug save snapshot from [save-snapshot-states.md](/Users/trevormaxwell/Desktop/game/docs/save-snapshot-states.md).
 - Tell the player: "Please explore, notice things, and say what you are wondering about. There are no wrong answers."
 - Let the player ask for help, but mark where help was needed.
-- Keep the session focused on one arc slice or one full completed-arc run, not an endless free-play survey.
+- Keep the session focused on one arc slice or one full current-arc run, not an endless free-play survey.
 
 Suggested observation anchors:
 
@@ -27,6 +27,9 @@ Suggested observation anchors:
 - Root Hollow / forest expedition memory
 - transition from filed season into `High Pass`
 - filed `High Pass` and post-filed settling
+- Source to Shore opening at `Source Shelter`
+- downstream `Forest Release`
+- coastward `Dune Catch` and filed Source to Shore closure
 
 Recommended slice starts:
 
@@ -37,6 +40,10 @@ Recommended slice starts:
 | Season close | `season-close-return` | whether the player knows the season is closing and where to go |
 | High Pass active | `high-pass-active` | active route label, support choice, rime/shelter/talus relationship |
 | High Pass filed | `high-pass-filed` | whether filed means settled instead of still active |
+| Source Shelter active | `source-to-shore-active` | Source to Shore board identity, high-source relationship, route-start clarity |
+| Forest Release active | `source-to-shore-filed` | downstream handoff from Source Shelter into Forest Trail |
+| Dune Catch active | `source-to-shore-forest-release-filed` | coastward handoff into Coastal Scrub and held-dune relationship |
+| Dune Catch closure | `source-to-shore-dune-catch-ready-to-file` or `source-to-shore-dune-catch-filed` | notebook-ready return, filed closure, no active replay confusion |
 
 ## Quick Triage
 
@@ -71,7 +78,7 @@ Mark `Green`, `Yellow`, or `Red`, then add one short note.
 | Player could explain at least one ecosystem relationship |  |  |
 | Player remembered one place as a place, not only as a menu task |  |  |
 | Player understood why returning to the station mattered |  |  |
-| Player understood that filed `High Pass` was settled, not still actively asking for the same route |  |  |
+| Player understood filed or closed routes as settled memories, not still-active chores |  |  |
 | Reading load stayed comfortable enough for motion to continue |  |  |
 | Adult help was occasional rather than constant |  |  |
 
@@ -86,6 +93,7 @@ Mark `Green`, `Yellow`, or `Red`, then add one short note.
 | Player understood filed routes as complete memories, not active chores |  |  |
 | Player noticed a support choice or could explain what it helped with |  |  |
 | Route replay labels felt inviting rather than confusing |  |  |
+| Source to Shore Source Shelter, Forest Release, Dune Catch, or filed closure state was clear when present |  |  |
 
 ## Spatial Checklist
 
@@ -134,10 +142,8 @@ Use one line per issue.
 
 | Moment | What happened | Triage | Likely lane |
 | --- | --- | --- | --- |
-|  |  |  | lane 1 state/station/tooling |
-|  |  |  | lane 2 science/copy/notebook |
-|  |  |  | lane 3 spatial/visual/readability |
-|  |  |  | lane 4 route/support/replay |
+|  |  |  | lane 1 playability/station/route/save/support/replay |
+|  |  |  | lane 2 science/copy/journal/atlas/spatial/readability |
 
 ## Feature Request Parking Lot
 
@@ -147,7 +153,7 @@ Write requests here without treating them as approved work.
 | --- | --- | --- |
 |  |  |  |
 
-Promote a request only if it points to repeated confusion, repeated science misunderstanding, repeated readability friction, or a clear gap in the current alpha arc.
+Promote a request only if it points to repeated confusion, repeated science misunderstanding, repeated readability friction, or a clear gap in the current RC build.
 
 ## Follow-Up Summary
 
@@ -157,5 +163,6 @@ After the session, write a short summary:
 - Strongest remembered place:
 - Most repeated confusion:
 - Any science accuracy concern:
+- One likely lane-1 follow-up, if needed:
 - One likely lane-2 follow-up, if needed:
 - One thing to leave alone:

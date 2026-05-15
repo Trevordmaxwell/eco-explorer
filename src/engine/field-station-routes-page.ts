@@ -80,13 +80,14 @@ export function drawFieldStationRoutesPage({
       ? 'LOGGED'
       : routeBoard.progressLabel;
   const boardProgressText = fitTextToWidth(context, boardProgressLabel, 44);
-  const sectionGap = isFiledSourceToShore ? 1 : 2;
-  const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, isFiledSourceToShore ? 10 : 12);
+  const sectionGap = 1;
+  const stripRect = makeRect(contentRect.x, seasonBodyTop, contentRect.w, 10);
+  const routeBoardHeight = isFiledSourceToShore ? 40 : atlas ? 36 : 42;
   const boardRect = makeRect(
     contentRect.x,
     stripRect.y + stripRect.h + sectionGap,
     contentRect.w,
-    isFiledSourceToShore ? 34 : atlas ? 30 : 32,
+    routeBoardHeight,
   );
   const atlasRect = atlas
     ? makeRect(contentRect.x, boardRect.y + boardRect.h + sectionGap, contentRect.w, isFiledSourceToShore ? 12 : 14)
@@ -115,6 +116,8 @@ export function drawFieldStationRoutesPage({
   );
 
   fillPixelPanel(context, boardRect.x, boardRect.y, boardRect.w, boardRect.h, palette.journalPage, palette.accent);
+  const boardTitleY = isFiledSourceToShore ? boardRect.y + 4 : atlas ? boardRect.y + 5 : boardRect.y + 6;
+  const boardProgressY = isFiledSourceToShore || atlas ? boardRect.y + 3 : boardRect.y + 4;
   const routeTitleText = fitTextToWidth(
     context,
     routeBoard.launchCard?.title ?? routeBoard.routeTitle,
@@ -124,14 +127,14 @@ export function drawFieldStationRoutesPage({
     context,
     routeTitleText,
     boardRect.x + 4,
-    boardRect.y + 7,
+    boardTitleY,
     palette.text,
   );
   drawUiText(
     context,
     boardProgressText,
     rightAlignTextX(context, boardProgressText, boardRect, 4),
-    boardRect.y + 5,
+    boardProgressY,
     palette.accent,
   );
 
@@ -165,7 +168,9 @@ export function drawFieldStationRoutesPage({
 
   if (!routeBoard.launchCard) {
     routeBoard.beats.forEach((beat, index) => {
-      const beatY = atlas ? boardRect.y + 13 + index * 6 : boardRect.y + 21 + index * 7;
+      const beatY = atlas
+        ? boardRect.y + (isFiledSourceToShore ? 13 : 14) + index * (isFiledSourceToShore ? 7 : 6)
+        : boardRect.y + 21 + index * 6;
       drawUiText(
         context,
         fitTextToWidth(context, `${getRouteBeatPrefix(beat.status)} ${beat.title}`, boardRect.w - 8),
