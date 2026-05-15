@@ -44,11 +44,57 @@ Former `lane-3` work now routes through `lane-2`. Former `lane-4` work now route
 ## Current Director Gate
 
 - Packet `182` is closed, and packet `192` is closed with clean route-loop cohesion signoff.
-- Lane 1 has no remaining actionable packet `192` item.
-- Lane 2 has no remaining actionable packet `192` item.
+- Packet `193` is the active RC/playtest-readiness sprint.
+- Lane 1 should start `ECO-20260515-scout-01`.
+- Lane 2 should start `ECO-20260515-scout-02`.
+- Do not start feature expansion, new routes, new content breadth, new station pages, or old external-feedback packet tails during packet `193`.
 - Lane 3 and lane 4 are retired labels; route former lane 3 work through lane 2 and former lane 4 work through lane 1.
 
 ## Ready
+
+### ECO-20260515-scout-01
+
+- Status: `READY`
+- Owner: `scout-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 scout: RC playtest smoke contract`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260514-critic-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Scope the smallest internal RC playtest smoke pass for the current committed build, including boot, input, save setup, native `256x160` player-facing screenshots, console health, and review-drop/RC artifact expectations.
+
+Acceptance:
+
+- Names exact slices, proof folder, commands, screenshots/state files, and pass/fail thresholds for `ECO-20260515-main-01`.
+- Keeps scope to proof and issue finding; no feature, content, station, route, save, or traversal implementation.
+- Promotes `ECO-20260515-main-01` only if the contract is concrete.
+
+### ECO-20260515-scout-02
+
+- Status: `READY`
+- Owner: `scout-agent`
+- Lane: `lane-2`
+- Priority: `P0`
+- Title: `L2 scout: Playtest kit refresh contract`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260514-critic-04`
+- Recommended effort: `high`
+
+Goal:
+
+- Scope the smallest documentation refresh that makes `docs/alpha-playtest-kit.md` and `docs/playtest-comprehension-rubric.md` current for the post-packet-192 build, the active two-lane model, and external observer privacy.
+
+Acceptance:
+
+- Names exact doc sections that need updates and any sections that should stay unchanged.
+- Keeps scope docs-only; no runtime, content, station, route, save, overlay, or progression changes.
+- Promotes `ECO-20260515-main-02` only if the refresh contract is concrete.
 
 ## Blocked
 
@@ -68,6 +114,114 @@ Note:
 - Official OpenAI guidance keeps API keys off client-side code, so direct field-guide mode needs a server-side relay or equivalent secret boundary before it can be implemented safely here.
 
 ## Parked
+
+### ECO-20260515-main-01
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 implement: RC playtest smoke pass`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-scout-01`
+- Recommended effort: `high`
+
+Goal:
+
+- Run the scoped internal RC playtest smoke pass, capture evidence, and write a severity-ordered report that says whether the current build is ready for observed external sessions.
+
+Acceptance:
+
+- Records RC/review-drop status, commands run, proof artifacts, screenshots/state files, console health, and any blocker findings.
+- Opens only smallest explicit blocker items if a P0/P1 issue appears.
+- Does not land feature, content, route, station, save, traversal, or observer-doc scope.
+
+### ECO-20260515-critic-01
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 review: RC playtest smoke findings`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-main-01`
+- Recommended effort: `high`
+
+Goal:
+
+- Review the internal smoke pass and decide whether any player-facing blocker prevents external observed sessions.
+
+Acceptance:
+
+- Confirms evidence, commands, screenshots/state proof, and console/error status.
+- Either clears the lane-1 smoke gate or opens the smallest explicit blocker.
+
+### ECO-20260515-main-02
+
+- Status: `PARKED`
+- Owner: `main-agent`
+- Lane: `lane-2`
+- Priority: `P0`
+- Title: `L2 implement: Refresh playtest kit docs`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-scout-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Update the playtest kit and comprehension rubric so external observers can run the current build safely and classify findings by the active two-lane model.
+
+Acceptance:
+
+- Updates only documentation and related handoff notes.
+- Preserves privacy rules and explicitly avoids claiming real external feedback.
+- Runs `npm run validate:agents` after queue or packet edits and `git diff --check`.
+
+### ECO-20260515-critic-02
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-2`
+- Priority: `P1`
+- Title: `L2 review: Playtest kit refresh`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-main-02`
+- Recommended effort: `high`
+
+Goal:
+
+- Review the refreshed observer docs for clarity, privacy, science-safe prompts, and two-lane routing.
+
+Acceptance:
+
+- Confirms the kit is usable by a non-developer observer and does not collect identifying child data.
+- Either clears the lane-2 docs gate or opens the smallest explicit blocker.
+
+### ECO-20260515-critic-03
+
+- Status: `PARKED`
+- Owner: `critic-agent`
+- Lane: `lane-1`
+- Priority: `P0`
+- Title: `L1 review: RC playtest readiness signoff`
+- Source: `docs/reports/2026-05-15-rc-playtest-readiness-plan.md`
+- Packet: `.agents/packets/193-rc-playtest-readiness.json`
+- Depends on: `ECO-20260515-critic-01`, `ECO-20260515-critic-02`
+- Recommended effort: `xhigh`
+
+Goal:
+
+- Make the final packet `193` readiness decision after the internal smoke proof and observer-doc refresh both have clean reviews.
+
+Acceptance:
+
+- Marks packet `193` done only if external observed sessions can begin without known P0/P1 blockers.
+- If not clean, leaves packet `193` open and queues only the smallest blocker work.
+- Records whether the next move is external playtest sessions, blocker repair, or another director decision.
 
 ### ECO-20260420-scout-403
 

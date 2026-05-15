@@ -1,0 +1,145 @@
+{
+  "packet_id": "ECO-PACKET-193",
+  "version": 1,
+  "created_at": "2026-05-15",
+  "created_by_role": "director",
+  "status": "READY",
+  "title": "RC playtest readiness",
+  "summary": "Prepare the current post-packet-192 build for real observed playtest sessions without adding new feature breadth.",
+  "source_reports": [
+    "docs/reports/2026-05-15-rc-playtest-readiness-plan.md",
+    "docs/reports/2026-05-14-route-loop-cohesion-signoff-review.md",
+    "docs/reports/2026-05-14-handheld-readability-gate-review.md",
+    "docs/alpha-playtest-kit.md",
+    "docs/playtest-comprehension-rubric.md",
+    "docs/review-drop-checklist.md"
+  ],
+  "queue_refs": [
+    "ECO-20260515-scout-01",
+    "ECO-20260515-main-01",
+    "ECO-20260515-critic-01",
+    "ECO-20260515-scout-02",
+    "ECO-20260515-main-02",
+    "ECO-20260515-critic-02",
+    "ECO-20260515-critic-03"
+  ],
+  "depends_on": [
+    "ECO-20260514-critic-04"
+  ],
+  "suggested_owner_sequence": [
+    "scout-agent",
+    "main-agent",
+    "critic-agent"
+  ],
+  "execution_order": [
+    {
+      "step": 1,
+      "queue_id": "ECO-20260515-scout-01",
+      "goal": "Scope the lane-1 internal RC playtest smoke pass.",
+      "why_now": "The project needs one player-facing proof pass after packet 192 before external sessions begin."
+    },
+    {
+      "step": 2,
+      "queue_id": "ECO-20260515-scout-02",
+      "goal": "Scope the lane-2 playtest kit and observer rubric refresh.",
+      "why_now": "The existing alpha kit predates the current two-lane model and Source-to-Shore beta state."
+    },
+    {
+      "step": 3,
+      "queue_id": "ECO-20260515-main-01",
+      "goal": "Run the scoped internal RC playtest smoke pass and write findings.",
+      "why_now": "Boot, input, save staging, console health, and handheld UI proof are the immediate player-facing risks."
+    },
+    {
+      "step": 4,
+      "queue_id": "ECO-20260515-main-02",
+      "goal": "Update the observer-facing playtest kit and rubric for the current build.",
+      "why_now": "External observers need current instructions, privacy rules, and two-lane triage labels."
+    },
+    {
+      "step": 5,
+      "queue_id": "ECO-20260515-critic-01",
+      "goal": "Review the internal RC playtest smoke report for blockers.",
+      "why_now": "The sprint should not send a broken or confusing build into observed sessions."
+    },
+    {
+      "step": 6,
+      "queue_id": "ECO-20260515-critic-02",
+      "goal": "Review the refreshed playtest kit for clarity, privacy, and science-safe observation.",
+      "why_now": "The observer docs must gather useful evidence without leading children or collecting personal data."
+    },
+    {
+      "step": 7,
+      "queue_id": "ECO-20260515-critic-03",
+      "goal": "Make the final RC playtest readiness decision.",
+      "why_now": "Only a combined proof and documentation review should decide whether external sessions can begin."
+    }
+  ],
+  "file_targets": [
+    ".agents/work-queue.md",
+    ".agents/fresh-lane-start.md",
+    ".agents/project-memory.md",
+    ".agents/packets/193-rc-playtest-readiness.json",
+    "docs/reports/2026-05-15-rc-playtest-readiness-plan.md",
+    "docs/alpha-playtest-kit.md",
+    "docs/playtest-comprehension-rubric.md",
+    "docs/review-drop-checklist.md",
+    "progress.md"
+  ],
+  "lane_contracts": {
+    "lane-1": {
+      "owns": [
+        "internal RC smoke contract",
+        "boot/input/save setup proof",
+        "native 256x160 player-facing screenshots",
+        "console and review-drop health",
+        "severity-ordered blocker report"
+      ],
+      "avoid": [
+        "feature expansion",
+        "content enrichment",
+        "playtest-kit copy beyond logistics",
+        "unscoped fixes"
+      ]
+    },
+    "lane-2": {
+      "owns": [
+        "playtest-kit wording",
+        "observer rubric wording",
+        "science comprehension prompts",
+        "privacy and data-capture guardrails",
+        "two-lane triage labels"
+      ],
+      "avoid": [
+        "runtime behavior",
+        "station, route, map, save, or overlay changes",
+        "claiming real external feedback",
+        "new content implementation"
+      ]
+    }
+  },
+  "completion_gate": [
+    "Internal player-facing smoke proof has a report, evidence paths, and severity-ordered findings.",
+    "Observer playtest docs are current for the post-packet-192 build and the active two-lane model.",
+    "No new feature, route, station page, save schema, traversal system, inventory, combat, planner, or content pack lands.",
+    "Any P0/P1 issue discovered during the pass is either fixed in a newly scoped item or blocks external sessions explicitly.",
+    "Validation passes after queue or packet updates, and alpha RC status is recorded before final readiness signoff."
+  ],
+  "guardrails": [
+    "Do not fabricate child playtest observations.",
+    "Do not record identifying child data in this repo.",
+    "Do not start a new gameplay expansion from packet 193.",
+    "Do not reactivate old external-feedback packets 155 or 156 without real repeated feedback patterns.",
+    "Keep findings concrete: what the player sees, how to reproduce it, why it matters, and which lane owns it."
+  ],
+  "lane_effort": {
+    "director": "xhigh",
+    "lane-1": "high, or xhigh if a smoke blocker touches save, route, station, or overlay behavior",
+    "lane-2": "high"
+  },
+  "post_packet_path": [
+    "If clean, begin external observed sessions using the refreshed playtest kit.",
+    "If not clean, queue only the smallest blocker fixes before observed sessions.",
+    "After real sessions exist, synthesize repeated evidence before approving new feature or route expansion."
+  ]
+}
